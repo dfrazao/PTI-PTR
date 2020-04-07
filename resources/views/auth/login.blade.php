@@ -1,9 +1,7 @@
-@extends('layout.base')
+@extends('layouts.app')
 @section('content')
 <div class="container full-height">
     <h1 class="pt-5 text-center">Login</h1>
-
-
 
     <div class="container" style="width: 35%;">
         <hr style="border-top: 1px solid black; width: 100%;">
