@@ -10,27 +10,21 @@
 
                     <div class="space space-4"></div>
 
-                    <a href="#" class="btn btn-sm btn-block btn-success">
-                        <i class="ace-icon fa fa-plus-circle bigger-120"></i>
-                        <span class="bigger-110">Add as a friend</span>
-                    </a>
-
-                    <a href="#" class="btn btn-sm btn-block btn-primary">
-                        <i class="ace-icon fa fa-envelope-o bigger-110"></i>
-                        <span class="bigger-110">Send a message</span>
+                    <a href="#" class="btn btn-sm btn-block btn-primary mt-3">
+                        <i class="fas fa-envelope"></i>
+                        <span>Send a message</span>
                     </a>
                 </div><!-- /.col -->
 
                 <div class="col-xs-12 col-sm-9">
-                    <h4>
+                    <h1>
                         <span class="middle">{{ $user->name }}</span>
-                    </h4>
+                    </h1>
 
                     <div class="container">
-                        <h2>Modal Scroll Example</h2>
                         <!-- Button to Open the Modal -->
                         <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#myModal">
-                            Editar Perfil
+                            Edit Profile
                         </button>
 
                         <!-- The Modal -->
@@ -40,7 +34,7 @@
 
                                     <!-- Modal Header -->
                                     <div class="modal-header">
-                                        <h3 class="modal-title">Editar Perfil</h3>
+                                        <h3 class="modal-title">Edit Profile</h3>
                                         <button type="button" class="close" data-dismiss="modal">×</button>
                                     </div>
 
@@ -94,43 +88,34 @@
 
                     <div class="profile-user-info">
                         <div class="profile-info-row">
-                            <div class="profile-info-name"> Username </div>
+                            <div class="profile-info-name"> Number </div>
 
                             <div class="profile-info-value">
-                                <span>alexdoe</span>
+                                <span>{{ $user->uniNumber }}</span>
                             </div>
                         </div>
 
                         <div class="profile-info-row">
-                            <div class="profile-info-name"> Country </div>
+                            <div class="profile-info-name"> Role </div>
 
                             <div class="profile-info-value">
-                                <i class="fa fa-map-marker light-orange bigger-110"></i>
-                                <span>Netherlands</span>
+                                <span>
+                                    @if($user->role == 'student')
+                                        Student
+                                    @elseif($user->role == 'professor')
+                                        Professor
+                                    @else
+                                        Admin
+                                    @endif
+                                </span>
                             </div>
                         </div>
 
                         <div class="profile-info-row">
-                            <div id="city" class="profile-info-name"> City </div>
+                            <div id="city" class="profile-info-name"> E-Mail </div>
 
                             <div class="profile-info-value">
-                                <span>Amsterdam</span>
-                            </div>
-                        </div>
-
-                        <div class="profile-info-row">
-                            <div class="profile-info-name"> Instituição </div>
-
-                            <div class="profile-info-value">
-                                <span>Faculdade de Ciências</span>
-                            </div>
-                        </div>
-
-                        <div class="profile-info-row">
-                            <div class="profile-info-name"> Age </div>
-
-                            <div class="profile-info-value">
-                                <span>38</span>
+                                <span>{{ $user->email }}</span>
                             </div>
                         </div>
 
@@ -146,42 +131,13 @@
                             <div class="profile-info-name"> Last Online </div>
 
                             <div class="profile-info-value">
-                                <span>3 hours ago</span>
+                                <span>{{ $user->updated_at }}</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="hr hr-8 dotted"></div>
 
-                    <div class="profile-user-info">
-                        <div class="profile-info-row">
-                            <div class="profile-info-name"> Website </div>
-
-                            <div class="profile-info-value">
-                                <a href="#" target="_blank">www.alexdoe.com</a>
-                            </div>
-                        </div>
-
-                        <div class="profile-info-row">
-                            <div class="profile-info-name"> <i class="fa fa-facebook" aria-hidden="true"></i> </div>
-
-                            <div class="profile-info-value">
-                                <a href="#">Find me on Facebook</a>
-
-                            </div>
-                        </div>
-
-
-                        <div class="profile-info-row">
-                            <div class="profile-info-name">
-                                <i class="middle ace-icon fa fa-twitter-square bigger-150 light-blue"></i>
-                            </div>
-
-                            <div class="profile-info-value">
-                                <a href="#">Follow me on Twitter</a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                <!-- /.col -->
             </div><!-- /.row -->

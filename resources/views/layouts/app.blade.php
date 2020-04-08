@@ -74,7 +74,7 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/profile" role="button" aria-haspopup="true" aria-expanded="false" v-pre><i class="fa fa-user"></i> {{ Auth::user()->name }}</a>
+                        <a class="nav-link" href="/profile/{{ Auth::user()->id }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre><i class="fa fa-user"></i> {{ Auth::user()->name }}</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></a>

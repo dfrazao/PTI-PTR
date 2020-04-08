@@ -1,8 +1,8 @@
-@extends('layout.base')
+@extends('layouts.app')
 @section('content')
 
-<div class="container-fluid pl-5 pr-5 pb-2">
-    <h3 class="pb-2">Css - Projeto 1</h3>
+<div class="container-fluid pl-5 pr-5 pb-2 mt-3">
+    <h3 class="pb-2">{{$subject->subjectName}} - {{$project->name}}</h3>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" id="conteudo-tab" data-toggle="tab" href="#conteudo" role="tab" aria-controls="conteudo" aria-selected="true">Conteudo</a>

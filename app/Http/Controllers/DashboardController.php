@@ -29,6 +29,7 @@ class DashboardController extends Controller
     {
         $user = Auth::user()->id;
         $subjectsEnrolled = SubjectEnrollment::all()->where('idUser', '==', $user)->pluck('idSubject');
+<<<<<<< HEAD
         foreach ($subjectsEnrolled as $se) {
             $subjects = Subject::all()->where('idSubject', '==', $se);
             $subjectsId = Subject::all()->where('idSubject', '==', $se)->pluck('idSubject');
@@ -36,6 +37,12 @@ class DashboardController extends Controller
         foreach ($subjectsId as $sid) {
             $projects = Subject::all()->where('idSubject', '==', $sid);
         }
+=======
+        $subjects = Subject::all()->whereIn('idSubject', $subjectsEnrolled);
+        $subjectsId = Subject::all()->whereIn('idSubject', $subjectsEnrolled)->pluck('idSubject');
+        $projects = Project::all()->whereIn('idSubject', $subjectsId);
+
+>>>>>>> origin/master
         return view('dashboard')->with('subjects', $subjects)->with('projects', $projects);
     }
 }
