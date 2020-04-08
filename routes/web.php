@@ -15,4 +15,18 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', 'DashboardController@index', ['name' => 'Dashboard']);
+Route::get('/', 'Dashboard@index', ['name' => 'Dashboard']);
+
+Route::get('/profile', 'Profile@index', ['name' => 'Profile']);
+
+//Route::get('/profile', 'ProfileController@index', ['name' => 'Profile']);
+
+//Route::get('/profile', 'ProfileController@index', ['name' => 'Profile']);
+
+//Route::get('/profile', 'ProfileController@index', ['name' => 'Profile']);
+
+
+// Student
+
+
+// Professor
