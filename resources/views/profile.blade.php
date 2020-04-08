@@ -1,7 +1,5 @@
-@extends('layout.base')
+@extends('layouts.app')
 @section('content')
-
-
 
     <div class="container m-4">
             <div class="row">

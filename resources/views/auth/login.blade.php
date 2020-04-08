@@ -28,15 +28,17 @@
 
             <div class="form-group form-check text-center" style="font-size: 13px;">
                 <label class="pr-3 form-check-label" style="border-right: 1px solid black;">
-                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}> Memorizar Login
+                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}> {{ __('Remember Me') }}
                 </label>
-                <label class="pl-3" style="text-decoration: underline; font-weight: bold; color: #2c3fb1">
+
+                <label class="pl-3" >
                     @if (Route::has('password.request'))
-                        <a class="btn btn-link" href="{{ route('password.request') }}">
+                        <a class="" href="{{ route('password.request') }}">
                             {{ __('Forgot Your Password?') }}
                         </a>
                     @endif
                 </label>
+
             </div>
 
             <hr style="border-top: 1px solid black; width: 100%;">
@@ -44,7 +46,7 @@
                 <button type="submit" class="btn btn-primary" style="background:#2c3fb1; width: 47.5%;">
                     {{ __('Login') }}
                 </button>
-                <button class="btn btn-primary" style="background:white; color: black; width: 47.5%;">Limpar</button>
+                <button type="button" class="btn btn-primary" style="background:white; color: black; width: 47.5%;">Limpar</button>
             </div>
 
         </form>
