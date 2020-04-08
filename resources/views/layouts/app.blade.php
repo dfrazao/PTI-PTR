@@ -3,7 +3,7 @@
 
 
 <head>
-    <title>GroupX</title>
+    <title>{{ $name ?? '' }}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -17,6 +17,8 @@
     <script src='https://momentjs.com/downloads/moment-with-locales.js'></script>
     <script type="text/javascript" href="public/assets/js/tarefas.js"></script>
 
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <style>
         html, body {
@@ -35,6 +37,8 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark " style="background-color: #2c3fb1;">
+
+    <!-- Left Side Of Navbar -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -43,32 +47,47 @@
             <img src="/images/logo1.png" style="width: 150px; height: 50px;">
         </div>
     </a>
+
+    <!-- Right Side Of Navbar -->
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-
         </ul>
         <ul class="nav navbar-nav navbar-right pr-5 m-2 my-lg-0">
-            <li class="nav-item">
-                <a class="nav-link " href="#"><i class="fa fa-bell"></i></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="#"><i class="fa fa-envelope"></i></a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="flag-icon flag-icon-us"> </span> English</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown09">
-                    <a class="dropdown-item" href="#pt"><span class="flag-icon flag-icon-pt"> </span> Portuguese</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link"><i class="fa fa-user"></i> User</a>
-            </li>
+
+            @guest
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                </li>
+                @if (Route::has('register'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                    </li>
+                @endif
+
+            @else
+                <li class="nav-item">
+                    <a class="nav-link " href="#"><i class="fa fa-bell"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="#"><i class="fa fa-envelope"></i></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="flag-icon flag-icon-us"> </span> English</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown09">
+                        <a class="dropdown-item" href="#pt"><span class="flag-icon flag-icon-pt"> </span> Portuguese</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link"><i class="fa fa-user"></i> User</a>
+                </li>
+            @endguest
 
         </ul>
     </div>
 </nav>
 
-<nav class="navbar navbar-expand-sm bg-light navbar-light">
+{{--<nav class="navbar navbar-expand-sm bg-light navbar-light">
     <ul class="navbar-nav" >
         <li class="nav-item">
             <a class="nav-link" href="#"><i class="fa fa-home pr-2"></i>Home</a>
@@ -83,7 +102,7 @@
             <a class="nav-link active" href="#"><i class="fa fa-user pr-2"></i>Profile</a>
         </li>
     </ul>
-</nav>
+</nav>--}}
 
 @yield('content')
 
