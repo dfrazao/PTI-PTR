@@ -3,8 +3,6 @@
     <div class="mt-3 container-xl">
         <h3 class="pb-2">{{$subject->subjectName}} - {{$project->name}}</h3>
 
-
-
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="conteudo-tab" data-toggle="tab" href="#conteudo" role="tab" aria-controls="conteudo" aria-selected="true">Conteudo</a>

@@ -193,10 +193,13 @@
                                 @if(count($projects) > 0)
                                     @foreach($projects as $project)
                                         @if($subject->idSubject == $project->idSubject)
-                                            <p class="p-2"><a href="/professor/project/{{$project->idProject}}">{{$project->name}}</a></p>
-
-
-
+                                            <p class="p-2">
+                                                @if(Auth::user()->role == 'student')
+                                                    <a href="/student/project/{{$project->idProject}}">{{$project->name}}</a>
+                                                @elseif(Auth::user()->role == 'professor')
+                                                    <a href="/professor/project/{{$project->idProject}}">{{$project->name}}</a>
+                                                @endif
+                                            </p>
                                         @endif
                                     @endforeach
                                 @else

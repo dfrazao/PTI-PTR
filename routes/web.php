@@ -21,6 +21,8 @@ Route::resource('/profile', 'ProfileController');
 
 Route::resource('/professor/project', 'ProfessorProjectsController');
 
+Route::resource('/student/project', 'StudentProjectsController');
+
 
 
 //Route::get('/profile', 'ProfileController@index', ['name' => 'Profile']);
