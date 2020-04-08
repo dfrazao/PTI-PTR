@@ -19,6 +19,10 @@ Route::get('/', 'Dashboard@index', ['name' => 'Dashboard']);
 
 Route::get('/profile', 'Profile@index', ['name' => 'Profile']);
 
+Route::resource('/professor/project', 'ProfessorProjectsController');
+
+
+
 //Route::get('/profile', 'ProfileController@index', ['name' => 'Profile']);
 
 //Route::get('/profile', 'ProfileController@index', ['name' => 'Profile']);

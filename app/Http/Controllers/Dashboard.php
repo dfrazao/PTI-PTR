@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Project;
+use App\Subject;
 use Illuminate\Http\Request;
 
 class Dashboard extends Controller
@@ -23,6 +25,8 @@ class Dashboard extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $subjects = Subject::all();
+        $projects = Project::all();
+        return view('dashboard')->with('projects', $projects)->with('subjects', $subjects);;
     }
 }
