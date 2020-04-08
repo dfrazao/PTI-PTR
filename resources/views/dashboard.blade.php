@@ -1,6 +1,13 @@
 @extends('layouts.app')
 @section('content')
 <div class="container-xl">
+
+    @if (session('status'))
+        <div class="alert alert-success" role="alert">
+            {{ session('status') }}
+        </div>
+    @endif
+
     <div class="row mt-2" style="height: 90vh;">
 
         <div class="col-sm-4">

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-
+<div class="container-xl">
     <div class="container m-4">
             <div class="row">
                 <div class="col-xs-12 col-sm-3 center">
@@ -23,7 +23,7 @@
 
                 <div class="col-xs-12 col-sm-9">
                     <h4>
-                        <span class="middle">John Doe</span>
+                        <span class="middle">{{ $user->name }}</span>
                     </h4>
 
                     <div class="container">
@@ -138,7 +138,7 @@
                             <div class="profile-info-name"> Joined </div>
 
                             <div class="profile-info-value">
-                                <span>2010/06/20</span>
+                                <span>{{ $user->created_at }}</span>
                             </div>
                         </div>
 
@@ -218,7 +218,7 @@
                 </div>
             </div>
         </div><!-- /#home -->
-
+</div>
     <style>
         .align-center, .center {
             text-align: center!important;

@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
-
 <head>
-    <title>{{ $name ?? '' }}</title>
+    <title>{{ config('app.name', 'GroupX') }}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -30,76 +28,75 @@
             height: 100%;
             background: #eee;
         }
-
     </style>
-
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark " style="background-color: #2c3fb1;">
 
-<nav class="navbar navbar-expand-lg navbar-dark " style="background-color: #2c3fb1;">
+        <!-- Left Side Of Navbar -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="/">
+            <div>
+                <img src="/images/logo1.png" style="width: 150px; height: 50px;">
+            </div>
+        </a>
 
-    <!-- Left Side Of Navbar -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" href="/">
-        <div>
-            <img src="/images/logo1.png" style="width: 150px; height: 50px;">
-        </div>
-    </a>
+        <!-- Right Side Of Navbar -->
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            </ul>
+            <ul class="nav navbar-nav navbar-right pr-5 m-2 my-lg-0">
 
-    <!-- Right Side Of Navbar -->
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-        </ul>
-        <ul class="nav navbar-nav navbar-right pr-5 m-2 my-lg-0">
+                @guest
 
-            @guest
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                </li>
-                @if (Route::has('register'))
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                     </li>
-                @endif
+                    @if (Route::has('register'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        </li>
+                    @endif
 
-            @else
-                <li class="nav-item">
-                    <a class="nav-link " href="#"><i class="fa fa-bell"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="#"><i class="fa fa-envelope"></i></a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="flag-icon flag-icon-us"> </span> English</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown09">
-                        <a class="dropdown-item" href="#pt"><span class="flag-icon flag-icon-pt"> </span> Portuguese</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="/profile" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre><i class="fa fa-user"></i> {{ Auth::user()->name }}</a>
+                @else
+                    <li class="nav-item">
+                        <a class="nav-link " href="#"><i class="fa fa-bell"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#"><i class="fa fa-envelope"></i></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="flag-icon flag-icon-us"> </span> English</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown09">
+                            <a class="dropdown-item" href="#pt"><span class="flag-icon flag-icon-pt"> </span> Portuguese</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile" role="button" aria-haspopup="true" aria-expanded="false" v-pre><i class="fa fa-user"></i> {{ Auth::user()->name }}</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></a>
 
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                           onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                            {{ __('Logout') }}
-                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                                                         document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
 
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                    </div>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </div>
 
-                </li>
-            @endguest
+                    </li>
+                @endguest
 
-        </ul>
-    </div>
-</nav>
-
+            </ul>
+        </div>
+    </nav>
 {{--<nav class="navbar navbar-expand-sm bg-light navbar-light">
     <ul class="navbar-nav" >
         <li class="nav-item">
@@ -116,9 +113,6 @@
         </li>
     </ul>
 </nav>--}}
-
 @yield('content')
-
-
 </body>
 </html>

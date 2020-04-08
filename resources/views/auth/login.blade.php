@@ -46,7 +46,7 @@
                 <button type="submit" class="btn btn-primary" style="background:#2c3fb1; width: 47.5%;">
                     {{ __('Login') }}
                 </button>
-                <button type="button" class="btn btn-primary" style="background:white; color: black; width: 47.5%;">Limpar</button>
+                <button type="button" class="btn btn-primary" style="background:white; color: black; width: 47.5%;">Clear</button>
             </div>
 
         </form>
