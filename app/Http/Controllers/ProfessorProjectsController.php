@@ -37,7 +37,21 @@ class ProfessorProjectsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'deadline' => 'required',
+            /*'group formation deadline' => 'required',
+            'number' => 'required',*/
+        ]);
+
+
+        $project = new Project;
+        $project->name = $request->input('title');
+        $project->dueDate = $request->input('deadline');
+        $project->idSubject = $request->input('subject');
+        $project->save();
+
+        return redirect('/')->with('success', 'Project Created');
     }
 
     /**

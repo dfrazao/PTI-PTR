@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('content')
 <div class="container-xl">
+    <br>
+    @include('layouts.messages')
 
     @if (session('status'))
         <div class="alert alert-success" role="alert">
@@ -231,58 +233,44 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="staticBackdropLabel">Novo Projeto</h4>
+                    <h4 class="modal-title" id="staticBackdropLabel">New Project</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Project Name" aria-label="ProjectName" aria-describedby="basic-addon1">
-                    </div>
-                    <div class="mt-4">
-                        <h6 class="mb-2">Data de entrega</h6>
-                        <input id="datepicker" width="276" />
-                        <script>
-                            $('#datepicker').datepicker({
-                                uiLibrary: 'bootstrap4'
-                            });
-                        </script>
-                    </div>
-
-                    <div class="mt-4">
-                        <h6 class="mb-2">Nº máximo de elementos por grupo</h6>
-                        <div class="form-group" >
-                            <select class="form-control" style="width: 15%">
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                                <option>6</option>
-                                <option>7</option>
-                                <option>8</option>
-                                <option>9</option>
-                                <option>10</option>
-                            </select>
+                    {!! Form::open(['action' => 'ProfessorProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                        <div class="form-group">
+                            {{Form::label('title', 'Name')}}
+                            {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Project Name'])}}
                         </div>
+                        <div class="form-group">
+                            {{Form::label('deadline', 'Deadline')}}
+                            {{ Form::date('deadline', null,['class' => 'form-control']) }}
+                        </div>
+                        <div class="form-group">
+                        {{Form::label('deadline', 'Group Formation Deadline')}}
+                        {{ Form::date('group formation deadline', null,['class' => 'form-control']) }}
                     </div>
+                        <div class="form-group">
+                            {{Form::label('number', 'No. of Members')}}
+                            {{Form::selectRange('number', 1, 10)}}
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('announcement', 'Announcement')}}
+                            {{Form::file('')}}
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('documentation', 'Documentation')}}
+                            {{Form::file('')}}
+                        </div>
+                        {{ Form::hidden('subject', $subject->idSubject) }}
 
-                    <div class="mt-4">
-                        <h6 class="mb-2">Enunciado</h6>
-                        <span class="btn btn-default btn-file bg-light ">
-                            <input id="input-2" name="input2[]" type="file" class="file " multiple data-show-upload="true" data-show-caption="true">
-                        </span>
-                    </div>
-                    <div class="mt-4">
-                        <h6 class="mb-2">Recursos</h6>
-                        <span class="btn btn-default btn-file bg-light ">
-                            <input id="input-2" name="input2[]" type="file" class="file " multiple data-show-upload="true" data-show-caption="true">
-                        </span>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success">Confirmar</button>
-                </div>
+                        {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+
+                    {!! Form::close() !!}
+
+
             </div>
         </div>
     </div>
