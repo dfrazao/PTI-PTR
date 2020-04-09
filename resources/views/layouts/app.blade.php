@@ -15,6 +15,10 @@
     <script src='https://momentjs.com/downloads/moment-with-locales.js'></script>
     <script type="text/javascript" href="public/assets/js/tarefas.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="{{asset('DataTables/datatables.min.css')}}"/>
+
+    <script type="text/javascript" src="{{asset('DataTables/datatables.min.js')}}"></script>
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -97,23 +101,6 @@
             </ul>
         </div>
     </nav>
-{{--<nav class="navbar navbar-expand-sm bg-light navbar-light">
-    <ul class="navbar-nav" >
-        <li class="nav-item">
-            <a class="nav-link" href="#"><i class="fa fa-home pr-2"></i>Home</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#"><i class="fa fa-tachometer pr-2"></i>Dashboard</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#"><i class="fa fa-briefcase pr-2"></i>Courses</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" href="#"><i class="fa fa-user pr-2"></i>Profile</a>
-        </li>
-    </ul>
-</nav>--}}
-
 @yield('content')
 </body>
 </html>

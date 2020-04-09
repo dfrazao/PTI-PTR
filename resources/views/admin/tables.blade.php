@@ -1,13 +1,13 @@
 @extends('layouts.adminbase')
-@section('content')
+@section('content2')
 
 
-    <!-- Modal - 1 -->
+    <!-- Modal - Create -->
     <div class="modal" id="modal-1" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Create Student</h5>
+                    <h5 class="modal-title">Create</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -45,8 +45,8 @@
                             <label >Photo</label>
                             <input type="text" class="form-control" name="photo" id="photo">
                         </div>
-                        <button type="submit" class="btn btn-success">Update</button>
-                        <button href="/tables" type="submit" class="btn btn-danger">Cancel</button>
+                        <button type="submit" class="btn btn-success">Create</button>
+                        <button href="/tables" type="submit" class="btn btn-danger" style="float: right">Cancel</button>
                     </form>
 
 
@@ -55,8 +55,57 @@
             </div>
         </div>
     </div>
+    <!-- Modal - Import Data -->
+    <div class="modal" id="modal-2" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Import Students Data</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form style="margin-left: 10%; margin-right:auto; margin-bottom: 5%;margin-top: 5%;">
+                        <p>File type accepted (CSV, XML, SQL)</p>
+                        <div class="form-group">
+                            <input type="file" class="form-control-file" id="exampleFormControlFile1" accept=".csv, .sql, .xml">
+                            <br>
 
-    <div class="container-xl" >
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Import Data</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal - Confirm -->
+    <div class="modal" id="modal-3" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm changes</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>WARNING: Your changes will affect user' data.</p>
+                    <p>Are you sure you want to continue?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Confirm</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Discard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-xl">
+
         <!-- Search form -->
         <div style="margin-top: 5%;margin-bottom: 5%;">
             <h3>Users</h3>
@@ -78,69 +127,10 @@
                     @endif
                     <div class="card">
                         <div class="card-header">
-                            <div class="dropdown">
-                                <a class="btn btn-outline-primary dropdown-toggle" style="float: right;margin-right:1%;display: inline-block;" type="submit" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Create
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <button class="dropdown-item"  type="submit" data-toggle="modal" data-target="#modal-1"><i class="fa fa-plus" aria-hidden="true"></i> Create</button>
-                                    <button class="dropdown-item"  type="submit" data-toggle="modal" data-target="#modal-2"><i class="fa fa-upload" aria-hidden="true"></i> Import</button>
-                                </div>
-
-                            </div>
-                            <!-- Modal - 2 -->
-                            <div class="modal" id="modal-2" tabindex="-1" role="dialog">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Import Students Data</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form style="margin-left: 10%; margin-right:auto; margin-bottom: 5%;margin-top: 5%;">
-                                                <p>File type accepted (CSV, XML, SQL)</p>
-                                                <div class="form-group">
-                                                    <input type="file" class="form-control-file" id="exampleFormControlFile1" accept=".csv, .sql, .xml">
-                                                    <br>
-
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-primary">Import Data</button>
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Modal - 3 -->
-                            <div class="modal" id="modal-3" tabindex="-1" role="dialog">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Confirm changes</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>WARNING: Your changes will affect user' data.</p>
-                                            <p>Are you sure you want to continue?</p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-success">Confirm</button>
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Discard</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
+                            <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-1"><i class="fa fa-plus" aria-hidden="true"></i> Create</button>
+                            <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-2"><i class="fa fa-upload" aria-hidden="true"></i> Import</button>
                         </div>
-<script>$(document).ready( function () {
-        $('#datatable').DataTable();
-    } );</script>
+
                         <div class="card-body" >
                             <div class="table-responsive">
                                 <table id="datatable" class="table table-hover">
@@ -201,7 +191,7 @@
                                         <td>
                                             {{$user->email}}
                                         </td>
-                                        <td>
+                                        <td >
                                             {{$user->password}}
                                         </td>
                                         <td>
@@ -217,7 +207,18 @@
                                             {{$user->description}}
                                         </td>
                                         <td class="text-right">
-                                        <a class="btn btn-outline-primary" id="edit" href="/edit-user/{{$user->id}}" style="float: right;margin-right:1%;display: inline-block;" ><i class="fa fa-edit" aria-hidden="true"></i> Edit</a>
+
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Dropdown button
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" id="edit" href="/edit-user/{{$user->id}}" style="float: right;margin-right:1%;display: inline-block;" ><i class="fa fa-eye" aria-hidden="true"></i> View</a>
+                                                    <a class="dropdown-item" id="edit" href="/edit-user/{{$user->id}}" style="float: right;margin-right:1%;display: inline-block;" ><i class="fa fa-edit" aria-hidden="true"></i> Edit</a>
+
+                                                </div>
+                                            </div>
+
                                         </td>
 
                                     </tr>
@@ -230,5 +231,12 @@
                 </div>
             </div>
         </div>
+
+
+
+
+        <script>$(document).ready( function () {
+                $('#datatable').DataTable();
+            } );</script>
 @endsection
 
