@@ -40,14 +40,15 @@ class ProfessorProjectsController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'deadline' => 'required',
-            /*'group formation deadline' => 'required',
-            'number' => 'required',*/
+            'group_formation_deadline' => 'required'
         ]);
 
 
         $project = new Project;
         $project->name = $request->input('title');
         $project->dueDate = $request->input('deadline');
+        $project->groupCreationDueDate = $request->input('group_formation_deadline');
+        $project->maxElements = $request->input('number of elements');
         $project->idSubject = $request->input('subject');
         $project->save();
 

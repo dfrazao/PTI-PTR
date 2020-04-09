@@ -171,15 +171,7 @@
         <div class="col-sm-8">
             <div class="overflow-auto bg-light rounded h-100">
                 <h3 class="pt-3 pl-3">Dashboard</h3>
-                {{--@if(count($subjects) > 0)
-                    @foreach($subjects as $subject)
-                        <div class="well">
-                            <h3>{{$subject->subjectName}}</h3>
-                        </div>
-                    @endforeach
-                @else
-                    <p>No posts found</p>
-                @endif--}}
+
                 <div class="container overflow-auto mw-80" style="max-height: 75vh;">
                     @if(count($subjects) > 0)
                         @foreach($subjects as $subject)
@@ -201,26 +193,70 @@
                                                 @elseif(Auth::user()->role == 'professor')
                                                     <a href="/professor/project/{{$project->idProject}}">{{$project->name}}</a>
                                                 @endif
+                                                    <button type="button" class="btn btn-light float-right mb-3 open_modal"  id="{{$subject->idSubject}}">Edit</button>
                                             </p>
+                                            <hr>
                                         @endif
                                     @endforeach
                                 @else
                                     <p class="p-2">No projects found</p>
                                 @endif
                                 @if (Auth::user()->role == 'professor')
-                                    <button type="button" class="btn btn-primary float-right mb-3" data-toggle="modal" data-target="#staticBackdrop" id="{{$subject->idSubject}}">
-                                        Create Project
-                                    </button>
+                                    <div>
+                                        <button type="button" class="btn btn-primary float-right mb-3 open_modal"  id="{{$subject->idSubject}}">Create Project</button>
+                                    </div>
                                 @endif
                             </div>
                         @endforeach
                     @else
                         <p>No subjects found</p>
                     @endif
-
-
-
                 </div>
+
+
+                <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog" >
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="staticBackdropLabel">New Project</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                {!! Form::open(['action' => 'ProfessorProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                                <div class="form-group">
+                                    {{Form::label('title', 'Name')}}
+                                    {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Project Name'])}}
+                                </div>
+                                <div class="form-group">
+                                    {{Form::label('deadline', 'Deadline')}}
+                                    {{ Form::date('deadline',\Carbon\Carbon::now(), ['class' => 'form-control']) }}
+                                </div>
+                                <div class="form-group">
+                                    {{Form::label('group_formation_deadline', 'Group Formation Deadline')}}
+                                    {{ Form::date('group_formation_deadline', \Carbon\Carbon::now(), ['class' => 'form-control']) }}
+                                </div>
+                                <div class="form-group">
+                                    {{Form::label('number of elements', 'No. of Members')}}
+                                    {{Form::selectRange('number of elements', 1, 10)}}
+                                </div>
+                                <div class="form-group">
+                                    {{Form::label('announcement', 'Announcement')}}
+                                    {{Form::file('')}}
+                                </div>
+                                <div class="form-group">
+                                    {{Form::label('documentation', 'Documentation')}}
+                                    {{Form::file('')}}
+                                </div>
+                                {{ Form::hidden('subject', 'subjectId')}}
+
+                                {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+
+                                {!! Form::close() !!}
+                            </div>
+                        </div>
+                    </div>
 
 
 
@@ -229,51 +265,10 @@
         </div>
     </div>
 
-    <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="staticBackdropLabel">New Project</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    {!! Form::open(['action' => 'ProfessorProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
-                        <div class="form-group">
-                            {{Form::label('title', 'Name')}}
-                            {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Project Name'])}}
-                        </div>
-                        <div class="form-group">
-                            {{Form::label('deadline', 'Deadline')}}
-                            {{ Form::date('deadline', null,['class' => 'form-control']) }}
-                        </div>
-                        <div class="form-group">
-                        {{Form::label('deadline', 'Group Formation Deadline')}}
-                        {{ Form::date('group formation deadline', null,['class' => 'form-control']) }}
-                    </div>
-                        <div class="form-group">
-                            {{Form::label('number', 'No. of Members')}}
-                            {{Form::selectRange('number', 1, 10)}}
-                        </div>
-                        <div class="form-group">
-                            {{Form::label('announcement', 'Announcement')}}
-                            {{Form::file('')}}
-                        </div>
-                        <div class="form-group">
-                            {{Form::label('documentation', 'Documentation')}}
-                            {{Form::file('')}}
-                        </div>
-                        {{ Form::hidden('subject', $subject->idSubject) }}
-
-                        {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
-
-                    {!! Form::close() !!}
 
 
-            </div>
-        </div>
-    </div>
+
+
 
  </div>
 
@@ -373,6 +368,14 @@
 
         const cal = new Calendar();
         cal.init();
+
+        $(document).on('click','.open_modal',function(){
+            console.log("aqui");
+            var subjectId = $(this).attr("id");
+            console.log(subjectId);
+            $('input[name="subject"]').val(subjectId);
+            $('#modalCreate').modal('show');
+        });
 
     </script>
     <style>
