@@ -198,7 +198,7 @@
                         <div class="widget-body">
                             <div class="widget-main">
                                 <p>
-                                    @if(is_null($user->description))
+                                    @if(is_null($user->description) or empty($user->description))
                                         @if(Auth::user()->id != $user->id)
                                             This user doesn't have a description.
                                         @elseif(Auth::user()->id == $user->id)
