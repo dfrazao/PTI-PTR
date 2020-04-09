@@ -172,15 +172,6 @@
         <div class="col-sm-8">
             <div class="overflow-auto rounded">
                 <h3 class="pt-3 pl-3">Subjects</h3>
-                {{--@if(count($subjects) > 0)
-                    @foreach($subjects as $subject)
-                        <div class="well">
-                            <h3>{{$subject->subjectName}}</h3>
-                        </div>
-                    @endforeach
-                @else
-                    <p>No posts found</p>
-                @endif--}}
                 <div class="container overflow-auto mw-80" style="max-height: 75vh;">
                     @if(count($subjects) > 0)
                         @foreach($subjects as $subject)
@@ -218,9 +209,6 @@
                     @else
                         <p>No subjects found</p>
                     @endif
-
-
-
                 </div>
 
 
@@ -374,6 +362,14 @@
 
         const cal = new Calendar();
         cal.init();
+
+        $(document).on('click','.open_modal',function(){
+            console.log("aqui");
+            var subjectId = $(this).attr("id");
+            console.log(subjectId);
+            $('input[name="subject"]').val(subjectId);
+            $('#modalCreate').modal('show');
+        });
 
     </script>
     <style>

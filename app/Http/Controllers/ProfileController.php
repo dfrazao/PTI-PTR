@@ -86,14 +86,49 @@ class ProfileController extends Controller
             'city' => 'required',
         ]);
 
+        $user = User::find($id);
+        $user->country = $request->input('country');
+        $user->city = $request->input('city');
+        $user->description = $request->input('about');
+        $user->save();
 
-        $profile = User::find($id);
-        $profile->country = $request->input('country');
-        $profile->city = $request->input('city');
-        $profile->description = $request->input('description');
-        $profile->save();
+        return redirect('/profile/'.$id)->with('success', 'Profile Updated');
+    }
 
-        return redirect('/')->with('success', 'Profile Updated');
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateProfilePhoto(Request $request, $id)
+    {
+        $this->validate($request, [
+            'profilePhoto' => 'required|image|max:1999'
+        ]);
+
+        // Handle File Upload
+        if($request->hasFile('profilePhoto')){
+            // Get filename with the extension
+            $filenameWithExt = $request->file('profilePhoto')->getClientOriginalName();
+            // Get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // Get just ext
+            $extension = $request->file('profilePhoto')->getClientOriginalExtension();
+            // Filename to store
+            $fileNameToStore= $id.'.'.$extension;
+            // Upload Image
+            $path = $request->file('profilePhoto')->storeAs('public/profilePhotos', $fileNameToStore);
+        } else {
+            $fileNameToStore = 'profilePhotoDefault.jpg';
+        }
+
+        $user = User::find($id);
+        $user->photo = $fileNameToStore;
+        $user->save();
+
+        return redirect('/profile/'.$id)->with('success', 'Profile Picture Updated');
     }
 
     /**

@@ -1,26 +1,48 @@
 @extends('layouts.app')
 @section('content')
 <div class="container-xl">
+    @include('layouts.messages')
     <div class="container m-4">
             <div class="row">
                 <div class="col-xs-12 col-sm-3 center">
                     <span class="profile-picture">
                         <img class="editable img-responsive" alt=" Avatar" id="avatar2" src="/profilePhotos/{{ $user->photo }}">
                     </span>
+                    @if(Auth::user()->id != $user->id)
+                        <a href="#" class="btn btn-sm btn-block btn-success mt-3">
+                            <i class="fas fa-envelope"></i>
+                            <span>Send a message</span>
+                        </a>
+                    @elseif(Auth::user()->id == $user->id)
+                        <button type="button" class="btn btn-sm btn-block btn-primary mt-3" data-toggle="modal" data-target="#modalPhoto">
+                            <i class="fas fa-portrait"></i>
+                            <span>Change profile photo</span>
+                        </button>
 
-                    <div class="space space-4"></div>
-                        @if(Auth::user()->id != $user->id)
-                            <a href="#" class="btn btn-sm btn-block btn-success mt-3">
-                                <i class="fas fa-envelope"></i>
-                                <span>Send a message</span>
-                            </a>
-                        @elseif(Auth::user()->id == $user->id)
-                            <a href="#" class="btn btn-sm btn-block btn-primary mt-3">
-                                <i class="fas fa-portrait"></i>
-                                <span>Change profile photo</span>
-                            </a>
-                        @endif
-                </div><!-- /.col -->
+                        <div class="modal fade" id="modalPhoto" style="text-align:left!important;">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title">Choose a new profile photo</h3>
+                                        <button type="button" class="close" data-dismiss="modal">×</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container">
+                                            {!! Form::open(['action' => ['ProfileController@updateProfilePhoto', $user->id], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                                            <div class="form-group">
+                                                {{Form::file('profilePhoto')}}
+                                            </div>
+
+                                            {{Form::hidden('_method','PUT')}}
+                                            {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+                                            {!! Form::close() !!}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                </div>
 
                 <div class="col-xs-12 col-sm-9">
                     <h1 class="float-left">
@@ -31,18 +53,18 @@
 
                         @if(Auth::user()->id == $user->id)
                             <!-- Button to Open the Modal -->
-                                <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#myModal">
+                                <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modalEdit">
                                     Edit Profile
                                 </button>
 
                             <!-- The Modal -->
-                            <div class="modal fade" id="myModal">
+                            <div class="modal fade" id="modalEdit">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
 
                                         <!-- Modal Header -->
                                         <div class="modal-header">
-                                            <h3 class="modal-title">Edit Profile</h3>
+                                            <h3 class="modal-title">Edit profile</h3>
                                             <button type="button" class="close" data-dismiss="modal">×</button>
                                         </div>
 
@@ -60,7 +82,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     {{Form::label('about', 'About')}}
-                                                    {{Form::text('about', $user->description, ['class' => 'form-control', 'placeholder' => 'About'])}}
+                                                    {{Form::textarea('about', $user->description, ['class' => 'form-control', 'placeholder' => 'About'])}}
                                                 </div>
 
                                                 {{Form::hidden('_method','PUT')}}
@@ -68,12 +90,6 @@
                                                 {!! Form::close() !!}
                                             </div>
                                         </div>
-
-                                        <!-- Modal footer -->
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -174,27 +190,20 @@
 
             <div class="row mt-3">
                 <div class="col-xs-12 col-sm-6">
-                    <div class="widget-box transparent">
-                            <div class="widget-header widget-header-small">
-                            <h4 class="widget-title smaller">
-                                Little About Me
-                            </h4>
-                        </div>
-
-                        <div class="widget-body">
-                            <div class="widget-main">
-                                <p>
-                                    @if(is_null($user->description) or empty($user->description))
-                                        @if(Auth::user()->id != $user->id)
-                                            This user doesn't have a description.
-                                        @elseif(Auth::user()->id == $user->id)
-                                            You don't have a description.
-                                        @endif
-                                    @else
-                                        {{ $user->description }}
+                    <div>
+                        <h4>Little About Me</h4>
+                        <div style="max-width: 1140px;white-space: normal;">
+                            <span>
+                                @if(is_null($user->description) or empty($user->description))
+                                    @if(Auth::user()->id != $user->id)
+                                        This user doesn't have a description.
+                                    @elseif(Auth::user()->id == $user->id)
+                                        You don't have a description.
                                     @endif
-                                </p>
-                            </div>
+                                @else
+                                    {{ $user->description }}
+                                @endif
+                            </span>
                         </div>
                     </div>
                 </div>
