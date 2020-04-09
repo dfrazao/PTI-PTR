@@ -17,11 +17,11 @@ Auth::routes();
 
 Route::get('/', 'DashboardController@index', ['name' => 'Dashboard']);
 
-Route::resource('/profile', 'ProfileController');
+Route::resource('/profile', 'ProfileController')->middleware('auth');
 
-Route::resource('/professor/project', 'ProfessorProjectsController');
+Route::resource('/professor/project', 'ProfessorProjectsController')->middleware('auth');
 
-Route::resource('/student/project', 'StudentProjectsController');
+Route::resource('/student/project', 'StudentProjectsController')->middleware('auth');
 
 
 

@@ -192,7 +192,7 @@
                             </div>
 
                             <div class="container overflow-hidden bg-secondary  rounded-bottom doff" id="{{$subject->idSubject}}-groups" style="display: none;">
-                                @if(count($projects) > 0)
+                                @if(count($projects->whereIn('idSubject', $subject->idSubject)) > 0)
                                     @foreach($projects as $project)
                                         @if($subject->idSubject == $project->idSubject)
                                             <p class="p-2">
@@ -205,7 +205,7 @@
                                         @endif
                                     @endforeach
                                 @else
-                                    <p>No projects found</p>
+                                    <p class="p-2">No projects found</p>
                                 @endif
                                 @if (Auth::user()->role == 'professor')
                                     <button type="button" class="btn btn-primary float-right mb-3" data-toggle="modal" data-target="#staticBackdrop" id="{{$subject->idSubject}}">

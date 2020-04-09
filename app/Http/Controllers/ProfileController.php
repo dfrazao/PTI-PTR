@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
+use App\StudentsCourse;
+use App\Course;
+use App\University;
+use App\Subject;
+use App\SubjectEnrollment;
 
 class ProfileController extends Controller
 {
@@ -48,7 +53,11 @@ class ProfileController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        return view('profile')->with('user', $user);
+        $courseId = StudentsCourse::all()->where('idStudent', '==', $id)->pluck('idCourse')->first();
+        $courseName = Course::all()->where('idCourse', '==', $courseId)->pluck('name')->first();
+        $universityId = Course::all()->where('idCourse', '==', $courseId)->pluck('idUniversity')->first();
+        $universityName = University::all()->where('idUniversity', '==', $universityId)->pluck('name')->first();
+        return view('profile')->with('user', $user)->with('courseName', $courseName)->with('universityName', $universityName);
     }
 
     /**
