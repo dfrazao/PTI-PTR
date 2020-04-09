@@ -49,55 +49,23 @@
                                         <!-- Modal body -->
                                         <div class="modal-body">
                                             <div class="container">
-                                                <form action="/action_page.php">
-                                                    <div class="form-group">
-                                                        <label for="country">Country:</label>
-                                                        <input type="text" class="form-control" id="country" placeholder="Enter country" name="country">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="city">City:</label>
-                                                        <input type="text" class="form-control" id="city_modal" placeholder="#demo" name="city">
-                                                        <script>
-                                                            var myElement = document.getElementById("city");
-                                                            document.getElementById("demo").innerHTML =
-                                                                myElement.innerHTML;
-                                                        </script>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="website">Website:</label>
-                                                        <input type="text" class="form-control" id="website" placeholder="Enter website" name="website">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="about">About Me:</label>
-                                                        <input type="text" class="form-control" id="about" placeholder="Enter description" name="about">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="about">Alterar fotografia:</label>
-                                                        <input id="profile-image-upload" class="hidden" type="file">
-                                                    </div>
-                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                {!! Form::open(['action' => ['ProfileController@update', $user->id], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                                                <div class="form-group">
+                                                    {{Form::label('country', 'Country')}}
+                                                    {{Form::text('country', $user->country, ['class' => 'form-control', 'placeholder' => 'Country'])}}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{Form::label('city', 'City')}}
+                                                    {{Form::text('city', $user->city, ['class' => 'form-control', 'placeholder' => 'City'])}}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{Form::label('about', 'About')}}
+                                                    {{Form::text('about', $user->description, ['class' => 'form-control', 'placeholder' => 'About'])}}
+                                                </div>
 
-
-                                                    <h1>Edit Post</h1>
-                                                    {!! Form::open(['action' => ['PostsController@update', $post->id], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
-                                                    <div class="form-group">
-                                                        {{Form::label('title', 'Title')}}
-                                                        {{Form::text('title', $post->title, ['class' => 'form-control', 'placeholder' => 'Title'])}}
-                                                    </div>
-                                                    <div class="form-group">
-                                                        {{Form::label('body', 'Body')}}
-                                                        {{Form::textarea('body', $post->body, ['id' => 'article-ckeditor', 'class' => 'form-control', 'placeholder' => 'Body Text'])}}
-                                                    </div>
-                                                    <div class="form-group">
-                                                        {{Form::file('cover_image')}}
-                                                    </div>
-                                                    {{Form::hidden('_method','PUT')}}
-                                                    {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
-                                                    {!! Form::close() !!}
-
-
-
-                                                </form>
+                                                {{Form::hidden('_method','PUT')}}
+                                                {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+                                                {!! Form::close() !!}
                                             </div>
                                         </div>
 
