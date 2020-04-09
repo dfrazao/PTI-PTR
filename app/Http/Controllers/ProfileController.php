@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Project;
 use Illuminate\Http\Request;
 use App\User;
 use App\StudentsCourse;
@@ -80,7 +81,19 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'country' => 'required',
+            'city' => 'required',
+        ]);
+
+
+        $profile = User::find($id);
+        $profile->country = $request->input('country');
+        $profile->city = $request->input('city');
+        $profile->description = $request->input('description');
+        $profile->save();
+
+        return redirect('/')->with('success', 'Profile Updated');
     }
 
     /**
