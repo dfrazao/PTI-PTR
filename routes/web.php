@@ -39,8 +39,9 @@ Route::resource('/student/project', 'StudentProjectsController')->middleware('au
 // Professor
 
 // Admin
-
-Route::get('/admin/tables', 'AdminController@index', ['name' => 'tables']);
-Route::get("/edit-user/{id}",'AdminController@edit');
-Route::put("/edit-user-update/{id}",'AdminController@update');
-Route::resource('/admin/tables', 'AdminController');
+Route::group(['middleware' => ['auth','admin']], function (){
+    Route::get('/admin', 'AdminController@index', ['name' => 'tables']);
+    Route::get("/edit-user/{id}",'AdminController@edit');
+    Route::put("/edit-user-update/{id}",'AdminController@update');
+    Route::resource('/admin', 'AdminController');
+});
