@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', 'DashboardController@index', ['name' => 'Dashboard']);
+Route::get('/', 'DashboardController@index', ['name' => 'Dashboard'])->name("Dashboard");
 
 Route::resource('/profile', 'ProfileController')->middleware('auth');
 

@@ -1,9 +1,26 @@
 @extends('layouts.app')
 @section('content')
 
+
 <div class="container-fluid pl-5 pr-5 pb-2 mt-3">
+
+    <nav aria-label="breadcrumb" >
+        <ol class="breadcrumb mt-1 pl-0 pb-0 pt-0 float-right" style="background-color:white; ">
+            <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{$subject->subjectName}} - {{$project->name}}</li>
+        </ol>
+    </nav>
     <h3 class="pb-2">{{$subject->subjectName}} - {{$project->name}}</h3>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <style>
+            .nav-tabs .nav-link.active{
+                background-color: #ededed;
+                border-color:#ededed;
+            }
+            .nav-tabs .nav-link{
+                color: #2c3fb1;
+            }
+        </style>
         <li class="nav-item">
             <a class="nav-link active" id="conteudo-tab" data-toggle="tab" href="#conteudo" role="tab" aria-controls="conteudo" aria-selected="true">Conteudo</a>
         </li>
@@ -23,7 +40,7 @@
                         <figure class="text-center mr-4"><i class="fas fa-folder fa-4x" style="color: #ffce52;"></i><figcaption>proj1-v1.zip</figcaption></figure>
                         <figure class="text-center mr-4"><i class="fas fa-folder fa-4x" style="color: #ffce52;"></i><figcaption>proj1-v1.zip</figcaption></figure>
                         <figure class="text-center mr-4"><i class="fas fa-folder fa-4x" style="color: #ffce52;"></i><figcaption>proj1-v1.zip</figcaption></figure>
-                        <button type="submit" class="btn btn-sm mb-2 mr-2" style="background: #2c3fb1; color: white; position: absolute; bottom: 0px; right: 0px;">Submeter</button>
+                        <button type="submit" class="btn btn-sm mb-2 mr-3" style="width:25%;background: #2c3fb1; color: white; position: absolute; bottom: 0px; right: 0px;">Submeter</button>
                     </div>
                 </div>
                 <div class="col-3 mt-3 rounded" style="height: 87%;">
@@ -56,7 +73,7 @@
                         <div class="container-fluid rounded text-center pt-2" style="background-color: #c6c6c6; position: relative;">
                             <h5>Reunião</h5>
                             <div>24/12/2020 15:00 </div>
-                            <button type="submit" class="btn btn-sm mr-2 mb-2" style="background: #2c3fb1; color: white; position: absolute; bottom: 0px; right: 0px;">Agendar</button>
+                            <button type="submit" class="btn btn-sm mr-3 mb-2" style="width: 30%;background: #2c3fb1; color: white; position: absolute; bottom: 0px; right: 0px;">Agendar</button>
                         </div>
                     </div>
                 </div>
@@ -74,7 +91,7 @@
                                     <th>Fim</th>
                                     <th>Tempo Gasto</th>
                                     <th></th>
-                                    <th><button type="button" class="btn btn-sm mt-sm-2 mr-2" id="adicionarTarefa" style="background: #2c3fb1; color: white;position: absolute; top: 0px; right: 0px;">Nova Tarefa</button></th>
+                                    <th><button type="button" class="btn btn-sm mt-sm-2 mr-sm-3" id="adicionarTarefa" style="width:10%;background: #2c3fb1; color: white;position: absolute; top: 0px; right: 0px;">Nova Tarefa</button></th>
                                 </tr>
                                 </thead>
                                 <tbody id="listaTarefas">
@@ -84,7 +101,7 @@
                     </form>
                 </div>
                 <div class="container-fluid pt-5" style="position: relative">
-                    <button type="submit" class="btn btn-sm float-right bg-danger mt-2 mr-3 mb-2" style="color: white; position: absolute; bottom: 0px; right: 0px;">Sair do Grupo</button>
+                    <button type="submit" class="btn btn-sm float-right bg-danger mt-2 mr-sm-4 mb-2" style="width: 10%;color: white; position: absolute; bottom: 0px; right: 0px;">Sair do Grupo</button>
                 </div>
             </div>
         </div>

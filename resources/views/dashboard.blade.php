@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div class="container-xl">
-    <br>
+<div class="container-xl-fluid mt-3 pl-5 pr-5 pb-2 ">
     @include('layouts.messages')
 
     @if (session('status'))
@@ -9,254 +8,220 @@
             {{ session('status') }}
         </div>
     @endif
-
-    <div class="row mt-2" style="height: 90vh;">
-
+    <h3>Dashboard</h3>
+    <div class="row mt-3 rounded h-100" style="height: 90vh; background-color: #ededed;">
         <div class="col-sm-4">
-            <div class="container bg-light rounded h-100">
-                <button type="button" class="previous btn btn-default btn-lg" style="text-align: center;width: 100%;">
+            <div class="container" >
+                <button type="button" class="previous btn btn-default btn-lg" style="text-align: center;width: 100%; color:#2c3fb1">
                     <span class="fas fa-chevron-up"></span>
                 </button>
-                <h3 class="month1" style="text-align: center;"></h3>
-                <div class="table-responsive-xl">
-                    <table class="month1-cal table table-sm table-borderless" style="text-align: center;">
-                        <thead>
-                        <tr>
-                            <th scope="col">Seg</th>
-                            <th scope="col">Ter</th>
-                            <th scope="col">Qua</th>
-                            <th scope="col">Qui</th>
-                            <th scope="col">Sex</th>
-                            <th scope="col">Sáb</th>
-                            <th scope="col">Dom</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="week1">
-                            <td class="1"></td>
-                            <td class="2"></td>
-                            <td class="3"></td>
-                            <td class="4"></td>
-                            <td class="5"></td>
-                            <td class="6"></td>
-                            <td class="7"></td>
-                        </tr>
-                        <tr class="week2">
-                            <td class="1"></td>
-                            <td class="2"></td>
-                            <td class="3"></td>
-                            <td class="4"></td>
-                            <td class="5"></td>
-                            <td class="6"></td>
-                            <td class="7"></td>
-                        </tr>
-                        <tr class="week3">
-                            <td class="1"></td>
-                            <td class="2"></td>
-                            <td class="3"></td>
-                            <td class="4"></td>
-                            <td class="5"></td>
-                            <td class="6"></td>
-                            <td class="7"></td>
-                        </tr>
-                        <tr class="week4">
-                            <td class="1"></td>
-                            <td class="2"></td>
-                            <td class="3"></td>
-                            <td class="4"></td>
-                            <td class="5"></td>
-                            <td class="6"></td>
-                            <td class="7"></td>
-                        </tr>
-                        <tr class="week5">
-                            <td class="1"></td>
-                            <td class="2"></td>
-                            <td class="3"></td>
-                            <td class="4"></td>
-                            <td class="5"></td>
-                            <td class="6"></td>
-                            <td class="7"></td>
-                        </tr>
-                        <tr class="week6">
-                            <td class="1"></td>
-                            <td class="2"></td>
-                            <td class="3"></td>
-                            <td class="4"></td>
-                            <td class="5"></td>
-                            <td class="6"></td>
-                            <td class="7"></td>
-                        </tr>
-                        </tbody>
-                    </table>
+                <div class="rounded mt-2" style="background-color: #c6c6c6;">
+                    <h3 class="month1 pt-1" style="text-align: center;"></h3>
+                    <div class="table-responsive-xl" style="background-color: #c6c6c6;">
+                        <table class="month1-cal table table-sm table-borderless" style="text-align: center;">
+                            <thead>
+                            <tr>
+                                <th scope="col">M</th>
+                                <th scope="col">T</th>
+                                <th scope="col">W</th>
+                                <th scope="col">T</th>
+                                <th scope="col">F</th>
+                                <th scope="col">S</th>
+                                <th scope="col">S</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="week1">
+                                <td class="1"></td>
+                                <td class="2"></td>
+                                <td class="3"></td>
+                                <td class="4"></td>
+                                <td class="5"></td>
+                                <td class="6"></td>
+                                <td class="7"></td>
+                            </tr>
+                            <tr class="week2">
+                                <td class="1"></td>
+                                <td class="2"></td>
+                                <td class="3"></td>
+                                <td class="4"></td>
+                                <td class="5"></td>
+                                <td class="6"></td>
+                                <td class="7"></td>
+                            </tr>
+                            <tr class="week3">
+                                <td class="1"></td>
+                                <td class="2"></td>
+                                <td class="3"></td>
+                                <td class="4"></td>
+                                <td class="5"></td>
+                                <td class="6"></td>
+                                <td class="7"></td>
+                            </tr>
+                            <tr class="week4">
+                                <td class="1"></td>
+                                <td class="2"></td>
+                                <td class="3"></td>
+                                <td class="4"></td>
+                                <td class="5"></td>
+                                <td class="6"></td>
+                                <td class="7"></td>
+                            </tr>
+                            <tr class="week5">
+                                <td class="1"></td>
+                                <td class="2"></td>
+                                <td class="3"></td>
+                                <td class="4"></td>
+                                <td class="5"></td>
+                                <td class="6"></td>
+                                <td class="7"></td>
+                            </tr>
+                            <tr class="week6">
+                                <td class="1"></td>
+                                <td class="2"></td>
+                                <td class="3"></td>
+                                <td class="4"></td>
+                                <td class="5"></td>
+                                <td class="6"></td>
+                                <td class="7"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-
-                <h3 class="month2" style="text-align: center;"></h3>
-                <div class="table-responsive-xl">
-                    <table class="month2-cal table table-sm table-borderless" style="text-align: center;wclassth: 100%;">
-                        <thead>
-                        <tr>
-                            <th scope="col">Seg</th>
-                            <th scope="col">Ter</th>
-                            <th scope="col">Qua</th>
-                            <th scope="col">Qui</th>
-                            <th scope="col">Sex</th>
-                            <th scope="col">Sáb</th>
-                            <th scope="col">Dom</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="week1">
-                            <td class="1"></td>
-                            <td class="2"></td>
-                            <td class="3"></td>
-                            <td class="4"></td>
-                            <td class="5"></td>
-                            <td class="6"></td>
-                            <td class="7"></td>
-                        </tr>
-                        <tr class="week2">
-                            <td class="1"></td>
-                            <td class="2"></td>
-                            <td class="3"></td>
-                            <td class="4"></td>
-                            <td class="5"></td>
-                            <td class="6"></td>
-                            <td class="7"></td>
-                        </tr>
-                        <tr class="week3">
-                            <td class="1"></td>
-                            <td class="2"></td>
-                            <td class="3"></td>
-                            <td class="4"></td>
-                            <td class="5"></td>
-                            <td class="6"></td>
-                            <td class="7"></td>
-                        </tr>
-                        <tr class="week4">
-                            <td class="1"></td>
-                            <td class="2"></td>
-                            <td class="3"></td>
-                            <td class="4"></td>
-                            <td class="5"></td>
-                            <td class="6"></td>
-                            <td class="7"></td>
-                        </tr>
-                        <tr class="week5">
-                            <td class="1"></td>
-                            <td class="2"></td>
-                            <td class="3"></td>
-                            <td class="4"></td>
-                            <td class="5"></td>
-                            <td class="6"></td>
-                            <td class="7"></td>
-                        </tr>
-                        <tr class="week6">
-                            <td class="1"></td>
-                            <td class="2"></td>
-                            <td class="3"></td>
-                            <td class="4"></td>
-                            <td class="5"></td>
-                            <td class="6"></td>
-                            <td class="7"></td>
-                        </tr>
-                        </tbody>
-                    </table>
+                <div class="rounded" style="background-color: #c6c6c6;">
+                    <h3 class="month2 pt-1" style="text-align: center;"></h3>
+                    <div class="table-responsive-xl" >
+                        <table class="month2-cal table table-sm table-borderless" style="text-align: center;width: 100%;">
+                            <thead>
+                            <tr>
+                                <th scope="col">M</th>
+                                <th scope="col">T</th>
+                                <th scope="col">W</th>
+                                <th scope="col">T</th>
+                                <th scope="col">F</th>
+                                <th scope="col">S</th>
+                                <th scope="col">S</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="week1">
+                                <td class="1"></td>
+                                <td class="2"></td>
+                                <td class="3"></td>
+                                <td class="4"></td>
+                                <td class="5"></td>
+                                <td class="6"></td>
+                                <td class="7"></td>
+                            </tr>
+                            <tr class="week2">
+                                <td class="1"></td>
+                                <td class="2"></td>
+                                <td class="3"></td>
+                                <td class="4"></td>
+                                <td class="5"></td>
+                                <td class="6"></td>
+                                <td class="7"></td>
+                            </tr>
+                            <tr class="week3">
+                                <td class="1"></td>
+                                <td class="2"></td>
+                                <td class="3"></td>
+                                <td class="4"></td>
+                                <td class="5"></td>
+                                <td class="6"></td>
+                                <td class="7"></td>
+                            </tr>
+                            <tr class="week4">
+                                <td class="1"></td>
+                                <td class="2"></td>
+                                <td class="3"></td>
+                                <td class="4"></td>
+                                <td class="5"></td>
+                                <td class="6"></td>
+                                <td class="7"></td>
+                            </tr>
+                            <tr class="week5">
+                                <td class="1"></td>
+                                <td class="2"></td>
+                                <td class="3"></td>
+                                <td class="4"></td>
+                                <td class="5"></td>
+                                <td class="6"></td>
+                                <td class="7"></td>
+                            </tr>
+                            <tr class="week6">
+                                <td class="1"></td>
+                                <td class="2"></td>
+                                <td class="3"></td>
+                                <td class="4"></td>
+                                <td class="5"></td>
+                                <td class="6"></td>
+                                <td class="7"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <button type="button" class="next btn btn-default btn-lg" style="text-align: center;width: 100%;">
+                <button type="button" class="next btn btn-default btn-lg" style="text-align: center;width: 100%; color:#2c3fb1;">
                     <span class="fas fa-chevron-down"></span>
                 </button>
             </div>
         </div>
 
         <div class="col-sm-8">
-            <div class="overflow-auto bg-light rounded h-100">
-                <h3 class="pt-3 pl-3">Dashboard</h3>
-
+            <div class="overflow-auto rounded">
+                <h3 class="pt-3 pl-3">Subjects</h3>
+                {{--@if(count($subjects) > 0)
+                    @foreach($subjects as $subject)
+                        <div class="well">
+                            <h3>{{$subject->subjectName}}</h3>
+                        </div>
+                    @endforeach
+                @else
+                    <p>No posts found</p>
+                @endif--}}
                 <div class="container overflow-auto mw-80" style="max-height: 75vh;">
                     @if(count($subjects) > 0)
                         @foreach($subjects as $subject)
 
-                            <div class="container overflow-auto bg-white p-2 mt-3 rounded">
+                            <div class="container overflow-auto p-2 mt-3 rounded" style="background-color: #c6c6c6;">
                                 <h4 class="mt-2 pl-2 float-left">{{$subject->subjectName}}</h4>
-                                <button type="button" class="cadeira btn btn-default btn-lg float-right" id="{{$subject->idSubject}}">
+                                <button style="color:#2c3fb1" type="button" class="cadeira btn btn-default btn-lg float-right" id="{{$subject->idSubject}}">
                                     <span class="fas fa-plus"></span>
                                 </button>
                             </div>
 
-                            <div class="container overflow-hidden bg-secondary  rounded-bottom doff" id="{{$subject->idSubject}}-groups" style="display: none;">
+                            <div class="container overflow-hidden  rounded-bottom doff" id="{{$subject->idSubject}}-groups" style="display: none; background-color: white;">
                                 @if(count($projects->whereIn('idSubject', $subject->idSubject)) > 0)
                                     @foreach($projects as $project)
                                         @if($subject->idSubject == $project->idSubject)
-                                            <p class="p-2">
+                                            <h5 class="p-2">
                                                 @if(Auth::user()->role == 'student')
-                                                    <a href="/student/project/{{$project->idProject}}">{{$project->name}}</a>
+                                                    <a style="color:#2c3fb1;" href="/student/project/{{$project->idProject}}">{{$project->name}}</a>
                                                 @elseif(Auth::user()->role == 'professor')
-                                                    <a href="/professor/project/{{$project->idProject}}">{{$project->name}}</a>
+                                                    <a style="color:#2c3fb1;" href="/professor/project/{{$project->idProject}}">{{$project->name}}</a>
                                                 @endif
-                                                    <button type="button" class="btn btn-light float-right mb-3 open_modal"  id="{{$subject->idSubject}}">Edit</button>
-                                            </p>
-                                            <hr>
+                                            </h5>
                                         @endif
                                     @endforeach
                                 @else
-                                    <p class="p-2">No projects found</p>
+                                    <h5 class="p-2">No projects found</h5>
                                 @endif
                                 @if (Auth::user()->role == 'professor')
-                                    <div>
-                                        <button type="button" class="btn btn-primary float-right mb-3 open_modal"  id="{{$subject->idSubject}}">Create Project</button>
-                                    </div>
+                                    <button style="background-color:#2c3fb1" type="button" class="btn float-right mb-3" data-toggle="modal" data-target="#staticBackdrop" id="{{$subject->idSubject}}">
+                                        Create Project
+                                    </button>
                                 @endif
                             </div>
                         @endforeach
                     @else
                         <p>No subjects found</p>
                     @endif
+
+
+
                 </div>
-
-
-                <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog" >
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title" id="staticBackdropLabel">New Project</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                {!! Form::open(['action' => 'ProfessorProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
-                                <div class="form-group">
-                                    {{Form::label('title', 'Name')}}
-                                    {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Project Name'])}}
-                                </div>
-                                <div class="form-group">
-                                    {{Form::label('deadline', 'Deadline')}}
-                                    {{ Form::date('deadline',\Carbon\Carbon::now(), ['class' => 'form-control']) }}
-                                </div>
-                                <div class="form-group">
-                                    {{Form::label('group_formation_deadline', 'Group Formation Deadline')}}
-                                    {{ Form::date('group_formation_deadline', \Carbon\Carbon::now(), ['class' => 'form-control']) }}
-                                </div>
-                                <div class="form-group">
-                                    {{Form::label('number of elements', 'No. of Members')}}
-                                    {{Form::selectRange('number of elements', 1, 10)}}
-                                </div>
-                                <div class="form-group">
-                                    {{Form::label('announcement', 'Announcement')}}
-                                    {{Form::file('')}}
-                                </div>
-                                <div class="form-group">
-                                    {{Form::label('documentation', 'Documentation')}}
-                                    {{Form::file('')}}
-                                </div>
-                                {{ Form::hidden('subject', 'subjectId')}}
-
-                                {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
-
-                                {!! Form::close() !!}
-                            </div>
-                        </div>
-                    </div>
 
 
 
@@ -265,10 +230,51 @@
         </div>
     </div>
 
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="staticBackdropLabel">New Project</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {!! Form::open(['action' => 'ProfessorProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                        <div class="form-group">
+                            {{Form::label('title', 'Name')}}
+                            {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Project Name'])}}
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('deadline', 'Deadline')}}
+                            {{ Form::date('deadline', null,['class' => 'form-control']) }}
+                        </div>
+                        <div class="form-group">
+                        {{Form::label('deadline', 'Group Formation Deadline')}}
+                        {{ Form::date('group formation deadline', null,['class' => 'form-control']) }}
+                    </div>
+                        <div class="form-group">
+                            {{Form::label('number', 'No. of Members')}}
+                            {{Form::selectRange('number', 1, 10)}}
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('announcement', 'Announcement')}}
+                            {{Form::file('')}}
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('documentation', 'Documentation')}}
+                            {{Form::file('')}}
+                        </div>
+                        {{ Form::hidden('subject', $subject->idSubject) }}
+
+                        {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+
+                    {!! Form::close() !!}
 
 
-
-
+            </div>
+        </div>
+    </div>
 
  </div>
 
@@ -369,14 +375,6 @@
         const cal = new Calendar();
         cal.init();
 
-        $(document).on('click','.open_modal',function(){
-            console.log("aqui");
-            var subjectId = $(this).attr("id");
-            console.log(subjectId);
-            $('input[name="subject"]').val(subjectId);
-            $('#modalCreate').modal('show');
-        });
-
     </script>
     <style>
         table {
@@ -390,6 +388,9 @@
         .today  {
             font-weight: 800;
             color: #2c3fb1;
+            background-color: white;
+            border-radius: 100%;
+
         }
 
         .selected {

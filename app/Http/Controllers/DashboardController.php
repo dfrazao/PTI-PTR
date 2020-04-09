@@ -29,20 +29,23 @@ class DashboardController extends Controller
     {
         $user = Auth::user()->id;
         $subjectsEnrolled = SubjectEnrollment::all()->where('idUser', '==', $user)->pluck('idSubject');
-<<<<<<< HEAD
-        foreach ($subjectsEnrolled as $se) {
-            $subjects = Subject::all()->where('idSubject', '==', $se);
-            $subjectsId = Subject::all()->where('idSubject', '==', $se)->pluck('idSubject');
-        }
-        foreach ($subjectsId as $sid) {
-            $projects = Subject::all()->where('idSubject', '==', $sid);
-        }
-=======
-        $subjects = Subject::all()->whereIn('idSubject', $subjectsEnrolled);
-        $subjectsId = Subject::all()->whereIn('idSubject', $subjectsEnrolled)->pluck('idSubject');
-        $projects = Project::all()->whereIn('idSubject', $subjectsId);
+        if (count($subjectsEnrolled) > 0) {
+            foreach ($subjectsEnrolled as $se) {
+                $subjects = Subject::all()->where('idSubject', '==', $se);
+                $subjectsId = Subject::all()->where('idSubject', '==', $se)->pluck('idSubject');
+            }
 
->>>>>>> origin/master
-        return view('dashboard')->with('subjects', $subjects)->with('projects', $projects);
+            foreach ($subjectsId as $sid) {
+                $projects = Subject::all()->where('idSubject', '==', $sid);
+            }
+            $subjects = Subject::all()->whereIn('idSubject', $subjectsEnrolled);
+            $subjectsId = Subject::all()->whereIn('idSubject', $subjectsEnrolled)->pluck('idSubject');
+            $projects = Project::all()->whereIn('idSubject', $subjectsId);
+
+            return view('dashboard')->with('subjects', $subjects)->with('projects', $projects);
+        }
+        else{
+            return view('dashboard')->with('subjects', $subjectsEnrolled);
+        }
     }
 }
