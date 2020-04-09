@@ -1,6 +1,15 @@
 @extends('layouts.app')
 @section('content')
 <div class="container-xl">
+    <br>
+    @include('layouts.messages')
+
+    @if (session('status'))
+        <div class="alert alert-success" role="alert">
+            {{ session('status') }}
+        </div>
+    @endif
+
     <div class="row mt-2" style="height: 90vh;">
 
         <div class="col-sm-4">
@@ -162,62 +171,112 @@
         <div class="col-sm-8">
             <div class="overflow-auto bg-light rounded h-100">
                 <h3 class="pt-3 pl-3">Dashboard</h3>
+                {{--@if(count($subjects) > 0)
+                    @foreach($subjects as $subject)
+                        <div class="well">
+                            <h3>{{$subject->subjectName}}</h3>
+                        </div>
+                    @endforeach
+                @else
+                    <p>No posts found</p>
+                @endif--}}
                 <div class="container overflow-auto mw-80" style="max-height: 75vh;">
+                    @if(count($subjects) > 0)
+                        @foreach($subjects as $subject)
 
-                    <div class="container overflow-auto bg-white p-2 mt-3 rounded">
-                        <h4 class="mt-2 pl-2 float-left">CSS</h4>
-                        <button type="button" class="cadeira btn btn-default btn-lg float-right" id="css">
-                            <span class="fas fa-plus"></span>
-                        </button>
-                    </div>
+                            <div class="container overflow-auto bg-white p-2 mt-3 rounded">
+                                <h4 class="mt-2 pl-2 float-left">{{$subject->subjectName}}</h4>
+                                <button type="button" class="cadeira btn btn-default btn-lg float-right" id="{{$subject->idSubject}}">
+                                    <span class="fas fa-plus"></span>
+                                </button>
+                            </div>
 
-                    <div class="container overflow-hidden bg-secondary  rounded-bottom doff" id="css-groups" style="display: none;">
-                        <p></p>
-                        <p>Exemplo</p>
-                        <p>Lalalala</p>
-                        <p>Lalalala</p>
-                        <p>Lalalala</p>
-                        <p>Lalalala</p>
-                    </div>
+                            <div class="container overflow-hidden bg-secondary  rounded-bottom doff" id="{{$subject->idSubject}}-groups" style="display: none;">
+                                @if(count($projects->whereIn('idSubject', $subject->idSubject)) > 0)
+                                    @foreach($projects as $project)
+                                        @if($subject->idSubject == $project->idSubject)
+                                            <p class="p-2">
+                                                @if(Auth::user()->role == 'student')
+                                                    <a href="/student/project/{{$project->idProject}}">{{$project->name}}</a>
+                                                @elseif(Auth::user()->role == 'professor')
+                                                    <a href="/professor/project/{{$project->idProject}}">{{$project->name}}</a>
+                                                @endif
+                                            </p>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    <p class="p-2">No projects found</p>
+                                @endif
+                                @if (Auth::user()->role == 'professor')
+                                    <button type="button" class="btn btn-primary float-right mb-3" data-toggle="modal" data-target="#staticBackdrop" id="{{$subject->idSubject}}">
+                                        Create Project
+                                    </button>
+                                @endif
+                            </div>
+                        @endforeach
+                    @else
+                        <p>No subjects found</p>
+                    @endif
 
-                    <div class="container overflow-auto bg-white p-2 mt-3 rounded">
-                        <h4 class="mt-2 pl-2 float-left">PGP</h4>
-                        <button type="button" class="cadeira btn btn-default btn-lg float-right" id="pgp">
-                            <span class="fas fa-plus"></span>
-                        </button>
-                    </div>
 
-                    <div class="container overflow-hidden bg-secondary rounded-bottom doff" id="pgp-groups" style="display: none;">
-                        <p></p>
-                        <p>Exemplo</p>
-                        <p>Lalalala</p>
-                        <p>Lalalala</p>
-                        <p>Lalalala</p>
-                        <p>Lalalala</p>
-                    </div>
-
-                    <div class="container overflow-auto bg-white p-2 mt-3 rounded">
-                        <h4 class="mt-2 pl-2 float-left">BD</h4>
-                        <button type="button" class="cadeira btn btn-default btn-lg float-right" id="bd">
-                            <span class="fas fa-plus"></span>
-                        </button>
-                    </div>
-
-                    <div class="container overflow-hidden bg-secondary rounded-bottom doff" id="bd-groups" style="display: none;">
-                        <p></p>
-                        <p>Exemplo</p>
-                        <p>Lalalala</p>
-                        <p>Lalalala</p>
-                        <p>Lalalala</p>
-                        <p>Lalalala</p>
-                    </div>
 
                 </div>
+
+
+
                 <button type="button" class="p-2 btn btn-primary btn-lg float-right" style="background-color: #2c3fb1; border-color: #2c3fb1; position:absolute; right: 2rem; bottom: 1rem;">Cadeiras Antigas</button>
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="staticBackdropLabel">New Project</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {!! Form::open(['action' => 'ProfessorProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                        <div class="form-group">
+                            {{Form::label('title', 'Name')}}
+                            {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Project Name'])}}
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('deadline', 'Deadline')}}
+                            {{ Form::date('deadline', null,['class' => 'form-control']) }}
+                        </div>
+                        <div class="form-group">
+                        {{Form::label('deadline', 'Group Formation Deadline')}}
+                        {{ Form::date('group formation deadline', null,['class' => 'form-control']) }}
+                    </div>
+                        <div class="form-group">
+                            {{Form::label('number', 'No. of Members')}}
+                            {{Form::selectRange('number', 1, 10)}}
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('announcement', 'Announcement')}}
+                            {{Form::file('')}}
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('documentation', 'Documentation')}}
+                            {{Form::file('')}}
+                        </div>
+                        {{ Form::hidden('subject', $subject->idSubject) }}
+
+                        {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+
+                    {!! Form::close() !!}
+
+
+            </div>
+        </div>
+    </div>
+
  </div>
+
     <script>
         $(document).ready(function(){
 

@@ -15,13 +15,20 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', 'Dashboard@index', ['name' => 'Dashboard']);
+Route::get('/', 'DashboardController@index', ['name' => 'Dashboard']);
 
-Route::get('/profile', 'Profile@index', ['name' => 'Profile']);
+Route::resource('/profile', 'ProfileController')->middleware('auth');
+
+Route::resource('/professor/project', 'ProfessorProjectsController')->middleware('auth');
+
+Route::resource('/student/project', 'StudentProjectsController')->middleware('auth');
+
+
 
 //Route::get('/profile', 'ProfileController@index', ['name' => 'Profile']);
+//Route::get('/course', 'ProfileController@index', ['name' => 'Profile']);
 
-//Route::get('/profile', 'ProfileController@index', ['name' => 'Profile']);
+//Route::get('/groups', 'ProfileController@index', ['name' => 'Profile']);
 
 //Route::get('/profile', 'ProfileController@index', ['name' => 'Profile']);
 
