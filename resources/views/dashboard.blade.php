@@ -200,9 +200,7 @@
                                     <h5 class="p-2">No projects found</h5>
                                 @endif
                                 @if (Auth::user()->role == 'professor')
-                                    <button style="background-color:#2c3fb1" type="button" class="btn float-right mb-3" data-toggle="modal" data-target="#staticBackdrop" id="{{$subject->idSubject}}">
-                                        Create Project
-                                    </button>
+                                    <button style="background-color:#2c3fb1" type="button" class="btn float-right mb-3 open_modal" id="{{$subject->idSubject}}">Create Project</button>
                                 @endif
                             </div>
                         @endforeach
@@ -210,15 +208,12 @@
                         <p>No subjects found</p>
                     @endif
                 </div>
-
-
-
                 <button type="button" class="p-2 btn btn-primary btn-lg float-right" style="background-color: #2c3fb1; border-color: #2c3fb1; position:absolute; right: 2rem; bottom: 1rem;">Cadeiras Antigas</button>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -258,13 +253,10 @@
                         {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
 
                     {!! Form::close() !!}
-
-
+                </div>
             </div>
         </div>
     </div>
-
- </div>
 
     <script>
         $(document).ready(function(){
@@ -280,6 +272,11 @@
                     $("#" + id).children().addClass('fa-plus').removeClass('fa-minus');
                     $("#" + id + "-groups").slideUp(400);
                 }
+            });
+
+            $(".open_modal").click(function(){
+                $('input[name="subject"]').val($(this).attr("id"));
+                $('#modalCreate').modal('show');
             });
         });
 
@@ -363,14 +360,6 @@
         const cal = new Calendar();
         cal.init();
 
-        $(document).on('click','.open_modal',function(){
-            console.log("aqui");
-            var subjectId = $(this).attr("id");
-            console.log(subjectId);
-            $('input[name="subject"]').val(subjectId);
-            $('#modalCreate').modal('show');
-        });
-
     </script>
     <style>
         table {
@@ -396,5 +385,6 @@
             color: #111;
         }
     </style>
+</div>
 @endsection
 

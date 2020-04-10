@@ -17,6 +17,7 @@ Auth::routes();
 
 Route::get('/', 'DashboardController@index', ['name' => 'Dashboard'])->name("Dashboard");
 
+Route::put('/profile/{id}', 'ProfileController@updateProfilePhoto');
 Route::resource('/profile', 'ProfileController')->middleware('auth');
 
 Route::resource('/professor/project', 'ProfessorProjectsController')->middleware('auth');

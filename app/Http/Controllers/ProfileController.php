@@ -108,24 +108,12 @@ class ProfileController extends Controller
             'profilePhoto' => 'required|image|max:1999'
         ]);
 
-        // Handle File Upload
-        if($request->hasFile('profilePhoto')){
-            // Get filename with the extension
-            $filenameWithExt = $request->file('profilePhoto')->getClientOriginalName();
-            // Get just filename
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            // Get just ext
-            $extension = $request->file('profilePhoto')->getClientOriginalExtension();
-            // Filename to store
-            $fileNameToStore= $id.'.'.$extension;
-            // Upload Image
-            $path = $request->file('profilePhoto')->storeAs('public/profilePhotos', $fileNameToStore);
-        } else {
-            $fileNameToStore = 'profilePhotoDefault.jpg';
-        }
+        $extension = $request->profilePhoto->extension();
+        $filename = $id.'.'.$extension;
+        $path = $request->file('profilePhoto')->storeAs('/profilePhotos', $filename);
 
         $user = User::find($id);
-        $user->photo = $fileNameToStore;
+        $user->photo = $filename;
         $user->save();
 
         return redirect('/profile/'.$id)->with('success', 'Profile Picture Updated');
