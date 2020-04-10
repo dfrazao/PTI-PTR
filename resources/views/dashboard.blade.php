@@ -258,7 +258,6 @@
                                         </div>
                                         {{ Form::hidden('subject', $subject->idSubject) }}
 
-
                                         {{Form::hidden('_method','PUT')}}
                                         {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
                                         {!! Form::close() !!}
@@ -284,33 +283,33 @@
                 </div>
                 <div class="modal-body">
                     {!! Form::open(['action' => 'ProfessorProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
-                        <div class="form-group">
-                            {{Form::label('title', 'Name')}}
-                            {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Project Name'])}}
-                        </div>
-                        <div class="form-group">
-                            {{Form::label('deadline', 'Deadline')}}
-                            {{ Form::date('deadline', null,['class' => 'form-control']) }}
-                        </div>
-                        <div class="form-group">
+                    <div class="form-group">
+                        {{Form::label('title', 'Name')}}
+                        {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Project Name'])}}
+                    </div>
+                    <div class="form-group">
+                        {{Form::label('deadline', 'Deadline')}}
+                        {{ Form::date('deadline', null,['class' => 'form-control']) }}
+                    </div>
+                    <div class="form-group">
                         {{Form::label('deadline', 'Group Formation Deadline')}}
                         {{ Form::date('group formation deadline', null,['class' => 'form-control']) }}
                     </div>
-                        <div class="form-group">
-                            {{Form::label('number', 'No. of Members')}}
-                            {{Form::selectRange('number', 1, 10)}}
-                        </div>
-                        <div class="form-group">
-                            {{Form::label('announcement', 'Announcement')}}
-                            {{Form::file('')}}
-                        </div>
-                        <div class="form-group">
-                            {{Form::label('documentation', 'Documentation')}}
-                            {{Form::file('')}}
-                        </div>
-                        {{ Form::hidden('subject', "subject") }}
+                    <div class="form-group">
+                        {{Form::label('number', 'No. of Members')}}
+                        {{Form::selectRange('number', 1, 10)}}
+                    </div>
+                    <div class="form-group">
+                        {{Form::label('announcement', 'Announcement')}}
+                        {{Form::file('')}}
+                    </div>
+                    <div class="form-group">
+                        {{Form::label('documentation', 'Documentation')}}
+                        {{Form::file('')}}
+                    </div>
+                    {{ Form::hidden('subject', "subject") }}
 
-                        {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+                    {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
 
                     {!! Form::close() !!}
                 </div>
@@ -339,14 +338,6 @@
                 $('#modalCreate').modal('show');
             });
 
-            /*$(".open_modalEdit").click(function(){
-                var projectId = $(this).attr("id");
-                $('input[name="project"]').val(projectId);
-                $('#modalEdit').modal('show');
-                $('#formEdit').attr('action', function(i, value){
-                    return value + projectId;
-                });
-            });*/
         });
 
         class Calendar {
