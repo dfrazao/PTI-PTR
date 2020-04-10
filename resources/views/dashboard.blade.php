@@ -226,7 +226,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    {!! Form::open(['action' => ['ProfessorProjectsController@update'], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                    {!! Form::open(['action' => ['ProfessorProjectsController@update',0], 'method' => 'POST', 'enctype' => 'multipart/form-data', 'id' => 'formEdit']) !!}
                     <div class="form-group">
                         {{Form::label('title', 'Name')}}
                         {{Form::text('title', $project->name, ['class' => 'form-control', 'placeholder' => 'Country'])}}
@@ -240,8 +240,8 @@
                         {{Form::date('group formation deadline', $project->groupCreationDueDate, ['class' => 'form-control'])}}
                     </div>
                     <div class="form-group">
-                        {{Form::label('number', 'No. of Members')}}
-                        {{Form::selectRange('number', $project->maxElements, 10)}}
+                        {{Form::label('number of elements', 'No. of Members')}}
+                        {{Form::selectRange('number of elements', $project->maxElements, 10)}}
                     </div>
                     <div class="form-group">
                         {{Form::label('announcement', 'Announcement')}}
@@ -283,12 +283,12 @@
                             {{ Form::date('deadline', null,['class' => 'form-control']) }}
                         </div>
                         <div class="form-group">
-                        {{Form::label('deadline', 'Group Formation Deadline')}}
-                        {{ Form::date('group formation deadline', null,['class' => 'form-control']) }}
-                    </div>
+                            {{Form::label('deadline', 'Group Formation Deadline')}}
+                            {{ Form::date('group formation deadline', null,['class' => 'form-control']) }}
+                        </div>
                         <div class="form-group">
-                            {{Form::label('number', 'No. of Members')}}
-                            {{Form::selectRange('number', 1, 10)}}
+                            {{Form::label('number of elements', 'No. of Members')}}
+                            {{Form::selectRange('number_of_elements', 1, 10)}}
                         </div>
                         <div class="form-group">
                             {{Form::label('announcement', 'Announcement')}}
@@ -330,11 +330,13 @@
             });
 
             $(".open_modalEdit").click(function(){
-                $('input[name="project"]').val($(this).attr("id"));
-                $('#modalEdit').attr('action', function(i, value){
-                    return value + $(this).attr("id");
-                });
+                var projectId = $(this).attr("id");
+                $('input[name="project"]').val(projectId);
                 $('#modalEdit').modal('show');
+                $('#formEdit').attr('action', function(i, value){
+                    return value + projectId;
+                });
+                console.log($('#modalEdit').attr('action'));
             });
         });
 

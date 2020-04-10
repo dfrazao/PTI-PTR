@@ -48,7 +48,7 @@ class ProfessorProjectsController extends Controller
         $project->name = $request->input('title');
         $project->dueDate = $request->input('deadline');
         $project->groupCreationDueDate = $request->input('group_formation_deadline');
-        $project->maxElements = $request->input('number of elements');
+        $project->maxElements = $request->input('number_of_elements');
         $project->idSubject = $request->input('subject');
         $project->save();
 

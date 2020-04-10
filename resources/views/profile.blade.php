@@ -28,6 +28,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="container">
+                                            @csrf
                                             {!! Form::open(['action' => ['ProfileController@updateProfilePhoto', $user->id], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                                             <div class="form-group">
                                                 {{Form::file('profilePhoto')}}
@@ -71,6 +72,7 @@
                                         <!-- Modal body -->
                                         <div class="modal-body">
                                             <div class="container">
+                                                @csrf
                                                 {!! Form::open(['action' => ['ProfileController@update', $user->id], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                                                 <div class="form-group">
                                                     {{Form::label('country', 'Country')}}
