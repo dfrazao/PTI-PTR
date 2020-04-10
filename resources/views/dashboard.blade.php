@@ -192,7 +192,7 @@
                                                     <a style="color:#2c3fb1;" href="/student/project/{{$project->idProject}}">{{$project->name}}</a>
                                                 @elseif(Auth::user()->role == 'professor')
                                                     <a style="color:#2c3fb1;" href="/professor/project/{{$project->idProject}}">{{$project->name}}</a>
-                                                    <button type="button" class="btn btn-secondary float-right open_modalEdit" id="{{$project->idProject}}">Edit</button>
+                                                    <button type="button" class="btn btn-secondary float-right" data-toggle="modal" data-target="#modalEdit-{{$project->idProject}}">Edit</button>
                                                 @endif
                                             </h5>
                                         @endif
@@ -216,51 +216,61 @@
 
     {{--    Modal Edit--}}
 
-    <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="staticBackdropLabel">Edit Project</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    {!! Form::open(['action' => ['ProfessorProjectsController@update',0], 'method' => 'POST', 'enctype' => 'multipart/form-data', 'id' => 'formEdit']) !!}
-                    <div class="form-group">
-                        {{Form::label('title', 'Name')}}
-                        {{Form::text('title', $project->name, ['class' => 'form-control', 'placeholder' => 'Country'])}}
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('deadline', 'Deadline')}}
-                        {{Form::date('deadline', $project->dueDate, ['class' => 'form-control'])}}
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('deadline', 'Group Formation Deadline')}}
-                        {{Form::date('group formation deadline', $project->groupCreationDueDate, ['class' => 'form-control'])}}
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('number of elements', 'No. of Members')}}
-                        {{Form::selectRange('number of elements', $project->maxElements, 10)}}
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('announcement', 'Announcement')}}
-                        {{Form::file('')}}
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('documentation', 'Documentation')}}
-                        {{Form::file('')}}
-                    </div>
-                    {{ Form::hidden('project', "project") }}
+    @if(count($subjects) > 0)
+        @foreach($subjects as $subject)
+            @if(count($projects->whereIn('idSubject', $subject->idSubject)) > 0)
+                @foreach($projects as $project)
+                    @if($subject->idSubject == $project->idSubject)
+                        <div class="modal fade" id="modalEdit-{{$project->idProject}}" aria-labelledby="modalEdit-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="staticBackdropLabel">Edit Project</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {!! Form::open(['action' => ['ProfessorProjectsController@update', $project->idProject], 'method' => 'POST', 'enctype' => 'multipart/form-data', 'id' => 'formEdit']) !!}
+                                        <div class="form-group">
+                                            {{Form::label('title', 'Name')}}
+                                            {{Form::text('title', $project->name, ['class' => 'form-control', 'placeholder' => 'Country'])}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{Form::label('deadline', 'Deadline')}}
+                                            {{Form::date('deadline', $project->dueDate, ['class' => 'form-control'])}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{Form::label('deadline', 'Group Formation Deadline')}}
+                                            {{Form::date('group formation deadline', $project->groupCreationDueDate, ['class' => 'form-control'])}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{Form::label('number', 'No. of Members')}}
+                                            {{Form::selectRange('number', 1, 10, $project->maxElements)}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{Form::label('announcement', 'Announcement')}}
+                                            {{Form::file('')}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{Form::label('documentation', 'Documentation')}}
+                                            {{Form::file('')}}
+                                        </div>
+                                        {{ Form::hidden('subject', $subject->idSubject) }}
 
 
-                    {{Form::hidden('_method','PUT')}}
-                    {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
-                    {!! Form::close() !!}
-                </div>
-            </div>
-        </div>
-    </div>
+                                        {{Form::hidden('_method','PUT')}}
+                                        {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+                                        {!! Form::close() !!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            @endif
+        @endforeach
+    @endif
 
 {{--    Modal Create--}}
     <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog">
@@ -283,12 +293,12 @@
                             {{ Form::date('deadline', null,['class' => 'form-control']) }}
                         </div>
                         <div class="form-group">
-                            {{Form::label('deadline', 'Group Formation Deadline')}}
-                            {{ Form::date('group formation deadline', null,['class' => 'form-control']) }}
-                        </div>
+                        {{Form::label('deadline', 'Group Formation Deadline')}}
+                        {{ Form::date('group formation deadline', null,['class' => 'form-control']) }}
+                    </div>
                         <div class="form-group">
-                            {{Form::label('number of elements', 'No. of Members')}}
-                            {{Form::selectRange('number_of_elements', 1, 10)}}
+                            {{Form::label('number', 'No. of Members')}}
+                            {{Form::selectRange('number', 1, 10)}}
                         </div>
                         <div class="form-group">
                             {{Form::label('announcement', 'Announcement')}}
@@ -329,15 +339,14 @@
                 $('#modalCreate').modal('show');
             });
 
-            $(".open_modalEdit").click(function(){
+            /*$(".open_modalEdit").click(function(){
                 var projectId = $(this).attr("id");
                 $('input[name="project"]').val(projectId);
                 $('#modalEdit').modal('show');
                 $('#formEdit').attr('action', function(i, value){
                     return value + projectId;
                 });
-                console.log($('#modalEdit').attr('action'));
-            });
+            });*/
         });
 
         class Calendar {

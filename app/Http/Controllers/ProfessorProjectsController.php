@@ -48,7 +48,7 @@ class ProfessorProjectsController extends Controller
         $project->name = $request->input('title');
         $project->dueDate = $request->input('deadline');
         $project->groupCreationDueDate = $request->input('group_formation_deadline');
-        $project->maxElements = $request->input('number_of_elements');
+        $project->maxElements = $request->input('number');
         $project->idSubject = $request->input('subject');
         $project->save();
 
@@ -88,19 +88,13 @@ class ProfessorProjectsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'title' => 'required',
-            'deadline' => 'required',
-            'group_formation_deadline' => 'required'
-        ]);
-
 
         $project = Project::find($id);
         $project->name = $request->input('title');
         $project->dueDate = $request->input('deadline');
         $project->groupCreationDueDate = $request->input('group_formation_deadline');
         $project->maxElements = $request->input('number');
-        $project->idSubject = $request->input('subject');
+        $project->idSubject = $project->idSubject;
         $project->save();
 
         return redirect('/')->with('success', 'Project Updated');
