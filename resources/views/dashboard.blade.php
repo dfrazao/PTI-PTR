@@ -192,6 +192,7 @@
                                                     <a style="color:#2c3fb1;" href="/student/project/{{$project->idProject}}">{{$project->name}}</a>
                                                 @elseif(Auth::user()->role == 'professor')
                                                     <a style="color:#2c3fb1;" href="/professor/project/{{$project->idProject}}">{{$project->name}}</a>
+                                                    <button type="button" class="btn btn-secondary float-right open_modalEdit" id="{{$project->idProject}}">Edit</button>
                                                 @endif
                                             </h5>
                                         @endif
@@ -200,7 +201,7 @@
                                     <h5 class="p-2">No projects found</h5>
                                 @endif
                                 @if (Auth::user()->role == 'professor')
-                                    <button style="background-color:#2c3fb1" type="button" class="btn float-right mb-3 open_modal" id="{{$subject->idSubject}}">Create Project</button>
+                                    <button style="background-color:#2c3fb1" type="button" class="btn float-right m-2 open_modal" id="{{$subject->idSubject}}">Create Project</button>
                                 @endif
                             </div>
                         @endforeach
@@ -213,6 +214,55 @@
         </div>
     </div>
 
+    {{--    Modal Edit--}}
+
+    <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="staticBackdropLabel">Edit Project</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {!! Form::open(['action' => ['ProfessorProjectsController@update'], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                    <div class="form-group">
+                        {{Form::label('title', 'Name')}}
+                        {{Form::text('title', $project->name, ['class' => 'form-control', 'placeholder' => 'Country'])}}
+                    </div>
+                    <div class="form-group">
+                        {{Form::label('deadline', 'Deadline')}}
+                        {{Form::date('deadline', $project->dueDate, ['class' => 'form-control'])}}
+                    </div>
+                    <div class="form-group">
+                        {{Form::label('deadline', 'Group Formation Deadline')}}
+                        {{Form::date('group formation deadline', $project->groupCreationDueDate, ['class' => 'form-control'])}}
+                    </div>
+                    <div class="form-group">
+                        {{Form::label('number', 'No. of Members')}}
+                        {{Form::selectRange('number', $project->maxElements, 10)}}
+                    </div>
+                    <div class="form-group">
+                        {{Form::label('announcement', 'Announcement')}}
+                        {{Form::file('')}}
+                    </div>
+                    <div class="form-group">
+                        {{Form::label('documentation', 'Documentation')}}
+                        {{Form::file('')}}
+                    </div>
+                    {{ Form::hidden('project', "project") }}
+
+
+                    {{Form::hidden('_method','PUT')}}
+                    {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+                    {!! Form::close() !!}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{{--    Modal Create--}}
     <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -248,7 +298,7 @@
                             {{Form::label('documentation', 'Documentation')}}
                             {{Form::file('')}}
                         </div>
-                        {{ Form::hidden('subject', $subject->idSubject) }}
+                        {{ Form::hidden('subject', "subject") }}
 
                         {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
 
@@ -277,6 +327,14 @@
             $(".open_modal").click(function(){
                 $('input[name="subject"]').val($(this).attr("id"));
                 $('#modalCreate').modal('show');
+            });
+
+            $(".open_modalEdit").click(function(){
+                $('input[name="project"]').val($(this).attr("id"));
+                $('#modalEdit').attr('action', function(i, value){
+                    return value + $(this).attr("id");
+                });
+                $('#modalEdit').modal('show');
             });
         });
 
