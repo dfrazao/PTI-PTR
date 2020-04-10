@@ -1,6 +1,11 @@
 @extends('layouts.adminbase')
 @section('content2')
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{asset('DataTables/datatables.min.css')}}"/>
 
+        <script type="text/javascript" src="{{asset('DataTables/datatables.min.js')}}"></script>
+
+    </head>
 
     <!-- Modal - Create -->
     <div class="modal" id="modal-1" tabindex="-1" role="dialog">
