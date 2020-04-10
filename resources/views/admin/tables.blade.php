@@ -16,7 +16,8 @@
                 <div class="modal-body">
 
                     <form action="{{ action('AdminController@store')}}" method="POST">
-                        {{ csrf_field() }}                                                <div class="form-group">
+                        {{ csrf_field() }}
+                        <div class="form-group">
                             <label >uniNumber</label>
                             <input type="text" class="form-control" name="uniNumber" id="uniNumber">
                         </div>
@@ -55,6 +56,9 @@
             </div>
         </div>
     </div>
+
+
+
     <!-- Modal - Import Data -->
     <div class="modal" id="modal-2" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -82,39 +86,12 @@
             </div>
         </div>
     </div>
-    <!-- Modal - Confirm -->
-    <div class="modal" id="modal-3" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Confirm changes</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>WARNING: Your changes will affect user' data.</p>
-                    <p>Are you sure you want to continue?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Confirm</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Discard</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="container-xl">
 
+    <div class="container-xl" style="margin-left:10%;max-width: 90%; margin-bottom: 5%;">
         <!-- Search form -->
-        <div style="margin-top: 5%;margin-bottom: 5%;">
+        <div style="margin-top: 3%;margin-bottom: 3%;">
             <h3>Users</h3>
-            <br>
-            <form class="form-inline my-2 my-lg-0">
-                <i class="fa fa-search" aria-hidden="true"></i>
-                <input class="form-control ml-3 w-50" type="search" placeholder="Example: João Silva" aria-label="Search">
-                <button class="btn btn-outline-primary my-2 my-sm-0 ml-3" type="submit">Search</button>
-            </form>
         </div>
 
         <div class="content" style="">
@@ -137,11 +114,11 @@
                                     <thead class=" text-primary">
                                     <tr>
 
-                                    <th scope="col">
+                                    <th scope="col" >
                                         ID
                                     </th>
                                     <th scope="col">
-                                        Student Number
+                                        uniNumber
                                     </th>
                                     <th scope="col">
                                         Role
@@ -176,23 +153,40 @@
                                     <tbody>
                                     @foreach($users as $user)
                                     <tr>
-                                        <td>
+                                        <td style="max-width: 10%;">
                                             {{$user->id}}
                                         </td>
-                                        <td>
+                                        <td style="max-width: 10%;">
                                             {{$user->uniNumber}}
                                         </td>
-                                        <td>
+                                        <td style="max-width: 10%;">
                                             {{$user->role}}
                                         </td>
-                                        <td>
+                                        <td style="max-width: 10%;">
                                             {{$user->name}}
                                         </td>
-                                        <td>
+                                        <td style="max-width: 10%;">
                                             {{$user->email}}
                                         </td>
-                                        <td >
-                                            {{$user->password}}
+                                        <td style="max-width: 50px;">
+                                            <button class="btn btn-primary" id="button1" onclick="myFunction()">Show</button>
+                                            <script>function myFunction() {
+                                                    var x = document.getElementById("myDIV");
+                                                    if (x.style.display === "none") {
+                                                        x.style.display = "block";
+
+                                                    } else {
+                                                        x.style.display = "none";
+                                                        document.getElementById("button1").style.display = "block";
+
+                                                    }
+                                                }</script>
+
+                                            <div id="myDIV" style="display:none;">
+                                                {{$user->password}}
+                                            </div>
+
+
                                         </td>
                                         <td>
                                             {{$user->photo}}
@@ -209,19 +203,49 @@
                                         <td class="text-right">
 
                                             <div class="dropdown">
-                                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Dropdown button
+                                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fal fa-tools"></i>
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a class="dropdown-item" id="edit" href="/edit-user/{{$user->id}}" style="float: right;margin-right:1%;display: inline-block;" ><i class="fa fa-eye" aria-hidden="true"></i> View</a>
+                                                    {{--<a class="dropdown-item" id="edit" href="/edit-user/{{$user->id}}" style="float: right;margin-right:1%;display: inline-block;" ><i class="fa fa-eye" aria-hidden="true"></i> View</a>--}}
                                                     <a class="dropdown-item" id="edit" href="/edit-user/{{$user->id}}" style="float: right;margin-right:1%;display: inline-block;" ><i class="fa fa-edit" aria-hidden="true"></i> Edit</a>
-
+                                                    <a class="dropdown-item" data-toggle="modal" data-target="#modal-3" id="edit" style="float: right;margin-right:1%;display: inline-block;" ><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
                                                 </div>
                                             </div>
 
                                         </td>
 
                                     </tr>
+
+                                    <!-- Modal - Delete -->
+                                    <div class="modal" id="modal-3" tabindex="-1" role="dialog">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Delete</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+
+                                                <div class="modal-body">
+
+                                                    <form action="/delete-user/{{$user->id}}" method="POST">
+                                                        {{ csrf_field() }}
+                                                        {{method_field('DELETE')}}
+                                                        <div class="form-group">
+                                                            <p>Are you sure you want to delete this?</p>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+
+                                                    </form>
+                                                    <button data-dismiss="modal" aria-label="Close" class="btn btn-outline-secondary" style="float: right">Cancel</button>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
                                     @endforeach
                                     </tbody>
                                 </table>

@@ -1,22 +1,28 @@
 @extends('layouts.app')
+<head>
+    <link rel="stylesheet" type="text/css" href="{{asset('DataTables/datatables.min.css')}}"/>
+
+    <script type="text/javascript" src="{{asset('DataTables/datatables.min.js')}}"></script>
+
+</head>
 @section('content')
 <style>
 
     .sidebar {
         height: 100%;
         width: 10%;
-        position: absolute;
-        z-index: 1;
+        position: fixed;
+        z-index: 0;
         top: 0;
         left: 0;
         background-color: #f1f3f4e0;
         overflow-x: hidden;
         transition: 0.5s;
-        margin-top: 76px;
         padding-top: 60px;
     }
 
     .sidebar a {
+
         padding: 8px 8px 8px 32px;
         text-decoration: none;
         font-size: 20px;
@@ -55,7 +61,7 @@
     #main {
         transition: margin-left .5s;
         padding: 16px;
-
+        position: fixed;
     }
 
     /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
@@ -80,14 +86,16 @@
     }
 </script>
 <div id="mySidebar" class="sidebar">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-    <a href="#">About</a>
-    <a href="#">Services</a>
-    <a href="#">Clients</a>
-    <a href="#">Contact</a>
+    <div style=" margin-top: 76px;">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" style=" margin-top: 76px;" >×</a>
+    <a href="#"><i class="far fa-user" ></i> Users</a>
+    <a href="#"><i class="far fa-book" ></i> Subjects</a>
+    <a href="#"><i class="far fa-users"></i> Classes</a>
+    <a href="#"><i class="far fa-phone"></i> Contact</a>
+    </div>
 </div>
 <div id="main">
-    <button class="openbtn" style="display: none;" onclick="openNav()">☰</button>
+    <button class="openbtn" style="display: none; border-radius: 6px;" onclick="openNav()">☰</button>
 </div>
 @yield('content2')
 @endsection

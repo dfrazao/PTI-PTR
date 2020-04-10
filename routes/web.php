@@ -39,9 +39,10 @@ Route::resource('/student/project', 'StudentProjectsController')->middleware('au
 // Professor
 
 // Admin
-Route::group(['middleware' => ['auth','admin']], function (){
+//Route::group(['middleware' => ['auth','admin']], function (){
     Route::get('/admin', 'AdminController@index', ['name' => 'tables']);
     Route::get("/edit-user/{id}",'AdminController@edit');
     Route::put("/edit-user-update/{id}",'AdminController@update');
     Route::resource('/admin', 'AdminController');
-});
+    Route::delete('/delete-user/{id}','AdminController@destroy');
+//});

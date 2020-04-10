@@ -7,14 +7,14 @@
         <!-- Search form -->
         <div style="margin-left: 10%; margin-right:auto; margin-top: 5%;margin-bottom: 5%;">
 
-            <h3>Students</h3>
+            <h3>Edit data</h3>
         </div>
 
         <div class="content" style="margin-left: 10%; margin-right:auto; margin-bottom: 5%;">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card " style="max-width: 100%;">
-                        <div class="card-header">Edit User</div>
+                        <div class="card-header"></div>
                         <div class="card-body">
                             <form action="/edit-user-update/{{ $users->id}}" method="POST">
                                 {{ csrf_field() }}

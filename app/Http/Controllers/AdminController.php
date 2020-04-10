@@ -69,7 +69,7 @@ class AdminController extends Controller
         $user->city = $request->input('city');
         $user->description = $request->input('description');
         $user->save();
-        return redirect('admin/tables')->with('success','User Added');
+        return redirect('admin/tables')->with('success','Data Added');
 
     }
 
@@ -116,7 +116,7 @@ class AdminController extends Controller
         $users->city = $request->input('city');
         $users->description = $request->input('description');
         $users->update();
-        return redirect('admin/tables')->with('success','User updated');
+        return redirect('admin/tables')->with('success','Data updated');
     }
 
     /**
@@ -125,8 +125,11 @@ class AdminController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        $user->delete();
+
+        return redirect('admin')->with('success','Data deleted');
     }
 }
