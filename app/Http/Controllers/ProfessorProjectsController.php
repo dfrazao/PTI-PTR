@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Project;
 use App\Subject;
+use App\Group;
+use App\StudentGroup;
+use App\User;
 
 class ProfessorProjectsController extends Controller
 {
@@ -65,7 +68,8 @@ class ProfessorProjectsController extends Controller
     {
         $project = Project::find($id);
         $subject = Subject::find($project->idSubject);
-        return view('professor.project')->with('project' , $project)->with('subject', $subject);
+        $groups = Group::all()->where('idProject', '==', $id);
+        return view('professor.project')->with('project' , $project)->with('subject', $subject)->with('groups', $groups);
     }
 
     /**

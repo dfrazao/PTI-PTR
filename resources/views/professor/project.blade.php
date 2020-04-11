@@ -22,17 +22,14 @@
                             <div class="container  p-2  rounded">
                                 <h5>Grupos </h5>
                             </div>
-                            <div class="container overflow-auto bg-white p-2 mt-3 rounded">
-                                <h4 class="mt-2 pl-2 float-left">001</h4>
-
-                            </div>
-                            <div class="container overflow-auto bg-white p-2 mt-3 rounded">
-                                <h4 class="mt-2 pl-2 float-left">002</h4>
-
-                            </div>
-                            <div class="container overflow-auto bg-white p-2 mt-3 rounded">
-                                <h4 class="mt-2 pl-2 float-left">003</h4>
-                            </div>
+                            @foreach($groups as $group)
+                                <div class="container overflow-auto bg-white p-2 mt-3 rounded">
+                                    <h4 class="mt-2 pl-2 mr-3 float-left">{{$group->idGroup}}</h4>
+                                @foreach(\App\StudentGroup::all()->where('idGroup', '==', $group->idGroup) as $sg)
+                                    <p class="mt-2 pl-2 inline-block float-left">{{ \App\User::find($sg->idStudent)->name}}</p>
+                                @endforeach
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                     <div class="col-7 mt-3 rounded" style="height: 87%;width: 100%;">
