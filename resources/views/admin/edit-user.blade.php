@@ -16,12 +16,12 @@
                     <div class="card " style="max-width: 100%;">
                         <div class="card-header"></div>
                         <div class="card-body">
-                            <form action="/edit-user-update/{{ $users->id}}" method="POST">
+                            <form action="/admin/edit-user-update/{{ $users->id}}" method="POST">
                                 {{ csrf_field() }}
                                 {{method_field('PUT')}}
                                 <div class="form-group">
                                     <label >uniNumber</label>
-                                    <input type="text" class="form-control" id="uniNumber" name="uniNumber" value="{{$users->uniNumber}}">
+                                    <input required="required" type="text" class="form-control" id="uniNumber" name="uniNumber" value="{{$users->uniNumber}}">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleFormControlSelect1">Role</label>
@@ -33,24 +33,30 @@
                                 </div>
                                 <div class="form-group">
                                     <label >Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" value="{{$users->name}}">
+                                    <input type="text" required="required" class="form-control" id="name" name="name" value="{{$users->name}}">
                                 </div>
                                 <div class="form-group">
                                     <label >Email address</label>
-                                    <input type="email" class="form-control" id="email" name="email" value="{{$users->email}}">
+                                    <input type="email" class="form-control" required="required" id="email" name="email" value="{{$users->email}}">
                                     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                                 </div>
                                 <div class="form-group">
                                     <label >Password</label>
-                                    <input type="password" minlength="8" class="form-control" id="password" name="password" value="{{$users->password}}">
+                                    <input required="required" type="password" minlength="8" class="form-control" id="password" name="password" value="{{$users->password}}">
                                 </div>
                                 <div class="form-group">
                                     <label >Photo</label>
-                                    <input type="text" class="form-control" id="photo" name="photo" value="{{$users->photo}}">
+                                    <input type="file" class="form-control-file" id="photo" name="photo" value="{{$users->photo}}">
                                 </div>
-                                <button type="submit" class="btn btn-success">Update</button>
-                                <button href="/tables" type="submit" class="btn btn-danger">Cancel</button>
+                                <div class="form-group">
+                                    <label >Description</label>
+                                    <input type="text" class="form-control" id="description" name="description" value="{{$users->description}}">
+                                </div>
+                                <button type="submit" class="btn btn-outline-success">Update</button>
+                                <button style="float: right" href="/admin" type="button" class="btn btn-outline-danger">Cancel</button>
+
                             </form>
+
                         </div>
                 </div>
             </div>

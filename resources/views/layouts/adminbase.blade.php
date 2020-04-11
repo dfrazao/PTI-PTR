@@ -14,6 +14,7 @@
         overflow-x: hidden;
         transition: 0.5s;
         padding-top: 60px;
+
     }
 
     .sidebar a {
@@ -86,7 +87,7 @@
     <a href="#"><i class="far fa-user" ></i> Users</a>
     <a href="#"><i class="far fa-book" ></i> Subjects</a>
     <a href="#"><i class="far fa-users"></i> Classes</a>
-    <a href="#"><i class="far fa-phone"></i> Contact</a>
+    <a href="#"><i class="far fa-file-import"></i> Import</a>
     </div>
 </div>
 <div id="main">

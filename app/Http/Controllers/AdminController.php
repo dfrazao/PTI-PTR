@@ -116,7 +116,7 @@ class AdminController extends Controller
         $users->city = $request->input('city');
         $users->description = $request->input('description');
         $users->update();
-        return redirect('admin/tables')->with('success','Data updated');
+        return redirect('admin/')->with('success','Data updated');
     }
 
     /**
@@ -132,4 +132,59 @@ class AdminController extends Controller
 
         return redirect('admin')->with('success','Data deleted');
     }
+
+    public function import(Request $request)
+    {
+
+        $upload=$request->file('upload-file');
+        $filePath=$upload->getRealPath();
+        $file=fopen($filePath, 'r');
+        $header = fgetcsv($file,1000,";");
+
+        $escapedHeader = [];
+        foreach ($header as $key => $value){
+            $lheader = strtolower($value);
+            $escapedItem = preg_replace('/[^a-z]/', '',$lheader);
+            array_push($escapedHeader, $escapedItem);
+        }
+
+        while (($columns = fgetcsv($file, 1000, ";")) !== FALSE){
+            print_r($columns[0]);
+            if($columns[0] == ""){
+                continue;
+            }
+
+            $data = array_combine($escapedHeader, $columns);
+
+            $id = $data['id'];
+            $uniNumber = $data['uninumber'];
+            $role = $data['role'];
+            $name = $data['name'];
+            $email = $data['email'];
+            $email_verified_at = $data['emailverifiedat'];
+            $password = $data['password'];
+            $photo = $data['photo'];
+            $country = $data['country'];
+            $city = $data['city'];
+            $remember_token = $data['remembertoken'];
+            $created_at = $data['createdat'];
+            $updated_at = $data['updatedat'];
+            $description = $data['description'];
+
+            $user = new User;
+            $user-> uniNumber = $uniNumber;
+            $user-> role = $role;
+            $user-> name = $name;
+            $user-> email = $email;
+            $user-> password = Hash::make($password);
+            $user-> photo = $photo;
+            $user->country = $country;
+            $user->city = $city;
+            $user->save();
+        }
+        return redirect('admin/')->with('success','Data Added');
+
+    }
+
+
 }

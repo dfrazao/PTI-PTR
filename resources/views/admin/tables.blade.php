@@ -75,18 +75,14 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form style="margin-left: 10%; margin-right:auto; margin-bottom: 5%;margin-top: 5%;">
-                        <p>File type accepted (CSV, XML, SQL)</p>
-                        <div class="form-group">
-                            <input type="file" class="form-control-file" id="exampleFormControlFile1" accept=".csv, .sql, .xml">
-                            <br>
-
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Import Data</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <form action="{{ action('AdminController@import')}}" method="post" enctype="multipart/form-data">
+                            {{csrf_field()}}
+                            <div class="form-group">
+                                <label for="upload-file">Upload</label>
+                                <input type="file" name="upload-file" class="form-control">
+                            </div>
+                            <input class="btn btn-success" type="submit" value="Upload Image" name="submit">
+                        </form>
                 </div>
             </div>
         </div>
@@ -135,9 +131,6 @@
                                         Email
                                     </th>
                                     <th scope="col" >
-                                        Password
-                                    </th>
-                                    <th scope="col" >
                                         Photo
                                     </th>
                                     <th scope="col" >
@@ -158,40 +151,20 @@
                                     <tbody>
                                     @foreach($users as $user)
                                     <tr>
-                                        <td style="max-width: 10%;">
+                                        <td>
                                             {{$user->id}}
                                         </td>
-                                        <td style="max-width: 10%;">
+                                        <td>
                                             {{$user->uniNumber}}
                                         </td>
-                                        <td style="max-width: 10%;">
+                                        <td>
                                             {{$user->role}}
                                         </td>
-                                        <td style="max-width: 10%;">
+                                        <td>
                                             {{$user->name}}
                                         </td>
-                                        <td style="max-width: 10%;">
+                                        <td>
                                             {{$user->email}}
-                                        </td>
-                                        <td style="max-width: 50px;">
-                                            <button class="btn btn-primary" id="button1" onclick="myFunction()">Show</button>
-                                            <script>function myFunction() {
-                                                    var x = document.getElementById("myDIV");
-                                                    if (x.style.display === "none") {
-                                                        x.style.display = "block";
-
-                                                    } else {
-                                                        x.style.display = "none";
-                                                        document.getElementById("button1").style.display = "block";
-
-                                                    }
-                                                }</script>
-
-                                            <div id="myDIV" style="display:none;">
-                                                {{$user->password}}
-                                            </div>
-
-
                                         </td>
                                         <td>
                                             {{$user->photo}}
@@ -212,8 +185,7 @@
                                                     <i class="fal fa-tools"></i>
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    {{--<a class="dropdown-item" id="edit" href="/edit-user/{{$user->id}}" style="float: right;margin-right:1%;display: inline-block;" ><i class="fa fa-eye" aria-hidden="true"></i> View</a>--}}
-                                                    <a class="dropdown-item" id="edit" href="/edit-user/{{$user->id}}" style="float: right;margin-right:1%;display: inline-block;" ><i class="fa fa-edit" aria-hidden="true"></i> Edit</a>
+                                                    <a class="dropdown-item" id="edit" href="/admin/edit-user/{{$user->id}}" style="float: right;margin-right:1%;display: inline-block;" ><i class="fa fa-edit" aria-hidden="true"></i> Edit</a>
                                                     <a class="dropdown-item" data-toggle="modal" data-target="#modal-3" id="edit" style="float: right;margin-right:1%;display: inline-block;" ><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
                                                 </div>
                                             </div>
@@ -235,7 +207,7 @@
 
                                                 <div class="modal-body">
 
-                                                    <form action="/delete-user/{{$user->id}}" method="POST">
+                                                    <form action="/admin/delete-user/{{$user->id}}" method="POST">
                                                         {{ csrf_field() }}
                                                         {{method_field('DELETE')}}
                                                         <div class="form-group">

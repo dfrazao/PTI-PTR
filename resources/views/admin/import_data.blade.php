@@ -6,15 +6,15 @@
   <div class="container" >
 
 
-                      <form style="margin-left: 10%; margin-right:auto; margin-bottom: 5%;margin-top: 5%;">
-                        <h4>Import Data (CSV, XLS, XLSX, XML, SQL)</h4>
-                        <div class="form-group">
-                          <input type="file" class="form-control-file" id="exampleFormControlFile1" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, .sql, .xml">
-                          <br>
-                          <button type="submit" class="btn btn-primary">Import Data</button>
+      <form action="/admin/import/" method="POST">
+          {{ csrf_field() }}
+          <p>File type accepted (CSV, XML, SQL)</p>
+          <div class="form-group">
+              <input type="file" class="form-control-file" name="upload-file" id="upload-file" accept=".csv, .sql, .xml">
+              <br>
 
-                        </div>
-                      </form>
+          </div>
+      </form>
                     </div>
 
 @endsection
