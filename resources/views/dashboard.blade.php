@@ -192,7 +192,8 @@
                                                     <a style="color:#2c3fb1;" href="/student/project/{{$project->idProject}}">{{$project->name}}</a>
                                                 @elseif(Auth::user()->role == 'professor')
                                                     <a style="color:#2c3fb1;" href="/professor/project/{{$project->idProject}}">{{$project->name}}</a>
-                                                    <button type="button" class="btn btn-secondary float-right" data-toggle="modal" data-target="#modalEdit-{{$project->idProject}}">Edit</button>
+                                                    <button type="button" class="btn btn-danger mr-2 float-right" data-toggle="modal" data-target="#modalDelete-{{$project->idProject}}">Delete</button>
+                                                    <button type="button" class="btn btn-secondary mr-2 float-right" data-toggle="modal" data-target="#modalEdit-{{$project->idProject}}">Edit</button>
                                                 @endif
                                             </h5>
                                         @endif
@@ -261,6 +262,37 @@
                                         {{Form::hidden('_method','PUT')}}
                                         {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
                                         {!! Form::close() !!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            @endif
+        @endforeach
+    @endif
+
+
+    @if(count($subjects) > 0)
+        @foreach($subjects as $subject)
+            @if(count($projects->whereIn('idSubject', $subject->idSubject)) > 0)
+                @foreach($projects as $project)
+                    @if($subject->idSubject == $project->idSubject)
+                        <div class="modal fade" id="modalDelete-{{$project->idProject}}" aria-labelledby="modalEdit-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="staticBackdropLabel">Delete Project</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <h5>Are you sure you want to delete this project?</h5>
+                                        {!!Form::open(['action' => ['ProfessorProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
+                                        {{Form::hidden('_method', 'DELETE')}}
+                                        {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+                                        {!!Form::close()!!}
                                     </div>
                                 </div>
                             </div>

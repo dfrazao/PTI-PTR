@@ -112,6 +112,8 @@ class ProfessorProjectsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $proj = Project::find($id);
+        $proj->delete();
+        return redirect('/')->with('success', 'Project Deleted');
     }
 }
