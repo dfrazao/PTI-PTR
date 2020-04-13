@@ -19,9 +19,9 @@
 
     .sidebar a {
 
-        padding: 8px 8px 8px 32px;
+        padding: 8px 8px 8px 20px;
         text-decoration: none;
-        font-size: 20px;
+        font-size: 1rem;
         color: #2c3fb1;
         display: block;
         transition: 0.3s;
@@ -35,10 +35,9 @@
     .sidebar .closebtn {
         position: absolute;
         top: 0;
-        right: 25px;
-        font-size: 36px;
-        margin-left: 50px;
-    }
+        right: 10px;
+        font-size: 26px;
+        float: right;    }
 
     .openbtn {
         font-size: 20px;
@@ -65,6 +64,11 @@
         .sidebar {padding-top: 15px;}
         .sidebar a {font-size: 18px;}
     }
+
+    .far{
+
+
+            }
 </style>
 
 <script>
@@ -84,10 +88,11 @@
 <div id="mySidebar" class="sidebar">
     <div style=" margin-top: 76px;">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" style=" margin-top: 76px;" >×</a>
-    <a href="#"><i class="far fa-user" ></i> Users</a>
-    <a href="#"><i class="far fa-book" ></i> Subjects</a>
-    <a href="#"><i class="far fa-users"></i> Classes</a>
-    <a href="#"><i class="far fa-file-import"></i> Import</a>
+    <a href="{{url('/admin/')}}"><i class="far fa-home" ></i> Dashboard</a>
+    <a href="{{url('/admin/users')}}"><i class="far fa-user" ></i> Users</a>
+    <a href="{{url('/admin/subjects')}}"><i class="far fa-book" ></i> Subjects</a>
+    <a href="{{url('/admin/subjectEnrollments')}}"><i class="far fa-users"></i> Enrollments</a>
+    {{--<a href="#"><i class="far fa-file-import"></i> Import</a>--}}
     </div>
 </div>
 <div id="main">

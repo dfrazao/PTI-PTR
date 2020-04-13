@@ -42,9 +42,10 @@ Route::resource('/student/project', 'StudentProjectsController')->middleware('au
 // Admin
 //Route::group(['middleware' => ['auth','admin']], function (){
     Route::get('/admin', 'AdminController@index', ['name' => 'tables']);
+Route::resource('/admin/{table}', 'AdminController');
+
     Route::get("/admin/edit-user/{id}",'AdminController@edit');
     Route::put("/admin/edit-user-update/{id}",'AdminController@update');
-    Route::resource('/admin', 'AdminController');
     Route::delete('/admin/delete-user/{id}','AdminController@destroy');
     Route::post('/admin/import/','AdminController@import');
 //});

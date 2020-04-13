@@ -42,7 +42,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label >Password</label>
-                                    <input required="required" type="password" minlength="8" class="form-control" id="password" name="password" value="{{$users->password}}">
+                                    <input required="required" type="password" minlength="8" class="form-control" id="password" name="password" value="">
                                 </div>
                                 <div class="form-group">
                                     <label >Photo</label>
@@ -53,7 +53,7 @@
                                     <input type="text" class="form-control" id="description" name="description" value="{{$users->description}}">
                                 </div>
                                 <button type="submit" class="btn btn-outline-success">Update</button>
-                                <button style="float: right" href="/admin" type="button" class="btn btn-outline-danger">Cancel</button>
+                                <a style="float: right" href="/admin" type="button" class="btn btn-outline-danger">Cancel</a>
 
                             </form>
 

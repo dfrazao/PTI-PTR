@@ -1,12 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\GeneralSubjects;
+use App\SubjectEnrollment;
+use App\AcademicYear;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Null_;
-
+use \App\Subject;
 class AdminController extends Controller
 {
 
@@ -26,10 +29,29 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($table)
     {
-        $users = User::all();
-        return view('admin.tables')->with('users',$users);
+        if ($table == 'users'){
+
+            $users = User::all();
+            return view('admin.tables')->with('data',$users);
+
+        }elseif($table == 'subjects'){
+
+            $subjects = Subject::all();
+            $general_subjects = GeneralSubjects::all();
+            $academicYears = AcademicYear::all();
+
+            return view('admin.tables')->with('data',$subjects)->with('general_subjects',$general_subjects)->with('academicYears',$academicYears);
+
+        }elseif ($table == 'subjectEnrollments'){
+
+            $users = User::all();
+            $enroll = SubjectEnrollment::all();
+            $subjects = Subject::all();
+
+            return view('admin.tables')->with('data',$enroll)->with('subjects',$subjects)->with('users',$users);
+        }
     }
 
     /**
@@ -50,27 +72,48 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'uniNumber' => 'required',
-            'role' => 'required',
-            'name' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-        ]);
+        $table = $request->input('table');
 
-        $user = new User;
-        $user-> uniNumber = $request->input('uniNumber');
-        $user-> role = $request->input('role');
-        $user-> name = $request->input('name');
-        $user-> email = $request->input('email');
-        $user-> password = Hash::make($request->input('password'));
-        $user-> photo = $request->input('photo');
-        $user->country = $request->input('country');
-        $user->city = $request->input('city');
-        $user->description = $request->input('description');
-        $user->save();
-        return redirect('admin/tables')->with('success','Data Added');
+        if ( $table == 'users') {
+            $this->validate($request, [
+                'uniNumber' => 'required',
+                'role' => 'required',
+                'name' => 'required',
+                'email' => 'required',
+                'password' => 'required',
+            ]);
 
+            $user = new User;
+            $user->uniNumber = $request->input('uniNumber');
+            $user->role = $request->input('role');
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->password = Hash::make($request->input('password'));
+            $user->photo = $request->input('photo');
+            $user->country = $request->input('country');
+            $user->city = $request->input('city');
+            $user->description = $request->input('description');
+            $user->save();
+            return redirect('admin/users')->with('success', 'User Added');
+
+        }elseif($table == 'subjects'){
+
+            $subjects = new Subject();
+            $subjects->idGeneralSubject = $request->input('idGenSubject');
+            $subjects->subjectName = $request->input('subjectName');
+            $subjects->class = $request->input('class');
+            $subjects->academicYear = $request->input('academicYear');
+            $subjects->save();
+            return redirect('admin/subjects')->with('success', 'Subject Added');
+
+        }elseif ($table == 'subjectEnrollments'){
+            $subjectEnroll = new SubjectEnrollment();
+            $subjectEnroll->idUser = $request->input('idUser');
+            $subjectEnroll->idSubject = $request->input('idSubject');
+            $subjectEnroll->Class = $request->input('class');
+            $subjectEnroll->save();
+            return redirect('admin/subjectEnrollments')->with('success', 'Enrollment Added');
+        }
     }
 
     /**
