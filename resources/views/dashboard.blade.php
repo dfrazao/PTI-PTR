@@ -192,7 +192,7 @@
                                                     <a style="color:#2c3fb1;" href="/student/project/{{$project->idProject}}">{{$project->name}}</a>
                                                 @elseif(Auth::user()->role == 'professor')
                                                     <a style="color:#2c3fb1;" href="/professor/project/{{$project->idProject}}">{{$project->name}}</a>
-                                                    <button type="button" class="btn btn-danger mr-2 float-right" data-toggle="modal" data-target="#modalDelete-{{$project->idProject}}">Delete</button>
+                                                    <button type="button" class="btn btn-danger float-right" data-toggle="modal" data-target="#modalDelete-{{$project->idProject}}">Delete</button>
                                                     <button type="button" class="btn btn-secondary mr-2 float-right" data-toggle="modal" data-target="#modalEdit-{{$project->idProject}}">Edit</button>
                                                 @endif
                                             </h5>
@@ -202,7 +202,7 @@
                                     <h5 class="p-2">No projects found</h5>
                                 @endif
                                 @if (Auth::user()->role == 'professor')
-                                    <button style="background-color:#2c3fb1" type="button" class="btn float-right m-2 open_modal" id="{{$subject->idSubject}}">Create Project</button>
+                                    <button style="background-color:#2c3fb1;color: #fff;" type="button" class="btn float-right m-2 open_modal" id="{{$subject->idSubject}}">Create Project</button>
                                 @endif
                             </div>
                         @endforeach

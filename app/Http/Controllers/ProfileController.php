@@ -81,18 +81,49 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'country' => 'required',
-            'city' => 'required',
-        ]);
 
-        $user = User::find($id);
-        $user->country = $request->input('country');
-        $user->city = $request->input('city');
-        $user->description = $request->input('about');
-        $user->save();
+        if ($request->option=="image") {
 
-        return redirect('/profile/'.$id)->with('success', 'Profile Updated');
+            $this->validate($request, [
+                'profilePhoto' => 'required|image|max:1999'
+            ]);
+
+
+            if( $request->hasFile('profilePhoto')  ) {
+                $file = $request->file('profilePhoto');
+            }
+
+            $extension = $request->profilePhoto->extension();
+            $filename = $id.'.'.$extension;
+            $path = $file->storeAs('public/profilePhotos/', $filename);
+
+            $user = User::find($id);
+            $user->photo = $filename;
+            $user->save();
+
+            if ($request->file('profilePhoto')->isValid()) {
+                return redirect()->action('ProfileController@show', $id)->with('success', 'Profile Picture Updated');
+            }
+            return redirect()->action('ProfileController@show', $id)->with('error', 'Error updating profile picture');
+
+        } else {
+            $this->validate($request, [
+                'country' => 'required',
+                'city' => 'required'
+            ]);
+
+            $user = User::find($id);
+            $user->country = $request->input('country');
+            $user->city = $request->input('city');
+            $user->description = $request->input('about');
+            //$user->photo = $user->photo;
+            $user->save();
+
+            //return redirect('/profile/'.$id)->with('success', 'Profile Updated');
+            return redirect()->action('ProfileController@show', $id);
+
+        }
+
     }
 
     /**
@@ -102,7 +133,7 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateProfilePhoto(Request $request, $id)
+    /*public function updateProfilePhoto(Request $request, $id)
     {
         $this->validate($request, [
             'profilePhoto' => 'required|image|max:1999'
@@ -115,17 +146,17 @@ class ProfileController extends Controller
 
         $extension = $request->profilePhoto->extension();
         $filename = $id.'.'.$extension;
-        $path = $request->profilePhoto->storeAs('profilePhotos', $filename, 'public');
+        $path = $request->file('profilePhoto')->storeAs('public/profilePhotos', $filename);
 
         $user = User::find($id);
         $user->photo = $filename;
         $user->save();
 
         if ($request->file('profilePhoto')->isValid()) {
-            return redirect('/profile/'.$id)->with('success', 'Profile Picture Updated');
+            return redirect()->action('ProfileController@show', $id)->with('success', 'Profile Picture Updated');
         }
-        return redirect('/profile/'.$id)->with('error', 'Error Updating Profile Picture');
-    }
+        return redirect()->action('ProfileController@show', $id)->with('error', 'Error Updating Profile Picture');
+    }*/
 
     /**
      * Remove the specified resource from storage.

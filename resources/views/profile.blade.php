@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-3 center">
                     <span class="profile-picture">
-                        <img class="editable img-responsive" alt=" Avatar" id="avatar2" src="/profilePhotos/{{ $user->photo }}">
+                        <img class="editable img-responsive w-100" alt=" Avatar" id="avatar2" src="/storage/profilePhotos/{{ $user->photo }}">
                     </span>
                     @if(Auth::user()->id != $user->id)
                         <a href="#" class="btn btn-sm btn-block btn-success mt-3">
@@ -29,10 +29,11 @@
                                     <div class="modal-body">
                                         <div class="container">
                                             @csrf
-                                            {!! Form::open(['action' => ['ProfileController@updateProfilePhoto', $user->id], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                                            {!! Form::open(['action' => ['ProfileController@update', $user->id], 'method' => 'POST', 'files' => true]) !!}
                                             <div class="form-group">
                                                 {{Form::file('profilePhoto')}}
                                             </div>
+                                            {{ Form::hidden('option', "image") }}
 
                                             {{Form::hidden('_method','PUT')}}
                                             {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
@@ -73,7 +74,7 @@
                                         <div class="modal-body">
                                             <div class="container">
                                                 @csrf
-                                                {!! Form::open(['action' => ['ProfileController@update', $user->id], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                                                {!! Form::open(['action' => ['ProfileController@update', $user->id], 'method' => 'POST']) !!}
                                                 <div class="form-group">
                                                     {{Form::label('country', 'Country')}}
                                                     {{Form::text('country', $user->country, ['class' => 'form-control', 'placeholder' => 'Country'])}}
@@ -86,6 +87,7 @@
                                                     {{Form::label('about', 'About')}}
                                                     {{Form::textarea('about', $user->description, ['class' => 'form-control', 'placeholder' => 'About'])}}
                                                 </div>
+                                                {{ Form::hidden('option', "rest") }}
 
                                                 {{Form::hidden('_method','PUT')}}
                                                 {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
