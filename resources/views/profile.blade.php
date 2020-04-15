@@ -182,6 +182,16 @@
                                 <span>{{ $user->updated_at }}</span>
                             </div>
                         </div>
+
+                        <div class="profile-info-row">
+                            <div class="profile-info-name"> Courses </div>
+
+                            <div class="profile-info-value">
+                                @foreach($subjects as $subject)
+                                    <span>{{ $subject->subjectName }} - {{ $subject->academicYear }}</span>
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
 
                     <div class="hr hr-8 dotted"></div>

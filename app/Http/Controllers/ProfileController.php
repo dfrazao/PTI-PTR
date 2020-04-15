@@ -58,7 +58,16 @@ class ProfileController extends Controller
         $courseName = Course::all()->where('idCourse', '==', $courseId)->pluck('name')->first();
         $universityId = Course::all()->where('idCourse', '==', $courseId)->pluck('idUniversity')->first();
         $universityName = University::all()->where('idUniversity', '==', $universityId)->pluck('name')->first();
-        return view('profile')->with('user', $user)->with('courseName', $courseName)->with('universityName', $universityName);
+
+        $subjectsEnrolled = SubjectEnrollment::all()->where('idUser', '==', $id)->pluck('idSubject');
+        if (count($subjectsEnrolled) > 0) {
+            $subjects = Subject::all()->whereIn('idSubject', $subjectsEnrolled);
+
+            return view('profile')->with('user', $user)->with('courseName', $courseName)->with('universityName', $universityName)->with('subjects', $subjects);
+        }
+        else{
+            return view('profile')->with('user', $user)->with('courseName', $courseName)->with('universityName', $universityName)->with('subjects', $subjectsEnrolled);
+        }
     }
 
     /**
