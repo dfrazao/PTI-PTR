@@ -57,7 +57,6 @@
                 <div class="col-sm-5">
                     <div class="container bg-light rounded h-100">
                         <h4>Últimos Anúncios</h4>
-                        <h4>Frazão CAGÃO</h4>
                     </div>
                 </div>
 

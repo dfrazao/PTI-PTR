@@ -26,6 +26,11 @@ Route::resource('/student/project', 'StudentProjectsController')->middleware('au
 
 
 
+
+
+
+
+
 //Route::get('/profile', 'ProfileController@index', ['name' => 'Profile']);
 //Route::get('/course', 'ProfileController@index', ['name' => 'Profile']);
 

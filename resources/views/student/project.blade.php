@@ -262,34 +262,37 @@
                             <th>Tópico</th>
                             <th>Iniciado por</th>
                             <th>Respostas</th>
-                            <th>Últimas mensagens</th>
-                            <th>Criada</th>
+                            <th>Data</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>Notas</td>
-                            <td>Anna</td>
-                            <td>0</td>
-                            <td>xxx</td>
-                            <td>yyy</td>
-                        </tr>
-                        <tr>
-                            <td>exame</td>
-                            <td>Alex vidal</td>
-                            <td>1</td>
-                            <td>ccc</td>
-                            <td>bbb</td>
-                        </tr>
+                        @if(count($posts) > 0)
+                            @for($i = 0; $i < count($posts); $i++)
+                                <tr>
+                                    <td>{{$posts[$i]->title}}</td>
+                                    <td>
+                                        <a href="/profile/{{$userPoster[$i]->id }}" role="button"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="/storage/profilePhotos/{{ $userPoster[$i]->photo}}">{{$userPoster[$i]->name}}</a>
+                                    </td>
+                                    <td>{{$numberComments[$i]}}
+                                    <td>{{$posts[$i]->date}}</td>
+                                </tr>
+                            @endfor
+                        @else
+                            <p>No posts found</p>
+                        @endif
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
+
+
     <script>
         $(document).ready( function() {
+
             $("#adicionarTarefa").click( function(){
                 novaTarefa();
             });

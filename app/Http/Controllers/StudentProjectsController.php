@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Project;
 use App\Subject;
+use App\Announcement;
+use App\AnnouncementComment;
+use App\User;
 
 class StudentProjectsController extends Controller
 {
@@ -37,7 +40,7 @@ class StudentProjectsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -48,9 +51,20 @@ class StudentProjectsController extends Controller
      */
     public function show($id)
     {
+
         $project = Project::find($id);
         $subject = Subject::find($project->idSubject);
-        return view('student.project')->with('project' , $project)->with('subject', $subject);
+        $posts = Announcement::all()->where('idProject', '==', $id);
+        $userId = $posts->pluck('sender');
+        $userPoster = User::all()->whereIn('id', $userId);
+        $idPost = $posts->pluck('idAnnouncement');
+        $numberComments = [];
+        foreach ($idPost as $idP){
+            $idComment = AnnouncementComment::all()->where('idAnnouncement', '==', $idP)->count();
+            array_push($numberComments, $idComment);
+        }
+
+        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('posts', $posts)->with('userPoster', $userPoster)->with('numberComments', $numberComments);
     }
 
     /**
