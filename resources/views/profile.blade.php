@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-3 center">
                     <span class="profile-picture">
-                        <img class="editable img-responsive w-100" alt=" Avatar" id="avatar2" src="/storage/profilePhotos/{{ $user->photo }}">
+                        <img class="editable img-responsive w-100" style="border-radius: 100%;" alt=" Avatar" id="avatar2" src="/storage/profilePhotos/{{ $user->photo }}">
                     </span>
                     @if(Auth::user()->id != $user->id)
                         <a href="#" class="btn btn-sm btn-block btn-success mt-3">

@@ -56,15 +56,19 @@ class StudentProjectsController extends Controller
         $subject = Subject::find($project->idSubject);
         $posts = Announcement::all()->where('idProject', '==', $id);
         $userId = $posts->pluck('sender');
-        $userPoster = User::all()->whereIn('id', $userId);
+        $users = [];
+        foreach ($userId as $uId) {
+            $user = User::find($uId);
+            array_push($users, $user);
+        }
         $idPost = $posts->pluck('idAnnouncement');
         $numberComments = [];
-        foreach ($idPost as $idP){
+        foreach ($idPost as $idP) {
             $idComment = AnnouncementComment::all()->where('idAnnouncement', '==', $idP)->count();
             array_push($numberComments, $idComment);
         }
 
-        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('posts', $posts)->with('userPoster', $userPoster)->with('numberComments', $numberComments);
+        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('posts', $posts)->with('userPoster', $users)->with('numberComments', $numberComments);
     }
 
     /**

@@ -24,6 +24,8 @@ Route::resource('/professor/project', 'ProfessorProjectsController')->middleware
 
 Route::resource('/student/project', 'StudentProjectsController')->middleware('auth');
 
+Route::resource('/post', 'PostController')->middleware('auth');
+
 
 
 

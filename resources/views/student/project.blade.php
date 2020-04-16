@@ -1,9 +1,6 @@
 @extends('layouts.app')
 @section('content')
-
-
 <div class="container-fluid pl-5 pr-5 pb-2 mt-3">
-
     <nav aria-label="breadcrumb" >
         <ol class="breadcrumb mt-1 pl-0 pb-0 pt-0 float-right" style="background-color:white; ">
             <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>Dashboard</a></li>
@@ -22,18 +19,18 @@
             }
         </style>
         <li class="nav-item">
-            <a class="nav-link active" id="conteudo-tab" data-toggle="tab" href="#conteudo" role="tab" aria-controls="conteudo" aria-selected="true">Conteudo</a>
+            <a class="nav-link active" id="conteudo-tab" data-toggle="tab" href="#content" role="tab" aria-controls="conteudo" aria-selected="true">Content</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="horario-tab" data-toggle="tab" href="#horario" role="tab" aria-controls="horario" aria-selected="false">Horário</a>
+            <a class="nav-link" id="horario-tab" data-toggle="tab" href="#schedule" role="tab" aria-controls="horario" aria-selected="false">Schedule</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="noticias-tab" data-toggle="tab" href="#noticias" role="tab" aria-controls="noticias" aria-selected="false">Noticias</a>
+            <a class="nav-link" id="noticias-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="noticias" aria-selected="false">Forum</a>
         </li>
     </ul>
 
     <div class="tab-content" id="myTabContent" style="background-color: #ededed; height: 75vh; ">
-        <div class=" container-fluid tab-pane fade show active ml-0 mr-0" id="conteudo" role="tabpanel" aria-labelledby="conteudo-tab" style="background-color: #ededed;">
+        <div class="container-fluid tab-pane fade show active ml-0 mr-0" id="content" role="tabpanel" aria-labelledby="conteudo-tab" style="background-color: #ededed;">
             <div class="row rounded" style="height: 75vh;">
                 <div class="col mt-3 ml-3 rounded" style="background-color: #c6c6c6; height: 87%; position: relative;">
                     <div class="container-fluid d-flex flex-row mt-3" >
@@ -105,7 +102,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade" id="horario" role="tabpanel" aria-labelledby="horario-tab">
+        <div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab">
             <div class="grid-container">
                 <div></div>
                 <div>Segunda</div>
@@ -253,64 +250,77 @@
                 }
             </style>
         </div>
-        <div class="tab-pane fade" id="noticias" role="tabpanel" aria-labelledby="noticias-tab">
+        <div class="tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
             <div class="container pb-3 rounded px-5 pt-3">
                 <div class="table-responsive">
                     <table class="table bg-white" style="text-align:center;">
                         <thead>
                         <tr>
-                            <th>Tópico</th>
-                            <th>Iniciado por</th>
-                            <th>Respostas</th>
-                            <th>Data</th>
+                            <th>Subject</th>
+                            <th>Author</th>
+                            <th>Responses</th>
+                            <th>Created</th>
                         </tr>
                         </thead>
                         <tbody>
                         @if(count($posts) > 0)
                             @for($i = 0; $i < count($posts); $i++)
                                 <tr>
-                                    <td>{{$posts[$i]->title}}</td>
-                                    <td>
-                                        <a href="/profile/{{$userPoster[$i]->id }}" role="button"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="/storage/profilePhotos/{{ $userPoster[$i]->photo}}">{{$userPoster[$i]->name}}</a>
+                                    <td style="vertical-align: middle;"><a href="/post/{{$posts[$i]->idAnnouncement}}">{{$posts[$i]->title}}</a></td>
+                                    <td style="vertical-align: middle;">
+                                        <a href="/profile/{{$userPoster[$i]->id }}" role="button"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="/storage/profilePhotos/{{ $userPoster[$i]->photo}}"><span style="vertical-align: middle;"> {{$userPoster[$i]->name}}</span></a>
                                     </td>
-                                    <td>{{$numberComments[$i]}}
-                                    <td>{{$posts[$i]->date}}</td>
+                                    <td style="vertical-align: middle;">{{$numberComments[$i]}}
+                                    <td style="vertical-align: middle;">{{$posts[$i]->date}}</td>
                                 </tr>
                             @endfor
                         @else
-                            <p>No posts found</p>
+                            <tr>
+                                <td colspan="4"><h5>No posts found</h5></td>
+                            </tr>
                         @endif
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
+<script>
+    $(document).ready( function() {
 
+        $("#adicionarTarefa").click( function(){
+            novaTarefa();
+        });
 
-    <script>
-        $(document).ready( function() {
+        function novaTarefa () {
+            $("#listaTarefas").append('<tr>' +
+                '<td><input type="text" class="form-control"></td>' +
+                '<td><input type="text" class="form-control"></td>' +
+                '<td><input type="text" class="form-control"></td>' +
+                '<td><input type="text" class="form-control"></td>' +
+                '<td>demasiado tempo</td>' +
+                '<td><button type="button" class="btn btn-success">Gravar</button></td>' +
+                '<td style="text-align: center;"><button type="button" class="btn btn-danger apagar">Apagar</button></td>' +
+                '</tr>');
 
-            $("#adicionarTarefa").click( function(){
-                novaTarefa();
-            });
+        }
+    });
 
-            function novaTarefa () {
-                $("#listaTarefas").append('<tr>' +
-                    '<td><input type="text" class="form-control"></td>' +
-                    '<td><input type="text" class="form-control"></td>' +
-                    '<td><input type="text" class="form-control"></td>' +
-                    '<td><input type="text" class="form-control"></td>' +
-                    '<td>demasiado tempo</td>' +
-                    '<td><button type="button" class="btn btn-success">Gravar</button></td>' +
-                    '<td style="text-align: center;"><button type="button" class="btn btn-danger apagar">Apagar</button></td>' +
-                    '</tr>');
+    $('#myTab a').click(function(e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
 
-            }
-            });
-    </script>
+    // store the currently selected tab in the hash value
+    $("ul.nav-tabs > li > a").on("shown.bs.tab", function(e) {
+        var id = $(e.target).attr("href").substr(1);
+        window.location.hash = id;
+    });
 
+    // on load of the page: switch to the currently selected tab
+    var hash = window.location.hash;
+    $('#myTab a[href="' + hash + '"]').tab('show');
 
+</script>
 @endsection
