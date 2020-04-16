@@ -9,6 +9,10 @@ use App\Subject;
 use App\Announcement;
 use App\AnnouncementComment;
 use App\User;
+use Auth;
+use App\Group;
+use App\StudentsGroup;
+use App\Task;
 
 class StudentProjectsController extends Controller
 {
@@ -40,6 +44,22 @@ class StudentProjectsController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'description' => 'required',
+            'responsible' => 'required',
+            'beginning' => 'required'
+        ]);
+
+        $task = new Task;
+        $idProject = $request ->input('project');
+        $task-> idGroup = $request ->input('group');
+        $task-> description = $request->input('description');
+        $task-> responsible = $request->input('responsible');
+        $task-> beginning = $request->input('beginning');
+
+        $task->save();
+
+        return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Task created successfully');
 
     }
 
@@ -52,8 +72,19 @@ class StudentProjectsController extends Controller
     public function show($id)
     {
 
+        $user = Auth::user()->id;
         $project = Project::find($id);
         $subject = Subject::find($project->idSubject);
+        $idGroups = Group::all()->where('idProject', '==', $id)->pluck('idGroup');
+        $studentGroups = StudentsGroup::all()->where('idStudent', '==', $user)->pluck('idGroup');
+        foreach($studentGroups as $st) {
+            foreach ($idGroups as $g) {
+                if ($g == $st) {
+                    $idGroup = $g;
+                    $arr = Task::all()->where('idGroup', '==', $idGroup);
+                }
+            }
+        }
         $posts = Announcement::all()->where('idProject', '==', $id);
         $userId = $posts->pluck('sender');
         $users = [];
@@ -61,6 +92,8 @@ class StudentProjectsController extends Controller
             $user = User::find($uId);
             array_push($users, $user);
         }
+
+
         $idPost = $posts->pluck('idAnnouncement');
         $numberComments = [];
         foreach ($idPost as $idP) {
@@ -68,7 +101,7 @@ class StudentProjectsController extends Controller
             array_push($numberComments, $idComment);
         }
 
-        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('posts', $posts)->with('userPoster', $users)->with('numberComments', $numberComments);
+        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('posts', $posts)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup);
     }
 
     /**

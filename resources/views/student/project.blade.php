@@ -88,10 +88,22 @@
                                     <th>Fim</th>
                                     <th>Tempo Gasto</th>
                                     <th></th>
-                                    <th><button type="button" class="btn btn-sm mt-sm-2 mr-sm-3" id="adicionarTarefa" style="width:10%;background: #2c3fb1; color: white;position: absolute; top: 0px; right: 0px;">Nova Tarefa</button></th>
+                                    <th><button type="button" class="btn btn-sm mt-sm-2 mr-sm-3 open_modal" id="{{$idGroup}}" style="width:10%;background: #2c3fb1; color: white;position: absolute; top: 0px; right: 0px;">Nova Tarefa</button></th>
                                 </tr>
                                 </thead>
-                                <tbody id="listaTarefas">
+                                <tbody>
+                                @foreach($tasks as $t)
+                                    <tr>
+                                        <td>{{$t->description}}</td>
+                                        <td>{{$t->responsible}}</td>
+                                        <td>{{$t->beginning}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><button type="button" class="btn btn-success">Gravar</button></td>
+                                        <td style="text-align: center;"><button type="button" class="btn btn-danger apagar">Apagar</button></td>
+                                    </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -286,6 +298,39 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="modalCreateTask" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="staticBackdropLabel">New Task</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {!! Form::open(['action' => 'StudentProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                <div class="form-group">
+                    {{Form::label('description', 'Title')}}
+                    {{Form::text('description', '', ['class' => 'form-control', 'placeholder' => 'Task title'])}}
+                </div>
+                <div class="form-group">
+                    {{Form::label('responsible', 'Responsible')}}
+                    {{ Form::text('responsible', '',['class' => 'form-control', 'placeholder' => 'Responsible for the task']) }}
+                </div>
+                <div class="form-group">
+                    {{Form::label('beginning', 'Beginning')}}
+                    {{ Form::date('beginning','',['class' => 'form-control']) }}
+                </div>
+                {{ Form::hidden('group', "group") }}
+                {{ Form::hidden('project', $project->idProject) }}
+
+                {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     $(document).ready( function() {
 
@@ -321,6 +366,11 @@
     // on load of the page: switch to the currently selected tab
     var hash = window.location.hash;
     $('#myTab a[href="' + hash + '"]').tab('show');
+
+    $(".open_modal").click(function(){
+        $('input[name="group"]').val($(this).attr("id"));
+        $('#modalCreateTask').modal('show');
+    });
 
 </script>
 @endsection

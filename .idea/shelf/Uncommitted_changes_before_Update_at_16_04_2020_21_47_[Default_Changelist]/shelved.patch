@@ -1,0 +1,35 @@
+Index: app/Http/Controllers/StudentProjectsController.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\nnamespace App\\Http\\Controllers;\r\n\r\nuse App\\Http\\Controllers\\Controller;\r\nuse Illuminate\\Http\\Request;\r\nuse App\\Project;\r\nuse App\\Subject;\r\nuse App\\Announcement;\r\nuse App\\AnnouncementComment;\r\nuse App\\User;\r\n\r\nclass StudentProjectsController extends Controller\r\n{\r\n    /**\r\n     * Display a listing of the resource.\r\n     *\r\n     * @return \\Illuminate\\Http\\Response\r\n     */\r\n    public function index()\r\n    {\r\n        //\r\n    }\r\n\r\n    /**\r\n     * Show the form for creating a new resource.\r\n     *\r\n     * @return \\Illuminate\\Http\\Response\r\n     */\r\n    public function create()\r\n    {\r\n        //\r\n    }\r\n\r\n    /**\r\n     * Store a newly created resource in storage.\r\n     *\r\n     * @param  \\Illuminate\\Http\\Request  $request\r\n     * @return \\Illuminate\\Http\\Response\r\n     */\r\n    public function store(Request $request)\r\n    {\r\n\r\n    }\r\n\r\n    /**\r\n     * Display the specified resource.\r\n     *\r\n     * @param  int  $id\r\n     * @return \\Illuminate\\Http\\Response\r\n     */\r\n    public function show($id)\r\n    {\r\n\r\n        $project = Project::find($id);\r\n        $subject = Subject::find($project->idSubject);\r\n        $posts = Announcement::all()->where('idProject', '==', $id);\r\n        $userId = $posts->pluck('sender');\r\n        $userPoster = User::all()->whereIn('id', $userId);\r\n        $idPost = $posts->pluck('idAnnouncement');\r\n        $numberComments = [];\r\n        foreach ($idPost as $idP){\r\n            $idComment = AnnouncementComment::all()->where('idAnnouncement', '==', $idP)->count();\r\n            array_push($numberComments, $idComment);\r\n        }\r\n\r\n        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('posts', $posts)->with('userPoster', $userPoster)->with('numberComments', $numberComments);\r\n    }\r\n\r\n    /**\r\n     * Show the form for editing the specified resource.\r\n     *\r\n     * @param  int  $id\r\n     * @return \\Illuminate\\Http\\Response\r\n     */\r\n    public function edit($id)\r\n    {\r\n        //\r\n    }\r\n\r\n    /**\r\n     * Update the specified resource in storage.\r\n     *\r\n     * @param  \\Illuminate\\Http\\Request  $request\r\n     * @param  int  $id\r\n     * @return \\Illuminate\\Http\\Response\r\n     */\r\n    public function update(Request $request, $id)\r\n    {\r\n        //\r\n    }\r\n\r\n    /**\r\n     * Remove the specified resource from storage.\r\n     *\r\n     * @param  int  $id\r\n     * @return \\Illuminate\\Http\\Response\r\n     */\r\n    public function destroy($id)\r\n    {\r\n        //\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/Http/Controllers/StudentProjectsController.php	(revision 1850d9ae1f5bfbf1eb8b3b9549e0b18b1a606827)
++++ app/Http/Controllers/StudentProjectsController.php	(date 1587069887894)
+@@ -52,8 +52,16 @@
+     public function show($id)
+     {
+ 
++        $user = Auth::user()->id;
+         $project = Project::find($id);
+         $subject = Subject::find($project->idSubject);
++        $idGroups = Group::all()->where('idProject', '==', $id)->pluck('idGroup');
++        $studentGroups = StudentsGroup::all()->where('idStudent', '==', $user)->pluck('idGroup');
++        foreach($studentGroups as $st)
++            foreach ($idGroups as $g)
++                if ($g == $st)
++                    $arr['tasks'] = Tasks::all()->where('idGroup', '==', $g);
++
+         $posts = Announcement::all()->where('idProject', '==', $id);
+         $userId = $posts->pluck('sender');
+         $userPoster = User::all()->whereIn('id', $userId);
+@@ -64,7 +72,7 @@
+             array_push($numberComments, $idComment);
+         }
+ 
+-        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('posts', $posts)->with('userPoster', $userPoster)->with('numberComments', $numberComments);
++        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('posts', $posts)->with('userPoster', $userPoster)->with('numberComments', $numberComments)->with($arr);
+     }
+ 
+     /**

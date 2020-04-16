@@ -34319,7 +34319,7 @@ tasks:
     - '2'
     - 5.0.0
     - 5.9.0
-  label: Tasks
+  label: Task
   search:
     terms:
       - checklist
@@ -34341,7 +34341,7 @@ tasks-alt:
   changes:
     - 5.7.0
     - 5.10.2
-  label: Alternate Tasks
+  label: Alternate Task
   search:
     terms:
       - checklist
