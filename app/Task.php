@@ -8,4 +8,5 @@ class Task extends Model
 {
     protected $primaryKey = 'idTask';
     public $timestamps = false;
+
 }

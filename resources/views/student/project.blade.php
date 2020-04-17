@@ -94,64 +94,74 @@
                                 <tbody>
                                 @foreach($tasks as $t)
                                     <tr id="{{$t -> idTask}}-show">
-
                                         <td>{{$t->description}}</td>
                                         <td>{{$t->responsible}}</td>
                                         <td>{{$t->beginning}}</td>
                                         <td></td>
                                         <td></td>
-                                        <td><button type="button" class="btn btn-success editTask">Editar</button></td>
+                                        <td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalEdit-{{$t->idTask}}">Editar</button></td>
                                         <td style="text-align: center;"><button type="button" class="btn btn-danger float-right" data-toggle="modal" data-target="#modalDelete-{{$t->idTask}}">Delete</button></td>
                                     </tr>
-                                    <tr class="d-none" id="{{$t->idTask}}-edit">
-                                        @csrf
-                                        {!! Form::open(['action' => ['StudentProjectsController@update', $project->idProject], 'method' => 'POST']) !!}
-                                            <td class="form-group">
-                                                {{Form::text('description', $t->description, ['class' => 'form-control', 'placeholder' => 'Task title'])}}
-                                            </td>
-                                            <td class="form-group">
-                                                {{ Form::text('responsible', $t->responsible ,['class' => 'form-control', 'placeholder' => 'Responsible for the task']) }}
-                                            </td>
-                                            <td class="form-group">
-                                                {{ Form::date('beginning',$t->beginning,['class' => 'form-control']) }}
-                                            </td>
-                                            <td class="form-group">
-                                                {{ Form::date('beginning',$t->end,['class' => 'form-control']) }}
-                                            </td>
-                                            <td></td>
+                                </tbody>
+                                {{-- Modal Edit Task --}}
+                                <div class="modal fade" id="modalEdit-{{$t->idTask}}" aria-labelledby="modalEdit-{{$t->idTask}}" aria-hidden="true" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="staticBackdropLabel">Edit Task</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body text-center" id="modalEdit-{{$t->idTask}}-edit">
+                                                {!! Form::open(['action' => ['StudentProjectsController@update', $project->idProject], 'method' => 'POST']) !!}
+                                                    <div class="form-group">
+                                                        {{Form::text('description', $t->description, ['class' => 'form-control', 'placeholder' => 'Task title'])}}
+                                                    </div>
+                                                    <div class="form-group">
+                                                        {{ Form::text('responsible', $t->responsible ,['class' => 'form-control', 'placeholder' => 'Responsible for the task']) }}
+                                                    </div>
+                                                    <div class="form-group">
+                                                        {{ Form::date('beginning',$t->beginning,['class' => 'form-control']) }}
+                                                    </div>
+                                                    <div class="form-group">
+                                                        {{ Form::date('beginning',$t->end,['class' => 'form-control']) }}
+                                                    </div>
+                                                    <div></div>
 
-                                            {{Form::hidden('task', $t->idTask) }}
-                                            {{Form::hidden('_method','PUT')}}
-
-                                            <td>{{Form::Submit('Save', ['class'=>'btn btn-success'])}}</td>
-
-                                        {!! Form::close() !!}
-
-                                        <td style="text-align: center;"><button type="button" class="btn btn-danger editTask">Cancel</button></td>
-                                    </tr>
-                                    {{-- Modal Delete Task --}}
-                                    <div class="modal fade" id="modalDelete-{{$t->idTask}}" aria-labelledby="modalDelete-{{$t->idTask}}" aria-hidden="true" tabindex="-1" role="dialog">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title" id="staticBackdropLabel">Delete Task</h4>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body text-center">
-                                                    <h5>Are you sure you want to delete this task?</h5>
-                                                    {!!Form::open(['action' => ['StudentProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
-                                                    {{Form::hidden('_method', 'DELETE')}}
-                                                    {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
                                                     {{Form::hidden('task', $t->idTask) }}
-                                                    {!!Form::close()!!}
-                                                </div>
+                                                    {{Form::hidden('_method','PUT')}}
+                                                    {!! Form::hidden('_token',csrf_token()) !!}
+
+                                                    {{Form::Submit('Save', ['class'=>'btn btn-success'])}}
+                                                    <button type="button" class="btn btn-danger editTask">Cancel</button>
+
+                                                {!! Form::close() !!}
                                             </div>
                                         </div>
                                     </div>
-                                @endforeach
-                                </tbody>
+                                </div>
+                                {{-- Modal Delete Task --}}
+                                <div class="modal fade" id="modalDelete-{{$t->idTask}}" aria-labelledby="modalDelete-{{$t->idTask}}" aria-hidden="true" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="staticBackdropLabel">Delete Task</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                <h5>Are you sure you want to delete this task?</h5>
+                                                {!!Form::open(['action' => ['StudentProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
+                                                {{Form::hidden('_method', 'DELETE')}}
+                                                {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+                                                {{Form::hidden('task', $t->idTask) }}
+                                                {!!Form::close()!!}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </table>
                         </div>
                     </form>
@@ -381,16 +391,6 @@
 </div>
 
 <script>
-    $(".editTask").click(function () {
-        var id = $(this).closest("tr").attr("id").split("-");
-        if ($("#" + id[0] + "-edit").hasClass("d-none") && id[1] == 'show'){
-            $("#" + id[0] + "-show").addClass("d-none");
-            $("#" + id[0] + "-edit").removeClass("d-none");
-        } else {
-            $("#" + id[0] + "-edit").addClass("d-none");
-            $("#" + id[0] + "-show").removeClass("d-none");
-        }
-    });
 
     $('#myTab a').click(function(e) {
         e.preventDefault();
@@ -399,12 +399,12 @@
 
     // store the currently selected tab in the hash value
     $("ul.nav-tabs > li > a").on("shown.bs.tab", function(e) {
-        var id = $(e.target).attr("href").substr(1);
+        let id = $(e.target).attr("href").substr(1);
         window.location.hash = id;
     });
 
     // on load of the page: switch to the currently selected tab
-    var hash = window.location.hash;
+    let hash = window.location.hash;
     $('#myTab a[href="' + hash + '"]').tab('show');
 
     $(".open_modal").click(function(){
