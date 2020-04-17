@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="mt-3 container-xl">
-        <h3 class="pb-2">{{$subject->subjectName}} - {{$project->name}}</h3>
+        <h2 class="pb-2">{{$subject->subjectName}} - {{$project->name}}</h2>
 
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
@@ -113,7 +113,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
     </div>

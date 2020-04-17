@@ -7,7 +7,7 @@
             <li class="breadcrumb-item active" aria-current="page">{{$subject->subjectName}} - {{$project->name}}</li>
         </ol>
     </nav>
-    <h3 class="pb-2">{{$subject->subjectName}} - {{$project->name}}</h3>
+    <h2 class="pb-2">{{$subject->subjectName}} - {{$project->name}}</h2>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <style>
             .nav-tabs .nav-link.active{
@@ -103,9 +103,9 @@
                                         <td><button type="button" class="btn btn-success editTask">Editar</button></td>
                                         <td style="text-align: center;"><button type="button" class="btn btn-danger float-right" data-toggle="modal" data-target="#modalDelete-{{$t->idTask}}">Delete</button></td>
                                     </tr>
-                                    <tr class="d-none" id="{{$t -> idTask}}-edit">
+                                    <tr class="d-none" id="{{$t->idTask}}-edit">
                                         @csrf
-                                        {!! Form::open(['action' => ['StudentProjectsController@update', $t -> idTask], 'method' => 'POST']) !!}
+                                        {!! Form::open(['action' => ['StudentProjectsController@update', $project->idProject], 'method' => 'POST']) !!}
                                             <td class="form-group">
                                                 {{Form::text('description', $t->description, ['class' => 'form-control', 'placeholder' => 'Task title'])}}
                                             </td>
@@ -120,7 +120,7 @@
                                             </td>
                                             <td></td>
 
-                                            {{Form::hidden('project', $project->idProject) }}
+                                            {{Form::hidden('task', $t->idTask) }}
                                             {{Form::hidden('_method','PUT')}}
 
                                             <td>{{Form::Submit('Save', ['class'=>'btn btn-success'])}}</td>
@@ -141,9 +141,10 @@
                                                 </div>
                                                 <div class="modal-body text-center">
                                                     <h5>Are you sure you want to delete this task?</h5>
-                                                    {!!Form::open(['action' => ['StudentProjectsController@destroy', $t->idTask], 'method' => 'POST', 'class' => 'pull-right'])!!}
+                                                    {!!Form::open(['action' => ['StudentProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
                                                     {{Form::hidden('_method', 'DELETE')}}
                                                     {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+                                                    {{Form::hidden('task', $t->idTask) }}
                                                     {!!Form::close()!!}
                                                 </div>
                                             </div>
@@ -328,7 +329,7 @@
                                     <td style="vertical-align: middle;">
                                         <a href="/profile/{{$userPoster[$i]->id }}" role="button"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="/storage/profilePhotos/{{ $userPoster[$i]->photo}}"><span style="vertical-align: middle;"> {{$userPoster[$i]->name}}</span></a>
                                     </td>
-                                    <td style="vertical-align: middle;">{{$numberComments[$i]}}
+                                    <td style="vertical-align: middle;">{{$numberComments[$i]}}</td>
                                     <td style="vertical-align: middle;">{{$posts[$i]->date}}</td>
                                 </tr>
                             @endfor

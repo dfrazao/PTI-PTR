@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
-    protected $primaryKey = 'idGroup';
-    protected $table = 'tasks';
+    protected $primaryKey = 'idTask';
     public $timestamps = false;
 }

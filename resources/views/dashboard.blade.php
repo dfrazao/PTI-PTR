@@ -8,7 +8,7 @@
             {{ session('status') }}
         </div>
     @endif
-    <h3>Dashboard</h3>
+    <h2>Dashboard</h2>
     <div class="row mt-3 rounded h-100" style="height: 90vh; background-color: #ededed;">
         <div class="col-sm-4">
             <div class="container" >
@@ -266,18 +266,6 @@
                                 </div>
                             </div>
                         </div>
-                    @endif
-                @endforeach
-            @endif
-        @endforeach
-    @endif
-
-
-    @if(count($subjects) > 0)
-        @foreach($subjects as $subject)
-            @if(count($projects->whereIn('idSubject', $subject->idSubject)) > 0)
-                @foreach($projects as $project)
-                    @if($subject->idSubject == $project->idSubject)
                         <div class="modal fade" id="modalDelete-{{$project->idProject}}" aria-labelledby="modalEdit-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">

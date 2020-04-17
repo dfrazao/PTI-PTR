@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Project;
 use Illuminate\Http\Request;
 use App\User;
 use App\StudentsCourse;
@@ -125,47 +124,13 @@ class ProfileController extends Controller
             $user->country = $request->input('country');
             $user->city = $request->input('city');
             $user->description = $request->input('about');
-            //$user->photo = $user->photo;
             $user->save();
 
-            //return redirect('/profile/'.$id)->with('success', 'Profile Updated');
-            return redirect()->action('ProfileController@show', $id);
+            return redirect()->action('ProfileController@show', $id)->with('success', 'Profile Updated');
 
         }
 
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    /*public function updateProfilePhoto(Request $request, $id)
-    {
-        $this->validate($request, [
-            'profilePhoto' => 'required|image|max:1999'
-        ]);
-
-        if( $request->hasFile('image') ) {
-            $file = $request->file('image');
-            // Now you have your file in a variable that you can do things with
-        }
-
-        $extension = $request->profilePhoto->extension();
-        $filename = $id.'.'.$extension;
-        $path = $request->file('profilePhoto')->storeAs('public/profilePhotos', $filename);
-
-        $user = User::find($id);
-        $user->photo = $filename;
-        $user->save();
-
-        if ($request->file('profilePhoto')->isValid()) {
-            return redirect()->action('ProfileController@show', $id)->with('success', 'Profile Picture Updated');
-        }
-        return redirect()->action('ProfileController@show', $id)->with('error', 'Error Updating Profile Picture');
-    }*/
 
     /**
      * Remove the specified resource from storage.

@@ -85,14 +85,16 @@ class StudentProjectsController extends Controller
                     $idGroup = $g;
         $arr = Task::all()->where('idGroup', '==', $idGroup);
         $posts = Announcement::all()->where('idProject', '==', $id);
+        $allPosts = [];
+        foreach ($posts as $p) {
+            array_push($allPosts, $p);
+        }
         $userId = $posts->pluck('sender');
         $users = [];
         foreach ($userId as $uId) {
             $user = User::find($uId);
             array_push($users, $user);
         }
-
-
         $idPost = $posts->pluck('idAnnouncement');
         $numberComments = [];
         foreach ($idPost as $idP) {
@@ -100,7 +102,7 @@ class StudentProjectsController extends Controller
             array_push($numberComments, $idComment);
         }
 
-        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('posts', $posts)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup);
+        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('posts', $allPosts)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup);
     }
 
     /**
@@ -129,8 +131,8 @@ class StudentProjectsController extends Controller
             'beginning' => 'required'
         ]);
 
-        $task = Task::find($id);
-        $idProject = $request ->input('project');
+        $idTask = $request ->input('task');
+        $task = Task::find($idTask);
         $task-> idGroup = $request ->input('group');
         $task-> description = $request->input('description');
         $task-> responsible = $request->input('responsible');
@@ -138,22 +140,22 @@ class StudentProjectsController extends Controller
         $task-> end = $request->input('end');
         $task->save();
 
-        return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Task updated successfully');
+        return redirect()->action('StudentProjectsController@show', $id)->with('success', 'Task updated successfully');
 
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $task = Task::find($id);
-        return $task;
+        $idTask = $request ->input('task');
+        $task = Task::find($idTask);
         $task ->delete();
 
-        return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Task updated successfully');
+        return redirect()->action('StudentProjectsController@show', $id)->with('success', 'Task updated successfully');
     }
 }
