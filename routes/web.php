@@ -22,11 +22,10 @@ Route::resource('/profile', 'ProfileController')->middleware('auth');
 
 Route::resource('/professor/project', 'ProfessorProjectsController')->middleware('auth');
 
-Route::put("/student/project",'StudentProjectsController@update');
+
+//Route::get('/student/project/{id}', 'StudentProjectsController@show')->middleware('auth');
 Route::resource('/student/project', 'StudentProjectsController')->middleware('auth');
-
 Route::resource('/post', 'PostController')->middleware('auth');
-
 
 
 

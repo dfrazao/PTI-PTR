@@ -56,7 +56,6 @@ class StudentProjectsController extends Controller
         $task-> description = $request->input('description');
         $task-> responsible = $request->input('responsible');
         $task-> beginning = $request->input('beginning');
-
         $task->save();
 
         return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Task created successfully');
@@ -125,11 +124,11 @@ class StudentProjectsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
+        /*$this->validate($request, [
             'description' => 'required',
             'responsible' => 'required',
             'beginning' => 'required'
-        ]);
+        ]);*/
 
         $idTask = $request ->input('task');
         $task = Task::find($idTask);
@@ -141,7 +140,6 @@ class StudentProjectsController extends Controller
         $task->save();
 
         return redirect()->action('StudentProjectsController@show', $id)->with('success', 'Task updated successfully');
-
     }
 
     /**
@@ -155,7 +153,6 @@ class StudentProjectsController extends Controller
         $idTask = $request ->input('task');
         $task = Task::find($idTask);
         $task ->delete();
-
-        return redirect()->action('StudentProjectsController@show', $id)->with('success', 'Task updated successfully');
+        return redirect()->action('TasksController@show', $id)->with('success', 'Task updated successfully');
     }
 }

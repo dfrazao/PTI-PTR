@@ -7,7 +7,7 @@
             <li class="breadcrumb-item active" aria-current="page">{{$subject->subjectName}} - {{$project->name}}</li>
         </ol>
     </nav>
-    <h2 class="pb-2">{{$subject->subjectName}} - {{$project->name}}</h2>
+    <h2 class="pb-2">{{$subject ->subjectName}} - {{$project->name}}</h2>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <style>
             .nav-tabs .nav-link.active{
@@ -77,84 +77,83 @@
             </div>
             <div class="row rounded mb-5" >
                 <div class="container-fluid rounded mx-3 mt-3" style="background-color: #c6c6c6; position: relative;">
-                    <form>
-                        <div class="form-group">
-                            <table class="table table-hover">
-                                <thead>
-                                <tr>
-                                    <th>Tarefa</th>
-                                    <th>Responsável</th>
-                                    <th>Início</th>
-                                    <th>Fim</th>
-                                    <th>Tempo Gasto</th>
-                                    <th></th>
-                                    <th><button type="button" class="btn btn-sm mt-sm-2 mr-sm-3 open_modal" id="{{$idGroup}}" style="width:10%;background: #2c3fb1; color: white;position: absolute; top: 0px; right: 0px;">Nova Tarefa</button></th>
+                    <div class="form-group">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>Tarefa</th>
+                                <th>Responsável</th>
+                                <th>Início</th>
+                                <th>Fim</th>
+                                <th>Tempo Gasto</th>
+                                <th></th>
+                                <th><button type="button" class="btn btn-sm mt-sm-2 mr-sm-3 open_modal" id="{{$idGroup}}" style="width:10%;background: #2c3fb1; color: white;position: absolute; top: 0px; right: 0px;">Nova Tarefa</button></th>
+                            </tr>
+                            </thead>
+                            @foreach($tasks as $t)
+                                <tr id="{{$t -> idTask}}-show">
+
+                                    <td>{{$t->description}}</td>
+                                    <td>{{$t->responsible}}</td>
+                                    <td>{{$t->beginning}}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><button type="button" class="btn btn-success editTask">Editar</button></td>
+                                    <td style="text-align: center;"><button type="button" class="btn btn-danger float-right" data-toggle="modal" data-target="#modalDelete-{{$t->idTask}}">Delete</button></td>
                                 </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($tasks as $t)
-                                    <tr id="{{$t -> idTask}}-show">
-
-                                        <td>{{$t->description}}</td>
-                                        <td>{{$t->responsible}}</td>
-                                        <td>{{$t->beginning}}</td>
+                                <tr class="d-none" id="{{$t->idTask}}-edit">
+                                    @csrf
+                                    {!!Form::open(['action' => ['StudentProjectsController@update', $project -> idProject], 'method' => 'POST'])!!}
+                                        <td class="form-group">
+                                            {{Form::text('description', $t->description, ['class' => 'form-control', 'placeholder' => 'Task title'])}}
+                                        </td>
+                                        <td class="form-group">
+                                            {{ Form::text('responsible', $t->responsible ,['class' => 'form-control', 'placeholder' => 'Responsible for the task']) }}
+                                        </td>
+                                        <td class="form-group">
+                                            {{ Form::date('beginning',$t->beginning,['class' => 'form-control']) }}
+                                        </td>
+                                        <td class="form-group">
+                                            {{ Form::date('beginning',$t->end,['class' => 'form-control']) }}
+                                        </td>
                                         <td></td>
-                                        <td></td>
-                                        <td><button type="button" class="btn btn-success editTask">Editar</button></td>
-                                        <td style="text-align: center;"><button type="button" class="btn btn-danger float-right" data-toggle="modal" data-target="#modalDelete-{{$t->idTask}}">Delete</button></td>
-                                    </tr>
-                                    <tr class="d-none" id="{{$t->idTask}}-edit">
-                                        @csrf
-                                        {!! Form::open(['action' => ['StudentProjectsController@update', $project->idProject], 'method' => 'POST']) !!}
-                                            <td class="form-group">
-                                                {{Form::text('description', $t->description, ['class' => 'form-control', 'placeholder' => 'Task title'])}}
-                                            </td>
-                                            <td class="form-group">
-                                                {{ Form::text('responsible', $t->responsible ,['class' => 'form-control', 'placeholder' => 'Responsible for the task']) }}
-                                            </td>
-                                            <td class="form-group">
-                                                {{ Form::date('beginning',$t->beginning,['class' => 'form-control']) }}
-                                            </td>
-                                            <td class="form-group">
-                                                {{ Form::date('beginning',$t->end,['class' => 'form-control']) }}
-                                            </td>
-                                            <td></td>
 
-                                            {{Form::hidden('task', $t->idTask) }}
-                                            {{Form::hidden('_method','PUT')}}
+                                        {{Form::hidden('task', $t->idTask) }}
+                                        {{Form::hidden('group', $t-> idGroup)}}
 
-                                            <td>{{Form::Submit('Save', ['class'=>'btn btn-success'])}}</td>
+                                        {{Form::hidden('_method','PUT')}}
 
-                                        {!! Form::close() !!}
+                                        <td>{{Form::Submit('Save', ['class'=>'btn btn-success'])}}</td>
 
-                                        <td style="text-align: center;"><button type="button" class="btn btn-danger editTask">Cancel</button></td>
-                                    </tr>
-                                    {{-- Modal Delete Task --}}
-                                    <div class="modal fade" id="modalDelete-{{$t->idTask}}" aria-labelledby="modalDelete-{{$t->idTask}}" aria-hidden="true" tabindex="-1" role="dialog">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title" id="staticBackdropLabel">Delete Task</h4>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body text-center">
-                                                    <h5>Are you sure you want to delete this task?</h5>
-                                                    {!!Form::open(['action' => ['StudentProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
-                                                    {{Form::hidden('_method', 'DELETE')}}
-                                                    {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
-                                                    {{Form::hidden('task', $t->idTask) }}
-                                                    {!!Form::close()!!}
-                                                </div>
+                                    {!! Form::close() !!}
+
+                                    <td style="text-align: center;"><button type="button" class="btn btn-danger editTask">Cancel</button></td>
+                                </tr>
+                                {{-- Modal Delete Task --}}
+                                <div class="modal fade" id="modalDelete-{{$t->idTask}}" aria-labelledby="modalDelete-{{$t->idTask}}" aria-hidden="true" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="staticBackdropLabel">Delete Task</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                <h5>Are you sure you want to delete this task?</h5>
+                                                {!!Form::open(['action' => ['StudentProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
+                                                {{Form::hidden('_method', 'DELETE')}}
+                                                {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+                                                {{Form::hidden('task', $t->idTask) }}
+                                                {!!Form::close()!!}
                                             </div>
                                         </div>
                                     </div>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </form>
+                                </div>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="container-fluid pt-5" style="position: relative">
                     <button type="submit" class="btn btn-sm float-right bg-danger mt-2 mr-sm-4 mb-2" style="width: 10%;color: white; position: absolute; bottom: 0px; right: 0px;">Sair do Grupo</button>
@@ -371,6 +370,7 @@
                 </div>
                 {{ Form::hidden('group', "group") }}
                 {{ Form::hidden('project', $project->idProject) }}
+                {{ Form::hidden('subject', $subject->subjectName) }}
 
                 {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
 
