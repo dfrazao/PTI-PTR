@@ -310,7 +310,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                {!! Form::open(['action' => 'PostController@store', 'method' => 'POST']) !!}
+                                {!! Form::open(['action' => ['PostController@store', $project -> idProject], 'method' => 'POST']) !!}
                                 <div class="form-group">
                                     {{Form::label('title', 'Title')}}
                                     {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Title'])}}

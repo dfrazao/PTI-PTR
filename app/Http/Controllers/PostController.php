@@ -56,7 +56,7 @@ class PostController extends Controller
         $announcement->date = date("Y-m-d H:i:s");
         $announcement->save();
 
-        return redirect()->action('StudentProjectsController@show', $id)->with('success', 'Post created successfully');
+        return redirect()->to(url()->previous() . '#forum');
     }
 
     /**
