@@ -22,6 +22,7 @@ Route::resource('/profile', 'ProfileController')->middleware('auth');
 
 Route::resource('/professor/project', 'ProfessorProjectsController')->middleware('auth');
 
+Route::put("/student/project",'StudentProjectsController@update');
 Route::resource('/student/project', 'StudentProjectsController')->middleware('auth');
 
 Route::get('/student/project/{projectId}/post', 'PostController@show')->middleware('auth');
@@ -50,11 +51,11 @@ Route::resource('/student/project/{projectId}/post', 'PostController')->middlewa
 
 // Admin
 //Route::group(['middleware' => ['auth','admin']], function (){
-    Route::get('/admin', 'AdminController@index', ['name' => 'tables']);
-    Route::resource('/admin/{table}', 'AdminController');
-
+    Route::get('/admin/{table}', 'AdminController@index', ['name' => 'tables']);
+    Route::post('/admin/{table}/store', 'AdminController@store');
     Route::get("/admin/edit-user/{id}",'AdminController@edit');
-    Route::put("/admin/edit-user-update/{id}",'AdminController@update');
-    Route::delete('/admin/delete-user/{id}','AdminController@destroy');
-    Route::post('/admin/import/','AdminController@import');
+    Route::put("/admin/edit-update/",'AdminController@update');
+    Route::delete('/admin/{table}/delete/','AdminController@destroy');
+    //Route::delete('/admin/{table}/delete/','AdminController@destroySE');
+    Route::post('/admin/{table}/import/','AdminController@import');
 //});
