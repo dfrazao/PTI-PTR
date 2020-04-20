@@ -46,7 +46,7 @@
                     <div class="row mt-3 mr-1 h-75">
                         <div class="container-fluid rounded pt-2" style="background-color: #ffe680; ">
                             <h5 class="text-center">Notas</h5>
-                            <textarea id="textArea"></textarea>
+                            <textarea id="textArea">{{$notes}}</textarea>
                         </div>
                     </div>
                     <div class="row mt-2 mr-1" style="height: 20%">
@@ -80,7 +80,7 @@
                                         <td>{{$t->responsible}}</td>
                                         <td>{{$t->beginning}}</td>
                                         <td>{{$t->end}}</td>
-                                        <td></td>
+                                        <td>{{$t->timeSpent}}</td>
                                         <td class="float-right pr-0"><button style="width: 10vh" type="button" class="btn btn-sm btn-success editTask mr-md-2">Editar</button><button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalDelete-{{$t->idTask}}">Delete</button></td>
                                     </tr>
                                     <tr class="d-none" id="{{$t->idTask}}-edit">

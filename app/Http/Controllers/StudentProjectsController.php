@@ -13,6 +13,7 @@ use Auth;
 use App\Group;
 use App\StudentsGroup;
 use App\Task;
+use Carbon\Carbon;
 
 class StudentProjectsController extends Controller
 {
@@ -76,14 +77,14 @@ class StudentProjectsController extends Controller
         $project = Project::find($id);
         $subject = Subject::find($project->idSubject);
         $idGroups = Group::all()->where('idProject', '==', $id)->pluck('idGroup');
-
         $studentGroups = StudentsGroup::all()->where('idStudent', '==', $user)->pluck('idGroup');
-        $idGroup = 1;
+        $idGroup = 0;
         foreach($studentGroups as $st)
             foreach ($idGroups as $g)
                 if ($g == $st)
                     $idGroup = $g;
         $arr = Task::all()->where('idGroup', '==', $idGroup);
+        $notes = Group::find($idGroup)->value('notes');
         $posts = Announcement::all()->where('idProject', '==', $id);
         $allPosts = [];
         foreach ($posts as $p) {
@@ -102,7 +103,7 @@ class StudentProjectsController extends Controller
             array_push($numberComments, $idComment);
         }
 
-        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('posts', $allPosts)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup);
+        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('posts', $allPosts)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup)->with('notes',$notes);
     }
 
     /**
@@ -155,6 +156,11 @@ class StudentProjectsController extends Controller
         }else{
             $task-> end = $task->value("end");
         }
+        $start = Carbon::parse($task->beginning)->format('Y/m/d');
+        $end =  Carbon::parse($task-> end)->format('Y/m/d');
+
+        $diff = $end -> diffInDays($start);
+        $task -> timeSpent = $diff;
         $task->save();
 
         return redirect()->action('StudentProjectsController@show', $id)->with('success', 'Task updated successfully');
@@ -171,6 +177,6 @@ class StudentProjectsController extends Controller
         $idTask = $request ->input('task');
         $task = Task::find($idTask);
         $task ->delete();
-        return redirect()->action('TasksController@show', $id)->with('success', 'Task updated successfully');
+        return redirect()->action('StudentProjectsController@show', $id)->with('success', 'Task updated successfully');
     }
 }
