@@ -8,4 +8,5 @@ class Announcement extends Model
 {
     protected $table = 'announcements';
     protected $primaryKey = 'idAnnouncement';
+    public $timestamps = false;
 }

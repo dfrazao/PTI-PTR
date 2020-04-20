@@ -2,6 +2,12 @@
 @section('content')
 <div class="container-xl">
     @include('layouts.messages')
+    <nav aria-label="breadcrumb" >
+        <ol class="breadcrumb mt-1 pl-0 pb-0 pt-0 float-right" style="background-color:white; ">
+            <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{$user->name}} Profile</li>
+        </ol>
+    </nav>
     <div class="container m-4">
         <h2>Profile</h2>
         <div class="row">

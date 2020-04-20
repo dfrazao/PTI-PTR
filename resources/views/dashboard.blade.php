@@ -170,7 +170,7 @@
         </div>
 
         <div class="col-sm-8">
-            <div class="overflow-auto rounded">
+            <div class="overflow-auto rounded pb-2">
                 <h3 class="pt-3 pl-3">Subjects</h3>
                 <div class="container overflow-auto mw-80" style="max-height: 75vh;">
                     @if(count($subjects) > 0)
@@ -193,7 +193,7 @@
                                                 @elseif(Auth::user()->role == 'professor')
                                                     <a style="color:#2c3fb1;" href="/professor/project/{{$project->idProject}}">{{$project->name}}</a>
                                                     <button type="button" class="btn btn-danger float-right" data-toggle="modal" data-target="#modalDelete-{{$project->idProject}}">Delete</button>
-                                                    <button type="button" class="btn btn-secondary mr-2 float-right" data-toggle="modal" data-target="#modalEdit-{{$project->idProject}}">Edit</button>
+                                                    <button type="button" class="btn btn-success mr-2 float-right" data-toggle="modal" data-target="#modalEdit-{{$project->idProject}}">Edit</button>
                                                 @endif
                                             </h5>
                                         @endif
@@ -210,7 +210,7 @@
                         <p>No subjects found</p>
                     @endif
                 </div>
-                <button type="button" class="p-2 btn btn-primary btn-lg float-right" style="background-color: #2c3fb1; border-color: #2c3fb1; position:absolute; right: 2rem; bottom: 1rem;">Cadeiras Antigas</button>
+                <button type="button" class="p-2 btn btn-primary btn-md float-right mt-3 mr-3" style="background-color: #2c3fb1; border-color: #2c3fb1;">Cadeiras Antigas</button>
             </div>
         </div>
     </div>
@@ -260,7 +260,7 @@
                                         {{ Form::hidden('subject', $subject->idSubject) }}
 
                                         {{Form::hidden('_method','PUT')}}
-                                        {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+                                        {{Form::submit('Submit', ['class'=>'btn btn-success'])}}
                                         {!! Form::close() !!}
                                     </div>
                                 </div>
@@ -291,7 +291,7 @@
         @endforeach
     @endif
 
-{{--    Modal Create--}}
+    {{--Modal Create--}}
     <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -329,7 +329,7 @@
                     </div>
                     {{ Form::hidden('subject', "subject") }}
 
-                    {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+                    {{Form::submit('Submit', ['class'=>'btn btn-success'])}}
 
                     {!! Form::close() !!}
                 </div>

@@ -8,6 +8,8 @@ use App\Announcement;
 use App\AnnouncementComment;
 use App\Project;
 use App\Subject;
+use App\User;
+use Auth;
 
 class PostController extends Controller
 {
@@ -39,23 +41,42 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'body' => 'required'
+        ]);
+
+        $id = $request ->input('project');
+
+        $announcement = new Announcement();
+        $announcement->idProject = $id;
+        $announcement->sender = Auth::user()->id;
+        $announcement->title = $request ->input('title');
+        $announcement->body = $request->input('body');
+        $announcement->date = date("Y-m-d H:i:s");
+        $announcement->save();
+
+        return redirect()->action('StudentProjectsController@show', $id)->with('success', 'Post created successfully');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     * @param $id2
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id,$id2)
     {
-        $announcement = Announcement::find($id);
-        $project = Project::find($announcement->idProject);
-        $subject = Subject::find($project->idSubject);
+        $announcement = Announcement::find($id2);
+        if($announcement->idProject == $id) {
+            $project = Project::find($announcement->idProject);
+            $subject = Subject::find($project->idSubject);
+            $poster = User::find($announcement->sender);
 
-//        /return $subject;
-        return view('post')->with('announcement',$announcement)->with('project',$project)->with('subject',$subject);
+            return view('post')->with('announcement',$announcement)->with('project',$project)->with('subject',$subject)->with('poster',$poster);
+        }
+        return "Error";
     }
 
     /**
@@ -87,8 +108,8 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, $id2)
     {
-        //
+        return "delete";
     }
 }

@@ -19,7 +19,7 @@
             }
         </style>
         <li class="nav-item">
-            <a class="nav-link active" id="conteudo-tab" data-toggle="tab" href="#content" role="tab" aria-controls="conteudo" aria-selected="true">Content</a>
+            <a class="nav-link active" id="conteudo-tab" data-toggle="tab" href="#content" role="tab" aria-controls="conteudo" aria-selected="false">Content</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="horario-tab" data-toggle="tab" href="#schedule" role="tab" aria-controls="horario" aria-selected="false">Schedule</a>
@@ -324,9 +324,9 @@
                         @if(count($posts) > 0)
                             @for($i = 0; $i < count($posts); $i++)
                                 <tr>
-                                    <td style="vertical-align: middle;"><a href="/post/{{$posts[$i]->idAnnouncement}}">{{$posts[$i]->title}}</a></td>
+                                    <td style="vertical-align: middle;"><a href="/student/project/{{$project->idProject}}/post/{{$posts[$i]->idAnnouncement}}">{{$posts[$i]->title}}</a></td>
                                     <td style="vertical-align: middle;">
-                                        <a href="/profile/{{$userPoster[$i]->id }}" role="button"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="/storage/profilePhotos/{{ $userPoster[$i]->photo}}"><span style="vertical-align: middle;"> {{$userPoster[$i]->name}}</span></a>
+                                        <a href="/profile/{{$userPoster[$i]->id }}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="/storage/profilePhotos/{{ $userPoster[$i]->photo}}"><span style="vertical-align: middle;"> {{$userPoster[$i]->name}}</span></a>
                                     </td>
                                     <td style="vertical-align: middle;">{{$numberComments[$i]}}</td>
                                     <td style="vertical-align: middle;">{{$posts[$i]->date}}</td>
@@ -340,6 +340,93 @@
                         </tbody>
                     </table>
                 </div>
+                <button type="button" class="p-2 btn btn-primary btn-lg float-right" data-toggle="modal" data-target="#modalCreate" style="background-color: #2c3fb1; border-color: #2c3fb1;">Create Post</button>
+
+                {{--Modal Create--}}
+                <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="staticBackdropLabel">New Project</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                {!! Form::open(['action' => 'PostController@store', 'method' => 'POST']) !!}
+                                <div class="form-group">
+                                    {{Form::label('title', 'Title')}}
+                                    {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Title'])}}
+                                </div>
+                                <div class="form-group">
+                                    {{Form::label('body', 'Body')}}
+                                    {{Form::textarea('body', '', ['class' => 'form-control', 'placeholder' => 'Body'])}}
+                                </div>
+                                {{ Form::hidden('project', $project->idProject) }}
+
+                                {{Form::submit('Submit', ['class'=>'btn btn-success'])}}
+
+                                {!! Form::close() !!}
+                            </div>
+                            <script>ClassicEditor
+                                    .create( document.querySelector( '#body' ), {
+
+                                        toolbar: {
+                                            items: [
+                                                'heading',
+                                                '|',
+                                                'fontSize',
+                                                'fontFamily',
+                                                'fontColor',
+                                                'fontBackgroundColor',
+                                                'highlight',
+                                                'bold',
+                                                'italic',
+                                                'underline',
+                                                'strikethrough',
+                                                'link',,
+                                                '|',
+                                                'undo',
+                                                'redo',
+                                                '|',
+                                                'indent',
+                                                'outdent',
+                                                '|',
+                                                'bulletedList',
+                                                'numberedList',
+                                                '|',
+                                                'horizontalLine',
+                                                'blockQuote',
+                                                'mediaEmbed',
+                                                'code',
+                                                'codeBlock',
+                                                'MathType',
+                                                'ChemType',
+                                                'specialCharacters'
+                                            ]
+                                        },
+                                        language: 'en',
+                                        licenseKey: '',
+                                    } )
+                                    .then( editor => {
+                                        window.editor = editor;
+                                    } )
+                                    .catch( error => {
+                                        console.error( 'Oops, something gone wrong!' );
+                                        console.error( 'Please, report the following error in the https://github.com/ckeditor/ckeditor5 with the build id and the error stack trace:' );
+                                        console.warn( 'Build id: ce7zysryrfsm-xck2pu5o5swz' );
+                                        console.error( error );
+                                    } );
+                            </script>
+                            <style>
+                                .ck-editor__editable_inline {
+                                    min-height: 40vh;
+                                }
+                            </style>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

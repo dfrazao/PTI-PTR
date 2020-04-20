@@ -124,11 +124,11 @@ class StudentProjectsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        /*$this->validate($request, [
+        $this->validate($request, [
             'description' => 'required',
             'responsible' => 'required',
             'beginning' => 'required'
-        ]);*/
+        ]);
 
         $idTask = $request ->input('task');
         $task = Task::find($idTask);
