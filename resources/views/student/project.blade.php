@@ -19,7 +19,7 @@
         <li class="nav-item">
             <a class="nav-link" id="noticias-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="noticias" aria-selected="false">Forum</a>
         </li>
-        <li class="nav-item ml-auto">
+        <li class=" ml-auto">
             <button type="submit" class="btn btn-sm float-right bg-danger" style="width: 20vh;color: white;">Sair do Grupo</button>
         </li>
 
@@ -58,11 +58,11 @@
                     </div>
                 </div>
             </div>
-            <div class="row rounded mb-5" >
+            <div class="row rounded mb-5">
                 <div class="container-fluid rounded mx-3 mt-3 p-2" style="background-color: #c6c6c6; position: relative;">
                     <div class="form-group mb-0">
                         <div class="table-responsive-xl">
-                            <table class="table table-hover">
+                            <table class="table table-hover text-center">
                                 <thead>
                                 <tr>
                                     <th>Tarefa</th>
@@ -133,7 +133,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                        <div>
+                        </div>
                         <div class="container-fluid pt-3" style="position: relative">
                             <button type="button" class="btn btn-sm open_modal" id="{{$idGroup}}" style="width:20vh;background: #2c3fb1; color: white;position: absolute; bottom: 0px; right: 0px;">Nova Tarefa</button>
                         </div>
@@ -231,9 +231,7 @@
                 <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
                 <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
                 <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-
             </div>
-
             <div class="container p-3">
                 <div class="row">
                     <div class="col-xs-3 mx-auto">
@@ -385,7 +383,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
