@@ -23,7 +23,7 @@ Route::resource('/profile', 'ProfileController')->middleware('auth');
 Route::resource('/professor/project', 'ProfessorProjectsController')->middleware('auth');
 
 
-//Route::get('/student/project/{id}', 'StudentProjectsController@show')->middleware('auth');
+
 Route::resource('/student/project', 'StudentProjectsController')->middleware('auth');
 
 Route::get('/student/project/{projectId}/post', 'PostController@show')->middleware('auth');

@@ -58,6 +58,7 @@ class StudentProjectsController extends Controller
         $task-> beginning = $request->input('beginning');
         $task->save();
 
+
         return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Task created successfully');
 
     }
@@ -77,7 +78,7 @@ class StudentProjectsController extends Controller
         $idGroups = Group::all()->where('idProject', '==', $id)->pluck('idGroup');
 
         $studentGroups = StudentsGroup::all()->where('idStudent', '==', $user)->pluck('idGroup');
-        $idGroup = 0;
+        $idGroup = 1;
         foreach($studentGroups as $st)
             foreach ($idGroups as $g)
                 if ($g == $st)
@@ -131,12 +132,29 @@ class StudentProjectsController extends Controller
         ]);
 
         $idTask = $request ->input('task');
+        $idGroup = $request->input('group');
         $task = Task::find($idTask);
-        $task-> idGroup = $request ->input('group');
-        $task-> description = $request->input('description');
-        $task-> responsible = $request->input('responsible');
-        $task-> beginning = $request->input('beginning');
-        $task-> end = $request->input('end');
+
+        if(!empty($request->input('description'))) {
+            $task->description = $request->input('description');
+        }else{
+            $task->description = $task->value("description");
+        }
+        if(!empty($request->input('responsible'))){
+            $task->responsible = $request->input('responsible');
+        }else{
+            $task->responsible = $task->value("responsible");
+        }
+        if(!empty($request->input('beginning'))){
+            $task->beginning = $request->input('beginning');
+        }else{
+            $task->beginning = $task->value("beginning");
+        }
+        if(!empty($request->input('end'))){
+            $task-> end = $request->input('end');
+        }else{
+            $task-> end = $task->value("end");
+        }
         $task->save();
 
         return redirect()->action('StudentProjectsController@show', $id)->with('success', 'Task updated successfully');
