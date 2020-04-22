@@ -85,7 +85,7 @@ class StudentProjectsController extends Controller
                     $idGroup = $g;
         $arr = Task::all()->where('idGroup', '==', $idGroup);
         $notes = Group::find($idGroup)->value('notes');
-        $posts = Announcement::orderBy('date', 'desc')->paginate(10);
+        $posts = Announcement::orderBy('date', 'desc')->paginate(10)->fragment('forum');
         //$posts = $posts->where('idProject', '==', $id);
         $allPosts = [];
         foreach ($posts as $p) {

@@ -89,14 +89,10 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         if ($request->option=="image") {
-
             $this->validate($request, [
                 'profilePhoto' => 'required|image|max:1999'
             ]);
-
-
             if( $request->hasFile('profilePhoto')  ) {
                 $file = $request->file('profilePhoto');
             }
@@ -104,7 +100,6 @@ class ProfileController extends Controller
             $extension = $request->profilePhoto->extension();
             $filename = $id.'.'.$extension;
             $path = $file->storeAs('public/profilePhotos/', $filename);
-
             $user = User::find($id);
             $user->photo = $filename;
             $user->save();
@@ -127,9 +122,7 @@ class ProfileController extends Controller
             $user->save();
 
             return redirect()->action('ProfileController@show', $id)->with('success', 'Profile Updated');
-
         }
-
     }
 
     /**

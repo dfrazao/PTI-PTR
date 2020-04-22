@@ -57,6 +57,27 @@
                             {{Form::hidden('_method', 'DELETE')}}
                             {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
                         {!!Form::close()!!}--}}
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDelete">Delete</button>
+
+                        <div class="modal fade" id="modalDelete" aria-labelledby="modalDelete" aria-hidden="true" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="staticBackdropLabel">Delete Project</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <h5>Are you sure you want to delete this post?</h5>
+                                        {!!Form::open(['action' => ['PostController@destroy', $project->idProject, $announcement->idAnnouncement], 'method' => 'POST', 'class' => 'pull-right'])!!}
+                                        {{Form::hidden('_method', 'DELETE')}}
+                                        {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+                                        {!!Form::close()!!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     @endif
                 </div>
             </div>

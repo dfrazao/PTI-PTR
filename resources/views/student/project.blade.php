@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container-fluid pl-5 pr-5 pb-2 mt-3">
+    @include('layouts.messages')
     <nav aria-label="breadcrumb" >
         <ol class="breadcrumb mt-1 pl-0 pb-0 pt-0 float-right" style="background-color:white; ">
             <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>Dashboard</a></li>
@@ -11,7 +12,7 @@
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="conteudo-tab" data-toggle="tab" href="#content" role="tab" aria-controls="conteudo" aria-selected="false">Content</a>
+            <a class="nav-link" id="conteudo-tab" data-toggle="tab" href="#content" role="tab" aria-controls="conteudo" aria-selected="false">Content</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="horario-tab" data-toggle="tab" href="#schedule" role="tab" aria-controls="horario" aria-selected="false">Schedule</a>
@@ -26,7 +27,7 @@
     </ul>
 
     <div class="tab-content" id="myTabContent" style="background-color: #ededed; min-height: 75vh; ">
-        <div class="container-fluid tab-pane fade show active ml-0 mr-0" id="content" role="tabpanel" aria-labelledby="conteudo-tab" style="background-color: #ededed;">
+        <div class="container-fluid tab-pane fade ml-0 mr-0" id="content" role="tabpanel" aria-labelledby="content-tab" style="background-color: #ededed;">
             <div class="row rounded" style="height: 70vh;">
                 <div class="col mt-3 ml-3 rounded" style="background-color: #c6c6c6; position: relative;">
                     <div class="container-fluid d-flex flex-row mt-3" >
@@ -266,7 +267,7 @@
             </div>
         </div>
         <div class="tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
-            <button type="button" class="p-2 mt-3 mr-3 btn btn-primary btn-lg float-right" data-toggle="modal" data-target="#modalCreate" style="background-color: #2c3fb1; border-color: #2c3fb1;">Create Post</button>
+            <button type="button" class="p-2 mt-3 mr-3 btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#modalCreate" style="background-color: #2c3fb1; border-color: #2c3fb1;">Create Post</button>
 
             <div class="container rounded pb-3 pt-3">
                 <div class="table-responsive">
@@ -329,7 +330,6 @@
                             </div>
                             <script>ClassicEditor
                                     .create( document.querySelector( '#body' ), {
-
                                         toolbar: {
                                             items: [
                                                 'heading',
@@ -462,8 +462,6 @@
     }
 
 </style>
-
-
 <script>
     $(".editTask").click(function () {
         var id = $(this).closest("tr").attr("id").split("-");
@@ -489,7 +487,12 @@
 
     // on load of the page: switch to the currently selected tab
     var hash = window.location.hash;
+    if(hash === ''){
+        hash = '#content';
+    }
     $('#myTab a[href="' + hash + '"]').tab('show');
+
+    $(".pagination").addClass("justify-content-center");
 
     $(".open_modal").click(function(){
         $('input[name="group"]').val($(this).attr("id"));

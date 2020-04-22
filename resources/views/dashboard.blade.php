@@ -1,8 +1,7 @@
 @extends('layouts.app')
 @section('content')
-<div class="container-xl-fluid mt-3 pl-5 pr-5 pb-2 ">
+<div class="container-xl-fluid mt-4 pl-5 pr-5 pb-2 ">
     @include('layouts.messages')
-
     @if (session('status'))
         <div class="alert alert-success" role="alert">
             {{ session('status') }}
@@ -266,7 +265,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="modal fade" id="modalDelete-{{$project->idProject}}" aria-labelledby="modalEdit-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
+                        <div class="modal fade" id="modalDelete-{{$project->idProject}}" aria-labelledby="modalDelete-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">

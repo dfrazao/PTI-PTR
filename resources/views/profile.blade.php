@@ -1,14 +1,14 @@
 @extends('layouts.app')
 @section('content')
-<div class="container-xl">
+<div class="container-xl mt-4">
     @include('layouts.messages')
-    <nav aria-label="breadcrumb" >
+    <nav aria-label="breadcrumb">
         <ol class="breadcrumb mt-1 pl-0 pb-0 pt-0 float-right" style="background-color:white; ">
             <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>Dashboard</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{$user->name}} Profile</li>
         </ol>
     </nav>
-    <div class="container m-4">
+    <div class="container">
         <h2>Profile</h2>
         <div class="row">
             <div class="col-xs-12 col-sm-3 center">
@@ -84,7 +84,7 @@
                                             {!! Form::open(['action' => ['ProfileController@update', $user->id], 'method' => 'POST']) !!}
                                             <div class="form-group">
                                                 {{Form::label('country', 'Country')}}
-                                                {{Form::text('country', $user->country, ['class' => 'form-control', 'placeholder' => 'Country'])}}
+                                                {{Form::select('city', ['L' => 'Large', 'S' => 'Small'], null, ['class' => 'form-control', 'placeholder' => $user->country])}}
                                             </div>
                                             <div class="form-group">
                                                 {{Form::label('city', 'City')}}

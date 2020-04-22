@@ -110,6 +110,8 @@ class PostController extends Controller
      */
     public function destroy($id, $id2)
     {
-        return "delete";
+        $post = Announcement::find($id2);
+        $post->delete();
+        return redirect()->to("/student/project/". $id . '#forum')->with('success', 'Post Deleted');
     }
 }
