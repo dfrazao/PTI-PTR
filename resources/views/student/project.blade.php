@@ -25,7 +25,7 @@
 
     </ul>
 
-    <div class="tab-content" id="myTabContent" style="background-color: #ededed; height: 75vh; ">
+    <div class="tab-content" id="myTabContent" style="background-color: #ededed; min-height: 75vh; ">
         <div class="container-fluid tab-pane fade show active ml-0 mr-0" id="content" role="tabpanel" aria-labelledby="conteudo-tab" style="background-color: #ededed;">
             <div class="row rounded" style="height: 70vh;">
                 <div class="col mt-3 ml-3 rounded" style="background-color: #c6c6c6; position: relative;">
@@ -266,9 +266,11 @@
             </div>
         </div>
         <div class="tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
-            <div class="container pb-3 rounded px-5 pt-3">
+            <button type="button" class="p-2 mt-3 mr-3 btn btn-primary btn-lg float-right" data-toggle="modal" data-target="#modalCreate" style="background-color: #2c3fb1; border-color: #2c3fb1;">Create Post</button>
+
+            <div class="container rounded pb-3 pt-3">
                 <div class="table-responsive">
-                    <table class="table bg-white" style="text-align:center;">
+                    <table class="table bg-white rounded" style="text-align:center;">
                         <thead>
                         <tr>
                             <th>Subject</th>
@@ -296,8 +298,8 @@
                         @endif
                         </tbody>
                     </table>
+                    {{$p->links()}}
                 </div>
-                <button type="button" class="p-2 btn btn-primary btn-lg float-right" data-toggle="modal" data-target="#modalCreate" style="background-color: #2c3fb1; border-color: #2c3fb1;">Create Post</button>
 
                 {{--Modal Create--}}
                 <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog">
@@ -352,14 +354,9 @@
                                                 'bulletedList',
                                                 'numberedList',
                                                 '|',
-                                                'horizontalLine',
                                                 'blockQuote',
-                                                'mediaEmbed',
                                                 'code',
-                                                'codeBlock',
-                                                'MathType',
-                                                'ChemType',
-                                                'specialCharacters'
+                                                'codeBlock'
                                             ]
                                         },
                                         language: 'en',

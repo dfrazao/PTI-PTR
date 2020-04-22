@@ -85,7 +85,8 @@ class StudentProjectsController extends Controller
                     $idGroup = $g;
         $arr = Task::all()->where('idGroup', '==', $idGroup);
         $notes = Group::find($idGroup)->value('notes');
-        $posts = Announcement::all()->where('idProject', '==', $id);
+        $posts = Announcement::orderBy('date', 'desc')->paginate(10);
+        //$posts = $posts->where('idProject', '==', $id);
         $allPosts = [];
         foreach ($posts as $p) {
             array_push($allPosts, $p);
@@ -103,7 +104,7 @@ class StudentProjectsController extends Controller
             array_push($numberComments, $idComment);
         }
 
-        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('posts', $allPosts)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup)->with('notes',$notes);
+        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('posts', $allPosts)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup)->with('notes',$notes)->with('p',$posts);
     }
 
     /**

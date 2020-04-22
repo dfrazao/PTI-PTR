@@ -30,7 +30,7 @@
         </li>
     </ul>
 
-    <div class="tab-content" id="myTabContent" style="background-color: #ededed; height: 75vh; ">
+    <div class="tab-content" id="myTabContent" style="background-color: #ededed; mi-height: 75vh; ">
         <div class="container-fluid tab-pane fade ml-0 mr-0" id="content" role="tabpanel" aria-labelledby="conteudo-tab" style="background-color: #ededed;"></div>
         <div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab"></div>
         <div class="tab-pane fade active show" id="forum" role="tabpanel" aria-labelledby="forum-tab">
@@ -45,7 +45,11 @@
                             <h6>By: <a href="/profile/{{$poster->id}}">{{$poster->name}}</a><small> - Posted on {{$announcement->date}}</small></h6>
                         </div>
                     </header>
-                    <p>{{$announcement->body}}</p>
+                    <hr>
+                    <div>
+                        {!!$announcement->body!!}
+                    </div>
+                    <hr>
                     @if(Auth::user()->id == $poster->id)
                         <button type="button" class="btn btn-success">Edit</button>
 
