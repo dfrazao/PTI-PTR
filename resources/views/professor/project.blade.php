@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('content')
+
     <div class="mt-3 container-xl">
+        @include('layouts.messages')
         <h2 class="pb-2">{{$subject->subjectName}} - {{$project->name}}</h2>
 
         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -22,24 +24,62 @@
                             <div class="container  p-2  rounded">
                                 <h5>Grupos </h5>
                             </div>
+                            <ul class="nav nav-pills mb-3 flex-column" id="pills-tab" role="tablist" aria-orientation="vertical">
                             @foreach($groups as $group)
-                                <div class="container overflow-auto bg-white p-2 mt-3 rounded">
-                                    <h4 class="mt-2 pl-2 mr-3 float-left">{{$group->idGroup}}</h4>
-                                @foreach(\App\StudentGroup::all()->where('idGroup', '==', $group->idGroup) as $sg)
-                                    <p class="mt-2 pl-2 inline-block float-left">{{ \App\User::find($sg->idStudent)->name}}</p>
-                                @endforeach
-                                </div>
+                                 <li class="nav-item">
+                                     <a class="nav-link" id="pills-{{$group->idGroup}}e-tab" data-toggle="pill" href="#pills-{{$group->idGroup}}" role="tab" aria-controls="pills-{{$group->idGroup}}" aria-selected="true">
+                                         <div style=" display: inline-block;" ><h3 class="float-left" style="vertical-align: middle;">{{$group->idGroupProject}}</h3>
+                                            <span style="vertical-align: middle;">
+                                            @foreach(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) as $sg)
+                                                {{ \App\User::find($sg->idStudent)->name}}
+                                            @endforeach
+                                            </span>
+                                        </div>
+                                     </a>
+                                 </li>
                             @endforeach
+                            </ul>
                         </div>
                     </div>
                     <div class="col-7 mt-3 rounded" style="height: 87%;width: 100%;">
                         <div class="container-fluid rounded h-100 pt-3 pl-4" style="background-color: #c6c6c6;">
                             <h5>Ficheiros </h5>
                             <div class="container-fluid d-flex flex-row mt-3" >
-                                <div class="container text-center"><i class="fas fa-folder fa-4x" style="color: #ffce52;"></i><br>Trabalho final 1</div>
-                                <div class="container text-center"><i class="fas fa-folder fa-4x" style="color: #ffce52;"></i><br>Trabalho final 2</div>
-                                <div class="container text-center"><i class="fas fa-folder fa-4x" style="color: #ffce52;"></i><br>Trabalho final 3</div>
-                                <button type="submit" class="btn btn-sm mb-2 mr-2" style="background: #2c3fb1; color: white; position: absolute; bottom: 0px; right: 0px;">Submeter</button>
+                                <div class="tab-content" id="pills-tabContent">
+                                    @foreach($groups as $group)
+                                        <div class="tab-pane fade" id="pills-{{$group->idGroup}}" role="tabpanel" aria-labelledby="pills-{{$group->idGroup}}-tab">{{$group->idGroup}}
+                                            <button type="button" class="p-2 btn btn-primary btn-md float-right mt-3 mr-3" data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}" style="background-color: #2c3fb1; border-color: #2c3fb1;">Avaliar Grupo</button>
+                                            <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" id="staticBackdropLabel">Avaliação</h4>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {!! Form::open(['action' => 'ProfessorProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                                                            <div class="form-group">
+                                                                {{Form::label('grade', 'Nota do Projeto')}}
+                                                                {{Form::text('grade', '', ['class' => 'form-control'])}}
+                                                            </div>
+                                                            {{Form::hidden('group', $group->idGroup)}}
+                                                            {{Form::hidden('option', 'grade')}}
+                                                            {{Form::hidden('project', $project->idProject)}}
+                                                            {{Form::submit('Submit', ['class'=>'btn btn-success'])}}
+
+                                                            {!! Form::close() !!}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+
+
+
+                                </div>
                             </div>
                         </div>
                     </div>

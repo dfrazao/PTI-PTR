@@ -328,6 +328,7 @@
                         {{Form::file('')}}
                     </div>
                     {{ Form::hidden('subject', "subject") }}
+                    {{Form::hidden('option', 'project')}}
 
                     {{Form::submit('Submit', ['class'=>'btn btn-success'])}}
 

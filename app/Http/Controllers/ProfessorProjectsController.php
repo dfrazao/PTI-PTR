@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Project;
 use App\Subject;
 use App\Group;
-use App\StudentGroup;
+use App\StudentsGroup;
 use App\User;
 
 class ProfessorProjectsController extends Controller
@@ -40,22 +40,36 @@ class ProfessorProjectsController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'title' => 'required',
-            'deadline' => 'required',
-            'group_formation_deadline' => 'required'
-        ]);
+        if($request->option=="project") {
+            $this->validate($request, [
+                'title' => 'required',
+                'deadline' => 'required',
+                'group_formation_deadline' => 'required'
+            ]);
 
 
-        $project = new Project;
-        $project->name = $request->input('title');
-        $project->dueDate = $request->input('deadline');
-        $project->groupCreationDueDate = $request->input('group_formation_deadline');
-        $project->maxElements = $request->input('number');
-        $project->idSubject = $request->input('subject');
-        $project->save();
+            $project = new Project;
+            $project->name = $request->input('title');
+            $project->dueDate = $request->input('deadline');
+            $project->groupCreationDueDate = $request->input('group_formation_deadline');
+            $project->maxElements = $request->input('number');
+            $project->idSubject = $request->input('subject');
+            $project->save();
 
-        return redirect('/')->with('success', 'Project Created');
+            return redirect('/')->with('success', 'Project Created');
+
+        } else {
+            $this->validate($request, [
+                'grade' => 'required'
+            ]);
+
+            $projectId = $request->project;
+            $group = Group::find($request-> group);
+            $group->grade = $request->grade;
+            $group->save();
+
+            return redirect('professor/project/'.$projectId)->with('success', 'Grade Given');
+        }
     }
 
     /**
