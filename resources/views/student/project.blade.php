@@ -45,9 +45,15 @@
                 </div>
                 <div class="col">
                     <div class="row mt-3 mr-1 h-75">
-                        <div class="container-fluid rounded pt-2" style="background-color: #ffe680; ">
+                        <div class="container-fluid rounded pt-2 notes" style="background-color: #ffe680; " >
                             <h5 class="text-center">Notas</h5>
-                            <textarea id="textArea">{{$notes}}</textarea>
+                            {!! Form::open(['action' => ['StudentProjectsController@autosave', $project -> idProject], 'method' => 'POST', 'id'=>'myform']) !!}
+                                {{Form::textarea('textArea', $notes, ['class' => 'form-control', 'id'=>'textArea', 'onblur'=>'autosave()'])}}
+                                {{Form::hidden('group', $idGroup)}}
+                                {{Form::submit('Submit', ['class'=>'btn btn-primary d-none'])}}
+                                {{Form::hidden('_method','PUT')}}
+
+                            {!! Form::close() !!}
                         </div>
                     </div>
                     <div class="row mt-2 mr-1" style="height: 20%">
@@ -81,7 +87,12 @@
                                         <td>{{$t->responsible}}</td>
                                         <td>{{$t->beginning}}</td>
                                         <td>{{$t->end}}</td>
-                                        <td>{{$t->timeSpent}}</td>
+                                        <td>@if(!is_null($t->duration) && $t->duration > 1)
+                                                {{$t->timespent}} days
+                                            @elseif(!is_null($t->duration) && $t->duration <= 1)
+                                                1 day
+                                            @endif
+                                        </td>
                                         <td class="float-right pr-0"><button style="width: 10vh" type="button" class="btn btn-sm btn-success editTask mr-md-2">Editar</button><button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalDelete-{{$t->idTask}}">Delete</button></td>
                                     </tr>
                                     <tr class="d-none" id="{{$t->idTask}}-edit">
@@ -498,6 +509,33 @@
         $('input[name="group"]').val($(this).attr("id"));
         $('#modalCreateTask').modal('show');
     });
+    /*$('#textArea').on("chanfe", function(){
+            e.preventDefault();
+            $.ajax({
+                type: "Post",
+                url:url,
+                data: $('.notes').serialize(),
+                success: autosave(),
+            })
+        });*/
+    /*$('#textArea').on('change', function(e){
+        $.ajax({
+            type:'PUT',
+            url: route('notes'),
+            data: form_data.serialize(),
+            success: console.log('Notes updated')
+        });
+        e.preventDefault();
+
+    });*/
+
+    /*$('#textArea').onchange(
+        sessionStorage.setItem("notes",JSON.stringify($('#textArea')));
+    );*/
+
+    function autosave(){
+        document.getElementById("myform").submit();
+    }
 
 </script>
 @endsection

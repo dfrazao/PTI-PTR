@@ -13,10 +13,20 @@ use Auth;
 use App\Group;
 use App\StudentsGroup;
 use App\Task;
-use Carbon\Carbon;
+use DateTime;
 
 class StudentProjectsController extends Controller
 {
+    public function autosave(Request $request, $id){
+
+        $idGroup = $request->input('group');
+        $group = Group::find($idGroup);
+        $group -> notes = $request->input('textArea');
+        //$group -> notes = $request->session()->get('notes');
+        $group->save();
+
+        return redirect()->action('StudentProjectsController@show', $id);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -154,14 +164,17 @@ class StudentProjectsController extends Controller
         }
         if(!empty($request->input('end'))){
             $task-> end = $request->input('end');
+            $start = $task->beginning;
+            $end = $task-> end;
+            $datetime1 = new DateTime($start);
+            $datetime2 = new DateTime($end);
+            $interval = $datetime1->diff($datetime2);
+            $diff = $interval->format('%a');
+            $task -> duration = $diff;
         }else{
             $task-> end = $task->value("end");
         }
-        $start = Carbon::parse($task->beginning)->format('Y/m/d');
-        $end =  Carbon::parse($task-> end)->format('Y/m/d');
 
-        $diff = $end -> diffInDays($start);
-        $task -> timeSpent = $diff;
         $task->save();
 
         return redirect()->action('StudentProjectsController@show', $id)->with('success', 'Task updated successfully');
@@ -180,4 +193,5 @@ class StudentProjectsController extends Controller
         $task ->delete();
         return redirect()->action('StudentProjectsController@show', $id)->with('success', 'Task updated successfully');
     }
+
 }

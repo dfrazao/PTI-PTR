@@ -19,7 +19,7 @@ Route::get('/', 'DashboardController@index', ['name' => 'Dashboard'])->name("Das
 
 //Route::put('/profile/{id}', 'ProfileController@updateProfilePhoto')->middleware('auth');
 Route::resource('/profile', 'ProfileController')->middleware('auth');
-
+Route::put('/student/project/{projectId}', 'StudentProjectsController@autosave')->name("notas")->middleware('auth');
 Route::resource('/professor/project', 'ProfessorProjectsController')->middleware('auth');
 
 Route::put("/student/project",'StudentProjectsController@update');
