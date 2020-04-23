@@ -14,7 +14,6 @@
     <link href="/fontawesome-pro-5.12.0-web/css/all.css" rel="stylesheet">
     <script src="/ckeditor5/build/ckeditor.js"></script>
     <script src='https://momentjs.com/downloads/moment-with-locales.js'></script>
-    <script type="text/javascript" href="public/assets/js/tarefas.js"></script>
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">

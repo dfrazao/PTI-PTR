@@ -47,12 +47,13 @@
                     <div class="row mt-3 mr-1 h-75">
                         <div class="container-fluid rounded pt-2 notes" style="background-color: #ffe680; " >
                             <h5 class="text-center">Notas</h5>
-                            {!! Form::open(['action' => ['StudentProjectsController@autosave', $project -> idProject], 'method' => 'POST', 'id'=>'myform']) !!}
-                                {{Form::textarea('textArea', $notes, ['class' => 'form-control', 'id'=>'textArea', 'onblur'=>'autosave()'])}}
+                            {{--<textarea id = textArea></textarea>--}}
+                            {!! Form::open(['action' => ['StudentProjectsController@autosave'], 'method' => 'PUT', 'id'=>'myform']) !!}
+                                {{Form::textarea('textArea', $notes, ['class' => 'form-control', 'id'=>'textArea'])}}
                                 {{Form::hidden('group', $idGroup)}}
-                                {{Form::submit('Submit', ['class'=>'btn btn-primary d-none'])}}
-                                {{Form::hidden('_method','PUT')}}
-
+                                {{Form::hidden('project', $project -> idProject)}}
+                                {{Form::submit('Submit', ['class'=>'btn btn-primary d-none', 'id'=>'notesButton'])}}
+                                {{Form::hidden('submition','notes')}}
                             {!! Form::close() !!}
                         </div>
                     </div>
@@ -68,7 +69,7 @@
             <div class="row rounded mb-5">
                 <div class="container-fluid rounded mx-3 mt-3 p-2" style="background-color: #c6c6c6; position: relative;">
                     <div class="form-group mb-0">
-                        <div class="table-responsive-xl">
+                        <div class="table-fixed">
                             <table class="table table-hover text-center">
                                 <thead>
                                 <tr>
@@ -77,6 +78,7 @@
                                     <th>Início</th>
                                     <th>Fim</th>
                                     <th>Tempo Gasto</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -88,7 +90,7 @@
                                         <td>{{$t->beginning}}</td>
                                         <td>{{$t->end}}</td>
                                         <td>@if(!is_null($t->duration) && $t->duration > 1)
-                                                {{$t->timespent}} days
+                                                {{$t->duration}} days
                                             @elseif(!is_null($t->duration) && $t->duration <= 1)
                                                 1 day
                                             @endif
@@ -114,7 +116,7 @@
 
                                             {{Form::hidden('task', $t->idTask) }}
                                             {{Form::hidden('group', $t-> idGroup)}}
-
+                                            {{Form::hidden('submition','task')}}
                                             {{Form::hidden('_method','PUT')}}
 
                                             <td class="form-group float-right pr-0">{{Form::Submit('Save', ['class'=>'btn btn-sm mr-2 btn-success', 'style'=>"width: 10vh"])}}<button type="button" class="btn btn-sm btn-danger editTask">Cancel</button></td>
@@ -437,10 +439,13 @@
         resize: none;
         background-color: #ffe680;
         border: none;
+
     }
 
     #textArea:focus{
         outline: 0;
+        box-shadow: none;
+
     }
     .border {
         display: inline-block;
@@ -529,13 +534,28 @@
 
     });*/
 
-    /*$('#textArea').onchange(
-        sessionStorage.setItem("notes",JSON.stringify($('#textArea')));
-    );*/
+    $('#textArea').change( function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: "post",
+            data: {'value':$('#textArea').val(), '_token': $('input[name=_token]').val()},
+            dataType: 'JSON',
+            url: "/student/project",
+            success:function (data) {
+                console.log(data);
+            }
+        });
+   });
+
+    /*window.onbeforeunload = function(){
+        autosave();
+        return 'Are you sure you want to leave?';
+    };
 
     function autosave(){
         document.getElementById("myform").submit();
-    }
+    }*/
+
 
 </script>
 @endsection
