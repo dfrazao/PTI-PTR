@@ -18,13 +18,6 @@ use DateTime;
 class StudentProjectsController extends Controller
 {
 
-    public function autosave(){
-        $x = Input::all();
-        /*$idGroup = $request->input('group');
-        $group = Group::find($idGroup);
-        $group->notes = $request->input('textArea');
-        $group->save();*/
-    }
     /**
      * Display a listing of the resource.
      *
@@ -42,7 +35,10 @@ class StudentProjectsController extends Controller
      */
     public function create()
     {
-        //
+
+        if(Request::ajax()) {
+            $data = Input::all();
+        }
     }
 
     /**
@@ -53,22 +49,32 @@ class StudentProjectsController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'description' => 'required',
-            'responsible' => 'required',
-            'beginning' => 'required'
-        ]);
+        $submission = $request->input('submission');
+        if($submission == "notes") {
+            $this->validate($request, [
+                'notes' => 'required'
+            ]);
+            $idGroup = $request->input('group');
+            $group = Group::find($idGroup);
+            $group->notes = $request->input('notes');
+            $group->save();
+        } else {
+            $this->validate($request, [
+                'description' => 'required',
+                'responsible' => 'required',
+                'beginning' => 'required'
+            ]);
 
-        $task = new Task;
-        $idProject = $request ->input('project');
-        $task-> idGroup = $request ->input('group');
-        $task-> description = $request->input('description');
-        $task-> responsible = $request->input('responsible');
-        $task-> beginning = $request->input('beginning');
-        $task->save();
+            $task = new Task;
+            $idProject = $request ->input('project');
+            $task-> idGroup = $request ->input('group');
+            $task-> description = $request->input('description');
+            $task-> responsible = $request->input('responsible');
+            $task-> beginning = $request->input('beginning');
+            $task->save();
 
-
-        return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Task created successfully');
+            return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Task created successfully');
+        }
 
     }
 
@@ -136,50 +142,38 @@ class StudentProjectsController extends Controller
     public function update(Request $request, $id)
     {
         $idTask = $request->input('task');
-        $idGroup = $request->input('group');
         $task = Task::find($idTask);
-        $group = Group::find($idGroup);
-        $submition = $request->input('submition');
-        if ($submition == 'notes') {
-            $group->notes = $request->input('textArea');
-            $group->save();
-        } elseif($submition == 'task') {
-            if (!empty($request->input('description'))) {
-                $task->description = $request->input('description');
-            } else {
-                $task->description = $task->value('description');
-            }
-            if (!empty($request->input('responsible'))) {
-                $task->responsible = $request->input('responsible');
-            } else {
-                $task->responsible = $task->value('responsible');
-            }
-            if (!empty($request->input('beginning'))) {
-                $task->beginning = $request->input('beginning');
-            } else {
-                $task->beginning = $task->value('beginning');
-            }
-            if (!empty($request->input('end'))) {
-                $task->end = $request->input('end');
-                $start = $task->beginning;
-                $end = $task->end;
-                $datetime1 = new DateTime($start);
-                $datetime2 = new DateTime($end);
-                $interval = $datetime1->diff($datetime2);
-                $diff = $interval->format('%a');
-                $task->duration = $diff;
+        if (!empty($request->input('description'))) {
+            $task->description = $request->input('description');
+        } else {
+            $task->description = $task->value('description');
+        }
+        if (!empty($request->input('responsible'))) {
+            $task->responsible = $request->input('responsible');
+        } else {
+            $task->responsible = $task->value('responsible');
+        }
+        if (!empty($request->input('beginning'))) {
+            $task->beginning = $request->input('beginning');
+        } else {
+            $task->beginning = $task->value('beginning');
+        }
+        if (!empty($request->input('end'))) {
+            $task->end = $request->input('end');
+            $start = $task->beginning;
+            $end = $task->end;
+            $datetime1 = new DateTime($start);
+            $datetime2 = new DateTime($end);
+            $interval = $datetime1->diff($datetime2);
+            $diff = $interval->format('%a');
+            $task->duration = $diff;
 
-            } else {
-                $task->end = $task->value("end");
-            }
-
-            $task->save();
-            return redirect()->action('StudentProjectsController@show', $id)->with('success', 'Task updated successfully');
+        } else {
+            $task->end = $task->value("end");
         }
 
-        return redirect()->action('StudentProjectsController@show', $id);
-
-
+        $task->save();
+        return redirect()->action('StudentProjectsController@show', $id)->with('success', 'Task updated successfully');
     }
 
     /**

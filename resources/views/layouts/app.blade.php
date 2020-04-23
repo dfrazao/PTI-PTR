@@ -47,18 +47,18 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             </ul>
-            <ul class="nav navbar-nav navbar-right pr-5 m-2 my-lg-0">
+            <ul class="nav navbar-nav navbar-right pr-5 m-2 my-lg-0 align-items-center">
 
                 @guest
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                     </li>
-                    @if (Route::has('register'))
+                    {{--@if (Route::has('register'))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                         </li>
-                    @endif
+                    @endif--}}
 
                 @else
                     <li class="nav-item">

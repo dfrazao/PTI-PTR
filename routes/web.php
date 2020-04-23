@@ -21,11 +21,12 @@ Route::get('/', 'DashboardController@index', ['name' => 'Dashboard'])->name("Das
 Route::resource('/profile', 'ProfileController')->middleware('auth');
 
 Route::resource('/professor/project', 'ProfessorProjectsController')->middleware('auth');
-Route::put('/student/project', 'StudentProjectsController@autosave')->middleware('auth');
 Route::resource('/student/project', 'StudentProjectsController')->middleware('auth');
 
 Route::get('/student/project/{projectId}/post', 'PostController@show')->middleware('auth');
 Route::post('/post', 'PostController@store')->middleware('auth');
+Route::post('/post', 'PostController@reply')->middleware('auth');
+Route::delete('/student/project/{projectId}/post', 'PostController@destroyComment')->middleware('auth');
 Route::resource('/student/project/{projectId}/post', 'PostController')->middleware('auth');
 
 

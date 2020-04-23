@@ -21,9 +21,8 @@
             <a class="nav-link" id="noticias-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="noticias" aria-selected="false">Forum</a>
         </li>
         <li class=" ml-auto">
-            <button type="submit" class="btn btn-sm float-right bg-danger" style="width: 20vh;color: white;">Sair do Grupo</button>
+            <button type="submit" class="btn btn-sm float-right bg-danger" style="width: 20vh;color: white;">Leave Group</button>
         </li>
-
     </ul>
 
     <div class="tab-content" id="myTabContent" style="background-color: #ededed; min-height: 75vh; ">
@@ -48,12 +47,12 @@
                         <div class="container-fluid rounded pt-2 notes" style="background-color: #ffe680; " >
                             <h5 class="text-center">Notas</h5>
                             {{--<textarea id = textArea></textarea>--}}
-                            {!! Form::open(['action' => ['StudentProjectsController@autosave'], 'method' => 'PUT', 'id'=>'myform']) !!}
-                                {{Form::textarea('textArea', $notes, ['class' => 'form-control', 'id'=>'textArea'])}}
-                                {{Form::hidden('group', $idGroup)}}
-                                {{Form::hidden('project', $project -> idProject)}}
+                            {!! Form::open(['action' => ['StudentProjectsController@update', $project -> idProject], 'method' => 'POST', 'id'=>'myform']) !!}
+                                @csrf
+                                {{Form::textarea('notes', $notes, ['class' => 'form-control', 'id'=>'textArea'])}}
+                                {{Form::hidden('group',$idGroup)}}
+                                {{Form::hidden('submission','notes')}}
                                 {{Form::submit('Submit', ['class'=>'btn btn-primary d-none', 'id'=>'notesButton'])}}
-                                {{Form::hidden('submition','notes')}}
                             {!! Form::close() !!}
                         </div>
                     </div>
@@ -116,7 +115,6 @@
 
                                             {{Form::hidden('task', $t->idTask) }}
                                             {{Form::hidden('group', $t-> idGroup)}}
-                                            {{Form::hidden('submition','task')}}
                                             {{Form::hidden('_method','PUT')}}
 
                                             <td class="form-group float-right pr-0">{{Form::Submit('Save', ['class'=>'btn btn-sm mr-2 btn-success', 'style'=>"width: 10vh"])}}<button type="button" class="btn btn-sm btn-danger editTask">Cancel</button></td>
@@ -133,7 +131,7 @@
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
-                                                <div class="modal-body text-center">
+                                                <div class="modal-body">
                                                     <h5>Are you sure you want to delete this task?</h5>
                                                     {!!Form::open(['action' => ['StudentProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
                                                     {{Form::hidden('_method', 'DELETE')}}
@@ -280,7 +278,7 @@
             </div>
         </div>
         <div class="tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
-            <button type="button" class="p-2 mt-3 mr-3 btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#modalCreate" style="background-color: #2c3fb1; border-color: #2c3fb1;">Create Post</button>
+            <button type="button" class="p-2 mt-3 mr-3 btn btn-md btn-primary float-right" data-toggle="modal" data-target="#modalCreate" style="background-color: #2c3fb1; border-color: #2c3fb1;">Create Post</button>
 
             <div class="container rounded pb-3 pt-3">
                 <div class="table-responsive">
@@ -312,7 +310,10 @@
                         @endif
                         </tbody>
                     </table>
-                    {{$p->links()}}
+                    <div class="d-flex justify-content-between">
+                        <span>Showing {{$p->firstItem()}} to {{$p->lastItem()}} of {{$p->total()}} posts</span>
+                        {{$p->links()}}
+                    </div>
                 </div>
 
                 {{--Modal Create--}}
@@ -320,7 +321,7 @@
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" id="staticBackdropLabel">New Project</h4>
+                                <h4 class="modal-title" id="staticBackdropLabel">New Post</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -424,6 +425,7 @@
                 {{ Form::hidden('group', "group") }}
                 {{ Form::hidden('project', $project->idProject) }}
                 {{ Form::hidden('subject', $subject->subjectName) }}
+                {{Form::hidden('submission','task')}}
 
                 {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
 
@@ -508,53 +510,26 @@
     }
     $('#myTab a[href="' + hash + '"]').tab('show');
 
-    $(".pagination").addClass("justify-content-center");
+    $(".pagination").addClass("justify-content-right");
 
     $(".open_modal").click(function(){
         $('input[name="group"]').val($(this).attr("id"));
         $('#modalCreateTask').modal('show');
     });
-    /*$('#textArea').on("chanfe", function(){
-            e.preventDefault();
-            $.ajax({
-                type: "Post",
-                url:url,
-                data: $('.notes').serialize(),
-                success: autosave(),
-            })
-        });*/
-    /*$('#textArea').on('change', function(e){
-        $.ajax({
-            type:'PUT',
-            url: route('notes'),
-            data: form_data.serialize(),
-            success: console.log('Notes updated')
-        });
-        e.preventDefault();
 
-    });*/
-
-    $('#textArea').change( function(e) {
-        e.preventDefault();
+    $('#textArea').change( function() {
+        datastring = {'notes':$('#textArea').val(), 'group': $('input[name=group]').val(), 'submission': $('input[name=submission]').val(), '_token': $('input[name=_token]').val()};
+        console.log(datastring);
         $.ajax({
             type: "post",
-            data: {'value':$('#textArea').val(), '_token': $('input[name=_token]').val()},
+            data: datastring,
             dataType: 'JSON',
-            url: "/student/project",
+            url: "/student/project/",
             success:function (data) {
                 console.log(data);
             }
         });
-   });
-
-    /*window.onbeforeunload = function(){
-        autosave();
-        return 'Are you sure you want to leave?';
-    };
-
-    function autosave(){
-        document.getElementById("myform").submit();
-    }*/
+    });
 
 
 </script>
