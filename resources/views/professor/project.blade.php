@@ -2,11 +2,17 @@
 @section('content')
 <div class="mt-3 container-xl">
     @include('layouts.messages')
+    <nav aria-label="breadcrumb" >
+        <ol class="breadcrumb mt-1 pl-0 pb-0 pt-0 float-right" style="background-color:white; ">
+            <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{$subject->subjectName}} - {{$project->name}}</li>
+        </ol>
+    </nav>
     <h2 class="pb-2">{{$subject->subjectName}} - {{$project->name}}</h2>
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="conteudo-tab" data-toggle="tab" href="#conteudo" role="tab" aria-controls="conteudo" aria-selected="true">Conteudo</a>
+            <a class="nav-link active" id="conteudo-tab" data-toggle="tab" href="#conteudo" role="tab" aria-controls="conteudo" aria-selected="true">Grupos</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="noticias-tab" data-toggle="tab" href="#noticias" role="tab" aria-controls="noticias" aria-selected="false">Noticias</a>
@@ -26,9 +32,9 @@
                         </div>
                         <ul class="nav nav-pills mb-3 flex-column" id="pills-tab" role="tablist" aria-orientation="vertical">
                             @foreach($groups as $group)
-                                 <li class="nav-item">
-                                     <a class="nav-link" style="display:flex; align-items: center;vertical-align: middle;" id="pills-{{$group->idGroup}}e-tab" data-toggle="pill" href="#pills-{{$group->idGroup}}" role="tab" aria-controls="pills-{{$group->idGroup}}" aria-selected="true">
-                                         <h3 class="float-left mb-0" style="vertical-align: middle;">{{$group->idGroupProject}} </h3>
+                                 <li class="nav-item mb-1">
+                                     <a class="nav-link border border-dark " style="display:flex; align-items: center;vertical-align: middle;" id="pills-{{$group->idGroup}}e-tab" data-toggle="pill" href="#pills-{{$group->idGroup}}" role="tab" aria-controls="pills-{{$group->idGroup}}" aria-selected="true">
+                                         <h3 class="float-left mb-0 mr-2" style="vertical-align: middle;">{{$group->idGroupProject}} </h3>
                                          @foreach(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) as $sg)
                                              <span>{{ \App\User::find($sg->idStudent)->name}}</span>
                                          @endforeach
@@ -45,7 +51,10 @@
                             <div class="tab-content" id="pills-tabContent">
                                 @foreach($groups as $group)
                                     <div class="tab-pane fade" id="pills-{{$group->idGroup}}" role="tabpanel" aria-labelledby="pills-{{$group->idGroup}}-tab">{{$group->idGroup}}
-                                        <button type="button" class="p-2 btn btn-primary btn-md float-right mt-3 mr-3" data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}" style="background-color: #2c3fb1; border-color: #2c3fb1;">Avaliar Grupo</button>
+                                        <h3>Grade</h3>
+                                        @if ($group->grade == NULL)
+                                            <span>Ainda nao foi avaliado</span>
+                                        <button type="button" class="p-2 btn btn-primary btn-md float-right" style="position: absolute; right:4%; bottom:3%;" data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}" style="background-color: #2c3fb1; border-color: #2c3fb1;">Avaliar Grupo</button>
                                         <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
@@ -71,6 +80,35 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @else
+                                            <span>{{$group->grade}}</span>
+                                            <button type="button" class="p-2 btn btn-primary btn-md float-right" style="position: absolute; right:4%; bottom:3%;" data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}" style="background-color: #2c3fb1; border-color: #2c3fb1;">Change Grade</button>
+                                            <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" id="staticBackdropLabel">Avaliação</h4>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {!! Form::open(['action' => ['ProfessorProjectsController@update', $project->idProject], 'method' => 'PUT']) !!}
+                                                            <div class="form-group">
+                                                                {{Form::label('grade', 'Nota do Projeto')}}
+                                                                {{Form::text('grade', '', ['class' => 'form-control'])}}
+                                                            </div>
+                                                            {{Form::hidden('group', $group->idGroup)}}
+                                                            {{Form::hidden('_method','PUT')}}
+                                                            {{Form::hidden('option', 'grade')}}
+                                                            {{Form::submit('Submit', ['class'=>'btn btn-success'])}}
+
+                                                            {!! Form::close() !!}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
                                 @endforeach
                             </div>

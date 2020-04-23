@@ -106,16 +106,35 @@ class ProfessorProjectsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if($request->option=="project") {
+            $this->validate($request, [
+                'title' => 'required',
+                'deadline' => 'required',
+                'group_formation_deadline' => 'required'
+            ]);
 
-        $project = Project::find($id);
-        $project->name = $request->input('title');
-        $project->dueDate = $request->input('deadline');
-        $project->groupCreationDueDate = $request->input('group_formation_deadline');
-        $project->maxElements = $request->input('number');
-        $project->idSubject = $project->idSubject;
-        $project->save();
+            $project = Project::find($id);
+            $project->name = $request->input('title');
+            $project->dueDate = $request->input('deadline');
+            $project->groupCreationDueDate = $request->input('group_formation_deadline');
+            $project->maxElements = $request->input('number');
+            $project->idSubject = $project->idSubject;
+            $project->save();
 
-        return redirect('/')->with('success', 'Project Updated');
+            return redirect('/')->with('success', 'Project Updated');
+
+        } else {
+            $this->validate($request, [
+                'grade' => 'required'
+            ]);
+
+            $group = Group::find($request->group);
+            $group->grade = $request->grade;
+            $group->save();
+
+            return redirect('professor/project/'.$id)->with('success', 'Grade Updated');
+        }
+
     }
 
     /**
