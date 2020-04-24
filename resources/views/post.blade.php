@@ -213,6 +213,7 @@
                                     <div class="modal-body">
                                         <h5>Are you sure you want to delete this post?</h5>
                                         {!!Form::open(['action' => ['PostController@destroy', $project->idProject, $announcement->idAnnouncement], 'method' => 'POST'])!!}
+                                        {{Form::hidden('option', 'post')}}
                                         {{Form::hidden('_method', 'DELETE')}}
                                         {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
                                         {!!Form::close()!!}
@@ -252,7 +253,9 @@
                                             </div>
                                             <div class="modal-body">
                                                 <h5>Are you sure you want to delete this comment?</h5>
-                                                {!!Form::open(['action' => ['PostController@destroyComment', $project->idProject, $announcement->idAnnouncement, $comments[$i]->idAnnouncementComment], 'method' => 'POST'])!!}
+                                                {!!Form::open(['action' => ['PostController@destroy', $project->idProject, $announcement->idAnnouncement], 'method' => 'POST'])!!}
+                                                {{Form::hidden('option', 'comment')}}
+                                                {{Form::hidden('comment', $comments[$i]->idAnnouncementComment)}}
                                                 {{Form::hidden('_method', 'DELETE')}}
                                                 {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
                                                 {!!Form::close()!!}

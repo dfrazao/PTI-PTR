@@ -15,6 +15,8 @@
     <script src="/ckeditor5/build/ckeditor.js"></script>
     <script src='https://momentjs.com/downloads/moment-with-locales.js'></script>
 
+    <link rel="shortcut icon" href="/images/favicon.ico">
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 

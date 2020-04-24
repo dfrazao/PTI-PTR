@@ -157,24 +157,22 @@ class PostController extends Controller
      * @param $id2
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, $id2)
+    public function destroy(Request $request, $id, $id2)
     {
-        $post = Announcement::find($id2);
-        $post->delete();
-        return redirect()->to("/student/project/". $id . '#forum')->with('success', 'Post Deleted');
-    }
+        $option = $request ->input('option');
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @param $id2
-     * @return \Illuminate\Http\Response
-     */
-    public function destroyComment($id)
-    {
-        $comment = AnnouncementComment::find($id);
-        $comment->delete();
-        return redirect()->to(url()->previous())->with('success', 'Comment Deleted');
+        if ($option == 'post') {
+
+            $announcement = Announcement::find($id2);
+            $announcement->delete();
+
+            return redirect()->to("/student/project/". $id . '#forum')->with('success', 'Post Deleted');
+        } elseif($option == 'comment') {
+
+            $announcementComment = AnnouncementComment::find($request ->input('comment'));
+            $announcementComment->delete();
+
+            return redirect()->to(url()->previous())->with('success', 'Comment Deleted');
+        }
     }
 }

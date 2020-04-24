@@ -153,6 +153,42 @@
                 </div>
             </div>
         </div>
+        {{-- Modal Create Task --}}
+        <div class="modal fade" id="modalCreateTask" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="staticBackdropLabel">New Task</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {!! Form::open(['action' => 'StudentProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                        <div class="form-group">
+                            {{Form::label('description', 'Title')}}
+                            {{Form::text('description', '', ['class' => 'form-control', 'placeholder' => 'Task title'])}}
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('responsible', 'Responsible')}}
+                            {{ Form::text('responsible', '',['class' => 'form-control', 'placeholder' => 'Responsible for the task']) }}
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('beginning', 'Beginning')}}
+                            {{ Form::date('beginning','',['class' => 'form-control']) }}
+                        </div>
+                        {{ Form::hidden('group', "group") }}
+                        {{ Form::hidden('project', $project->idProject) }}
+                        {{ Form::hidden('subject', $subject->subjectName) }}
+                        {{Form::hidden('submission','task')}}
+
+                        {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+
+                        {!! Form::close() !!}
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab">
             <div class="grid-container">
                 <div></div>
@@ -398,42 +434,6 @@
         </div>
     </div>
 </div>
-{{-- Modal Create Task --}}
-<div class="modal fade" id="modalCreateTask" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="staticBackdropLabel">New Task</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                {!! Form::open(['action' => 'StudentProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
-                <div class="form-group">
-                    {{Form::label('description', 'Title')}}
-                    {{Form::text('description', '', ['class' => 'form-control', 'placeholder' => 'Task title'])}}
-                </div>
-                <div class="form-group">
-                    {{Form::label('responsible', 'Responsible')}}
-                    {{ Form::text('responsible', '',['class' => 'form-control', 'placeholder' => 'Responsible for the task']) }}
-                </div>
-                <div class="form-group">
-                    {{Form::label('beginning', 'Beginning')}}
-                    {{ Form::date('beginning','',['class' => 'form-control']) }}
-                </div>
-                {{ Form::hidden('group', "group") }}
-                {{ Form::hidden('project', $project->idProject) }}
-                {{ Form::hidden('subject', $subject->subjectName) }}
-                {{Form::hidden('submission','task')}}
-
-                {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
-
-                {!! Form::close() !!}
-            </div>
-        </div>
-    </div>
-</div>
 <style>
     #textArea {
         width: 100%;
@@ -518,19 +518,14 @@
     });
 
     $('#textArea').change( function() {
-        datastring = {'notes':$('#textArea').val(), 'group': $('input[name=group]').val(), 'submission': $('input[name=submission]').val(), '_token': $('input[name=_token]').val()};
-        console.log(datastring);
+        datastring = {'notes':$('#textArea').val(), 'group': $('input[name=group]').val(), 'submission': $('input[name=submission]').val(), '_token': $('input[name=_token]').val()}
         $.ajax({
             type: "post",
             data: datastring,
             dataType: 'JSON',
-            url: "/student/project/",
-            success:function (data) {
-                console.log(data);
-            }
+            url: "/student/project/"
         });
     });
-
 
 </script>
 @endsection

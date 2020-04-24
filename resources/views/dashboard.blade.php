@@ -175,9 +175,9 @@
                     @if(count($subjects) > 0)
                         @foreach($subjects as $subject)
 
-                            <div class="container overflow-auto p-2 mt-3 rounded" style="background-color: #c6c6c6;">
+                            <div class="container overflow-auto p-2 mt-3 rounded cadeira" type="button" id="{{$subject->idSubject}}" style="background-color: #c6c6c6;">
                                 <h4 class="mt-2 pl-2 float-left">{{$subject->subjectName}}</h4>
-                                <button style="color:#2c3fb1" type="button" class="cadeira btn btn-default btn-lg float-right" id="{{$subject->idSubject}}">
+                                <button style="color:#2c3fb1" type="button" class="btn btn-default btn-lg float-right" id="button-{{$subject->idSubject}}">
                                     <span class="fas fa-plus"></span>
                                 </button>
                             </div>
@@ -345,11 +345,11 @@
                 id = $(this).attr('id');
                 if ($("#" + id + "-groups").hasClass( "doff" )) {
                     $("#" + id + "-groups").removeClass( "doff" );
-                    $("#" + id).children().addClass('fa-minus').removeClass('fa-plus');
+                    $("#button-" + id).children().addClass('fa-minus').removeClass('fa-plus');
                     $("#" + id + "-groups").slideDown(400);
                 } else {
                     $("#" + id + "-groups").addClass( "doff" );
-                    $("#" + id).children().addClass('fa-plus').removeClass('fa-minus');
+                    $("#button-" + id).children().addClass('fa-plus').removeClass('fa-minus');
                     $("#" + id + "-groups").slideUp(400);
                 }
             });
