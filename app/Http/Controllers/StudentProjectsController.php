@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Meeting;
 use Illuminate\Http\Request;
 use App\Project;
 use App\Subject;
@@ -14,6 +15,7 @@ use App\Group;
 use App\StudentsGroup;
 use App\Task;
 use DateTime;
+use Illuminate\Support\Facades\Session;
 
 class StudentProjectsController extends Controller
 {
@@ -50,15 +52,16 @@ class StudentProjectsController extends Controller
     public function store(Request $request)
     {
         $submission = $request->input('submission');
+        $idGroup = $request->input('group');
+        $idProject = $request ->input('project');
         if($submission == "notes") {
             $this->validate($request, [
                 'notes' => 'required'
             ]);
-            $idGroup = $request->input('group');
             $group = Group::find($idGroup);
             $group->notes = $request->input('notes');
             $group->save();
-        } else {
+        } elseif($submission == "task"){
             $this->validate($request, [
                 'description' => 'required',
                 'responsible' => 'required',
@@ -66,7 +69,6 @@ class StudentProjectsController extends Controller
             ]);
 
             $task = new Task;
-            $idProject = $request ->input('project');
             $task-> idGroup = $request ->input('group');
             $task-> description = $request->input('description');
             $task-> responsible = $request->input('responsible');
@@ -75,8 +77,24 @@ class StudentProjectsController extends Controller
 
             return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Task created successfully');
         }
+        else{
+            $this->validate($request, [
+                'description' => 'required',
+                'place' => 'required',
+                'date' => 'required',
+                'time' => 'required'
+            ]);
+            $meeting = new Meeting;
+            $meeting -> idGroup = $request->input('group');
+            $meeting -> description = $request->input('description');
+            $meeting -> date = $request->input('date');
+            $meeting -> hour = $request->input('time');
+            $meeting -> place = $request->input('place');
 
-    }
+            $meeting->save();
+            }
+            return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Meeting created successfully');
+        }
 
     /**
      * Display the specified resource.
@@ -98,7 +116,13 @@ class StudentProjectsController extends Controller
                 if ($g == $st)
                     $idGroup = $g;
         $arr = Task::all()->where('idGroup', '==', $idGroup);
+        /*if(!is_null(Group::find($idGroup))){
+            $notes = Group::find($idGroup)->value('notes');
+        }else {
+            $notes = null;
+        }*/
         $notes = Group::find($idGroup)->value('notes');
+        $meeting = Meeting::all()->where('idGroup','==', $idGroup);
         $posts = Announcement::orderBy('date', 'desc')->paginate(10)->fragment('forum');
         //$posts = $posts->where('idProject', '==', $id);
         $allPosts = [];
@@ -118,7 +142,7 @@ class StudentProjectsController extends Controller
             array_push($numberComments, $idComment);
         }
 
-        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('posts', $allPosts)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup)->with('notes',$notes)->with('p',$posts);
+        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('posts', $allPosts)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup)->with('notes',$notes)->with('p',$posts)->with('meeting',$meeting);
     }
 
     /**

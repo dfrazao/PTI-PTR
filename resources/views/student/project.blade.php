@@ -23,14 +23,15 @@
         <li class="nav-item">
             <a class="nav-link" id="noticias-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="noticias" aria-selected="false">Forum</a>
         </li>
-        <li class=" ml-auto">
-            <button type="submit" class="btn btn-sm float-right bg-danger" style="width: 20vh;color: white;">Leave Group</button>
+        <li class="rightbutton ml-auto">
+            <button type="submit" class="btn btn-sm mr-2 d-none" id= 'newMeeting' data-toggle="modal" data-target="#modalCreateMeeting" style="width: 20vh;background: #2c3fb1; color: white;">New Meeting</button><button type="submit" class="btn btn-sm bg-danger" style="width: 20vh;color: white;">Leave Group</button>
+
         </li>
     </ul>
 
-    <div class="tab-content" id="myTabContent" style="background-color: #ededed; min-height: 75vh; ">
-        <div class="container-fluid tab-pane fade ml-0 mr-0" id="content" role="tabpanel" aria-labelledby="content-tab" style="background-color: #ededed;">
-            <div class="row rounded" style="height: 70vh;">
+    <div class="tab-content" id="myTabContent" style="min-height: 75vh; background-color: #ededed;">
+        <div class="container-fluid tab-pane fade ml-0 mr-0" id="content" role="tabpanel" aria-labelledby="content-tab">
+            <div class="row rounded" style="height: 80vh;">
                 <div class="col mt-3 ml-3 rounded" style="background-color: #c6c6c6; position: relative;">
                     <div class="container-fluid d-flex flex-row mt-3" >
                         <figure class="text-center mr-4"><i class="fas fa-folder fa-4x" style="color: #ffce52;"></i><figcaption>proj1-v1.zip</figcaption></figure>
@@ -39,32 +40,22 @@
                         <button type="submit" class="btn btn-sm mb-2 mr-2" style="width:20vh;background: #2c3fb1; color: white; position: absolute; bottom: 0px; right: 0px;">Submeter</button>
                     </div>
                 </div>
-                <div class="col-3 mt-3 rounded">
-                    <div class="container-fluid rounded h-100 text-center pt-2" style="background-color: #c6c6c6;">
+                <div class="col col mt-3 rounded">
+                    <div class="container-fluid rounded text-center h-100 pt-2" style="background-color: #c6c6c6; height: 30vh;">
                         <h5>Documentação </h5>
                         <p> Enunciado </p>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="row mt-3 mr-1 h-75">
-                        <div class="container-fluid rounded pt-2 notes" style="background-color: #ffe680; " >
-                            <h5 class="text-center">Notas</h5>
-                            {{--<textarea id = textArea></textarea>--}}
-                            {!! Form::open(['action' => ['StudentProjectsController@update', $project -> idProject], 'method' => 'POST', 'id'=>'myform']) !!}
-                                @csrf
-                                {{Form::textarea('notes', $notes, ['class' => 'form-control', 'id'=>'textArea'])}}
-                                {{Form::hidden('group',$idGroup)}}
-                                {{Form::hidden('submission','notes')}}
-                                {{Form::submit('Submit', ['class'=>'btn btn-primary d-none', 'id'=>'notesButton'])}}
-                            {!! Form::close() !!}
-                        </div>
-                    </div>
-                    <div class="row mt-2 mr-1" style="height: 20%">
-                        <div class="container-fluid rounded text-center pt-2" style="background-color: #c6c6c6; position: relative;">
-                            <h5>Reunião</h5>
-                            <div>24/12/2020 15:00 </div>
-                            <button type="submit" class="btn btn-sm mr-2 mb-2" style="width: 20vh;background: #2c3fb1; color: white; position: absolute; bottom: 0px; right: 0px;">Agendar</button>
-                        </div>
+                <div class="col col mt-3 pl-0 rounded">
+                    <div class="container-fluid rounded pt-2 h-100 notes" style="background-color: #ffe680; " >
+                        <h5 class="text-center">Notas</h5>
+                        {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST', 'id'=>'myform']) !!}
+                        @csrf
+                        {{Form::textarea('notes', $notes, ['class' => 'form-control', 'id'=>'textArea', 'rows'=>'17'])}}
+                        {{Form::hidden('group',$idGroup)}}
+                        {{Form::hidden('submission','notes')}}
+                        {{Form::submit('Submit', ['class'=>'btn btn-primary d-none', 'id'=>'notesButton'])}}
+                        {!! Form::close() !!}
                     </div>
                 </div>
             </div>
@@ -103,16 +94,16 @@
                                         @csrf
                                         {!!Form::open(['action' => ['StudentProjectsController@update', $project -> idProject], 'method' => 'POST'])!!}
                                             <td class="form-group">
-                                                {{Form::text('description', $t->description, ['class' => 'form-control', 'placeholder' => 'Task title'])}}
+                                                {{Form::text('description', $t->description, ['class' => 'form-control'])}}
                                             </td>
                                             <td class="form-group">
-                                                {{ Form::text('responsible', $t->responsible ,['class' => 'form-control', 'placeholder' => 'Responsible for the task']) }}
+                                                {{ Form::text('responsible', $t->responsible ,['class' => 'form-control']) }}
                                             </td>
                                             <td class="form-group">
-                                                {{ Form::date('beginning',$t->beginning,['class' => 'form-control']) }}
+                                                {{ Form::date('beginning', $t->beginning ,['class' => 'form-control']) }}
                                             </td>
                                             <td class="form-group">
-                                                {{ Form::date('end',$t->end,['class' => 'form-control']) }}
+                                                {{ Form::date('end', $t->end ,['class' => 'form-control']) }}
                                             </td>
                                             <td class="form-group"></td>
 
@@ -120,8 +111,7 @@
                                             {{Form::hidden('group', $t-> idGroup)}}
                                             {{Form::hidden('_method','PUT')}}
 
-                                            <td class="form-group float-right pr-0">{{Form::Submit('Save', ['class'=>'btn btn-sm mr-2 btn-success', 'style'=>"width: 10vh"])}}<button type="button" class="btn btn-sm btn-danger editTask">Cancel</button></td>
-
+                                            <td class="form-group float-right pr-0">{{Form::Submit('Save', ['class'=>'btn btn-sm mr-2 btn-success', 'style'=>"width: 10vh", 'id'=>'Save'])}}<button type="button" class="btn btn-sm btn-danger editTask">Cancel</button></td>
                                         {!! Form::close() !!}
                                     </tr>
                                     {{-- Modal Delete Task --}}
@@ -150,7 +140,7 @@
                             </table>
                         </div>
                         <div class="container-fluid pt-3" style="position: relative">
-                            <button type="button" class="btn btn-sm open_modal" id="{{$idGroup}}" style="width:20vh;background: #2c3fb1; color: white;position: absolute; bottom: 0px; right: 0px;">Nova Tarefa</button>
+                            <button type="button" class="btn btn-sm open_modal" id="{{$idGroup}}" style="width:20vh;background: #2c3fb1; color: white;position: absolute; bottom: 0px; right: 0px;">New Task</button>
                         </div>
                     </div>
                 </div>
@@ -180,7 +170,7 @@
                             {{Form::label('beginning', 'Beginning')}}
                             {{ Form::date('beginning','',['class' => 'form-control']) }}
                         </div>
-                        {{ Form::hidden('group', "group") }}
+                        {{ Form::hidden('group', $idGroup) }}
                         {{ Form::hidden('project', $project->idProject) }}
                         {{ Form::hidden('subject', $subject->subjectName) }}
                         {{Form::hidden('submission','task')}}
@@ -192,7 +182,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab">
+        <div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab" style=" position: relative">
             <div class="grid-container">
                 <div></div>
                 <div>Segunda</div>
@@ -315,9 +305,73 @@
                     </div>
                 </div>
             </div>
+            <div class="container-fluid rounded text-center pt-2 h-100 px-0">
+                <h5>Reuniões</h5>
+                <table class="table table-hover text-center">
+                    <thead>
+                    <tr>
+                        <th>Number</th>
+                        <th>Description</th>
+                        <th>Date</th>
+                        <th>Beginning</th>
+                        <th>Place</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($meeting as $m)
+                        <tr>
+                            <td>{{$m->idMeeting}}</td>
+                            <td>{{$m->description}}</td>
+                            <td>{{$m->date}}</td>
+                            <td>{{$m->hour}}</td>
+                            <td>{{$m->place}}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {{-- Modal Create Meeting --}}
+        <div class="modal fade" id="modalCreateMeeting" aria-labelledby="modalCreateMeeting" aria-hidden="true" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="staticBackdropLabel">Create new meeting</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {!!Form::open(['action' => ['StudentProjectsController@store', $project->idProject], 'method' => 'POST', 'enctype' => 'multipart/form-data'])!!}
+                        <div class="form-group">
+                            {{Form::label('description', 'Meeting description')}}
+                            {{Form::text('description', '', ['class' => 'form-control'])}}
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('place', 'Meeting place')}}
+                            {{Form::text('place', '', ['class' => 'form-control'])}}
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('date', 'Meeting date')}}
+                            {{Form::date('date', '',['class' => 'form-control']) }}
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('time', 'Meeting beginning')}}
+                            {{ Form::time('time','',['class' => 'form-control']) }}
+                        </div>
+                        {{ Form::hidden('group', $idGroup) }}
+                        {{ Form::hidden('project', $project->idProject) }}
+                        {{ Form::hidden('subject', $subject->subjectName) }}
+                        {{Form::hidden('submission','meeting')}}
+                        {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+
+                        {!!Form::close()!!}
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
-            <button type="button" class="p-2 mt-3 mr-3 btn btn-md btn-primary float-right" data-toggle="modal" data-target="#modalCreate" style="background-color: #2c3fb1; border-color: #2c3fb1;">Create Post</button>
+            <button type="button" class="p-2 mt-3 mr-3 btn btn-md btn-primary float-right" data-toggle="modal" data-target="#modalCreatePost" style="background-color: #2c3fb1; border-color: #2c3fb1;">Create Post</button>
 
             <div class="container rounded pb-3 pt-3">
                 <div class="table-responsive-xl">
@@ -355,8 +409,8 @@
                     </div>
                 </div>
 
-                {{--Modal Create--}}
-                <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog">
+                {{--Modal Create Post--}}
+                <div class="modal fade" id="modalCreate Post" tabindex="-1" role="dialog">
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -438,18 +492,19 @@
     </div>
 </div>
 <style>
-    #textArea {
+    #textArea{
         width: 100%;
-        height: 80%;
+        height: 100%;
         resize: none;
         background-color: #ffe680;
         border: none;
-
     }
-
     #textArea:focus{
         outline: 0;
         box-shadow: none;
+
+    }
+    .notes{
 
     }
     .border {
@@ -502,6 +557,13 @@
 
     // store the currently selected tab in the hash value
     $("ul.nav-tabs > li > a").on("shown.bs.tab", function(e) {
+        if($(this).attr('id') == "horario-tab"){
+
+            $('#newMeeting').removeClass('d-none');
+        }
+        else{
+            $('#newMeeting').addClass('d-none');
+        }
         var id = $(e.target).attr("href").substr(1);
         window.location.hash = id;
     });
@@ -529,6 +591,8 @@
             url: "/student/project/"
         });
     });
+
+
 
 </script>
 @endsection
