@@ -1,6 +1,9 @@
 @extends('layouts.app')
 @section('content')
-<div class="container-xl mt-4">
+<head>
+    <title>Profile</title>
+</head>
+<div class="container-xl mt-4 mb-4">
     @include('layouts.messages')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb mt-1 pl-0 pb-0 pt-0 float-right" style="background-color:white; ">

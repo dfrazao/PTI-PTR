@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('content')
+<head>
+    <title>Post</title>
+</head>
 <div class="container-fluid pl-5 pr-5 pb-2 mt-3">
     @include('layouts.messages')
     <nav aria-label="breadcrumb" >

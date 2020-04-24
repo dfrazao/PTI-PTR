@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('content')
+<head>
+    <title>Project</title>
+</head>
 <div class="mt-3 container-xl">
     @include('layouts.messages')
     <nav aria-label="breadcrumb" >

@@ -1,6 +1,9 @@
 @extends('layouts.app')
 @section('content')
-<div class="container-xl-fluid mt-4 pl-5 pr-5 pb-2 ">
+<head>
+    <title>Dashboard</title>
+</head>
+<div class="container-xl-fluid mt-4 pl-5 pr-5 pb-2">
     @include('layouts.messages')
     @if (session('status'))
         <div class="alert alert-success" role="alert">

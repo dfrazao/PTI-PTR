@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('content')
+<head>
+    <title>Project</title>
+</head>
 <div class="container-fluid pl-5 pr-5 pb-2 mt-3">
     @include('layouts.messages')
     <nav aria-label="breadcrumb" >
@@ -317,7 +320,7 @@
             <button type="button" class="p-2 mt-3 mr-3 btn btn-md btn-primary float-right" data-toggle="modal" data-target="#modalCreate" style="background-color: #2c3fb1; border-color: #2c3fb1;">Create Post</button>
 
             <div class="container rounded pb-3 pt-3">
-                <div class="table-responsive">
+                <div class="table-responsive-xl">
                     <table class="table bg-white rounded" style="text-align:center;">
                         <thead>
                         <tr>

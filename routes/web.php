@@ -13,7 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes();
+Auth::routes([
+    'register' => false, // Registration Routes...
+    'verify' => false, // Email Verification Routes...
+    'confirm' => false
+]);
 
 Route::get('/', 'DashboardController@index', ['name' => 'Dashboard'])->name("Dashboard");
 
