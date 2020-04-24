@@ -24,6 +24,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
-        "rfs": "^9.0.3"
+        "rfs": "^9.0.3",
+        "tempusdominus-bootstrap-4": "^5.1.2"
     }
 }
