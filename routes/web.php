@@ -51,6 +51,9 @@ Route::resource('/student/project/{projectId}/post', 'PostController')->middlewa
 // Student
 
 
+Route::get('student/project/{id}/groups', 'GroupController@show');
+Route::post('student/project/{id}','GroupController@store');
+
 // Professor
 
 // Admin

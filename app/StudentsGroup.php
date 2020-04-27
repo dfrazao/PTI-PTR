@@ -8,4 +8,5 @@ class StudentsGroup extends Model
 {
     protected $primaryKey = 'idStudent';
     protected $table = "studentGroups";
+    public $timestamps = false;
 }
