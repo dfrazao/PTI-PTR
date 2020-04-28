@@ -1040,11 +1040,14 @@
                                             <th scope="col" >
                                                 idSubject
                                             </th>
+                                            <th scope="col">
+                                                Subject Name
+                                            </th>
                                             <th scope="col" >
                                                 idGeneralSubject
                                             </th>
                                             <th scope="col">
-                                                Subject Name
+                                                General Subject Name
                                             </th>
                                             <th scope="col">
                                                 Class
@@ -1065,10 +1068,13 @@
                                                     {{$subjects->idSubject}}
                                                 </td>
                                                 <td>
+                                                    {{$subjects->subjectName}}
+                                                </td>
+                                                <td>
                                                     {{$subjects->idGeneralSubject}}
                                                 </td>
                                                 <td>
-                                                    {{$subjects->subjectName}}
+                                                    {{$subjects->generalSubject['name']}}
                                                 </td>
                                                 <td>
                                                     {{$subjects->class}}
@@ -1136,6 +1142,167 @@
 
                 </script>
 
+            @elseif($data[0]->academicYear >0 )
+
+                <!-- Modal - Create -->
+                    <div class="modal" id="modal-1" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Create</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ action('AdminController@store','academicYears')}}" method="POST">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" id="table" name="table" value="academicYears">
+                                        <div class="form-group">
+                                            <label>Academic Year</label>
+                                            <input type="text" class="form-control" name="academicYear" id="academicYear">
+                                        </div>
+                                        <button type="submit" class="btn btn-success">Create</button>
+                                        <button href="/admin/subjects" type="submit" class="btn btn-danger" style="float: right">Cancel</button>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Modal - Import Data -->
+                    <div class="modal" id="modal-2" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Import Academic years Data</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ action('AdminController@import','academicYears')}}" method="post" enctype="multipart/form-data">
+                                        {{csrf_field()}}
+                                        <div class="form-group">
+                                            <input type="file" name="upload-file" class="form-control-file">
+                                        </div>
+                                        <input class="btn btn-success" type="submit" value="Upload .csv File" name="submit">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Modal - Delete -->
+                    <div class="modal" id="modal-del-years" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Delete</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{action('AdminController@destroy',['table' => 'academicYears'])}}" method="POST">
+                                        {{method_field('DELETE')}}
+                                        {{ csrf_field() }}
+                                        <div class="form-group">
+                                            <p>Are you sure you want to delete this subject?</p>
+                                            <span id="year"></span>
+                                            <input type="hidden" id="id" name="id">
+                                        </div>
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                        <button data-dismiss="modal" aria-label="Close" class="btn btn-outline-secondary" style="float: right">Cancel</button>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container-xl" style="max-width: 100%; margin-bottom: 5%;">
+                        <!-- Search form -->
+                        <div style="margin-top: 1%;margin-bottom: 3%;">
+                            <h3>Academic Years</h3>
+                        </div>
+
+                        <div class="content" style="">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    @if (session('success'))
+                                        <div class="alert alert-success" role="alert">
+                                            {{ session('success') }}
+                                        </div>
+                                    @endif
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-1"><i class="fa fa-plus" aria-hidden="true"></i> Create</button>
+                                            <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-2"><i class="fa fa-upload" aria-hidden="true"></i> Import</button>
+                                        </div>
+
+                                        <div class="card-body" >
+                                            <div class="table-responsive">
+                                                <table id="datatable" class="table table-hover">
+                                                    <thead class=" text-primary">
+                                                    <tr>
+                                                        <th scope="col" >
+                                                            Academic Year
+                                                        </th>
+                                                        <th scope="col" class="text-right">
+                                                            Tools
+                                                        </th>
+                                                    </tr>
+
+                                                    </thead>
+                                                    <tbody>
+                                                    @foreach($data as $years)
+                                                        <tr>
+                                                            <td>
+                                                                {{$years->academicYear}}
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <div class="dropdown">
+                                                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        <i class="fal fa-tools"></i>
+                                                                    </button>
+                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                        {{--<button data-academicyear="{{$years->academicYear}}" class="dropdown-item" data-toggle="modal" data-target="#modal-edit-years" id="edit" type="submit" ><i class="fa fa-edit" aria-hidden="true"></i> Edit</button>--}}
+                                                                        <button data-academicyear="{{$years->academicYear}}" class="dropdown-item" data-toggle="modal" data-target="#modal-del-years" id="edit" type="submit" style="float: right;margin-right:1%;display: inline-block;" ><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>(function( $ ) {
+                                $(function() {
+
+                                    $('#modal-del-years').on('show.bs.modal', function (event) {
+                                        var button = $(event.relatedTarget)
+                                        var academicyear = button.data('academicyear')
+
+                                        var modal = $(this)
+
+                                        modal.find('.modal-body #id').val(academicyear)
+                                    })
+                                })})(jQuery);
+
+                        </script>
+
 
                     @elseif($data[0]->idCourse == 1)
 
@@ -1149,10 +1316,7 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-
                                         <div class="modal-body">
-
-
                                             <form action="{{ action('AdminController@store','courses')}}" method="POST">
                                                 {{ csrf_field() }}
                                                 <input type="hidden" id="table" name="table" value="courses">
@@ -1298,6 +1462,9 @@
                                                                 <th scope="col" >
                                                                     idUniversity
                                                                 </th>
+                                                                <th scope="col" >
+                                                                    University
+                                                                </th>
                                                                 <th scope="col" class="text-right">
                                                                     Tools
                                                                 </th>
@@ -1315,6 +1482,9 @@
                                                                     </td>
                                                                     <td>
                                                                         {{$courses->idUniversity}}
+                                                                    </td>
+                                                                    <td>
+                                                                        {{$courses->university['name']}}
                                                                     </td>
                                                                     <td class="text-right">
                                                                         <div class="dropdown">
@@ -1579,7 +1749,7 @@
 
                                         </script>
 
-            @elseif(count($data) == 3)
+            @else
             <!-- Modal - Create -->
                 <div class="modal" id="modal-1" tabindex="-1" role="dialog">
                     <div class="modal-dialog" role="document">
@@ -1677,11 +1847,15 @@
                                     <input type="hidden" id="table" name="table" value="subjectEnrollments">
                                     <div class="form-group">
                                         <label for="exampleFormControlSelect1">User:</label>
-                                        <span name="iduser" id="iduser"></span>
+                                        <span name="iduser_s" id="iduser_s"></span>
+                                        <input type="hidden" id="iduser" name="iduser">
+
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleFormControlSelect1">Subject:</label>
-                                            <span name="idSub" id="idSub"></span>
+                                            <span name="idSub_s" id="idSub_s"></span>
+                                        <input type="hidden" id="idSub" name="idSub">
+
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleFormControlSelect1">Class</label>
@@ -1694,7 +1868,6 @@
                                         <input type="hidden" id="classes_h" name="classes_h" class="form-control" >
 
                                     </div>
-                                    <input type="hidden" id="idSub" name="idSub">
                                     <div class="modal-footer">
 
                                         <button type="submit" class="btn btn-outline-success" >Update</button>
@@ -1762,15 +1935,15 @@
                                                     <th scope="col" >
                                                         idUser
                                                     </th>
-                                                    {{--<th scope="col" >--}}
-                                                        {{--User--}}
-                                                    {{--</th>--}}
+                                                    <th scope="col" >
+                                                        User Name
+                                                    </th>
                                                     <th scope="col">
                                                         idSubject
                                                     </th>
-                                                    {{--<th scope="col">--}}
-                                                        {{--Subject--}}
-                                                    {{--</th>--}}
+                                                    <th scope="col">
+                                                        Subject
+                                                    </th>
                                                     <th scope="col">
                                                         Class
                                                     </th>
@@ -1787,9 +1960,15 @@
                                                         <td>
                                                             {{$enroll->idUser}}
                                                         </td>
+                                                        <td>
+                                                            {{$enroll->User['name']}}
+                                                        </td>
 
                                                         <td>
                                                             {{$enroll->idSubject}}
+                                                        </td>
+                                                        <td>
+                                                            {{$enroll->Subject->subjectName}}
                                                         </td>
                                                         <td>
                                                             {{$enroll->Class}}
@@ -1835,8 +2014,12 @@
 
                                     var modal = $(this)
 
-                                    modal.find('.modal-body #iduser').text(iduser)
-                                    modal.find('.modal-body #idSub').text(idsub)
+                                    modal.find('.modal-body #iduser_s').text(iduser)
+                                    modal.find('.modal-body #idSub_s').text(idsub)
+
+                                    modal.find('.modal-body #iduser').val(iduser)
+                                    modal.find('.modal-body #idSub').val(idsub)
+
                                     modal.find('.modal-body #classes').val(classes)
                                     modal.find('.modal-body #classes_h').val(classes)
                                 })
@@ -1861,8 +2044,31 @@
                     <link rel="stylesheet" type="text/css" href="{{asset('DataTables/datatables.min.css')}}"/>
                     <script type="text/javascript" src="{{asset('DataTables/datatables.min.js')}}"></script>
 
-        <script>$(document).ready( function () {
-                $('#datatable').DataTable();
+        <script>$(document).ready(function() {
+                // Setup - add a text input to each footer cell
+                $('#datatable thead tr').clone(true).appendTo( '#datatable thead' );
+                $('#datatable thead tr:eq(1) th').each( function (i) {
+                    if(i === $('#datatable thead tr:eq(1) th').length-1) {
+                        return;
+                    }else{
+                    var title = $(this).text();
+                    $(this).html( '<input type="text" class="form-control" placeholder="Search " />' );
+
+                    $( 'input', this ).on( 'keyup change', function () {
+                        if ( table.column(i).search() !== this.value ) {
+                            table
+                                .column(i)
+                                .search( this.value )
+                                .draw();
+                        }
+                    } );
+                    }
+                } );
+
+                var table = $('#datatable').DataTable( {
+                    orderCellsTop: true,
+                    fixedHeader: true
+                } );
             } );</script>
 @endsection
 

@@ -8,4 +8,10 @@ class GeneralSubjects extends Model
 {
     protected $primaryKey = 'idGeneralSubject';
     protected $table = "generalSubjects";
+
+    public function subjects()
+    {
+        return $this->hasMany('App\Subject');
+    }
+
 }

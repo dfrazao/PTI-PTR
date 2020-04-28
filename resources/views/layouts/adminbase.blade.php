@@ -25,6 +25,9 @@
                         <li class="nav-item">
                             <a class="nav-link pl-0" href="{{url('/admin/courses')}}"><i class="far fa-file-certificate"></i> <span class="d-none d-md-inline" style="text-align:center;">Courses</span></a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link pl-0" href="{{url('/admin/academicYears')}}"><i class="fal fa-calendar-alt"></i> <span class="d-none d-md-inline" style="text-align:center;">Academic Years</span></a>
+                        </li>
                     </ul>
                 </div>
             </nav>

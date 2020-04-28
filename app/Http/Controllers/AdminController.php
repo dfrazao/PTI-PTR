@@ -41,7 +41,7 @@ class AdminController extends Controller
 
         }elseif($table == 'subjects'){
 
-            $subjects = Subject::all();
+            $subjects = Subject::with('generalSubject')->get();
             $general_subjects = GeneralSubjects::all();
             $academicYears = AcademicYear::all();
 
@@ -50,7 +50,7 @@ class AdminController extends Controller
         }elseif ($table == 'subjectEnrollments'){
 
             $users = User::all();
-            $enroll = SubjectEnrollment::all();
+            $enroll = SubjectEnrollment::with('Subject')->with('User')->get();
             $subjects = Subject::all();
 
             return view('admin.tables')->with('data',$enroll)->with('subjects',$subjects)->with('users',$users);
@@ -67,6 +67,12 @@ class AdminController extends Controller
             $university = University::all();
 
             return view('admin.tables')->with('data',$courses)->with('universities',$university);
+        }
+        elseif ($table == 'academicYears'){
+
+            $years = AcademicYear::all();
+
+            return view('admin.tables')->with('data',$years);
         }
     }
 
@@ -145,6 +151,13 @@ class AdminController extends Controller
 
             $courses->save();
             return redirect('admin/courses')->with('success', 'Course Added');
+
+        }elseif ($table == 'academicYears') {
+
+            $years = new AcademicYear();
+            $years->academicYear = $request->input('academicYear');
+            $years->save();
+            return redirect('admin/academicYears')->with('success', 'Academic Year Added');
         }
 }
 
@@ -192,6 +205,8 @@ class AdminController extends Controller
 
         $idCourse = $request->input('id');
 
+        $idYear = $request->input('academicyear');
+
         if ( $table == 'users') {
 
 //            $this->validate($request, [
@@ -233,7 +248,7 @@ class AdminController extends Controller
 
         }elseif ($table == 'subjectEnrollments'){
             //Está maaaaaaaaaaaaal
-            $subjectEnroll = SubjectEnrollment::where('idUser', '=', $idu, 'and')->where('idSubject', '=', $idSub, 'and')->where('Class', '=', $classes_h);
+            $subjectEnroll = SubjectEnrollment::all()->where('idUser', '=', $idu, 'and')->where('idSubject', '=', $idSub);
             $subjectEnroll->Class = $classes;
             $subjectEnroll->update();
             return redirect('admin/subjectEnrollments')->with('success', 'Enrollment updated');
@@ -249,6 +264,7 @@ class AdminController extends Controller
             $course->name = $request->input('coursename');
             $course->update();
             return redirect('admin/courses')->with('success', 'Course updated');
+
         }
 
 
@@ -303,6 +319,12 @@ class AdminController extends Controller
             $course->delete();
 
             return redirect('admin/courses')->with('success','Course deleted');
+
+        }elseif($table == 'academicYears') {
+            $year = AcademicYear::where('academicYear',$id);
+            $year->delete();
+
+            return redirect('admin/academicYears')->with('success','Academic Year deleted');
         }
     }
 
@@ -488,6 +510,36 @@ class AdminController extends Controller
                 $course->save();
             }
             return redirect('admin/courses')->with('success','Courses Imported');
+
+        }elseif($table == 'academicYears'){
+            $upload=$request->file('upload-file');
+            $filePath=$upload->getRealPath();
+            $file=fopen($filePath, 'r');
+            $header = fgetcsv($file,1000,";");
+
+            $escapedHeader = [];
+            foreach ($header as $key => $value){
+                $lheader = strtolower($value);
+                $escapedItem = preg_replace('/[^a-z]/', '',$lheader);
+                array_push($escapedHeader, $escapedItem);
+            }
+
+
+            while (($columns = fgetcsv($file, 1000, ";")) !== FALSE){
+
+                if($columns[0] == ""){
+                    continue;
+                }
+
+                $data = array_combine($escapedHeader, $columns);
+
+                $academicYear = $data['academicyear'];
+
+                $Year = new AcademicYear();
+                $Year-> academicYear = $academicYear;
+                $Year->save();
+            }
+            return redirect('admin/academicYears')->with('success','Academic Years Imported');
         }
 
 

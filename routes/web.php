@@ -57,12 +57,11 @@ Route::post('student/project/{id}','GroupController@store');
 // Professor
 
 // Admin
-//Route::group(['middleware' => ['auth','admin']], function (){
+
     Route::get('/admin/{table}', 'AdminController@index', ['name' => 'tables']);
     Route::post('/admin/{table}/store', 'AdminController@store');
     Route::get("/admin/edit-user/{id}",'AdminController@edit');
     Route::put("/admin/edit-update/",'AdminController@update');
     Route::delete('/admin/{table}/delete/','AdminController@destroy');
-    //Route::delete('/admin/{table}/delete/','AdminController@destroySE');
     Route::post('/admin/{table}/import/','AdminController@import');
-//});
+
