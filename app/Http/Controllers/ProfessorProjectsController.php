@@ -66,6 +66,7 @@ class ProfessorProjectsController extends Controller
             $projectId = $request->project;
             $group = Group::find($request-> group);
             $group->grade = $request->grade;
+            $group->gradeComment = $request->gradeComment;
             $group->save();
 
             return redirect('professor/project/'.$projectId)->with('success', 'Grade Given');
@@ -130,6 +131,7 @@ class ProfessorProjectsController extends Controller
 
             $group = Group::find($request->group);
             $group->grade = $request->grade;
+            $group->gradeComment = $request->gradeComment;
             $group->save();
 
             return redirect('professor/project/'.$id)->with('success', 'Grade Updated');
