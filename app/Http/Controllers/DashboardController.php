@@ -34,7 +34,6 @@ class DashboardController extends Controller
                 $subjects = Subject::all()->where('idSubject', '==', $se);
                 $subjectsId = Subject::all()->where('idSubject', '==', $se)->pluck('idSubject');
             }
-
             foreach ($subjectsId as $sid) {
                 $projects = Subject::all()->where('idSubject', '==', $sid);
             }

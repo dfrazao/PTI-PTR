@@ -7,12 +7,12 @@
     @include('layouts.messages')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb mt-1 pl-0 pb-0 pt-0 float-right" style="background-color:white; ">
-            <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{$user->name}} Profile</li>
+            <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>{{__('gx.dashboard')}}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{$user->name}}</li>
         </ol>
     </nav>
     <div class="container">
-        <h2>Profile</h2>
+        <h2>{{__('gx.profile')}}</h2>
         <div class="row">
             <div class="col-xs-12 col-sm-3 center">
                 <span class="profile-picture">
@@ -21,19 +21,19 @@
                 @if(Auth::user()->id != $user->id)
                     <a href="#" class="btn btn-sm btn-block btn-success mt-3">
                         <i class="fas fa-envelope"></i>
-                        <span>Send a message</span>
+                        <span>{{__('gx.send a message')}}</span>
                     </a>
                 @elseif(Auth::user()->id == $user->id)
                     <button type="button" class="btn btn-sm btn-block btn-primary mt-3" data-toggle="modal" data-target="#modalPhoto">
                         <i class="fas fa-portrait"></i>
-                        <span>Change profile photo</span>
+                        <span>{{__('gx.change profile photo')}}</span>
                     </button>
 
                     <div class="modal fade" id="modalPhoto" style="text-align:left!important;">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h3 class="modal-title">Choose a new profile photo</h3>
+                                    <h3 class="modal-title">{{__('gx.choose a new profile photo')}}</h3>
                                     <button type="button" class="close" data-dismiss="modal">×</button>
                                 </div>
                                 <div class="modal-body">
@@ -46,7 +46,7 @@
                                         {{ Form::hidden('option', "image") }}
 
                                         {{Form::hidden('_method','PUT')}}
-                                        {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+                                        {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary'])}}
                                         {!! Form::close() !!}
                                     </div>
                                 </div>
@@ -65,9 +65,7 @@
 
                     @if(Auth::user()->id == $user->id)
                         <!-- Button to Open the Modal -->
-                            <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modalEdit">
-                                Edit Profile
-                            </button>
+                            <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modalEdit">{{__('gx.edit profile')}}</button>
 
                         <!-- The Modal -->
                         <div class="modal fade" id="modalEdit">
@@ -76,7 +74,7 @@
 
                                     <!-- Modal Header -->
                                     <div class="modal-header">
-                                        <h3 class="modal-title">Edit profile</h3>
+                                        <h3 class="modal-title">{{__('gx.edit profile')}}</h3>
                                         <button type="button" class="close" data-dismiss="modal">×</button>
                                     </div>
 
@@ -86,7 +84,7 @@
                                             @csrf
                                             {!! Form::open(['action' => ['ProfileController@update', $user->id], 'method' => 'POST']) !!}
                                             <div class="form-group">
-                                                {{Form::label('country', 'Country')}}
+                                                {{Form::label('country', trans('gx.country'))}}
                                                 {{Form::select('country', [
                                                     "Afghanistan"=>"Afghanistan",
                                                     "Åland Islands"=>"Åland Islands",
@@ -332,20 +330,20 @@
                                                     "Yemen"=>"Yemen",
                                                     "Zambia"=>"Zambia",
                                                     "Zimbabwe"=>"Zimbabwe"
-], null, ['class' => 'form-control', 'placeholder' => $user->country])}}
+], $user->country, ['class' => 'form-control', 'placeholder' => $user->country])}}
                                             </div>
                                             <div class="form-group">
-                                                {{Form::label('city', 'City')}}
+                                                {{Form::label('city', trans('gx.city'))}}
                                                 {{Form::text('city', $user->city, ['class' => 'form-control', 'placeholder' => 'City'])}}
                                             </div>
                                             <div class="form-group">
-                                                {{Form::label('about', 'About')}}
+                                                {{Form::label('about', trans('gx.about'))}}
                                                 {{Form::textarea('about', $user->description, ['class' => 'form-control', 'placeholder' => 'About'])}}
                                             </div>
                                             {{ Form::hidden('option', "rest") }}
 
                                             {{Form::hidden('_method','PUT')}}
-                                            {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+                                            {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary'])}}
                                             {!! Form::close() !!}
                                         </div>
                                     </div>
@@ -359,23 +357,23 @@
                 <div class="profile-user-info">
 
                     <div class="profile-info-row">
-                        <div class="profile-info-name"> Role </div>
+                        <div class="profile-info-name"> {{__('gx.role')}} </div>
 
                         <div class="profile-info-value">
                             <span>
                                 @if($user->role == 'student')
-                                    Student
+                                    {{__('gx.student')}}
                                 @elseif($user->role == 'professor')
-                                    Professor
+                                    {{__('gx.professor')}}
                                 @else
-                                    Admin
+                                    {{__('gx.admin')}}
                                 @endif
                             </span>
                         </div>
                     </div>
 
                     <div class="profile-info-row">
-                        <div class="profile-info-name"> University </div>
+                        <div class="profile-info-name"> {{__('gx.university')}} </div>
 
                         <div class="profile-info-value">
                             <span>{{ $universityName }}</span>
@@ -383,7 +381,7 @@
                     </div>
 
                     <div class="profile-info-row">
-                        <div class="profile-info-name"> Course </div>
+                        <div class="profile-info-name"> {{__('gx.course')}} </div>
 
                         <div class="profile-info-value">
                             <span>{{ $courseName }}</span>
@@ -391,7 +389,7 @@
                     </div>
 
                     <div class="profile-info-row">
-                        <div class="profile-info-name"> Number </div>
+                        <div class="profile-info-name"> {{__('gx.number')}} </div>
 
                         <div class="profile-info-value">
                             <span>{{ $user->uniNumber }}</span>
@@ -399,7 +397,7 @@
                     </div>
 
                     <div class="profile-info-row">
-                        <div id="city" class="profile-info-name"> E-Mail </div>
+                        <div id="city" class="profile-info-name"> {{__('gx.email')}} </div>
 
                         <div class="profile-info-value">
                             <span>{{ $user->email }}</span>
@@ -407,7 +405,7 @@
                     </div>
 
                     <div class="profile-info-row">
-                        <div id="city" class="profile-info-name"> Country </div>
+                        <div id="city" class="profile-info-name"> {{__('gx.country')}} </div>
 
                         <div class="profile-info-value">
                             <span>{{ $user->country }}</span>
@@ -415,7 +413,7 @@
                     </div>
 
                     <div class="profile-info-row">
-                        <div id="city" class="profile-info-name"> City </div>
+                        <div id="city" class="profile-info-name"> {{__('gx.city')}} </div>
 
                         <div class="profile-info-value">
                             <span>{{ $user->city }}</span>
@@ -423,7 +421,7 @@
                     </div>
 
                     <div class="profile-info-row">
-                        <div class="profile-info-name"> Joined </div>
+                        <div class="profile-info-name"> {{__('gx.joined')}} </div>
 
                         <div class="profile-info-value">
                             <span>{{ $user->created_at }}</span>
@@ -431,7 +429,7 @@
                     </div>
 
                     <div class="profile-info-row">
-                        <div class="profile-info-name"> Last Online </div>
+                        <div class="profile-info-name"> {{__('gx.last online')}} </div>
 
                         <div class="profile-info-value">
                             <span>{{ $user->updated_at }}</span>
@@ -439,7 +437,7 @@
                     </div>
 
                     <div class="profile-info-row">
-                        <div class="profile-info-name"> Subjects </div>
+                        <div class="profile-info-name"> {{__('gx.subjects')}} </div>
 
                         <div class="profile-info-value">
                             @foreach($subjects as $subject)
@@ -460,14 +458,14 @@
         <div class="row mt-3">
             <div class="col-xs-12 col-sm-12">
                 <div>
-                    <h4>Little About Me</h4>
+                    <h4>{{__('gx.little about me')}}</h4>
                     <div style="max-width: 1140px;white-space: normal;">
                         <span>
                             @if(is_null($user->description) or empty($user->description))
                                 @if(Auth::user()->id != $user->id)
-                                    This user doesn't have a description.
+                                    {{__('gx.no description others')}}
                                 @elseif(Auth::user()->id == $user->id)
-                                    You don't have a description.
+                                    {{__('gx.no description yourself')}}
                                 @endif
                             @else
                                 {{ $user->description }}

@@ -121,7 +121,7 @@ class StudentProjectsController extends Controller
         }else {
             $notes = null;
         }*/
-        $notes = Group::find($idGroup)->value('notes');
+        $notes = Group::find($idGroup)->notes;
         $meeting = Meeting::all()->where('idGroup','==', $idGroup);
         $posts = Announcement::orderBy('date', 'desc')->paginate(10)->fragment('forum');
         //$posts = $posts->where('idProject', '==', $id);

@@ -29,7 +29,7 @@
         </li>
     </ul>
 
-    <div class="tab-content" id="myTabContent" style="min-height: 75vh; background-color: #ededed;">
+    <div class="tab-content pb-3" id="myTabContent" style="min-height: 75vh; background-color: #ededed;">
         <div class="container-fluid tab-pane fade ml-0 mr-0" id="content" role="tabpanel" aria-labelledby="content-tab">
             <div class="row rounded" style="height: 80vh;">
                 <div class="col mt-3 ml-3 rounded" style="background-color: #c6c6c6; position: relative;">
@@ -59,7 +59,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row rounded mb-5">
+            <div class="row rounded">
                 <div class="container-fluid rounded mx-3 mt-3 p-2" style="background-color: #c6c6c6; position: relative;">
                     <div class="form-group mb-0">
                         <div class="table-fixed">
@@ -75,67 +75,73 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($tasks as $t)
-                                    <tr id="{{$t -> idTask}}-show">
+                                @if(count($tasks)>0)
+                                    @foreach($tasks as $t)
+                                        <tr id="{{$t -> idTask}}-show">
 
-                                        <td>{{$t->description}}</td>
-                                        <td>{{$t->responsible}}</td>
-                                        <td>{{$t->beginning}}</td>
-                                        <td>{{$t->end}}</td>
-                                        <td>@if(!is_null($t->duration) && $t->duration > 1)
-                                                {{$t->duration}} days
-                                            @elseif(!is_null($t->duration) && $t->duration <= 1)
-                                                1 day
-                                            @endif
-                                        </td>
-                                        <td class="float-right pr-0"><button style="width: 10vh" type="button" class="btn btn-sm btn-success editTask mr-md-2">Editar</button><button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalDelete-{{$t->idTask}}">Delete</button></td>
-                                    </tr>
-                                    <tr class="d-none" id="{{$t->idTask}}-edit">
-                                        @csrf
-                                        {!!Form::open(['action' => ['StudentProjectsController@update', $project -> idProject], 'method' => 'POST'])!!}
-                                            <td class="form-group">
-                                                {{Form::text('description', $t->description, ['class' => 'form-control'])}}
+                                            <td>{{$t->description}}</td>
+                                            <td>{{$t->responsible}}</td>
+                                            <td>{{$t->beginning}}</td>
+                                            <td>{{$t->end}}</td>
+                                            <td>@if(!is_null($t->duration) && $t->duration > 1)
+                                                    {{$t->duration}} days
+                                                @elseif(!is_null($t->duration) && $t->duration <= 1)
+                                                    1 day
+                                                @endif
                                             </td>
-                                            <td class="form-group">
-                                                {{ Form::text('responsible', $t->responsible ,['class' => 'form-control']) }}
-                                            </td>
-                                            <td class="form-group">
-                                                {{ Form::date('beginning', $t->beginning ,['class' => 'form-control']) }}
-                                            </td>
-                                            <td class="form-group">
-                                                {{ Form::date('end', $t->end ,['class' => 'form-control']) }}
-                                            </td>
-                                            <td class="form-group"></td>
+                                            <td class="float-right pr-0"><button style="width: 10vh" type="button" class="btn btn-sm btn-success editTask mr-md-2">Editar</button><button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalDelete-{{$t->idTask}}">Delete</button></td>
+                                        </tr>
+                                        <tr class="d-none" id="{{$t->idTask}}-edit">
+                                            @csrf
+                                            {!!Form::open(['action' => ['StudentProjectsController@update', $project -> idProject], 'method' => 'POST'])!!}
+                                                <td class="form-group">
+                                                    {{Form::text('description', $t->description, ['class' => 'form-control'])}}
+                                                </td>
+                                                <td class="form-group">
+                                                    {{ Form::text('responsible', $t->responsible ,['class' => 'form-control']) }}
+                                                </td>
+                                                <td class="form-group">
+                                                    {{ Form::date('beginning', $t->beginning ,['class' => 'form-control']) }}
+                                                </td>
+                                                <td class="form-group">
+                                                    {{ Form::date('end', $t->end ,['class' => 'form-control']) }}
+                                                </td>
+                                                <td class="form-group"></td>
 
-                                            {{Form::hidden('task', $t->idTask) }}
-                                            {{Form::hidden('group', $t-> idGroup)}}
-                                            {{Form::hidden('_method','PUT')}}
+                                                {{Form::hidden('task', $t->idTask) }}
+                                                {{Form::hidden('group', $t-> idGroup)}}
+                                                {{Form::hidden('_method','PUT')}}
 
-                                            <td class="form-group float-right pr-0">{{Form::Submit('Save', ['class'=>'btn btn-sm mr-2 btn-success', 'style'=>"width: 10vh", 'id'=>'Save'])}}<button type="button" class="btn btn-sm btn-danger editTask">Cancel</button></td>
-                                        {!! Form::close() !!}
-                                    </tr>
-                                    {{-- Modal Delete Task --}}
-                                    <div class="modal fade" id="modalDelete-{{$t->idTask}}" aria-labelledby="modalDelete-{{$t->idTask}}" aria-hidden="true" tabindex="-1" role="dialog">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title" id="staticBackdropLabel">Delete Task</h4>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <h5>Are you sure you want to delete this task?</h5>
-                                                    {!!Form::open(['action' => ['StudentProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
-                                                    {{Form::hidden('_method', 'DELETE')}}
-                                                    {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
-                                                    {{Form::hidden('task', $t->idTask) }}
-                                                    {!!Form::close()!!}
+                                                <td class="form-group float-right pr-0">{{Form::Submit('Save', ['class'=>'btn btn-sm mr-2 btn-success', 'style'=>"width: 10vh", 'id'=>'Save'])}}<button type="button" class="btn btn-sm btn-danger editTask">Cancel</button></td>
+                                            {!! Form::close() !!}
+                                        </tr>
+                                        {{-- Modal Delete Task --}}
+                                        <div class="modal fade" id="modalDelete-{{$t->idTask}}" aria-labelledby="modalDelete-{{$t->idTask}}" aria-hidden="true" tabindex="-1" role="dialog">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" id="staticBackdropLabel">Delete Task</h4>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <h5>Are you sure you want to delete this task?</h5>
+                                                        {!!Form::open(['action' => ['StudentProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
+                                                        {{Form::hidden('_method', 'DELETE')}}
+                                                        {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+                                                        {{Form::hidden('task', $t->idTask) }}
+                                                        {!!Form::close()!!}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                @endforeach
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="6"><h5>Your group has no tasks.</h5></td>
+                                    </tr>
+                                @endif
                                 </tbody>
                             </table>
                         </div>
@@ -318,15 +324,21 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($meeting as $m)
+                    @if(count($meeting)>0)
+                        @foreach($meeting as $m)
+                            <tr>
+                                <td>{{$m->idMeeting}}</td>
+                                <td>{{$m->description}}</td>
+                                <td>{{$m->date}}</td>
+                                <td>{{$m->hour}}</td>
+                                <td>{{$m->place}}</td>
+                            </tr>
+                        @endforeach
+                    @else
                         <tr>
-                            <td>{{$m->idMeeting}}</td>
-                            <td>{{$m->description}}</td>
-                            <td>{{$m->date}}</td>
-                            <td>{{$m->hour}}</td>
-                            <td>{{$m->place}}</td>
+                            <td colspan="5"><h5>Your group has no meetings.</h5></td>
                         </tr>
-                    @endforeach
+                    @endif
                     </tbody>
                 </table>
             </div>
@@ -403,14 +415,16 @@
                         @endif
                         </tbody>
                     </table>
-                    <div class="d-flex justify-content-between">
-                        <span>Showing {{$p->firstItem()}} to {{$p->lastItem()}} of {{$p->total()}} posts</span>
-                        {{$p->links()}}
-                    </div>
+                    @if(count($posts) > 0)
+                        <div class="d-flex justify-content-between">
+                            <span>Showing {{$p->firstItem()}} to {{$p->lastItem()}} of {{$p->total()}} posts</span>
+                            {{$p->links()}}
+                        </div>
+                    @endif
                 </div>
 
                 {{--Modal Create Post--}}
-                <div class="modal fade" id="modalCreate Post" tabindex="-1" role="dialog">
+                <div class="modal fade" id="modalCreatePost" tabindex="-1" role="dialog">
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">

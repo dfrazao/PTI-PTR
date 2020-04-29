@@ -13,7 +13,7 @@
     <h2>Dashboard</h2>
     <div class="row mt-3 rounded h-100" style="height: 90vh; background-color: #ededed;">
         <div class="col-sm-4">
-            <div class="container" >
+            <div class="container">
                 <button type="button" class="previous btn btn-default btn-lg" style="text-align: center;width: 100%; color:#2c3fb1">
                     <span class="fas fa-chevron-up"></span>
                 </button>
@@ -217,7 +217,7 @@
         </div>
     </div>
 
-    {{--    Modal Edit--}}
+    {{--Modal Edit--}}
 
     @if(count($subjects) > 0)
         @foreach($subjects as $subject)
@@ -240,16 +240,20 @@
                                             {{Form::text('title', $project->name, ['class' => 'form-control', 'placeholder' => 'Country'])}}
                                         </div>
                                         <div class="form-group">
-                                            {{Form::label('deadline', 'Deadline')}}
-                                            {{Form::date('deadline', $project->dueDate, ['class' => 'form-control'])}}
-                                        </div>
-                                        <div class="form-group">
                                             {{Form::label('deadline', 'Group Formation Deadline')}}
                                             {{Form::date('group formation deadline', $project->groupCreationDueDate, ['class' => 'form-control'])}}
                                         </div>
                                         <div class="form-group">
-                                            {{Form::label('number', 'No. of Members')}}
-                                            {{Form::selectRange('number', 1, 10, $project->maxElements)}}
+                                            {{Form::label('deadline', 'Deadline')}}
+                                            {{Form::date('deadline', $project->dueDate, ['class' => 'form-control'])}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{Form::label('minNumber', 'Minimum no. of Members')}}
+                                            {{Form::selectRange('minNumber', 1, 10, $project->minElements)}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{Form::label('maxNumber', 'Maximum no. of Members')}}
+                                            {{Form::selectRange('maxNumber', 1, 10, $project->maxElements)}}
                                         </div>
                                         <div class="form-group">
                                             {{Form::label('announcement', 'Announcement')}}
@@ -311,16 +315,20 @@
                         {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Project Name'])}}
                     </div>
                     <div class="form-group">
-                        {{Form::label('deadline', 'Deadline')}}
-                        {{ Form::date('deadline', null,['class' => 'form-control']) }}
-                    </div>
-                    <div class="form-group">
                         {{Form::label('deadline', 'Group Formation Deadline')}}
                         {{ Form::date('group formation deadline', null,['class' => 'form-control']) }}
                     </div>
                     <div class="form-group">
-                        {{Form::label('number', 'No. of Members')}}
-                        {{Form::selectRange('number', 1, 10)}}
+                        {{Form::label('deadline', 'Deadline')}}
+                        {{ Form::date('deadline', null,['class' => 'form-control']) }}
+                    </div>
+                    <div class="form-group">
+                        {{Form::label('minNumber', 'Minimum no. of Members')}}
+                        {{Form::selectRange('minNumber', 1, 10)}}
+                    </div>
+                    <div class="form-group">
+                        {{Form::label('maxNumber', 'Maximum no. of Members')}}
+                        {{Form::selectRange('maxNumber', 1, 10)}}
                     </div>
                     <div class="form-group">
                         {{Form::label('announcement', 'Announcement')}}

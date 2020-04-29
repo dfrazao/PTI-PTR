@@ -19,6 +19,8 @@ Auth::routes([
     'confirm' => false
 ]);
 
+Route::get('/set-language/{lang}', 'LanguagesController@set')->name('set.language');
+
 Route::get('/', 'DashboardController@index', ['name' => 'Dashboard'])->name("Dashboard");
 
 //Route::put('/profile/{id}', 'ProfileController@updateProfilePhoto')->middleware('auth');

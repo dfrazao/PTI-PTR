@@ -9,6 +9,7 @@ use App\Subject;
 use App\Group;
 use App\StudentsGroup;
 use App\User;
+use App\SubjectEnrollment;
 
 class ProfessorProjectsController extends Controller
 {
@@ -49,11 +50,13 @@ class ProfessorProjectsController extends Controller
 
 
             $project = new Project;
-            $project->name = $request->input('title');
-            $project->dueDate = $request->input('deadline');
-            $project->groupCreationDueDate = $request->input('group_formation_deadline');
-            $project->maxElements = $request->input('number');
-            $project->idSubject = $request->input('subject');
+            $project->name = $request->title;
+            $project->dueDate = $request->deadline;
+            $project->groupCreationDueDate = $request->group_formation_deadline;
+            $project->minElements = $request->minNumber;
+            $project->maxElements = $request->maxNumber;
+            $project->idSubject = $request->subject;
+            $project->maxGroups = SubjectEnrollment::all()->where('idSubject', '==', $request->subject)->count();
             $project->save();
 
             return redirect('/')->with('success', 'Project Created');
@@ -115,11 +118,13 @@ class ProfessorProjectsController extends Controller
             ]);
 
             $project = Project::find($id);
-            $project->name = $request->input('title');
-            $project->dueDate = $request->input('deadline');
-            $project->groupCreationDueDate = $request->input('group_formation_deadline');
-            $project->maxElements = $request->input('number');
+            $project->name = $request->title;
+            $project->dueDate = $request->deadline;
+            $project->groupCreationDueDate = $request->group_formation_deadline;
+            $project->minElements = $request->minNumber;
+            $project->maxElements = $request->maxNnumber;
             $project->idSubject = $project->idSubject;
+            $project->maxGroups = SubjectEnrollment::all()->where('idSubject', '==', $request->subject)->count();
             $project->save();
 
             return redirect('/')->with('success', 'Project Updated');
