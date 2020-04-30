@@ -1559,7 +1559,7 @@
                                                             <input type="text" class="form-control" name="univName" id="univName">
                                                         </div>
                                                         <button type="submit" class="btn btn-success">Create</button>
-                                                        <button href="/admin/subjects" type="submit" class="btn btn-danger" style="float: right">Cancel</button>
+                                                        <button data-dismiss="modal" aria-label="Close" type="button" class="btn btn-danger" style="float: right">Cancel</button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -1650,7 +1650,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="container-xl" style="max-width: 100%; margin-bottom: 5%;">
                                         <!-- Search form -->
                                         <div style="margin-top: 1%;margin-bottom: 3%;">
@@ -1664,6 +1663,11 @@
                                                         <div class="alert alert-success" role="alert">
                                                             {{ session('success') }}
                                                         </div>
+                                                    @endif
+                                                    @if(session('fail'))
+                                                            <div class="alert alert-danger" role="alert">
+                                                                {{ session('fail') }}
+                                                            </div>
                                                     @endif
                                                     <div class="card">
                                                         <div class="card-header">
@@ -1704,7 +1708,8 @@
                                                                                     </button>
                                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                                                         <button data-id="{{$univ->idUniversity}}" data-univname="{{$univ->name}}" class="dropdown-item" data-toggle="modal" data-target="#modal-edit-univ" id="edit" type="submit" ><i class="fa fa-edit" aria-hidden="true"></i> Edit</button>
-                                                                                        <button data-id="{{$univ->idUniversity}}" data-univname="{{$univ->name}}" class="dropdown-item" data-toggle="modal" data-target="#modal-delete-univ" style="float: right;margin-right:1%;display: inline-block;" ><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+                                                                                        <button data-id="{{$univ->idUniversity}}" data-univname="{{$univ->name}}" class="dropdown-item" data-toggle="modal" data-target="#modal-delete-univ" id="edit" type="submit" ><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+
                                                                                     </div>
                                                                                 </div>
                                                                             </td>
@@ -1787,7 +1792,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleFormControlSelect1">User</label>
+                                        <label for="exampleFormControlSelect1">Class</label>
                                         <select class="form-control" name="class" id="class">
                                             @foreach($subjects as $sub)
                                                 <option value="{{$ze = $sub->class}}">{{$sub->class}}</option>
@@ -1797,7 +1802,7 @@
                                     </div>
 
                                     <button type="submit" class="btn btn-success">Create</button>
-                                    <button href="/tables" type="submit" class="btn btn-danger" style="float: right">Cancel</button>
+                                    <button type="submit" data-dismiss="modal" aria-label="Close"  class="btn btn-danger" style="float: right">Cancel</button>
                                 </form>
                             </div>
 
@@ -2067,7 +2072,7 @@
 
                 var table = $('#datatable').DataTable( {
                     orderCellsTop: true,
-                    fixedHeader: true
+                    fixedHeader: true,
                 } );
             } );</script>
 @endsection

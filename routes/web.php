@@ -59,8 +59,8 @@ Route::post('student/project/{id}','GroupController@store');
 // Professor
 
 // Admin
-
-    Route::get('/admin/{table}', 'AdminController@index', ['name' => 'tables']);
+    Route::get('/admin/', 'AdminController@index');
+    Route::get('/admin/{table}', 'AdminController@index');
     Route::post('/admin/{table}/store', 'AdminController@store');
     Route::get("/admin/edit-user/{id}",'AdminController@edit');
     Route::put("/admin/edit-update/",'AdminController@update');

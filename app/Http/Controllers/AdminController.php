@@ -1,7 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Announcement;
+use App\AnnouncementComment;
+use App\Availabilities;
+use App\Chats;
+use App\Evaluations;
 use App\GeneralSubjects;
+use App\GroupChats;
+use App\StudentsCourse;
+use App\StudentsGroup;
 use App\University;
 use App\Course;
 use DB;
@@ -12,6 +20,8 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Null_;
+use Redirect;
+
 use \App\Subject;
 class AdminController extends Controller
 {
@@ -286,6 +296,7 @@ class AdminController extends Controller
         if ( $table == 'users') {
 
             $user = User::find($id);
+
             $user->delete();
 
             return redirect('admin/users')->with('success','User deleted');
@@ -301,7 +312,6 @@ class AdminController extends Controller
         elseif($table == 'subjectEnrollments') {
 
             $subject = SubjectEnrollment::all()->where('idUser', '==', $idUser)->where('idSubject', '==', $idSubject);
-            dd(subject);
             $subject->delete();
 
             return redirect('admin/subjectEnrollments')->with('success','Enrollment deleted');
@@ -309,7 +319,20 @@ class AdminController extends Controller
         elseif($table == 'universities') {
 
             $university = University::find($id);
-            $university->delete();
+
+
+            try {
+                $university->delete();
+            }
+            catch (\Illuminate\Database\QueryException $e) {
+
+                if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                    return redirect('admin/universities')->with('fail','University can´t be deleted');
+
+                }
+            }
+
+
 
             return redirect('admin/universities')->with('success','University deleted');
         }
