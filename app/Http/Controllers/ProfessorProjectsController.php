@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\AnnouncementComment;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Project;
@@ -10,7 +11,7 @@ use App\Group;
 use App\StudentsGroup;
 use App\User;
 use App\SubjectEnrollment;
-
+use App\Announcement;
 class ProfessorProjectsController extends Controller
 {
     /**
@@ -84,10 +85,34 @@ class ProfessorProjectsController extends Controller
      */
     public function show($id)
     {
+
+
         $project = Project::find($id);
         $subject = Subject::find($project->idSubject);
         $groups = Group::all()->where('idProject', '==', $id);
-        return view('professor.project')->with('project' , $project)->with('subject', $subject)->with('groups', $groups);
+
+        /*$announcement = Announcement::all()->where('idProject', '==', $id);*/
+
+        $announcements = Announcement::all()->where('idProject', '==', $id);
+        $allAnnouncements = [];
+        foreach ($announcements as $a) {
+            array_push($allAnnouncements, $a);
+        }
+        $userId = $announcements->pluck('sender');
+        $users = [];
+        foreach ($userId as $uId) {
+            $user = User::find($uId);
+            array_push($users, $user);
+        }
+        $idAnnouncement = $announcements->pluck('idAnnouncement');
+        $numberComments = [];
+        foreach ($idAnnouncement as $idA) {
+            $idComment = AnnouncementComment::all()->where('idAnnouncement', '==', $idA)->count();
+            array_push($numberComments, $idComment);
+        }
+
+
+        return view('professor.project')->with('numberComments', $numberComments)->with('project' , $project)->with('subject', $subject)->with('groups', $groups)->with('announcements', $allAnnouncements)->with('a',$announcements)->with('userPoster', $users);
     }
 
     /**

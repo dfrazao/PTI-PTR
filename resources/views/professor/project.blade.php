@@ -18,16 +18,16 @@
             <a class="nav-link active" id="conteudo-tab" data-toggle="tab" href="#conteudo" role="tab" aria-controls="conteudo" aria-selected="true">Grupos</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="noticias-tab" data-toggle="tab" href="#noticias" role="tab" aria-controls="noticias" aria-selected="false">Noticias</a>
+            <a class="nav-link" id="forum-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="false">Fórum</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="recursos-tab" data-toggle="tab" href="#recursos" role="tab" aria-controls="recursos" aria-selected="false">Recursos</a>
         </li>
     </ul>
 
-    <div class="tab-content" id="myTabContent">
-        <div class=" container-xl tab-pane fade show active" id="conteudo" role="tabpanel" aria-labelledby="conteudo-tab">
-            <div class="row rounded " style="background-color: #ededed; height: 75vh;">
+    <div class="tab-content" id="myTabContent" style="min-height: 75vh; background-color: #ededed;">
+        <div class="container-fluid ml-0 mr-0 tab-pane fade active show" id="conteudo" role="tabpanel" aria-labelledby="conteudo-tab">
+            <div class="row rounded " style="height: 75vh;">
                 <div class="col mt-3 ml-3 rounded center" style="background-color: #c6c6c6; height: 87%; position: relative;">
                     <div class="container overflow-auto mw-80" >
                         <div class="container p-2 rounded">
@@ -142,11 +142,33 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade" id="recursos" role="tabpanel" aria-labelledby="recursos-tab">
+        <div class="tab-pane fade" id="recursos" role="tabpanel" aria-labelledby="recursos-tab" style=" position: relative">
             <div class="row mt-2" style="height: 75vh;">
                 <div class="col-sm-5">
                     <div class="container bg-light rounded h-100">
                         <h4>Últimos Anúncios</h4>
+                        @if(count($announcements) > 0)
+                            @for($i = 0; $i < count($announcements); $i++)
+                                <div class="container-xl-fluid mt-3 p-3 rounded" style="background-color: white;">
+                                    <header class="header row mb-3 pl-3">
+                                        <div class="mr-3">
+                                            <a href="/profile/{{$userPoster[$i]->id }}">
+                                                <img class="editable img-responsive" style="border-radius: 100%; height: 50px; width: 50px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="/storage/profilePhotos/{{$userPoster[$i]->photo}}">
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <h5><a href="/student/project/{{$project->idProject}}/post/{{$announcements[$i]->idAnnouncement}}">{{$announcements[$i]->title}}</a></h5>
+                                            <h6>By: <a href="/profile/{{$userPoster[$i]->id }}">{{$userPoster[$i]->name}}</a><small> - Posted on {{$announcements[$i]->date}}</small></h6>
+                                        </div>
+                                    </header>
+                                </div>
+                            @endfor
+                        @else
+                            <tr>
+                                <td colspan="4"><h5>No posts found</h5></td>
+                            </tr>
+                        @endif
+
                     </div>
                 </div>
                 <div class="col-sm-7">
@@ -166,34 +188,35 @@
             </div>
         </div>
 
-        <div class="tab-pane fade" id="noticias" role="tabpanel" aria-labelledby="noticias-tab">
+        <div class="tab-pane fade" id="forum" role="tabpanel" aria-labelledby="noticias-tab">
             <div class="container mt-2 pb-3 rounded px-5 pt-3">
                 <div class="table-responsive">
                     <table class="table bg-white" style="text-align:center;">
                         <thead>
                         <tr>
-                            <th>Tópico</th>
-                            <th>Iniciado por</th>
-                            <th>Respostas</th>
-                            <th>Últimas mensagens</th>
-                            <th>Criada</th>
+                            <th>Subject</th>
+                            <th>Author</th>
+                            <th>Responses</th>
+                            <th>Created</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>Notas</td>
-                            <td>Anna</td>
-                            <td>0</td>
-                            <td>xxx</td>
-                            <td>yyy</td>
-                        </tr>
-                        <tr>
-                            <td>exame</td>
-                            <td>Alex vidal</td>
-                            <td>1</td>
-                            <td>ccc</td>
-                            <td>bbb</td>
-                        </tr>
+                        @if(count($announcements) > 0)
+                            @for($i = 0; $i < count($announcements); $i++)
+                                <tr>
+                                    <td style="vertical-align: middle;"><a href="/student/project/{{$project->idProject}}/post/{{$announcements[$i]->idAnnouncement}}">{{$announcements[$i]->title}}</a></td>
+                                    <td style="vertical-align: middle;">
+                                        <a href="/profile/{{$userPoster[$i]->id }}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="/storage/profilePhotos/{{ $userPoster[$i]->photo}}"><span style="vertical-align: middle;"> {{$userPoster[$i]->name}}</span></a>
+                                    </td>
+                                    <td style="vertical-align: middle;">{{$numberComments[$i]}}</td>
+                                    <td style="vertical-align: middle;">{{$announcements[$i]->date}}</td>
+                                </tr>
+                            @endfor
+                        @else
+                            <tr>
+                                <td colspan="4"><h5>No posts found</h5></td>
+                            </tr>
+                        @endif
                         </tbody>
                     </table>
                 </div>
