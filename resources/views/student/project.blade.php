@@ -24,12 +24,12 @@
             <a class="nav-link" id="noticias-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="noticias" aria-selected="false">Forum</a>
         </li>
         <li class="rightbutton ml-auto">
-            <button type="submit" class="btn btn-sm mr-2 d-none" id= 'newMeeting' data-toggle="modal" data-target="#modalCreateMeeting" style="width: 20vh;background: #2c3fb1; color: white;">New Meeting</button><button type="submit" class="btn btn-sm bg-danger" style="width: 20vh;color: white;">Leave Group</button>
+            <button type="submit" class="btn btn-sm bg-danger" style="width: 20vh;color: white;">Leave Group</button>
 
         </li>
     </ul>
 
-    <div class="tab-content pb-3" id="myTabContent" style="min-height: 75vh; background-color: #ededed;">
+    <div class="tab-content pb-3 " id="myTabContent" style="min-height: 75vh; background-color: #ededed;">
         <div class="container-fluid tab-pane fade ml-0 mr-0" id="content" role="tabpanel" aria-labelledby="content-tab">
             <div class="row rounded" style="height: 80vh;">
                 <div class="col mt-3 ml-3 rounded" style="background-color: #c6c6c6; position: relative;">
@@ -145,7 +145,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="container-fluid pt-3" style="position: relative">
+                        <div class="container-fluid pt-3 mr-2" style="position: relative">
                             <button type="button" class="btn btn-sm open_modal" id="{{$idGroup}}" style="width:20vh;background: #2c3fb1; color: white;position: absolute; bottom: 0px; right: 0px;">New Task</button>
                         </div>
                     </div>
@@ -189,6 +189,7 @@
             </div>
         </div>
         <div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab" style=" position: relative">
+            <h5 class="pt-2 text-center">Group elements weekly disponibility</h5>
             <div class="grid-container">
                 <div></div>
                 <div>Segunda</div>
@@ -199,148 +200,131 @@
                 <div>Sábado</div>
                 <div>Domingo</div>
                 <div style="border: 1px solid black;">8:00h-9:00h</div>
-                <div style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
                 <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">9:00h-10:00h</div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
                 <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">10:00h-11:00h</div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
                 <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">11:00h-12:00h</div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
                 <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">12:00h-13:00h</div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
                 <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">13:00h-14:00h</div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
                 <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">14:00h-15:00h</div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
                 <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">15:00h-16:00h</div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
                 <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">16:00h-17:00h</div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
                 <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">17:00h-18:00h</div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
             </div>
             <div class="container p-3">
                 <div class="row">
-                    <div class="col-xs-3 mx-auto">
-                        André
-                        <span class="border bg-primary align-middle "></span>
-                    </div>
-                    <div class="col-xs-3 mx-auto">
-                        António
-                        <span class="border bg-success align-middle "></span>
-                    </div>
-                    <div class="col-xs-3 mx-auto">
-                        Diogo
-                        <span class="border bg-info align-middle "></span>
-                    </div>
-                    <div class="col-xs-3 mx-auto">
-                        Guilherme
-                        <span class="border bg-warning align-middle "></span>
-                    </div>
-                    <div class="col-xs-3 mx-auto">
-                        João
-                        <span class="border bg-danger align-middle "></span>
-                    </div>
-                    <div class="col-xs-3 mx-auto">
-                        Tiago
-                        <span class="border bg-secondary align-middle "></span>
-                    </div>
-                    <div class="col-xs-3 mx-auto">
-                        Vasco
-                        <span class="border bg-dark align-middle "></span>
-                    </div>
+                    @foreach($groupUsers as $user)
+                        <div class="col-xs-3 mx-auto">
+                            {{$user->name}}
+                            <span class="border align-middle "></span>
+                        </div>
+                    @endforeach
                 </div>
             </div>
             <div class="container-fluid rounded text-center pt-2 h-100 px-0">
-                <h5>Reuniões</h5>
-                <table class="table table-hover text-center">
-                    <thead>
-                    <tr>
-                        <th>Number</th>
-                        <th>Description</th>
-                        <th>Date</th>
-                        <th>Beginning</th>
-                        <th>Place</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @if(count($meeting)>0)
-                        @foreach($meeting as $m)
-                            <tr>
-                                <td>{{$m->idMeeting}}</td>
-                                <td>{{$m->description}}</td>
-                                <td>{{$m->date}}</td>
-                                <td>{{$m->hour}}</td>
-                                <td>{{$m->place}}</td>
-                            </tr>
-                        @endforeach
-                    @else
+                <h5 class="pt-2">Meetings</h5>
+                <div class="table-fixed">
+                    <table class="table table-hover text-center">
+                        <thead>
                         <tr>
-                            <td colspan="5"><h5>Your group has no meetings.</h5></td>
+                            <th>Number</th>
+                            <th>Description</th>
+                            <th>Date</th>
+                            <th>Beginning</th>
+                            <th>Place</th>
                         </tr>
-                    @endif
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        @if(count($meeting)>0)
+                            @foreach($meeting as $m)
+                                <tr>
+                                    <td>{{$m->idMeeting}}</td>
+                                    <td>{{$m->description}}</td>
+                                    <td>{{$m->date}}</td>
+                                    <td>{{$m->hour}}</td>
+                                    <td>{{$m->place}}</td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="5"><h5>Your group has no meetings.</h5></td>
+                            </tr>
+                        @endif
+                        </tbody>
+                    </table>
+                </div>
+                <div class="container-fluid pt-3 " style="position: relative">
+                    <button type="submit" class="btn btn-sm mr-2" id= 'newMeeting' data-toggle="modal" data-target="#modalCreateMeeting" style="position: absolute; width: 20vh;background: #2c3fb1; color: white;bottom: 0px; right: 0px;">New Meeting</button>
+                </div>
             </div>
         </div>
         {{-- Modal Create Meeting --}}
@@ -383,7 +367,7 @@
             </div>
         </div>
         <div class="tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
-            <button type="button" class="p-2 mt-3 mr-3 btn btn-md btn-primary float-right" data-toggle="modal" data-target="#modalCreatePost" style="background-color: #2c3fb1; border-color: #2c3fb1;">Create Post</button>
+            <button type="button" class="p-2 mt-3 mr-3 btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#modalCreatePost" style="background-color: #2c3fb1; border-color: #2c3fb1;">Create Post</button>
 
             <div class="container rounded pb-3 pt-3">
                 <div class="table-responsive-xl">
@@ -397,15 +381,15 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @if(count($posts) > 0)
-                            @for($i = 0; $i < count($posts); $i++)
+                        @if(count($announcements) > 0)
+                            @for($i = 0; $i < count($announcements); $i++)
                                 <tr>
-                                    <td style="vertical-align: middle;"><a href="/student/project/{{$project->idProject}}/post/{{$posts[$i]->idAnnouncement}}">{{$posts[$i]->title}}</a></td>
+                                    <td style="vertical-align: middle;"><a href="/student/project/{{$project->idProject}}/post/{{$announcements[$i]->idAnnouncement}}">{{$announcements[$i]->title}}</a></td>
                                     <td style="vertical-align: middle;">
                                         <a href="/profile/{{$userPoster[$i]->id }}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="/storage/profilePhotos/{{ $userPoster[$i]->photo}}"><span style="vertical-align: middle;"> {{$userPoster[$i]->name}}</span></a>
                                     </td>
                                     <td style="vertical-align: middle;">{{$numberComments[$i]}}</td>
-                                    <td style="vertical-align: middle;">{{$posts[$i]->date}}</td>
+                                    <td style="vertical-align: middle;">{{$announcements[$i]->date}}</td>
                                 </tr>
                             @endfor
                         @else
@@ -415,10 +399,10 @@
                         @endif
                         </tbody>
                     </table>
-                    @if(count($posts) > 0)
+                    @if(count($announcements) > 0)
                         <div class="d-flex justify-content-between">
-                            <span>Showing {{$p->firstItem()}} to {{$p->lastItem()}} of {{$p->total()}} posts</span>
-                            {{$p->links()}}
+                            <span>Showing {{$a->firstItem()}} to {{$a->lastItem()}} of {{$a->total()}} posts</span>
+                            {{$a->links()}}
                         </div>
                     @endif
                 </div>
@@ -605,6 +589,9 @@
             url: "/student/project/"
         });
     });
+    colors = []
+    $()
+
 
 
 

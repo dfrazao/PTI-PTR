@@ -110,39 +110,51 @@ class StudentProjectsController extends Controller
         $subject = Subject::find($project->idSubject);
         $idGroups = Group::all()->where('idProject', '==', $id)->pluck('idGroup');
         $studentGroups = StudentsGroup::all()->where('idStudent', '==', $user)->pluck('idGroup');
+
+
+        // Tasks
         $idGroup = 0;
         foreach($studentGroups as $st)
             foreach ($idGroups as $g)
                 if ($g == $st)
                     $idGroup = $g;
         $arr = Task::all()->where('idGroup', '==', $idGroup);
-        /*if(!is_null(Group::find($idGroup))){
-            $notes = Group::find($idGroup)->value('notes');
-        }else {
-            $notes = null;
-        }*/
+
+        //Notes
         $notes = Group::find($idGroup)->notes;
+
+        //Meetings
         $meeting = Meeting::all()->where('idGroup','==', $idGroup);
-        $posts = Announcement::orderBy('date', 'desc')->paginate(10)->fragment('forum');
-        //$posts = $posts->where('idProject', '==', $id);
-        $allPosts = [];
-        foreach ($posts as $p) {
-            array_push($allPosts, $p);
+
+        //schedule
+        $groupUsers = StudentsGroup::all()->where('idGroup', "==", $idGroup);
+        $Users = [];
+        foreach ($groupUsers as $gu){
+            $stg = User::find($gu->idStudent);
+            array_push($Users,$stg);
         }
-        $userId = $posts->pluck('sender');
+
+        //Posts
+
+        $announcements = Announcement::orderBy('date', 'desc')->paginate(10)->fragment('forum');
+        $allAnnouncements = [];
+        foreach ($announcements as $a) {
+            array_push($allAnnouncements, $a);
+        }
+        $userId = $announcements->pluck('sender');
         $users = [];
         foreach ($userId as $uId) {
             $user = User::find($uId);
             array_push($users, $user);
         }
-        $idPost = $posts->pluck('idAnnouncement');
+        $idAnnouncement = $announcements->pluck('idAnnouncement');
         $numberComments = [];
-        foreach ($idPost as $idP) {
-            $idComment = AnnouncementComment::all()->where('idAnnouncement', '==', $idP)->count();
+        foreach ($idAnnouncement as $idA) {
+            $idComment = AnnouncementComment::all()->where('idAnnouncement', '==', $idA)->count();
             array_push($numberComments, $idComment);
         }
 
-        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('posts', $allPosts)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup)->with('notes',$notes)->with('p',$posts)->with('meeting',$meeting);
+        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup)->with('notes',$notes)->with('a',$announcements)->with('meeting',$meeting)->with('groupUsers', $Users);
     }
 
     /**
