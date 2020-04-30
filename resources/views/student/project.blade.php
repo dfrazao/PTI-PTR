@@ -285,7 +285,7 @@
                     @foreach($groupUsers as $user)
                         <div class="col-xs-3 mx-auto">
                             {{$user->name}}
-                            <span class="border align-middle "></span>
+                            <span class="border userColor align-middle" id="{{$user->name}}"></span>
                         </div>
                     @endforeach
                 </div>
@@ -534,6 +534,8 @@
         table-layout: fixed;
         width:100%;
     }
+    #{{Auth::user()->name}}{
+    background-color: }
 
 </style>
 <script>
@@ -589,9 +591,25 @@
             url: "/student/project/"
         });
     });
-    colors = []
-    $()
 
+    var colors = ['red', 'green', 'lightblue', 'orange', 'yellow', 'black', ' pink', 'purple', 'brown', 'darkblue'];
+
+    $('.userColor').each(function() {
+        var uc = [Math.floor(Math.random() * colors.length)];
+        console.log(colors[uc]);
+        $(this).css('background-color', colors[uc]);
+        colors.splice(uc, 1);
+    });
+
+
+    $('.cell').click(function () {
+        var usercolor = document.getElementById('{{Auth::user()->name}}').style.backgroundColor;
+        var add = "<span class='border userColor align-middle'  id='{{Auth::user()->name}}'></span>";
+        $(this).append(add);
+        document.getElementById('{{Auth::user()->name}}').style.backgroundColor = usercolor;
+        console.log(document.getElementById('{{Auth::user()->name}}').style.backgroundColor);
+
+    });
 
 
 

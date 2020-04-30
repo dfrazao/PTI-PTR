@@ -15,7 +15,6 @@ use App\Group;
 use App\StudentsGroup;
 use App\Task;
 use DateTime;
-use Illuminate\Support\Facades\Session;
 
 class StudentProjectsController extends Controller
 {
