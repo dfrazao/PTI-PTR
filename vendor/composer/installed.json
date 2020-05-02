@@ -54,6 +54,92 @@
         ]
     },
     {
+        "name": "aws/aws-sdk-php",
+        "version": "3.137.1",
+        "version_normalized": "3.137.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/aws/aws-sdk-php.git",
+            "reference": "935060ae3d64f2bfeab7a6ba46bebe525047446c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/935060ae3d64f2bfeab7a6ba46bebe525047446c",
+            "reference": "935060ae3d64f2bfeab7a6ba46bebe525047446c",
+            "shasum": ""
+        },
+        "require": {
+            "ext-json": "*",
+            "ext-pcre": "*",
+            "ext-simplexml": "*",
+            "guzzlehttp/guzzle": "^5.3.3|^6.2.1|^7.0",
+            "guzzlehttp/promises": "^1.0",
+            "guzzlehttp/psr7": "^1.4.1",
+            "mtdowling/jmespath.php": "^2.5",
+            "php": ">=5.5"
+        },
+        "require-dev": {
+            "andrewsville/php-token-reflection": "^1.4",
+            "aws/aws-php-sns-message-validator": "~1.0",
+            "behat/behat": "~3.0",
+            "doctrine/cache": "~1.4",
+            "ext-dom": "*",
+            "ext-openssl": "*",
+            "ext-pcntl": "*",
+            "ext-sockets": "*",
+            "nette/neon": "^2.3",
+            "phpunit/phpunit": "^4.8.35|^5.4.3",
+            "psr/cache": "^1.0",
+            "psr/simple-cache": "^1.0",
+            "sebastian/comparator": "^1.2.3"
+        },
+        "suggest": {
+            "aws/aws-php-sns-message-validator": "To validate incoming SNS notifications",
+            "doctrine/cache": "To use the DoctrineCacheAdapter",
+            "ext-curl": "To send requests using cURL",
+            "ext-openssl": "Allows working with CloudFront private distributions and verifying received SNS messages",
+            "ext-sockets": "To use client-side monitoring"
+        },
+        "time": "2020-05-01T18:13:22+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Aws\\": "src/"
+            },
+            "files": [
+                "src/functions.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Amazon Web Services",
+                "homepage": "http://aws.amazon.com"
+            }
+        ],
+        "description": "AWS SDK for PHP - Use Amazon Web Services in your PHP project",
+        "homepage": "http://aws.amazon.com/sdkforphp",
+        "keywords": [
+            "amazon",
+            "aws",
+            "cloud",
+            "dynamodb",
+            "ec2",
+            "glacier",
+            "s3",
+            "sdk"
+        ]
+    },
+    {
         "name": "brick/math",
         "version": "0.8.15",
         "version_normalized": "0.8.15.0",
@@ -738,6 +824,58 @@
         ]
     },
     {
+        "name": "firebase/php-jwt",
+        "version": "v5.2.0",
+        "version_normalized": "5.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/firebase/php-jwt.git",
+            "reference": "feb0e820b8436873675fd3aca04f3728eb2185cb"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/firebase/php-jwt/zipball/feb0e820b8436873675fd3aca04f3728eb2185cb",
+            "reference": "feb0e820b8436873675fd3aca04f3728eb2185cb",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": ">=4.8 <=9"
+        },
+        "time": "2020-03-25T18:49:23+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Firebase\\JWT\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Neuman Vong",
+                "email": "neuman+pear@twilio.com",
+                "role": "Developer"
+            },
+            {
+                "name": "Anant Narayanan",
+                "email": "anant@php.net",
+                "role": "Developer"
+            }
+        ],
+        "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
+        "homepage": "https://github.com/firebase/php-jwt",
+        "keywords": [
+            "jwt",
+            "php"
+        ]
+    },
+    {
         "name": "fruitcake/laravel-cors",
         "version": "v1.0.6",
         "version_normalized": "1.0.6.0",
@@ -858,6 +996,220 @@
             "faker",
             "fixtures"
         ]
+    },
+    {
+        "name": "google/auth",
+        "version": "v1.8.0",
+        "version_normalized": "1.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/googleapis/google-auth-library-php.git",
+            "reference": "c7b295feb248f138f462a1e6b7d635e4244204c5"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/c7b295feb248f138f462a1e6b7d635e4244204c5",
+            "reference": "c7b295feb248f138f462a1e6b7d635e4244204c5",
+            "shasum": ""
+        },
+        "require": {
+            "firebase/php-jwt": "~2.0|~3.0|~4.0|~5.0",
+            "guzzlehttp/guzzle": "~5.3.1|~6.0",
+            "guzzlehttp/psr7": "^1.2",
+            "php": ">=5.4",
+            "psr/cache": "^1.0",
+            "psr/http-message": "^1.0"
+        },
+        "require-dev": {
+            "friendsofphp/php-cs-fixer": "^1.11",
+            "guzzlehttp/promises": "0.1.1|^1.3",
+            "kelvinmo/simplejwt": "^0.2.5",
+            "phpseclib/phpseclib": "^2",
+            "phpunit/phpunit": "^4.8.36|^5.7",
+            "sebastian/comparator": ">=1.2.3"
+        },
+        "suggest": {
+            "phpseclib/phpseclib": "May be used in place of OpenSSL for signing strings or for token management. Please require version ^2."
+        },
+        "time": "2020-03-26T19:47:36+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Google\\Auth\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "description": "Google Auth Library for PHP",
+        "homepage": "http://github.com/google/google-auth-library-php",
+        "keywords": [
+            "Authentication",
+            "google",
+            "oauth2"
+        ]
+    },
+    {
+        "name": "google/cloud-core",
+        "version": "v1.36.2",
+        "version_normalized": "1.36.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/googleapis/google-cloud-php-core.git",
+            "reference": "4ae49980a6c32758824838ca96205a1b22c8fc7a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/googleapis/google-cloud-php-core/zipball/4ae49980a6c32758824838ca96205a1b22c8fc7a",
+            "reference": "4ae49980a6c32758824838ca96205a1b22c8fc7a",
+            "shasum": ""
+        },
+        "require": {
+            "google/auth": "^1.6",
+            "guzzlehttp/guzzle": "^5.3|^6.0",
+            "guzzlehttp/promises": "^1.3",
+            "guzzlehttp/psr7": "^1.2",
+            "monolog/monolog": "^1.1|^2.0",
+            "php": ">=5.5",
+            "psr/http-message": "1.0.*",
+            "rize/uri-template": "~0.3"
+        },
+        "require-dev": {
+            "erusev/parsedown": "^1.6",
+            "google/common-protos": "^1.0",
+            "google/gax": "^1.1",
+            "opis/closure": "^3",
+            "phpdocumentor/reflection": "^3.0",
+            "phpunit/phpunit": "^4.8|^5.0",
+            "squizlabs/php_codesniffer": "2.*"
+        },
+        "suggest": {
+            "opis/closure": "May be used to serialize closures to process jobs in the batch daemon. Please require version ^3.",
+            "symfony/lock": "Required for the Spanner cached based session pool. Please require the following commit: 3.3.x-dev#1ba6ac9"
+        },
+        "time": "2020-04-22T21:58:25+00:00",
+        "bin": [
+            "bin/google-cloud-batch"
+        ],
+        "type": "library",
+        "extra": {
+            "component": {
+                "id": "cloud-core",
+                "target": "googleapis/google-cloud-php-core.git",
+                "path": "Core",
+                "entry": "src/ServiceBuilder.php"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Google\\Cloud\\Core\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "description": "Google Cloud PHP shared dependency, providing functionality useful to all components."
+    },
+    {
+        "name": "google/cloud-storage",
+        "version": "v1.20.1",
+        "version_normalized": "1.20.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/googleapis/google-cloud-php-storage.git",
+            "reference": "876b5563555014563a3d8b2842674d95dacf95e1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/googleapis/google-cloud-php-storage/zipball/876b5563555014563a3d8b2842674d95dacf95e1",
+            "reference": "876b5563555014563a3d8b2842674d95dacf95e1",
+            "shasum": ""
+        },
+        "require": {
+            "google/cloud-core": "^1.35",
+            "google/crc32": "^0.1.0"
+        },
+        "require-dev": {
+            "erusev/parsedown": "^1.6",
+            "google/cloud-pubsub": "^1.0",
+            "phpdocumentor/reflection": "^3.0",
+            "phpseclib/phpseclib": "^2",
+            "phpunit/phpunit": "^4.8|^5.0",
+            "squizlabs/php_codesniffer": "2.*"
+        },
+        "suggest": {
+            "google/cloud-pubsub": "May be used to register a topic to receive bucket notifications.",
+            "phpseclib/phpseclib": "May be used in place of OpenSSL for creating signed Cloud Storage URLs. Please require version ^2."
+        },
+        "time": "2020-04-07T20:58:05+00:00",
+        "type": "library",
+        "extra": {
+            "component": {
+                "id": "cloud-storage",
+                "target": "googleapis/google-cloud-php-storage.git",
+                "path": "Storage",
+                "entry": "src/StorageClient.php"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Google\\Cloud\\Storage\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "description": "Cloud Storage Client for PHP"
+    },
+    {
+        "name": "google/crc32",
+        "version": "v0.1.0",
+        "version_normalized": "0.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/google/php-crc32.git",
+            "reference": "a8525f0dea6fca1893e1bae2f6e804c5f7d007fb"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/google/php-crc32/zipball/a8525f0dea6fca1893e1bae2f6e804c5f7d007fb",
+            "reference": "a8525f0dea6fca1893e1bae2f6e804c5f7d007fb",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4"
+        },
+        "require-dev": {
+            "friendsofphp/php-cs-fixer": "^1.13 || v2.14.2",
+            "paragonie/random_compat": ">=2",
+            "phpunit/phpunit": "^4"
+        },
+        "time": "2019-05-09T06:24:58+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Google\\CRC32\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Andrew Brampton",
+                "email": "bramp@google.com"
+            }
+        ],
+        "description": "Various CRC32 implementations",
+        "homepage": "https://github.com/google/php-crc32"
     },
     {
         "name": "guzzlehttp/guzzle",
@@ -1614,6 +1966,104 @@
         ]
     },
     {
+        "name": "league/flysystem-aws-s3-v3",
+        "version": "1.0.24",
+        "version_normalized": "1.0.24.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/thephpleague/flysystem-aws-s3-v3.git",
+            "reference": "4382036bde5dc926f9b8b337e5bdb15e5ec7b570"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/thephpleague/flysystem-aws-s3-v3/zipball/4382036bde5dc926f9b8b337e5bdb15e5ec7b570",
+            "reference": "4382036bde5dc926f9b8b337e5bdb15e5ec7b570",
+            "shasum": ""
+        },
+        "require": {
+            "aws/aws-sdk-php": "^3.0.0",
+            "league/flysystem": "^1.0.40",
+            "php": ">=5.5.0"
+        },
+        "require-dev": {
+            "henrikbjorn/phpspec-code-coverage": "~1.0.1",
+            "phpspec/phpspec": "^2.0.0"
+        },
+        "time": "2020-02-23T13:31:58+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "League\\Flysystem\\AwsS3v3\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Frank de Jonge",
+                "email": "info@frenky.net"
+            }
+        ],
+        "description": "Flysystem adapter for the AWS S3 SDK v3.x"
+    },
+    {
+        "name": "league/flysystem-cached-adapter",
+        "version": "1.0.9",
+        "version_normalized": "1.0.9.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/thephpleague/flysystem-cached-adapter.git",
+            "reference": "08ef74e9be88100807a3b92cc9048a312bf01d6f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/thephpleague/flysystem-cached-adapter/zipball/08ef74e9be88100807a3b92cc9048a312bf01d6f",
+            "reference": "08ef74e9be88100807a3b92cc9048a312bf01d6f",
+            "shasum": ""
+        },
+        "require": {
+            "league/flysystem": "~1.0",
+            "psr/cache": "^1.0.0"
+        },
+        "require-dev": {
+            "mockery/mockery": "~0.9",
+            "phpspec/phpspec": "^3.4",
+            "phpunit/phpunit": "^5.7",
+            "predis/predis": "~1.0",
+            "tedivm/stash": "~0.12"
+        },
+        "suggest": {
+            "ext-phpredis": "Pure C implemented extension for PHP"
+        },
+        "time": "2018-07-09T20:51:04+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "League\\Flysystem\\Cached\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "frankdejonge",
+                "email": "info@frenky.net"
+            }
+        ],
+        "description": "An adapter decorator to enable meta-data caching."
+    },
+    {
         "name": "mockery/mockery",
         "version": "1.3.1",
         "version_normalized": "1.3.1.0",
@@ -1761,6 +2211,65 @@
             "log",
             "logging",
             "psr-3"
+        ]
+    },
+    {
+        "name": "mtdowling/jmespath.php",
+        "version": "2.5.0",
+        "version_normalized": "2.5.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/jmespath/jmespath.php.git",
+            "reference": "52168cb9472de06979613d365c7f1ab8798be895"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/jmespath/jmespath.php/zipball/52168cb9472de06979613d365c7f1ab8798be895",
+            "reference": "52168cb9472de06979613d365c7f1ab8798be895",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.0",
+            "symfony/polyfill-mbstring": "^1.4"
+        },
+        "require-dev": {
+            "composer/xdebug-handler": "^1.2",
+            "phpunit/phpunit": "^4.8.36|^7.5.15"
+        },
+        "time": "2019-12-30T18:03:34+00:00",
+        "bin": [
+            "bin/jp.php"
+        ],
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.5-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "JmesPath\\": "src/"
+            },
+            "files": [
+                "src/JmesPath.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Michael Dowling",
+                "email": "mtdowling@gmail.com",
+                "homepage": "https://github.com/mtdowling"
+            }
+        ],
+        "description": "Declaratively specify how to extract elements from a JSON document",
+        "keywords": [
+            "json",
+            "jsonpath"
         ]
     },
     {
@@ -2806,6 +3315,54 @@
         ]
     },
     {
+        "name": "psr/cache",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/php-fig/cache.git",
+            "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/php-fig/cache/zipball/d11b50ad223250cf17b86e38383413f5a6764bf8",
+            "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2016-08-06T20:24:11+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Psr\\Cache\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "PHP-FIG",
+                "homepage": "http://www.php-fig.org/"
+            }
+        ],
+        "description": "Common interface for caching libraries",
+        "keywords": [
+            "cache",
+            "psr",
+            "psr-6"
+        ]
+    },
+    {
         "name": "psr/container",
         "version": "1.0.0",
         "version_normalized": "1.0.0.0",
@@ -3315,6 +3872,52 @@
             "guid",
             "identifier",
             "uuid"
+        ]
+    },
+    {
+        "name": "rize/uri-template",
+        "version": "0.3.2",
+        "version_normalized": "0.3.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/rize/UriTemplate.git",
+            "reference": "9e5fdd5c47147aa5adf7f760002ee591ed37b9ca"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/rize/UriTemplate/zipball/9e5fdd5c47147aa5adf7f760002ee591ed37b9ca",
+            "reference": "9e5fdd5c47147aa5adf7f760002ee591ed37b9ca",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.0.0"
+        },
+        "time": "2017-06-14T03:57:53+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Rize\\UriTemplate": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Marut K",
+                "homepage": "http://twitter.com/rezigned"
+            }
+        ],
+        "description": "PHP URI Template (RFC 6570) supports both expansion & extraction",
+        "keywords": [
+            "RFC 6570",
+            "template",
+            "uri"
         ]
     },
     {
@@ -4026,6 +4629,110 @@
         ],
         "description": "Library that helps with managing the version number of Git-hosted PHP projects",
         "homepage": "https://github.com/sebastianbergmann/version"
+    },
+    {
+        "name": "superbalist/flysystem-google-storage",
+        "version": "7.2.2",
+        "version_normalized": "7.2.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Superbalist/flysystem-google-cloud-storage.git",
+            "reference": "87e2f450c0e4b5200fef9ffe6863068cc873d734"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Superbalist/flysystem-google-cloud-storage/zipball/87e2f450c0e4b5200fef9ffe6863068cc873d734",
+            "reference": "87e2f450c0e4b5200fef9ffe6863068cc873d734",
+            "shasum": ""
+        },
+        "require": {
+            "google/cloud-storage": "~1.0",
+            "league/flysystem": "~1.0",
+            "php": ">=5.5.0"
+        },
+        "require-dev": {
+            "mockery/mockery": "0.9.*",
+            "phpunit/phpunit": "~4.0"
+        },
+        "time": "2019-10-10T12:22:54+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Superbalist\\Flysystem\\GoogleStorage\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Superbalist.com a division of Takealot Online (Pty) Ltd",
+                "email": "info@superbalist.com"
+            }
+        ],
+        "description": "Flysystem adapter for Google Cloud Storage"
+    },
+    {
+        "name": "superbalist/laravel-google-cloud-storage",
+        "version": "2.2.3",
+        "version_normalized": "2.2.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Superbalist/laravel-google-cloud-storage.git",
+            "reference": "588345471e3f56f8b7119c83a0637fa33897bcc0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Superbalist/laravel-google-cloud-storage/zipball/588345471e3f56f8b7119c83a0637fa33897bcc0",
+            "reference": "588345471e3f56f8b7119c83a0637fa33897bcc0",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/filesystem": "^5.1|^6.0|^7.0",
+            "illuminate/support": "^5.1|^6.0|^7.0",
+            "league/flysystem-cached-adapter": "^1.0",
+            "php": ">=5.5.9",
+            "superbalist/flysystem-google-storage": ">=3.0 <8.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": ">=4.8"
+        },
+        "time": "2020-03-16T12:21:54+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0-dev"
+            },
+            "laravel": {
+                "providers": [
+                    "Superbalist\\LaravelGoogleCloudStorage\\GoogleCloudStorageServiceProvider"
+                ]
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Superbalist\\LaravelGoogleCloudStorage\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Superbalist.com a division of Takealot Online (Pty) Ltd",
+                "email": "info@superbalist.com"
+            }
+        ],
+        "description": "A Google Cloud Storage filesystem for Laravel"
     },
     {
         "name": "swiftmailer/swiftmailer",
@@ -5546,21 +6253,21 @@
     },
     {
         "name": "vlucas/phpdotenv",
-        "version": "v4.1.4",
-        "version_normalized": "4.1.4.0",
+        "version": "v4.1.5",
+        "version_normalized": "4.1.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/vlucas/phpdotenv.git",
-            "reference": "feb6dad5ae24b1380827aee1629b730080fde500"
+            "reference": "539bb6927c101a5605d31d11a2d17185a2ce2bf1"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/feb6dad5ae24b1380827aee1629b730080fde500",
-            "reference": "feb6dad5ae24b1380827aee1629b730080fde500",
+            "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/539bb6927c101a5605d31d11a2d17185a2ce2bf1",
+            "reference": "539bb6927c101a5605d31d11a2d17185a2ce2bf1",
             "shasum": ""
         },
         "require": {
-            "php": "^5.5.9 || ^7.0",
+            "php": "^5.5.9 || ^7.0 || ^8.0",
             "phpoption/phpoption": "^1.7.2",
             "symfony/polyfill-ctype": "^1.9"
         },
@@ -5574,7 +6281,7 @@
             "ext-filter": "Required to use the boolean validator.",
             "ext-pcre": "Required to use most of the library."
         },
-        "time": "2020-04-12T15:20:09+00:00",
+        "time": "2020-05-02T14:08:57+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {

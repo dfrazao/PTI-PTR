@@ -162,6 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        Superbalist\LaravelGoogleCloudStorage\GoogleCloudStorageServiceProvider::class,
 
         /*
          * Package Service Providers...

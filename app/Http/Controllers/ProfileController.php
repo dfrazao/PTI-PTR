@@ -10,6 +10,7 @@ use App\Course;
 use App\University;
 use App\Subject;
 use App\SubjectEnrollment;
+use Storage;
 
 class ProfileController extends Controller
 {
@@ -99,7 +100,19 @@ class ProfileController extends Controller
 
             $extension = $request->profilePhoto->extension();
             $filename = $id.'.'.$extension;
-            $path = $file->storeAs('public/profilePhotos/', $filename);
+            $disk = Storage::disk('gcs');
+            //return $filename;
+            //$exists = Storage::exists('profilePhotos/1.jpeg');
+            //$url = Storage::url('profilePhotos/1.jpeg');
+            //$exists = Storage::exists('profilePhotos/1.jpeg');
+            $time = Storage::lastModified('profilePhotos/1.jpeg');
+            //$disk->copy('old/file1.jpg', 'new/file1.jpg');
+            //$disk->move('old/file1.jpg', 'new/file1.jpg');
+            $disk->setVisibility('folder/my_file.txt', 'public');
+            return $time;
+
+            //$disk->put('a.txt', "teste");
+            //$file->storeAs('profilePhotos/', $filename);
             $user = User::find($id);
             $user->photo = $filename;
             $user->save();
