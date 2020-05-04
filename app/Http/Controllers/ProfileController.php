@@ -99,21 +99,12 @@ class ProfileController extends Controller
             }
 
             $extension = $request->profilePhoto->extension();
-            $filename = $id.'.'.$extension;
-            $disk = Storage::disk('gcs');
-            //return $filename;
-            //$exists = Storage::exists('profilePhotos/1.jpeg');
-            //$url = Storage::url('profilePhotos/1.jpeg');
-            //$exists = Storage::exists('profilePhotos/1.jpeg');
-            $time = Storage::lastModified('profilePhotos/1.jpeg');
-            //$disk->copy('old/file1.jpg', 'new/file1.jpg');
-            //$disk->move('old/file1.jpg', 'new/file1.jpg');
-            $disk->setVisibility('folder/my_file.txt', 'public');
-            return $time;
-
-            //$disk->put('a.txt', "teste");
-            //$file->storeAs('profilePhotos/', $filename);
+            $filename = uniqid().'.'.$extension;
+            $file->storeAs('profilePhotos/', $filename, 'gcs');
             $user = User::find($id);
+            if ($user->photo != "profilePhotoDefault.jpg") {
+                Storage::delete('profilePhotos/'.$user->photo);
+            }
             $user->photo = $filename;
             $user->save();
 

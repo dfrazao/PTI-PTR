@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DRIVER', 'google'),
+    'default' => env('FILESYSTEM_DRIVER', 'gcs'),
 
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'cloud' => env('FILESYSTEM_CLOUD', 'google'),
+    'cloud' => env('FILESYSTEM_CLOUD', 'gcs'),
 
     /*
     |--------------------------------------------------------------------------
@@ -72,15 +72,6 @@ return [
             'path_prefix' => env('GOOGLE_CLOUD_STORAGE_PATH_PREFIX', null), // optional: /default/path/to/apply/in/bucket
             'storage_api_uri' => env('GOOGLE_CLOUD_STORAGE_API_URI', null), // see: Public URLs below
             'visibility' => 'public', // optional: public|private
-        ],
-
-        'google' => [
-            'driver' => 's3',
-            'key' => 'GOOG1EF4U7ODGDD2XFM2DZS67ACZME5ZL7QWO7PW3LYBVFYHFNVBWK6PPXIXQ',
-            'secret' => 'XsmLRjnYavXSt5id+Xf1TCBuYOJt/bS/Ebbwsha4',
-            'region' => 'eu-west-2',
-            'bucket' => 'bucket-groupx',
-            'endpoint'=> 'https://storage.googleapis.com'
         ]
 
     ],
