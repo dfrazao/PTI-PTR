@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Availability;
 use App\Http\Controllers\Controller;
 use App\Meeting;
 use Illuminate\Http\Request;
@@ -53,6 +54,7 @@ class StudentProjectsController extends Controller
         $submission = $request->input('submission');
         $idGroup = $request->input('group');
         $idProject = $request ->input('project');
+        $user = Auth::user()->id;
         if($submission == "notes") {
             $this->validate($request, [
                 'notes' => 'required'
@@ -60,6 +62,7 @@ class StudentProjectsController extends Controller
             $group = Group::find($idGroup);
             $group->notes = $request->input('notes');
             $group->save();
+
         } elseif($submission == "task"){
             $this->validate($request, [
                 'description' => 'required',
@@ -76,6 +79,17 @@ class StudentProjectsController extends Controller
 
             return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Task created successfully');
         }
+        elseif($submission == "schedule"){
+
+            $availability = new Availability;
+            $availability -> idGroup = $request->input('group');
+            $availability -> member = $user;
+            $availability -> periods = $request->input('cell');
+            $availability -> color = 'Green';
+            $availability->save();
+
+
+        }
         else{
             $this->validate($request, [
                 'description' => 'required',
@@ -91,8 +105,9 @@ class StudentProjectsController extends Controller
             $meeting -> place = $request->input('place');
 
             $meeting->save();
-            }
             return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Meeting created successfully');
+            }
+
         }
 
     /**
@@ -152,8 +167,10 @@ class StudentProjectsController extends Controller
             $idComment = AnnouncementComment::all()->where('idAnnouncement', '==', $idA)->count();
             array_push($numberComments, $idComment);
         }
+        // availabilities
+        $schedule = Availability::all()->where('idGroup', '==',$idGroup);
 
-        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup)->with('notes',$notes)->with('a',$announcements)->with('meeting',$meeting)->with('groupUsers', $Users);
+        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup)->with('notes',$notes)->with('a',$announcements)->with('meeting',$meeting)->with('groupUsers', $Users)->with('schedule', $schedule);
     }
 
     /**
