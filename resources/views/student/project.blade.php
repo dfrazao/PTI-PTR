@@ -189,7 +189,9 @@
             </div>
         </div>
         <div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab" style=" position: relative">
-            <h5 class="pt-2 text-center">Group elements weekly disponibility</h5>
+            <h5 class="pt-2 text-center">Group elements weekly availability</h5>
+            {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST', 'id' => 'scheduleform']) !!}
+            @csrf
             <div class="grid-container">
                 <div></div>
                 <div>Segunda</div>
@@ -200,86 +202,91 @@
                 <div>Sábado</div>
                 <div>Domingo</div>
                 <div style="border: 1px solid black;">8:00h-9:00h</div>
-                <div class="cell" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="1x1" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="1x2" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="1x3" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="1x4" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="1x5" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="1x6" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="1x7" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
                 <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">9:00h-10:00h</div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="2x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="2x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="2x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="2x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="2x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="2x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="2x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
                 <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">10:00h-11:00h</div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="3x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="3x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="3x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="3x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="3x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="3x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="3x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
                 <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">11:00h-12:00h</div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="4x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="4x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="4x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="4x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="4x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="4x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="4x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
                 <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">12:00h-13:00h</div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="5x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="5x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="5x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="5x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="5x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="5x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="5x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
                 <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">13:00h-14:00h</div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="6x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="6x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="6x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="6x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="6x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="6x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="6x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
                 <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">14:00h-15:00h</div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="7x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="7x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="7x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="7x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="7x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="7x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="7x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
                 <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">15:00h-16:00h</div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="8x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="8x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="8x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="8x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="8x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="8x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="8x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
                 <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">16:00h-17:00h</div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="9x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="9x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="9x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="9x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="9x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="9x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="9x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
                 <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">17:00h-18:00h</div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="10x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="10x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="10x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="10x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="10x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="10x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                <div class="cell" id="10x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
             </div>
+            {{Form::hidden('group',$idGroup)}}
+            {{Form::hidden('submission','schedule')}}
+            {{Form::submit('Submit', ['class'=>'btn btn-primary d-none'])}}
+            {!! Form::close() !!}
+
             <div class="container p-3">
                 <div class="row">
                     @foreach($groupUsers as $user)
@@ -502,9 +509,7 @@
         box-shadow: none;
 
     }
-    .notes{
 
-    }
     .border {
         display: inline-block;
         width: 10px;
@@ -534,8 +539,7 @@
         table-layout: fixed;
         width:100%;
     }
-    #{{Auth::user()->name}}{
-    background-color: }
+
 
 </style>
 <script>
@@ -557,13 +561,6 @@
 
     // store the currently selected tab in the hash value
     $("ul.nav-tabs > li > a").on("shown.bs.tab", function(e) {
-        if($(this).attr('id') == "horario-tab"){
-
-            $('#newMeeting').removeClass('d-none');
-        }
-        else{
-            $('#newMeeting').addClass('d-none');
-        }
         var id = $(e.target).attr("href").substr(1);
         window.location.hash = id;
     });
@@ -593,21 +590,32 @@
     });
 
     var colors = ['red', 'green', 'lightblue', 'orange', 'yellow', 'black', ' pink', 'purple', 'brown', 'darkblue'];
-
-    $('.userColor').each(function() {
+    @foreach($groupUsers as $user)
         var uc = [Math.floor(Math.random() * colors.length)];
-        console.log(colors[uc]);
-        $(this).css('background-color', colors[uc]);
-        colors.splice(uc, 1);
-    });
+        sessionStorage.setItem('{{$user->name}}', colors[uc]);
+        colors.splice(uc,1);
+        $('.userColor').each(function() {
+            if($(this).attr("id") == '{{$user->name}}')
+                $(this).css('background-color', sessionStorage.getItem('{{$user->name}}'));
+        });
+    @endforeach
 
 
     $('.cell').click(function () {
-        var usercolor = document.getElementById('{{Auth::user()->name}}').style.backgroundColor;
-        var add = "<span class='border userColor align-middle'  id='{{Auth::user()->name}}'></span>";
-        $(this).append(add);
-        document.getElementById('{{Auth::user()->name}}').style.backgroundColor = usercolor;
-        console.log(document.getElementById('{{Auth::user()->name}}').style.backgroundColor);
+        var add = document.createElement("div");
+        add.setAttribute("class", "border align-middle usercolor");
+        add.setAttribute("id", '{{Auth::user()->name}}');
+        this.appendChild(add);
+        $('.usercolor').css('background-color', sessionStorage.getItem('{{Auth::user()->name}}'));
+        console.log($('#scheduleform input[name=submission]').val());
+        datastring = {'cell':this.id, 'group': $('input[name=group]').val(), 'submission': $('#scheduleform input[name=submission]').val(), '_token': $('input[name=_token]').val(), 'nameStudent' : $('input[name=idstudent]').val()}
+        $.ajax({
+            type: "post",
+            data: datastring,
+            dataType: 'JSON',
+            url: "/student/project/"
+        });
+
 
     });
 
