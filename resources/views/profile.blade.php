@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-xs-12 col-sm-3 center">
                 <span class="profile-picture">
-                    <img class="editable img-responsive w-100" style="border-radius: 100%;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}">
+                    <img class="profilePhoto editable img-responsive" style="border-radius: 100%; width: 100%; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}">
                 </span>
                 @if(Auth::user()->id != $user->id)
                     <a href="#" class="btn btn-sm btn-block btn-success mt-3">
@@ -547,4 +547,8 @@
     }
 
 </style>
+<script>
+    var cw = $('.profilePhoto').width();
+    $('.profilePhoto').css({'height':cw+'px'});
+</script>
 @endsection

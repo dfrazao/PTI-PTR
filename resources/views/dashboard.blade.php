@@ -256,12 +256,8 @@
                                             {{Form::selectRange('maxNumber', 1, 10, $project->maxElements)}}
                                         </div>
                                         <div class="form-group">
-                                            {{Form::label('announcement', 'Announcement')}}
-                                            {{Form::file('')}}
-                                        </div>
-                                        <div class="form-group">
                                             {{Form::label('documentation', 'Documentation')}}
-                                            {{Form::file('')}}
+                                            {{Form::file('documentation')}}
                                         </div>
                                         {{ Form::hidden('subject', $subject->idSubject) }}
                                         {{Form::hidden('option', 'project')}}
@@ -331,12 +327,8 @@
                         {{Form::selectRange('maxNumber', 1, 10)}}
                     </div>
                     <div class="form-group">
-                        {{Form::label('announcement', 'Announcement')}}
-                        {{Form::file('')}}
-                    </div>
-                    <div class="form-group">
                         {{Form::label('documentation', 'Documentation')}}
-                        {{Form::file('')}}
+                        {{Form::file('documentation')}}
                     </div>
                     {{ Form::hidden('subject', "subject") }}
                     {{Form::hidden('option', 'project')}}

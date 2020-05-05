@@ -611,7 +611,5 @@
 
     });
 
-
-
 </script>
 @endsection
