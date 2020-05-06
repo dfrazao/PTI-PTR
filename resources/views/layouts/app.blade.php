@@ -69,9 +69,19 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link " id="chat_button" onclick="chat()"><i class="fa fa-envelope"></i></a>
-
+                        <a class="nav-link" id="chat_button" onclick="chat()"><i class="fa fa-envelope"></i></a>
                     </li>
+
+                    <script>
+                        function chat() {
+                            var x = document.getElementById("frame");
+                            if (x.style.display === "block") {
+                                x.style.display = "none";
+                            } else {
+                                x.style.display = "block";
+                            }
+                        }
+                    </script>
 
                     @if ( Config::get('app.locale') == 'en')
                         <li class="nav-item dropdown">
@@ -118,15 +128,17 @@
     <style>
         #view-code:hover{opacity:1;}
         #chatbox{
+            margin-right: 5%;
+            display: none;
+            float: right;
+            z-index: 9999;
+            position: relative;
             width:290px;
-            background:#fff;
+            background:white;
             border-radius:6px;
+            border: black 1px solid;
             overflow:hidden;
             height:484px;
-            position:absolute;
-            top:100px;
-            left:50%;
-            margin-left:-155px;
         }
 
         #friendslist{
