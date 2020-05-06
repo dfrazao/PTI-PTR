@@ -37,8 +37,7 @@ Route::resource('/student/project/{projectId}/post', 'PostController')->middlewa
 
 
 
-
-
+Route::get('/chat', 'ChatController@index');
 
 
 
