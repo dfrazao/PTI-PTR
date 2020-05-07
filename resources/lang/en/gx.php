@@ -1,11 +1,58 @@
 <?php
 
 return [
+    //language
+    'english'                   => 'English',
+    'portuguese'                => 'Portuguese',
+
     //geral
     'dashboard'                 => 'Dashboard',
     'profile'                   => 'Profile',
     'subjects'                  => 'Subjects',
     'submit'                    => 'Submit',
+    'delete'                    => 'Delete',
+    'current password'          => 'Current Password',
+    'new password'              => 'New Password',
+    're-enter password'         => 'Re-enter Password',
+    'group'                     => 'Group',
+    'name'                      => 'Name',
+    'documentation'             => 'Documentation',
+
+    //errors
+
+    //dashboard
+    'january'                   => 'January',
+    'february'                  => 'February',
+    'march'                     => 'March',
+    'april'                     => 'April',
+    'may'                       => 'May',
+    'june'                      => 'June',
+    'july'                      => 'July',
+    'august'                    => 'August',
+    'september'                 => 'September',
+    'october'                   => 'October',
+    'november'                  => 'November',
+    'december'                  => 'December',
+    'monday'                    => 'M',
+    'tuesday'                   => 'T',
+    'wednesday'                 => 'W',
+    'thursday'                  => 'T',
+    'friday'                    => 'F',
+    'saturday'                  => 'S',
+    'sunday'                    => 'S',
+    'join/create group'         => 'Join/Create Group',
+    'no projects found'         => 'No projects found',
+    'new project'               => 'New Project',
+    'create project'            => 'Create Project',
+    'delete project'            => 'Delete Project',
+    'edit project'              => 'Edit Project',
+    'no subjects found'         => 'No subjects found',
+    'group formation deadline'  => 'Group Formation Deadline',
+    'deadline'                  => 'Poject Delivery Deadline',
+    'maximum no. of members'    => 'Maximum No. of Members',
+    'minimum no. of members'    => 'Minimum No. of Members',
+    'want to delete project?'   => 'Are you sure you want to delete this project?',
+    'project name'              => 'Project Name',
 
     //profile
     'role'                      => 'Role',
