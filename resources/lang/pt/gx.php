@@ -1,11 +1,58 @@
 <?php
 
 return [
+    //language
+    'english'                   => 'Inglês',
+    'portuguese'                => 'Português',
+
     //geral
     'dashboard'                 => 'Dashboard',
     'profile'                   => 'Perfil',
     'subjects'                  => 'Cadeiras',
     'submit'                    => 'Submeter',
+    'delete'                    => 'Apagar',
+    'current password'          => 'Palavra-passe Atual',
+    'new password'              => 'Palavra-passe Nova',
+    're-enter password'         => 'Repita a Palavra-passe',
+    'group'                     => 'Grupo',
+    'name'                      => 'Nome',
+    'documentation'             => 'Documentação',
+
+    //errors
+
+    //dashboard
+    'january'                   => 'Janeiro',
+    'february'                  => 'Fevereiro',
+    'march'                     => 'Março',
+    'april'                     => 'Abril',
+    'may'                       => 'Maio',
+    'june'                      => 'Junho',
+    'july'                      => 'Julho',
+    'august'                    => 'Agosto',
+    'september'                 => 'Setembro',
+    'october'                   => 'Otubro',
+    'november'                  => 'Novembro',
+    'december'                  => 'Decembro',
+    'monday'                    => 'S',
+    'tuesday'                   => 'T',
+    'wednesday'                 => 'Q',
+    'thursday'                  => 'Q',
+    'friday'                    => 'S',
+    'saturday'                  => 'S',
+    'sunday'                    => 'D',
+    'join/create group'         => 'Juntar/Criar Grupo',
+    'no projects found'         => 'Nenhum projeto encontrado',
+    'new project'               => 'Novo Projeto',
+    'create project'            => 'Criar Projeto',
+    'delete project'            => 'Apagar Projeto',
+    'edit project'              => 'Editar Projeto',
+    'no subjects found'         => 'Nenhuma cadeira encontrada',
+    'group formation deadline'  => 'Prazo de Formação de Grupos',
+    'deadline'                  => 'Prazo de Entrega do Projeto',
+    'maximum no. of members'    => 'N° Máximo de Membros',
+    'minimum no. of members'    => 'N° Mínimo de Membros',
+    'want to delete project?'   => 'Tem a certeza que quer apagar este projeto?',
+    'project name'              => 'Nome do Projeto',
 
     //profile
     'role'                      => 'Papel',

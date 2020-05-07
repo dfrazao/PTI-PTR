@@ -1,0 +1,44 @@
+Index: vendor/laravel/framework/src/Illuminate/Foundation/Console/stubs/cast.stub
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- vendor/laravel/framework/src/Illuminate/Foundation/Console/stubs/cast.stub	(date 1588702026086)
++++ vendor/laravel/framework/src/Illuminate/Foundation/Console/stubs/cast.stub	(date 1588702026086)
+@@ -0,0 +1,36 @@
++<?php
++
++namespace DummyNamespace;
++
++use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
++
++class DummyClass implements CastsAttributes
++{
++    /**
++     * Cast the given value.
++     *
++     * @param  \Illuminate\Database\Eloquent\Model  $model
++     * @param  string  $key
++     * @param  mixed  $value
++     * @param  array  $attributes
++     * @return array
++     */
++    public function get($model, $key, $value, $attributes)
++    {
++        return $value;
++    }
++
++    /**
++     * Prepare the given value for storage.
++     *
++     * @param  \Illuminate\Database\Eloquent\Model  $model
++     * @param  string  $key
++     * @param  array  $value
++     * @param  array  $attributes
++     * @return string
++     */
++    public function set($model, $key, $value, $attributes)
++    {
++        return $value;
++    }
++}

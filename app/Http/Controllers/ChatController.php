@@ -5,84 +5,57 @@ use App\Chat;
 use App\User;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Support\Facades\DB;
 class ChatController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        $user = Auth::user()->id;
-        $users = User::all();
-        $chats = Chat::all()->where('sender', '==',$user);
-        return view('chat')->with('users',$users)->with('messages',$chats);
+        // select all users except logged in user
+        // $users = User::where('id', '!=', Auth::id())->get();
+
+        // count how many message are unread from the selected user
+        $users = DB::select("select users.id, users.name, users.photo, users.email
+        from users LEFT  JOIN  chats ON users.id = chats.sender and chats.receiver = " . Auth::id() . "
+        where users.id != " . Auth::id() . "
+        group by users.id, users.name, users.photo, users.email");
+
+        return view('chat', ['users' => $users]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function getMessage($user_id)
     {
-        //
+        $my_id = Auth::id();
+
+        // Make read all unread message
+//        Chat::where(['sender' => $user_id, 'receiver' => $my_id])->update(['is_read' => 1]);
+
+        // Get all message from selected user
+
+
+        $messages = Chat::where(function ($query) use ($user_id, $my_id) {
+            $query->where('sender', $user_id)->where('receiver', $my_id);
+        })->oRwhere(function ($query) use ($user_id, $my_id) {
+            $query->where('sender', $my_id)->where('receiver', $user_id);
+        })->get();
+
+        return view('messages.conv', ['messages' => $messages]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function sendMessage(Request $request)
     {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+        $from = Auth::id();
+        $to = $request->receiver_id;
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        $message = $request->message;
+        $data = new Chat();
+        $data->sender = $from;
+        $data->receiver = $to;
+        $data->message = $message;
+        $data->save();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+
     }
 }

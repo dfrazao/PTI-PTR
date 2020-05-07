@@ -36,8 +36,9 @@ Route::delete('/student/project/{projectId}/post', 'PostController@destroyCommen
 Route::resource('/student/project/{projectId}/post', 'PostController')->middleware('auth');
 
 
-
-Route::get('/chat', 'ChatController@index');
+Route::get('/chat', 'ChatController@index')->name('chat');
+Route::get('/message/{id}', 'ChatController@getMessage')->name('message');
+Route::post('/message', 'ChatController@sendMessage');
 
 
 
