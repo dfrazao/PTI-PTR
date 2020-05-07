@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 
-{{--    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
     <div id="chatbox">
         <div id="friendslist">
             <div id="cabecalho">
@@ -99,7 +99,9 @@
             </div>
 
         </div>
-    </div>--}}
+    </div>
+
+@endsection
 
 
    <!------ Include the above in your HEAD tag ---------->
@@ -109,7 +111,7 @@
 
 
 
-       <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'><link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
+       {{--<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'><link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
        <style>
             body{
                 font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"
@@ -119,10 +121,16 @@
                width: 75%;
                min-width: 360px;
                max-width: 1000px;
-               height: 72vh;
+               height: 62vh;
                min-height: 300px;
                max-height: 720px;
-               background: #E6EAEA;
+               background: #ffffff;
+               position: relative;
+               float: right;
+               margin-right: 2%;
+               -webkit-box-shadow: -9px 10px 5px 0px rgba(122,122,122,1);
+               -moz-box-shadow: -9px 10px 5px 0px rgba(122,122,122,1);
+               box-shadow: -9px 10px 5px 0px rgba(122,122,122,1);
            }
            @media screen and (max-width: 360px) {
                #frame {
@@ -150,10 +158,9 @@
            }
 
            #frame #sidepanel #search {
-               padding-top : 3%;
+               padding-top : 5.4%;
                width: 100%; !important;
-               background: #fbfbff; !important;
-               border-top: 1px solid #32465a;
+               background: #f5f5f5; !important;
                border-bottom: 1px solid #32465a;
                font-weight: 300;
            }
@@ -170,12 +177,12 @@
                padding: 10px 0 10px 46px;
                width: 100%;
                    border: none;
-                   background: #fbfbff;
+                   background: #f5f5f5;
                color: #000000;
            }
            #frame #sidepanel #search input:focus {
                outline: none;
-               background: #fbfbff;
+               background: #f5f5f5;
            }
            #frame #sidepanel #search input::-webkit-input-placeholder {
                color: #000000;
@@ -196,7 +203,7 @@
            }
            @media screen and (max-width: 735px) {
                #frame #sidepanel #contacts {
-                   height: calc(100% - 149px);
+                   height: 100%;
                    overflow-y: scroll;
                    overflow-x: hidden;
                }
@@ -209,10 +216,10 @@
            }
            #frame #sidepanel #contacts::-webkit-scrollbar {
                width: 8px;
-               background: #2c3e50;
+               background: #000000;
            }
            #frame #sidepanel #contacts::-webkit-scrollbar-thumb {
-               background-color: #243140;
+               background-color: #f5f5f5;
            }
            #frame #sidepanel #contacts ul li.contact {
                position: relative;
@@ -381,6 +388,7 @@
                height: 60px;
                line-height: 60px;
                background: #f5f5f5;
+               border-bottom: 1px solid #32465a;
            }
            #frame .content .contact-profile img {
                width: 40px;
@@ -554,7 +562,7 @@
            </div>
            <div id="contacts">
                <ul>
-                   @foreach($users as $user)
+                   --}}{{--@foreach($errors as $user)
                        <li class="contact">
                            <div class="wrap">
                                <span class="contact-status online"></span>
@@ -565,7 +573,7 @@
                                </div>
                            </div>
                        </li>
-                   @endforeach
+                   @endforeach--}}{{--
                </ul>
            </div>
        </div>
@@ -676,9 +684,8 @@
            }
        });
        //# sourceURL=pen.js
-   </script>
+   </script>--}}
 
-@endsection
 
 
 

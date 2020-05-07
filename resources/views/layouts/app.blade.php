@@ -74,7 +74,7 @@
 
                     <script>
                         function chat() {
-                            var x = document.getElementById("frame");
+                            var x = document.getElementById("chatbox");
                             if (x.style.display === "block") {
                                 x.style.display = "none";
                             } else {
