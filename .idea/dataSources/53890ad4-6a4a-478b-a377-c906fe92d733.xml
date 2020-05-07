@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="mydb@192.168.99.100">
-  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.14">
+  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.17">
     <root id="1">
       <ServerVersion>5.7.29</ServerVersion>
       <DefaultEngine>InnoDB</DefaultEngine>
@@ -12,7 +12,6 @@
     </schema>
     <schema id="3" parent="1" name="mydb">
       <Current>1</Current>
-      <Visible>1</Visible>
       <Collation>latin1_swedish_ci</Collation>
     </schema>
     <collation id="4" parent="1" name="armscii8_bin">
