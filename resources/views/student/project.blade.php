@@ -600,22 +600,44 @@
         });
     @endforeach
 
+    @foreach($schedule as $sc)
+        var cells= {!! $sc->periods  !!};
+        $('.cell').each(function() {
+        for(i = 0; i < cells.length; i++){
+            var add = document.createElement("div");
+            add.setAttribute("class", "border align-middle usercolor");
+            add.setAttribute("id", '{{$sc->member}}');
+            if($(this).attr('id') == cells[i]){
+                this.appendChild(add);
+                $('.usercolor').css('background-color', sessionStorage.getItem('{{\App\User::find($sc->member)->name}}'));
+                }}});
+    @endforeach
 
     $('.cell').click(function () {
-        var add = document.createElement("div");
-        add.setAttribute("class", "border align-middle usercolor");
-        add.setAttribute("id", '{{Auth::user()->name}}');
-        this.appendChild(add);
-        $('.usercolor').css('background-color', sessionStorage.getItem('{{Auth::user()->name}}'));
-        console.log($('#scheduleform input[name=submission]').val());
-        datastring = {'cell':this.id, 'group': $('input[name=group]').val(), 'submission': $('#scheduleform input[name=submission]').val(), '_token': $('input[name=_token]').val(), 'nameStudent' : $('input[name=idstudent]').val()}
-        $.ajax({
-            type: "post",
-            data: datastring,
-            dataType: 'JSON',
-            url: "/student/project/"
-        });
+        if($(this).find('div#{{Auth::user()->id}}').length == 1){
+            $(this).find('div#{{Auth::user()->id}}').remove();
 
+        }
+        else {
+            var add = document.createElement("div");
+            add.setAttribute("class", "border align-middle usercolor");
+            add.setAttribute("id", '{{Auth::user()->id}}');
+            this.appendChild(add);
+            $('.usercolor').css('background-color', sessionStorage.getItem('{{Auth::user()->name}}'));
+            datastring = {
+                'cell': this.id,
+                'group': $('input[name=group]').val(),
+                'submission': $('#scheduleform input[name=submission]').val(),
+                '_token': $('input[name=_token]').val(),
+                'nameStudent': $('input[name=idstudent]').val()
+            }
+            $.ajax({
+                type: "post",
+                data: datastring,
+                dataType: 'JSON',
+                url: "/student/project/"
+            });
+        }
 
     });
 

@@ -16,6 +16,7 @@ use App\Group;
 use App\StudentsGroup;
 use App\Task;
 use DateTime;
+use function Sodium\add;
 
 class StudentProjectsController extends Controller
 {
@@ -80,14 +81,26 @@ class StudentProjectsController extends Controller
             return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Task created successfully');
         }
         elseif($submission == "schedule"){
+            $group = $request->input('group');
 
-            $availability = new Availability;
-            $availability -> idGroup = $request->input('group');
-            $availability -> member = $user;
-            $availability -> periods = $request->input('cell');
-            $availability -> color = 'Green';
-            $availability->save();
+            if(Availability::where("idGroup", $group)->where('member',$user)->count() > 0){
+                $availability = Availability::where("idGroup", $group)->where("member", $user)->first();
+                $currentAv = json_decode($availability->periods);
+                array_push($currentAv, $request->input('cell'));
+                $availability->periods = $currentAv;
+                $availability->save();
+            }
+            else {
+                $av = [];
+                $availability = new Availability;
+                array_push($av,$request->input('cell'));
+                $availability -> idGroup = $group;
+                $availability -> member = $user;
+                $availability -> periods = json_encode($av);
+                $availability -> color = 'Green';
+                $availability->save();
 
+            }
 
         }
         else{
@@ -167,7 +180,7 @@ class StudentProjectsController extends Controller
             array_push($numberComments, $idComment);
         }
         // availabilities
-        $schedule = Availability::all()->where('idGroup', '==',$idGroup);
+        $schedule = Availability::all()->where('idGroup','==', $idGroup);
 
         return view('student.project')->with('project' , $project)->with('subject', $subject)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup)->with('notes',$notes)->with('a',$announcements)->with('meeting',$meeting)->with('groupUsers', $Users)->with('schedule', $schedule);
     }
