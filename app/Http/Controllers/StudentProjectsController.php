@@ -124,14 +124,13 @@ class StudentProjectsController extends Controller
         $subject = Subject::find($project->idSubject);
         $idGroups = Group::all()->where('idProject', '==', $id)->pluck('idGroup');
         $studentGroups = StudentsGroup::all()->where('idStudent', '==', $user)->pluck('idGroup');
-
-
-        // Tasks
         $idGroup = 0;
         foreach($studentGroups as $st)
             foreach ($idGroups as $g)
                 if ($g == $st)
                     $idGroup = $g;
+
+        // Tasks
         $arr = Task::all()->where('idGroup', '==', $idGroup);
 
         //Notes
@@ -145,7 +144,7 @@ class StudentProjectsController extends Controller
         $Users = [];
         foreach ($groupUsers as $gu){
             $stg = User::find($gu->idStudent);
-            array_push($Users,$stg);
+            array_push($Users, $stg);
         }
 
         //Posts
