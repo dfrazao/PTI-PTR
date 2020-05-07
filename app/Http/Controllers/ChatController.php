@@ -15,9 +15,9 @@ class ChatController extends Controller
         // $users = User::where('id', '!=', Auth::id())->get();
 
         // count how many message are unread from the selected user
-        $users = DB::select("select users.id, users.name, users.photo, users.email 
+        $users = DB::select("select users.id, users.name, users.photo, users.email
         from users LEFT  JOIN  chats ON users.id = chats.sender and chats.receiver = " . Auth::id() . "
-        where users.id != " . Auth::id() . " 
+        where users.id != " . Auth::id() . "
         group by users.id, users.name, users.photo, users.email");
 
         return view('chat', ['users' => $users]);
@@ -39,16 +39,14 @@ class ChatController extends Controller
             $query->where('sender', $my_id)->where('receiver', $user_id);
         })->get();
 
-        return view('messages.index', ['messages' => $messages]);
+        return view('messages.conv', ['messages' => $messages]);
     }
 
     public function sendMessage(Request $request)
     {
-        dd("asdfasdfasdf");
 
         $from = Auth::id();
         $to = $request->receiver_id;
-
 
 
         $message = $request->message;
@@ -58,20 +56,6 @@ class ChatController extends Controller
         $data->message = $message;
         $data->save();
 
-        // pusher
-        $options = array(
-            'cluster' => 'eu',
-            'useTLS' => true
-        );
 
-        $pusher = new Pusher(
-            env('PUSHER_APP_KEY'),
-            env('PUSHER_APP_SECRET'),
-            env('PUSHER_APP_ID'),
-            $options
-        );
-
-        $data = ['sender' => $from, 'receiver' => $to]; // sending from and to user id when pressed enter
-        $pusher->trigger('my-channel', 'my-event', $data);
     }
 }

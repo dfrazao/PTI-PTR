@@ -790,41 +790,10 @@
                 }
             });
 
-            // Enable pusher logging - don't include this in production
-            Pusher.logToConsole = true;
-
-            var pusher = new Pusher('01e73d00a9d0613cb94e', {
-                cluster: 'eu',
-                forceTLS: true
-            });
-
-            var channel = pusher.subscribe('my-channel');
-            channel.bind('my-event', function (data) {
-                // alert(JSON.stringify(data));
-                if (my_id == data.from) {
-                    $('#' + data.to).click();
-                } else if (my_id == data.to) {
-                    if (receiver_id == data.from) {
-                        // if receiver is selected, reload the selected user ...
-                        $('#' + data.from).click();
-                    } else {
-                        // if receiver is not seleted, add notification for that user
-                        var pending = parseInt($('#' + data.from).find('.pending').html());
-
-                        if (pending) {
-                            $('#' + data.from).find('.pending').html(pending + 1);
-                        } else {
-                            $('#' + data.from).append('<span class="pending">1</span>');
-                        }
-                    }
-                }
-            });
-
             $('.user').click(function () {
                 $('.user').removeClass('active');
                 $(this).addClass('active');
                 $(this).find('.pending').remove();
-
                 receiver_id = $(this).attr('id');
                 $.ajax({
                     type: "get",
@@ -837,10 +806,8 @@
                     }
                 });
             });
-
             $(document).on('keyup', '.input-text input', function (e) {
                 var message = $(this).val();
-
                 // check if enter key is pressed and message is not null also receiver is selected
                 if (e.keyCode == 13 && message != '' && receiver_id != '') {
                     $(this).val(''); // while pressed enter text box will be empty
@@ -851,7 +818,6 @@
                         data: datastr,
                         cache: false,
                         success: function (data) {
-
                         },
                         error: function (jqXHR, status, err) {
                         },
@@ -862,7 +828,6 @@
                 }
             });
         });
-
         // make a function to scroll down auto
         function scrollToBottomFunc() {
             $('.message-wrapper').animate({

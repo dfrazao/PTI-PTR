@@ -8,4 +8,5 @@ class Chat extends Model
 {
     protected $table = "chats";
     protected $fillable = ['sender', 'receiver', 'message', 'Date'];
+    public $timestamps = false;
 }

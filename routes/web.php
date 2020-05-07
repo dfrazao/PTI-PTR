@@ -38,7 +38,7 @@ Route::resource('/student/project/{projectId}/post', 'PostController')->middlewa
 
 Route::get('/chat', 'ChatController@index')->name('chat');
 Route::get('/message/{id}', 'ChatController@getMessage')->name('message');
-Route::post('message', 'ChatController@sendMessage');
+Route::post('/message', 'ChatController@sendMessage');
 
 
 
