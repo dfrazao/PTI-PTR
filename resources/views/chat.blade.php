@@ -111,7 +111,9 @@
 
        <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'><link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
        <style>
-
+            body{
+                font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"
+            }
            #frame {
                display:none;
                width: 75%;
@@ -134,8 +136,8 @@
                max-width: 340px;
                width: 40%;
                height: 100%;
-               background: #2c3e50;
-               color: #f5f5f5;
+               background: white;
+               color: black;
                overflow: hidden;
                position: relative;
            }
@@ -150,7 +152,7 @@
            #frame #sidepanel #search {
                padding-top : 3%;
                width: 100%; !important;
-               background: #2c3e50; !important;
+               background: #fbfbff; !important;
                border-top: 1px solid #32465a;
                border-bottom: 1px solid #32465a;
                font-weight: 300;
@@ -165,19 +167,18 @@
                margin: 10px 0 0 20px;
            }
            #frame #sidepanel #search input {
-               font-family: "proxima-nova",  "Source Sans Pro", sans-serif;
                padding: 10px 0 10px 46px;
                width: 100%;
                    border: none;
-                   background: #32465a;
-               color: #f5f5f5;
+                   background: #fbfbff;
+               color: #000000;
            }
            #frame #sidepanel #search input:focus {
                outline: none;
-               background: #435f7a;
+               background: #fbfbff;
            }
            #frame #sidepanel #search input::-webkit-input-placeholder {
-               color: #f5f5f5;
+               color: #000000;
            }
            #frame #sidepanel #search input::-moz-placeholder {
                color: #f5f5f5;
@@ -225,14 +226,14 @@
                }
            }
            #frame #sidepanel #contacts ul li.contact:hover {
-               background: #32465a;
+               background: rgba(171, 198, 248, 0.51);
            }
            #frame #sidepanel #contacts ul li.contact.active {
-               background: #32465a;
+               background: #72cdfd69;
                border-right: 5px solid #435f7a;
            }
            #frame #sidepanel #contacts ul li.contact.active span.contact-status {
-               border: 2px solid #32465a !important;
+               border: 2px solid #000000 !important;
            }
            #frame #sidepanel #contacts ul li.contact .wrap {
                width: 88%;
@@ -251,7 +252,7 @@
                width: 10px;
                height: 10px;
                border-radius: 50%;
-               border: 2px solid #2c3e50;
+               border: 2px solid #a8c2f4;
                background: #95a5a6;
            }
            #frame #sidepanel #contacts ul li.contact .wrap span.online {
@@ -320,7 +321,6 @@
                color: #f5f5f5;
                cursor: pointer;
                font-size: 0.85em;
-               font-family: "proxima-nova",  "Source Sans Pro", sans-serif;
            }
            @media screen and (max-width: 735px) {
                #frame #sidepanel #bottom-bar button {
@@ -409,6 +409,7 @@
                min-height: calc(100% - 93px);
                max-height: calc(100% - 93px);
                overflow-y: scroll;
+               background: white; !important;
                overflow-x: hidden;
            }
            @media screen and (max-width: 735px) {
@@ -438,8 +439,8 @@
                margin: 6px 8px 0 0;
            }
            #frame .content .messages ul li.sent p {
-               background: #435f7a;
-               color: #f5f5f5;
+               background: rgba(171, 198, 248, 0.65);
+               color: black;
            }
            #frame .content .messages ul li.replies img {
                float: right;
@@ -476,7 +477,6 @@
                position: relative;
            }
            #frame .content .message-input .wrap input {
-               font-family: "proxima-nova",  "Source Sans Pro", sans-serif;
                float: left;
                border: none;
                width: calc(100% - 90px);
