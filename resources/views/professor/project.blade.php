@@ -3,16 +3,14 @@
 <head>
     <title>Project</title>
 </head>
-<div class="mt-3 container-xl">
+<div class="container-xl-fluid mt-2 pl-5 pr-5 pb-2">
     @include('layouts.messages')
-
     <nav aria-label="breadcrumb" >
-        <ol class="breadcrumb mt-1 pl-0 pb-0 pt-0 float-right" style="background-color:white; ">
+        <ol class="breadcrumb pl-0 pb-0 mb-4 h4" style="background-color:white; ">
             <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{$subject->subjectName}} - {{$project->name}}</li>
+            <li class="breadcrumb-item active" aria-current="page" >{{$subject->subjectName}} - {{$project->name}}</li>
         </ol>
     </nav>
-    <h2 class="pb-2">{{$subject->subjectName}} - {{$project->name}}</h2>
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
@@ -29,15 +27,12 @@
     <div class="tab-content" id="myTabContent" style="min-height: 75vh; background-color: #ededed;">
         <div class="container-fluid ml-0 mr-0 tab-pane fade active show" id="conteudo" role="tabpanel" aria-labelledby="conteudo-tab">
             <div class="row rounded " style="height: 75vh;">
-                <div class="col mt-3 ml-3 rounded center" style="background-color: #c6c6c6; height: 87%; position: relative;">
-                    <div class="container overflow-auto mw-80" >
-                        <div class="container p-2 rounded">
-                            <h5>Grupos</h5>
-                        </div>
+                <div class="col mt-3 mb-3 ml-3 rounded center" style="background-color: #c6c6c6; position: relative;">
+                    <div class="container pt-3 overflow-auto mw-80" >
                         <ul class="nav nav-pills mb-3 flex-column" id="pills-tab" role="tablist" aria-orientation="vertical">
                             @foreach($groups as $group)
-                                 <li class="nav-item mb-1">
-                                     <a class="nav-link border border-dark " style="display:flex; align-items: center;vertical-align: middle;" id="pills-{{$group->idGroup}}e-tab" data-toggle="pill" href="#pills-{{$group->idGroup}}" role="tab" aria-controls="pills-{{$group->idGroup}}" aria-selected="true">
+                                 <li class="nav-item mb-1 rounded" style="background-color: #d0e7ff;">
+                                     <a class="nav-link " style="display:flex; align-items: center;vertical-align: middle;" id="pills-{{$group->idGroupProject}}-tab" data-toggle="pill" href="#pills-{{$group->idGroupProject}}" role="tab" aria-controls="pills-{{$group->idGroupProject}}" aria-selected="true">
                                          <h3 class="float-left mb-0 mr-2" style="vertical-align: middle;">Grupo {{$group->idGroupProject}} </h3>
                                      </a>
                                  </li>
@@ -45,97 +40,100 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-8 mt-3 rounded" style="height: 87%;width: 100%;">
-                    <div class="container-fluid rounded h-100 pt-3 pl-4" style="background-color: #c6c6c6;">
+                <div class="col-9 mt-3 mb-3 rounded" style="width: 100%;">
+                    <div class="container-fluid rounded h-100 p-3" style="background-color: #c6c6c6;">
                         <div class="tab-content h-100" id="pills-tabContent">
                             @foreach($groups as $group)
-                                <div class="container tab-pane fade h-100" id="pills-{{$group->idGroup}}" role="tabpanel" aria-labelledby="pills-{{$group->idGroup}}-tab">
-                                        <div class="row h-50">
-                                            <div class="col-9">
-                                                    <div class="row h-50"><h5>Ficheiros</h5></div>
-                                                    <div class="row"><h5>Avaliação entre alunos</h5></div>
+                                <div class="container tab-pane fade h-100" id="pills-{{$group->idGroupProject}}" role="tabpanel" aria-labelledby="pills-{{$group->idGroupProject}}-tab">
+                                        <div class="row h-100" style="position: relative;">
+                                            <div class="col mr-2 ">
+                                                    <div class="row pb-2 " style="height: 40%;"><div class="bg-light p-2 w-100 rounded"><h5>Ficheiros</h5> </div></div>
+                                                    <div class="row pb-2 " style="height: 30%;"><div class="bg-light p-2 w-100 rounded"><h5>Avaliação entre alunos</h5></div></div>
+                                                    <div class="row " style="height: 30%;">
+                                                        <div class=" bg-light p-2 w-100 rounded">
+                                                        <h5>Avaliação final Grupo</h5>
+                                                        @if ($group->grade == NULL)
+                                                            <p class="mb-0">Grupo não avaliado</p>
+                                                            <button type="button" class="p-2 btn btn-primary btn-md" style="position: absolute; bottom: 0; right: 0; margin-bottom: 1%; margin-right: 1%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}">Avaliar Grupo</button>
+                                                            <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h4 class="modal-title" id="staticBackdropLabel">Avaliação</h4>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            {!! Form::open(['action' => 'ProfessorProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                                                                            <div class="form-group">
+                                                                                {{Form::label('grade', 'Nota do Projeto')}}
+                                                                                {{Form::text('grade', '', ['class' => 'form-control'])}}
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                {{Form::label('gradeComment', 'Comentário (opcional)')}}
+                                                                                {{Form::text('gradeComment', '', ['class' => 'form-control'])}}
+                                                                            </div>
+                                                                            {{Form::hidden('group', $group->idGroup)}}
+                                                                            {{Form::hidden('option', 'grade')}}
+                                                                            {{Form::hidden('project', $project->idProject)}}
+                                                                            {{Form::submit('Submit', ['class'=>'btn btn-success'])}}
 
+                                                                            {!! Form::close() !!}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @else
+
+                                                            <p class="mb-0">Grade: {{$group->grade}}</p>
+                                                            @if($group->gradeComment == NULL)
+                                                                <p class="m-0">Sem Comentários</p>
+                                                            @else
+                                                                <p class="mb-0" >Comment: {{$group->gradeComment}}</p>
+                                                            @endif
+                                                            <button type="button" class="p-2 btn btn-primary btn-md float-right" style="position: absolute; bottom: 0; right: 0; margin-bottom: 1%; margin-right: 1%;" data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}" >Change Grade</button>
+                                                            <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h4 class="modal-title" id="staticBackdropLabel">Avaliação</h4>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            {!! Form::open(['action' => ['ProfessorProjectsController@update', $project->idProject], 'method' => 'PUT']) !!}
+                                                                            <div class="form-group">
+                                                                                {{Form::label('grade', 'Nota do Projeto')}}
+                                                                                {{Form::text('grade', '', ['class' => 'form-control'])}}
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                {{Form::label('gradeComment', 'Comentário(opcional)')}}
+                                                                                {{Form::text('gradeComment', '', ['class' => 'form-control'])}}
+                                                                            </div>
+                                                                            {{Form::hidden('group', $group->idGroup)}}
+                                                                            {{Form::hidden('_method','PUT')}}
+                                                                            {{Form::hidden('option', 'grade')}}
+                                                                            {{Form::submit('Submit', ['class'=>'btn btn-success'])}}
+                                                                            {!! Form::close() !!}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-3">
+                                            <div class="col-3 bg-light p-3 rounded">
                                                 <h5>Elementos</h5>
                                                 @foreach(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) as $sg)
-                                                    <p>{{ \App\User::find($sg->idStudent)->name}}</p>
+                                                    <div class="mb-2"><a href="/profile/{{$sg->idStudent}}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.\App\User::find($sg->idStudent)->photo)}}"><span style="vertical-align: middle;"> {{\App\User::find($sg->idStudent)->name}}</span></a></div>
                                                 @endforeach
                                             </div>
 
                                         </div>
-                                    <div class="row h-25">
-                                        <h5>Avaliação final Grupo</h5>
-                                        @if ($group->grade == NULL)
-                                            <p>Grupo não avaliado</p>
-                                            <button type="button" class="p-2 btn btn-primary btn-md float-right" style="position: absolute; right:4%; bottom:3%;" data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}" style="background-color: #2c3fb1; border-color: #2c3fb1;">Avaliar Grupo</button>
-                                            <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title" id="staticBackdropLabel">Avaliação</h4>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            {!! Form::open(['action' => 'ProfessorProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
-                                                            <div class="form-group">
-                                                                {{Form::label('grade', 'Nota do Projeto')}}
-                                                                {{Form::text('grade', '', ['class' => 'form-control'])}}
-                                                            </div>
-                                                            <div class="form-group">
-                                                                {{Form::label('gradeComment', 'Comentário (opcional)')}}
-                                                                {{Form::text('gradeComment', '', ['class' => 'form-control'])}}
-                                                            </div>
-                                                            {{Form::hidden('group', $group->idGroup)}}
-                                                            {{Form::hidden('option', 'grade')}}
-                                                            {{Form::hidden('project', $project->idProject)}}
-                                                            {{Form::submit('Submit', ['class'=>'btn btn-success'])}}
 
-                                                            {!! Form::close() !!}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @else
-                                            <p>Grade: {{$group->grade}}</p><br>
-                                            @if($group->gradeComment == NULL)
-                                                <p>Sem Comentários</p>
-                                            @else
-                                                <p>Comment: {{$group->gradeComment}}</p>
-                                            @endif
-                                            <button type="button" class="p-2 btn btn-primary btn-md float-right" style="position: absolute; right:4%; bottom:3%;" data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}" style="background-color: #2c3fb1; border-color: #2c3fb1;">Change Grade</button>
-                                            <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title" id="staticBackdropLabel">Avaliação</h4>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            {!! Form::open(['action' => ['ProfessorProjectsController@update', $project->idProject], 'method' => 'PUT']) !!}
-                                                            <div class="form-group">
-                                                                {{Form::label('grade', 'Nota do Projeto')}}
-                                                                {{Form::text('grade', '', ['class' => 'form-control'])}}
-                                                            </div>
-                                                            <div class="form-group">
-                                                                {{Form::label('gradeComment', 'Comentário(opcional)')}}
-                                                                {{Form::text('gradeComment', '', ['class' => 'form-control'])}}
-                                                            </div>
-                                                            {{Form::hidden('group', $group->idGroup)}}
-                                                            {{Form::hidden('_method','PUT')}}
-                                                            {{Form::hidden('option', 'grade')}}
-                                                            {{Form::submit('Submit', ['class'=>'btn btn-success'])}}
-                                                            {!! Form::close() !!}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endif
-                                    </div>
                                 </div>
                             @endforeach
                         </div>
@@ -225,4 +223,23 @@
         </div>
     </div>
 </div>
+<script>
+    $('#pills-tab a').click(function(e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+
+    // store the currently selected tab in the hash value
+    $("ul.nav-pills > li > a").on("shown.bs.tab", function(e) {
+        var id = $(e.target).attr("href").substr(1);
+        window.location.hash = id;
+    });
+
+    // on load of the page: switch to the currently selected tab
+    var hash = window.location.hash;
+    if(hash === ''){
+        hash = '#pills-1';
+    }
+    $('#pills-tab a[href="' + hash + '"]').tab('show');
+</script>
 @endsection
