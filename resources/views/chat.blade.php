@@ -56,8 +56,12 @@
            <div class="col-md-4 nopadding">
                <div class="user-wrapper">
                    <div id="search">
-                       <input type="text" class="form-control"  placeholder="Search" />
+                       <input type="text" class="form-control" id="searchinput" name="searchinput">
                    </div>
+
+
+
+
                    <ul class="users">
                        @foreach($users as $user)
                            <li class="user" id="{{ $user->id }}">
@@ -79,7 +83,22 @@
                    </ul>
                </div>
            </div>
-
+           <script type="text/javascript">
+               $('#searchinput').on('keyup',function(){
+                   $value=$('#searchinput').val();
+                   $.ajax({
+                       type : 'get',
+                       url : '{{URL::to('search')}}',
+                       data:{'search':$value},
+                       success:function(data){
+                           $('.users').html(data);
+                       }
+                   });
+               })
+           </script>
+           <script type="text/javascript">
+               $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+           </script>
            <div class="col-md-8 nopadding">
                <div id="messages">
                </div>

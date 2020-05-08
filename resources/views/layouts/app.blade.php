@@ -773,6 +773,7 @@
 
         .col-sm-4 {
             padding: 0;
+            overflow-x: hidden;
         }
         .col-sm-8 {
             padding: 0;
@@ -791,6 +792,7 @@
             }
             .col-md-4{
                 width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
+                overflow-x: hidden;
             }
             .message p {
                 margin: 5px 0;
@@ -824,24 +826,7 @@
                 }
             });
 
-            $('.user').click(function () {
-                $('.user').removeClass('active');
-                $(this).addClass('active');
 
-                $(this).find('.pending').remove();
-                receiver_id = $(this).attr('id');
-                $.ajax({
-                    type: "get",
-                    url: "message/" + receiver_id, // need to create this route
-                    data: "",
-                    cache: false,
-                    success: function (data) {
-                        $('#messages').html(data);
-                        scrollToBottomFunc();
-                    }
-                });
-                $('.input-text').css("display", "block");
-            });
             $(document).on('keyup', '.input-text input', function (e) {
                 var message = $(this).val();
                 // check if enter key is pressed and message is not null also receiver is selected
@@ -875,6 +860,7 @@
                 }
             });
         });
+
         setInterval(function(){ $.ajax({
             type: "get",
             url: "message/" + receiver_id, // need to create this route
@@ -884,7 +870,7 @@
                 $('#messages').html(data);
                 scrollToBottomFunc();
             }
-        }); },2000);
+        }); },100000);
 
         // make a function to scroll down auto
         function scrollToBottomFunc() {
@@ -892,6 +878,26 @@
                 scrollTop: $('.message-wrapper').get(0).scrollHeight
             }, 50);
         }
+
+        $("body").on( "click", '.user', function( event ){
+            $('.user').removeClass('active');
+            $(this).addClass('active');
+
+            $(this).find('.pending').remove();
+            receiver_id = $(this).attr('id');
+            $.ajax({
+                type: "get",
+                url: "message/" + receiver_id, // need to create this route
+                data: "",
+                cache: false,
+                success: function (data) {
+                    $('#messages').html(data);
+                    scrollToBottomFunc();
+                }
+            });
+            $('.input-text').css("display", "block");
+        });
+
     </script>
 </body>
 </html>
