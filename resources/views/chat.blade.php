@@ -59,16 +59,9 @@
                    <div id="search">
                        <input type="text" placeholder="Search" class="form-control" id="searchinput" name="searchinput" style="font-size:12px; ">
                    </div>
-
-
-
-
                    <ul class="users">
                        @foreach($users as $user)
-                           <li class="user" id="{{ $user->id }}">
-                               {{--will show unread count notification--}}
-
-
+                           <li class="user" id="{{ $user->id }}" name="{{ $user->name }}">
                                <div class="media">
                                    <div class="media-left">
                                        <img src="{{Storage::url('profilePhotos/'.$user->photo)}}" alt="" class="media-object">
@@ -101,6 +94,9 @@
                $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
            </script>
            <div class="col-md-8 nopadding">
+               <div id="name">
+                   <p></p>
+               </div>
                <div id="messages">
                </div>
 

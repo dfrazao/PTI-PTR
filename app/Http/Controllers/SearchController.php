@@ -22,7 +22,7 @@ class SearchController extends Controller
                     $source = Storage::url('profilePhotos/'.$user->photo);
 
                     $output.=
-                    "<li class='user' id=".$user->id.">".
+                    "<li class='user' id=".$user->id." name=".$user->name.">".
                         "<div class='media'>".
                             "<div class='media-left'>".
                                 "<img src='".$source."' alt='' class='media-object'>".

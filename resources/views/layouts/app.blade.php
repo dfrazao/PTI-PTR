@@ -74,7 +74,7 @@
 
                     <script>
                         function chat() {
-                            var x = document.getElementById("chatbox");
+                            var x = document.getElementsByClassName("container-md");
                             if (x.style.display === "block") {
                                 x.style.display = "none";
                             } else {
@@ -671,7 +671,7 @@
         }
 
         .user-wrapper {
-            height: 400px;
+            height: 500px;
         }
 
         .user {
@@ -782,6 +782,16 @@
             margin: 0 !important;
         }
 
+        #name{
+            width: 100%;
+            height: 47px;
+            padding: 15px 29px;
+            background-color: #eceff1;
+        }
+        #name p{
+            font-size: 15px;
+            text-align: center;
+        }
         @media screen and (max-width: 800px) {
             .container-md{
                 width: 200px;
@@ -808,7 +818,7 @@
     </style>
 @yield('content')
 
-{{--    <script src="https://js.pusher.com/5.0/pusher.min.js"></script>
+    <script src="https://js.pusher.com/5.0/pusher.min.js"></script>
 
     <script>
         var receiver_id = '';
@@ -878,8 +888,11 @@
             $('.user').removeClass('active');
             $(this).addClass('active');
 
+
             $(this).find('.pending').remove();
             receiver_id = $(this).attr('id');
+            receiver_name = $(this).attr('name');
+            $("#name").html(receiver_name);
             $.ajax({
                 type: "get",
                 url: "message/" + receiver_id, // need to create this route
@@ -893,6 +906,6 @@
             $('.input-text').css("display", "block");
         });
 
-    </script>--}}
+    </script>
 </body>
 </html>
