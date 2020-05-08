@@ -11,6 +11,8 @@ use App\University;
 use App\Subject;
 use App\SubjectEnrollment;
 use Storage;
+use Auth;
+use Hash;
 
 class ProfileController extends Controller
 {
@@ -109,9 +111,28 @@ class ProfileController extends Controller
             $user->save();
 
             if ($request->file('profilePhoto')->isValid()) {
-                return redirect()->action('ProfileController@show', $id)->with('success', 'Profile Picture Updated');
+                return redirect()->action('ProfileController@show', $id)->with('success', 'Profile picture updated');
             }
             return redirect()->action('ProfileController@show', $id)->with('error', 'Error updating profile picture');
+
+        }  else if ($request->option=="password") {
+            $this->validate($request, [
+                'current_password' => 'required',
+                'password' => 'required|same:password|min:8',
+                'password_confirmation' => 'required|same:password|min:8'
+            ]);
+
+            $current_password = Auth::User()->password;
+            if ( Hash::check($request->current_password, $current_password) ) {
+
+                $user = User::find($id);
+                $user->password = Hash::make($request->password);
+                $user->save();
+
+                return redirect()->action('ProfileController@show', $id)->with('success', 'Password updated');
+            } else {
+                return redirect()->action('ProfileController@show', $id)->with('error', 'Error changing password');
+            }
 
         } else {
             $this->validate($request, [

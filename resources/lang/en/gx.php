@@ -48,7 +48,7 @@ return [
     'edit project'              => 'Edit Project',
     'no subjects found'         => 'No subjects found',
     'group formation deadline'  => 'Group Formation Deadline',
-    'deadline'                  => 'Poject Delivery Deadline',
+    'deadline'                  => 'Project Delivery Deadline',
     'maximum no. of members'    => 'Maximum No. of Members',
     'minimum no. of members'    => 'Minimum No. of Members',
     'want to delete project?'   => 'Are you sure you want to delete this project?',

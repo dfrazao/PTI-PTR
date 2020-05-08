@@ -11,9 +11,9 @@
         </div>
     @endif
     <h2>{{__('gx.dashboard')}}</h2>
-    <div class="row mt-3 rounded h-100" style="height: 90vh; background-color: #ededed;" >
+    <div class="row mb-3 rounded h-100" style="height: 90vh; background-color: #ededed;">
 
-        <div class="col-sm-4" style="z-index: 10">
+        <div class="col" style="max-width: 400px;">
             <div class="container">
                 <button type="button" class="previous btn btn-default btn-lg" style="text-align: center;width: 100%; color:#2c3fb1">
                     <span class="fas fa-chevron-up"></span>
@@ -172,21 +172,21 @@
             </div>
         </div>
 
-        <div class="col-sm-8" style="z-index: 10">
+        <div class="col pl-0">
             <div class="overflow-auto rounded pb-2">
-                <h3 class="pt-3 pl-3">{{__('gx.subjects')}}</h3>
-                <div class="container overflow-auto mw-80" style="max-height: 75vh;">
+                <h3 class="pt-3 pl-2 mb-0">{{__('gx.subjects')}}</h3>
+                <div class="overflow-auto p-0 mr-2 ml-2" style="max-height: 75vh;">
                     @if(count($subjects) > 0)
                         @foreach($subjects as $subject)
 
-                            <div class="container overflow-auto p-2 mt-3 rounded cadeira" type="button" id="{{$subject->idSubject}}" style="background-color: #c6c6c6;">
+                            <div class="overflow-auto p-2 mt-2 rounded cadeira" type="button" id="{{$subject->idSubject}}" style="background-color: #c6c6c6;">
                                 <h4 class="mt-2 pl-2 float-left">{{$subject->subjectName}}</h4>
                                 <button style="color:#2c3fb1" type="button" class="btn btn-default btn-lg float-right" id="button-{{$subject->idSubject}}">
                                     <span class="fas fa-plus"></span>
                                 </button>
                             </div>
 
-                            <div class="container overflow-hidden  rounded-bottom doff" id="{{$subject->idSubject}}-groups" style="display: none; background-color: white;">
+                            <div class="overflow-hidden rounded-bottom doff" id="{{$subject->idSubject}}-groups" style="display: none; background-color: white;">
                                 @if(count($projects->whereIn('idSubject', $subject->idSubject)) > 0)
                                     @foreach($projects as $project)
                                         @if($subject->idSubject == $project->idSubject)
@@ -223,7 +223,7 @@
                         <p>{{__('gx.no subjects found')}}</p>
                     @endif
                 </div>
-                <button type="button" class="p-2 btn btn-primary btn-md float-right mt-3 mr-3" style="background-color: #2c3fb1; border-color: #2c3fb1;">Cadeiras Antigas</button>
+                <button type="button" class="p-2 btn btn-primary btn-md float-right mt-2 mr-2" style="background-color: #2c3fb1; border-color: #2c3fb1;">Cadeiras Antigas</button>
             </div>
         </div>
     </div>
@@ -431,21 +431,25 @@
                 this.monthDiv.innerText = this.monthString;
                 this.nextMonthDiv.innerText = this.nextMonthString;
 
-                let projects = [ [[],[]] , [[],[]] ];
+                let projects = [ [[[],[]],[[],[]]] , [[[],[]],[[],[]]] ];
                 let deadlineMonthYear;
                 let groupDeadlineMonthYear;
                 @foreach($projects as $project)
                 deadlineMonthYear = moment('{{$project->dueDate}}').format('MMMM YYYY');
                 groupDeadlineMonthYear = moment('{{$project->groupCreationDueDate}}').format('MMMM YYYY');
                 if (deadlineMonthYear == this.monthString) {
-                    projects[0][0].push(moment('{{$project->dueDate}}').format('YYYY-MM-DD'));
+                    projects[0][0][0].push(moment('{{$project->dueDate}}').format('YYYY-MM-DD'));
+                    projects[0][0][1].push(['{{$project->name}}','{{$project->dueDate}}','{{\App\Subject::find($project->idSubject)->subjectName}}']);
                 } else if (deadlineMonthYear == this.nextMonthString) {
-                    projects[0][1].push(moment('{{$project->dueDate}}').format('YYYY-MM-DD'));
+                    projects[0][1][0].push(moment('{{$project->dueDate}}').format('YYYY-MM-DD'));
+                    projects[0][1][1].push(['{{$project->name}}','{{$project->dueDate}}','{{\App\Subject::find($project->idSubject)->subjectName}}']);
                 }
                 if (groupDeadlineMonthYear == this.monthString) {
-                    projects[1][0].push(moment('{{$project->groupCreationDueDate}}').format('YYYY-MM-DD'));
+                    projects[1][0][0].push(moment('{{$project->groupCreationDueDate}}').format('YYYY-MM-DD'));
+                    projects[1][0][1].push(['{{$project->name}}','{{$project->groupCreationDueDate}}','{{\App\Subject::find($project->idSubject)->subjectName}}']);
                 } else if (groupDeadlineMonthYear == this.nextMonthString) {
-                    projects[1][1].push(moment('{{$project->groupCreationDueDate}}').format('YYYY-MM-DD'));
+                    projects[1][1][0].push(moment('{{$project->groupCreationDueDate}}').format('YYYY-MM-DD'));
+                    projects[1][1][1].push(['{{$project->name}}','{{$project->groupCreationDueDate}}','{{\App\Subject::find($project->idSubject)->subjectName}}']);
                 }
                 @endforeach
 
@@ -464,38 +468,44 @@
                         if (start == this.today) {
                             $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).addClass("today");
                         }
-                        if (projects[0][months].length > projects[1][months].length) {
-                            max = projects[0][months].length;
+                        if (projects[0][months][0].length > projects[1][months].length) {
+                            max = projects[0][months][0].length;
                         } else {
-                            max = projects[1][months].length;
+                            max = projects[1][months][0].length;
                         }
                         for (let p = 0; p <= max; p++) {
-                            if (start == projects[0][months][p]) {
+                            if (start == projects[0][months][0][p]) {
                                 $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).addClass("project-deadline");
+                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('data-toggle', 'tooltip');
+                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('data-placement', 'right');
+                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('data-container', 'body');
+                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('data-html', 'true');
+                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('title', "<span class='far fa-file-alt float-left mt-1'></span><p class='text-left m-0'>&nbsp;– "+projects[0][months][1][p][2]+" - "+projects[0][months][1][p][0]+"<br> {{__('gx.deadline')}} <br> "+projects[0][months][1][p][1]+"</p>");
                             }
-                            if (start == projects[1][months][p]) {
+                            if (start == projects[1][months][0][p]) {
                                 $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).addClass("project-group-deadline");
                                 $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('data-toggle', 'tooltip');
                                 $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('data-placement', 'right');
                                 $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('data-container', 'body');
-                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('title', "teste");
+                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('data-html', 'true');
+                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('title', "<span class='far fa-users float-left mt-1'></span><p class='text-left m-0'>&nbsp;– "+projects[1][months][1][p][2]+" - "+projects[1][months][1][p][0]+"<br> {{__('gx.group formation deadline')}} <br> "+projects[1][months][1][p][1]+"</p>");
                             }
                         }
                         start = moment(start).add(1, 'day').format('YYYY-MM-DD');
                         weekday++;
                     }
                 }
+
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip({
+                        container: 'body'
+                    })
+                })
             }
         }
 
         const cal = new Calendar();
         cal.init();
-
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip({
-                container: 'body'
-            })
-        })
 
     </script>
     <style>
@@ -511,6 +521,7 @@
             font-weight: 800;
             color: #2c3fb1;
             border-radius: 100%;
+            box-shadow: 0 5px 10px -5px rgba(0, 0, 0, .75);
         }
         .today  {
             background-color: white;
@@ -524,11 +535,13 @@
         .project-meeting {
             background-color: yellow;
         }
-        .selected {
-            background-color: #2196f3;
-            box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.75);
-            border-radius: 50%;
-            color: #111;
+        .tooltip {
+        }
+        .tooltip .tooltip-inner {
+            min-width: 200px;
+            max-width: 250px;
+        }
+        .arrow {
         }
     </style>
 </div>

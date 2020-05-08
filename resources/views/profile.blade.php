@@ -3,7 +3,7 @@
 <head>
     <title>Profile</title>
 </head>
-<div class="container-xl mt-4 mb-4">
+<div class="container-xl-fluid mt-4 pl-5 pr-5 pb-2">
     @include('layouts.messages')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb mt-1 pl-0 pb-0 pt-0 float-right" style="background-color:white; ">
@@ -11,13 +11,15 @@
             <li class="breadcrumb-item active" aria-current="page">{{$user->name}}</li>
         </ol>
     </nav>
-    <div class="container">
-        <h2>{{__('gx.profile')}}</h2>
+    <h2>{{__('gx.profile')}}</h2>
+    <div class="container-xl-fluid rounded p-3" style=" background-color: #ededed;">
         <div class="row">
-            <div class="col-xs-12 col-sm-3 center">
-                <span class="profile-picture">
-                    <img class="profilePhoto editable img-responsive" style="border-radius: 100%; width: 100%; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}">
-                </span>
+            <div class="col-xs-12 col-sm-3 pb-2 center">
+                <div id="container">
+                    <div class="profile-picture">
+                        <img class="profilePhoto" style="border-radius: 100%; width: 100%; height: 100%; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}">
+                    </div>
+                </div>
                 @if(Auth::user()->id != $user->id)
                     <a href="#" class="btn btn-sm btn-block btn-success mt-3">
                         <i class="fas fa-envelope"></i>
@@ -61,7 +63,6 @@
                     <span class="middle">{{ $user->name }}</span>
                 </h3>
 
-                <div class="container">
 
                     @if(Auth::user()->id == $user->id)
                         <!-- Button to Open the Modal -->
@@ -83,6 +84,32 @@
                                         <div class="container">
                                             @csrf
                                             {!! Form::open(['action' => ['ProfileController@update', $user->id], 'method' => 'POST']) !!}
+
+                                            <div class="form-group">
+                                                {{Form::label('current_password', trans('gx.current password'))}}
+                                                {{Form::password('current_password', ['class' => 'form-control', 'placeholder' => trans('gx.current password')])}}
+                                            </div>
+
+                                            <div class="form-group">
+                                                {{Form::label('password', trans('gx.new password'))}}
+                                                {{Form::password('password', ['class' => 'form-control', 'placeholder' => trans('gx.new password')])}}
+                                            </div>
+
+                                            <div class="form-group">
+                                                {{Form::label('password_confirmation', trans('gx.re-enter password'))}}
+                                                {{Form::password('password_confirmation', ['class' => 'form-control', 'placeholder' => trans('gx.re-enter password')])}}
+                                            </div>
+                                            {{ Form::hidden('option', "password") }}
+
+                                            {{Form::hidden('_method','PUT')}}
+                                            {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary'])}}
+                                            {!! Form::close() !!}
+
+                                            <hr>
+
+                                            @csrf
+                                            {!! Form::open(['action' => ['ProfileController@update', $user->id], 'method' => 'POST']) !!}
+
                                             <div class="form-group">
                                                 {{Form::label('country', trans('gx.country'))}}
                                                 {{Form::select('country', [
@@ -334,11 +361,11 @@
                                             </div>
                                             <div class="form-group">
                                                 {{Form::label('city', trans('gx.city'))}}
-                                                {{Form::text('city', $user->city, ['class' => 'form-control', 'placeholder' => 'City'])}}
+                                                {{Form::text('city', $user->city, ['class' => 'form-control', 'placeholder' => trans('gx.city')])}}
                                             </div>
                                             <div class="form-group">
                                                 {{Form::label('about', trans('gx.about'))}}
-                                                {{Form::textarea('about', $user->description, ['class' => 'form-control', 'placeholder' => 'About'])}}
+                                                {{Form::textarea('about', $user->description, ['class' => 'form-control', 'placeholder' => trans('gx.about')])}}
                                             </div>
                                             {{ Form::hidden('option', "rest") }}
 
@@ -352,7 +379,6 @@
                         </div>
                     @endif
 
-                </div>
 
                 <div class="profile-user-info">
 
@@ -478,7 +504,7 @@
     </div><!-- /#home -->
 </div>
 <style>
-    .align-center, .center {
+    .center {
         text-align: center!important;
     }
 
@@ -531,10 +557,6 @@
         border-top: none
     }
 
-    .profile-user-info-striped {
-        border: 1px solid #DCEBF7
-    }
-
     .profile-user-info-striped .profile-info-name {
         color: #336199;
         background-color: #EDF3F4;
@@ -546,9 +568,18 @@
         padding-left: 12px
     }
 
+    #container {
+        position: relative;
+        width: 100%;
+        padding-top: 100%; /* 1:1 Aspect Ratio */
+    }
+
+    .profile-picture {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
 </style>
-<script>
-    var cw = $('.profilePhoto').width();
-    $('.profilePhoto').css({'height':cw+'px'});
-</script>
 @endsection
