@@ -14,8 +14,8 @@
     <script src="/ckeditor5/build/ckeditor.js"></script>
     <script src='https://momentjs.com/downloads/moment-with-locales.js'></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
+    {{--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />--}}
     <link rel="shortcut icon" href="/images/favicon.ico">
 
     <!-- CSRF Token -->
@@ -808,8 +808,7 @@
     </style>
 @yield('content')
 
-    <script src="https://js.pusher.com/5.0/pusher.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+{{--    <script src="https://js.pusher.com/5.0/pusher.min.js"></script>
 
     <script>
         var receiver_id = '';
@@ -894,6 +893,6 @@
             $('.input-text').css("display", "block");
         });
 
-    </script>
+    </script>--}}
 </body>
 </html>

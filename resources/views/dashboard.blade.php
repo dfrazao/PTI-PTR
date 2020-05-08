@@ -208,11 +208,14 @@
                                             </div>
                                         @endif
                                     @endforeach
+                                    @if (Auth::user()->role == 'professor')
+                                        <button style="background-color:#2c3fb1;color: #fff;" type="button" class="btn btn-sm float-right m-2 open_modal" id="{{$subject->idSubject}}">{{__('gx.create project')}}</button>
+                                    @endif
                                 @else
+                                    @if (Auth::user()->role == 'professor')
+                                        <button style="background-color:#2c3fb1;color: #fff;" type="button" class="btn btn-sm float-right m-2 open_modal" id="{{$subject->idSubject}}">{{__('gx.create project')}}</button>
+                                    @endif
                                     <h5 class="p-2">{{__('gx.no projects found')}}</h5>
-                                @endif
-                                @if (Auth::user()->role == 'professor')
-                                    <button style="background-color:#2c3fb1;color: #fff;" type="button" class="btn btn-sm float-right m-2 open_modal" id="{{$subject->idSubject}}">{{__('gx.create project')}}</button>
                                 @endif
                             </div>
                         @endforeach
@@ -423,15 +426,34 @@
             draw() {
                 $('table.month1-cal tr > td').empty()
                 $('table.month2-cal tr > td').empty()
-                $("table.month1-cal tr > td").removeClass("today");
-                $("table.month2-cal tr > td").removeClass("today");
+                $("table.month1-cal tr > td").removeClass("today project-deadline project-group-deadline");
+                $("table.month2-cal tr > td").removeClass("today project-deadline project-group-deadline");
                 this.monthDiv.innerText = this.monthString;
                 this.nextMonthDiv.innerText = this.nextMonthString;
+
+                let projects = [ [[],[]] , [[],[]] ];
+                let deadlineMonthYear;
+                let groupDeadlineMonthYear;
+                @foreach($projects as $project)
+                deadlineMonthYear = moment('{{$project->dueDate}}').format('MMMM YYYY');
+                groupDeadlineMonthYear = moment('{{$project->groupCreationDueDate}}').format('MMMM YYYY');
+                if (deadlineMonthYear == this.monthString) {
+                    projects[0][0].push(moment('{{$project->dueDate}}').format('YYYY-MM-DD'));
+                } else if (deadlineMonthYear == this.nextMonthString) {
+                    projects[0][1].push(moment('{{$project->dueDate}}').format('YYYY-MM-DD'));
+                }
+                if (groupDeadlineMonthYear == this.monthString) {
+                    projects[1][0].push(moment('{{$project->groupCreationDueDate}}').format('YYYY-MM-DD'));
+                } else if (groupDeadlineMonthYear == this.nextMonthString) {
+                    projects[1][1].push(moment('{{$project->groupCreationDueDate}}').format('YYYY-MM-DD'));
+                }
+                @endforeach
 
                 for (let months = 0; months <= 1; months++) {
                     let week = 1;
                     let weekday = moment(this.calendarDays[months].first).isoWeekday();
                     let start = moment(this.calendarDays[months].first).format('YYYY-MM-DD');
+                    let max;
                     for (let index = 1; index <= this.calendarDays[months].last; index++) {
                         if (weekday == 8) {
                             weekday = 1;
@@ -441,6 +463,23 @@
                         $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('id',start);
                         if (start == this.today) {
                             $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).addClass("today");
+                        }
+                        if (projects[0][months].length > projects[1][months].length) {
+                            max = projects[0][months].length;
+                        } else {
+                            max = projects[1][months].length;
+                        }
+                        for (let p = 0; p <= max; p++) {
+                            if (start == projects[0][months][p]) {
+                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).addClass("project-deadline");
+                            }
+                            if (start == projects[1][months][p]) {
+                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).addClass("project-group-deadline");
+                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('data-toggle', 'tooltip');
+                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('data-placement', 'right');
+                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('data-container', 'body');
+                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('title', "teste");
+                            }
                         }
                         start = moment(start).add(1, 'day').format('YYYY-MM-DD');
                         weekday++;
@@ -452,6 +491,12 @@
         const cal = new Calendar();
         cal.init();
 
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip({
+                container: 'body'
+            })
+        })
+
     </script>
     <style>
         table {
@@ -462,13 +507,23 @@
             min-height: 37px;
             height: 37px;
         }
-        .today  {
+        .today, .project-deadline, .project-group-deadline, .project-meeting {
             font-weight: 800;
             color: #2c3fb1;
-            background-color: white;
             border-radius: 100%;
         }
-
+        .today  {
+            background-color: white;
+        }
+        .project-deadline {
+            background-color: red;
+        }
+        .project-group-deadline {
+            background-color: green;
+        }
+        .project-meeting {
+            background-color: yellow;
+        }
         .selected {
             background-color: #2196f3;
             box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.75);
