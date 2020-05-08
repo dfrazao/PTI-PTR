@@ -1,0 +1,44 @@
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_08_05_2020_15_23__Default_Changelist_.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Update_at_08_05_2020_15_23__Default_Changelist_.xml	(date 1588947857668)
++++ .idea/shelf/Uncommitted_changes_before_Update_at_08_05_2020_15_23__Default_Changelist_.xml	(date 1588947857668)
+@@ -0,0 +1,4 @@
++<changelist name="Uncommitted_changes_before_Update_at_08_05_2020_15_23_[Default_Changelist]" date="1588947808184" recycled="false" toDelete="true">
++  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_08_05_2020_15_23_[Default_Changelist]/shelved.patch" />
++  <option name="DESCRIPTION" value="Uncommitted changes before Update at 08/05/2020 15:23 [Default Changelist]" />
++</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_08_05_2020_15_25__Default_Changelist_.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Update_at_08_05_2020_15_25__Default_Changelist_.xml	(date 1588947977178)
++++ .idea/shelf/Uncommitted_changes_before_Update_at_08_05_2020_15_25__Default_Changelist_.xml	(date 1588947977178)
+@@ -0,0 +1,4 @@
++<changelist name="Uncommitted_changes_before_Update_at_08_05_2020_15_25_[Default_Changelist]" date="1588947933152" recycled="false" toDelete="true">
++  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_08_05_2020_15_25_[Default_Changelist]/shelved.patch" />
++  <option name="DESCRIPTION" value="Uncommitted changes before Update at 08/05/2020 15:25 [Default Changelist]" />
++</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_04_05_2020_18_17__Default_Changelist_.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Update_at_04_05_2020_18_17__Default_Changelist_.xml	(date 1588947802971)
++++ .idea/shelf/Uncommitted_changes_before_Update_at_04_05_2020_18_17__Default_Changelist_.xml	(date 1588947802971)
+@@ -0,0 +1,4 @@
++<changelist name="Uncommitted_changes_before_Update_at_04_05_2020_18_17_[Default_Changelist]" date="1588612699864" recycled="true" deleted="true">
++  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_04_05_2020_18_17_[Default_Changelist]/shelved.patch" />
++  <option name="DESCRIPTION" value="Uncommitted changes before Update at 04/05/2020 18:17 [Default Changelist]" />
++</changelist>
+\ No newline at end of file
+diff --git .idea/shelf/Uncommitted_changes_before_Update_at_28_04_2020_16_59__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Update_at_28_04_2020_16_59__Default_Changelist_.xml
+diff --git .idea/shelf/Uncommitted_changes_before_Update_at_30_04_2020_15_09__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Update_at_30_04_2020_15_09__Default_Changelist_.xml
+diff --git .idea/shelf/Uncommitted_changes_before_Update_at_30_04_2020_22_40__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Update_at_30_04_2020_22_40__Default_Changelist_.xml
+diff --git .idea/shelf/Uncommitted_changes_before_Update_at_27_04_2020_21_46__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Update_at_27_04_2020_21_46__Default_Changelist_.xml
+diff --git .idea/shelf/Uncommitted_changes_before_Update_at_27_04_2020_21_25__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Update_at_27_04_2020_21_25__Default_Changelist_.xml
