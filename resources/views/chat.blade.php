@@ -47,13 +47,14 @@
     </div>
 --}}
 
-   <div class="container-md" style="width: 500px;z-index: 9999;
+   <div class="container-md" id="testee" style="width: 500px;z-index: 9999;
             position: relative;
             background:white;
             border-radius:6px;
             border: 1px #a5b2cb solid;
+            display: none;
             ">
-       <div class="row" >
+       <div class="row">
            <div class="col-md-4 nopadding">
                <div class="user-wrapper">
                    <div id="search">
@@ -62,6 +63,9 @@
                    <ul class="users">
                        @foreach($users as $user)
                            <li class="user" id="{{ $user->id }}" name="{{ $user->name }}">
+                               {{--@if($user->unread)
+                                   <span class="pending">{{ $user->unread }}</span>
+                               @endif--}}
                                <div class="media">
                                    <div class="media-left">
                                        <img src="{{Storage::url('profilePhotos/'.$user->photo)}}" alt="" class="media-object">

@@ -11,9 +11,9 @@
         </div>
     @endif
     <h2>{{__('gx.dashboard')}}</h2>
-    <div class="row mt-3 rounded h-100" style="height: 90vh; background-color: #ededed;">
+    <div class="row mt-3 rounded h-100" style="height: 90vh; background-color: #ededed;" >
 
-        <div class="col-sm-4">
+        <div class="col-sm-4" style="z-index: 10">
             <div class="container">
                 <button type="button" class="previous btn btn-default btn-lg" style="text-align: center;width: 100%; color:#2c3fb1">
                     <span class="fas fa-chevron-up"></span>
@@ -172,7 +172,7 @@
             </div>
         </div>
 
-        <div class="col-sm-8">
+        <div class="col-sm-8" style="z-index: 10">
             <div class="overflow-auto rounded pb-2">
                 <h3 class="pt-3 pl-3">{{__('gx.subjects')}}</h3>
                 <div class="container overflow-auto mw-80" style="max-height: 75vh;">
