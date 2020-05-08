@@ -45,7 +45,7 @@
                         <div class="tab-content h-100" id="pills-tabContent">
                             @foreach($groups as $group)
                                 <div class="container tab-pane fade h-100" id="pills-{{$group->idGroupProject}}" role="tabpanel" aria-labelledby="pills-{{$group->idGroupProject}}-tab">
-                                        <div class="row h-100" style="position: relative;">
+                                        <div class="row h-100" style="position: relative; background-color: #c6c6c6;">
                                             <div class="col mr-2 ">
                                                     <div class="row pb-2 " style="height: 40%;"><div class="bg-light p-2 w-100 rounded"><h5>Ficheiros</h5> </div></div>
                                                     <div class="row pb-2 " style="height: 30%;"><div class="bg-light p-2 w-100 rounded"><h5>Avaliação entre alunos</h5></div></div>
