@@ -671,13 +671,15 @@
         }
 
         .user-wrapper {
-            height: 600px;
+            height: 400px;
         }
 
         .user {
+            border-bottom: 1px solid #e7ebee;
             cursor: pointer;
             padding: 5px 0;
             position: relative;
+            width: 100%;
         }
 
         .user:hover {
@@ -721,13 +723,14 @@
 
         .message-wrapper {
             padding: 10px;
-            height: 536px;
-            background: #eeeeee;
+            height: 400px;
+            background: #ffffff;
         }
 
         .messages .message {
             margin-bottom: 15px;
             font-size: 12px;
+
         }
 
         .messages .message:last-child {
@@ -741,11 +744,11 @@
         }
 
         .received {
-            background: #ffffff;
+            background: #4dff4d ;
         }
 
         .sent {
-            background: #3bebff;
+            background: #eceff1;
             float: right;
             text-align: right;
         }
@@ -755,21 +758,16 @@
         }
 
         .date {
-            color: #777777;
-            font-size: 11px;
+            color: black;
+            opacity: 0.8;
+            font-size: 10px;
         }
 
         .active {
             background: #eeeeee;
         }
 
-        input[type=text] {
-            padding: 12px 20px;
-            margin: 15px 0 0 0;
-            display: inline-block;
-            border-radius: 4px;
 
-        }
 
         .col-sm-4 {
             padding: 0;
@@ -778,9 +776,7 @@
         .col-sm-8 {
             padding: 0;
         }
-        input[type=text]:focus {
-            border: 1px solid #aaaaaa;
-        }
+
         .nopadding {
             padding: 0 !important;
             margin: 0 !important;

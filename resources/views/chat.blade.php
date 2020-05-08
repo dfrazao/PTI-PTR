@@ -51,12 +51,13 @@
             position: relative;
             background:white;
             border-radius:6px;
-            border: black 1px solid;">
+            border: 1px #a5b2cb solid;
+            ">
        <div class="row" >
            <div class="col-md-4 nopadding">
                <div class="user-wrapper">
                    <div id="search">
-                       <input type="text" class="form-control" id="searchinput" name="searchinput">
+                       <input type="text" placeholder="Search" class="form-control" id="searchinput" name="searchinput" style="font-size:12px; ">
                    </div>
 
 

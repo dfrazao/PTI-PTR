@@ -7,7 +7,7 @@ class SearchController extends Controller
 {
     public function index()
     {
-        return view('search.search');
+        return view('searchchat');
     }
     public function search(Request $request)
     {
