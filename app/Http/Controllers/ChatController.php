@@ -18,7 +18,8 @@ class ChatController extends Controller
         $users = DB::select("select users.id, users.name, users.photo, users.email
         from users LEFT  JOIN  chats ON users.id = chats.sender and chats.receiver = " . Auth::id() . "
         where users.id != " . Auth::id() . "
-        group by users.id, users.name, users.photo, users.email");
+        group by users.id, users.name, users.photo, users.email")
+        ;
 
         return view('chat', ['users' => $users]);
     }

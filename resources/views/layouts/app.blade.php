@@ -703,17 +703,20 @@
             font-size: 12px;
         }
 
+
         .media-left {
             margin: 0 10px;
         }
 
         .media-left img {
-            width: 64px;
-            border-radius: 64px;
+            width:40px;
+            border:3px solid #fff;
+            border-radius:50%;
         }
 
         .media-body p {
             margin: 6px 0;
+            font-size: 12px;
         }
 
         .message-wrapper {
@@ -724,6 +727,7 @@
 
         .messages .message {
             margin-bottom: 15px;
+            font-size: 12px;
         }
 
         .messages .message:last-child {
@@ -752,7 +756,7 @@
 
         .date {
             color: #777777;
-            font-size: 12px;
+            font-size: 11px;
         }
 
         .active {
@@ -760,18 +764,48 @@
         }
 
         input[type=text] {
-            width: 100%;
             padding: 12px 20px;
             margin: 15px 0 0 0;
             display: inline-block;
             border-radius: 4px;
-            box-sizing: border-box;
-            outline: none;
-            border: 1px solid #cccccc;
+
         }
 
+        .col-sm-4 {
+            padding: 0;
+        }
+        .col-sm-8 {
+            padding: 0;
+        }
         input[type=text]:focus {
             border: 1px solid #aaaaaa;
+        }
+        .nopadding {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        @media screen and (max-width: 800px) {
+            .container-md{
+                width: 200px;
+            }
+            .col-md-4{
+                width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
+            }
+            .message p {
+                margin: 5px 0;
+                font-size: 12px;
+            }
+            .media-body p {
+                margin: 6px 0;
+                font-size: 12px;
+            }
+            .col-sm-4 {
+                height: 300px;
+            }
+            .col-sm-8 {
+                height: 300px;
+            }
         }
     </style>
 @yield('content')
@@ -793,6 +827,7 @@
             $('.user').click(function () {
                 $('.user').removeClass('active');
                 $(this).addClass('active');
+
                 $(this).find('.pending').remove();
                 receiver_id = $(this).attr('id');
                 $.ajax({
@@ -805,6 +840,7 @@
                         scrollToBottomFunc();
                     }
                 });
+                $('.input-text').css("display", "block");
             });
             $(document).on('keyup', '.input-text input', function (e) {
                 var message = $(this).val();
@@ -818,6 +854,7 @@
                         data: datastr,
                         cache: false,
                         success: function (data) {
+
                         },
                         error: function (jqXHR, status, err) {
                         },
@@ -825,9 +862,30 @@
                             scrollToBottomFunc();
                         }
                     })
+                    $.ajax({
+                        type: "get",
+                        url: "message/" + receiver_id, // need to create this route
+                        data: "",
+                        cache: false,
+                        success: function (data) {
+                            $('#messages').html(data);
+                            scrollToBottomFunc();
+                        }
+                    });
                 }
             });
         });
+        setInterval(function(){ $.ajax({
+            type: "get",
+            url: "message/" + receiver_id, // need to create this route
+            data: "",
+            cache: false,
+            success: function (data) {
+                $('#messages').html(data);
+                scrollToBottomFunc();
+            }
+        }); },2000);
+
         // make a function to scroll down auto
         function scrollToBottomFunc() {
             $('.message-wrapper').animate({

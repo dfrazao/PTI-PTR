@@ -47,10 +47,17 @@
     </div>
 --}}
 
-   <div class="container-fluid">
-       <div class="row">
-           <div class="col-md-4">
+   <div class="container-md" style="width: 500px;z-index: 9999;
+            position: relative;
+            background:white;
+            border-radius:6px;
+            border: black 1px solid;">
+       <div class="row" >
+           <div class="col-md-4 nopadding">
                <div class="user-wrapper">
+                   <div id="search">
+                       <input type="text" class="form-control"  placeholder="Search" />
+                   </div>
                    <ul class="users">
                        @foreach($users as $user)
                            <li class="user" id="{{ $user->id }}">
@@ -64,7 +71,7 @@
 
                                    <div class="media-body">
                                        <p class="name">{{ $user->name }}</p>
-                                       <p class="email">{{ $user->email }}</p>
+                                       {{--<p class="email">{{ $user->email }}</p>--}}
                                    </div>
                                </div>
                            </li>
@@ -73,7 +80,13 @@
                </div>
            </div>
 
-           <div class="col-md-8" id="messages">
+           <div class="col-md-8 nopadding">
+               <div id="messages">
+               </div>
+
+           <div class="input-text" style="display: none;">
+               <input type="text" name="message" class="form-control submit">
+           </div>
 
            </div>
        </div>
