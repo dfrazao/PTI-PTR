@@ -12,6 +12,8 @@ use App\StudentsGroup;
 use App\User;
 use App\SubjectEnrollment;
 use App\Announcement;
+use Storage;
+
 class ProfessorProjectsController extends Controller
 {
     /**
@@ -46,9 +48,9 @@ class ProfessorProjectsController extends Controller
             $this->validate($request, [
                 'title' => 'required',
                 'deadline' => 'required',
-                'group_formation_deadline' => 'required'
+                'group_formation_deadline' => 'required',
+                'documentation' => 'required'
             ]);
-
 
             $project = new Project;
             $project->name = $request->title;
@@ -57,8 +59,12 @@ class ProfessorProjectsController extends Controller
             $project->minElements = $request->minNumber;
             $project->maxElements = $request->maxNumber;
             $project->idSubject = $request->subject;
+            $file = $request->file('documentation');
+            $filename = $request->documentation->getClientOriginalName();
+            $project->documentation = $filename;
             $project->maxGroups = SubjectEnrollment::all()->where('idSubject', '==', $request->subject)->count();
             $project->save();
+            $file->storeAs('documentation/'.$project->idProject, $filename, 'gcs');
 
             return redirect('/')->with('success', 'Project Created');
 
@@ -85,8 +91,6 @@ class ProfessorProjectsController extends Controller
      */
     public function show($id)
     {
-
-
         $project = Project::find($id);
         $subject = Subject::find($project->idSubject);
         $groups = Group::all()->where('idProject', '==', $id);
@@ -147,8 +151,16 @@ class ProfessorProjectsController extends Controller
             $project->dueDate = $request->deadline;
             $project->groupCreationDueDate = $request->group_formation_deadline;
             $project->minElements = $request->minNumber;
-            $project->maxElements = $request->maxNnumber;
+            $project->maxElements = $request->maxNumber;
             $project->idSubject = $project->idSubject;
+            if( $request->file('documentation') ) {
+                Storage::delete('documentation/'.$project->idProject."/".$project->documentation);
+                $file = $request->file('documentation');
+                $filename = $request->documentation->getClientOriginalName();
+                $file->storeAs('documentation/'.$project->idProject, $filename, 'gcs');
+                $project->documentation = $filename;
+            }
+
             $project->maxGroups = SubjectEnrollment::all()->where('idSubject', '==', $request->subject)->count();
             $project->save();
 
@@ -177,8 +189,9 @@ class ProfessorProjectsController extends Controller
      */
     public function destroy($id)
     {
-        $proj = Project::find($id);
-        $proj->delete();
+        $project = Project::find($id);
+        Storage::deleteDirectory('documentation/'.$project->idProject);
+        $project->delete();
         return redirect('/')->with('success', 'Project Deleted');
     }
 }

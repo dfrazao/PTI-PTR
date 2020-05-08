@@ -10,8 +10,9 @@
             {{ session('status') }}
         </div>
     @endif
-    <h2>Dashboard</h2>
+    <h2>{{__('gx.dashboard')}}</h2>
     <div class="row mt-3 rounded h-100" style="height: 90vh; background-color: #ededed;">
+
         <div class="col-sm-4">
             <div class="container">
                 <button type="button" class="previous btn btn-default btn-lg" style="text-align: center;width: 100%; color:#2c3fb1">
@@ -23,13 +24,13 @@
                         <table class="month1-cal table table-sm table-borderless" style="text-align: center;">
                             <thead>
                             <tr>
-                                <th scope="col">M</th>
-                                <th scope="col">T</th>
-                                <th scope="col">W</th>
-                                <th scope="col">T</th>
-                                <th scope="col">F</th>
-                                <th scope="col">S</th>
-                                <th scope="col">S</th>
+                                <th scope="col">{{__('gx.monday')}}</th>
+                                <th scope="col">{{__('gx.tuesday')}}</th>
+                                <th scope="col">{{__('gx.wednesday')}}</th>
+                                <th scope="col">{{__('gx.thursday')}}</th>
+                                <th scope="col">{{__('gx.friday')}}</th>
+                                <th scope="col">{{__('gx.saturday')}}</th>
+                                <th scope="col">{{__('gx.sunday')}}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -97,13 +98,13 @@
                         <table class="month2-cal table table-sm table-borderless" style="text-align: center;width: 100%;">
                             <thead>
                             <tr>
-                                <th scope="col">M</th>
-                                <th scope="col">T</th>
-                                <th scope="col">W</th>
-                                <th scope="col">T</th>
-                                <th scope="col">F</th>
-                                <th scope="col">S</th>
-                                <th scope="col">S</th>
+                                <th scope="col">{{__('gx.monday')}}</th>
+                                <th scope="col">{{__('gx.tuesday')}}</th>
+                                <th scope="col">{{__('gx.wednesday')}}</th>
+                                <th scope="col">{{__('gx.thursday')}}</th>
+                                <th scope="col">{{__('gx.friday')}}</th>
+                                <th scope="col">{{__('gx.saturday')}}</th>
+                                <th scope="col">{{__('gx.sunday')}}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -173,7 +174,7 @@
 
         <div class="col-sm-8">
             <div class="overflow-auto rounded pb-2">
-                <h3 class="pt-3 pl-3">Subjects</h3>
+                <h3 class="pt-3 pl-3">{{__('gx.subjects')}}</h3>
                 <div class="container overflow-auto mw-80" style="max-height: 75vh;">
                     @if(count($subjects) > 0)
                         @foreach($subjects as $subject)
@@ -189,27 +190,34 @@
                                 @if(count($projects->whereIn('idSubject', $subject->idSubject)) > 0)
                                     @foreach($projects as $project)
                                         @if($subject->idSubject == $project->idSubject)
-                                            <h5 class="p-2">
+                                            <div class="p-2 align-items-center">
                                                 @if(Auth::user()->role == 'student')
-                                                    <a style="color:#2c3fb1;" href="/student/project/{{$project->idProject}}">{{$project->name}}</a>
+                                                    @if(isset($project->group))
+                                                        <button type="button" class="btn btn-sm btn-success float-right" href="/student/project/{{$project->idProject}}" style="background-color: #2c3fb1; border-color: #2c3fb1;">{{__('gx.group')}} {{$project->group}}</button>
+                                                        <h5 class="mt-1 mb-1"><a style="color:#2c3fb1;" href="/student/project/{{$project->idProject}}">{{$project->name}}</a> {{$project->dueDate}}</h5>
+                                                    @else
+                                                        <button type="button" class="btn btn-sm btn-success float-right" href="/student/project/{{$project->idProject}}/groups">{{__('gx.join/create group')}}</button>
+                                                        <h5 class="mt-1 mb-1"><a style="color:#2c3fb1;" href="/student/project/{{$project->idProject}}/groups">{{$project->name}}</a> {{$project->groupCreationDueDate}}</h5>
+                                                    @endif
+
                                                 @elseif(Auth::user()->role == 'professor')
-                                                    <a style="color:#2c3fb1;" href="/professor/project/{{$project->idProject}}">{{$project->name}}</a>
-                                                    <button type="button" class="btn btn-danger float-right" data-toggle="modal" data-target="#modalDelete-{{$project->idProject}}">Delete</button>
-                                                    <button type="button" class="btn btn-success mr-2 float-right" data-toggle="modal" data-target="#modalEdit-{{$project->idProject}}">Edit</button>
+                                                    <button type="button" class="btn btn-sm btn-danger float-right" data-toggle="modal" data-target="#modalDelete-{{$project->idProject}}">{{__('gx.delete project')}}</button>
+                                                    <button type="button" class="btn btn-sm btn-success mr-2 float-right" data-toggle="modal" data-target="#modalEdit-{{$project->idProject}}">{{__('gx.edit project')}}</button>
+                                                    <h5 class="mt-1 mb-1"><a style="color:#2c3fb1;" href="/professor/project/{{$project->idProject}}">{{$project->name}}</a></h5>
                                                 @endif
-                                            </h5>
+                                            </div>
                                         @endif
                                     @endforeach
                                 @else
-                                    <h5 class="p-2">No projects found</h5>
+                                    <h5 class="p-2">{{__('gx.no projects found')}}</h5>
                                 @endif
                                 @if (Auth::user()->role == 'professor')
-                                    <button style="background-color:#2c3fb1;color: #fff;" type="button" class="btn float-right m-2 open_modal" id="{{$subject->idSubject}}">Create Project</button>
+                                    <button style="background-color:#2c3fb1;color: #fff;" type="button" class="btn btn-sm float-right m-2 open_modal" id="{{$subject->idSubject}}">{{__('gx.create project')}}</button>
                                 @endif
                             </div>
                         @endforeach
                     @else
-                        <p>No subjects found</p>
+                        <p>{{__('gx.no subjects found')}}</p>
                     @endif
                 </div>
                 <button type="button" class="p-2 btn btn-primary btn-md float-right mt-3 mr-3" style="background-color: #2c3fb1; border-color: #2c3fb1;">Cadeiras Antigas</button>
@@ -228,7 +236,7 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title" id="staticBackdropLabel">Edit Project</h4>
+                                        <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.edit project')}}</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -236,38 +244,34 @@
                                     <div class="modal-body">
                                         {!! Form::open(['action' => ['ProfessorProjectsController@update', $project->idProject], 'method' => 'POST', 'enctype' => 'multipart/form-data', 'id' => 'formEdit']) !!}
                                         <div class="form-group">
-                                            {{Form::label('title', 'Name')}}
-                                            {{Form::text('title', $project->name, ['class' => 'form-control', 'placeholder' => 'Country'])}}
+                                            {{Form::label('title', trans('gx.name'))}}
+                                            {{Form::text('title', $project->name, ['class' => 'form-control', 'placeholder' => trans('gx.project name')])}}
                                         </div>
                                         <div class="form-group">
-                                            {{Form::label('deadline', 'Group Formation Deadline')}}
+                                            {{Form::label('deadline', trans('gx.group formation deadline'))}}
                                             {{Form::date('group formation deadline', $project->groupCreationDueDate, ['class' => 'form-control'])}}
                                         </div>
                                         <div class="form-group">
-                                            {{Form::label('deadline', 'Deadline')}}
+                                            {{Form::label('deadline', trans('gx.deadline'))}}
                                             {{Form::date('deadline', $project->dueDate, ['class' => 'form-control'])}}
                                         </div>
                                         <div class="form-group">
-                                            {{Form::label('minNumber', 'Minimum no. of Members')}}
+                                            {{Form::label('minNumber', trans('gx.minimum no. of members'))}}
                                             {{Form::selectRange('minNumber', 1, 10, $project->minElements)}}
                                         </div>
                                         <div class="form-group">
-                                            {{Form::label('maxNumber', 'Maximum no. of Members')}}
+                                            {{Form::label('maxNumber', trans('gx.maximum no. of members'))}}
                                             {{Form::selectRange('maxNumber', 1, 10, $project->maxElements)}}
                                         </div>
                                         <div class="form-group">
-                                            {{Form::label('announcement', 'Announcement')}}
-                                            {{Form::file('')}}
-                                        </div>
-                                        <div class="form-group">
-                                            {{Form::label('documentation', 'Documentation')}}
-                                            {{Form::file('')}}
+                                            {{Form::label('documentation', trans('gx.documentation'))}}
+                                            {{Form::file('documentation')}}
                                         </div>
                                         {{ Form::hidden('subject', $subject->idSubject) }}
                                         {{Form::hidden('option', 'project')}}
 
                                         {{Form::hidden('_method','PUT')}}
-                                        {{Form::submit('Submit', ['class'=>'btn btn-success'])}}
+                                        {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
                                         {!! Form::close() !!}
                                     </div>
                                 </div>
@@ -277,16 +281,16 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title" id="staticBackdropLabel">Delete Project</h4>
+                                        <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.delete project')}}</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <h5>Are you sure you want to delete this project?</h5>
+                                        <h5>{{__('gx.want to delete project?')}}</h5>
                                         {!!Form::open(['action' => ['ProfessorProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
                                         {{Form::hidden('_method', 'DELETE')}}
-                                        {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+                                        {{Form::submit(trans('gx.delete'), ['class' => 'btn btn-danger'])}}
                                         {!!Form::close()!!}
                                     </div>
                                 </div>
@@ -303,7 +307,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="staticBackdropLabel">New Project</h4>
+                    <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.new project')}}</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -311,37 +315,33 @@
                 <div class="modal-body">
                     {!! Form::open(['action' => 'ProfessorProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                     <div class="form-group">
-                        {{Form::label('title', 'Name')}}
-                        {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Project Name'])}}
+                        {{Form::label('title', trans('gx.name'))}}
+                        {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => trans('gx.project name')])}}
                     </div>
                     <div class="form-group">
-                        {{Form::label('deadline', 'Group Formation Deadline')}}
+                        {{Form::label('deadline', trans('gx.group formation deadline'))}}
                         {{ Form::date('group formation deadline', null,['class' => 'form-control']) }}
                     </div>
                     <div class="form-group">
-                        {{Form::label('deadline', 'Deadline')}}
+                        {{Form::label('deadline', trans('gx.deadline'))}}
                         {{ Form::date('deadline', null,['class' => 'form-control']) }}
                     </div>
                     <div class="form-group">
-                        {{Form::label('minNumber', 'Minimum no. of Members')}}
+                        {{Form::label('minNumber', trans('gx.minimum no. of members'))}}
                         {{Form::selectRange('minNumber', 1, 10)}}
                     </div>
                     <div class="form-group">
-                        {{Form::label('maxNumber', 'Maximum no. of Members')}}
+                        {{Form::label('maxNumber', trans('gx.maximum no. of members'))}}
                         {{Form::selectRange('maxNumber', 1, 10)}}
                     </div>
                     <div class="form-group">
-                        {{Form::label('announcement', 'Announcement')}}
-                        {{Form::file('')}}
+                        {{Form::label('documentation', trans('gx.documentation'))}}
+                        {{Form::file('documentation')}}
                     </div>
-                    <div class="form-group">
-                        {{Form::label('documentation', 'Documentation')}}
-                        {{Form::file('')}}
-                    </div>
-                    {{ Form::hidden('subject', "subject") }}
+                    {{Form::hidden('subject', "subject")}}
                     {{Form::hidden('option', 'project')}}
 
-                    {{Form::submit('Submit', ['class'=>'btn btn-success'])}}
+                    {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
 
                     {!! Form::close() !!}
                 </div>
@@ -467,7 +467,6 @@
             color: #2c3fb1;
             background-color: white;
             border-radius: 100%;
-
         }
 
         .selected {
