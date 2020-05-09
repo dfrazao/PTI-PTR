@@ -82,24 +82,33 @@ class StudentProjectsController extends Controller
         }
         elseif($submission == "schedule"){
             $group = $request->input('group');
+            $student = $request->input('idStudent');
+            $id = Availability::where("idGroup", $group)->where("member", $student)->pluck("id")->first();
+            if(!is_null(Availability::find($id))){
+                if(($request->option) == 'add') {
+                    $availability = Availability::find($id);
+                    $currentAv = json_decode($availability->periods);
+                    array_push($currentAv, $request->input('cell'));
+                    $availability->periods = json_encode($currentAv);
+                    $availability->save();
+                }
+                else{
+                    $availability = Availability::find($id);
+                    $currentAv = json_decode($availability->periods);
+                    $key = array_search($request->cell, $currentAv);
+                    array_splice($currentAv,$key);
+                    $availability->periods = json_encode($currentAv);
+                    $availability->save();
+                }
 
-            if(Availability::where("idGroup", $group)->where('member',$user)->count() > 0){
-                $availability = Availability::where("idGroup", $group)->where("member", $user)->first();
-                $currentAv = json_decode($availability->periods);
-                array_push($currentAv, $request->input('cell'));
-                $availability->periods = $currentAv;
-                $availability->save();
             }
             else {
-                $av = [];
                 $availability = new Availability;
-                array_push($av,$request->input('cell'));
                 $availability -> idGroup = $group;
-                $availability -> member = $user;
-                $availability -> periods = json_encode($av);
-                $availability -> color = 'Green';
+                $availability -> member = $student;
+                $availability -> periods = json_encode([]);
+                $availability -> color = $request -> color;
                 $availability->save();
-
             }
 
         }
@@ -155,10 +164,13 @@ class StudentProjectsController extends Controller
         //schedule
         $groupUsers = StudentsGroup::all()->where('idGroup', "==", $idGroup);
         $Users = [];
+        $gusers=[];
         foreach ($groupUsers as $gu){
             $stg = User::find($gu->idStudent);
+            array_push($gusers,$stg->name);
             array_push($Users, $stg);
         }
+        $schedule = Availability::all()->where('idGroup','==', $idGroup);
 
         //Posts
 
@@ -179,10 +191,10 @@ class StudentProjectsController extends Controller
             $idComment = AnnouncementComment::all()->where('idAnnouncement', '==', $idA)->count();
             array_push($numberComments, $idComment);
         }
-        // availabilities
-        $schedule = Availability::all()->where('idGroup','==', $idGroup);
 
-        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup)->with('notes',$notes)->with('a',$announcements)->with('meeting',$meeting)->with('groupUsers', $Users)->with('schedule', $schedule);
+
+
+        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup)->with('notes',$notes)->with('a',$announcements)->with('meeting',$meeting)->with('groupUsers', $Users)->with('schedule', $schedule)->with('gu',$gusers);
     }
 
     /**

@@ -170,7 +170,7 @@
                         </div>
                         <div class="form-group">
                             {{Form::label('responsible', 'Responsible')}}
-                            {{ Form::text('responsible', '',['class' => 'form-control', 'placeholder' => 'Responsible for the task']) }}
+                            {!! Form::select('responsible',$gu, null, ['class' => 'form-control', 'placeholder' => 'Responsible for the task']) !!}
                         </div>
                         <div class="form-group">
                             {{Form::label('beginning', 'Beginning')}}
@@ -292,7 +292,7 @@
                     @foreach($groupUsers as $user)
                         <div class="col-xs-3 mx-auto">
                             {{$user->name}}
-                            <span class="border userColor align-middle" id="{{$user->name}}"></span>
+                            <div class="border Mastercolor align-middle" id="{{$user->id}}"></div>
                         </div>
                     @endforeach
                 </div>
@@ -592,30 +592,58 @@
     var colors = ['red', 'green', 'lightblue', 'orange', 'yellow', 'black', ' pink', 'purple', 'brown', 'darkblue'];
     @foreach($groupUsers as $user)
         var uc = [Math.floor(Math.random() * colors.length)];
-        sessionStorage.setItem('{{$user->name}}', colors[uc]);
-        colors.splice(uc,1);
-        $('.userColor').each(function() {
-            if($(this).attr("id") == '{{$user->name}}')
-                $(this).css('background-color', sessionStorage.getItem('{{$user->name}}'));
-        });
+        @if(!is_null(\App\Availability::find(\App\Availability::where("idGroup", $idGroup)->where("member", $user->id)->pluck("id")->first())))
+        $('#{{$user->id}}.Mastercolor').css('background-color', '{{\App\Availability::find(\App\Availability::where("idGroup", $idGroup)->where("member", $user->id)->pluck("id")->first())->color}}');
+
+        @else
+            datastring = {
+                'group': $('input[name=group]').val(),
+                'submission': $('#scheduleform input[name=submission]').val(),
+                '_token': $('input[name=_token]').val(),
+                'idStudent': {{$user->id}},
+                'color': colors[uc]
+            }
+            $.ajax({
+                type: "post",
+                data: datastring,
+                dataType: 'JSON',
+                url: "/student/project/"
+            });
+            colors.splice(uc,1);
+        @endif
     @endforeach
 
     @foreach($schedule as $sc)
         var cells= {!! $sc->periods  !!};
-        $('.cell').each(function() {
         for(i = 0; i < cells.length; i++){
             var add = document.createElement("div");
             add.setAttribute("class", "border align-middle usercolor");
             add.setAttribute("id", '{{$sc->member}}');
-            if($(this).attr('id') == cells[i]){
-                this.appendChild(add);
-                $('.usercolor').css('background-color', sessionStorage.getItem('{{\App\User::find($sc->member)->name}}'));
-                }}});
+            $('#' + cells[i] + '.cell').append(add);
+            $('#{{$sc->member}}.usercolor').css('background-color', '{{\App\Availability::find(\App\Availability::where("idGroup", $idGroup)->where("member", $sc->member)->pluck("id")->first())->color}}');
+            };
+
     @endforeach
 
     $('.cell').click(function () {
         if($(this).find('div#{{Auth::user()->id}}').length == 1){
             $(this).find('div#{{Auth::user()->id}}').remove();
+            datastring = {
+                'cell': this.id,
+                'group': $('input[name=group]').val(),
+                'submission': $('#scheduleform input[name=submission]').val(),
+                '_token': $('input[name=_token]').val(),
+                'idStudent': {{Auth::user()->id}},
+                'option':'delete'
+            }
+            $.ajax({
+                type: "post",
+                data: datastring,
+                dataType: 'JSON',
+                url: "/student/project/",
+                success: "deleted"
+            });
+
 
         }
         else {
@@ -623,13 +651,14 @@
             add.setAttribute("class", "border align-middle usercolor");
             add.setAttribute("id", '{{Auth::user()->id}}');
             this.appendChild(add);
-            $('.usercolor').css('background-color', sessionStorage.getItem('{{Auth::user()->name}}'));
+            $('div#{{Auth::user()->id}}.usercolor').css('background-color', '{{\App\Availability::find(\App\Availability::where("idGroup", $idGroup)->where("member", Auth::user()->id)->pluck("id")->first())->color}}');
             datastring = {
                 'cell': this.id,
                 'group': $('input[name=group]').val(),
                 'submission': $('#scheduleform input[name=submission]').val(),
                 '_token': $('input[name=_token]').val(),
-                'nameStudent': $('input[name=idstudent]').val()
+                'idStudent': {{Auth::user()->id}},
+                'option':'add'
             }
             $.ajax({
                 type: "post",
