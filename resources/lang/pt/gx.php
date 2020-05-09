@@ -17,6 +17,7 @@ return [
     'group'                     => 'Grupo',
     'name'                      => 'Nome',
     'documentation'             => 'Documentação',
+    'meeting'                   => 'Reunião',
 
     //errors
 

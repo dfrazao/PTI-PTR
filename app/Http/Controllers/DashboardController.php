@@ -9,8 +9,9 @@ use Auth;
 use App\Project;
 use App\Subject;
 use App\SubjectEnrollment;
-use DB;
 use App\User;
+use App\Meeting;
+use DB;
 
 class DashboardController extends Controller
 {
@@ -34,18 +35,12 @@ class DashboardController extends Controller
         $user = Auth::user()->id;
         $subjectsEnrolled = SubjectEnrollment::all()->where('idUser', '==', $user)->pluck('idSubject');
         if (count($subjectsEnrolled) > 0) {
-            /*foreach ($subjectsEnrolled as $se) {
-                $subjects = Subject::all()->where('idSubject', '==', $se);
-                $subjectsId = Subject::all()->where('idSubject', '==', $se)->pluck('idSubject');
-            }
-            foreach ($subjectsId as $sid) {
-                $projects = Subject::all()->where('idSubject', '==', $sid);
-            }*/
             $subjects = Subject::all()->whereIn('idSubject', $subjectsEnrolled);
             $subjectsId = Subject::all()->whereIn('idSubject', $subjectsEnrolled)->pluck('idSubject');
             $projects = Project::all()->whereIn('idSubject', $subjectsId);
-            $projectsId = $projects->pluck('idProject');
 
+            $meetings = [];
+            $groups = [];
             foreach ($projects as $p) {
                 $idGroup = DB::table('studentGroups')
                     ->select('studentGroups.idGroup')
@@ -54,11 +49,22 @@ class DashboardController extends Controller
                     ->where('studentGroups.idStudent', $user)
                     ->get();
 
-                foreach ($idGroup as $idg)
+                foreach ($idGroup as $idg) {
                     $p->group = $idg->idGroup;
+                    if (!in_array($idg->idGroup, $groups)) {
+                        $meeting = Meeting::all()->where('idGroup', '==', $idg->idGroup);
+                        foreach ($meeting as $m) {
+                            $proj = Project::find($p->idProject);
+                            $m->project = $proj->name;
+                            $m->subject = Subject::find($proj->idSubject)->subjectName;
+                            array_push($meetings, $m);
+                        }
+                        array_push($groups, $idg->idGroup);
+                    }
+                }
             }
 
-            return view('dashboard')->with('subjects', $subjects)->with('projects', $projects);
+            return view('dashboard')->with('subjects', $subjects)->with('projects', $projects)->with('meetings', $meetings);
         }
         else{
             return view('dashboard')->with('subjects', $subjectsEnrolled);

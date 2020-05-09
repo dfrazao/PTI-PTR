@@ -13,6 +13,7 @@ use App\User;
 use App\SubjectEnrollment;
 use App\Announcement;
 use Storage;
+use Carbon\Carbon;
 
 class ProfessorProjectsController extends Controller
 {
@@ -54,8 +55,8 @@ class ProfessorProjectsController extends Controller
 
             $project = new Project;
             $project->name = $request->title;
-            $project->dueDate = $request->deadline;
-            $project->groupCreationDueDate = $request->group_formation_deadline;
+            $project->dueDate = Carbon::parse($request->deadline);
+            $project->groupCreationDueDate = Carbon::parse($request->group_formation_deadline);
             $project->minElements = $request->minNumber;
             $project->maxElements = $request->maxNumber;
             $project->idSubject = $request->subject;
@@ -94,8 +95,6 @@ class ProfessorProjectsController extends Controller
         $project = Project::find($id);
         $subject = Subject::find($project->idSubject);
         $groups = Group::all()->where('idProject', '==', $id);
-
-        /*$announcement = Announcement::all()->where('idProject', '==', $id);*/
 
         $announcements = Announcement::all()->where('idProject', '==', $id);
         $allAnnouncements = [];
@@ -148,8 +147,8 @@ class ProfessorProjectsController extends Controller
 
             $project = Project::find($id);
             $project->name = $request->title;
-            $project->dueDate = $request->deadline;
-            $project->groupCreationDueDate = $request->group_formation_deadline;
+            $project->dueDate = Carbon::parse($request->deadline);
+            $project->groupCreationDueDate = Carbon::parse($request->group_formation_deadline);
             $project->minElements = $request->minNumber;
             $project->maxElements = $request->maxNumber;
             $project->idSubject = $project->idSubject;

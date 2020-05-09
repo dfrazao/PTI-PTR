@@ -171,11 +171,11 @@ class GroupController extends Controller
 
 
 
-        foreach($groupNumber as $groupN)
+        /*foreach($groupNumber as $groupN)
             foreach($students_per_group[$groupN] as $studInfo)
                 if($user == $studInfo->id)
                     return redirect()->action('DashboardController@index', $project);
-                else
+                else*/
 
                     return view('student/groups')->with('groupNumber',$groupNumber)->with('students_per_group',$students_per_group)->with('subjectStudentsNoGroup',$subjectStudentsNoGroup)->with('projectMaxElements',$projectMaxElements)->with('project',$project)
                         ->with('numberGroupsInsideProject',$numberGroupsInsideProject)->with('subject',$subject)->with('user',$user);
