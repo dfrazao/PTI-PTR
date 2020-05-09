@@ -6,6 +6,8 @@ use App\User;
 use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\DB;
+use Pusher\Pusher;
+
 class ChatController extends Controller
 {
 
@@ -78,7 +80,7 @@ class ChatController extends Controller
 
         // pusher
         $options = array(
-            'cluster' => 'ap2',
+            'cluster' => 'eu',
             'useTLS' => true
         );
 
@@ -90,6 +92,6 @@ class ChatController extends Controller
         );
 
         $data = ['from' => $from, 'to' => $to]; // sending from and to user id when pressed enter
-        $pusher->trigger('my-channel', 'my-event', $data);
+        $pusher->trigger('my-channel', 'pusher:subscription_succeeded', $data);
     }
 }

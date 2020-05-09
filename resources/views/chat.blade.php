@@ -57,7 +57,7 @@
        <div class="row">
            <div class="col-md-4 nopadding">
                <div class="user-wrapper">
-                   <div id="search">
+                   <div id="search" style="margin: 10px;">
                        <input type="text" placeholder="Search" class="form-control" id="searchinput" name="searchinput" style="font-size:12px; ">
                    </div>
                    <ul class="users">
@@ -104,8 +104,16 @@
                <div id="messages">
                </div>
 
-           <div class="input-text" style="display: none;">
-               <input type="text" name="message" class="form-control submit">
+           <div class="input-text" style="display: none; margin: 10px;">
+               <div class="input-group mb-3">
+                   <input type="text" name="message" maxlength="500" class="form-control">
+
+                   <div class="input-group-append">
+                       <button class="btn btn-outline-primary send_btn"><i class="fas fa-location-arrow"></i></button>
+
+                   </div>
+               </div>
+
            </div>
 
            </div>
