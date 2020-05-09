@@ -318,7 +318,7 @@
 
             var channel = pusher.subscribe('my-channel');
             channel.bind('pusher:subscription_succeeded', function(data) {
-                alert(JSON.stringify(data));
+
             });
 
 

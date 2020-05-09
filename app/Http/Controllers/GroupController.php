@@ -3,19 +3,24 @@
 namespace App\Http\Controllers;
 
 
-use App\StudentsGroup;
-use App\SubjectEnrollment;
-use App\User;
+
+use App\Http\Controllers\Controller;
+use App\Meeting;
 use Illuminate\Http\Request;
-use App\Group;
-use App\Subject;
 use App\Project;
-use mysql_xdevapi\Table;
-use PhpParser\Node\Stmt\Foreach_;
-use function foo\func;
-use function GuzzleHttp\Promise\all;
+use App\Subject;
+use App\Announcement;
+use App\AnnouncementComment;
+use App\User;
+use Auth;
+use App\Group;
+use App\StudentsGroup;
+
+
+use App\SubjectEnrollment;
+
 use DB;
-use Illuminate\Support\Arr;
+
 
 class GroupController extends Controller
 {
@@ -56,25 +61,38 @@ class GroupController extends Controller
         $idProject = $request ->input('project');
         $numberGroupsInsideProject = $request ->input('numberGroupsInsideProject');
         $group = new Group;
-        $group->idGroupProject = $numberGroupsInsideProject+1; //autoincrementar?
+        $group->idGroupProject = $numberGroupsInsideProject+1;
         $group->idProject = $idProject;
         $group->save();
 
+
         $idStudent = $request ->input('idStudent');
+        $idUser = $request ->input('userId');
         $studentGroup = new StudentsGroup;
+        $studentGroup->idStudent = $idUser;
         $studentGroup->idGroup = $group->idGroup;
-        $studentGroup->idStudent = $idStudent; //compor isto!!!!!
         $studentGroup->save();
+        foreach($idStudent as $id) {
+            $studentGroup = new StudentsGroup;
+            $studentGroup->idGroup = $group->idGroup;
+            $studentGroup->idStudent = $id;
+            $studentGroup->save();
+        }
+
+
+
+
+
 
 
         //TODO :funcao js para nao permitir selecionar elementos para o grupo de forma a que
         // n ultrapasse o max elements(pessoa que cria o grupo inclusive) com variavel de sessao , fazer
-        // com que a criacao de grupo contemple o user corrente , na sugestao de alunos fazer os filtros(ordenar) e enviar mensagem??
+        // com que a criacao de grupo contemple o user corrente , na sugestao de alunos fazer os filtros(ordenar) e enviar mensagem
 
 
 
 
-   return redirect()->action('GroupController@show', $idProject)->with('success', 'Group created successfully');
+   return redirect()->action('DashboardController@index', $idProject)->with('success', 'Group created successfully');
 
 
     }
@@ -87,12 +105,17 @@ class GroupController extends Controller
      */
     public function show($id)
     {
-
+        $user = Auth::user()->id;
+        //echo gettype($user);
+        //return $user;
         $project = Project::find($id);
         $projectMaxElements = $project->maxElements;
         $subject = Subject::find($project->idSubject);
         $idSubject = $subject->idSubject;
         $groups = Group::all()->where('idProject','==', $id);
+
+
+
 
         $groupStudents = DB::table('studentGroups')
 
@@ -112,7 +135,7 @@ class GroupController extends Controller
 
             })
             ->whereNotIn('id',$groupStudents)
-            ->get(['name','uniNumber','class','id']);
+            ->get(['name','uniNumber','class','id','average']);
 
 
        //----------------------------------------------------------------------------------------------------------------
@@ -134,7 +157,7 @@ class GroupController extends Controller
 
             })
             //->pluck('idGroup','uniNumber')
-            ->get(['idGroup','name','uniNumber']);
+            ->get(['idGroup','name','uniNumber','id','photo']);
 
 
         $students_per_group = $studentsGroup -> groupBy('idGroup');
@@ -146,8 +169,17 @@ class GroupController extends Controller
             ->distinct('idGroupProject')
             ->count();
 
-        return view('student/groups')->with('groupNumber',$groupNumber)->with('students_per_group',$students_per_group)->with('subjectStudentsNoGroup',$subjectStudentsNoGroup)->with('projectMaxElements',$projectMaxElements)->with('project',$project)
-            ->with('numberGroupsInsideProject',$numberGroupsInsideProject);
+
+
+        foreach($groupNumber as $groupN)
+            foreach($students_per_group[$groupN] as $studInfo)
+                if($user == $studInfo->id)
+                    return redirect()->action('DashboardController@index', $project);
+                else
+
+                    return view('student/groups')->with('groupNumber',$groupNumber)->with('students_per_group',$students_per_group)->with('subjectStudentsNoGroup',$subjectStudentsNoGroup)->with('projectMaxElements',$projectMaxElements)->with('project',$project)
+                        ->with('numberGroupsInsideProject',$numberGroupsInsideProject)->with('subject',$subject)->with('user',$user);
+
     }
 
     /**
@@ -168,9 +200,19 @@ class GroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $idProject = $request ->input('idProject');
+        $idUser = $request->input('userJoin');
+        $idGroup = $request ->input('idGroupJoin');
+
+        $studentGroup = new StudentsGroup;
+        $studentGroup->idStudent = $idUser;
+        $studentGroup->idGroup = $idGroup;
+        $studentGroup->save();
+
+        //redirect para pagina do projeto?
+        return redirect()->action('DashboardController@index', $idProject)->with('success', 'Successfully joined the group '.$idGroup);
     }
 
     /**
