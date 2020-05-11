@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\DB;
 use Pusher\Pusher;
+use Pusher\PusherException;
 
 class ChatController extends Controller
 {
@@ -71,12 +72,7 @@ class ChatController extends Controller
         $to = $request->receiver_id;
 
 
-        $message = $request->message;
-        $data = new Chat();
-        $data->sender = $from;
-        $data->receiver = $to;
-        $data->message = $message;
-        $data->save();
+
 
         // pusher
         $options = array(
@@ -92,6 +88,12 @@ class ChatController extends Controller
         );
 
         $data = ['from' => $from, 'to' => $to]; // sending from and to user id when pressed enter
-        $pusher->trigger('my-channel', 'pusher:subscription_succeeded', $data);
+     $pusher->trigger('my-channel', 'my-event', $data);
+        $message = $request->message;
+        $data = new Chat();
+        $data->sender = $from;
+        $data->receiver = $to;
+        $data->message = $message;
+        $data->save();
     }
 }

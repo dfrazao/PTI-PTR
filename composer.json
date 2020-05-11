@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3",
+        "ext-json": "*",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "6.5.3",
@@ -18,8 +19,7 @@
         "laravelcollective/html": "^6.1",
         "league/flysystem-aws-s3-v3": "^1.0",
         "pusher/pusher-php-server": "^4.1",
-        "superbalist/laravel-google-cloud-storage": "2.2.3",
-      "ext-json": "*"
+        "superbalist/laravel-google-cloud-storage": "2.2.3"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
 
-   <div class="container-md" id="testee" style="width: 500px;position: absolute;
-z-index: 1; margin-left: 60%;
+   <div class="container-md" id="testee" style="width: 500px;position: relative;
+z-index: 1; margin-right: 15px;margin-top: 5px;
             background:white;
             border-radius:6px;
             border: 1px #a5b2cb solid;
@@ -23,7 +23,7 @@ z-index: 1; margin-left: 60%;
                                    </div>
 
                                    <div class="media-body">
-                                       <p class="name">{{ $user->name }}</p>
+                                       <p class="name" style="font-size: 12px;">{{ $user->name }}</p>
                                        {{--<p class="email">{{ $user->email }}</p>--}}
                                    </div>
                                </div>
@@ -161,10 +161,10 @@ z-index: 1; margin-left: 60%;
            border-radius: 10px;
        }
        .received {
-           background: #eceff1 ;
+           background: rgba(136, 253, 79, 0.73);
        }
        .sent {
-           background: #D2E3FD;
+           background: #eceff1;
            float: right;
            text-align: right;
        }
@@ -228,7 +228,6 @@ z-index: 1; margin-left: 60%;
 
        @media screen and (max-width: 800px) {
            .container-md{
-               width: 200px;
            }
            .col-md-4{
                width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
@@ -268,11 +267,28 @@ z-index: 1; margin-left: 60%;
            Pusher.logToConsole = true;
 
            var pusher = new Pusher('ff4af21336ebee3e83fe', {
-               cluster: 'eu'
+               cluster: 'eu',
            });
 
            var channel = pusher.subscribe('my-channel');
-           channel.bind('pusher:subscription_succeeded', function(data) {
+           channel.bind('my-event', function (data) {
+               if (my_id == data.from) {
+                   $('#' + data.to).click();
+               } else if (my_id == data.to) {
+                   if (receiver_id == data.from) {
+                       // if receiver is selected, reload the selected user ...
+                       $('#' + data.from).click();
+                   } else {
+                       // if receiver is not seleted, add notification for that user
+                       var pending = parseInt($('#' + data.from).find('.pending').html());
+
+                       if (pending) {
+                           $('#' + data.from).find('.pending').html(pending + 1);
+                       } else {
+                           $('#' + data.from).append('<span class="pending">1</span>');
+                       }
+                   }
+               }
            });
 
 
