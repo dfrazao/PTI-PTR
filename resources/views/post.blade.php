@@ -36,7 +36,7 @@
                 <div class="container-xl-fluid mt-3 p-3 rounded" style="background-color: white;">
                     <header class="header row mb-3 pl-3">
                         <div class="mr-3">
-                            <img class="editable img-responsive" style="border-radius: 100%; height: 50px; width: 50px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="/storage/profilePhotos/{{$poster->photo}}">
+                            <img class="editable img-responsive" style="border-radius: 100%; height: 50px; width: 50px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$poster->photo)}}">
                         </div>
                         <div>
                             <h5>{{$announcement->title}}</h5>
@@ -231,7 +231,7 @@
                         <div class="container-xl-fluid mt-3 ml-5 p-3 rounded" style="background-color: white;">
                             <header class="header row mb-3 pl-3">
                                 <div class="mr-3">
-                                    <img class="editable img-responsive" style="border-radius: 100%; height: 50px; width: 50px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="/storage/profilePhotos/{{$commenters[$i]->photo}}">
+                                    <img class="editable img-responsive" style="border-radius: 100%; height: 50px; width: 50px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$commenters[$i]->photo)}}">
                                 </div>
                                 <div>
                                     <h5>Re: {{$announcement->title}}</h5>

@@ -13,8 +13,8 @@
     <link href="/fontawesome-pro-5.12.0-web/css/all.css" rel="stylesheet">
     <script src="/ckeditor5/build/ckeditor.js"></script>
     <script src='https://momentjs.com/downloads/moment-with-locales.js'></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/moment@2.25.3/moment.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.25.3/locale/pt.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/moment@2.25.3/min/moment-with-locales.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/moment@2.25.3/min/moment-with-locales.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
     <link rel="shortcut icon" href="/images/favicon.ico">
@@ -34,6 +34,9 @@
         }
     </style>
 </head>
+<script>
+    moment.locale("{{ str_replace('_', '-', app()->getLocale()) }}");
+</script>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background-color: #2c3fb1;z-index: 1;">
 

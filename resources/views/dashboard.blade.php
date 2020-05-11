@@ -3,8 +3,7 @@
 <head>
     <title>Dashboard</title>
 </head>
-<div class="container-xl-fluid mt-4 pl-5 pr-5 pb-2" style="position: relative;
-z-index: 0;">
+<div class="container-xl-fluid mt-4 pl-5 pr-5 pb-2" style="position: relative;">
     @include('layouts.messages')
     @if (session('status'))
         <div class="alert alert-success" role="alert">
@@ -253,11 +252,11 @@ z-index: 0;">
                                         </div>
                                         <div class="form-group">
                                             {{Form::label('deadline', trans('gx.group formation deadline'))}}
-                                            {{Form::text('group formation deadline', $project->groupCreationDueDate, ['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker1-'.$project->idProject, 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker1-'.$project->idProject])}}
+                                            {{Form::text('group formation deadline', $project->groupCreationDueDate, ['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker1-'.$project->idProject, 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker1-'.$project->idProject, (\Carbon\Carbon::now()->diffInDays($project->groupCreationDueDate, false) > 0 ? :'disabled')])}}
                                         </div>
                                         <div class="form-group">
                                             {{Form::label('deadline', trans('gx.deadline'))}}
-                                            {{Form::text('deadline', $project->dueDate, ['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker2-'.$project->idProject, 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker2-'.$project->idProject])}}
+                                            {{Form::text('deadline', $project->dueDate, ['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker2-'.$project->idProject, 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker2-'.$project->idProject, (\Carbon\Carbon::now()->floatDiffInHours($project->dueDate, false) > 0 ? :'disabled')])}}
                                         </div>
                                         <div class="form-group">
                                             {{Form::label('minNumber', trans('gx.minimum no. of members'))}}
@@ -280,11 +279,15 @@ z-index: 0;">
                                     </div>
                                     <script>
                                         $(function() {$( "#datetimepicker1-{{$project->idProject}}" ).datetimepicker({
-                                            date: moment('{{$project->groupCreationDueDate}}').format('MM/DD/YYYY h:mm'),
+                                            minDate: moment().format('YYYY-MM-DD HH:mm'),
+                                            date: moment('{{$project->groupCreationDueDate}}').format('YYYY-MM-DD HH:mm'),
+                                            locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
                                             icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
                                         });});
                                         $(function() {$( "#datetimepicker2-{{$project->idProject}}" ).datetimepicker({
-                                            date: moment('{{$project->dueDate}}').format('MM/DD/YYYY h:mm'),
+                                            minDate: moment().format('YYYY-MM-DD HH:mm'),
+                                            date: moment('{{$project->dueDate}}').format('YYYY-MM-DD HH:mm'),
+                                            locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
                                             icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
                                         });});
                                     </script>
@@ -333,12 +336,12 @@ z-index: 0;">
                         {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => trans('gx.project name')])}}
                     </div>
                     <div class="form-group">
-                        {{Form::label('deadline', trans('gx.group formation deadline'))}}
-                        {{Form::text('group formation deadline', null, ['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker1', 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker1'])}}
+                        {{Form::label('group formation deadline', trans('gx.group formation deadline'))}}
+                        {{Form::text('group formation deadline', null, ['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker1-dp', 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker1-dp'])}}
                     </div>
                     <div class="form-group">
                         {{Form::label('deadline', trans('gx.deadline'))}}
-                        {{Form::text('deadline', null, ['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker2', 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker2'])}}
+                        {{Form::text('deadline', null, ['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker2-dp', 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker2-dp'])}}
                     </div>
                     <div class="form-group">
                         {{Form::label('minNumber', trans('gx.minimum no. of members'))}}
@@ -360,12 +363,24 @@ z-index: 0;">
                     {!! Form::close() !!}
                 </div>
                 <script>
-                    $(function() {$( "#datetimepicker1" ).datetimepicker({
+                    $(function() {$( "#datetimepicker1-dp" ).datetimepicker({
+                        minDate: moment().format('YYYY-MM-DD HH:mm'),
+                        date: moment().format('YYYY-MM-DD HH:mm'),
+                        locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
                         icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
                     });});
-                    $(function() {$( "#datetimepicker2" ).datetimepicker({
+                    $(function() {$( "#datetimepicker2-dp" ).datetimepicker({
+                        minDate: moment().format('YYYY-MM-DD HH:mm'),
+                        date: moment().format('YYYY-MM-DD HH:mm'),
+                        locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
                         icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
                     });});
+                    $("#datetimepicker1").on("change.datetimepicker", function (e) {
+                        $('#datetimepicker2').datetimepicker('minDate', e.date);
+                    });
+                    $("#datetimepicker2").on("change.datetimepicker", function (e) {
+                        $('#datetimepicker1').datetimepicker('maxDate', e.date);
+                    });
                 </script>
             </div>
         </div>
@@ -445,8 +460,8 @@ z-index: 0;">
             draw() {
                 $('table.month1-cal tr > td').empty()
                 $('table.month2-cal tr > td').empty()
-                $("table.month1-cal tr > td").removeClass("today project-deadline project-group-deadline project-meeting");
-                $("table.month2-cal tr > td").removeClass("today project-deadline project-group-deadline project-meeting");
+                $("table.month1-cal tr > td").removeClass("past today project-deadline project-group-deadline project-meeting");
+                $("table.month2-cal tr > td").removeClass("past today project-deadline project-group-deadline project-meeting");
                 this.monthDiv.innerText = this.monthString;
                 this.nextMonthDiv.innerText = this.nextMonthString;
 
@@ -483,7 +498,6 @@ z-index: 0;">
                         events[3][1].push(['{{$m->description}}', '{{$m->place}}', '{{$m->date}}', '{{$m->hour}}', '{{$m->project}}', '{{$m->subject}}']);
                     }
                 @endforeach
-                console.log(events);
 
                 for (let months = 0; months <= 1; months++) {
                     let week = 1;
@@ -491,15 +505,19 @@ z-index: 0;">
                     let start = moment(this.calendarDays[months].first).format('YYYY-MM-DD');
                     let max;
                     let max1;
+                    let day;
                     for (let index = 1; index <= this.calendarDays[months].last; index++) {
                         if (weekday == 8) {
                             weekday = 1;
                             week++;
                         }
-                        $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).text(index);
-                        $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('id',start);
-                        if (start == this.today) {
-                            $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).addClass("today");
+                        day = ".month"+[months+1]+"-cal .week"+week+" ."+weekday;
+                        $(day).text(index);
+                        $(day).attr('id', start);
+                        if (start < this.today) {
+                            $(day).addClass("past");
+                        } else if (start == this.today) {
+                            $(day).addClass("today");
                         }
                         if (events[0][months][0].length > events[1][months][0].length) {
                             max = events[0][months][0].length;
@@ -508,20 +526,30 @@ z-index: 0;">
                         }
                         for (let p = 0; p <= max; p++) {
                             if (start == events[0][months][0][p]) {
-                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).addClass("project-deadline");
-                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('data-toggle', 'tooltip');
-                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('data-placement', 'right');
-                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('data-container', 'body');
-                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('data-html', 'true');
-                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('title', "<span class='far fa-file-alt float-left mt-1'></span><p class='text-left m-0'>&nbsp;– "+events[0][months][1][p][2]+" - "+events[0][months][1][p][0]+"<br> {{__('gx.deadline')}} <br> "+events[0][months][1][p][1]+"</p>");
+                                let event_pd = "<p class='text-left m-0'><span class='far fa-file-alt float-left'></span>&nbsp;– {{__('gx.deadline')}}</p><p class='text-left m-0'><span class='far fa-book'></span>&nbsp;– "+events[0][months][1][p][2]+" - "+events[0][months][1][p][0]+"</p><p class='text-left m-0'><span class='far fa-calendar-alt'></span>&nbsp;– "+events[0][months][1][p][1]+"</p>";
+                                if ($(day).hasClass("project-deadline") || $(day).hasClass("project-group-deadline") || $(day).hasClass("project-meeting")) {
+                                    event_pd = $(day).attr("title") + '<hr class="m-1 separator">' + event_pd;
+                                } else {
+                                    $(day).attr('data-toggle', 'tooltip');
+                                    $(day).attr('data-placement', 'right');
+                                    $(day).attr('data-container', 'body');
+                                    $(day).attr('data-html', 'true');
+                                }
+                                $(day).addClass("project-deadline");
+                                $(day).attr('title', event_pd);
                             }
                             if (start == events[1][months][0][p]) {
-                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).addClass("project-group-deadline");
-                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('data-toggle', 'tooltip');
-                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('data-placement', 'right');
-                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('data-container', 'body');
-                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('data-html', 'true');
-                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('title', "<span class='far fa-users float-left mt-1'></span><p class='text-left m-0'>&nbsp;– "+events[1][months][1][p][2]+" - "+events[1][months][1][p][0]+"<br> {{__('gx.group formation deadline')}} <br> "+events[1][months][1][p][1]+"</p>");
+                                let event_pgd = "<p class='text-left m-0'><span class='far fa-users float-left'></span>&nbsp;– {{__('gx.group formation deadline')}}</p><p class='text-left m-0'><span class='far fa-book'></span>&nbsp;– "+events[1][months][1][p][2]+" - "+events[1][months][1][p][0]+"</p><p class='text-left m-0'><span class='far fa-calendar-alt'></span>&nbsp;– "+events[1][months][1][p][1]+"</p>";
+                                if ($(day).hasClass("project-deadline") || $(day).hasClass("project-group-deadline") || $(day).hasClass("project-meeting")) {
+                                    event_pgd = $(day).attr("title") + '<hr class="m-1 separator">' + event_pgd;
+                                } else {
+                                    $(day).attr('data-toggle', 'tooltip');
+                                    $(day).attr('data-placement', 'right');
+                                    $(day).attr('data-container', 'body');
+                                    $(day).attr('data-html', 'true');
+                                }
+                                $(day).addClass("project-group-deadline");
+                                $(day).attr('title', event_pgd);
                             }
                         }
                         if (events[months+2][0].length > events[months+2][1].length) {
@@ -529,16 +557,19 @@ z-index: 0;">
                         } else {
                             max1 = events[months+2][1].length;
                         }
-                        console.log(max1);
                         for (let m = 0; m <= max1; m++) {
-                            console.log("lol");
                             if (start == events[months+2][0][m]) {
-                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).addClass("project-meeting");
-                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('data-toggle', 'tooltip');
-                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('data-placement', 'right');
-                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('data-container', 'body');
-                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('data-html', 'true');
-                                $(".month"+[months+1]+"-cal .week"+week+" ."+weekday).attr('title', "<span class='far fa-handshake float-left mt-1'></span><p class='text-left m-0'>&nbsp;– "+events[months+2][1][m][5]+" - "+events[months+2][1][m][4]+"<br> {{__('gx.meeting')}} <br> "+events[months+2][1][m][1]+"<br>"+events[months+2][1][m][2]+"&nbsp;"+events[months+2][1][m][3]+"</p>");
+                                let event_pm = "<p class='text-left m-0'><span class='far fa-handshake float-left'></span>&nbsp;– {{__('gx.meeting')}}</p><p class='text-left m-0'><span class='far fa-book'></span>&nbsp;– "+events[months+2][1][m][5]+" - "+events[months+2][1][m][4]+"</p><p class='text-left m-0'><span class='far fa-map-marker-alt'></span>&nbsp;– "+events[months+2][1][m][1]+"</p><p class='text-left m-0'><span class='far fa-calendar-alt'></span>&nbsp;– "+events[months+2][1][m][2]+"&nbsp;"+events[months+2][1][m][3]+"</p>";
+                                if ($(day).hasClass("project-deadline") || $(day).hasClass("project-group-deadline") || $(day).hasClass("project-meeting")) {
+                                    event_pm = $(day).attr("title") + '<hr class="m-1 separator">' + event_pm;
+                                } else {
+                                    $(day).addClass("project-meeting");
+                                    $(day).attr('data-toggle', 'tooltip');
+                                    $(day).attr('data-placement', 'right');
+                                    $(day).attr('data-container', 'body');
+                                    $(day).attr('data-html', 'true');
+                                }
+                                $(day).attr('title', event_pm);
                             }
                         }
                         start = moment(start).add(1, 'day').format('YYYY-MM-DD');
@@ -554,7 +585,6 @@ z-index: 0;">
             }
         }
 
-        moment.locale("{{ str_replace('_', '-', app()->getLocale()) }}");
         const cal = new Calendar();
         cal.init();
 
@@ -563,36 +593,42 @@ z-index: 0;">
         table {
             table-layout: fixed;
         }
+        .month1, .month2 {
+            color: #2c3fb1;
+        }
         tr {
             line-height: 37px;
             min-height: 37px;
             height: 37px;
         }
         .today, .project-deadline, .project-group-deadline, .project-meeting {
-            font-weight: 800;
-            color: #2c3fb1;
+            font-weight: 500;
             border-radius: 100%;
             box-shadow: 0 5px 10px -5px rgba(0, 0, 0, .75);
         }
-        .today  {
+        .project-deadline, .project-group-deadline, .project-meeting {
+            background-color: #2c3fb1;
+            color: white;
+            opacity: 0.9;
+        }
+        .past {
+            opacity: 0.5;
+        }
+        .today {
             background-color: white;
-        }
-        .project-deadline {
-            background-color: red;
-        }
-        .project-group-deadline {
-            background-color: green;
-        }
-        .project-meeting {
-            background-color: yellow;
+            opacity: 1 !important;
+            color: #2c3fb1;
         }
         .tooltip {
         }
         .tooltip .tooltip-inner {
-            min-width: 200px;
-            max-width: 250px;
+            min-width: 215px;
+            max-width: 300px;
         }
         .arrow {
+        }
+        .separator {
+            border-top: 1px solid white; !important
         }
     </style>
 </div>

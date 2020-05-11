@@ -52,7 +52,7 @@ class ProfessorProjectsController extends Controller
                 'group_formation_deadline' => 'required',
                 'documentation' => 'required'
             ]);
-
+            //dd($request->deadline);
             $project = new Project;
             $project->name = $request->title;
             $project->dueDate = Carbon::parse($request->deadline);
@@ -189,7 +189,7 @@ class ProfessorProjectsController extends Controller
     public function destroy($id)
     {
         $project = Project::find($id);
-        Storage::deleteDirectory('documentation/'.$project->idProject);
+        Storage::delete('documentation/'.$project->idProject."/".$project->documentation);
         $project->delete();
         return redirect('/')->with('success', 'Project Deleted');
     }
