@@ -15,20 +15,20 @@ z-index: 1; margin-right: 15px;margin-top: 5px;
                        <input type="text" placeholder="Search" class="form-control" id="searchinput" name="searchinput" style="font-size:12px; ">
                    </div>
                    <ul class="users">
-                       @foreach($users as $user)
-                           <li class="user" id="{{ $user->id }}" name="{{ $user->name }}">
+                       @for($i = 0; $i < count($arr_users); $i++)
+                           <li class="user" id="{{ $arr_users[$i]->id }}" name="{{ $arr_users[$i]->name }}">
                                <div class="media">
                                    <div class="media-left">
-                                       <img src="{{Storage::url('profilePhotos/'.$user->photo)}}" alt="" class="media-object">
+                                       <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
                                    </div>
 
                                    <div class="media-body">
-                                       <p class="name" style="font-size: 12px;">{{ $user->name }}</p>
+                                       <p class="name" style="font-size: 12px;">{{ $arr_users[$i]->name }}</p>
                                        {{--<p class="email">{{ $user->email }}</p>--}}
                                    </div>
                                </div>
                            </li>
-                       @endforeach
+                       @endfor
                    </ul>
                </div>
            </div>

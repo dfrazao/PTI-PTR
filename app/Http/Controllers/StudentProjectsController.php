@@ -191,9 +191,6 @@ class StudentProjectsController extends Controller
             $idComment = AnnouncementComment::all()->where('idAnnouncement', '==', $idA)->count();
             array_push($numberComments, $idComment);
         }
-
-
-
         return view('student.project')->with('project' , $project)->with('subject', $subject)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup)->with('notes',$notes)->with('a',$announcements)->with('meeting',$meeting)->with('groupUsers', $Users)->with('schedule', $schedule)->with('gu',$gusers);
     }
 
