@@ -141,50 +141,103 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade" id="recursos" role="tabpanel" aria-labelledby="recursos-tab" style=" position: relative">
-            <div class="row mt-2" style="height: 75vh;">
-                <div class="col-sm-5">
-                    <div class="container bg-light rounded h-100">
-                        <h4>Últimos Anúncios</h4>
-                        @if(count($announcements) > 0)
-                            @for($i = 0; $i < count($announcements); $i++)
-                                <div class="container-xl-fluid mt-3 p-3 rounded" style="background-color: white;">
-                                    <header class="header row mb-3 pl-3">
-                                        <div class="mr-3">
-                                            <a href="/profile/{{$userPoster[$i]->id }}">
-                                                <img class="editable img-responsive" style="border-radius: 100%; height: 50px; width: 50px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$userPoster[$i]->photo)}}">
-                                            </a>
-                                        </div>
-                                        <div>
-                                            <h5><a href="/student/project/{{$project->idProject}}/post/{{$announcements[$i]->idAnnouncement}}">{{$announcements[$i]->title}}</a></h5>
-                                            <h6>By: <a href="/profile/{{$userPoster[$i]->id }}">{{$userPoster[$i]->name}}</a><small> - Posted on {{$announcements[$i]->date}}</small></h6>
-                                        </div>
-                                    </header>
-                                </div>
-                            @endfor
-                        @else
-                            <tr>
-                                <td colspan="4"><h5>No posts found</h5></td>
-                            </tr>
-                        @endif
+        <div class=" container tab-pane fade" id="recursos" role="tabpanel" aria-labelledby="recursos-tab">
+                    <div class="row h-100 p-3">
+                        <div class=" col-8 rounded bg-white w-100 p-3 h-100 mr-3" style="position: relative; width: 500px;">
 
+                            <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modalEdit-{{$project->idProject}}">{{__('gx.edit project')}}</button>                            <h4>Características</h4>
+                            <div class="modal fade" id="modalEdit-{{$project->idProject}}" aria-labelledby="modalEdit-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.edit project')}}</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            {!! Form::open(['action' => ['ProfessorProjectsController@update', $project->idProject], 'method' => 'POST', 'enctype' => 'multipart/form-data', 'id' => 'formEdit']) !!}
+                                            <div class="form-group">
+                                                {{Form::label('title', trans('gx.name'))}}
+                                                {{Form::text('title', $project->name, ['class' => 'form-control', 'placeholder' => trans('gx.project name')])}}
+                                            </div>
+                                            <div class="form-group">
+                                                {{Form::label('deadline', trans('gx.group formation deadline'))}}
+                                                {{Form::date('group formation deadline', $project->groupCreationDueDate, ['class' => 'form-control'])}}
+                                            </div>
+                                            <div class="form-group">
+                                                {{Form::label('deadline', trans('gx.deadline'))}}
+                                                {{Form::date('deadline', $project->dueDate, ['class' => 'form-control'])}}
+                                            </div>
+                                            <div class="form-group">
+                                                {{Form::label('minNumber', trans('gx.minimum no. of members'))}}
+                                                {{Form::selectRange('minNumber', 1, 10, $project->minElements)}}
+                                            </div>
+                                            <div class="form-group">
+                                                {{Form::label('maxNumber', trans('gx.maximum no. of members'))}}
+                                                {{Form::selectRange('maxNumber', 1, 10, $project->maxElements)}}
+                                            </div>
+                                            {{ Form::hidden('subject', $subject->idSubject) }}
+                                            {{Form::hidden('option', 'project')}}
+
+                                            {{Form::hidden('_method','PUT')}}
+                                            {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
+                                            {!! Form::close() !!}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="pt-3">
+                                <table class="table ">
+                                    <tr >
+                                        <th scope="row">Prazo de entrega</th scope="row">
+                                        <td>{{$project->dueDate}}</td>
+                                        <td>{{$project->dueDate}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Prazo para criação de grupos</th>
+                                        <td>{{$project->groupCreationDueDate}}</td>
+                                        <td>{{$project->dueDate}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Nº máximo de grupos</th>
+                                        <td colspan="2">{{$project->maxGroups}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Nº mínimo de elementos por Grupo</th>
+                                        <td colspan="2">{{$project->minElements}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Nº máximo de elementos por Grupo</th>
+                                        <td colspan="2">{{$project->maxElements}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <hr style="border-top: 4px double #8c8b8b; text-align: center;">
+                            <table class="table style1">
+                                <tbody>
+                                <tr >
+                                    <th scope="row">Número de grupos</th>
+                                    <td colspan="2" >{{count($groups)}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Grupos que não cumprem os requisitos</th>
+                                    <td style="width: 27%">xx</td>
+                                    <td><button type="button" class="btn btn-outline-primary btn-sm m-0 waves-effect">Show</button></td>
+                                </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                        <div class=" col rounded bg-white w-100 p-3 " style="position: relative;">
+                            <h5>Documentação</h5>
+                            <button type="button" class="p-2 btn btn-primary btn-md" style="position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal">Upload Files</button>
+
+                        </div>
                     </div>
-                </div>
-                <div class="col-sm-7">
-                    <div class="overflow-auto bg-light rounded h-50" style="position: relative;">
-                        <h3 class="pt-3 pl-3">Ficheiros</h3>
-                        <p>Enunciado v1</p>
-                        <p>Enunciado v2</p>
-                        <button type="button" class="p-2 btn btn-primary btn-lg float-right" style="background-color: #2c3fb1; border-color: #2c3fb1; position:absolute; right: 2rem; bottom: 1rem;">Upload Ficheiros</button>
-                    </div>
-                    <div class="overflow-auto bg-light rounded h-50 border-top">
-                        <h3 class="pt-3 pl-3">Recursos</h3>
-                        <p>Lista de Exercícios</p>
-                        <p>Horários da disciplina</p>
-                        <button type="button" class="p-2 btn btn-primary btn-lg float-right" style="background-color: #2c3fb1; border-color: #2c3fb1; position:absolute; right: 2rem; bottom: 1rem;">Upload Recursos</button>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <div class="tab-pane fade" id="forum" role="tabpanel" aria-labelledby="noticias-tab">
@@ -242,4 +295,19 @@
     }
     $('#pills-tab a[href="' + hash + '"]').tab('show');
 </script>
+<style>
+    .style1 > tbody > tr:first-child > td {
+        border: none;
+    }
+    .style1 > tbody > tr:first-child > th {
+        border: none;
+    }
+
+    td {
+        text-align: center;
+    }
+    th{
+        width: 46%;
+    }
+</style>
 @endsection
