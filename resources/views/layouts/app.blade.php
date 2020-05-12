@@ -18,6 +18,8 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
     <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/emojionearea.min.css')}}"/>
+    <script type="text/javascript" src="{{asset('js/emojionearea.min.js')}}"></script>
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -38,6 +40,7 @@
     moment.locale("{{ str_replace('_', '-', app()->getLocale()) }}");
 </script>
 <body>
+
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background-color: #2c3fb1;z-index: 1;">
 
         <!-- Left Side Of Navbar -->
@@ -123,7 +126,6 @@
 
 
 @yield('content')
-
 
 </body>
 </html>

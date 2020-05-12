@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 
-   <div class="container-md" id="testee" style="width: 500px;position: relative;
+   <div class="container-md" id="testee" style="width: 450px;position: relative;
 z-index: 1; margin-right: 15px;margin-top: 5px;
             background:white;
             border-radius:6px;
@@ -58,15 +58,13 @@ z-index: 1; margin-right: 15px;margin-top: 5px;
 
            <div class="input-text" style="display: none; margin: 10px;">
                <div class="input-group mb-3">
-                   <input type="text" name="message" maxlength="500" class="form-control">
-
+                   <input type="text"  name="message" autocomplete="off"   maxlength="500" class="form-control" id="message" data-emoji-input="unicode" data-emojiable="true">
                    <div class="input-group-append">
                        <button class="btn btn-outline-primary send_btn"><i class="fas fa-location-arrow"></i></button>
-
                    </div>
                </div>
-
            </div>
+
 
            </div>
        </div>
@@ -135,8 +133,9 @@ z-index: 1; margin-right: 15px;margin-top: 5px;
        }
        .media-left img {
            width:40px;
-           border:3px solid #fff;
-           border-radius:50%;
+           height:40px;
+           border-radius: 100%; object-fit: cover;
+           border:2px solid #fff;
        }
        .media-body p {
            margin: 6px 0;
@@ -149,7 +148,7 @@ z-index: 1; margin-right: 15px;margin-top: 5px;
        }
        .messages .message {
            margin-bottom: 15px;
-           font-size: 12px;
+           font-size: 14px;
        }
        .messages .message:last-child {
            margin-bottom: 0;
@@ -292,44 +291,49 @@ z-index: 1; margin-right: 15px;margin-top: 5px;
            });
 
 
-           $(document).on('keyup', '.input-text input', function (e) {
-               var message = $(this).val();
-               // check if enter key is pressed and message is not null also receiver is selected
-               if (e.keyCode == 13 && message != '' && receiver_id != '') {
-                   $(this).val(''); // while pressed enter text box will be empty
-                   var datastr = "receiver_id=" + receiver_id + "&message=" + message;
-                   $.ajax({
-                       type: "post",
-                       url: "message", // need to create this post route
-                       data: datastr,
-                       cache: false,
-                       success: function (data) {
+           var mes = $("#message").emojioneArea({
+               searchPlaceholder: "",
+               pickerPosition: "bottom",
+               filtersPosition: "bottom",
+               events: {
+                   keyup: function (editor, event) {
+                       if(event.which == 13){
+                           event.preventDefault(); // < ---------- preventDefault
+                           var message = $('#message').data("emojioneArea").getText();
+                           // check if enter key is pressed and message is not null also receiver is selected
+                           if (message != '' && receiver_id != '') {
+                               $('#message').data("emojioneArea").setText(""); // this work
+                               var datastr = "receiver_id=" + receiver_id + "&message=" + message;
 
-                       },
-                       error: function (jqXHR, status, err) {
-                       },
-                       complete: function () {
-                           scrollToBottomFunc();
+                               $.ajax({
+                                   type: "post",
+                                   url: "message", // need to create this post route
+                                   data: datastr,
+                                   cache: false,
+                                   success: function (data) {
+
+                                   },
+                                   error: function (jqXHR, status, err) {
+                                   },
+                                   complete: function () {
+                                       scrollToBottomFunc();
+                                   }
+                               })
+                           }
                        }
-                   })
-                   $.ajax({
-                       type: "get",
-                       url: "message/" + receiver_id, // need to create this route
-                       data: "",
-                       cache: false,
-                       success: function (data) {
-                           $('#messages').html(data);
-                           scrollToBottomFunc();
-                       }
-                   });
+                   },
+
                }
            });
 
+
            $(document).on('click', '.send_btn', function () {
                var message = $('.input-text input').val();
-               // check if enter key is pressed and message is not null also receiver is selected
+                console.log(message);
                if (message != '' && receiver_id != '') {
-                   $('.input-text input').val(''); // while pressed enter text box will be empty
+                   $('.input-text input').val(""); // while pressed enter text box will be empty
+                   console.log($('.input-text input').val());
+                   document.getElementById('message').value = '';
                    var datastr = "receiver_id=" + receiver_id + "&message=" + message;
                    $.ajax({
                        type: "post",
@@ -337,7 +341,6 @@ z-index: 1; margin-right: 15px;margin-top: 5px;
                        data: datastr,
                        cache: false,
                        success: function (data) {
-
                        },
                        error: function (jqXHR, status, err) {
                        },
@@ -345,23 +348,13 @@ z-index: 1; margin-right: 15px;margin-top: 5px;
                            scrollToBottomFunc();
                        }
                    })
-                   $.ajax({
-                       type: "get",
-                       url: "message/" + receiver_id, // need to create this route
-                       data: "",
-                       cache: false,
-                       success: function (data) {
-                           $('#messages').html(data);
-                           scrollToBottomFunc();
-                       }
-                   });
                }
            });
            // make a function to scroll down auto
            function scrollToBottomFunc() {
                $('.message-wrapper').animate({
                    scrollTop: $('.message-wrapper').get(0).scrollHeight
-               }, 50);
+               }, 0);
            }
 
            $("body").on( "click", '.user', function( event ){
