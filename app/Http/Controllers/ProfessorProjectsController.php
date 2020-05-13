@@ -52,11 +52,11 @@ class ProfessorProjectsController extends Controller
                 'group_formation_deadline' => 'required',
                 'documentation' => 'required'
             ]);
-
+            //dd($request->deadline);
             $project = new Project;
             $project->name = $request->title;
-            $project->dueDate = date('Y-m-d H:i:s', strtotime($request->deadline));
-            $project->groupCreationDueDate = date('Y-m-d H:i:s', strtotime($request->group_formation_deadline));
+            $project->dueDate = Carbon::parse($request->deadline);
+            $project->groupCreationDueDate = Carbon::parse($request->group_formation_deadline);
             $project->minElements = $request->minNumber;
             $project->maxElements = $request->maxNumber;
             $project->idSubject = $request->subject;
@@ -141,16 +141,14 @@ class ProfessorProjectsController extends Controller
         if($request->option=="project") {
             $this->validate($request, [
                 'title' => 'required',
+                'deadline' => 'required',
+                'group_formation_deadline' => 'required'
             ]);
 
             $project = Project::find($id);
             $project->name = $request->title;
-            if (isset($request->deadline)) {
-                $project->dueDate = date('Y-m-d H:i:s', strtotime($request->deadline));
-            }
-            if (isset($request->group_formation_deadline)) {
-                $project->dueDate = date('Y-m-d H:i:s', strtotime($request->group_formation_deadline));
-            }
+            $project->dueDate = Carbon::parse($request->deadline);
+            $project->groupCreationDueDate = Carbon::parse($request->group_formation_deadline);
             $project->minElements = $request->minNumber;
             $project->maxElements = $request->maxNumber;
             $project->idSubject = $project->idSubject;

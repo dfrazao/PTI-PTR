@@ -14,18 +14,209 @@
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="conteudo-tab" data-toggle="tab" href="#conteudo" role="tab" aria-controls="conteudo" aria-selected="true">Grupos</a>
+            <a class="nav-link" id="characteristics-tab" data-toggle="tab" href="#characteristics" role="tab" aria-controls="characteristics" aria-selected="false">Características</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="groups-tab" data-toggle="tab" href="#groups" role="tab" aria-controls="groups" aria-selected="true">Grupos</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="forum-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="false">Fórum</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" id="recursos-tab" data-toggle="tab" href="#recursos" role="tab" aria-controls="recursos" aria-selected="false">Recursos</a>
-        </li>
     </ul>
 
     <div class="tab-content" id="myTabContent" style="min-height: 75vh; background-color: #ededed;">
-        <div class="container-fluid ml-0 mr-0 tab-pane fade active show" id="conteudo" role="tabpanel" aria-labelledby="conteudo-tab">
+        <div class="container tab-pane fade" id="characteristics" role="tabpanel" aria-labelledby="characteristics-tab">
+            <div class="row h-100 p-3">
+                <div class=" col-8 rounded bg-white w-100 p-3 h-100 mr-3" style="position: relative; width: 500px;">
+
+                    <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modalEdit-{{$project->idProject}}">{{__('gx.edit project')}}</button>                            <h4>Características</h4>
+                    @if($subject->idSubject == $project->idSubject)
+                        <div class="modal fade" id="modalEdit-{{$project->idProject}}" aria-labelledby="modalEdit-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.edit project')}}</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {!! Form::open(['action' => ['ProfessorProjectsController@update', $project->idProject], 'method' => 'POST', 'enctype' => 'multipart/form-data', 'id' => 'formEdit']) !!}
+                                        <div class="form-group">
+                                            {{Form::label('title', trans('gx.name'))}}
+                                            {{Form::text('title', $project->name, ['class' => 'form-control', 'placeholder' => trans('gx.project name')])}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{Form::label('deadline', trans('gx.group formation deadline'))}}
+                                            {{Form::text('group formation deadline', $project->groupCreationDueDate, ['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker1-'.$project->idProject, 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker1-'.$project->idProject, (\Carbon\Carbon::now()->diffInDays($project->groupCreationDueDate, false) > 0 ? :'disabled')])}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{Form::label('deadline', trans('gx.deadline'))}}
+                                            {{Form::text('deadline', $project->dueDate, ['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker2-'.$project->idProject, 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker2-'.$project->idProject, (\Carbon\Carbon::now()->floatDiffInHours($project->dueDate, false) > 0 ? :'disabled')])}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{Form::label('minNumber', trans('gx.minimum no. of members'))}}
+                                            {{Form::selectRange('minNumber', 1, 10, $project->minElements)}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{Form::label('maxNumber', trans('gx.maximum no. of members'))}}
+                                            {{Form::selectRange('maxNumber', 1, 10, $project->maxElements)}}
+                                        </div>
+                                        {{ Form::hidden('subject', $subject->idSubject) }}
+                                        {{Form::hidden('option', 'project')}}
+
+                                        {{Form::hidden('_method','PUT')}}
+                                        {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
+                                        {!! Form::close() !!}
+                                    </div>
+                                    <script>
+                                        $(function() {$( "#datetimepicker1-{{$project->idProject}}" ).datetimepicker({
+                                            minDate: moment().format('YYYY-MM-DD HH:mm'),
+                                            date: moment('{{$project->groupCreationDueDate}}').format('YYYY-MM-DD HH:mm'),
+                                            locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
+                                            icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
+                                        });});
+                                        $(function() {$( "#datetimepicker2-{{$project->idProject}}" ).datetimepicker({
+                                            minDate: moment().format('YYYY-MM-DD HH:mm'),
+                                            date: moment('{{$project->dueDate}}').format('YYYY-MM-DD HH:mm'),
+                                            locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
+                                            icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
+                                        });});
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+
+                    <div class="pt-3">
+                        <table class="table ">
+                            <tr >
+                                <th scope="row">Prazo de entrega</th>
+                                <td>{{$project->dueDate}}</td>
+                                <td>
+                                    <div id="timer"></div>
+                                    <style>
+                                        #timer {
+                                            font-size: 3em;
+                                            font-weight: 100;
+                                            color: navy;
+                                        }
+
+                                        #timer div {
+                                            display: inline-block;
+                                            min-width: 90px;
+                                        }
+
+                                        #timer div span {
+                                            color: #B1CDF1;
+                                            display: block;
+                                            font-size: .25em;
+                                            font-weight: 400;
+                                        }
+                                    </style>
+                                    <script>
+                                        function updateTimer() {
+                                            future = Date.parse("{{$project->dueDate}}");
+                                            now = new Date();
+                                            diff = future - now;
+
+                                            days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                                            hours = Math.floor(diff / (1000 * 60 * 60));
+                                            mins = Math.floor(diff / (1000 * 60));
+                                            secs = Math.floor(diff / 1000);
+
+                                            d = days;
+                                            h = hours - days * 24;
+                                            m = mins - hours * 60;
+                                            s = secs - mins * 60;
+
+                                            document.getElementById("timer")
+                                                .innerHTML =
+                                                '<div>' + d + '<span>days</span></div>' +
+                                                '<div>' + h + '<span>hours</span></div>' +
+                                                '<div>' + m + '<span>minutes</span></div>';
+                                        }
+                                        setInterval('updateTimer()', 1000);
+                                    </script>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Prazo para criação de grupos</th>
+                                <td>{{$project->groupCreationDueDate}}</td>
+                                <td>{{$project->dueDate}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Nº máximo de grupos</th>
+                                <td colspan="2">{{$project->maxGroups}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Nº mínimo de elementos por Grupo</th>
+                                <td colspan="2">{{$project->minElements}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Nº máximo de elementos por Grupo</th>
+                                <td colspan="2">{{$project->maxElements}}</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <hr style="border-top: 4px double #8c8b8b; text-align: center;">
+                    <table class="table style1">
+                        <tbody>
+                        <tr >
+                            <th scope="row">Número de grupos</th>
+                            <td colspan="2" >{{count($groups)}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Grupos que não cumprem os requisitos</th>
+                            <?php $count = 0 ?>
+                            @foreach($groups as $group)
+                                @if(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup)->count() < $project->minElements)
+                                    <?php $count++ ?>
+                                @endif
+                            @endforeach
+                            <td  {{($count > 0 ? "colspan='2'": "")}}>
+                                {{$count}}
+                            </td>
+
+                            @if($count >= 1)
+                                <td style="width: 26%;"><button type="button" class="btn btn-outline-primary btn-sm m-0 waves-effect" data-toggle="modal" data-target="#modalGroups-{{$project->idProject}}">Show</button></td>
+                                <div class="modal fade" id="modalGroups-{{$project->idProject}}" aria-labelledby="modalGroups-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="staticBackdropLabel">Grupos</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                @foreach($groups as $group)
+                                                    @if(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup)->count() < $project->minElements)
+                                                        <a href="/professor/project/{{$project->idProject}}#pills-{{$group->idGroupProject}}">Grupo {{$group->idGroupProject}}</a>
+                                                    @endif
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+                <div class=" col rounded bg-white w-100 p-3 " style="position: relative;">
+                    <h5>Documentação</h5>
+                    <button type="button" class="p-2 btn btn-primary btn-md" style="position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal">Upload Files</button>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid ml-0 mr-0 tab-pane fade" id="groups" role="tabpanel" aria-labelledby="groups-tab">
             <div class="row rounded " style="height: 75vh;">
                 <div class="col mt-3 mb-3 ml-3 rounded center" style="background-color: #c6c6c6; position: relative;">
                     <div class="container pt-3 overflow-auto mw-80" >
@@ -141,106 +332,8 @@
                 </div>
             </div>
         </div>
-        <div class=" container tab-pane fade" id="recursos" role="tabpanel" aria-labelledby="recursos-tab">
-                    <div class="row h-100 p-3">
-                        <div class=" col-8 rounded bg-white w-100 p-3 h-100 mr-3" style="position: relative; width: 500px;">
 
-                            <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modalEdit-{{$project->idProject}}">{{__('gx.edit project')}}</button>                            <h4>Características</h4>
-                            <div class="modal fade" id="modalEdit-{{$project->idProject}}" aria-labelledby="modalEdit-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.edit project')}}</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            {!! Form::open(['action' => ['ProfessorProjectsController@update', $project->idProject], 'method' => 'POST', 'enctype' => 'multipart/form-data', 'id' => 'formEdit']) !!}
-                                            <div class="form-group">
-                                                {{Form::label('title', trans('gx.name'))}}
-                                                {{Form::text('title', $project->name, ['class' => 'form-control', 'placeholder' => trans('gx.project name')])}}
-                                            </div>
-                                            <div class="form-group">
-                                                {{Form::label('deadline', trans('gx.group formation deadline'))}}
-                                                {{Form::date('group formation deadline', $project->groupCreationDueDate, ['class' => 'form-control'])}}
-                                            </div>
-                                            <div class="form-group">
-                                                {{Form::label('deadline', trans('gx.deadline'))}}
-                                                {{Form::date('deadline', $project->dueDate, ['class' => 'form-control'])}}
-                                            </div>
-                                            <div class="form-group">
-                                                {{Form::label('minNumber', trans('gx.minimum no. of members'))}}
-                                                {{Form::selectRange('minNumber', 1, 10, $project->minElements)}}
-                                            </div>
-                                            <div class="form-group">
-                                                {{Form::label('maxNumber', trans('gx.maximum no. of members'))}}
-                                                {{Form::selectRange('maxNumber', 1, 10, $project->maxElements)}}
-                                            </div>
-                                            {{ Form::hidden('subject', $subject->idSubject) }}
-                                            {{Form::hidden('option', 'project')}}
-
-                                            {{Form::hidden('_method','PUT')}}
-                                            {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
-                                            {!! Form::close() !!}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="pt-3">
-                                <table class="table ">
-                                    <tr >
-                                        <th scope="row">Prazo de entrega</th scope="row">
-                                        <td>{{$project->dueDate}}</td>
-                                        <td>{{$project->dueDate}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Prazo para criação de grupos</th>
-                                        <td>{{$project->groupCreationDueDate}}</td>
-                                        <td>{{$project->dueDate}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Nº máximo de grupos</th>
-                                        <td colspan="2">{{$project->maxGroups}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Nº mínimo de elementos por Grupo</th>
-                                        <td colspan="2">{{$project->minElements}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Nº máximo de elementos por Grupo</th>
-                                        <td colspan="2">{{$project->maxElements}}</td>
-                                    </tr>
-                                </table>
-                            </div>
-
-                            <hr style="border-top: 4px double #8c8b8b; text-align: center;">
-                            <table class="table style1">
-                                <tbody>
-                                <tr >
-                                    <th scope="row">Número de grupos</th>
-                                    <td colspan="2" >{{count($groups)}}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Grupos que não cumprem os requisitos</th>
-                                    <td style="width: 27%">xx</td>
-                                    <td><button type="button" class="btn btn-outline-primary btn-sm m-0 waves-effect">Show</button></td>
-                                </tr>
-                                </tbody>
-
-                            </table>
-                        </div>
-                        <div class=" col rounded bg-white w-100 p-3 " style="position: relative;">
-                            <h5>Documentação</h5>
-                            <button type="button" class="p-2 btn btn-primary btn-md" style="position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal">Upload Files</button>
-
-                        </div>
-                    </div>
-        </div>
-
-        <div class="tab-pane fade" id="forum" role="tabpanel" aria-labelledby="noticias-tab">
+        <div class="container tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
             <div class="container mt-2 pb-3 rounded px-5 pt-3">
                 <div class="table-responsive">
                     <table class="table bg-white" style="text-align:center;">
@@ -277,23 +370,54 @@
     </div>
 </div>
 <script>
+    $('#myTab a').click(function(e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+
     $('#pills-tab a').click(function(e) {
         e.preventDefault();
         $(this).tab('show');
     });
 
     // store the currently selected tab in the hash value
+    var pills;
+    $("ul.nav-tabs > li > a").on("shown.bs.tab", function(e) {
+        var id = $(e.target).attr("href").substr(1);
+        if(id == "groups"){
+            if(pills !== undefined) {
+                window.location.hash = id + "." + pills;
+                $('#pills-tab a[href="#' + pills + '"]').tab('show');
+            }else{
+                window.location.hash = id + "." + "pills-1";
+                $('#pills-tab a[href="#pills-1"]').tab('show');
+            }
+        }else{
+            window.location.hash = id;
+        }
+    });
+
     $("ul.nav-pills > li > a").on("shown.bs.tab", function(e) {
         var id = $(e.target).attr("href").substr(1);
-        window.location.hash = id;
+        pills = id;
+        window.location.hash = window.location.hash.split(".")[0] + "." + id;
     });
 
     // on load of the page: switch to the currently selected tab
     var hash = window.location.hash;
     if(hash === ''){
-        hash = '#pills-1';
+        hash = '#characteristics';
     }
-    $('#pills-tab a[href="' + hash + '"]').tab('show');
+
+    if(hash.split(".")[0] == '#groups'){
+        pills = hash.split(".")[1];
+        $('#myTab a[href="' + hash.split(".")[0] + '"]').tab('show');
+    }else{
+        $('#myTab a[href="' + hash + '"]').tab('show');
+    }
+
+
+
 </script>
 <style>
     .style1 > tbody > tr:first-child > td {
