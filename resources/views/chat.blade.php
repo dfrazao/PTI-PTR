@@ -1,8 +1,6 @@
-@extends('layouts.app')
-@section('content')
 
-   <div class="container-md" id="testee" style="width: 450px;position: relative;
-z-index: 1; margin-right: 15px;margin-top: 5px;
+   <div class="container-md" id="testee" style="width: 450px;position: absolute;;
+z-index: 1; margin-left: 75%;margin-top: 5px;
             background:white;
             border-radius:6px;
             border: 1px #a5b2cb solid;
@@ -385,6 +383,4 @@ z-index: 1; margin-right: 15px;margin-top: 5px;
 
 
    </script>
-
-@endsection
 
