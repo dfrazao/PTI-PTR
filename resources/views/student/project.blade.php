@@ -129,20 +129,25 @@
 
                                                 <td class="form-group float-right pr-0">{{Form::Submit('Save', ['class'=>'btn btn-sm mr-2 btn-success', 'style'=>"width: 10vh", 'id'=>'Save'])}}<button type="button" class="btn btn-sm btn-danger editTask">Cancel</button></td>
                                             {!! Form::close() !!}
+                                            <style>
+                                                #datetimepicker1-{{$t->idTask}} #datetimepicker1-{{$t->idTask}}{
+                                                    width:
+                                                }
+                                            </style>
                                             <script>
                                                 $(function() {$( "#datetimepicker1-{{$t->idTask}}" ).datetimepicker({
                                                     minDate: moment().format('YYYY-MM-DD HH:mm'),
-                                                    date: moment('{{$t->beginning}}').format('YYYY-MM-DD HH:mm'),
+                                                    date: moment('{{\Carbon\Carbon::parse($t->beginning)}}').format('YYYY-MM-DD HH:mm'),
                                                     locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
                                                     icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"},
-                                                    defaultDate: moment('{{$t->beginning}}').format('YYYY-MM-DD HH:mm')
+                                                    defaultDate: moment('{{\Carbon\Carbon::parse($t->beginning)}}').format('YYYY-MM-DD HH:mm')
                                                 });});
                                                 $(function() {$( "#datetimepicker2-{{$t->idTask}}" ).datetimepicker({
                                                     minDate: moment().format('YYYY-MM-DD HH:mm'),
-                                                    date: moment('{{$t->end}}').format('YYYY-MM-DD HH:mm'),
+                                                    date: moment('{{\Carbon\Carbon::parse($t->end)}}').format('YYYY-MM-DD HH:mm'),
                                                     locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
                                                     icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"},
-                                                    defaultDate: moment('{{$t->end}}').format('YYYY-MM-DD HH:mm')
+                                                    defaultDate: moment('{{\Carbon\Carbon::parse($t->end)}}').format('YYYY-MM-DD HH:mm')
                                                 });});
                                                 $("#datetimepicker1-{{$t->idTask}}").on("change.datetimepicker", function (e) {
                                                     $('#datetimepicker2-{{$t->idTask}}').datetimepicker('minDate', e.date);
