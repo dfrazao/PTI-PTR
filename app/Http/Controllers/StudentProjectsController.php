@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Availability;
 use App\Http\Controllers\Controller;
 use App\Meeting;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Project;
 use App\Subject;
@@ -70,12 +71,11 @@ class StudentProjectsController extends Controller
                 'responsible' => 'required',
                 'beginning' => 'required'
             ]);
-
             $task = new Task;
             $task-> idGroup = $request ->input('group');
             $task-> description = $request->input('description');
             $task-> responsible = $request->input('responsible');
-            $task-> beginning = $request->input('beginning');
+            $task-> beginning = Carbon::parse($request->input('beginning'));
             $task->save();
 
             return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Task created successfully');
@@ -116,14 +116,12 @@ class StudentProjectsController extends Controller
             $this->validate($request, [
                 'description' => 'required',
                 'place' => 'required',
-                'date' => 'required',
-                'time' => 'required'
+                'date' => 'required'
             ]);
             $meeting = new Meeting;
             $meeting -> idGroup = $request->input('group');
             $meeting -> description = $request->input('description');
-            $meeting -> date = $request->input('date');
-            $meeting -> hour = $request->input('time');
+            $meeting -> date = Carbon::parse($request->input('date'));
             $meeting -> place = $request->input('place');
 
             $meeting->save();
@@ -154,20 +152,32 @@ class StudentProjectsController extends Controller
 
         // Tasks
         $arr = Task::all()->where('idGroup', '==', $idGroup);
+        if(count($arr)>0){
+            foreach ($arr as $task){
+                $task->beginning = Carbon::parse($task->beginning)->isoFormat('MMMM Do YYYY, h:mm a');
+                if(!is_null($task->end)){
+                    $task->end = Carbon::parse($task->end)->isoFormat('MMMM Do YYYY, h:mm a');
+                }
+            }
+        }
+
 
         //Notes
         $notes = Group::find($idGroup)->notes;
 
         //Meetings
         $meeting = Meeting::all()->where('idGroup','==', $idGroup);
+        if(count($meeting)>0){
+            foreach ($meeting as $m){
+                $m->date = Carbon::parse($m->date)->isoFormat('MMMM Do YYYY, h:mm a');
+            }
+        }
 
         //schedule
         $groupUsers = StudentsGroup::all()->where('idGroup', "==", $idGroup);
         $Users = [];
-        $gusers=[];
         foreach ($groupUsers as $gu){
             $stg = User::find($gu->idStudent);
-            array_push($gusers,$stg->name);
             array_push($Users, $stg);
         }
         $schedule = Availability::all()->where('idGroup','==', $idGroup);
@@ -191,7 +201,7 @@ class StudentProjectsController extends Controller
             $idComment = AnnouncementComment::all()->where('idAnnouncement', '==', $idA)->count();
             array_push($numberComments, $idComment);
         }
-        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup)->with('notes',$notes)->with('a',$announcements)->with('meeting',$meeting)->with('groupUsers', $Users)->with('schedule', $schedule)->with('gu',$gusers);
+        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup)->with('notes',$notes)->with('a',$announcements)->with('meeting',$meeting)->with('groupUsers', $Users)->with('schedule', $schedule);
     }
 
     /**
@@ -226,23 +236,24 @@ class StudentProjectsController extends Controller
         } else {
             $task->responsible = $task->value('responsible');
         }
-        if (!empty($request->input('beginning'))) {
-            $task->beginning = $request->input('beginning');
+        if (!empty(Carbon::parse($request->input('beginning')))) {
+            $task->beginning = Carbon::parse($request->input('beginning'));
         } else {
-            $task->beginning = $task->value('beginning');
+            $task->beginning = Carbon::parse($task->value('beginning'));
         }
-        if (!empty($request->input('end'))) {
-            $task->end = $request->input('end');
-            $start = $task->beginning;
-            $end = $task->end;
-            $datetime1 = new DateTime($start);
-            $datetime2 = new DateTime($end);
-            $interval = $datetime1->diff($datetime2);
-            $diff = $interval->format('%a');
-            $task->duration = $diff;
+        if (!empty(Carbon::parse($request->input('end')))) {
+            $task->end = Carbon::parse($request->input('end'));
+            $start = Carbon::parse($task->beginning);
+            $end = Carbon::parse($request->input('end'));
+            if($start->diffInDays($end) == 0) {
+                $task->duration = $end->diffForHumans($start);
+            }else{
+                $task->duration = $start->diffInDays($end). ' days and '.$start->diff($end)->format('%H:%I');
+            }
+
 
         } else {
-            $task->end = $task->value("end");
+            $task->end = Carbon::parse($task->value("end"));
         }
 
         $task->save();
@@ -260,7 +271,7 @@ class StudentProjectsController extends Controller
         $idTask = $request ->input('task');
         $task = Task::find($idTask);
         $task ->delete();
-        return redirect()->action('StudentProjectsController@show', $id)->with('success', 'Task updated successfully');
+        return redirect()->action('StudentProjectsController@show', $id)->with('success', 'Task deleted successfully');
     }
 
 }
