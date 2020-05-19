@@ -24,7 +24,7 @@ class ChatController extends Controller
         group by users.id, users.name, users.photo, users.email");*/
 
 
-        $mu = Chat::all()->where('sender', '==', $my_id)->pluck('receiver');
+        $mu = Chat::all()->where('sender', '==', $my_id)->sortByDesc('Date')->pluck('receiver');
         $unique = [];
         foreach ($mu as $m){
             array_push($unique, $m);
@@ -39,25 +39,6 @@ class ChatController extends Controller
     }
 
     public function getMessage($user_id)
-    {
-        $my_id = Auth::id();
-
-        // Make read all unread message
-//        Chat::where(['sender' => $user_id, 'receiver' => $my_id])->update(['is_read' => 1]);
-
-        // Get all message from selected user
-
-
-        $messages = Chat::where(function ($query) use ($user_id, $my_id) {
-            $query->where('sender', $user_id)->where('receiver', $my_id);
-        })->oRwhere(function ($query) use ($user_id, $my_id) {
-            $query->where('sender', $my_id)->where('receiver', $user_id);
-        })->get();
-
-        return view('messages.conv', ['messages' => $messages]);
-    }
-
-    public function getNewMessage($user_id)
     {
         $my_id = Auth::id();
 

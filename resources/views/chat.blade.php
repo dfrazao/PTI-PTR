@@ -1,6 +1,6 @@
 
    <div class="container-md" id="testee" style="width: 450px;position: absolute;;
-z-index: 1; margin-left: 75%;margin-top: 5px;
+z-index: 1; margin-left: 40%;margin-top: 5px;
             background:white;
             border-radius:6px;
             border: 1px #a5b2cb solid;
@@ -137,7 +137,7 @@ z-index: 1; margin-left: 75%;margin-top: 5px;
        }
        .media-body p {
            margin: 6px 0;
-           font-size: 10px;
+           font-size: 12px;
        }
        .message-wrapper {
            padding: 10px;
@@ -230,9 +230,9 @@ z-index: 1; margin-left: 75%;margin-top: 5px;
                width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
                overflow-x: hidden;
            }
-           .message p {
-               margin: 5px 0;
-               font-size: 12px;
+
+           .date{
+               font-size: 10px;
            }
            .media-body p {
                margin: 6px 0;
@@ -269,6 +269,16 @@ z-index: 1; margin-left: 75%;margin-top: 5px;
 
            var channel = pusher.subscribe('my-channel');
            channel.bind('my-event', function (data) {
+               $('#searchinput').val(null);
+               $value=$('#searchinput').val();
+               $.ajax({
+                   type : 'get',
+                   url : '{{URL::to('search')}}',
+                   data:{'search':$value},
+                   success:function(data){
+                       $('.users').html(data);
+                   }
+               });
                if (my_id == data.from) {
                    $('#' + data.to).click();
                } else if (my_id == data.to) {
@@ -276,6 +286,7 @@ z-index: 1; margin-left: 75%;margin-top: 5px;
                        // if receiver is selected, reload the selected user ...
                        $('#' + data.from).click();
                    } else {
+
                        // if receiver is not seleted, add notification for that user
                        var pending = parseInt($('#' + data.from).find('.pending').html());
 
@@ -286,6 +297,9 @@ z-index: 1; margin-left: 75%;margin-top: 5px;
                        }
                    }
                }
+
+
+
            });
 
 
@@ -315,6 +329,16 @@ z-index: 1; margin-left: 75%;margin-top: 5px;
                                    },
                                    complete: function () {
                                        scrollToBottomFunc();
+                                       $('#searchinput').val(null);
+                                       $value=$('#searchinput').val();
+                                       $.ajax({
+                                           type : 'get',
+                                           url : '{{URL::to('search')}}',
+                                           data:{'search':$value},
+                                           success:function(data){
+                                               $('.users').html(data);
+                                           }
+                                       });
                                    }
                                })
                            }
@@ -325,45 +349,14 @@ z-index: 1; margin-left: 75%;margin-top: 5px;
            });
 
 
-           $(document).on('click', '.send_btn', function () {
-               var message = $('.input-text input').val();
-                console.log(message);
-               if (message != '' && receiver_id != '') {
-                   $('.input-text input').val(""); // while pressed enter text box will be empty
-                   console.log($('.input-text input').val());
-                   document.getElementById('message').value = '';
-                   var datastr = "receiver_id=" + receiver_id + "&message=" + message;
-                   $.ajax({
-                       type: "post",
-                       url: "message", // need to create this post route
-                       data: datastr,
-                       cache: false,
-                       success: function (data) {
-                       },
-                       error: function (jqXHR, status, err) {
-                       },
-                       complete: function () {
-                           scrollToBottomFunc();
-                       }
-                   })
-               }
-           });
-           // make a function to scroll down auto
-           function scrollToBottomFunc() {
-               $('.message-wrapper').animate({
-                   scrollTop: $('.message-wrapper').get(0).scrollHeight
-               }, 0);
-           }
-
            $("body").on( "click", '.user', function( event ){
+               receiver_name = $(this).attr('name');
+
                $('.user').removeClass('active');
                $(this).addClass('active');
-
-
                $(this).find('.pending').remove();
                receiver_id = $(this).attr('id');
-               receiver_name = $(this).attr('name');
-               $("#name").html(receiver_name);
+               $("#name").text(receiver_name);
                $.ajax({
                    type: "get",
                    url: "message/" + receiver_id, // need to create this route
@@ -372,15 +365,100 @@ z-index: 1; margin-left: 75%;margin-top: 5px;
                    success: function (data) {
                        $('#messages').html(data);
                        scrollToBottomFunc();
+
                    }
                });
                $('.input-text').css("display", "block");
                $('.input-group-append').css("display", "block");
+
            });
        });
 
 
+       $(document).on('click', '.send_btn', function () {
+           var message = $('.input-text input').val();
+           if (message != '' && receiver_id != '') {
+               $('#message').data("emojioneArea").setText(""); // this work
+               var datastr = "receiver_id=" + receiver_id + "&message=" + message;
+               $.ajax({
+                   type: "post",
+                   url: "message", // need to create this post route
+                   data: datastr,
+                   cache: false,
+                   success: function (data) {
+                   },
+                   error: function (jqXHR, status, err) {
+                   },
+                   complete: function () {
+                       scrollToBottomFunc();
+                       $('#searchinput').val(null);
+                       $value=$('#searchinput').val();
+                       $.ajax({
+                           type : 'get',
+                           url : '{{URL::to('search')}}',
+                           data:{'search':$value},
+                           success:function(data){
+                               $('.users').html(data);
+                           }
+                       });
+                       var mes = $("#message").emojioneArea({
+                           searchPlaceholder: "",
+                           pickerPosition: "bottom",
+                           filtersPosition: "bottom",
+                           events: {
+                               keyup: function (editor, event) {
+                                   if(event.which == 13){
+                                       event.preventDefault(); // < ---------- preventDefault
+                                       var message = $('#message').data("emojioneArea").getText();
+                                       // check if enter key is pressed and message is not null also receiver is selected
+                                       if (message != '' && receiver_id != '') {
+                                           $('#message').data("emojioneArea").setText(""); // this work
+                                           var datastr = "receiver_id=" + receiver_id + "&message=" + message;
 
+                                           $.ajax({
+                                               type: "post",
+                                               url: "message", // need to create this post route
+                                               data: datastr,
+                                               cache: false,
+                                               success: function (data) {
 
+                                               },
+                                               error: function (jqXHR, status, err) {
+                                               },
+                                               complete: function () {
+                                                   scrollToBottomFunc();
+                                                   $('#searchinput').val("");
+                                               }
+                                           })
+                                       }
+                                   }
+                               },
+
+                           }
+                       });
+                   }
+               })
+           }
+       });
+
+       // make a function to scroll down auto
+       function scrollToBottomFunc() {
+           $('.message-wrapper').animate({
+               scrollTop: $('.message-wrapper').get(0).scrollHeight
+           }, 0);
+       }
+   </script>
+   <script type="text/javascript">
+       $('#searchinput').on('keyup',function(){
+           $value=$('#searchinput').val();
+           $.ajax({
+               type : 'get',
+               url : '{{URL::to('search')}}',
+               data:{'search':$value},
+               success:function(data){
+                   $('.users').html(data);
+               }
+           });
+       })
    </script>
 
