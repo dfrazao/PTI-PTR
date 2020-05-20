@@ -6,9 +6,9 @@
 <div class="container-xl-fluid mt-2 pl-5 pr-5 pb-2">
     @include('layouts.messages')
     <nav aria-label="breadcrumb" >
-        <ol class="breadcrumb pl-0 pb-0 mb-4 h4" style="background-color:white; ">
+        <ol class="breadcrumb pl-0 pb-0 mb-4 h3" style="background-color:white; ">
             <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page" >{{$subject->subjectName}} - {{$project->name}}</li>
+            <li class="breadcrumb-item " aria-current="page" >{{$subject->subjectName}} - {{$project->name}}</li>
         </ol>
     </nav>
 
@@ -22,7 +22,30 @@
         <li class="nav-item">
             <a class="nav-link" id="forum-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="false">Fórum</a>
         </li>
+        <li class="rightbutton ml-auto">
+            <button type="submit" class="btn btn-sm bg-danger" data-toggle="modal" data-target="#modalDelete-{{$project->idProject}}" style="width: 20vh;color: white;">Delete Project</button>
+        </li>
     </ul>
+
+    <div class="modal fade" id="modalDelete-{{$project->idProject}}" aria-labelledby="modalDelete-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.delete project')}}</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h5>{{__('gx.want to delete project?')}}</h5>
+                    {!!Form::open(['action' => ['ProfessorProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
+                    {{Form::hidden('_method', 'DELETE')}}
+                    {{Form::submit(trans('gx.delete'), ['class' => 'btn btn-danger'])}}
+                    {!!Form::close()!!}
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="tab-content" id="myTabContent" style="min-height: 75vh; background-color: #ededed;">
         <div class="container tab-pane fade" id="characteristics" role="tabpanel" aria-labelledby="characteristics-tab">
@@ -48,7 +71,7 @@
                                         </div>
                                         <div class="form-group">
                                             {{Form::label('deadline', trans('gx.group formation deadline'))}}
-                                            {{Form::text('group formation deadline', $project->groupCreationDueDate, ['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker1-'.$project->idProject, 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker1-'.$project->idProject, (\Carbon\Carbon::now()->diffInDays($project->groupCreationDueDate, false) > 0 ? :'disabled')])}}
+                                            {{Form::text('group formation deadline', $project->groupCreationDueDate, ['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker1-'.$project->idProject, 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker1-'.$project->idProject, (\Carbon\Carbon::now()->floatDiffInHours($project->groupCreationDueDate, false) > 0 ? :'disabled')])}}
                                         </div>
                                         <div class="form-group">
                                             {{Form::label('deadline', trans('gx.deadline'))}}
@@ -92,26 +115,96 @@
                     <div class="pt-3">
                         <table class="table ">
                             <tr>
-                                <th class="info-th" scope="row">Prazo de entrega</th>
-                                <td class="info-td">{{$project->dueDate}}</td>
-                                <td class="info-td">
+                                <th scope="row">Prazo para criação de grupos</th>
+                                <td>{{$project->groupCreationDueDate}}</td>
+                                <td>
+                                    <div id="timer2"></div>
+                                    <style>
+                                        #timer2 {
+                                            font-size: 1.30em;
+                                            font-weight: 100;
+                                            color: navy;
+                                        }
+
+                                        #timer2 div {
+                                            display: inline-block;
+                                            min-width: 45px;
+                                        }
+
+                                        #timer2 div span {
+                                            color: black;
+                                            display: block;
+                                            font-size: .50em;
+                                            font-weight: 400;
+                                        }
+                                    </style>
+                                    <script>
+                                        function updateTimer2() {
+                                            future = Date.parse("{{$project->groupCreationDueDate}}");
+                                            now = new Date();
+                                            diff = future - now;
+
+                                            days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                                            hours = Math.floor(diff / (1000 * 60 * 60));
+                                            mins = Math.floor(diff / (1000 * 60));
+                                            secs = Math.floor(diff / 1000);
+
+                                            d = days;
+                                            h = hours - days * 24;
+                                            m = mins - hours * 60;
+                                            s = secs - mins * 60;
+
+                                            if (d<0){
+                                                document.getElementById("timer2")
+                                                    .innerHTML = '<p>Terminado<p>';
+                                            }else if (d==0 && h==0 && m==0){
+                                                document.getElementById("timer2")
+                                                    .innerHTML = '<div>' + s + '<span>seconds</span></div>';
+                                            } else if (d==0 && h==0 && m==0 && s==0){
+                                                document.getElementById("timer2")
+                                                    .innerHTML = '<p>Terminado<p>';
+                                            }else if (d==0){
+                                                document.getElementById("timer2")
+                                                    .innerHTML =
+                                                    '<div>' + h + '<span>hours</span></div>' +
+                                                    '<div>' + m + '<span>minutes</span></div>' +
+                                                    '<div>' + s + '<span>seconds</span></div>';
+                                            }
+                                            else{
+                                                document.getElementById("timer2")
+                                                    .innerHTML =
+                                                    '<div>' + d + '<span>days</span></div>' +
+                                                    '<div>' + h + '<span>hours</span></div>' +
+                                                    '<div>' + m + '<span>minutes</span></div>';
+                                            }
+                                        }
+                                        updateTimer2();
+                                        setInterval('updateTimer2()', 1000);
+                                    </script>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Prazo de entrega</th>
+                                <td>{{$project->dueDate}}</td>
+                                <td style="width: 30%;">
                                     <div id="timer"></div>
                                     <style>
                                         #timer {
-                                            font-size: 3em;
+                                            font-size: 1.30em;
                                             font-weight: 100;
                                             color: navy;
                                         }
 
                                         #timer div {
                                             display: inline-block;
-                                            min-width: 90px;
+                                            min-width: 45px;
                                         }
 
                                         #timer div span {
-                                            color: #B1CDF1;
+                                            color: black;
                                             display: block;
-                                            font-size: .25em;
+                                            font-size: .50em;
                                             font-weight: 400;
                                         }
                                     </style>
@@ -131,32 +224,43 @@
                                             m = mins - hours * 60;
                                             s = secs - mins * 60;
 
-                                            document.getElementById("timer")
-                                                .innerHTML =
-                                                '<div>' + d + '<span>days</span></div>' +
-                                                '<div>' + h + '<span>hours</span></div>' +
-                                                '<div>' + m + '<span>minutes</span></div>';
+                                            if (d<0 || (d==0 && h==0 && m==0 && s==0)){
+                                                document.getElementById("timer")
+                                                    .innerHTML = '<p>Terminado<p>';
+                                            }else if (d==0 && h==0 && m==0){
+                                                document.getElementById("timer")
+                                                    .innerHTML = '<div>' + s + '<span>seconds</span></div>';
+                                            }else if (d==0){
+                                                document.getElementById("timer")
+                                                    .innerHTML =
+                                                    '<div>' + h + '<span>hours</span></div>' +
+                                                    '<div>' + m + '<span>minutes</span></div>' +
+                                                    '<div>' + s + '<span>seconds</span></div>';
+                                            }else{
+                                                document.getElementById("timer")
+                                                    .innerHTML =
+                                                    '<div>' + d + '<span>days</span></div>' +
+                                                    '<div>' + h + '<span>hours</span></div>' +
+                                                    '<div>' + m + '<span>minutes</span></div>';
+                                            }
                                         }
+                                        updateTimer();
                                         setInterval('updateTimer()', 1000);
                                     </script>
                                 </td>
                             </tr>
+
                             <tr>
-                                <th class="info-th" scope="row">Prazo para criação de grupos</th>
-                                <td class="info-td">{{$project->groupCreationDueDate}}</td>
-                                <td class="info-td">{{$project->dueDate}}</td>
+                                <th scope="row">Nº máximo de grupos</th>
+                                <td colspan="2">{{$project->maxGroups}}</td>
                             </tr>
                             <tr>
-                                <th class="info-th" scope="row">Nº máximo de grupos</th>
-                                <td class="info-td" colspan="2">{{$project->maxGroups}}</td>
+                                <th scope="row">Nº mínimo de elementos por Grupo</th>
+                                <td colspan="2">{{$project->minElements}}</td>
                             </tr>
                             <tr>
-                                <th class="info-th" scope="row">Nº mínimo de elementos por Grupo</th>
-                                <td class="info-td" colspan="2">{{$project->minElements}}</td>
-                            </tr>
-                            <tr>
-                                <th class="info-th" scope="row">Nº máximo de elementos por Grupo</th>
-                                <td class="info-td" colspan="2">{{$project->maxElements}}</td>
+                                <th scope="row">Nº máximo de elementos por Grupo</th>
+                                <td colspan="2">{{$project->maxElements}}</td>
                             </tr>
                         </table>
                     </div>
@@ -164,24 +268,22 @@
                     <hr style="border-top: 4px double #8c8b8b; text-align: center;">
                     <table class="table style1">
                         <tbody>
-                        <tr>
+                        <tr >
                             <th scope="row">Número de grupos</th>
                             <td colspan="2" >{{count($groups)}}</td>
                         </tr>
                         <tr>
-                            <th scope="row">Grupos que não cumprem os requisitos</th>
+                            <th scope="row" style="width: 45%;">Grupos que não cumprem os requisitos</th>
                             <?php $count = 0 ?>
                             @foreach($groups as $group)
                                 @if(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup)->count() < $project->minElements)
                                     <?php $count++ ?>
                                 @endif
                             @endforeach
-                            <td  {{($count > 0 ? "colspan='2'": "")}}>
-                                {{$count}}
-                            </td>
+
 
                             @if($count >= 1)
-                                <td style="width: 26%;"><button type="button" class="btn btn-outline-primary btn-sm m-0 waves-effect" data-toggle="modal" data-target="#modalGroups-{{$project->idProject}}">Show</button></td>
+                                <td style="width: 53%;"><button type="button" class="btn btn-outline-primary btn-sm m-0 waves-effect" data-toggle="modal" data-target="#modalGroups-{{$project->idProject}}">Show</button></td>
                                 <div class="modal fade" id="modalGroups-{{$project->idProject}}" aria-labelledby="modalGroups-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -194,13 +296,17 @@
                                             <div class="modal-body">
                                                 @foreach($groups as $group)
                                                     @if(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup)->count() < $project->minElements)
-                                                        <a href="/professor/project/{{$project->idProject}}#pills-{{$group->idGroupProject}}">Grupo {{$group->idGroupProject}}</a>
+                                                        <p><a onclick="window.location.assign ='#groups.pills-{{$group->idGroupProject}}'" href="#groups.pills-{{$group->idGroupProject}}">Grupo {{$group->idGroupProject}}</a></p>
                                                     @endif
                                                 @endforeach
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            @else
+                                <td>
+                                    {{$count}}
+                                </td>
                             @endif
                         </tr>
                         </tbody>
@@ -235,93 +341,95 @@
                         <div class="tab-content h-100" id="pills-tabContent">
                             @foreach($groups as $group)
                                 <div class="container tab-pane fade h-100" id="pills-{{$group->idGroupProject}}" role="tabpanel" aria-labelledby="pills-{{$group->idGroupProject}}-tab">
-                                    <div class="row h-100" style="position: relative; background-color: #c6c6c6;">
-                                        <div class="col mr-2 ">
-                                                <div class="row pb-2 " style="height: 40%;"><div class="bg-light p-2 w-100 rounded"><h5>Ficheiros</h5> </div></div>
-                                                <div class="row pb-2 " style="height: 30%;"><div class="bg-light p-2 w-100 rounded"><h5>Avaliação entre alunos</h5></div></div>
-                                                <div class="row " style="height: 30%;">
-                                                    <div class=" bg-light p-2 w-100 rounded">
-                                                    <h5>Avaliação final Grupo</h5>
-                                                    @if ($group->grade == NULL)
-                                                        <p class="mb-0">Grupo não avaliado</p>
-                                                        <button type="button" class="p-2 btn btn-primary btn-md" style="position: absolute; bottom: 0; right: 0; margin-bottom: 1%; margin-right: 1%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}">Avaliar Grupo</button>
-                                                        <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
-                                                            <div class="modal-dialog" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h4 class="modal-title" id="staticBackdropLabel">Avaliação</h4>
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        {!! Form::open(['action' => 'ProfessorProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
-                                                                        <div class="form-group">
-                                                                            {{Form::label('grade', 'Nota do Projeto')}}
-                                                                            {{Form::text('grade', '', ['class' => 'form-control'])}}
+                                        <div class="row h-100" style="position: relative; background-color: #c6c6c6;">
+                                            <div class="col mr-2 ">
+                                                    <div class="row pb-2 " style="height: 40%;"><div class="bg-light p-2 w-100 rounded"><h5>Ficheiros</h5> </div></div>
+                                                    <div class="row pb-2 " style="height: 30%;"><div class="bg-light p-2 w-100 rounded"><h5>Avaliação entre alunos</h5></div></div>
+                                                    <div class="row " style="height: 30%;">
+                                                        <div class=" bg-light p-2 w-100 rounded">
+                                                        <h5>Avaliação final Grupo</h5>
+                                                        @if ($group->grade == NULL)
+                                                            <p class="mb-0">Grupo não avaliado</p>
+                                                            <button type="button" class="p-2 btn btn-primary btn-md" style="position: absolute; bottom: 0; right: 0; margin-bottom: 1%; margin-right: 1%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}">Avaliar Grupo</button>
+                                                            <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h4 class="modal-title" id="staticBackdropLabel">Avaliação</h4>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
                                                                         </div>
-                                                                        <div class="form-group">
-                                                                            {{Form::label('gradeComment', 'Comentário (opcional)')}}
-                                                                            {{Form::text('gradeComment', '', ['class' => 'form-control'])}}
-                                                                        </div>
-                                                                        {{Form::hidden('group', $group->idGroup)}}
-                                                                        {{Form::hidden('option', 'grade')}}
-                                                                        {{Form::hidden('project', $project->idProject)}}
-                                                                        {{Form::submit('Submit', ['class'=>'btn btn-success'])}}
+                                                                        <div class="modal-body">
+                                                                            {!! Form::open(['action' => 'ProfessorProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                                                                            <div class="form-group">
+                                                                                {{Form::label('grade', 'Nota do Projeto')}}
+                                                                                {{Form::text('grade', '', ['class' => 'form-control'])}}
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                {{Form::label('gradeComment', 'Comentário (opcional)')}}
+                                                                                {{Form::text('gradeComment', '', ['class' => 'form-control'])}}
+                                                                            </div>
+                                                                            {{Form::hidden('group', $group->idGroup)}}
+                                                                            {{Form::hidden('option', 'grade')}}
+                                                                            {{Form::hidden('project', $project->idProject)}}
+                                                                            {{Form::submit('Submit', ['class'=>'btn btn-success'])}}
 
-                                                                        {!! Form::close() !!}
+                                                                            {!! Form::close() !!}
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    @else
-
-                                                        <p class="mb-0">Grade: {{$group->grade}}</p>
-                                                        @if($group->gradeComment == NULL)
-                                                            <p class="m-0">Sem Comentários</p>
                                                         @else
-                                                            <p class="mb-0" >Comment: {{$group->gradeComment}}</p>
-                                                        @endif
-                                                        <button type="button" class="p-2 btn btn-primary btn-md float-right" style="position: absolute; bottom: 0; right: 0; margin-bottom: 1%; margin-right: 1%;" data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}" >Change Grade</button>
-                                                        <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
-                                                            <div class="modal-dialog" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h4 class="modal-title" id="staticBackdropLabel">Avaliação</h4>
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        {!! Form::open(['action' => ['ProfessorProjectsController@update', $project->idProject], 'method' => 'PUT']) !!}
-                                                                        <div class="form-group">
-                                                                            {{Form::label('grade', 'Nota do Projeto')}}
-                                                                            {{Form::text('grade', '', ['class' => 'form-control'])}}
+
+                                                            <p class="mb-0">Grade: {{$group->grade}}</p>
+                                                            @if($group->gradeComment == NULL)
+                                                                <p class="m-0">Sem Comentários</p>
+                                                            @else
+                                                                <p class="mb-0" >Comment: {{$group->gradeComment}}</p>
+                                                            @endif
+                                                            <button type="button" class="p-2 btn btn-primary btn-md float-right" style="position: absolute; bottom: 0; right: 0; margin-bottom: 1%; margin-right: 1%;" data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}" >Change Grade</button>
+                                                            <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h4 class="modal-title" id="staticBackdropLabel">Avaliação</h4>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
                                                                         </div>
-                                                                        <div class="form-group">
-                                                                            {{Form::label('gradeComment', 'Comentário(opcional)')}}
-                                                                            {{Form::text('gradeComment', '', ['class' => 'form-control'])}}
+                                                                        <div class="modal-body">
+                                                                            {!! Form::open(['action' => ['ProfessorProjectsController@update', $project->idProject], 'method' => 'PUT']) !!}
+                                                                            <div class="form-group">
+                                                                                {{Form::label('grade', 'Nota do Projeto')}}
+                                                                                {{Form::text('grade', '', ['class' => 'form-control'])}}
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                {{Form::label('gradeComment', 'Comentário(opcional)')}}
+                                                                                {{Form::text('gradeComment', '', ['class' => 'form-control'])}}
+                                                                            </div>
+                                                                            {{Form::hidden('group', $group->idGroup)}}
+                                                                            {{Form::hidden('_method','PUT')}}
+                                                                            {{Form::hidden('option', 'grade')}}
+                                                                            {{Form::submit('Submit', ['class'=>'btn btn-success'])}}
+                                                                            {!! Form::close() !!}
                                                                         </div>
-                                                                        {{Form::hidden('group', $group->idGroup)}}
-                                                                        {{Form::hidden('_method','PUT')}}
-                                                                        {{Form::hidden('option', 'grade')}}
-                                                                        {{Form::submit('Submit', ['class'=>'btn btn-success'])}}
-                                                                        {!! Form::close() !!}
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    @endif
+                                                        @endif
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div class="col-3 bg-light p-3 rounded">
+                                                <h5>Elementos</h5>
+                                                @foreach(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) as $sg)
+                                                    <div class="mb-2"><a href="/profile/{{$sg->idStudent}}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.\App\User::find($sg->idStudent)->photo)}}"><span style="vertical-align: middle;"> {{\App\User::find($sg->idStudent)->name}}</span></a></div>
+                                                @endforeach
+                                            </div>
+
                                         </div>
-                                        <div class="col-3 bg-light p-3 rounded">
-                                            <h5>Elementos</h5>
-                                            @foreach(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) as $sg)
-                                                <div class="mb-2"><a href="/profile/{{$sg->idStudent}}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.\App\User::find($sg->idStudent)->photo)}}"><span style="vertical-align: middle;"> {{\App\User::find($sg->idStudent)->name}}</span></a></div>
-                                            @endforeach
-                                        </div>
-                                    </div>
+
                                 </div>
                             @endforeach
                         </div>
@@ -330,12 +438,10 @@
             </div>
         </div>
 
-        <div class="tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
-            <button type="button" class="p-2 mt-3 mr-3 btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#modalCreatePost" style="background-color: #2c3fb1; border-color: #2c3fb1;">Create Post</button>
-
-            <div class="container rounded pb-3 pt-3">
-                <div class="table-responsive-xl">
-                    <table class="table bg-white rounded" style="text-align:center;">
+        <div class="container tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
+            <div class="container mt-2 pb-3 rounded px-5 pt-3">
+                <div class="table-responsive">
+                    <table class="table bg-white" style="text-align:center;">
                         <thead>
                         <tr>
                             <th>Subject</th>
@@ -348,7 +454,7 @@
                         @if(count($announcements) > 0)
                             @for($i = 0; $i < count($announcements); $i++)
                                 <tr>
-                                    <td style="vertical-align: middle;"><a href="/professor/project/{{$project->idProject}}/post/{{$announcements[$i]->idAnnouncement}}">{{$announcements[$i]->title}}</a></td>
+                                    <td style="vertical-align: middle;"><a href="/student/project/{{$project->idProject}}/post/{{$announcements[$i]->idAnnouncement}}">{{$announcements[$i]->title}}</a></td>
                                     <td style="vertical-align: middle;">
                                         <a href="/profile/{{$userPoster[$i]->id }}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$userPoster[$i]->photo)}}"><span style="vertical-align: middle;"> {{$userPoster[$i]->name}}</span></a>
                                     </td>
@@ -363,112 +469,11 @@
                         @endif
                         </tbody>
                     </table>
-                    @if(count($announcements) > 0)
-                        <div class="d-flex justify-content-between">
-                            <span>Showing {{$a->firstItem()}} to {{$a->lastItem()}} of {{$a->total()}} posts</span>
-                            {{$a->links()}}
-                        </div>
-                    @endif
                 </div>
-
-                {{--Modal Create Post--}}
-                <div class="modal fade" id="modalCreatePost" tabindex="-1" role="dialog">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title" id="staticBackdropLabel">New Post</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                {!! Form::open(['action' => ['PostController@store', $project -> idProject], 'method' => 'POST']) !!}
-                                <div class="form-group">
-                                    {{Form::label('title', 'Title')}}
-                                    {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Title'])}}
-                                </div>
-                                <div class="form-group">
-                                    {{Form::label('body', 'Body')}}
-                                    {{Form::textarea('body', '', ['class' => 'form-control', 'placeholder' => 'Body'])}}
-                                </div>
-                                {{ Form::hidden('project', $project->idProject) }}
-
-                                {{Form::submit('Submit', ['class'=>'btn btn-success'])}}
-
-                                {!! Form::close() !!}
-                            </div>
-                            <script>ClassicEditor
-                                    .create( document.querySelector( '#body' ), {
-                                        toolbar: {
-                                            items: [
-                                                'heading',
-                                                '|',
-                                                'fontSize',
-                                                'fontFamily',
-                                                'fontColor',
-                                                'fontBackgroundColor',
-                                                'highlight',
-                                                'bold',
-                                                'italic',
-                                                'underline',
-                                                'strikethrough',
-                                                'link',,
-                                                '|',
-                                                'undo',
-                                                'redo',
-                                                '|',
-                                                'indent',
-                                                'outdent',
-                                                '|',
-                                                'bulletedList',
-                                                'numberedList',
-                                                '|',
-                                                'blockQuote',
-                                                'code',
-                                                'codeBlock'
-                                            ]
-                                        },
-                                        language: 'en',
-                                        licenseKey: '',
-                                    } )
-                                    .then( editor => {
-                                        window.editor = editor;
-                                    } )
-                                    .catch( error => {
-                                        console.error( 'Oops, something gone wrong!' );
-                                        console.error( 'Please, report the following error in the https://github.com/ckeditor/ckeditor5 with the build id and the error stack trace:' );
-                                        console.warn( 'Build id: ce7zysryrfsm-xck2pu5o5swz' );
-                                        console.error( error );
-                                    } );
-                            </script>
-                            <style>
-                                .ck-editor__editable_inline {
-                                    min-height: 40vh;
-                                }
-                            </style>
-                        </div>
-                    </div>
-                </div>
-
             </div>
-
         </div>
     </div>
 </div>
-<style>
-    .style1 > tbody > tr:first-child > td {
-        border: none;
-    }
-    .style1 > tbody > tr:first-child > th {
-        border: none;
-    }
-    .info-td {
-        text-align: center;
-    }
-    .info-th {
-        width: 46%;
-    }
-</style>
 <script>
     $('#myTab a').click(function(e) {
         e.preventDefault();
@@ -515,5 +520,27 @@
     }else{
         $('#myTab a[href="' + hash + '"]').tab('show');
     }
+
+
+
 </script>
+<style>
+    .style1 > tbody > tr:first-child > td {
+        border: none;
+    }
+    .style1 > tbody > tr:first-child > th {
+        border: none;
+    }
+
+    td {
+        text-align: center;
+    }
+    th{
+        width: 46%;
+    }
+    .nav-tabs .nav-link.active{
+        background-color: #ededed;
+        border-color:#ededed;
+    }
+</style>
 @endsection

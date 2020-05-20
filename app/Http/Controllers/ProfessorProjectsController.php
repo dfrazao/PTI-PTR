@@ -140,14 +140,20 @@ class ProfessorProjectsController extends Controller
         if($request->option=="project") {
             $this->validate($request, [
                 'title' => 'required',
-                'deadline' => 'required',
-                'group_formation_deadline' => 'required'
             ]);
 
             $project = Project::find($id);
             $project->name = $request->title;
-            $project->dueDate = Carbon::parse($request->deadline);
-            $project->groupCreationDueDate = Carbon::parse($request->group_formation_deadline);
+            if (!empty($request->deadline)){
+                $project->dueDate = Carbon::parse($request->deadline);
+            }else{
+                $project->dueDate = $project->dueDate;
+            }
+            if (!empty($request->group_formation_deadline)){
+                $project->groupCreationDueDate = Carbon::parse($request->group_formation_deadline);
+            }else{
+                $project->groupCreationDueDate = $project->groupCreationDueDate;
+            }
             $project->minElements = $request->minNumber;
             $project->maxElements = $request->maxNumber;
             $project->idSubject = $project->idSubject;
@@ -162,7 +168,7 @@ class ProfessorProjectsController extends Controller
             $project->maxGroups = SubjectEnrollment::all()->where('idSubject', '==', $request->subject)->count();
             $project->save();
 
-            return redirect('/')->with('success', 'Project Updated');
+            return redirect('professor/project/'.$id)->with('success', 'Project Updated');
 
         } else {
             $this->validate($request, [
