@@ -19,21 +19,30 @@ Auth::routes([
     'confirm' => false
 ]);
 
-Route::get('/set-language/{lang}', 'LanguagesController@set')->name('set.language');
+//locale
+    Route::get('/set-language/{lang}', 'LanguagesController@set')->name('set.language');
 
-Route::get('/', 'DashboardController@index', ['name' => 'Dashboard'])->name("Dashboard");
+//dashboard
+    Route::get('/', 'DashboardController@index', ['name' => 'Dashboard'])->name("Dashboard");
 
-//Route::put('/profile/{id}', 'ProfileController@updateProfilePhoto')->middleware('auth');
-Route::resource('/profile', 'ProfileController')->middleware('auth');
+//profile
+    //Route::put('/profile/{id}', 'ProfileController@updateProfilePhoto')->middleware('auth');
+    Route::resource('/profile', 'ProfileController')->middleware('auth');
 
-Route::resource('/professor/project', 'ProfessorProjectsController')->middleware('auth');
-Route::resource('/student/project', 'StudentProjectsController')->middleware('auth');
+//project
+    Route::resource('/professor/project', 'ProfessorProjectsController')->middleware('auth');
+    Route::resource('/student/project', 'StudentProjectsController')->middleware('auth');
 
-Route::get('/student/project/{projectId}/post', 'PostController@show')->middleware('auth');
-Route::post('/post', 'PostController@store')->middleware('auth');
-Route::post('/post', 'PostController@reply')->middleware('auth');
-Route::delete('/student/project/{projectId}/post', 'PostController@destroyComment')->middleware('auth');
-Route::resource('/student/project/{projectId}/post', 'PostController')->middleware('auth');
+
+//post
+    Route::get('/professor/project/{projectId}/post', 'PostController@show')->middleware('auth');
+    Route::get('/student/project/{projectId}/post', 'PostController@show')->middleware('auth');
+    Route::post('/post', 'PostController@store')->middleware('auth');
+    Route::post('/post', 'PostController@reply')->middleware('auth');
+    Route::delete('/professor/project/{projectId}/post', 'PostController@destroyComment')->middleware('auth');
+    Route::delete('/student/project/{projectId}/post', 'PostController@destroyComment')->middleware('auth');
+    Route::resource('/professor/project/{projectId}/post', 'PostController')->middleware('auth');
+    Route::resource('/student/project/{projectId}/post', 'PostController')->middleware('auth');
 
 
 Route::get('/chat', 'ChatController@index')->name('chat');
@@ -43,20 +52,10 @@ Route::get('/searchchat','SearchController@index', ['name' => 'searchchat'])->na
 Route::get('/search','SearchController@search');
 
 
-//Route::get('/profile', 'ProfileController@index', ['name' => 'Profile']);
-//Route::get('/course', 'ProfileController@index', ['name' => 'Profile']);
-
-//Route::get('/groups', 'ProfileController@index', ['name' => 'Profile']);
-
-//Route::get('/profile', 'ProfileController@index', ['name' => 'Profile']);
-
-
 // Student
-
-
-Route::get('student/project/{id}/groups', 'GroupController@show')->middleware('auth');
-Route::post('student/project/{id}','GroupController@store')->middleware('auth');
-Route::put('student/project/{id}/update','GroupController@update')->middleware('auth');
+    Route::get('student/project/{id}/groups', 'GroupController@show')->middleware('auth');
+    Route::post('student/project/{id}','GroupController@store')->middleware('auth');
+    Route::put('student/project/{id}/update','GroupController@update')->middleware('auth');
 
 // Professor
 

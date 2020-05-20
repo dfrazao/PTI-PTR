@@ -96,7 +96,7 @@ class ProfessorProjectsController extends Controller
         $subject = Subject::find($project->idSubject);
         $groups = Group::all()->where('idProject', '==', $id);
 
-        $announcements = Announcement::all()->where('idProject', '==', $id);
+        $announcements = Announcement::orderBy('date', 'desc')->paginate(10)->fragment('forum');
         $allAnnouncements = [];
         foreach ($announcements as $a) {
             array_push($allAnnouncements, $a);
@@ -114,8 +114,7 @@ class ProfessorProjectsController extends Controller
             array_push($numberComments, $idComment);
         }
 
-
-        return view('professor.project')->with('numberComments', $numberComments)->with('project' , $project)->with('subject', $subject)->with('groups', $groups)->with('announcements', $allAnnouncements)->with('a',$announcements)->with('userPoster', $users);
+        return view('professor.project')->with('numberComments', $numberComments)->with('project' , $project)->with('subject', $subject)->with('groups', $groups)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('a',$announcements);
     }
 
     /**

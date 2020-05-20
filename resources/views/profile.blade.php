@@ -6,12 +6,11 @@
 <div class="container-xl-fluid mt-4 pl-5 pr-5 pb-2">
     @include('layouts.messages')
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb mt-1 pl-0 pb-0 pt-0 float-right" style="background-color:white; ">
+        <ol class="breadcrumb mt-1 pl-0 pb-0 pt-0 h3" style="background-color:white; ">
             <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>{{__('gx.dashboard')}}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{$user->name}}</li>
+            <li class="breadcrumb-item " aria-current="page">{{__('gx.profile')}}</li>
         </ol>
     </nav>
-    <h2>{{__('gx.profile')}}</h2>
     <div class="container-xl-fluid rounded p-3" style=" background-color: #ededed;">
         <div class="row">
             <div class="col-xs-12 col-sm-3 pb-2 center">
@@ -64,320 +63,326 @@
                 </h3>
 
 
-                    @if(Auth::user()->id == $user->id)
-                        <!-- Button to Open the Modal -->
-                            <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modalEdit">{{__('gx.edit profile')}}</button>
+                @if(Auth::user()->id == $user->id)
+                    <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modalEdit">{{__('gx.edit profile')}}</button>
+                    <button type="button" class="btn btn-primary float-right mr-2" data-toggle="modal" data-target="#modalEditPassword">{{__('gx.edit password')}}</button>
 
-                        <!-- The Modal -->
-                        <div class="modal fade" id="modalEdit">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
+                    <div class="modal fade" id="modalEditPassword">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title">{{__('gx.edit password')}}</h3>
+                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="container">
+                                        @csrf
+                                        {!! Form::open(['action' => ['ProfileController@update', $user->id], 'method' => 'POST']) !!}
 
-                                    <!-- Modal Header -->
-                                    <div class="modal-header">
-                                        <h3 class="modal-title">{{__('gx.edit profile')}}</h3>
-                                        <button type="button" class="close" data-dismiss="modal">×</button>
-                                    </div>
-
-                                    <!-- Modal body -->
-                                    <div class="modal-body">
-                                        <div class="container">
-                                            @csrf
-                                            {!! Form::open(['action' => ['ProfileController@update', $user->id], 'method' => 'POST']) !!}
-
-                                            <div class="form-group">
-                                                {{Form::label('current_password', trans('gx.current password'))}}
-                                                {{Form::password('current_password', ['class' => 'form-control', 'placeholder' => trans('gx.current password')])}}
-                                            </div>
-
-                                            <div class="form-group">
-                                                {{Form::label('password', trans('gx.new password'))}}
-                                                {{Form::password('password', ['class' => 'form-control', 'placeholder' => trans('gx.new password')])}}
-                                            </div>
-
-                                            <div class="form-group">
-                                                {{Form::label('password_confirmation', trans('gx.re-enter password'))}}
-                                                {{Form::password('password_confirmation', ['class' => 'form-control', 'placeholder' => trans('gx.re-enter password')])}}
-                                            </div>
-                                            {{ Form::hidden('option', "password") }}
-
-                                            {{Form::hidden('_method','PUT')}}
-                                            {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary'])}}
-                                            {!! Form::close() !!}
-
-                                            <hr>
-
-                                            @csrf
-                                            {!! Form::open(['action' => ['ProfileController@update', $user->id], 'method' => 'POST']) !!}
-
-                                            <div class="form-group">
-                                                {{Form::label('country', trans('gx.country'))}}
-                                                {{Form::select('country', [
-                                                    "Afghanistan"=>"Afghanistan",
-                                                    "Åland Islands"=>"Åland Islands",
-                                                    "Albania"=>"Albania",
-                                                    "Algeria"=>"Algeria",
-                                                    "American Samoa"=>"American Samoa",
-                                                    "Andorra"=>"Andorra",
-                                                    "Angola"=>"Angola",
-                                                    "Anguilla"=>"Anguilla",
-                                                    "Antarctica"=>"Antarctica",
-                                                    "Antigua and Barbuda"=>"Antigua and Barbuda",
-                                                    "Argentina"=>"Argentina",
-                                                    "Armenia"=>"Armenia",
-                                                    "Aruba"=>"Aruba",
-                                                    "Australia"=>"Australia",
-                                                    "Austria"=>"Austria",
-                                                    "Azerbaijan"=>"Azerbaijan",
-                                                    "Bahamas"=>"Bahamas",
-                                                    "Bahrain"=>"Bahrain",
-                                                    "Bangladesh"=>"Bangladesh",
-                                                    "Barbados"=>"Barbados",
-                                                    "Belarus"=>"Belarus",
-                                                    "Belgium"=>"Belgium",
-                                                    "Belize"=>"Belize",
-                                                    "Benin"=>"Benin",
-                                                    "Bermuda"=>"Bermuda",
-                                                    "Bhutan"=>"Bhutan",
-                                                    "Bolivia"=>"Bolivia",
-                                                    "Bosnia and Herzegovina"=>"Bosnia and Herzegovina",
-                                                    "Botswana"=>"Botswana",
-                                                    "Bouvet Island"=>"Bouvet Island",
-                                                    "Brazil"=>"Brazil",
-                                                    "British Indian Ocean Territory"=>"British Indian Ocean Territory",
-                                                    "Brunei Darussalam"=>"Brunei Darussalam",
-                                                    "Bulgaria"=>"Bulgaria",
-                                                    "Burkina Faso"=>"Burkina Faso",
-                                                    "Burundi"=>"Burundi",
-                                                    "Cambodia"=>"Cambodia",
-                                                    "Cameroon"=>"Cameroon",
-                                                    "Canada"=>"Canada",
-                                                    "Cape Verde"=>"Cape Verde",
-                                                    "Cayman Islands"=>"Cayman Islands",
-                                                    "Central African Republic"=>"Central African Republic",
-                                                    "Chad"=>"Chad",
-                                                    "Chile"=>"Chile",
-                                                    "China"=>"China",
-                                                    "Christmas Island"=>"Christmas Island",
-                                                    "Cocos (Keeling) Islands"=>"Cocos (Keeling) Islands",
-                                                    "Colombia"=>"Colombia",
-                                                    "Comoros"=>"Comoros",
-                                                    "Congo"=>"Congo",
-                                                    "Congo, The Democratic Republic of The"=>"Congo, The Democratic Republic of The",
-                                                    "Cook Islands"=>"Cook Islands",
-                                                    "Costa Rica"=>"Costa Rica",
-                                                    "Cote D'ivoire"=>"Cote D'ivoire",
-                                                    "Croatia"=>"Croatia",
-                                                    "Cuba"=>"Cuba",
-                                                    "Cyprus"=>"Cyprus",
-                                                    "Czech Republic"=>"Czech Republic",
-                                                    "Denmark"=>"Denmark",
-                                                    "Djibouti"=>"Djibouti",
-                                                    "Dominica"=>"Dominica",
-                                                    "Dominican Republic"=>"Dominican Republic",
-                                                    "Ecuador"=>"Ecuador",
-                                                    "Egypt"=>"Egypt",
-                                                    "El Salvador"=>"El Salvador",
-                                                    "Equatorial Guinea"=>"Equatorial Guinea",
-                                                    "Eritrea"=>"Eritrea",
-                                                    "Estonia"=>"Estonia",
-                                                    "Ethiopia"=>"Ethiopia",
-                                                    "Falkland Islands (Malvinas)"=>"Falkland Islands (Malvinas)",
-                                                    "Faroe Islands"=>"Faroe Islands",
-                                                    "Fiji"=>"Fiji",
-                                                    "Finland"=>"Finland",
-                                                    "France"=>"France",
-                                                    "French Guiana"=>"French Guiana",
-                                                    "French Polynesia"=>"French Polynesia",
-                                                    "French Southern Territories"=>"French Southern Territories",
-                                                    "Gabon"=>"Gabon",
-                                                    "Gambia"=>"Gambia",
-                                                    "Georgia"=>"Georgia",
-                                                    "Germany"=>"Germany",
-                                                    "Ghana"=>"Ghana",
-                                                    "Gibraltar"=>"Gibraltar",
-                                                    "Greece"=>"Greece",
-                                                    "Greenland"=>"Greenland",
-                                                    "Grenada"=>"Grenada",
-                                                    "Guadeloupe"=>"Guadeloupe",
-                                                    "Guam"=>"Guam",
-                                                    "Guatemala"=>"Guatemala",
-                                                    "Guernsey"=>"Guernsey",
-                                                    "Guinea"=>"Guinea",
-                                                    "Guinea-bissau"=>"Guinea-bissau",
-                                                    "Guyana"=>"Guyana",
-                                                    "Haiti"=>"Haiti",
-                                                    "Heard Island and Mcdonald Islands"=>"Heard Island and Mcdonald Islands",
-                                                    "Holy See (Vatican City State)"=>"Holy See (Vatican City State)",
-                                                    "Honduras"=>"Honduras",
-                                                    "Hong Kong"=>"Hong Kong",
-                                                    "Hungary"=>"Hungary",
-                                                    "Iceland"=>"Iceland",
-                                                    "India"=>"India",
-                                                    "Indonesia"=>"Indonesia",
-                                                    "Iran, Islamic Republic of"=>"Iran, Islamic Republic of",
-                                                    "Iraq"=>"Iraq",
-                                                    "Ireland"=>"Ireland",
-                                                    "Isle of Man"=>"Isle of Man",
-                                                    "Israel"=>"Israel",
-                                                    "Italy"=>"Italy",
-                                                    "Jamaica"=>"Jamaica",
-                                                    "Japan"=>"Japan",
-                                                    "Jersey"=>"Jersey",
-                                                    "Jordan"=>"Jordan",
-                                                    "Kazakhstan"=>"Kazakhstan",
-                                                    "Kenya"=>"Kenya",
-                                                    "Kiribati"=>"Kiribati",
-                                                    "Korea, Democratic People's Republic of"=>"Korea, Democratic People's Republic of",
-                                                    "Korea, Republic of"=>"Korea, Republic of",
-                                                    "Kuwait"=>"Kuwait",
-                                                    "Kyrgyzstan"=>"Kyrgyzstan",
-                                                    "Lao People's Democratic Republic"=>"Lao People's Democratic Republic",
-                                                    "Latvia"=>"Latvia",
-                                                    "Lebanon"=>"Lebanon",
-                                                    "Lesotho"=>"Lesotho",
-                                                    "Liberia"=>"Liberia",
-                                                    "Libyan Arab Jamahiriya"=>"Libyan Arab Jamahiriya",
-                                                    "Liechtenstein"=>"Liechtenstein",
-                                                    "Lithuania"=>"Lithuania",
-                                                    "Luxembourg"=>"Luxembourg",
-                                                    "Macao"=>"Macao",
-                                                    "Macedonia, The Former Yugoslav Republic of"=>"Macedonia, The Former Yugoslav Republic of",
-                                                    "Madagascar"=>"Madagascar",
-                                                    "Malawi"=>"Malawi",
-                                                    "Malaysia"=>"Malaysia",
-                                                    "Maldives"=>"Maldives",
-                                                    "Mali"=>"Mali",
-                                                    "Malta"=>"Malta",
-                                                    "Marshall Islands"=>"Marshall Islands",
-                                                    "Martinique"=>"Martinique",
-                                                    "Mauritania"=>"Mauritania",
-                                                    "Mauritius"=>"Mauritius",
-                                                    "Mayotte"=>"Mayotte",
-                                                    "Mexico"=>"Mexico",
-                                                    "Micronesia, Federated States of"=>"Micronesia, Federated States of",
-                                                    "Moldova, Republic of"=>"Moldova, Republic of",
-                                                    "Monaco"=>"Monaco",
-                                                    "Mongolia"=>"Mongolia",
-                                                    "Montenegro"=>"Montenegro",
-                                                    "Montserrat"=>"Montserrat",
-                                                    "Morocco"=>"Morocco",
-                                                    "Mozambique"=>"Mozambique",
-                                                    "Myanmar"=>"Myanmar",
-                                                    "Namibia"=>"Namibia",
-                                                    "Nauru"=>"Nauru",
-                                                    "Nepal"=>"Nepal",
-                                                    "Netherlands"=>"Netherlands",
-                                                    "Netherlands Antilles"=>"Netherlands Antilles",
-                                                    "New Caledonia"=>"New Caledonia",
-                                                    "New Zealand"=>"New Zealand",
-                                                    "Nicaragua"=>"Nicaragua",
-                                                    "Niger"=>"Niger",
-                                                    "Nigeria"=>"Nigeria",
-                                                    "Niue"=>"Niue",
-                                                    "Norfolk Island"=>"Norfolk Island",
-                                                    "Northern Mariana Islands"=>"Northern Mariana Islands",
-                                                    "Norway"=>"Norway",
-                                                    "Oman"=>"Oman",
-                                                    "Pakistan"=>"Pakistan",
-                                                    "Palau"=>"Palau",
-                                                    "Palestinian Territory, Occupied"=>"Palestinian Territory, Occupied",
-                                                    "Panama"=>"Panama",
-                                                    "Papua New Guinea"=>"Papua New Guinea",
-                                                    "Paraguay"=>"Paraguay",
-                                                    "Peru"=>"Peru",
-                                                    "Philippines"=>"Philippines",
-                                                    "Pitcairn"=>"Pitcairn",
-                                                    "Poland"=>"Poland",
-                                                    "Portugal"=>"Portugal",
-                                                    "Puerto Rico"=>"Puerto Rico",
-                                                    "Qatar"=>"Qatar",
-                                                    "Reunion"=>"Reunion",
-                                                    "Romania"=>"Romania",
-                                                    "Russian Federation"=>"Russian Federation",
-                                                    "Rwanda"=>"Rwanda",
-                                                    "Saint Helena"=>"Saint Helena",
-                                                    "Saint Kitts and Nevis"=>"Saint Kitts and Nevis",
-                                                    "Saint Lucia"=>"Saint Lucia",
-                                                    "Saint Pierre and Miquelon"=>"Saint Pierre and Miquelon",
-                                                    "Saint Vincent and The Grenadines"=>"Saint Vincent and The Grenadines",
-                                                    "Samoa"=>"Samoa",
-                                                    "San Marino"=>"San Marino",
-                                                    "Sao Tome and Principe"=>"Sao Tome and Principe",
-                                                    "Saudi Arabia"=>"Saudi Arabia",
-                                                    "Senegal"=>"Senegal",
-                                                    "Serbia"=>"Serbia",
-                                                    "Seychelles"=>"Seychelles",
-                                                    "Sierra Leone"=>"Sierra Leone",
-                                                    "Singapore"=>"Singapore",
-                                                    "Slovakia"=>"Slovakia",
-                                                    "Slovenia"=>"Slovenia",
-                                                    "Solomon Islands"=>"Solomon Islands",
-                                                    "Somalia"=>"Somalia",
-                                                    "South Africa"=>"South Africa",
-                                                    "South Georgia and The South Sandwich Islands"=>"South Georgia and The South Sandwich Islands",
-                                                    "Spain"=>"Spain",
-                                                    "Sri Lanka"=>"Sri Lanka",
-                                                    "Sudan"=>"Sudan",
-                                                    "Suriname"=>"Suriname",
-                                                    "Svalbard and Jan Mayen"=>"Svalbard and Jan Mayen",
-                                                    "Swaziland"=>"Swaziland",
-                                                    "Sweden"=>"Sweden",
-                                                    "Switzerland"=>"Switzerland",
-                                                    "Syrian Arab Republic"=>"Syrian Arab Republic",
-                                                    "Taiwan, Province of China"=>"Taiwan, Province of China",
-                                                    "Tajikistan"=>"Tajikistan",
-                                                    "Tanzania, United Republic of"=>"Tanzania, United Republic of",
-                                                    "Thailand"=>"Thailand",
-                                                    "Timor-leste"=>"Timor-leste",
-                                                    "Togo"=>"Togo",
-                                                    "Tokelau"=>"Tokelau",
-                                                    "Tonga"=>"Tonga",
-                                                    "Trinidad and Tobago"=>"Trinidad and Tobago",
-                                                    "Tunisia"=>"Tunisia",
-                                                    "Turkey"=>"Turkey",
-                                                    "Turkmenistan"=>"Turkmenistan",
-                                                    "Turks and Caicos Islands"=>"Turks and Caicos Islands",
-                                                    "Tuvalu"=>"Tuvalu",
-                                                    "Uganda"=>"Uganda",
-                                                    "Ukraine"=>"Ukraine",
-                                                    "United Arab Emirates"=>"United Arab Emirates",
-                                                    "United Kingdom"=>"United Kingdom",
-                                                    "United States"=>"United States",
-                                                    "United States Minor Outlying Islands"=>"United States Minor Outlying Islands",
-                                                    "Uruguay"=>"Uruguay",
-                                                    "Uzbekistan"=>"Uzbekistan",
-                                                    "Vanuatu"=>"Vanuatu",
-                                                    "Venezuela"=>"Venezuela",
-                                                    "Viet Nam"=>"Viet Nam",
-                                                    "Virgin Islands, British"=>"Virgin Islands, British",
-                                                    "Virgin Islands, U.S."=>"Virgin Islands, U.S.",
-                                                    "Wallis and Futuna"=>"Wallis and Futuna",
-                                                    "Western Sahara"=>"Western Sahara",
-                                                    "Yemen"=>"Yemen",
-                                                    "Zambia"=>"Zambia",
-                                                    "Zimbabwe"=>"Zimbabwe"
-], $user->country, ['class' => 'form-control', 'placeholder' => $user->country])}}
-                                            </div>
-                                            <div class="form-group">
-                                                {{Form::label('city', trans('gx.city'))}}
-                                                {{Form::text('city', $user->city, ['class' => 'form-control', 'placeholder' => trans('gx.city')])}}
-                                            </div>
-                                            <div class="form-group">
-                                                {{Form::label('about', trans('gx.about'))}}
-                                                {{Form::textarea('about', $user->description, ['class' => 'form-control', 'placeholder' => trans('gx.about')])}}
-                                            </div>
-                                            {{ Form::hidden('option', "rest") }}
-
-                                            {{Form::hidden('_method','PUT')}}
-                                            {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary'])}}
-                                            {!! Form::close() !!}
+                                        <div class="form-group">
+                                            {{Form::label('current_password', trans('gx.current password'))}}
+                                            {{Form::password('current_password', ['class' => 'form-control', 'placeholder' => trans('gx.current password')])}}
                                         </div>
+
+                                        <div class="form-group">
+                                            {{Form::label('password', trans('gx.new password'))}}
+                                            {{Form::password('password', ['class' => 'form-control', 'placeholder' => trans('gx.new password')])}}
+                                        </div>
+
+                                        <div class="form-group">
+                                            {{Form::label('password_confirmation', trans('gx.re-enter password'))}}
+                                            {{Form::password('password_confirmation', ['class' => 'form-control', 'placeholder' => trans('gx.re-enter password')])}}
+                                        </div>
+                                        {{ Form::hidden('option', "password") }}
+
+                                        {{Form::hidden('_method','PUT')}}
+                                        {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary'])}}
+                                        {!! Form::close() !!}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    @endif
+                    </div>
+                    <div class="modal fade" id="modalEdit">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title">{{__('gx.edit profile')}}</h3>
+                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="container">
+                                        @csrf
+                                        {!! Form::open(['action' => ['ProfileController@update', $user->id], 'method' => 'POST']) !!}
+
+                                        <div class="form-group">
+                                            {{Form::label('country', trans('gx.country'))}}
+                                            {{Form::select('country', [
+                                                "Afghanistan"=>"Afghanistan",
+                                                "Åland Islands"=>"Åland Islands",
+                                                "Albania"=>"Albania",
+                                                "Algeria"=>"Algeria",
+                                                "American Samoa"=>"American Samoa",
+                                                "Andorra"=>"Andorra",
+                                                "Angola"=>"Angola",
+                                                "Anguilla"=>"Anguilla",
+                                                "Antarctica"=>"Antarctica",
+                                                "Antigua and Barbuda"=>"Antigua and Barbuda",
+                                                "Argentina"=>"Argentina",
+                                                "Armenia"=>"Armenia",
+                                                "Aruba"=>"Aruba",
+                                                "Australia"=>"Australia",
+                                                "Austria"=>"Austria",
+                                                "Azerbaijan"=>"Azerbaijan",
+                                                "Bahamas"=>"Bahamas",
+                                                "Bahrain"=>"Bahrain",
+                                                "Bangladesh"=>"Bangladesh",
+                                                "Barbados"=>"Barbados",
+                                                "Belarus"=>"Belarus",
+                                                "Belgium"=>"Belgium",
+                                                "Belize"=>"Belize",
+                                                "Benin"=>"Benin",
+                                                "Bermuda"=>"Bermuda",
+                                                "Bhutan"=>"Bhutan",
+                                                "Bolivia"=>"Bolivia",
+                                                "Bosnia and Herzegovina"=>"Bosnia and Herzegovina",
+                                                "Botswana"=>"Botswana",
+                                                "Bouvet Island"=>"Bouvet Island",
+                                                "Brazil"=>"Brazil",
+                                                "British Indian Ocean Territory"=>"British Indian Ocean Territory",
+                                                "Brunei Darussalam"=>"Brunei Darussalam",
+                                                "Bulgaria"=>"Bulgaria",
+                                                "Burkina Faso"=>"Burkina Faso",
+                                                "Burundi"=>"Burundi",
+                                                "Cambodia"=>"Cambodia",
+                                                "Cameroon"=>"Cameroon",
+                                                "Canada"=>"Canada",
+                                                "Cape Verde"=>"Cape Verde",
+                                                "Cayman Islands"=>"Cayman Islands",
+                                                "Central African Republic"=>"Central African Republic",
+                                                "Chad"=>"Chad",
+                                                "Chile"=>"Chile",
+                                                "China"=>"China",
+                                                "Christmas Island"=>"Christmas Island",
+                                                "Cocos (Keeling) Islands"=>"Cocos (Keeling) Islands",
+                                                "Colombia"=>"Colombia",
+                                                "Comoros"=>"Comoros",
+                                                "Congo"=>"Congo",
+                                                "Congo, The Democratic Republic of The"=>"Congo, The Democratic Republic of The",
+                                                "Cook Islands"=>"Cook Islands",
+                                                "Costa Rica"=>"Costa Rica",
+                                                "Cote D'ivoire"=>"Cote D'ivoire",
+                                                "Croatia"=>"Croatia",
+                                                "Cuba"=>"Cuba",
+                                                "Cyprus"=>"Cyprus",
+                                                "Czech Republic"=>"Czech Republic",
+                                                "Denmark"=>"Denmark",
+                                                "Djibouti"=>"Djibouti",
+                                                "Dominica"=>"Dominica",
+                                                "Dominican Republic"=>"Dominican Republic",
+                                                "Ecuador"=>"Ecuador",
+                                                "Egypt"=>"Egypt",
+                                                "El Salvador"=>"El Salvador",
+                                                "Equatorial Guinea"=>"Equatorial Guinea",
+                                                "Eritrea"=>"Eritrea",
+                                                "Estonia"=>"Estonia",
+                                                "Ethiopia"=>"Ethiopia",
+                                                "Falkland Islands (Malvinas)"=>"Falkland Islands (Malvinas)",
+                                                "Faroe Islands"=>"Faroe Islands",
+                                                "Fiji"=>"Fiji",
+                                                "Finland"=>"Finland",
+                                                "France"=>"France",
+                                                "French Guiana"=>"French Guiana",
+                                                "French Polynesia"=>"French Polynesia",
+                                                "French Southern Territories"=>"French Southern Territories",
+                                                "Gabon"=>"Gabon",
+                                                "Gambia"=>"Gambia",
+                                                "Georgia"=>"Georgia",
+                                                "Germany"=>"Germany",
+                                                "Ghana"=>"Ghana",
+                                                "Gibraltar"=>"Gibraltar",
+                                                "Greece"=>"Greece",
+                                                "Greenland"=>"Greenland",
+                                                "Grenada"=>"Grenada",
+                                                "Guadeloupe"=>"Guadeloupe",
+                                                "Guam"=>"Guam",
+                                                "Guatemala"=>"Guatemala",
+                                                "Guernsey"=>"Guernsey",
+                                                "Guinea"=>"Guinea",
+                                                "Guinea-bissau"=>"Guinea-bissau",
+                                                "Guyana"=>"Guyana",
+                                                "Haiti"=>"Haiti",
+                                                "Heard Island and Mcdonald Islands"=>"Heard Island and Mcdonald Islands",
+                                                "Holy See (Vatican City State)"=>"Holy See (Vatican City State)",
+                                                "Honduras"=>"Honduras",
+                                                "Hong Kong"=>"Hong Kong",
+                                                "Hungary"=>"Hungary",
+                                                "Iceland"=>"Iceland",
+                                                "India"=>"India",
+                                                "Indonesia"=>"Indonesia",
+                                                "Iran, Islamic Republic of"=>"Iran, Islamic Republic of",
+                                                "Iraq"=>"Iraq",
+                                                "Ireland"=>"Ireland",
+                                                "Isle of Man"=>"Isle of Man",
+                                                "Israel"=>"Israel",
+                                                "Italy"=>"Italy",
+                                                "Jamaica"=>"Jamaica",
+                                                "Japan"=>"Japan",
+                                                "Jersey"=>"Jersey",
+                                                "Jordan"=>"Jordan",
+                                                "Kazakhstan"=>"Kazakhstan",
+                                                "Kenya"=>"Kenya",
+                                                "Kiribati"=>"Kiribati",
+                                                "Korea, Democratic People's Republic of"=>"Korea, Democratic People's Republic of",
+                                                "Korea, Republic of"=>"Korea, Republic of",
+                                                "Kuwait"=>"Kuwait",
+                                                "Kyrgyzstan"=>"Kyrgyzstan",
+                                                "Lao People's Democratic Republic"=>"Lao People's Democratic Republic",
+                                                "Latvia"=>"Latvia",
+                                                "Lebanon"=>"Lebanon",
+                                                "Lesotho"=>"Lesotho",
+                                                "Liberia"=>"Liberia",
+                                                "Libyan Arab Jamahiriya"=>"Libyan Arab Jamahiriya",
+                                                "Liechtenstein"=>"Liechtenstein",
+                                                "Lithuania"=>"Lithuania",
+                                                "Luxembourg"=>"Luxembourg",
+                                                "Macao"=>"Macao",
+                                                "Macedonia, The Former Yugoslav Republic of"=>"Macedonia, The Former Yugoslav Republic of",
+                                                "Madagascar"=>"Madagascar",
+                                                "Malawi"=>"Malawi",
+                                                "Malaysia"=>"Malaysia",
+                                                "Maldives"=>"Maldives",
+                                                "Mali"=>"Mali",
+                                                "Malta"=>"Malta",
+                                                "Marshall Islands"=>"Marshall Islands",
+                                                "Martinique"=>"Martinique",
+                                                "Mauritania"=>"Mauritania",
+                                                "Mauritius"=>"Mauritius",
+                                                "Mayotte"=>"Mayotte",
+                                                "Mexico"=>"Mexico",
+                                                "Micronesia, Federated States of"=>"Micronesia, Federated States of",
+                                                "Moldova, Republic of"=>"Moldova, Republic of",
+                                                "Monaco"=>"Monaco",
+                                                "Mongolia"=>"Mongolia",
+                                                "Montenegro"=>"Montenegro",
+                                                "Montserrat"=>"Montserrat",
+                                                "Morocco"=>"Morocco",
+                                                "Mozambique"=>"Mozambique",
+                                                "Myanmar"=>"Myanmar",
+                                                "Namibia"=>"Namibia",
+                                                "Nauru"=>"Nauru",
+                                                "Nepal"=>"Nepal",
+                                                "Netherlands"=>"Netherlands",
+                                                "Netherlands Antilles"=>"Netherlands Antilles",
+                                                "New Caledonia"=>"New Caledonia",
+                                                "New Zealand"=>"New Zealand",
+                                                "Nicaragua"=>"Nicaragua",
+                                                "Niger"=>"Niger",
+                                                "Nigeria"=>"Nigeria",
+                                                "Niue"=>"Niue",
+                                                "Norfolk Island"=>"Norfolk Island",
+                                                "Northern Mariana Islands"=>"Northern Mariana Islands",
+                                                "Norway"=>"Norway",
+                                                "Oman"=>"Oman",
+                                                "Pakistan"=>"Pakistan",
+                                                "Palau"=>"Palau",
+                                                "Palestinian Territory, Occupied"=>"Palestinian Territory, Occupied",
+                                                "Panama"=>"Panama",
+                                                "Papua New Guinea"=>"Papua New Guinea",
+                                                "Paraguay"=>"Paraguay",
+                                                "Peru"=>"Peru",
+                                                "Philippines"=>"Philippines",
+                                                "Pitcairn"=>"Pitcairn",
+                                                "Poland"=>"Poland",
+                                                "Portugal"=>"Portugal",
+                                                "Puerto Rico"=>"Puerto Rico",
+                                                "Qatar"=>"Qatar",
+                                                "Reunion"=>"Reunion",
+                                                "Romania"=>"Romania",
+                                                "Russian Federation"=>"Russian Federation",
+                                                "Rwanda"=>"Rwanda",
+                                                "Saint Helena"=>"Saint Helena",
+                                                "Saint Kitts and Nevis"=>"Saint Kitts and Nevis",
+                                                "Saint Lucia"=>"Saint Lucia",
+                                                "Saint Pierre and Miquelon"=>"Saint Pierre and Miquelon",
+                                                "Saint Vincent and The Grenadines"=>"Saint Vincent and The Grenadines",
+                                                "Samoa"=>"Samoa",
+                                                "San Marino"=>"San Marino",
+                                                "Sao Tome and Principe"=>"Sao Tome and Principe",
+                                                "Saudi Arabia"=>"Saudi Arabia",
+                                                "Senegal"=>"Senegal",
+                                                "Serbia"=>"Serbia",
+                                                "Seychelles"=>"Seychelles",
+                                                "Sierra Leone"=>"Sierra Leone",
+                                                "Singapore"=>"Singapore",
+                                                "Slovakia"=>"Slovakia",
+                                                "Slovenia"=>"Slovenia",
+                                                "Solomon Islands"=>"Solomon Islands",
+                                                "Somalia"=>"Somalia",
+                                                "South Africa"=>"South Africa",
+                                                "South Georgia and The South Sandwich Islands"=>"South Georgia and The South Sandwich Islands",
+                                                "Spain"=>"Spain",
+                                                "Sri Lanka"=>"Sri Lanka",
+                                                "Sudan"=>"Sudan",
+                                                "Suriname"=>"Suriname",
+                                                "Svalbard and Jan Mayen"=>"Svalbard and Jan Mayen",
+                                                "Swaziland"=>"Swaziland",
+                                                "Sweden"=>"Sweden",
+                                                "Switzerland"=>"Switzerland",
+                                                "Syrian Arab Republic"=>"Syrian Arab Republic",
+                                                "Taiwan, Province of China"=>"Taiwan, Province of China",
+                                                "Tajikistan"=>"Tajikistan",
+                                                "Tanzania, United Republic of"=>"Tanzania, United Republic of",
+                                                "Thailand"=>"Thailand",
+                                                "Timor-leste"=>"Timor-leste",
+                                                "Togo"=>"Togo",
+                                                "Tokelau"=>"Tokelau",
+                                                "Tonga"=>"Tonga",
+                                                "Trinidad and Tobago"=>"Trinidad and Tobago",
+                                                "Tunisia"=>"Tunisia",
+                                                "Turkey"=>"Turkey",
+                                                "Turkmenistan"=>"Turkmenistan",
+                                                "Turks and Caicos Islands"=>"Turks and Caicos Islands",
+                                                "Tuvalu"=>"Tuvalu",
+                                                "Uganda"=>"Uganda",
+                                                "Ukraine"=>"Ukraine",
+                                                "United Arab Emirates"=>"United Arab Emirates",
+                                                "United Kingdom"=>"United Kingdom",
+                                                "United States"=>"United States",
+                                                "United States Minor Outlying Islands"=>"United States Minor Outlying Islands",
+                                                "Uruguay"=>"Uruguay",
+                                                "Uzbekistan"=>"Uzbekistan",
+                                                "Vanuatu"=>"Vanuatu",
+                                                "Venezuela"=>"Venezuela",
+                                                "Viet Nam"=>"Viet Nam",
+                                                "Virgin Islands, British"=>"Virgin Islands, British",
+                                                "Virgin Islands, U.S."=>"Virgin Islands, U.S.",
+                                                "Wallis and Futuna"=>"Wallis and Futuna",
+                                                "Western Sahara"=>"Western Sahara",
+                                                "Yemen"=>"Yemen",
+                                                "Zambia"=>"Zambia",
+                                                "Zimbabwe"=>"Zimbabwe"
+], $user->country, ['class' => 'form-control', 'placeholder' => $user->country])}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{Form::label('city', trans('gx.city'))}}
+                                            {{Form::text('city', $user->city, ['class' => 'form-control', 'placeholder' => trans('gx.city')])}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{Form::label('about', trans('gx.about'))}}
+                                            {{Form::textarea('about', $user->description, ['class' => 'form-control', 'placeholder' => trans('gx.about')])}}
+                                        </div>
+                                        {{ Form::hidden('option', "rest") }}
+
+                                        {{Form::hidden('_method','PUT')}}
+                                        {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary'])}}
+                                        {!! Form::close() !!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
 
 
                 <div class="profile-user-info">

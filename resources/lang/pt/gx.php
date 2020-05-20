@@ -76,4 +76,5 @@ return [
     'admin'                     => 'Administrator',
     'no description others'     => 'Este utilizador não tem descrição.',
     'no description yourself'   => 'Não tem descrição.',
+    'edit password'             => 'Editar Palavra-passe',
 ];

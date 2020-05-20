@@ -76,4 +76,5 @@ return [
     'admin'                     => 'Administrator',
     'no description others'     => 'This user doesn\'t have a description.',
     'no description yourself'   => 'You don\'t have a description.',
+    'edit password'             => 'Edit Password',
 ];

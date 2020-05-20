@@ -15,13 +15,13 @@
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link" id="conteudo-tab" data-toggle="tab" href="#content" role="tab" aria-controls="conteudo" aria-selected="false">Content</a>
+            <a class="nav-link" id="content-tab" data-toggle="tab" href="#content" role="tab" aria-controls="content" aria-selected="false">Content</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="horario-tab" data-toggle="tab" href="#schedule" role="tab" aria-controls="horario" aria-selected="false">Schedule</a>
+            <a class="nav-link" id="schedule-tab" data-toggle="tab" href="#schedule" role="tab" aria-controls="schedule" aria-selected="false">Schedule</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="noticias-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="noticias" aria-selected="false">Forum</a>
+            <a class="nav-link" id="forum-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="false">Forum</a>
         </li>
         <li class="rightbutton ml-auto">
             <button type="submit" class="btn btn-sm bg-danger" style="width: 20vh;color: white;">Leave Group</button>
@@ -555,7 +555,6 @@
     #textArea:focus{
         outline: 0;
         box-shadow: none;
-
     }
 
     .border {
@@ -587,8 +586,6 @@
         table-layout: fixed;
         width:100%;
     }
-
-
 </style>
 <script>
     $(".editTask").click(function () {

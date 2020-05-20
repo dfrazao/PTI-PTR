@@ -91,6 +91,7 @@ class PostController extends Controller
     public function show($id, $id2)
     {
         $announcement = Announcement::find($id2);
+        //dd($id2);
 
         if($announcement != "") {
             if($announcement->idProject == $id) {

@@ -10,7 +10,11 @@
             {{ session('status') }}
         </div>
     @endif
-    <h2>{{__('gx.dashboard')}}</h2>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mt-1 pl-0 pb-0 pt-0 h3" style="background-color:white; ">
+            <li class="breadcrumb-item " aria-current="page">{{__('gx.dashboard')}}</li>
+        </ol>
+    </nav>
     <div class="row mb-3 rounded h-100" style="height: 90vh; background-color: #ededed;">
 
         <div class="col" style="max-width: 400px;">
@@ -201,8 +205,6 @@
                                                     @endif
 
                                                 @elseif(Auth::user()->role == 'professor')
-                                                    <button type="button" class="btn btn-sm btn-danger float-right" data-toggle="modal" data-target="#modalDelete-{{$project->idProject}}">{{__('gx.delete project')}}</button>
-                                                    <button type="button" class="btn btn-sm btn-success mr-2 float-right" data-toggle="modal" data-target="#modalEdit-{{$project->idProject}}">{{__('gx.edit project')}}</button>
                                                     <h5 class="mt-1 mb-1"><a style="color:#2c3fb1;" href="/professor/project/{{$project->idProject}}">{{$project->name}}</a></h5>
                                                 @endif
                                             </div>
@@ -227,97 +229,6 @@
             </div>
         </div>
     </div>
-
-    {{--Modal Edit--}}
-
-    @if(count($subjects) > 0)
-        @foreach($subjects as $subject)
-            @if(count($projects->whereIn('idSubject', $subject->idSubject)) > 0)
-                @foreach($projects as $project)
-                    @if($subject->idSubject == $project->idSubject)
-                        <div class="modal fade" id="modalEdit-{{$project->idProject}}" aria-labelledby="modalEdit-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.edit project')}}</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        {!! Form::open(['action' => ['ProfessorProjectsController@update', $project->idProject], 'method' => 'POST', 'enctype' => 'multipart/form-data', 'id' => 'formEdit']) !!}
-                                        <div class="form-group">
-                                            {{Form::label('title', trans('gx.name'))}}
-                                            {{Form::text('title', $project->name, ['class' => 'form-control', 'placeholder' => trans('gx.project name')])}}
-                                        </div>
-                                        <div class="form-group">
-                                            {{Form::label('deadline', trans('gx.group formation deadline'))}}
-                                            {{Form::text('group formation deadline', $project->groupCreationDueDate, ['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker1-'.$project->idProject, 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker1-'.$project->idProject, (\Carbon\Carbon::now()->diffInDays($project->groupCreationDueDate, false) > 0 ? :'disabled')])}}
-                                        </div>
-                                        <div class="form-group">
-                                            {{Form::label('deadline', trans('gx.deadline'))}}
-                                            {{Form::text('deadline', $project->dueDate, ['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker2-'.$project->idProject, 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker2-'.$project->idProject, (\Carbon\Carbon::now()->floatDiffInHours($project->dueDate, false) > 0 ? :'disabled')])}}
-                                        </div>
-                                        <div class="form-group">
-                                            {{Form::label('minNumber', trans('gx.minimum no. of members'))}}
-                                            {{Form::selectRange('minNumber', 1, 10, $project->minElements)}}
-                                        </div>
-                                        <div class="form-group">
-                                            {{Form::label('maxNumber', trans('gx.maximum no. of members'))}}
-                                            {{Form::selectRange('maxNumber', 1, 10, $project->maxElements)}}
-                                        </div>
-                                        <div class="form-group">
-                                            {{Form::label('documentation', trans('gx.documentation'))}}
-                                            {{Form::file('documentation')}}
-                                        </div>
-                                        {{ Form::hidden('subject', $subject->idSubject) }}
-                                        {{Form::hidden('option', 'project')}}
-
-                                        {{Form::hidden('_method','PUT')}}
-                                        {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
-                                        {!! Form::close() !!}
-                                    </div>
-                                    <script>
-                                        $(function() {$( "#datetimepicker1-{{$project->idProject}}" ).datetimepicker({
-                                            minDate: moment().format('YYYY-MM-DD HH:mm'),
-                                            date: moment('{{$project->groupCreationDueDate}}').format('YYYY-MM-DD HH:mm'),
-                                            locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
-                                            icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
-                                        });});
-                                        $(function() {$( "#datetimepicker2-{{$project->idProject}}" ).datetimepicker({
-                                            minDate: moment().format('YYYY-MM-DD HH:mm'),
-                                            date: moment('{{$project->dueDate}}').format('YYYY-MM-DD HH:mm'),
-                                            locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
-                                            icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
-                                        });});
-                                    </script>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal fade" id="modalDelete-{{$project->idProject}}" aria-labelledby="modalDelete-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.delete project')}}</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <h5>{{__('gx.want to delete project?')}}</h5>
-                                        {!!Form::open(['action' => ['ProfessorProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
-                                        {{Form::hidden('_method', 'DELETE')}}
-                                        {{Form::submit(trans('gx.delete'), ['class' => 'btn btn-danger'])}}
-                                        {!!Form::close()!!}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                @endforeach
-            @endif
-        @endforeach
-    @endif
 
     {{--Modal Create--}}
     <div class="modal fade" id="modalCreate" tabindex="-1" role="dialog">
