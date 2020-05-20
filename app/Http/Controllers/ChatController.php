@@ -62,8 +62,10 @@ class ChatController extends Controller
 
         $from = Auth::id();
         $to = $request->receiver_id;
-
-
+        $user_notification =  $mu = DB::table('users')
+                    ->where('id', '=', $from)
+                    ->value('name');
+        $message = $request->message;
 
 
         // pusher
@@ -79,11 +81,11 @@ class ChatController extends Controller
             $options
         );
 
-        $data = ['from' => $from, 'to' => $to]; // sending from and to user id when pressed enter
+        $data = ['from' => $from, 'to' => $to, 'username' => $user_notification, 'message' => $message]; // sending from and to user id when pressed enter
 
         $pusher->trigger('my-channel', 'my-event', $data);
 
-        $message = $request->message;
+
         $data = new Chat();
         $data->sender = $from;
         $data->receiver = $to;

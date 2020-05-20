@@ -275,28 +275,40 @@ z-index: 1; margin-left: 40%;margin-top: 5px;
                    type : 'get',
                    url : '{{URL::to('search')}}',
                    data:{'search':$value},
-                   success:function(data){
-                       $('.users').html(data);
-                   }
-               });
-               if (my_id == data.from) {
-                   $('#' + data.to).click();
-               } else if (my_id == data.to) {
-                   if (receiver_id == data.from) {
-                       // if receiver is selected, reload the selected user ...
-                       $('#' + data.from).click();
-                   } else {
+                   success:function(oi){
+                       $('.users').html(oi);
+                       if (my_id == data.from) {
+                           $('#' + data.to).click();
+                       } else if (my_id == data.to) {
+                           if (receiver_id == data.from) {
+                               // if receiver is selected, reload the selected user ...
+                               $('#' + data.from).click();
+                               sessionStorage.removeItem("notification");
 
-                       // if receiver is not seleted, add notification for that user
-                       var pending = parseInt($('#' + data.from).find('.pending').html());
+                           } else {
 
-                       if (pending) {
-                           $('#' + data.from).find('.pending').html(pending + 1);
-                       } else {
-                           $('#' + data.from).append('<span class="pending">1</span>');
+                               // if receiver is not seleted, add notification for that user
+                               var pending = sessionStorage.getItem("notification");
+                               var pending_total = sessionStorage.getItem("notification_total");
+
+                               if (pending) {
+
+                                   pending_total = parseInt(pending_total) + 1
+                                   sessionStorage.setItem("notification_total", pending_total);
+
+                                   $('#' + data.from).append('<span class="pending">'+pending_total+'</span>');
+                                   $('#chat_button').append('<span class="pending"></span>');
+                               } else {
+                                   $('#' + data.from).append('<span class="pending">1</span>');
+                                   $('#chat_button').append('<span class="pending"></span>');
+                                   sessionStorage.setItem("notification", 1);
+                                   sessionStorage.setItem("notification_total", 1);
+                               }
+                           }
                        }
                    }
-               }
+               });
+
 
 
 
@@ -370,6 +382,17 @@ z-index: 1; margin-left: 40%;margin-top: 5px;
                });
                $('.input-text').css("display", "block");
                $('.input-group-append').css("display", "block");
+
+               var pending = sessionStorage.getItem("notification");
+               var pending_total = sessionStorage.getItem("notification_total");
+               if (parseInt(pending_total) >= 1) {
+                   pending = parseInt(pending) - 1
+                   sessionStorage.setItem("notification_total", pending_total);
+               }else{
+                   sessionStorage.removeItem("notification");
+                   $('.pending').remove();
+               }
+
 
            });
        });

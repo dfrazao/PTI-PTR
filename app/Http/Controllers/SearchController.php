@@ -20,24 +20,34 @@ class SearchController extends Controller
             $my_id = Auth::id();
 
             if($request->search == null){
-                $mu = Chat::all()->where('sender', '==', $my_id)->sortByDesc('Date')->pluck('receiver');
 
-//                $mu = DB::table('chats')
-//                    ->where('sender', '=', $my_id)
-//                    ->orWhere('receiver', '=', $my_id)
-//                    ->orderBy('Date', 'desc')
-//                    ->get();
+//                $mu = Chat::all()->where(function ($user){
+//                    $user->where('sender', '==', $my_id)
+//                        ->orWhere('reeiver', '==', $my_id);
 //
-                $unique = [];
-                foreach ($mu as $m){
-                    array_push($unique, $m);
-                }
-                $mu = array_unique($unique);
+//                })->sortByDesc('Date')->pluck('receiver');
+
+                $mu = DB::table('chats')
+                    ->where('sender', '=', $my_id)
+                    ->orWhere('receiver', '=', $my_id)
+                    ->orderBy('Date', 'desc')
+                    ->get();
+
+
+//                $unique = [];
+//                foreach ($mu as $m){
+//                    array_push($unique, $m);
+//                }
+//                $mu = array_unique($unique);
+
+
                 $arr_users = [];
                 foreach ($mu as $m){
-                    $user_m = User::find($m);
+
+                    $user_m = User::find($m->sender);
                     array_push($arr_users, $user_m);
                 }
+
                 foreach ($arr_users as $key => $user) {
 
                     $source = Storage::url('profilePhotos/'.$user->photo);
