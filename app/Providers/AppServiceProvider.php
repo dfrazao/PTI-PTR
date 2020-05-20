@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Chat;
 use App\User;
 use Auth;
+use DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 
@@ -33,7 +34,11 @@ class AppServiceProvider extends ServiceProvider
             $my_id = Auth::id();
 
 
-            $mu = Chat::all()->where('sender', '==', $my_id)->pluck('receiver');
+            $mu = DB::table('chats')
+                ->where('sender', '=', $my_id)
+                ->orWhere('receiver', '=', $my_id)
+                ->orderBy('Date', 'desc')
+                ->pluck('receiver');
             $unique = [];
             foreach ($mu as $m){
                 array_push($unique, $m);

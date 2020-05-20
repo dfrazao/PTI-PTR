@@ -1,6 +1,6 @@
 
    <div class="container-md" id="testee" style="width: 450px;position: absolute;;
-z-index: 1; margin-left: 40%;margin-top: 5px;
+z-index: 1; margin-left: 75%;margin-top: 5px;
             background:white;
             border-radius:6px;
             border: 1px #a5b2cb solid;
@@ -137,7 +137,7 @@ z-index: 1; margin-left: 40%;margin-top: 5px;
        }
        .media-body p {
            margin: 6px 0;
-           font-size: 12px;
+           font-size: 10px;
        }
        .message-wrapper {
            padding: 10px;
@@ -230,9 +230,9 @@ z-index: 1; margin-left: 40%;margin-top: 5px;
                width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
                overflow-x: hidden;
            }
-
-           .date{
-               font-size: 10px;
+           .message p {
+               margin: 5px 0;
+               font-size: 12px;
            }
            .media-body p {
                margin: 6px 0;

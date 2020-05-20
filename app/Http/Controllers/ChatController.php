@@ -24,7 +24,11 @@ class ChatController extends Controller
         group by users.id, users.name, users.photo, users.email");*/
 
 
-        $mu = Chat::all()->where('sender', '==', $my_id)->sortByDesc('Date')->pluck('receiver');
+        $mu = DB::table('chats')
+            ->where('sender', '=', $my_id)
+            ->orWhere('receiver', '=', $my_id)
+            ->orderBy('Date', 'desc')
+            ->pluck('receiver');
         $unique = [];
         foreach ($mu as $m){
             array_push($unique, $m);

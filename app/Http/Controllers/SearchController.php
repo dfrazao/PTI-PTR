@@ -26,25 +26,22 @@ class SearchController extends Controller
 //                        ->orWhere('reeiver', '==', $my_id);
 //
 //                })->sortByDesc('Date')->pluck('receiver');
-
                 $mu = DB::table('chats')
                     ->where('sender', '=', $my_id)
                     ->orWhere('receiver', '=', $my_id)
                     ->orderBy('Date', 'desc')
-                    ->get();
+                    ->pluck('receiver');
 
+                $unique = [];
 
-//                $unique = [];
-//                foreach ($mu as $m){
-//                    array_push($unique, $m);
-//                }
-//                $mu = array_unique($unique);
-
-
-                $arr_users = [];
                 foreach ($mu as $m){
+                   array_push($unique, $m);
+                }
+                $mu = array_unique($unique);
+                $arr_users = [];
 
-                    $user_m = User::find($m->sender);
+                foreach ($mu as $m){
+                    $user_m = User::find($m);
                     array_push($arr_users, $user_m);
                 }
 
