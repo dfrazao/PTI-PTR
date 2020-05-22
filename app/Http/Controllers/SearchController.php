@@ -50,8 +50,8 @@ class SearchController extends Controller
                     $source = Storage::url('profilePhotos/'.$user->photo);
 
                     $output.=
-                        "<li class='user' id=".$user->id." name=".$user->name.">".
-
+                        "<li class='user' id='".$user->id."' name=''>".
+                        " <input type='hidden' id='custId' name='custId' value='".$user->name."'>".
                         "<div class='media'>".
                         "<div class='media-left'>".
                         "<img src='".$source."' alt='' class='media-object'>".
@@ -73,6 +73,7 @@ class SearchController extends Controller
                         $source = Storage::url('profilePhotos/'.$user->photo);
                         $output.=
                             "<li class='user' id=".$user->id." name=".$user->name.">".
+                            " <input type='hidden' id='name".$user->id."'  value='".$user->name."'>".
                             "<div class='media'>".
                             "<div class='media-left'>".
                             "<img src='".$source."' alt='' class='media-object'>".

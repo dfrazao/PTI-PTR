@@ -11,10 +11,14 @@ z-index: 1; margin-left: 75%;margin-top: 5px;
                <div class="user-wrapper">
                    <div id="search" style="margin: 10px;">
                        <input type="text" placeholder="Search" class="form-control" id="searchinput" name="searchinput" style="font-size:12px; ">
+
+
                    </div>
                    <ul class="users">
                        @for($i = 0; $i < count($arr_users); $i++)
                            <li class="user" id="{{ $arr_users[$i]->id }}" name="{{ $arr_users[$i]->name }}">
+                               <input type="hidden" id="custId" name="custId" value="{{ $arr_users[$i]->name }}">
+
                                <div class="media">
                                    <div class="media-left">
                                        <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
@@ -362,12 +366,12 @@ z-index: 1; margin-left: 75%;margin-top: 5px;
 
 
            $("body").on( "click", '.user', function( event ){
-               receiver_name = $(this).attr('name');
-
                $('.user').removeClass('active');
                $(this).addClass('active');
                $(this).find('.pending').remove();
                receiver_id = $(this).attr('id');
+               var n = receiver_id.toString();
+               receiver_name = $('#'+'name'+n).val();
                $("#name").text(receiver_name);
                $.ajax({
                    type: "get",
