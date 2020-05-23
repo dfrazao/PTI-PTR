@@ -1,6 +1,6 @@
 
    <div class="container-md" id="testee" style="width: 450px;position: absolute;;
-z-index: 1; margin-left: 75%;margin-top: 5px;
+z-index: 1; margin-left: 50%;margin-top: 5px;
             background:white;
             border-radius:6px;
             border: 1px #a5b2cb solid;
@@ -141,7 +141,7 @@ z-index: 1; margin-left: 75%;margin-top: 5px;
        }
        .media-body p {
            margin: 6px 0;
-           font-size: 10px;
+           font-size: 12px;
        }
        .message-wrapper {
            padding: 10px;
@@ -360,7 +360,6 @@ z-index: 1; margin-left: 75%;margin-top: 5px;
                            }
                        }
                    },
-
                }
            });
 

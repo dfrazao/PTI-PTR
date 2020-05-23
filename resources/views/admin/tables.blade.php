@@ -759,7 +759,7 @@
                                                 </td>
                                                 <td>
                                                     <span class="profile-picture">
-                                                        <img class="editable img-responsive " alt=" Avatar" id="avatar2" style="height: 50px;border-radius: 100%;  width: 50px; object-fit: cover;" src="/storage/profilePhotos/{{ $user->photo }}">
+                                                        <img class="editable img-responsive " alt=" Avatar" id="avatar2" style="height: 50px;border-radius: 100%;  width: 50px; object-fit: cover;" src="{{Storage::url('profilePhotos/'.$user->photo)}}">
                                                     </span>
                                                 </td>
                                                 <td>

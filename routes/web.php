@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\CheckRole;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -44,12 +46,12 @@ Auth::routes([
     Route::resource('/professor/project/{projectId}/post', 'PostController')->middleware('auth');
     Route::resource('/student/project/{projectId}/post', 'PostController')->middleware('auth');
 
-
-Route::get('/chat', 'ChatController@index')->name('chat');
-Route::get('/message/{id}', 'ChatController@getMessage')->name('message');
-Route::post('/message', 'ChatController@sendMessage');
-Route::get('/searchchat','SearchController@index', ['name' => 'searchchat'])->name("searchchat");
-Route::get('/search','SearchController@search');
+//chat
+    Route::get('/chat', 'ChatController@index')->name('chat');
+    Route::get('/message/{id}', 'ChatController@getMessage')->name('message');
+    Route::post('/message', 'ChatController@sendMessage');
+    Route::get('/searchchat','SearchController@index', ['name' => 'searchchat'])->name("searchchat");
+    Route::get('/search','SearchController@search');
 
 
 // Student
@@ -60,11 +62,10 @@ Route::get('/search','SearchController@search');
 // Professor
 
 // Admin
-    Route::get('/admin/', 'AdminController@index');
-    Route::get('/admin/{table}', 'AdminController@index');
-    Route::post('/admin/{table}/store', 'AdminController@store');
-    Route::get("/admin/edit-user/{id}",'AdminController@edit');
-    Route::put("/admin/edit-update/",'AdminController@update');
-    Route::delete('/admin/{table}/delete/','AdminController@destroy');
-    Route::post('/admin/{table}/import/','AdminController@import');
+    Route::get('/admin/{table}', 'AdminController@index', ['name' => 'Admin'])->name("Admin")->middleware(CheckRole::class);
+    Route::post('/admin/{table}/store', 'AdminController@store')->middleware(CheckRole::class);
+    Route::get("/admin/edit-user/{id}",'AdminController@edit')->middleware(CheckRole::class);
+    Route::put("/admin/edit-update/",'AdminController@update')->middleware(CheckRole::class);
+    Route::delete('/admin/{table}/delete/','AdminController@destroy')->middleware(CheckRole::class);
+    Route::post('/admin/{table}/import/','AdminController@import')->middleware(CheckRole::class);
 
