@@ -49,7 +49,14 @@ Auth::routes([
 //chat
     Route::get('/chat', 'ChatController@index')->name('chat');
     Route::get('/message/{id}', 'ChatController@getMessage')->name('message');
+    Route::get('profile/message/{id}', 'ChatController@getMessage')->name('message');
+    Route::get('student/message/{id}', 'ChatController@getMessage')->name('message');
     Route::post('/message', 'ChatController@sendMessage');
+    Route::post('profile/message', 'ChatController@sendMessage');
+    Route::post('student/project/message', 'ChatController@sendMessage');
+    Route::post('student/project/{projectId}/post/message', 'ChatController@sendMessage');
+    Route::post('student/project/{projectId}/message', 'ChatController@sendMessage');
+    Route::post('professor/project/message', 'ChatController@sendMessage');
     Route::get('/searchchat','SearchController@index', ['name' => 'searchchat'])->name("searchchat");
     Route::get('/search','SearchController@search');
 

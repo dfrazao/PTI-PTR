@@ -374,7 +374,7 @@ z-index: 1; margin-left: 50%;margin-top: 5px;
                $("#name").text(receiver_name);
                $.ajax({
                    type: "get",
-                   url: "message/" + receiver_id, // need to create this route
+                   url: "/message/" + receiver_id, // need to create this route
                    data: "",
                    cache: false,
                    success: function (data) {
@@ -427,6 +427,7 @@ z-index: 1; margin-left: 50%;margin-top: 5px;
                                $('.users').html(data);
                            }
                        });
+
                        var mes = $("#message").emojioneArea({
                            searchPlaceholder: "",
                            pickerPosition: "bottom",
@@ -473,8 +474,7 @@ z-index: 1; margin-left: 50%;margin-top: 5px;
                scrollTop: $('.message-wrapper').get(0).scrollHeight
            }, 0);
        }
-   </script>
-   <script type="text/javascript">
+
        $('#searchinput').on('keyup',function(){
            $value=$('#searchinput').val();
            $.ajax({

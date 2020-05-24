@@ -44,6 +44,7 @@ class ChatController extends Controller
 
     public function getMessage($user_id)
     {
+
         $my_id = Auth::id();
 
         // Make read all unread message
