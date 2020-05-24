@@ -62,10 +62,17 @@
                 @guest
 
                 @else
-                    <li class="nav-item">
-                        <a class="nav-link " href="#"><i class="fa fa-bell"></i></a>
-                    </li>
 
+                    <li class="nav-item dropdown dropdown-notifications">
+                        <a href="#notifications-panel" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell"></i>
+                        </a>
+                        {{--<span class="notif-count">0</span>--}}
+                        <div class="dropdown-container">
+                            <ul class="dropdown-menu">
+                            </ul>
+                        </div>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" id="chat_button" onclick="chat()"><i class="fa fa-envelope"></i></a>
                     </li>
@@ -122,7 +129,58 @@
             </ul>
         </div>
     </nav>
+    <script src="https://js.pusher.com/6.0/pusher.min.js"></script>
 
+    <script type="text/javascript">
+        var notificationsWrapper   = $('.dropdown-notifications');
+        var notificationsToggle    = notificationsWrapper.find('a[data-toggle]');
+        var notificationsCountElem = notificationsToggle.find('i[data-count]');
+        var notificationsCount     = parseInt(notificationsCountElem.data('count'));
+        var notifications          = notificationsWrapper.find('ul.dropdown-menu');
+
+        if (notificationsCount <= 0) {
+            notificationsWrapper.hide();
+        }
+
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('ff4af21336ebee3e83fe', {
+            cluster: 'eu',
+        });
+
+        var channel = pusher.subscribe('my-channel');
+        channel.bind('my-event', function (data) {
+
+
+            var existingNotifications = notifications.html();
+            var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
+            var newNotificationHtml = `
+          <li class="notification active">
+              <div class="media">
+                <div class="media-left">
+                  <div class="media-object">
+                    <img src="https://api.adorable.io/avatars/71/`+avatar+`.png" class="img-circle" alt="50x50" style="width: 50px; height: 50px;">
+                  </div>
+                </div>
+                <div class="media-body">
+                  <strong class="notification-title">`+data.username+`</strong>
+                  <p class="notification-desc">`+data.message+`</p>
+                  <div class="notification-meta">
+                    <small class="timestamp">about a minute ago</small>
+                  </div>
+                </div>
+              </div>
+          </li>
+        `;
+            notifications.html(newNotificationHtml + existingNotifications);
+
+            notificationsCount += 1;
+            notificationsCountElem.attr('data-count', notificationsCount);
+            notificationsWrapper.find('.notif-count').text(notificationsCount);
+            notificationsWrapper.show();
+        });
+    </script>
 
 @include('chat')
 @yield('content')

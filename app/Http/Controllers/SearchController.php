@@ -20,31 +20,38 @@ class SearchController extends Controller
             $my_id = Auth::id();
 
             if($request->search == null){
-                $mu = Chat::all()->where('sender', '==', $my_id)->sortByDesc('Date')->pluck('receiver');
 
-//                $mu = DB::table('chats')
-//                    ->where('sender', '=', $my_id)
-//                    ->orWhere('receiver', '=', $my_id)
-//                    ->orderBy('Date', 'desc')
-//                    ->get();
+//                $mu = Chat::all()->where(function ($user){
+//                    $user->where('sender', '==', $my_id)
+//                        ->orWhere('reeiver', '==', $my_id);
 //
+//                })->sortByDesc('Date')->pluck('receiver');
+                $mu = DB::table('chats')
+                    ->where('sender', '=', $my_id)
+                    ->orWhere('receiver', '=', $my_id)
+                    ->orderBy('Date', 'desc')
+                    ->pluck('receiver');
+
                 $unique = [];
+
                 foreach ($mu as $m){
-                    array_push($unique, $m);
+                   array_push($unique, $m);
                 }
                 $mu = array_unique($unique);
                 $arr_users = [];
+
                 foreach ($mu as $m){
                     $user_m = User::find($m);
                     array_push($arr_users, $user_m);
                 }
+
                 foreach ($arr_users as $key => $user) {
 
                     $source = Storage::url('profilePhotos/'.$user->photo);
 
                     $output.=
-                        "<li class='user' id=".$user->id." name=".$user->name.">".
-
+                        "<li class='user' id='".$user->id."' name=''>".
+                        " <input type='hidden' id='custId' name='custId' value='".$user->name."'>".
                         "<div class='media'>".
                         "<div class='media-left'>".
                         "<img src='".$source."' alt='' class='media-object'>".
@@ -66,6 +73,7 @@ class SearchController extends Controller
                         $source = Storage::url('profilePhotos/'.$user->photo);
                         $output.=
                             "<li class='user' id=".$user->id." name=".$user->name.">".
+                            " <input type='hidden' id='name".$user->id."'  value='".$user->name."'>".
                             "<div class='media'>".
                             "<div class='media-left'>".
                             "<img src='".$source."' alt='' class='media-object'>".

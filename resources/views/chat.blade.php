@@ -1,6 +1,6 @@
 
    <div class="container-md" id="testee" style="width: 450px;position: absolute;;
-z-index: 1; margin-left: 40%;margin-top: 5px;
+z-index: 1; margin-left: 50%;margin-top: 5px;
             background:white;
             border-radius:6px;
             border: 1px #a5b2cb solid;
@@ -11,10 +11,14 @@ z-index: 1; margin-left: 40%;margin-top: 5px;
                <div class="user-wrapper">
                    <div id="search" style="margin: 10px;">
                        <input type="text" placeholder="Search" class="form-control" id="searchinput" name="searchinput" style="font-size:12px; ">
+
+
                    </div>
                    <ul class="users">
                        @for($i = 0; $i < count($arr_users); $i++)
                            <li class="user" id="{{ $arr_users[$i]->id }}" name="{{ $arr_users[$i]->name }}">
+                               <input type="hidden" id="custId" name="custId" value="{{ $arr_users[$i]->name }}">
+
                                <div class="media">
                                    <div class="media-left">
                                        <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
@@ -230,9 +234,9 @@ z-index: 1; margin-left: 40%;margin-top: 5px;
                width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
                overflow-x: hidden;
            }
-
-           .date{
-               font-size: 10px;
+           .message p {
+               margin: 5px 0;
+               font-size: 12px;
            }
            .media-body p {
                margin: 6px 0;
@@ -275,28 +279,40 @@ z-index: 1; margin-left: 40%;margin-top: 5px;
                    type : 'get',
                    url : '{{URL::to('search')}}',
                    data:{'search':$value},
-                   success:function(data){
-                       $('.users').html(data);
-                   }
-               });
-               if (my_id == data.from) {
-                   $('#' + data.to).click();
-               } else if (my_id == data.to) {
-                   if (receiver_id == data.from) {
-                       // if receiver is selected, reload the selected user ...
-                       $('#' + data.from).click();
-                   } else {
+                   success:function(oi){
+                       $('.users').html(oi);
+                       if (my_id == data.from) {
+                           $('#' + data.to).click();
+                       } else if (my_id == data.to) {
+                           if (receiver_id == data.from) {
+                               // if receiver is selected, reload the selected user ...
+                               $('#' + data.from).click();
+                               sessionStorage.removeItem("notification");
 
-                       // if receiver is not seleted, add notification for that user
-                       var pending = parseInt($('#' + data.from).find('.pending').html());
+                           } else {
 
-                       if (pending) {
-                           $('#' + data.from).find('.pending').html(pending + 1);
-                       } else {
-                           $('#' + data.from).append('<span class="pending">1</span>');
+                               // if receiver is not seleted, add notification for that user
+                               var pending = sessionStorage.getItem("notification");
+                               var pending_total = sessionStorage.getItem("notification_total");
+
+                               if (pending) {
+
+                                   pending_total = parseInt(pending_total) + 1
+                                   sessionStorage.setItem("notification_total", pending_total);
+
+                                   $('#' + data.from).append('<span class="pending">'+pending_total+'</span>');
+                                   $('#chat_button').append('<span class="pending"></span>');
+                               } else {
+                                   $('#' + data.from).append('<span class="pending">1</span>');
+                                   $('#chat_button').append('<span class="pending"></span>');
+                                   sessionStorage.setItem("notification", 1);
+                                   sessionStorage.setItem("notification_total", 1);
+                               }
+                           }
                        }
                    }
-               }
+               });
+
 
 
 
@@ -344,22 +360,21 @@ z-index: 1; margin-left: 40%;margin-top: 5px;
                            }
                        }
                    },
-
                }
            });
 
 
            $("body").on( "click", '.user', function( event ){
-               receiver_name = $(this).attr('name');
-
                $('.user').removeClass('active');
                $(this).addClass('active');
                $(this).find('.pending').remove();
                receiver_id = $(this).attr('id');
+               var n = receiver_id.toString();
+               receiver_name = $('#'+'name'+n).val();
                $("#name").text(receiver_name);
                $.ajax({
                    type: "get",
-                   url: "message/" + receiver_id, // need to create this route
+                   url: "/message/" + receiver_id, // need to create this route
                    data: "",
                    cache: false,
                    success: function (data) {
@@ -370,6 +385,17 @@ z-index: 1; margin-left: 40%;margin-top: 5px;
                });
                $('.input-text').css("display", "block");
                $('.input-group-append').css("display", "block");
+
+               var pending = sessionStorage.getItem("notification");
+               var pending_total = sessionStorage.getItem("notification_total");
+               if (parseInt(pending_total) >= 1) {
+                   pending = parseInt(pending) - 1
+                   sessionStorage.setItem("notification_total", pending_total);
+               }else{
+                   sessionStorage.removeItem("notification");
+                   $('.pending').remove();
+               }
+
 
            });
        });
@@ -401,6 +427,7 @@ z-index: 1; margin-left: 40%;margin-top: 5px;
                                $('.users').html(data);
                            }
                        });
+
                        var mes = $("#message").emojioneArea({
                            searchPlaceholder: "",
                            pickerPosition: "bottom",
@@ -447,8 +474,7 @@ z-index: 1; margin-left: 40%;margin-top: 5px;
                scrollTop: $('.message-wrapper').get(0).scrollHeight
            }, 0);
        }
-   </script>
-   <script type="text/javascript">
+
        $('#searchinput').on('keyup',function(){
            $value=$('#searchinput').val();
            $.ajax({

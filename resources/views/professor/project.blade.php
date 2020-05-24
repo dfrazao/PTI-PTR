@@ -6,9 +6,9 @@
 <div class="container-xl-fluid mt-2 pl-5 pr-5 pb-2">
     @include('layouts.messages')
     <nav aria-label="breadcrumb" >
-        <ol class="breadcrumb pl-0 pb-0 mb-4 h4" style="background-color:white; ">
+        <ol class="breadcrumb pl-0 pb-0 mb-4 h3" style="background-color:white; ">
             <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page" >{{$subject->subjectName}} - {{$project->name}}</li>
+            <li class="breadcrumb-item " aria-current="page" >{{$subject->subjectName}} - {{$project->name}}</li>
         </ol>
     </nav>
 
@@ -22,7 +22,30 @@
         <li class="nav-item">
             <a class="nav-link" id="forum-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="false">Fórum</a>
         </li>
+        <li class="rightbutton ml-auto">
+            <button type="submit" class="btn btn-sm bg-danger" data-toggle="modal" data-target="#modalDelete-{{$project->idProject}}" style="width: 20vh;color: white;">Delete Project</button>
+        </li>
     </ul>
+
+    <div class="modal fade" id="modalDelete-{{$project->idProject}}" aria-labelledby="modalDelete-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.delete project')}}</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h5>{{__('gx.want to delete project?')}}</h5>
+                    {!!Form::open(['action' => ['ProfessorProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
+                    {{Form::hidden('_method', 'DELETE')}}
+                    {{Form::submit(trans('gx.delete'), ['class' => 'btn btn-danger'])}}
+                    {!!Form::close()!!}
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="tab-content" id="myTabContent" style="min-height: 75vh; background-color: #ededed;">
         <div class="container tab-pane fade" id="characteristics" role="tabpanel" aria-labelledby="characteristics-tab">
@@ -48,7 +71,7 @@
                                         </div>
                                         <div class="form-group">
                                             {{Form::label('deadline', trans('gx.group formation deadline'))}}
-                                            {{Form::text('group formation deadline', $project->groupCreationDueDate, ['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker1-'.$project->idProject, 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker1-'.$project->idProject, (\Carbon\Carbon::now()->diffInDays($project->groupCreationDueDate, false) > 0 ? :'disabled')])}}
+                                            {{Form::text('group formation deadline', $project->groupCreationDueDate, ['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker1-'.$project->idProject, 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker1-'.$project->idProject, (\Carbon\Carbon::now()->floatDiffInHours($project->groupCreationDueDate, false) > 0 ? :'disabled')])}}
                                         </div>
                                         <div class="form-group">
                                             {{Form::label('deadline', trans('gx.deadline'))}}
@@ -91,27 +114,97 @@
 
                     <div class="pt-3">
                         <table class="table ">
-                            <tr >
+                            <tr>
+                                <th scope="row">Prazo para criação de grupos</th>
+                                <td>{{$project->groupCreationDueDate}}</td>
+                                <td>
+                                    <div id="timer2"></div>
+                                    <style>
+                                        #timer2 {
+                                            font-size: 1.30em;
+                                            font-weight: 100;
+                                            color: navy;
+                                        }
+
+                                        #timer2 div {
+                                            display: inline-block;
+                                            min-width: 45px;
+                                        }
+
+                                        #timer2 div span {
+                                            color: black;
+                                            display: block;
+                                            font-size: .50em;
+                                            font-weight: 400;
+                                        }
+                                    </style>
+                                    <script>
+                                        function updateTimer2() {
+                                            future = Date.parse("{{$project->groupCreationDueDate}}");
+                                            now = new Date();
+                                            diff = future - now;
+
+                                            days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                                            hours = Math.floor(diff / (1000 * 60 * 60));
+                                            mins = Math.floor(diff / (1000 * 60));
+                                            secs = Math.floor(diff / 1000);
+
+                                            d = days;
+                                            h = hours - days * 24;
+                                            m = mins - hours * 60;
+                                            s = secs - mins * 60;
+
+                                            if (d<0){
+                                                document.getElementById("timer2")
+                                                    .innerHTML = '<p>Terminado<p>';
+                                            }else if (d==0 && h==0 && m==0){
+                                                document.getElementById("timer2")
+                                                    .innerHTML = '<div>' + s + '<span>seconds</span></div>';
+                                            } else if (d==0 && h==0 && m==0 && s==0){
+                                                document.getElementById("timer2")
+                                                    .innerHTML = '<p>Terminado<p>';
+                                            }else if (d==0){
+                                                document.getElementById("timer2")
+                                                    .innerHTML =
+                                                    '<div>' + h + '<span>hours</span></div>' +
+                                                    '<div>' + m + '<span>minutes</span></div>' +
+                                                    '<div>' + s + '<span>seconds</span></div>';
+                                            }
+                                            else{
+                                                document.getElementById("timer2")
+                                                    .innerHTML =
+                                                    '<div>' + d + '<span>days</span></div>' +
+                                                    '<div>' + h + '<span>hours</span></div>' +
+                                                    '<div>' + m + '<span>minutes</span></div>';
+                                            }
+                                        }
+                                        updateTimer2();
+                                        setInterval('updateTimer2()', 1000);
+                                    </script>
+
+                                </td>
+                            </tr>
+                            <tr>
                                 <th scope="row">Prazo de entrega</th>
                                 <td>{{$project->dueDate}}</td>
-                                <td>
+                                <td style="width: 30%;">
                                     <div id="timer"></div>
                                     <style>
                                         #timer {
-                                            font-size: 3em;
+                                            font-size: 1.30em;
                                             font-weight: 100;
                                             color: navy;
                                         }
 
                                         #timer div {
                                             display: inline-block;
-                                            min-width: 90px;
+                                            min-width: 45px;
                                         }
 
                                         #timer div span {
-                                            color: #B1CDF1;
+                                            color: black;
                                             display: block;
-                                            font-size: .25em;
+                                            font-size: .50em;
                                             font-weight: 400;
                                         }
                                     </style>
@@ -131,22 +224,32 @@
                                             m = mins - hours * 60;
                                             s = secs - mins * 60;
 
-                                            document.getElementById("timer")
-                                                .innerHTML =
-                                                '<div>' + d + '<span>days</span></div>' +
-                                                '<div>' + h + '<span>hours</span></div>' +
-                                                '<div>' + m + '<span>minutes</span></div>';
+                                            if (d<0 || (d==0 && h==0 && m==0 && s==0)){
+                                                document.getElementById("timer")
+                                                    .innerHTML = '<p>Terminado<p>';
+                                            }else if (d==0 && h==0 && m==0){
+                                                document.getElementById("timer")
+                                                    .innerHTML = '<div>' + s + '<span>seconds</span></div>';
+                                            }else if (d==0){
+                                                document.getElementById("timer")
+                                                    .innerHTML =
+                                                    '<div>' + h + '<span>hours</span></div>' +
+                                                    '<div>' + m + '<span>minutes</span></div>' +
+                                                    '<div>' + s + '<span>seconds</span></div>';
+                                            }else{
+                                                document.getElementById("timer")
+                                                    .innerHTML =
+                                                    '<div>' + d + '<span>days</span></div>' +
+                                                    '<div>' + h + '<span>hours</span></div>' +
+                                                    '<div>' + m + '<span>minutes</span></div>';
+                                            }
                                         }
+                                        updateTimer();
                                         setInterval('updateTimer()', 1000);
                                     </script>
-
                                 </td>
                             </tr>
-                            <tr>
-                                <th scope="row">Prazo para criação de grupos</th>
-                                <td>{{$project->groupCreationDueDate}}</td>
-                                <td>{{$project->dueDate}}</td>
-                            </tr>
+
                             <tr>
                                 <th scope="row">Nº máximo de grupos</th>
                                 <td colspan="2">{{$project->maxGroups}}</td>
@@ -170,19 +273,17 @@
                             <td colspan="2" >{{count($groups)}}</td>
                         </tr>
                         <tr>
-                            <th scope="row">Grupos que não cumprem os requisitos</th>
+                            <th scope="row" style="width: 45%;">Grupos que não cumprem os requisitos</th>
                             <?php $count = 0 ?>
                             @foreach($groups as $group)
                                 @if(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup)->count() < $project->minElements)
                                     <?php $count++ ?>
                                 @endif
                             @endforeach
-                            <td  {{($count > 0 ? "colspan='2'": "")}}>
-                                {{$count}}
-                            </td>
+
 
                             @if($count >= 1)
-                                <td style="width: 26%;"><button type="button" class="btn btn-outline-primary btn-sm m-0 waves-effect" data-toggle="modal" data-target="#modalGroups-{{$project->idProject}}">Show</button></td>
+                                <td style="width: 53%;"><button type="button" class="btn btn-outline-primary btn-sm m-0 waves-effect" data-toggle="modal" data-target="#modalGroups-{{$project->idProject}}">Show</button></td>
                                 <div class="modal fade" id="modalGroups-{{$project->idProject}}" aria-labelledby="modalGroups-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -195,13 +296,17 @@
                                             <div class="modal-body">
                                                 @foreach($groups as $group)
                                                     @if(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup)->count() < $project->minElements)
-                                                        <a href="/professor/project/{{$project->idProject}}#pills-{{$group->idGroupProject}}">Grupo {{$group->idGroupProject}}</a>
+                                                        <p><a onclick="window.location.assign ='#groups.pills-{{$group->idGroupProject}}'" href="#groups.pills-{{$group->idGroupProject}}">Grupo {{$group->idGroupProject}}</a></p>
                                                     @endif
                                                 @endforeach
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            @else
+                                <td>
+                                    {{$count}}
+                                </td>
                             @endif
                         </tr>
                         </tbody>
@@ -432,6 +537,10 @@
     }
     th{
         width: 46%;
+    }
+    .nav-tabs .nav-link.active{
+        background-color: #ededed;
+        border-color:#ededed;
     }
 </style>
 @endsection

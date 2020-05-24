@@ -11,7 +11,7 @@
         </div>
     @endif
     <h2>{{__('gx.dashboard')}}</h2>
-    <div class="row mb-3 rounded h-100" style="height: 90vh; background-color: #ededed;">
+    <div class="row mb-3 rounded h-100" style="height: 90vh; background-color: #ededed;}">
 
         <div class="col" style="max-width: 400px;">
             <div class="container">

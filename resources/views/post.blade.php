@@ -6,26 +6,38 @@
 <div class="container-fluid pl-5 pr-5 pb-2 mt-3">
     @include('layouts.messages')
     <nav aria-label="breadcrumb" >
-        <ol class="breadcrumb mt-1 pl-0 pb-0 pt-0 float-right" style="background-color:white; ">
-            <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page"><a style="color:#2c3fb1;" href="/student/project/{{$project->idProject}}#forum">{{$subject->subjectName}} - {{$project->name}} Forum</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{$announcement->title}}</li>
+        <ol class="breadcrumb mt-1 pl-0 pb-0 pt-0 h3" style="background-color:white; ">
+            <li class="breadcrumb-item" aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>Dashboard</a></li>
+            @if (Auth::user()->role == 'professor')
+                <li class="breadcrumb-item" aria-current="page"><a style="color:#2c3fb1;" href="/professor/project/{{$project->idProject}}#forum">{{$subject->subjectName}} - {{$project->name}}</a></li>
+            @elseif (Auth::user()->role == 'student')
+                <li class="breadcrumb-item" aria-current="page"><a style="color:#2c3fb1;" href="/student/project/{{$project->idProject}}#forum">{{$subject->subjectName}} - {{$project->name}}</a></li>
+            @endif
+            <li class="breadcrumb-item" aria-current="page">{{$announcement->title}}</li>
         </ol>
     </nav>
-    <h2 class="pb-2">{{$subject ->subjectName}} - {{$project->name}}</h2>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link" href="/student/project/{{$project->idProject}}#content">Content</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/student/project/{{$project->idProject}}#schedule">Schedule</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" id="noticias-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="noticias" aria-selected="true">Forum</a>
-        </li>
-        <li class=" ml-auto">
-            <button type="submit" class="btn btn-sm float-right bg-danger" style="width: 20vh;color: white;">Leave Group</button>
-        </li>
+        @if (Auth::user()->role == 'professor')
+            <li class="nav-item">
+                <a class="nav-link" href="/professor/project/{{$project->idProject}}#characteristics">Características</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/professor/project/{{$project->idProject}}#groups">Grupos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" id="forum-tab" data-toggle="tab" href="#forum" role="tab">Fórum</a>
+            </li>
+        @elseif (Auth::user()->role == 'student')
+            <li class="nav-item">
+                <a class="nav-link" href="/student/project/{{$project->idProject}}#content">Content</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/student/project/{{$project->idProject}}#schedule">Schedule</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" id="forum-tab" data-toggle="tab" href="#forum" role="tab">Forum</a>
+            </li>
+        @endif
     </ul>
 
     <div class="tab-content" id="myTabContent" style="background-color: #ededed; min-height: 75vh; ">

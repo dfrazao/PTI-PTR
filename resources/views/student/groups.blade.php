@@ -1,30 +1,34 @@
 @extends('layouts.app')
 @section('content')
     <head>
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css"/>
         <title>Groups</title>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
     </head>
     <div class="container-fluid pl-5 pr-5 pb-2 mt-3">
         @include('layouts.messages')
         <nav aria-label="breadcrumb" >
             <ol class="breadcrumb mt-1 pl-0 pb-0 pt-0 float-right" style="background-color:white; ">
-                <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Groups</li>
+                <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>{{__('gx.dashboard')}}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{__('gx.groups')}}</li>
                 <li class="breadcrumb-item active" aria-current="page">{{$subject->subjectName}} - {{$project->name}}</li>
             </ol>
         </nav>
         <h2 class="pb-2"></h2>
         <br>
-        <h1> Groups Creation </h1>
+        <h1> {{__('gx.group creation')}} </h1>
         <br>
         <div class="container-fluid overflow-auto "  >
             <div class="table-responsive">
                 <table class="table bg-white" style="text-align:center;">
                     <thead>
                     <tr>
-                        <th>Group</th>
-                        <th>Nº Elements</th>
-                        <th>Elements</th>
+                        <th>{{__('gx.group')}}</th>
+                        <th>{{__('gx.nº elements')}}</th>
+                        <th>{{__('gx.elements')}}</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -34,7 +38,7 @@
                     @foreach($groupNumber as $groupN)
                         <tr>
                             <td>
-                                {{$groupN}}
+                                {{$students_per_group[$groupN][0]->idGroupProject }}
                             </td>
                             <td>
                                 {{count($students_per_group[$groupN])}}/{{$projectMaxElements}}</td>
@@ -45,13 +49,12 @@
 
                         @endforeach
 
-                            <!--------------------------------------------------------------->
-
-
 
                         @if(count($students_per_group[$groupN]) == $projectMaxElements)
-                                <td><button type="button" class="btn btn-danger" disabled>Group Full</button> </td>
-                            @else
+                                <td><button type="button" class="btn btn-danger" disabled>{{__('gx.group full')}}</button> </td>
+                        @elseif(in_array($user,$studentsIdGroupValues))
+                                <td><button type="button" class="btn btn-info disabled" disabled>{{__('gx.join group')}}</button> </td>
+                        @else
                             <td>
                                 @csrf
                                 {!!Form::open(['action' => ['GroupController@update', $project -> idProject], 'method' => 'POST'])!!}
@@ -72,117 +75,131 @@
 
                     </tbody>
                 </table>
+            </div>
 
-    @if(count($subjectStudentsNoGroup)>0)
+                <br>
+                <br>
+
+    @if(count($subjectStudentsNoGroup)==0 or $numberGroupsInsideProject == $projectMaxGroups or in_array($user,$studentsIdGroupValues))
+
                     <div style="padding-left:40%;margin-bottom: 20%">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCriarGrupo">Create Group</button>
-                        <button style="margin-left: 5%" type="button" class="btn btn-info" data-toggle="modal" data-target="#modalSugestaoGrupo">Students Sugestions</button>
+                        <button type="button" class="btn btn-primary disabled" data-toggle ="modal" style="width: 11em" >{{__('gx.create group')}} </button>
+                        <button  type="button" class="btn btn-info disabled" data-toggle="modal" style="width: 11em">{{__('gx.student sugestions')}}</button>
                     </div>
     @else
                     <div style="padding-left:40%;margin-bottom: 20%">
-                        <button type="button" class="btn btn-primary disabled" data-toggle="modal" >Create Group</button>
-                        <button style="margin-left: 5%" type="button" class="btn btn-info disabled" data-toggle="modal" >Students Sugestions</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCriarGrupo" style="width: 11em">{{__('gx.create group')}}</button>
+                        <button  type="button" class="btn btn-info" data-toggle="modal" data-target="#modalSugestaoGrupo" style="width: 11em">{{__('gx.student sugestions')}}</button>
                     </div>
 
     @endif
 
 
-    <div id="modalCriarGrupo" class="modal" tabindex="-1" role="dialog" >
-        <div class="modal-dialog modal-lg" >
+    <div id="modalCriarGrupo"  class="modal" tabindex="-1" role="dialog" >
+        <div class="modal-dialog modal-xl" >
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 class="modal-title">Group Creation</h2>
+                    <h2 class="modal-title">{{__('gx.group creation')}}</h2>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
 
-                <div class="modal-body" >
-                        <h5 class="pb-2">Add students to group</h5>
-                        <p class="pb-2">Group capacity : {{$projectMaxElements}}</p>
-                        <table class="table bg-white" style="text-align:left;">
-                        <tbody style="overflow: auto;max-height: 20%">
-                        @csrf
-                        {!! Form::open(['action' => ['GroupController@store', $project->idProject], 'method' => 'POST']) !!}
-                        {!!Form::hidden('userId', $user)!!}
+                <div class="modal-body" style="display: inline"  >
+                    <div>
+                        <h5 class="pb-2" style="float: left">{{__('gx.min elements')}} : {{$projectMinElements}}</h5> <br>
+                        <br>
+                        <h5 class="pb-2" style="float: left">{{__('gx.max elements')}} : {{$projectMaxElements}}</h5>
 
+
+                    </div>
+
+
+                    @csrf
+                    {!! Form::open(['action' => ['GroupController@store', $project->idProject], 'method' => 'POST']) !!}
+                    {!!Form::hidden('userId', $user)!!}
+                    <table id="datatable" class="display">
+                        <thead>
+                        <tr>
+                            <th>{{__('gx.name')}}</th>
+                            <th>{{__('gx.student number')}}</th>
+                            <th>{{__('gx.class')}}</th>
+                            <th></th>
+
+                        </tr>
+                        <tbody>
                         @foreach($subjectStudentsNoGroup as $studentInfo)
-                            <tr><td>
-                                    <div class="form-check form-check" >
-                                        {!!Form::label('nameStudent', $studentInfo->name)!!}
-                                        {!!Form::label('uniNumber', $studentInfo->uniNumber)!!}
-                                        {!!Form::label('class', $studentInfo->class)!!}
-                                        {!!Form::checkbox('idStudent[]'.$studentInfo->id, $studentInfo->id)!!}
-                                    </div>
-                                </td></tr>
+                            <tr>
+                                <td>{!!Form::label('nameStudent', $studentInfo->name)!!}</td>
+                                <td>{!!Form::label('uniNumber', $studentInfo->uniNumber)!!}</td>
+                                <td>{!!Form::label('class', $studentInfo->class)!!}</td>
+                                <td>{!!Form::checkbox('idStudent[]'.$studentInfo->id, $studentInfo->id,false)!!}</td>
+                                <!-- adicionar às checkboxes class="custom-control-input"-->
+                            </tr>
+
                         @endforeach
                         </tbody>
                     </table>
                 </div>
+
                 <div class="modal-footer">
-                    {{Form::submit('Create Group',['class'=>'btn btn-success'],['style'=>'display: block; margin: 0 auto'])}}
+                    {{Form::submit('Create Group',['class'=>'btn btn-primary'],['style'=>'display: block; margin: 0 auto'])}}
                     {{Form::hidden('project', $project->idProject)}}
                     {{Form::hidden('numberGroupsInsideProject', $numberGroupsInsideProject)}}
 
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">{{__('gx.cancel')}}</button>
                     {!!Form::close()!!}
                 </div>
             </div>
 
         </div>
     </div>
-
+    </div>
     <div id="modalSugestaoGrupo" class="modal" tabindex="-1" role="dialog"  >
-        <div class="modal-dialog modal-lg" >
+        <div class="modal-dialog modal-xl" >
             <div class="modal-content" >
                 <div class="modal-header">
-                    <h2 class="modal-title">Students sugestions</h2>
+                    <h2 class="modal-title">{{__('gx.student sugestions')}}</h2>
+                    <p>Sorted By Average</p>
+
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body" >
-                    <!--<div class="table-responsive">
-                        <table class="table bg-white" style="text-align:left;">
-                            <tbody style="overflow: auto;max-height: 20%">
-                            @foreach($subjectStudentsNoGroup as $studentInfo)
-                                <tr><td><p> {{$studentInfo->name}}|{{$studentInfo->uniNumber}} |{{$studentInfo->class}} <a href="#"><i class="fa fa-envelope" style="font-size: 1em"></i></a></p></td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>-->
-                        <table id="datatable" class="display">
-                            <thead>
+                <div class="modal-body" style="display: inline" >
+                    <table id="datatable2" class="display">
+                        <thead>
+                        <tr>
+                            <th>{{__('gx.name')}}</th>
+                            <th>{{__('gx.student number')}}</th>
+                            <th>{{__('gx.class')}}</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($subjectStudentsNoGroup as $studentInfo)
                             <tr>
-                                <th>Name</th>
-                                <th>Student Number</th>
-                                <th>Class</th>
-                                <th>Average</th>
-                                <th></th>
+                                <td>{{$studentInfo->name}}</td>
+                                <td>{{$studentInfo->uniNumber}}</td>
+                                <td>{{$studentInfo->class}}</td>
+                                <td><p><a href="#"><i class="fa fa-envelope" style="font-size: 1em"></i></a></p></td>
                             </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($subjectStudentsNoGroup as $studentInfo)
-                                <tr>
-                                    <td>{{$studentInfo->name}}</td>
-                                    <td>{{$studentInfo->uniNumber}}</td>
-                                    <td>{{$studentInfo->class}}</td>
-                                    <td>{{$studentInfo->average}}</td>
-                                    <td><p><a href="#"><i class="fa fa-envelope" style="font-size: 1em"></i></a></p></td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">{{__('gx.close')}}</button>
+                </div>
                 </div>
                 </div>
             </div>
         </div>
 
     </div>
-    </div>
-    </div>
+
+
 
 
 
@@ -213,6 +230,30 @@
         ]
     } );</script>
 
+
+    <script>$(document).ready( function () {
+            $('#datatable2').DataTable();
+        } );</script>
+
+
+    <script>
+            $('#datatable2').dataTable({
+                "bPaginate": false,
+                "bLengthChange": false,
+                "bFilter": true,
+                "bInfo": false,
+                "bAutoWidth": false,
+                "ordering": false});
+    </script>
+
+
+<style>
+    .modal-body{
+        max-height: calc(100vh - 300px);
+        overflow-y: auto;
+    }
+
+    </style>
 
 
 @endsection

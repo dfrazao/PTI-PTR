@@ -96,7 +96,7 @@ class ProfessorProjectsController extends Controller
         $subject = Subject::find($project->idSubject);
         $groups = Group::all()->where('idProject', '==', $id);
 
-        $announcements = Announcement::all()->where('idProject', '==', $id);
+        $announcements = Announcement::orderBy('date', 'desc')->paginate(10)->fragment('forum');
         $allAnnouncements = [];
         foreach ($announcements as $a) {
             array_push($allAnnouncements, $a);
@@ -114,8 +114,7 @@ class ProfessorProjectsController extends Controller
             array_push($numberComments, $idComment);
         }
 
-
-        return view('professor.project')->with('numberComments', $numberComments)->with('project' , $project)->with('subject', $subject)->with('groups', $groups)->with('announcements', $allAnnouncements)->with('a',$announcements)->with('userPoster', $users);
+        return view('professor.project')->with('numberComments', $numberComments)->with('project' , $project)->with('subject', $subject)->with('groups', $groups)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('a',$announcements);
     }
 
     /**
@@ -141,14 +140,20 @@ class ProfessorProjectsController extends Controller
         if($request->option=="project") {
             $this->validate($request, [
                 'title' => 'required',
-                'deadline' => 'required',
-                'group_formation_deadline' => 'required'
             ]);
 
             $project = Project::find($id);
             $project->name = $request->title;
-            $project->dueDate = Carbon::parse($request->deadline);
-            $project->groupCreationDueDate = Carbon::parse($request->group_formation_deadline);
+            if (!empty($request->deadline)){
+                $project->dueDate = Carbon::parse($request->deadline);
+            }else{
+                $project->dueDate = $project->dueDate;
+            }
+            if (!empty($request->group_formation_deadline)){
+                $project->groupCreationDueDate = Carbon::parse($request->group_formation_deadline);
+            }else{
+                $project->groupCreationDueDate = $project->groupCreationDueDate;
+            }
             $project->minElements = $request->minNumber;
             $project->maxElements = $request->maxNumber;
             $project->idSubject = $project->idSubject;
@@ -163,7 +168,7 @@ class ProfessorProjectsController extends Controller
             $project->maxGroups = SubjectEnrollment::all()->where('idSubject', '==', $request->subject)->count();
             $project->save();
 
-            return redirect('/')->with('success', 'Project Updated');
+            return redirect('professor/project/'.$id)->with('success', 'Project Updated');
 
         } else {
             $this->validate($request, [

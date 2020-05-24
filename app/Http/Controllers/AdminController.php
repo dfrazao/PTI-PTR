@@ -84,6 +84,14 @@ class AdminController extends Controller
 
             return view('admin.tables')->with('data',$years);
         }
+        elseif ($table == 'dashboard'){
+
+            $countUsers = User::all()->count();
+            $countStudents = User::all()->where('role', '==', 'student')->count();
+            $countProfessors = User::all()->where('role', '==', 'professor')->count();
+            $countUniversities = University::all()->count();
+            return view('admin.dashboard')->with('countUsers',$countUsers)->with('countStudents',$countStudents)->with('countProfessors',$countProfessors)->with('countUniversities',$countUniversities);
+        }
     }
 
     /**

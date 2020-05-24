@@ -24,7 +24,11 @@ class ChatController extends Controller
         group by users.id, users.name, users.photo, users.email");*/
 
 
-        $mu = Chat::all()->where('sender', '==', $my_id)->sortByDesc('Date')->pluck('receiver');
+        $mu = DB::table('chats')
+            ->where('sender', '=', $my_id)
+            ->orWhere('receiver', '=', $my_id)
+            ->orderBy('Date', 'desc')
+            ->pluck('receiver');
         $unique = [];
         foreach ($mu as $m){
             array_push($unique, $m);
@@ -40,6 +44,7 @@ class ChatController extends Controller
 
     public function getMessage($user_id)
     {
+
         $my_id = Auth::id();
 
         // Make read all unread message
@@ -62,8 +67,10 @@ class ChatController extends Controller
 
         $from = Auth::id();
         $to = $request->receiver_id;
-
-
+        $user_notification =  $mu = DB::table('users')
+                    ->where('id', '=', $from)
+                    ->value('name');
+        $message = $request->message;
 
 
         // pusher
@@ -79,11 +86,11 @@ class ChatController extends Controller
             $options
         );
 
-        $data = ['from' => $from, 'to' => $to]; // sending from and to user id when pressed enter
+        $data = ['from' => $from, 'to' => $to, 'username' => $user_notification, 'message' => $message]; // sending from and to user id when pressed enter
 
         $pusher->trigger('my-channel', 'my-event', $data);
 
-        $message = $request->message;
+
         $data = new Chat();
         $data->sender = $from;
         $data->receiver = $to;
