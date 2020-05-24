@@ -115,9 +115,9 @@
                     <div class="pt-3">
                         <table class="table ">
                             <tr>
-                                <th scope="row">Prazo para criação de grupos</th>
-                                <td>{{$project->groupCreationDueDate}}</td>
-                                <td>
+                                <th class="info-th" scope="row">Prazo para criação de grupos</th>
+                                <td class="info-td" >{{$project->groupCreationDueDate}}</td>
+                                <td class="info-td" >
                                     <div id="timer2"></div>
                                     <style>
                                         #timer2 {
@@ -185,9 +185,9 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row">Prazo de entrega</th>
-                                <td>{{$project->dueDate}}</td>
-                                <td style="width: 30%;">
+                                <th class="info-th" scope="row">Prazo de entrega</th>
+                                <td class="info-td" >{{$project->dueDate}}</td>
+                                <td class="info-td" style="width: 30%;">
                                     <div id="timer"></div>
                                     <style>
                                         #timer {
@@ -251,16 +251,16 @@
                             </tr>
 
                             <tr>
-                                <th scope="row">Nº máximo de grupos</th>
-                                <td colspan="2">{{$project->maxGroups}}</td>
+                                <th class="info-th" scope="row">Nº máximo de grupos</th>
+                                <td class="info-td" colspan="2">{{$project->maxGroups}}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Nº mínimo de elementos por Grupo</th>
-                                <td colspan="2">{{$project->minElements}}</td>
+                                <th class="info-th" scope="row">Nº mínimo de elementos por Grupo</th>
+                                <td class="info-td" colspan="2">{{$project->minElements}}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Nº máximo de elementos por Grupo</th>
-                                <td colspan="2">{{$project->maxElements}}</td>
+                                <th class="info-th" scope="row">Nº máximo de elementos por Grupo</th>
+                                <td class="info-td" colspan="2">{{$project->maxElements}}</td>
                             </tr>
                         </table>
                     </div>
@@ -268,12 +268,12 @@
                     <hr style="border-top: 4px double #8c8b8b; text-align: center;">
                     <table class="table style1">
                         <tbody>
-                        <tr >
-                            <th scope="row">Número de grupos</th>
-                            <td colspan="2" >{{count($groups)}}</td>
+                        <tr>
+                            <th class="info-th" scope="row">Número de grupos</th>
+                            <td class="info-td" colspan="2" >{{count($groups)}}</td>
                         </tr>
                         <tr>
-                            <th scope="row" style="width: 45%;">Grupos que não cumprem os requisitos</th>
+                            <th class="info-th" scope="row" style="width: 45%;">Grupos que não cumprem os requisitos</th>
                             <?php $count = 0 ?>
                             @foreach($groups as $group)
                                 @if(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup)->count() < $project->minElements)
@@ -283,7 +283,7 @@
 
 
                             @if($count >= 1)
-                                <td style="width: 53%;"><button type="button" class="btn btn-outline-primary btn-sm m-0 waves-effect" data-toggle="modal" data-target="#modalGroups-{{$project->idProject}}">Show</button></td>
+                                <td class="info-td" style="width: 53%;"><button type="button" class="btn btn-outline-primary btn-sm m-0 waves-effect" data-toggle="modal" data-target="#modalGroups-{{$project->idProject}}">Show</button></td>
                                 <div class="modal fade" id="modalGroups-{{$project->idProject}}" aria-labelledby="modalGroups-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -304,7 +304,7 @@
                                     </div>
                                 </div>
                             @else
-                                <td>
+                                <td class="info-td">
                                     {{$count}}
                                 </td>
                             @endif
@@ -438,10 +438,12 @@
             </div>
         </div>
 
-        <div class="container tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
-            <div class="container mt-2 pb-3 rounded px-5 pt-3">
-                <div class="table-responsive">
-                    <table class="table bg-white" style="text-align:center;">
+        <div class="tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
+            <button type="button" class="p-2 mt-3 mr-3 btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#modalCreatePost" style="background-color: #2c3fb1; border-color: #2c3fb1;">Create Post</button>
+
+            <div class="container rounded pb-3 pt-3">
+                <div class="table-responsive-xl">
+                    <table class="table bg-white rounded" style="text-align:center;">
                         <thead>
                         <tr>
                             <th>Subject</th>
@@ -454,7 +456,7 @@
                         @if(count($announcements) > 0)
                             @for($i = 0; $i < count($announcements); $i++)
                                 <tr>
-                                    <td style="vertical-align: middle;"><a href="/student/project/{{$project->idProject}}/post/{{$announcements[$i]->idAnnouncement}}">{{$announcements[$i]->title}}</a></td>
+                                    <td style="vertical-align: middle;"><a href="/professor/project/{{$project->idProject}}/post/{{$announcements[$i]->idAnnouncement}}">{{$announcements[$i]->title}}</a></td>
                                     <td style="vertical-align: middle;">
                                         <a href="/profile/{{$userPoster[$i]->id }}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$userPoster[$i]->photo)}}"><span style="vertical-align: middle;"> {{$userPoster[$i]->name}}</span></a>
                                     </td>
@@ -469,11 +471,116 @@
                         @endif
                         </tbody>
                     </table>
+                    @if(count($announcements) > 0)
+                        <div class="d-flex justify-content-between">
+                            <span>Showing {{$a->firstItem()}} to {{$a->lastItem()}} of {{$a->total()}} posts</span>
+                            {{$a->links()}}
+                        </div>
+                    @endif
                 </div>
+
+                {{--Modal Create Post--}}
+                <div class="modal fade" id="modalCreatePost" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="staticBackdropLabel">New Post</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                {!! Form::open(['action' => ['PostController@store', $project -> idProject], 'method' => 'POST']) !!}
+                                <div class="form-group">
+                                    {{Form::label('title', 'Title')}}
+                                    {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Title'])}}
+                                </div>
+                                <div class="form-group">
+                                    {{Form::label('body', 'Body')}}
+                                    {{Form::textarea('body', '', ['class' => 'form-control', 'placeholder' => 'Body'])}}
+                                </div>
+                                {{ Form::hidden('project', $project->idProject) }}
+
+                                {{Form::submit('Submit', ['class'=>'btn btn-success'])}}
+
+                                {!! Form::close() !!}
+                            </div>
+                            <script>ClassicEditor
+                                    .create( document.querySelector( '#body' ), {
+                                        toolbar: {
+                                            items: [
+                                                'heading',
+                                                '|',
+                                                'fontSize',
+                                                'fontFamily',
+                                                'fontColor',
+                                                'fontBackgroundColor',
+                                                'highlight',
+                                                'bold',
+                                                'italic',
+                                                'underline',
+                                                'strikethrough',
+                                                'link',,
+                                                '|',
+                                                'undo',
+                                                'redo',
+                                                '|',
+                                                'indent',
+                                                'outdent',
+                                                '|',
+                                                'bulletedList',
+                                                'numberedList',
+                                                '|',
+                                                'blockQuote',
+                                                'code',
+                                                'codeBlock'
+                                            ]
+                                        },
+                                        language: 'en',
+                                        licenseKey: '',
+                                    } )
+                                    .then( editor => {
+                                        window.editor = editor;
+                                    } )
+                                    .catch( error => {
+                                        console.error( 'Oops, something gone wrong!' );
+                                        console.error( 'Please, report the following error in the https://github.com/ckeditor/ckeditor5 with the build id and the error stack trace:' );
+                                        console.warn( 'Build id: ce7zysryrfsm-xck2pu5o5swz' );
+                                        console.error( error );
+                                    } );
+                            </script>
+                            <style>
+                                .ck-editor__editable_inline {
+                                    min-height: 40vh;
+                                }
+                            </style>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+
         </div>
     </div>
 </div>
+<style>
+    .style1 > tbody > tr:first-child > td {
+        border: none;
+    }
+    .style1 > tbody > tr:first-child > th {
+        border: none;
+    }
+    .info-th{
+        width: 46%;
+    }
+    .info-td {
+        text-align: center;
+    }
+    .nav-tabs .nav-link.active{
+        background-color: #ededed;
+        border-color:#ededed;
+    }
+</style>
 <script>
     $('#myTab a').click(function(e) {
         e.preventDefault();
@@ -521,26 +628,5 @@
         $('#myTab a[href="' + hash + '"]').tab('show');
     }
 
-
-
 </script>
-<style>
-    .style1 > tbody > tr:first-child > td {
-        border: none;
-    }
-    .style1 > tbody > tr:first-child > th {
-        border: none;
-    }
-
-    td {
-        text-align: center;
-    }
-    th{
-        width: 46%;
-    }
-    .nav-tabs .nav-link.active{
-        background-color: #ededed;
-        border-color:#ededed;
-    }
-</style>
 @endsection

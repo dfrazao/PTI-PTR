@@ -50,7 +50,9 @@ class ProfessorProjectsController extends Controller
                 'title' => 'required',
                 'deadline' => 'required',
                 'group_formation_deadline' => 'required',
-                'documentation' => 'required'
+                'documentation' => 'required',
+                'minNumber' => 'integer|lte:maxElements',
+                'maxNumber' => 'integer|gte:minElements'
             ]);
             //dd($request->deadline);
             $project = new Project;
@@ -140,6 +142,8 @@ class ProfessorProjectsController extends Controller
         if($request->option=="project") {
             $this->validate($request, [
                 'title' => 'required',
+                'minNumber' => 'integer|lte:maxElements',
+                'maxNumber' => 'integer|gte:minElements'
             ]);
 
             $project = Project::find($id);

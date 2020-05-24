@@ -6,6 +6,7 @@ use App\Group;
 use App\StudentsGroup;
 use Illuminate\Http\Request;
 use Auth;
+use App\AcademicYear;
 use App\Project;
 use App\Subject;
 use App\SubjectEnrollment;
@@ -35,6 +36,7 @@ class DashboardController extends Controller
         $user = Auth::user()->id;
         $subjectsEnrolled = SubjectEnrollment::all()->where('idUser', '==', $user)->pluck('idSubject');
         if (count($subjectsEnrolled) > 0) {
+            $academicYears = AcademicYear::all()->sortKeysDesc();
             $subjects = Subject::all()->whereIn('idSubject', $subjectsEnrolled);
             $subjectsId = Subject::all()->whereIn('idSubject', $subjectsEnrolled)->pluck('idSubject');
             $projects = Project::all()->whereIn('idSubject', $subjectsId);
@@ -64,7 +66,7 @@ class DashboardController extends Controller
                 }
             }
 
-            return view('dashboard')->with('subjects', $subjects)->with('projects', $projects)->with('meetings', $meetings);
+            return view('dashboard')->with('academicYears', $academicYears)->with('subjects', $subjects)->with('projects', $projects)->with('meetings', $meetings);
         }
         else{
             return view('dashboard')->with('subjects', $subjectsEnrolled);
