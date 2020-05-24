@@ -274,4 +274,6 @@ class StudentProjectsController extends Controller
         return redirect()->action('StudentProjectsController@show', $id)->with('success', 'Task deleted successfully');
     }
 
+
+
 }

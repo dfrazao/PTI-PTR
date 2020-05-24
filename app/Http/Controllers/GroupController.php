@@ -72,11 +72,14 @@ class GroupController extends Controller
         $studentGroup->idStudent = $idUser;
         $studentGroup->idGroup = $group->idGroup;
         $studentGroup->save();
-        foreach($idStudent as $id) {
-            $studentGroup = new StudentsGroup;
-            $studentGroup->idGroup = $group->idGroup;
-            $studentGroup->idStudent = $id;
-            $studentGroup->save();
+        if(!empty($idStudent)){
+            foreach($idStudent as $id) {
+                $studentGroup = new StudentsGroup;
+                $studentGroup->idGroup = $group->idGroup;
+                $studentGroup->idStudent = $id;
+                $studentGroup->save();
+            }
+
         }
 
 
@@ -85,14 +88,7 @@ class GroupController extends Controller
 
 
 
-        //TODO :funcao js para nao permitir selecionar elementos para o grupo de forma a que
-        // n ultrapasse o max elements(pessoa que cria o grupo inclusive) com variavel de sessao , fazer
-        // com que a criacao de grupo contemple o user corrente , na sugestao de alunos fazer os filtros(ordenar) e enviar mensagem
-
-
-
-
-   return redirect()->action('DashboardController@index', $idProject)->with('success', 'Group created successfully');
+   return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Group created successfully');
 
 
     }
@@ -110,6 +106,8 @@ class GroupController extends Controller
         //return $user;
         $project = Project::find($id);
         $projectMaxElements = $project->maxElements;
+        $projectMinElements = $project->minElements;
+        $projectMaxGroups = $project->maxGroups;
         $subject = Subject::find($project->idSubject);
         $idSubject = $subject->idSubject;
         $groups = Group::all()->where('idProject','==', $id);
@@ -118,7 +116,6 @@ class GroupController extends Controller
 
 
         $groupStudents = DB::table('studentGroups')
-
             ->join('groups', function($join) use($id) {
                 $join->on('groups.idGroup', '=', 'studentGroups.idGroup')
                     ->where('groups.idProject','=',$id);
@@ -135,6 +132,8 @@ class GroupController extends Controller
 
             })
             ->whereNotIn('id',$groupStudents)
+            ->where('id','!=',$user)
+            ->orderBy('average', 'desc')
             ->get(['name','uniNumber','class','id','average']);
 
 
@@ -156,29 +155,47 @@ class GroupController extends Controller
                 ->whereIn('studentGroups.idGroup',$idGroups);
 
             })
-            //->pluck('idGroup','uniNumber')
-            ->get(['idGroup','name','uniNumber','id','photo']);
+            ->join('groups', function($join) use($idSubject,$idGroups) {
+                $join->on('groups.idGroup', '=', 'studentGroups.idGroup');
+
+            })
+            ->get(['idGroupProject','studentGroups.idGroup','name','uniNumber','id','photo']);
+
+        $studentsIdGroup = DB::table('users')
+            ->where('users.role','=','student')
+            ->join('subjectEnrollments', function($join) use($idSubject) {
+                $join->on('subjectEnrollments.idUser', '=', 'users.id')
+                    ->where('subjectEnrollments.idSubject','=',$idSubject);
+
+            })
+            ->whereIn('id',$groupStudents)
+            ->join('studentGroups', function($join) use($idSubject,$idGroups) {
+                $join->on('studentGroups.idStudent', '=', 'users.id')
+                    ->whereIn('studentGroups.idGroup',$idGroups);
+
+            })
+            ->join('groups', function($join) use($idSubject,$idGroups) {
+                $join->on('groups.idGroup', '=', 'studentGroups.idGroup');
+
+            })
+            ->get(['id']);
 
 
         $students_per_group = $studentsGroup -> groupBy('idGroup');
+        $groupNumber = $students_per_group->keys();
+        $studentsIdGroupValues = array_values(array_column($studentsIdGroup->toArray(), 'id'));
 
-        $groupNumber = $students_per_group->keys();  //keys
 
-        //funcao para contar numero de groupos dentro do projeto
+
         $numberGroupsInsideProject = DB::table('groups')
-            ->distinct('idGroupProject')
+            ->where('groups.idProject','=',$project->idProject)
+            ->distinct('idGroup')
             ->count();
 
 
 
-        /*foreach($groupNumber as $groupN)
-            foreach($students_per_group[$groupN] as $studInfo)
-                if($user == $studInfo->id)
-                    return redirect()->action('DashboardController@index', $project);
-                else*/
-
-                    return view('student/groups')->with('groupNumber',$groupNumber)->with('students_per_group',$students_per_group)->with('subjectStudentsNoGroup',$subjectStudentsNoGroup)->with('projectMaxElements',$projectMaxElements)->with('project',$project)
-                        ->with('numberGroupsInsideProject',$numberGroupsInsideProject)->with('subject',$subject)->with('user',$user);
+                    return view('student/groups')->with('groupNumber',$groupNumber)->with('students_per_group',$students_per_group)->with('subjectStudentsNoGroup',$subjectStudentsNoGroup)->with('projectMaxElements',$projectMaxElements)->with('projectMinElements',$projectMinElements)->with('project',$project)
+                        ->with('numberGroupsInsideProject',$numberGroupsInsideProject)->with('subject',$subject)->with('user',$user)->with('projectMaxGroups',$projectMaxGroups)->with('studentsIdGroupValues',$studentsIdGroupValues);
 
     }
 
@@ -211,8 +228,8 @@ class GroupController extends Controller
         $studentGroup->idGroup = $idGroup;
         $studentGroup->save();
 
-        //redirect para pagina do projeto?
-        return redirect()->action('DashboardController@index', $idProject)->with('success', 'Successfully joined the group '.$idGroup);
+
+        return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Successfully joined the group '.$idGroup);
     }
 
     /**
@@ -221,9 +238,21 @@ class GroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
-        //
+        $idUser = Auth::user()->id;
+        $idGroup = $request->idGroup;
+        $group = Group::find($idGroup);
+        $project = Project::find($id);
+        $studentGroup = DB::table('studentGroups')->where('idStudent','=',$idUser)->where('idGroup','=',$idGroup);
+        $numberStudentsGroup = DB::table('studentGroups')->where('idGroup','=',$idGroup)->count();
+
+        if($numberStudentsGroup==1)
+            $group->delete();
+        else
+            $studentGroup->delete();
+
+        return redirect()->action('DashboardController@index',$project->idProject)->with('success', __('gx.successfully left the group') .$idGroup);
     }
 }
 

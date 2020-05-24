@@ -32,7 +32,7 @@ use GuzzleHttp\Promise;
  * // Then try an INI file at this location.
  * $b = ConfigurationProvider::ini(null, '/path/to/other-file.ini');
  * // Then try loading from environment variables.
- * $c = ConfigurationProvider::env();
+ * $c = ConfigurationProvider::.env();
  * // Combine the three providers together.
  * $composed = ConfigurationProvider::chain($a, $b, $c);
  * // Returns a promise that is fulfilled with a configuration or throws.
@@ -56,7 +56,7 @@ class ConfigurationProvider extends AbstractConfigurationProvider
     /**
      * Create a default config provider that first checks for environment
      * variables, then checks for a specified profile in the environment-defined
-     * config file location (env variable is 'AWS_CONFIG_FILE', file location
+     * config file location (.env variable is 'AWS_CONFIG_FILE', file location
      * defaults to ~/.aws/config), then checks for the "default" profile in the
      * environment-defined config file location, and failing those uses a default
      * fallback set of configuration options.
@@ -136,7 +136,7 @@ class ConfigurationProvider extends AbstractConfigurationProvider
                 return self::reject("'$profile' not found in config file");
             }
             if (!isset($data[$profile][self::INI_ENDPOINTS_TYPE])) {
-                return self::reject("Required S3 regional endpoint config values 
+                return self::reject("Required S3 regional endpoint config values
                     not present in INI profile '{$profile}' ({$filename})");
             }
 

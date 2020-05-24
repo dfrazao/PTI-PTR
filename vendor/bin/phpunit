@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/.env sh
 
 dir=$(cd "${0%[/\\]*}" > /dev/null; cd "../phpunit/phpunit" && pwd)
 

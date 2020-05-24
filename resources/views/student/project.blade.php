@@ -15,16 +15,40 @@
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link" id="content-tab" data-toggle="tab" href="#content" role="tab" aria-controls="content" aria-selected="false">Content</a>
+            <a class="nav-link" id="content-tab" data-toggle="tab" href="#content" role="tab" aria-controls="content" aria-selected="false">{{__('gx.content')}}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="schedule-tab" data-toggle="tab" href="#schedule" role="tab" aria-controls="schedule" aria-selected="false">Schedule</a>
+            <a class="nav-link" id="schedule-tab" data-toggle="tab" href="#schedule" role="tab" aria-controls="schedule" aria-selected="false">{{__('gx.schedule')}}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="forum-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="false">Forum</a>
+            <a class="nav-link" id="forum-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="false">{{__('gx.forum')}}</a>
         </li>
         <li class="rightbutton ml-auto">
-            <button type="submit" class="btn btn-sm bg-danger" style="width: 20vh;color: white;">Leave Group</button>
+            <button  type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalLeaveGroup" style="width: 11em">{{__('gx.leave group')}}</button>
+            <div id="modalLeaveGroup" class="modal" tabindex="-1" role="dialog"  >
+                <div class="modal-dialog modal-lg" >
+                    <div class="modal-content" >
+                        <div class="modal-header">
+
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="display: inline" >
+                            <h5>Are you sure you want to leave the group?</h5>
+
+                        </div>
+                        <div class="modal-footer">
+                            {!!Form::open(['action' => ['GroupController@destroy', $project -> idProject] , 'method' => 'POST']) !!}
+                            {{Form::hidden('_method','DELETE')}}
+                            {!!Form::hidden('idGroup', $idGroup) !!}
+                            {{Form::submit(trans('gx.leave group'),['class' => 'btn btn-info'])}}
+                            {!!Form::close() !!}
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">{{__('gx.cancel')}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </li>
     </ul>
@@ -37,13 +61,13 @@
                         <figure class="text-center mr-4"><i class="fas fa-folder fa-4x" style="color: #ffce52;"></i><figcaption>proj1-v1.zip</figcaption></figure>
                         <figure class="text-center mr-4"><i class="fas fa-folder fa-4x" style="color: #ffce52;"></i><figcaption>proj1-v1.zip</figcaption></figure>
                         <figure class="text-center mr-4"><i class="fas fa-folder fa-4x" style="color: #ffce52;"></i><figcaption>proj1-v1.zip</figcaption></figure>
-                        <button type="submit" class="btn btn-sm mb-2 mr-2" style="width:20vh;background: #2c3fb1; color: white; position: absolute; bottom: 0px; right: 0px;">Submeter</button>
+                        <button type="submit" class="btn btn-sm mb-2 mr-2" style="width:20vh;background: #2c3fb1; color: white; position: absolute; bottom: 0px; right: 0px;">{{__('gx.submit')}}</button>
                     </div>
                 </div>
                 <div class="col mt-3 rounded mx-3">
                     <div class="row h-50">
                         <div class="container-fluid rounded text-center pt-2 " style="background-color: #c6c6c6;">
-                            <h5>Group elements </h5>
+                            <h5>{{__('gx.group elements')}}</h5>
                             <div>
                                 @foreach($groupUsers as $user)
                                     <img class="profilePhoto pr-2" style="border-radius: 100%; width: 13%; height: 13%; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}">
@@ -55,9 +79,9 @@
                     </div>
                     <div class="row h-50 rounded pt-3">
                         <div class="container-fluid rounded text-center pt-2" style="background-color: #c6c6c6; ">
-                            <h5>Documentation </h5>
-                            <div>Files: {{Storage::url('documentation/'.$project->idProject.'/'.$project->documentation)}}</div>
-                            <div>Deadline: {{$project->dueDate}}</div>
+                            <h5>{{__('gx.documentation')}} </h5>
+                            <div>{{__('gx.files')}}: {{Storage::url('documentation/'.$project->idProject.'/'.$project->documentation)}}</div>
+                            <div>{{__('gx.deadline')}}: {{$project->dueDate}}</div>
 
 
                         </div>
@@ -65,7 +89,7 @@
                 </div>
                 <div class="col mt-3 pl-0 rounded">
                     <div class="container-fluid rounded notes h-100 pt-2" style="background-color: #ffe680; " >
-                        <h5 class="text-center">Notes</h5>
+                        <h5 class="text-center">{{__('gx.notes')}}</h5>
                         {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST', 'id'=>'myform']) !!}
                         @csrf
                         {{Form::textarea('notes', $notes, ['class' => 'form-control', 'id'=>'textArea', 'rows'=>'10'])}}
@@ -83,11 +107,11 @@
                             <table class="table table-hover text-center">
                                 <thead>
                                 <tr>
-                                    <th>Tarefa</th>
-                                    <th>Responsável</th>
-                                    <th>Início</th>
-                                    <th>Fim</th>
-                                    <th>Tempo Gasto</th>
+                                    <th>{{__('gx.task')}}</th>
+                                    <th>{{__('gx.responsible')}}</th>
+                                    <th>{{__('gx.beginning')}}</th>
+                                    <th>{{__('gx.end')}}</th>
+                                    <th>{{__('gx.wasted time')}}</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -100,7 +124,7 @@
                                             <td>{{$t->beginning}}</td>
                                             <td>{{$t->end}}</td>
                                             <td>{{$t->duration}}</td>
-                                            <td class="float-right pr-0"><button style="width: 10vh" type="button" class="btn btn-sm btn-success editTask mr-md-2">Editar</button><button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalDelete-{{$t->idTask}}">Delete</button></td>
+                                            <td class="float-right pr-0"><button style="width: 10vh" type="button" class="btn btn-sm btn-success editTask mr-md-2">{{__('gx.edit')}}</button><button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalDelete-{{$t->idTask}}">{{__('gx.delete')}}</button></td>
                                         </tr>
                                         <tr class="d-none" id="{{$t->idTask}}-edit">
                                             @csrf
@@ -127,7 +151,7 @@
                                                 {{Form::hidden('group', $t-> idGroup)}}
                                                 {{Form::hidden('_method','PUT')}}
 
-                                                <td class="form-group float-right pr-0">{{Form::Submit('Save', ['class'=>'btn btn-sm mr-2 btn-success', 'style'=>"width: 10vh", 'id'=>'Save'])}}<button type="button" class="btn btn-sm btn-danger editTask">Cancel</button></td>
+                                                <td class="form-group float-right pr-0">{{Form::Submit('Save', ['class'=>'btn btn-sm mr-2 btn-success', 'style'=>"width: 10vh", 'id'=>'Save'])}}<button type="button" class="btn btn-sm btn-danger editTask">{{__('gx.cancel')}}</button></td>
                                             {!! Form::close() !!}
                                             <script>
                                                 $(function() {$( "#datetimepicker1-{{$t->idTask}}" ).datetimepicker({
@@ -154,13 +178,13 @@
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" id="staticBackdropLabel">Delete Task</h4>
+                                                        <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.delete task')}}</h4>
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <h5>Are you sure you want to delete this task?</h5>
+                                                        <h5>{{__('gx.are you sure you want to delete this task?')}}</h5>
                                                         {!!Form::open(['action' => ['StudentProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
                                                         {{Form::hidden('_method', 'DELETE')}}
                                                         {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
@@ -173,14 +197,14 @@
                                     @endforeach
                                 @else
                                     <tr>
-                                        <td colspan="6"><h5>Your group has no tasks.</h5></td>
+                                        <td colspan="6"><h5>{{__('gx.your group has no tasks.')}}</h5></td>
                                     </tr>
                                 @endif
                                 </tbody>
                             </table>
                         </div>
                         <div class="container-fluid pt-3 mr-2" style="position: relative">
-                            <button type="button" class="btn btn-sm open_modal" id="{{$idGroup}}" style="width:20vh;background: #2c3fb1; color: white;position: absolute; bottom: 0px; right: 0px;">New Task</button>
+                            <button type="button" class="btn btn-sm open_modal" id="{{$idGroup}}" style="width:20vh;background: #2c3fb1; color: white;position: absolute; bottom: 0px; right: 0px;">{{__('gx.new task')}}</button>
                         </div>
                     </div>
                 </div>
@@ -191,7 +215,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="staticBackdropLabel">New Task</h4>
+                        <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.new task')}}</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -235,18 +259,18 @@
             </div>
         </div>
         <div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab" style=" position: relative">
-            <h5 class="pt-2 text-center">Group elements weekly availability</h5>
+            <h5 class="pt-2 text-center">{{__('gx.group elements weekly availability')}}</h5>
             {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST', 'id' => 'scheduleform']) !!}
             @csrf
             <div class="grid-container">
                 <div></div>
-                <div>Segunda</div>
-                <div>Terça</div>
-                <div>Quarta</div>
-                <div>Quinta</div>
-                <div>Sexta</div>
-                <div>Sábado</div>
-                <div>Domingo</div>
+                <div>{{__('gx.monday')}}</div>
+                <div>{{__('gx.tuesday')}}</div>
+                <div>{{__('gx.wednesday')}}</div>
+                <div>{{__('gx.thursday')}}</div>
+                <div>{{__('gx.friday')}}</div>
+                <div>{{__('gx.saturday')}}</div>
+                <div>{{__('gx.sunday')}}</div>
                 <div style="border: 1px solid black;">8:00h-9:00h</div>
                 <div class="cell" id="1x1" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
                 <div class="cell" id="1x2" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
@@ -344,15 +368,15 @@
                 </div>
             </div>
             <div class="container-fluid rounded text-center pt-2 h-100 px-0">
-                <h5 class="pt-2">Meetings</h5>
+                <h5 class="pt-2">{{__('gx.meetings')}}</h5>
                 <div class="table-fixed">
                     <table class="table table-hover text-center">
                         <thead>
                         <tr>
-                            <th>Number</th>
-                            <th>Description</th>
-                            <th>Date</th>
-                            <th>Place</th>
+                            <th>{{__('gx.number')}}</th>
+                            <th>{{__('gx.description')}}</th>
+                            <th>{{__('gx.date')}}</th>
+                            <th>{{__('gx.place')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -367,14 +391,14 @@
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="4"><h5>Your group has no meetings.</h5></td>
+                                <td colspan="4"><h5>{{__('gx.your group has no meetings.')}}</h5></td>
                             </tr>
                         @endif
                         </tbody>
                     </table>
                 </div>
                 <div class="container-fluid pt-3 " style="position: relative">
-                    <button type="submit" class="btn btn-sm mr-2" id= 'newMeeting' data-toggle="modal" data-target="#modalCreateMeeting" style="position: absolute; width: 20vh;background: #2c3fb1; color: white;bottom: 0px; right: 0px;">New Meeting</button>
+                    <button type="submit" class="btn btn-sm mr-2" id= 'newMeeting' data-toggle="modal" data-target="#modalCreateMeeting" style="position: absolute; width: 20vh;background: #2c3fb1; color: white;bottom: 0px; right: 0px;">{{__('gx.new meeting')}}</button>
                 </div>
             </div>
         </div>
@@ -383,7 +407,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="staticBackdropLabel">Create new meeting</h4>
+                        <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.create new meeting')}}</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -391,7 +415,7 @@
                     <div class="modal-body">
                         {!!Form::open(['action' => ['StudentProjectsController@store', $project->idProject], 'method' => 'POST', 'enctype' => 'multipart/form-data'])!!}
                         <div class="form-group">
-                            {{Form::label('description', 'Meeting description')}}
+                            {{Form::label('description', trans('gx.meeting description'))}}
                             {{Form::text('description', '', ['class' => 'form-control'])}}
                         </div>
                         <div class="form-group">
@@ -406,7 +430,7 @@
                         {{ Form::hidden('project', $project->idProject) }}
                         {{ Form::hidden('subject', $subject->subjectName) }}
                         {{Form::hidden('submission','meeting')}}
-                        {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+                        {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary'])}}
 
                         {!!Form::close()!!}
                     </div>
@@ -422,17 +446,17 @@
             </div>
         </div>
         <div class="tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
-            <button type="button" class="p-2 mt-3 mr-3 btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#modalCreatePost" style="background-color: #2c3fb1; border-color: #2c3fb1;">Create Post</button>
+            <button type="button" class="p-2 mt-3 mr-3 btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#modalCreatePost" style="background-color: #2c3fb1; border-color: #2c3fb1;">{{__('gx.create post')}}</button>
 
             <div class="container rounded pb-3 pt-3">
                 <div class="table-responsive-xl">
                     <table class="table bg-white rounded" style="text-align:center;">
                         <thead>
                         <tr>
-                            <th>Subject</th>
-                            <th>Author</th>
-                            <th>Responses</th>
-                            <th>Created</th>
+                            <th>{{__('gx.subject')}}</th>
+                            <th>{{__('gx.author')}}</th>
+                            <th>{{__('gx.responses')}}</th>
+                            <th>{{__('gx.created')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -449,7 +473,7 @@
                             @endfor
                         @else
                             <tr>
-                                <td colspan="4"><h5>No posts found</h5></td>
+                                <td colspan="4"><h5>{__('gx.no posts found')}}</h5></td>
                             </tr>
                         @endif
                         </tbody>
@@ -475,11 +499,11 @@
                             <div class="modal-body">
                                 {!! Form::open(['action' => ['PostController@store', $project -> idProject], 'method' => 'POST']) !!}
                                 <div class="form-group">
-                                    {{Form::label('title', 'Title')}}
+                                    {{Form::label('title', trans('gx.title'))}}
                                     {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Title'])}}
                                 </div>
                                 <div class="form-group">
-                                    {{Form::label('body', 'Body')}}
+                                    {{Form::label('body', trans('gx.body'))}}
                                     {{Form::textarea('body', '', ['class' => 'form-control', 'placeholder' => 'Body'])}}
                                 </div>
                                 {{ Form::hidden('project', $project->idProject) }}
