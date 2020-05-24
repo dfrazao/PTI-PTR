@@ -1,0 +1,930 @@
+Index: app/Http/Controllers/DashboardController.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\r\n\r\nnamespace App\\Http\\Controllers;\r\n\r\nuse App\\Group;\r\nuse App\\StudentsGroup;\r\nuse Illuminate\\Http\\Request;\r\nuse Auth;\r\nuse App\\Project;\r\nuse App\\Subject;\r\nuse App\\SubjectEnrollment;\r\nuse App\\User;\r\nuse App\\Meeting;\r\nuse DB;\r\n\r\nclass DashboardController extends Controller\r\n{\r\n    /**\r\n     * Create a new controller instance.\r\n     *\r\n     * @return void\r\n     */\r\n    public function __construct()\r\n    {\r\n        $this->middleware('auth');\r\n    }\r\n\r\n    /**\r\n     * Show the application dashboard.\r\n     *\r\n     * @return \\Illuminate\\Contracts\\Support\\Renderable\r\n     */\r\n    public function index()\r\n    {\r\n        $user = Auth::user()->id;\r\n        $subjectsEnrolled = SubjectEnrollment::all()->where('idUser', '==', $user)->pluck('idSubject');\r\n        if (count($subjectsEnrolled) > 0) {\r\n            $subjects = Subject::all()->whereIn('idSubject', $subjectsEnrolled);\r\n            $subjectsId = Subject::all()->whereIn('idSubject', $subjectsEnrolled)->pluck('idSubject');\r\n            $projects = Project::all()->whereIn('idSubject', $subjectsId);\r\n\r\n            $meetings = [];\r\n            $groups = [];\r\n            foreach ($projects as $p) {\r\n                $idGroup = DB::table('studentGroups')\r\n                    ->select('studentGroups.idGroup')\r\n                    ->join('groups', 'studentGroups.idGroup', '=', 'groups.idGroup')\r\n                    ->where('groups.idProject', $p->idProject)\r\n                    ->where('studentGroups.idStudent', $user)\r\n                    ->get();\r\n\r\n                foreach ($idGroup as $idg) {\r\n                    $p->group = $idg->idGroup;\r\n                    if (!in_array($idg->idGroup, $groups)) {\r\n                        $meeting = Meeting::all()->where('idGroup', '==', $idg->idGroup);\r\n                        foreach ($meeting as $m) {\r\n                            $proj = Project::find($p->idProject);\r\n                            $m->project = $proj->name;\r\n                            $m->subject = Subject::find($proj->idSubject)->subjectName;\r\n                            array_push($meetings, $m);\r\n                        }\r\n                        array_push($groups, $idg->idGroup);\r\n                    }\r\n                }\r\n            }\r\n\r\n            return view('dashboard')->with('subjects', $subjects)->with('projects', $projects)->with('meetings', $meetings);\r\n        }\r\n        else{\r\n            return view('dashboard')->with('subjects', $subjectsEnrolled);\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/Http/Controllers/DashboardController.php	(revision da4473d3c6c7d2487781c19a4eb77fb8dea3778c)
++++ app/Http/Controllers/DashboardController.php	(date 1589992962616)
+@@ -6,6 +6,7 @@
+ use App\StudentsGroup;
+ use Illuminate\Http\Request;
+ use Auth;
++use App\AcademicYear;
+ use App\Project;
+ use App\Subject;
+ use App\SubjectEnrollment;
+@@ -35,6 +36,7 @@
+         $user = Auth::user()->id;
+         $subjectsEnrolled = SubjectEnrollment::all()->where('idUser', '==', $user)->pluck('idSubject');
+         if (count($subjectsEnrolled) > 0) {
++            $academicYears = AcademicYear::all()->sortKeysDesc();
+             $subjects = Subject::all()->whereIn('idSubject', $subjectsEnrolled);
+             $subjectsId = Subject::all()->whereIn('idSubject', $subjectsEnrolled)->pluck('idSubject');
+             $projects = Project::all()->whereIn('idSubject', $subjectsId);
+@@ -64,7 +66,7 @@
+                 }
+             }
+ 
+-            return view('dashboard')->with('subjects', $subjects)->with('projects', $projects)->with('meetings', $meetings);
++            return view('dashboard')->with('academicYears', $academicYears)->with('subjects', $subjects)->with('projects', $projects)->with('meetings', $meetings);
+         }
+         else{
+             return view('dashboard')->with('subjects', $subjectsEnrolled);
+Index: resources/views/dashboard.blade.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>@extends('layouts.app')\r\n@section('content')\r\n<head>\r\n    <title>Dashboard</title>\r\n</head>\r\n<div class=\"container-xl-fluid mt-4 pl-5 pr-5 pb-2\" style=\"position: relative;\">\r\n    @include('layouts.messages')\r\n    @if (session('status'))\r\n        <div class=\"alert alert-success\" role=\"alert\">\r\n            {{ session('status') }}\r\n        </div>\r\n    @endif\r\n    <nav aria-label=\"breadcrumb\">\r\n        <ol class=\"breadcrumb mt-1 pl-0 pb-0 pt-0 h3\" style=\"background-color:white; \">\r\n            <li class=\"breadcrumb-item \" aria-current=\"page\">{{__('gx.dashboard')}}</li>\r\n        </ol>\r\n    </nav>\r\n    <div class=\"row mb-3 rounded h-100\" style=\"height: 90vh; background-color: #ededed;\">\r\n\r\n        <div class=\"col\" style=\"max-width: 400px;\">\r\n            <div class=\"container\">\r\n                <button type=\"button\" class=\"previous btn btn-default btn-lg\" style=\"text-align: center;width: 100%; color:#2c3fb1\">\r\n                    <span class=\"fas fa-chevron-up\"></span>\r\n                </button>\r\n                <div class=\"rounded mt-2\" style=\"background-color: #c6c6c6;\">\r\n                    <h3 class=\"month1 pt-1\" style=\"text-align: center;\"></h3>\r\n                    <div class=\"table-responsive-xl\" style=\"background-color: #c6c6c6;\">\r\n                        <table class=\"month1-cal table table-sm table-borderless\" style=\"text-align: center;\">\r\n                            <thead>\r\n                            <tr>\r\n                                <th scope=\"col\">{{__('gx.monday')}}</th>\r\n                                <th scope=\"col\">{{__('gx.tuesday')}}</th>\r\n                                <th scope=\"col\">{{__('gx.wednesday')}}</th>\r\n                                <th scope=\"col\">{{__('gx.thursday')}}</th>\r\n                                <th scope=\"col\">{{__('gx.friday')}}</th>\r\n                                <th scope=\"col\">{{__('gx.saturday')}}</th>\r\n                                <th scope=\"col\">{{__('gx.sunday')}}</th>\r\n                            </tr>\r\n                            </thead>\r\n                            <tbody>\r\n                            <tr class=\"week1\">\r\n                                <td class=\"1\"></td>\r\n                                <td class=\"2\"></td>\r\n                                <td class=\"3\"></td>\r\n                                <td class=\"4\"></td>\r\n                                <td class=\"5\"></td>\r\n                                <td class=\"6\"></td>\r\n                                <td class=\"7\"></td>\r\n                            </tr>\r\n                            <tr class=\"week2\">\r\n                                <td class=\"1\"></td>\r\n                                <td class=\"2\"></td>\r\n                                <td class=\"3\"></td>\r\n                                <td class=\"4\"></td>\r\n                                <td class=\"5\"></td>\r\n                                <td class=\"6\"></td>\r\n                                <td class=\"7\"></td>\r\n                            </tr>\r\n                            <tr class=\"week3\">\r\n                                <td class=\"1\"></td>\r\n                                <td class=\"2\"></td>\r\n                                <td class=\"3\"></td>\r\n                                <td class=\"4\"></td>\r\n                                <td class=\"5\"></td>\r\n                                <td class=\"6\"></td>\r\n                                <td class=\"7\"></td>\r\n                            </tr>\r\n                            <tr class=\"week4\">\r\n                                <td class=\"1\"></td>\r\n                                <td class=\"2\"></td>\r\n                                <td class=\"3\"></td>\r\n                                <td class=\"4\"></td>\r\n                                <td class=\"5\"></td>\r\n                                <td class=\"6\"></td>\r\n                                <td class=\"7\"></td>\r\n                            </tr>\r\n                            <tr class=\"week5\">\r\n                                <td class=\"1\"></td>\r\n                                <td class=\"2\"></td>\r\n                                <td class=\"3\"></td>\r\n                                <td class=\"4\"></td>\r\n                                <td class=\"5\"></td>\r\n                                <td class=\"6\"></td>\r\n                                <td class=\"7\"></td>\r\n                            </tr>\r\n                            <tr class=\"week6\">\r\n                                <td class=\"1\"></td>\r\n                                <td class=\"2\"></td>\r\n                                <td class=\"3\"></td>\r\n                                <td class=\"4\"></td>\r\n                                <td class=\"5\"></td>\r\n                                <td class=\"6\"></td>\r\n                                <td class=\"7\"></td>\r\n                            </tr>\r\n                            </tbody>\r\n                        </table>\r\n                    </div>\r\n                </div>\r\n                <div class=\"rounded\" style=\"background-color: #c6c6c6;\">\r\n                    <h3 class=\"month2 pt-1\" style=\"text-align: center;\"></h3>\r\n                    <div class=\"table-responsive-xl\" >\r\n                        <table class=\"month2-cal table table-sm table-borderless\" style=\"text-align: center;width: 100%;\">\r\n                            <thead>\r\n                            <tr>\r\n                                <th scope=\"col\">{{__('gx.monday')}}</th>\r\n                                <th scope=\"col\">{{__('gx.tuesday')}}</th>\r\n                                <th scope=\"col\">{{__('gx.wednesday')}}</th>\r\n                                <th scope=\"col\">{{__('gx.thursday')}}</th>\r\n                                <th scope=\"col\">{{__('gx.friday')}}</th>\r\n                                <th scope=\"col\">{{__('gx.saturday')}}</th>\r\n                                <th scope=\"col\">{{__('gx.sunday')}}</th>\r\n                            </tr>\r\n                            </thead>\r\n                            <tbody>\r\n                            <tr class=\"week1\">\r\n                                <td class=\"1\"></td>\r\n                                <td class=\"2\"></td>\r\n                                <td class=\"3\"></td>\r\n                                <td class=\"4\"></td>\r\n                                <td class=\"5\"></td>\r\n                                <td class=\"6\"></td>\r\n                                <td class=\"7\"></td>\r\n                            </tr>\r\n                            <tr class=\"week2\">\r\n                                <td class=\"1\"></td>\r\n                                <td class=\"2\"></td>\r\n                                <td class=\"3\"></td>\r\n                                <td class=\"4\"></td>\r\n                                <td class=\"5\"></td>\r\n                                <td class=\"6\"></td>\r\n                                <td class=\"7\"></td>\r\n                            </tr>\r\n                            <tr class=\"week3\">\r\n                                <td class=\"1\"></td>\r\n                                <td class=\"2\"></td>\r\n                                <td class=\"3\"></td>\r\n                                <td class=\"4\"></td>\r\n                                <td class=\"5\"></td>\r\n                                <td class=\"6\"></td>\r\n                                <td class=\"7\"></td>\r\n                            </tr>\r\n                            <tr class=\"week4\">\r\n                                <td class=\"1\"></td>\r\n                                <td class=\"2\"></td>\r\n                                <td class=\"3\"></td>\r\n                                <td class=\"4\"></td>\r\n                                <td class=\"5\"></td>\r\n                                <td class=\"6\"></td>\r\n                                <td class=\"7\"></td>\r\n                            </tr>\r\n                            <tr class=\"week5\">\r\n                                <td class=\"1\"></td>\r\n                                <td class=\"2\"></td>\r\n                                <td class=\"3\"></td>\r\n                                <td class=\"4\"></td>\r\n                                <td class=\"5\"></td>\r\n                                <td class=\"6\"></td>\r\n                                <td class=\"7\"></td>\r\n                            </tr>\r\n                            <tr class=\"week6\">\r\n                                <td class=\"1\"></td>\r\n                                <td class=\"2\"></td>\r\n                                <td class=\"3\"></td>\r\n                                <td class=\"4\"></td>\r\n                                <td class=\"5\"></td>\r\n                                <td class=\"6\"></td>\r\n                                <td class=\"7\"></td>\r\n                            </tr>\r\n                            </tbody>\r\n                        </table>\r\n                    </div>\r\n                </div>\r\n                <button type=\"button\" class=\"next btn btn-default btn-lg\" style=\"text-align: center;width: 100%; color:#2c3fb1;\">\r\n                    <span class=\"fas fa-chevron-down\"></span>\r\n                </button>\r\n            </div>\r\n        </div>\r\n\r\n        <div class=\"col pl-0\">\r\n            <div class=\"overflow-auto rounded pb-2\">\r\n                <h3 class=\"pt-3 pl-2 mb-0\">{{__('gx.subjects')}}</h3>\r\n                <div class=\"overflow-auto p-0 mr-2 ml-2\" style=\"max-height: 75vh;\">\r\n                    @if(count($subjects) > 0)\r\n                        @foreach($subjects as $subject)\r\n\r\n                            <div class=\"overflow-auto p-2 mt-2 rounded cadeira\" type=\"button\" id=\"{{$subject->idSubject}}\" style=\"background-color: #c6c6c6;\">\r\n                                <h4 class=\"mt-2 pl-2 float-left\">{{$subject->subjectName}}</h4>\r\n                                <button style=\"color:#2c3fb1\" type=\"button\" class=\"btn btn-default btn-lg float-right\" id=\"button-{{$subject->idSubject}}\">\r\n                                    <span class=\"fas fa-plus\"></span>\r\n                                </button>\r\n                            </div>\r\n\r\n                            <div class=\"overflow-hidden rounded-bottom doff\" id=\"{{$subject->idSubject}}-groups\" style=\"display: none; background-color: white;\">\r\n                                @if(count($projects->whereIn('idSubject', $subject->idSubject)) > 0)\r\n                                    @foreach($projects as $project)\r\n                                        @if($subject->idSubject == $project->idSubject)\r\n                                            <div class=\"p-2 align-items-center\">\r\n                                                @if(Auth::user()->role == 'student')\r\n                                                    @if(isset($project->group))\r\n                                                        <button type=\"button\" class=\"btn btn-sm btn-success float-right\" href=\"/student/project/{{$project->idProject}}\" style=\"background-color: #2c3fb1; border-color: #2c3fb1;\">{{__('gx.group')}} {{$project->group}}</button>\r\n                                                        <h5 class=\"mt-1 mb-1\"><a style=\"color:#2c3fb1;\" href=\"/student/project/{{$project->idProject}}\">{{$project->name}}</a> {{$project->dueDate}}</h5>\r\n                                                    @else\r\n                                                        <button type=\"button\" class=\"btn btn-sm btn-success float-right\" href=\"/student/project/{{$project->idProject}}/groups\">{{__('gx.join/create group')}}</button>\r\n                                                        <h5 class=\"mt-1 mb-1\"><a style=\"color:#2c3fb1;\" href=\"/student/project/{{$project->idProject}}/groups\">{{$project->name}}</a> {{$project->groupCreationDueDate}}</h5>\r\n                                                    @endif\r\n\r\n                                                @elseif(Auth::user()->role == 'professor')\r\n                                                    <h5 class=\"mt-1 mb-1\"><a style=\"color:#2c3fb1;\" href=\"/professor/project/{{$project->idProject}}\">{{$project->name}}</a></h5>\r\n                                                @endif\r\n                                            </div>\r\n                                        @endif\r\n                                    @endforeach\r\n                                    @if (Auth::user()->role == 'professor')\r\n                                        <button style=\"background-color:#2c3fb1;color: #fff;\" type=\"button\" class=\"btn btn-sm float-right m-2 open_modal\" id=\"{{$subject->idSubject}}\">{{__('gx.create project')}}</button>\r\n                                    @endif\r\n                                @else\r\n                                    @if (Auth::user()->role == 'professor')\r\n                                        <button style=\"background-color:#2c3fb1;color: #fff;\" type=\"button\" class=\"btn btn-sm float-right m-2 open_modal\" id=\"{{$subject->idSubject}}\">{{__('gx.create project')}}</button>\r\n                                    @endif\r\n                                    <h5 class=\"p-2\">{{__('gx.no projects found')}}</h5>\r\n                                @endif\r\n                            </div>\r\n                        @endforeach\r\n                    @else\r\n                        <p>{{__('gx.no subjects found')}}</p>\r\n                    @endif\r\n                </div>\r\n                <button type=\"button\" class=\"p-2 btn btn-primary btn-md float-right mt-2 mr-2\" style=\"background-color: #2c3fb1; border-color: #2c3fb1;\">Cadeiras Antigas</button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    {{--Modal Create--}}\r\n    <div class=\"modal fade\" id=\"modalCreate\" tabindex=\"-1\" role=\"dialog\">\r\n        <div class=\"modal-dialog\" role=\"document\">\r\n            <div class=\"modal-content\">\r\n                <div class=\"modal-header\">\r\n                    <h4 class=\"modal-title\" id=\"staticBackdropLabel\">{{__('gx.new project')}}</h4>\r\n                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n                        <span aria-hidden=\"true\">&times;</span>\r\n                    </button>\r\n                </div>\r\n                <div class=\"modal-body\">\r\n                    {!! Form::open(['action' => 'ProfessorProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}\r\n                    <div class=\"form-group\">\r\n                        {{Form::label('title', trans('gx.name'))}}\r\n                        {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => trans('gx.project name')])}}\r\n                    </div>\r\n                    <div class=\"form-group\">\r\n                        {{Form::label('group formation deadline', trans('gx.group formation deadline'))}}\r\n                        {{Form::text('group formation deadline', null, ['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker1-dp', 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker1-dp'])}}\r\n                    </div>\r\n                    <div class=\"form-group\">\r\n                        {{Form::label('deadline', trans('gx.deadline'))}}\r\n                        {{Form::text('deadline', null, ['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker2-dp', 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker2-dp'])}}\r\n                    </div>\r\n                    <div class=\"form-group\">\r\n                        {{Form::label('minNumber', trans('gx.minimum no. of members'))}}\r\n                        {{Form::selectRange('minNumber', 1, 10)}}\r\n                    </div>\r\n                    <div class=\"form-group\">\r\n                        {{Form::label('maxNumber', trans('gx.maximum no. of members'))}}\r\n                        {{Form::selectRange('maxNumber', 1, 10)}}\r\n                    </div>\r\n                    <div class=\"form-group\">\r\n                        {{Form::label('documentation', trans('gx.documentation'))}}\r\n                        {{Form::file('documentation')}}\r\n                    </div>\r\n                    {{Form::hidden('subject', \"subject\")}}\r\n                    {{Form::hidden('option', 'project')}}\r\n\r\n                    {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}\r\n\r\n                    {!! Form::close() !!}\r\n                </div>\r\n                <script>\r\n                    $(function() {$( \"#datetimepicker1-dp\" ).datetimepicker({\r\n                        minDate: moment().format('YYYY-MM-DD HH:mm'),\r\n                        date: moment().format('YYYY-MM-DD HH:mm'),\r\n                        locale: \"{{ str_replace('_', '-', app()->getLocale()) }}\",\r\n                        icons: {time: \"fa fa-clock\", date: \"fa fa-calendar\", up: \"fa fa-arrow-up\", down: \"fa fa-arrow-down\"}\r\n                    });});\r\n                    $(function() {$( \"#datetimepicker2-dp\" ).datetimepicker({\r\n                        minDate: moment().format('YYYY-MM-DD HH:mm'),\r\n                        date: moment().format('YYYY-MM-DD HH:mm'),\r\n                        locale: \"{{ str_replace('_', '-', app()->getLocale()) }}\",\r\n                        icons: {time: \"fa fa-clock\", date: \"fa fa-calendar\", up: \"fa fa-arrow-up\", down: \"fa fa-arrow-down\"}\r\n                    });});\r\n                    $(\"#datetimepicker1\").on(\"change.datetimepicker\", function (e) {\r\n                        $('#datetimepicker2').datetimepicker('minDate', e.date);\r\n                    });\r\n                    $(\"#datetimepicker2\").on(\"change.datetimepicker\", function (e) {\r\n                        $('#datetimepicker1').datetimepicker('maxDate', e.date);\r\n                    });\r\n                </script>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <script>\r\n        $(document).ready(function(){\r\n\r\n            $(\".cadeira\").click(function(){\r\n                id = $(this).attr('id');\r\n                if ($(\"#\" + id + \"-groups\").hasClass( \"doff\" )) {\r\n                    $(\"#\" + id + \"-groups\").removeClass( \"doff\" );\r\n                    $(\"#button-\" + id).children().addClass('fa-minus').removeClass('fa-plus');\r\n                    $(\"#\" + id + \"-groups\").slideDown(400);\r\n                } else {\r\n                    $(\"#\" + id + \"-groups\").addClass( \"doff\" );\r\n                    $(\"#button-\" + id).children().addClass('fa-plus').removeClass('fa-minus');\r\n                    $(\"#\" + id + \"-groups\").slideUp(400);\r\n                }\r\n            });\r\n\r\n            $(\".open_modal\").click(function(){\r\n                $('input[name=\"subject\"]').val($(this).attr(\"id\"));\r\n                $('#modalCreate').modal('show');\r\n            });\r\n\r\n        });\r\n\r\n        class Calendar {\r\n\r\n            constructor() {\r\n                this.monthDiv = document.querySelector('.month1');\r\n                this.nextMonthDiv = document.querySelector('.month2');\r\n                this.prevDiv = document.querySelector('.previous');\r\n                this.nextDiv = document.querySelector('.next');\r\n            }\r\n\r\n            init() {\r\n                this.month = [];\r\n                this.month.push(moment(), moment().add(1, 'months'));\r\n\r\n                this.today = moment().startOf('day').format('YYYY-MM-DD');\r\n\r\n                this.nextDiv.addEventListener('click', _ => {this.addMonth();});\r\n                this.prevDiv.addEventListener('click', _ => {this.removeMonth();});\r\n\r\n                this.update();\r\n            }\r\n\r\n            update() {\r\n                this.monthString = this.month[0].clone().format('MMMM YYYY');\r\n                this.nextMonthString = this.month[1].clone().format('MMMM YYYY');\r\n\r\n                this.calendarDays = [];\r\n                this.calendarDays.push({\r\n                    first: this.month[0].clone().startOf('month'),\r\n                    last: this.month[0].clone().endOf('month').date() },\r\n                    {\r\n                    first: this.month[1].clone().startOf('month'),\r\n                    last: this.month[1].clone().endOf('month').date() });\r\n\r\n                this.draw();\r\n            }\r\n\r\n            addMonth() {\r\n                this.month[0].add(1, 'month');\r\n                this.month[1].add(1, 'month');\r\n                this.update();\r\n            }\r\n\r\n            removeMonth() {\r\n                this.month[0].subtract(1, 'month');\r\n                this.month[1].subtract(1, 'month');\r\n                this.update();\r\n            }\r\n\r\n            draw() {\r\n                $('table.month1-cal tr > td').empty()\r\n                $('table.month2-cal tr > td').empty()\r\n                $(\"table.month1-cal tr > td\").removeClass(\"past today project-deadline project-group-deadline project-meeting\");\r\n                $(\"table.month2-cal tr > td\").removeClass(\"past today project-deadline project-group-deadline project-meeting\");\r\n                this.monthDiv.innerText = this.monthString;\r\n                this.nextMonthDiv.innerText = this.nextMonthString;\r\n\r\n                let events = [ [[[],[]],[[],[]]] , [[[],[]],[[],[]]] , [[],[]] , [[],[]] ];\r\n                let deadlineMonthYear;\r\n                let groupDeadlineMonthYear;\r\n                @foreach($projects as $project)\r\n                    deadlineMonthYear = moment('{{$project->dueDate}}').format('MMMM YYYY');\r\n                    groupDeadlineMonthYear = moment('{{$project->groupCreationDueDate}}').format('MMMM YYYY');\r\n                    if (deadlineMonthYear == this.monthString) {\r\n                        events[0][0][0].push(moment('{{$project->dueDate}}').format('YYYY-MM-DD'));\r\n                        events[0][0][1].push(['{{$project->name}}','{{$project->dueDate}}','{{\\App\\Subject::find($project->idSubject)->subjectName}}']);\r\n                    } else if (deadlineMonthYear == this.nextMonthString) {\r\n                        events[0][1][0].push(moment('{{$project->dueDate}}').format('YYYY-MM-DD'));\r\n                        events[0][1][1].push(['{{$project->name}}','{{$project->dueDate}}','{{\\App\\Subject::find($project->idSubject)->subjectName}}']);\r\n                    }\r\n                    if (groupDeadlineMonthYear == this.monthString) {\r\n                        events[1][0][0].push(moment('{{$project->groupCreationDueDate}}').format('YYYY-MM-DD'));\r\n                        events[1][0][1].push(['{{$project->name}}','{{$project->groupCreationDueDate}}','{{\\App\\Subject::find($project->idSubject)->subjectName}}']);\r\n                    } else if (groupDeadlineMonthYear == this.nextMonthString) {\r\n                        events[1][1][0].push(moment('{{$project->groupCreationDueDate}}').format('YYYY-MM-DD'));\r\n                        events[1][1][1].push(['{{$project->name}}','{{$project->groupCreationDueDate}}','{{\\App\\Subject::find($project->idSubject)->subjectName}}']);\r\n                    }\r\n                @endforeach\r\n\r\n                let meetingMonthYear;\r\n                @foreach($meetings as $m)\r\n                    meetingMonthYear = moment('{{$m->date}}').format('MMMM YYYY');\r\n                    if (meetingMonthYear == this.monthString) {\r\n                        events[2][0].push(moment('{{$m->date}}').format('YYYY-MM-DD'));\r\n                        events[2][1].push(['{{$m->description}}', '{{$m->place}}', '{{$m->date}}', '{{$m->hour}}', '{{$m->project}}', '{{$m->subject}}']);\r\n                    } else if (meetingMonthYear == this.nextMonthString) {\r\n                        events[3][0].push(moment('{{$m->date}}').format('YYYY-MM-DD'));\r\n                        events[3][1].push(['{{$m->description}}', '{{$m->place}}', '{{$m->date}}', '{{$m->hour}}', '{{$m->project}}', '{{$m->subject}}']);\r\n                    }\r\n                @endforeach\r\n\r\n                for (let months = 0; months <= 1; months++) {\r\n                    let week = 1;\r\n                    let weekday = moment(this.calendarDays[months].first).isoWeekday();\r\n                    let start = moment(this.calendarDays[months].first).format('YYYY-MM-DD');\r\n                    let max;\r\n                    let max1;\r\n                    let day;\r\n                    for (let index = 1; index <= this.calendarDays[months].last; index++) {\r\n                        if (weekday == 8) {\r\n                            weekday = 1;\r\n                            week++;\r\n                        }\r\n                        day = \".month\"+[months+1]+\"-cal .week\"+week+\" .\"+weekday;\r\n                        $(day).text(index);\r\n                        $(day).attr('id', start);\r\n                        if (start < this.today) {\r\n                            $(day).addClass(\"past\");\r\n                        } else if (start == this.today) {\r\n                            $(day).addClass(\"today\");\r\n                        }\r\n                        if (events[0][months][0].length > events[1][months][0].length) {\r\n                            max = events[0][months][0].length;\r\n                        } else {\r\n                            max = events[1][months][0].length;\r\n                        }\r\n                        for (let p = 0; p <= max; p++) {\r\n                            if (start == events[0][months][0][p]) {\r\n                                let event_pd = \"<p class='text-left m-0'><span class='far fa-file-alt float-left'></span>&nbsp;– {{__('gx.deadline')}}</p><p class='text-left m-0'><span class='far fa-book'></span>&nbsp;– \"+events[0][months][1][p][2]+\" - \"+events[0][months][1][p][0]+\"</p><p class='text-left m-0'><span class='far fa-calendar-alt'></span>&nbsp;– \"+events[0][months][1][p][1]+\"</p>\";\r\n                                if ($(day).hasClass(\"project-deadline\") || $(day).hasClass(\"project-group-deadline\") || $(day).hasClass(\"project-meeting\")) {\r\n                                    event_pd = $(day).attr(\"title\") + '<hr class=\"m-1 separator\">' + event_pd;\r\n                                } else {\r\n                                    $(day).attr('data-toggle', 'tooltip');\r\n                                    $(day).attr('data-placement', 'right');\r\n                                    $(day).attr('data-container', 'body');\r\n                                    $(day).attr('data-html', 'true');\r\n                                }\r\n                                $(day).addClass(\"project-deadline\");\r\n                                $(day).attr('title', event_pd);\r\n                            }\r\n                            if (start == events[1][months][0][p]) {\r\n                                let event_pgd = \"<p class='text-left m-0'><span class='far fa-users float-left'></span>&nbsp;– {{__('gx.group formation deadline')}}</p><p class='text-left m-0'><span class='far fa-book'></span>&nbsp;– \"+events[1][months][1][p][2]+\" - \"+events[1][months][1][p][0]+\"</p><p class='text-left m-0'><span class='far fa-calendar-alt'></span>&nbsp;– \"+events[1][months][1][p][1]+\"</p>\";\r\n                                if ($(day).hasClass(\"project-deadline\") || $(day).hasClass(\"project-group-deadline\") || $(day).hasClass(\"project-meeting\")) {\r\n                                    event_pgd = $(day).attr(\"title\") + '<hr class=\"m-1 separator\">' + event_pgd;\r\n                                } else {\r\n                                    $(day).attr('data-toggle', 'tooltip');\r\n                                    $(day).attr('data-placement', 'right');\r\n                                    $(day).attr('data-container', 'body');\r\n                                    $(day).attr('data-html', 'true');\r\n                                }\r\n                                $(day).addClass(\"project-group-deadline\");\r\n                                $(day).attr('title', event_pgd);\r\n                            }\r\n                        }\r\n                        if (events[months+2][0].length > events[months+2][1].length) {\r\n                            max1 = events[months+2][0].length;\r\n                        } else {\r\n                            max1 = events[months+2][1].length;\r\n                        }\r\n                        for (let m = 0; m <= max1; m++) {\r\n                            if (start == events[months+2][0][m]) {\r\n                                let event_pm = \"<p class='text-left m-0'><span class='far fa-handshake float-left'></span>&nbsp;– {{__('gx.meeting')}}</p><p class='text-left m-0'><span class='far fa-book'></span>&nbsp;– \"+events[months+2][1][m][5]+\" - \"+events[months+2][1][m][4]+\"</p><p class='text-left m-0'><span class='far fa-map-marker-alt'></span>&nbsp;– \"+events[months+2][1][m][1]+\"</p><p class='text-left m-0'><span class='far fa-calendar-alt'></span>&nbsp;– \"+events[months+2][1][m][2]+\"&nbsp;\"+events[months+2][1][m][3]+\"</p>\";\r\n                                if ($(day).hasClass(\"project-deadline\") || $(day).hasClass(\"project-group-deadline\") || $(day).hasClass(\"project-meeting\")) {\r\n                                    event_pm = $(day).attr(\"title\") + '<hr class=\"m-1 separator\">' + event_pm;\r\n                                } else {\r\n                                    $(day).addClass(\"project-meeting\");\r\n                                    $(day).attr('data-toggle', 'tooltip');\r\n                                    $(day).attr('data-placement', 'right');\r\n                                    $(day).attr('data-container', 'body');\r\n                                    $(day).attr('data-html', 'true');\r\n                                }\r\n                                $(day).attr('title', event_pm);\r\n                            }\r\n                        }\r\n                        start = moment(start).add(1, 'day').format('YYYY-MM-DD');\r\n                        weekday++;\r\n                    }\r\n                }\r\n\r\n                $(function () {\r\n                    $('[data-toggle=\"tooltip\"]').tooltip({\r\n                        container: 'body'\r\n                    })\r\n                })\r\n            }\r\n        }\r\n\r\n        const cal = new Calendar();\r\n        cal.init();\r\n\r\n    </script>\r\n    <style>\r\n        table {\r\n            table-layout: fixed;\r\n        }\r\n        .month1, .month2 {\r\n            color: #2c3fb1;\r\n        }\r\n        tr {\r\n            line-height: 37px;\r\n            min-height: 37px;\r\n            height: 37px;\r\n        }\r\n        .today, .project-deadline, .project-group-deadline, .project-meeting {\r\n            font-weight: 500;\r\n            border-radius: 100%;\r\n            box-shadow: 0 5px 10px -5px rgba(0, 0, 0, .75);\r\n        }\r\n        .project-deadline, .project-group-deadline, .project-meeting {\r\n            background-color: #2c3fb1;\r\n            color: white;\r\n            opacity: 0.9;\r\n        }\r\n        .past {\r\n            opacity: 0.5;\r\n        }\r\n        .today {\r\n            background-color: white;\r\n            opacity: 1 !important;\r\n            color: #2c3fb1;\r\n        }\r\n        .tooltip {\r\n        }\r\n        .tooltip .tooltip-inner {\r\n            min-width: 215px;\r\n            max-width: 300px;\r\n        }\r\n        .arrow {\r\n        }\r\n        .separator {\r\n            border-top: 1px solid white; !important\r\n        }\r\n    </style>\r\n</div>\r\n@endsection\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- resources/views/dashboard.blade.php	(revision da4473d3c6c7d2487781c19a4eb77fb8dea3778c)
++++ resources/views/dashboard.blade.php	(date 1590097300916)
+@@ -178,54 +178,68 @@
+ 
+         <div class="col pl-0">
+             <div class="overflow-auto rounded pb-2">
++                <div class="dropdown pt-3 mr-2 float-right">
++                    <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #2c3fb1; border-color: #2c3fb1;">
++                        Ano Letivo
++                    </button>
++                    <div class="dropdown-menu" id="dropdown" aria-labelledby="dropdownMenu" style="z-index: 1;">
++                        @foreach($academicYears as $academicYear)
++                            <a class="dropdown-item" id="{{$academicYear->academicYear}}-tab" href="#{{$academicYear->academicYear}}">{{$academicYear->academicYear}}</a>
++                        @endforeach
++                    </div>
++                </div>
+                 <h3 class="pt-3 pl-2 mb-0">{{__('gx.subjects')}}</h3>
+-                <div class="overflow-auto p-0 mr-2 ml-2" style="max-height: 75vh;">
+-                    @if(count($subjects) > 0)
+-                        @foreach($subjects as $subject)
++                <div class="tab-content" id="myTabContent" style="min-height: 75vh;">
++                    @foreach($academicYears as $academicYear)
++                        <div class="years overflow-auto p-0 mr-2 ml-2 d-none" id="{{$academicYear->academicYear}}" style="max-height: 75vh;">
++                            <?php $subjectYear = $subjects->whereIn('academicYear', $academicYear->academicYear); ?>
++                            @if(count($subjectYear) > 0)
++                                @foreach($subjectYear as $subject)
+ 
+-                            <div class="overflow-auto p-2 mt-2 rounded cadeira" type="button" id="{{$subject->idSubject}}" style="background-color: #c6c6c6;">
+-                                <h4 class="mt-2 pl-2 float-left">{{$subject->subjectName}}</h4>
+-                                <button style="color:#2c3fb1" type="button" class="btn btn-default btn-lg float-right" id="button-{{$subject->idSubject}}">
+-                                    <span class="fas fa-plus"></span>
+-                                </button>
+-                            </div>
++                                    <div class="overflow-auto p-2 mt-2 rounded cadeira" type="button" id="{{$subject->idSubject}}" style="background-color: #c6c6c6;">
++                                        <h4 class="mt-2 pl-2 float-left">{{$subject->subjectName}}</h4>
++                                        <button style="color:#2c3fb1" type="button" class="btn btn-default btn-lg float-right" id="button-{{$subject->idSubject}}">
++                                            <span class="fas fa-plus"></span>
++                                        </button>
++                                    </div>
+ 
+-                            <div class="overflow-hidden rounded-bottom doff" id="{{$subject->idSubject}}-groups" style="display: none; background-color: white;">
+-                                @if(count($projects->whereIn('idSubject', $subject->idSubject)) > 0)
+-                                    @foreach($projects as $project)
+-                                        @if($subject->idSubject == $project->idSubject)
+-                                            <div class="p-2 align-items-center">
+-                                                @if(Auth::user()->role == 'student')
+-                                                    @if(isset($project->group))
+-                                                        <button type="button" class="btn btn-sm btn-success float-right" href="/student/project/{{$project->idProject}}" style="background-color: #2c3fb1; border-color: #2c3fb1;">{{__('gx.group')}} {{$project->group}}</button>
+-                                                        <h5 class="mt-1 mb-1"><a style="color:#2c3fb1;" href="/student/project/{{$project->idProject}}">{{$project->name}}</a> {{$project->dueDate}}</h5>
+-                                                    @else
+-                                                        <button type="button" class="btn btn-sm btn-success float-right" href="/student/project/{{$project->idProject}}/groups">{{__('gx.join/create group')}}</button>
+-                                                        <h5 class="mt-1 mb-1"><a style="color:#2c3fb1;" href="/student/project/{{$project->idProject}}/groups">{{$project->name}}</a> {{$project->groupCreationDueDate}}</h5>
+-                                                    @endif
++                                    <div class="overflow-hidden rounded-bottom doff" id="{{$subject->idSubject}}-groups" style="display: none; background-color: white;">
++                                        @if(count($projects->whereIn('idSubject', $subject->idSubject)) > 0)
++                                            @foreach($projects as $project)
++                                                @if($subject->idSubject == $project->idSubject)
++                                                    <div class="p-2 align-items-center">
++                                                        @if(Auth::user()->role == 'student')
++                                                            @if(isset($project->group))
++                                                                <button type="button" class="btn btn-sm btn-success float-right" href="/student/project/{{$project->idProject}}" style="background-color: #2c3fb1; border-color: #2c3fb1;">{{__('gx.group')}} {{$project->group}}</button>
++                                                                <h5 class="mt-1 mb-1"><a style="color:#2c3fb1;" href="/student/project/{{$project->idProject}}">{{$project->name}}</a> {{$project->dueDate}}</h5>
++                                                            @else
++                                                                <button type="button" class="btn btn-sm btn-success float-right" href="/student/project/{{$project->idProject}}/groups">{{__('gx.join/create group')}}</button>
++                                                                <h5 class="mt-1 mb-1"><a style="color:#2c3fb1;" href="/student/project/{{$project->idProject}}/groups">{{$project->name}}</a> {{$project->groupCreationDueDate}}</h5>
++                                                            @endif
+ 
+-                                                @elseif(Auth::user()->role == 'professor')
+-                                                    <h5 class="mt-1 mb-1"><a style="color:#2c3fb1;" href="/professor/project/{{$project->idProject}}">{{$project->name}}</a></h5>
+-                                                @endif
+-                                            </div>
+-                                        @endif
+-                                    @endforeach
+-                                    @if (Auth::user()->role == 'professor')
+-                                        <button style="background-color:#2c3fb1;color: #fff;" type="button" class="btn btn-sm float-right m-2 open_modal" id="{{$subject->idSubject}}">{{__('gx.create project')}}</button>
+-                                    @endif
+-                                @else
+-                                    @if (Auth::user()->role == 'professor')
+-                                        <button style="background-color:#2c3fb1;color: #fff;" type="button" class="btn btn-sm float-right m-2 open_modal" id="{{$subject->idSubject}}">{{__('gx.create project')}}</button>
+-                                    @endif
+-                                    <h5 class="p-2">{{__('gx.no projects found')}}</h5>
+-                                @endif
+-                            </div>
+-                        @endforeach
+-                    @else
+-                        <p>{{__('gx.no subjects found')}}</p>
+-                    @endif
++                                                        @elseif(Auth::user()->role == 'professor')
++                                                            <h5 class="mt-1 mb-1"><a style="color:#2c3fb1;" href="/professor/project/{{$project->idProject}}">{{$project->name}}</a></h5>
++                                                        @endif
++                                                    </div>
++                                                @endif
++                                            @endforeach
++                                            @if (Auth::user()->role == 'professor')
++                                                <button style="background-color:#2c3fb1;color: #fff;" type="button" class="btn btn-sm float-right m-2 open_modal" id="{{$subject->idSubject}}">{{__('gx.create project')}}</button>
++                                            @endif
++                                        @else
++                                            @if (Auth::user()->role == 'professor')
++                                                <button style="background-color:#2c3fb1;color: #fff;" type="button" class="btn btn-sm float-right m-2 open_modal" id="{{$subject->idSubject}}">{{__('gx.create project')}}</button>
++                                            @endif
++                                            <h5 class="p-2">{{__('gx.no projects found')}}</h5>
++                                        @endif
++                                    </div>
++                                @endforeach
++                            @else
++                                <p>{{__('gx.no subjects found')}}</p>
++                            @endif
++                        </div>
++                    @endforeach
+                 </div>
+-                <button type="button" class="p-2 btn btn-primary btn-md float-right mt-2 mr-2" style="background-color: #2c3fb1; border-color: #2c3fb1;">Cadeiras Antigas</button>
+             </div>
+         </div>
+     </div>
+@@ -296,252 +310,288 @@
+             </div>
+         </div>
+     </div>
+-
+-    <script>
+-        $(document).ready(function(){
++</div>
++<style>
++    table {
++        table-layout: fixed;
++    }
++    .month1, .month2 {
++        color: #2c3fb1;
++    }
++    tr {
++        line-height: 37px;
++        min-height: 37px;
++        height: 37px;
++    }
++    .today, .project-deadline, .project-group-deadline, .project-meeting {
++        font-weight: 500;
++        border-radius: 100%;
++        box-shadow: 0 5px 10px -5px rgba(0, 0, 0, .75);
++    }
++    .project-deadline, .project-group-deadline, .project-meeting {
++        background-color: #2c3fb1;
++        color: white;
++        opacity: 0.9;
++    }
++    .past {
++        opacity: 0.5;
++    }
++    .today {
++        background-color: white;
++        opacity: 1 !important;
++        color: #2c3fb1;
++    }
++    .tooltip {
++    }
++    .tooltip .tooltip-inner {
++        min-width: 215px;
++        max-width: 300px;
++    }
++    .arrow {
++    }
++    .separator {
++        border-top: 1px solid white; !important
++    }
++</style>
++<script>
++
++    $('#dropdown a').click(function(e) {
++        $(this).addClass('active');
++        $(this).attr('id').split("-")[0].removeClass( "d-none" );
++        e.preventDefault();
++        $(this).tab('show');
++        console.log($(this).attr('id').split("-")[0]);
++    });
++
++    // store the currently selected tab in the hash value
++    /*$("div.dropdown-menu > a").on("shown.bs.tab", function(e) {
++        var id = $(e.target).attr("href").substr(1);
++        window.location.hash = id;
++        console.log(id);
++    });*/
++
++    // on load of the page: switch to the currently selected tab
++    var hash = window.location.hash;
++    if(hash === '') {
++        first1 = moment().subtract(1, 'y').month(6);
++        second1 = moment().month(6);
++        first2 = moment().month(6);
++        second2 = moment().add(1, 'y').month(6);
++        if (moment().isBetween(first1, second1)) {
++            hash = '#' + first1.year() + '-' + second1.year();
++            $('#' + first1.year() + '-' + second1.year()).removeClass("d-none");
++        } else if (moment().isBetween(first2, second2)) {
++            hash = '#' + first2.year() + '-' + second2.year();
++            $('#' + first1.year() + '-' + second1.year()).removeClass("d-none");
++        }
++        $("div#myTabContent.tab-content").find("div.years").each(function(){
++            console.log(this.id);
++        });
++    } else {
++        $(hash.replace("-", "\\/")).removeClass("d-none");
++    }
++
++    $(document).ready(function(){
+ 
+-            $(".cadeira").click(function(){
+-                id = $(this).attr('id');
+-                if ($("#" + id + "-groups").hasClass( "doff" )) {
+-                    $("#" + id + "-groups").removeClass( "doff" );
+-                    $("#button-" + id).children().addClass('fa-minus').removeClass('fa-plus');
+-                    $("#" + id + "-groups").slideDown(400);
+-                } else {
+-                    $("#" + id + "-groups").addClass( "doff" );
+-                    $("#button-" + id).children().addClass('fa-plus').removeClass('fa-minus');
+-                    $("#" + id + "-groups").slideUp(400);
+-                }
+-            });
++        $(".cadeira").click(function(){
++            id = $(this).attr('id');
++            if ($("#" + id + "-groups").hasClass( "doff" )) {
++                $("#" + id + "-groups").removeClass( "doff" );
++                $("#button-" + id).children().addClass('fa-minus').removeClass('fa-plus');
++                $("#" + id + "-groups").slideDown(400);
++            } else {
++                $("#" + id + "-groups").addClass( "doff" );
++                $("#button-" + id).children().addClass('fa-plus').removeClass('fa-minus');
++                $("#" + id + "-groups").slideUp(400);
++            }
++        });
+ 
+-            $(".open_modal").click(function(){
+-                $('input[name="subject"]').val($(this).attr("id"));
+-                $('#modalCreate').modal('show');
+-            });
++        $(".open_modal").click(function(){
++            $('input[name="subject"]').val($(this).attr("id"));
++            $('#modalCreate').modal('show');
++        });
+ 
+-        });
++    });
+ 
+-        class Calendar {
++    class Calendar {
+ 
+-            constructor() {
+-                this.monthDiv = document.querySelector('.month1');
+-                this.nextMonthDiv = document.querySelector('.month2');
+-                this.prevDiv = document.querySelector('.previous');
+-                this.nextDiv = document.querySelector('.next');
+-            }
++        constructor() {
++            this.monthDiv = document.querySelector('.month1');
++            this.nextMonthDiv = document.querySelector('.month2');
++            this.prevDiv = document.querySelector('.previous');
++            this.nextDiv = document.querySelector('.next');
++        }
+ 
+-            init() {
+-                this.month = [];
+-                this.month.push(moment(), moment().add(1, 'months'));
++        init() {
++            this.month = [];
++            this.month.push(moment(), moment().add(1, 'months'));
+ 
+-                this.today = moment().startOf('day').format('YYYY-MM-DD');
++            this.today = moment().startOf('day').format('YYYY-MM-DD');
+ 
+-                this.nextDiv.addEventListener('click', _ => {this.addMonth();});
+-                this.prevDiv.addEventListener('click', _ => {this.removeMonth();});
++            this.nextDiv.addEventListener('click', _ => {this.addMonth();});
++            this.prevDiv.addEventListener('click', _ => {this.removeMonth();});
+ 
+-                this.update();
+-            }
++            this.update();
++        }
+ 
+-            update() {
+-                this.monthString = this.month[0].clone().format('MMMM YYYY');
+-                this.nextMonthString = this.month[1].clone().format('MMMM YYYY');
++        update() {
++            this.monthString = this.month[0].clone().format('MMMM YYYY');
++            this.nextMonthString = this.month[1].clone().format('MMMM YYYY');
+ 
+-                this.calendarDays = [];
+-                this.calendarDays.push({
++            this.calendarDays = [];
++            this.calendarDays.push({
+                     first: this.month[0].clone().startOf('month'),
+                     last: this.month[0].clone().endOf('month').date() },
+-                    {
++                {
+                     first: this.month[1].clone().startOf('month'),
+                     last: this.month[1].clone().endOf('month').date() });
+ 
+-                this.draw();
+-            }
++            this.draw();
++        }
+ 
+-            addMonth() {
+-                this.month[0].add(1, 'month');
+-                this.month[1].add(1, 'month');
+-                this.update();
+-            }
++        addMonth() {
++            this.month[0].add(1, 'month');
++            this.month[1].add(1, 'month');
++            this.update();
++        }
+ 
+-            removeMonth() {
+-                this.month[0].subtract(1, 'month');
+-                this.month[1].subtract(1, 'month');
+-                this.update();
+-            }
++        removeMonth() {
++            this.month[0].subtract(1, 'month');
++            this.month[1].subtract(1, 'month');
++            this.update();
++        }
+ 
+-            draw() {
+-                $('table.month1-cal tr > td').empty()
+-                $('table.month2-cal tr > td').empty()
+-                $("table.month1-cal tr > td").removeClass("past today project-deadline project-group-deadline project-meeting");
+-                $("table.month2-cal tr > td").removeClass("past today project-deadline project-group-deadline project-meeting");
+-                this.monthDiv.innerText = this.monthString;
+-                this.nextMonthDiv.innerText = this.nextMonthString;
++        draw() {
++            $('table.month1-cal tr > td').empty()
++            $('table.month2-cal tr > td').empty()
++            $("table.month1-cal tr > td").removeClass("past today project-deadline project-group-deadline project-meeting");
++            $("table.month2-cal tr > td").removeClass("past today project-deadline project-group-deadline project-meeting");
++            this.monthDiv.innerText = this.monthString;
++            this.nextMonthDiv.innerText = this.nextMonthString;
+ 
+-                let events = [ [[[],[]],[[],[]]] , [[[],[]],[[],[]]] , [[],[]] , [[],[]] ];
+-                let deadlineMonthYear;
+-                let groupDeadlineMonthYear;
+-                @foreach($projects as $project)
+-                    deadlineMonthYear = moment('{{$project->dueDate}}').format('MMMM YYYY');
+-                    groupDeadlineMonthYear = moment('{{$project->groupCreationDueDate}}').format('MMMM YYYY');
+-                    if (deadlineMonthYear == this.monthString) {
+-                        events[0][0][0].push(moment('{{$project->dueDate}}').format('YYYY-MM-DD'));
+-                        events[0][0][1].push(['{{$project->name}}','{{$project->dueDate}}','{{\App\Subject::find($project->idSubject)->subjectName}}']);
+-                    } else if (deadlineMonthYear == this.nextMonthString) {
+-                        events[0][1][0].push(moment('{{$project->dueDate}}').format('YYYY-MM-DD'));
+-                        events[0][1][1].push(['{{$project->name}}','{{$project->dueDate}}','{{\App\Subject::find($project->idSubject)->subjectName}}']);
+-                    }
+-                    if (groupDeadlineMonthYear == this.monthString) {
+-                        events[1][0][0].push(moment('{{$project->groupCreationDueDate}}').format('YYYY-MM-DD'));
+-                        events[1][0][1].push(['{{$project->name}}','{{$project->groupCreationDueDate}}','{{\App\Subject::find($project->idSubject)->subjectName}}']);
+-                    } else if (groupDeadlineMonthYear == this.nextMonthString) {
+-                        events[1][1][0].push(moment('{{$project->groupCreationDueDate}}').format('YYYY-MM-DD'));
+-                        events[1][1][1].push(['{{$project->name}}','{{$project->groupCreationDueDate}}','{{\App\Subject::find($project->idSubject)->subjectName}}']);
+-                    }
++            let events = [ [[[],[]],[[],[]]] , [[[],[]],[[],[]]] , [[],[]] , [[],[]] ];
++            let deadlineMonthYear;
++            let groupDeadlineMonthYear;
++            @foreach($projects as $project)
++                deadlineMonthYear = moment('{{$project->dueDate}}').format('MMMM YYYY');
++            groupDeadlineMonthYear = moment('{{$project->groupCreationDueDate}}').format('MMMM YYYY');
++            if (deadlineMonthYear == this.monthString) {
++                events[0][0][0].push(moment('{{$project->dueDate}}').format('YYYY-MM-DD'));
++                events[0][0][1].push(['{{$project->name}}','{{$project->dueDate}}','{{\App\Subject::find($project->idSubject)->subjectName}}']);
++            } else if (deadlineMonthYear == this.nextMonthString) {
++                events[0][1][0].push(moment('{{$project->dueDate}}').format('YYYY-MM-DD'));
++                events[0][1][1].push(['{{$project->name}}','{{$project->dueDate}}','{{\App\Subject::find($project->idSubject)->subjectName}}']);
++            }
++            if (groupDeadlineMonthYear == this.monthString) {
++                events[1][0][0].push(moment('{{$project->groupCreationDueDate}}').format('YYYY-MM-DD'));
++                events[1][0][1].push(['{{$project->name}}','{{$project->groupCreationDueDate}}','{{\App\Subject::find($project->idSubject)->subjectName}}']);
++            } else if (groupDeadlineMonthYear == this.nextMonthString) {
++                events[1][1][0].push(moment('{{$project->groupCreationDueDate}}').format('YYYY-MM-DD'));
++                events[1][1][1].push(['{{$project->name}}','{{$project->groupCreationDueDate}}','{{\App\Subject::find($project->idSubject)->subjectName}}']);
++            }
+                 @endforeach
+ 
+-                let meetingMonthYear;
+-                @foreach($meetings as $m)
+-                    meetingMonthYear = moment('{{$m->date}}').format('MMMM YYYY');
+-                    if (meetingMonthYear == this.monthString) {
+-                        events[2][0].push(moment('{{$m->date}}').format('YYYY-MM-DD'));
+-                        events[2][1].push(['{{$m->description}}', '{{$m->place}}', '{{$m->date}}', '{{$m->hour}}', '{{$m->project}}', '{{$m->subject}}']);
+-                    } else if (meetingMonthYear == this.nextMonthString) {
+-                        events[3][0].push(moment('{{$m->date}}').format('YYYY-MM-DD'));
+-                        events[3][1].push(['{{$m->description}}', '{{$m->place}}', '{{$m->date}}', '{{$m->hour}}', '{{$m->project}}', '{{$m->subject}}']);
+-                    }
++            let meetingMonthYear;
++            @foreach($meetings as $m)
++                meetingMonthYear = moment('{{$m->date}}').format('MMMM YYYY');
++            if (meetingMonthYear == this.monthString) {
++                events[2][0].push(moment('{{$m->date}}').format('YYYY-MM-DD'));
++                events[2][1].push(['{{$m->description}}', '{{$m->place}}', '{{$m->date}}', '{{$m->hour}}', '{{$m->project}}', '{{$m->subject}}']);
++            } else if (meetingMonthYear == this.nextMonthString) {
++                events[3][0].push(moment('{{$m->date}}').format('YYYY-MM-DD'));
++                events[3][1].push(['{{$m->description}}', '{{$m->place}}', '{{$m->date}}', '{{$m->hour}}', '{{$m->project}}', '{{$m->subject}}']);
++            }
+                 @endforeach
+ 
+-                for (let months = 0; months <= 1; months++) {
+-                    let week = 1;
+-                    let weekday = moment(this.calendarDays[months].first).isoWeekday();
+-                    let start = moment(this.calendarDays[months].first).format('YYYY-MM-DD');
+-                    let max;
+-                    let max1;
+-                    let day;
+-                    for (let index = 1; index <= this.calendarDays[months].last; index++) {
+-                        if (weekday == 8) {
+-                            weekday = 1;
+-                            week++;
+-                        }
+-                        day = ".month"+[months+1]+"-cal .week"+week+" ."+weekday;
+-                        $(day).text(index);
+-                        $(day).attr('id', start);
+-                        if (start < this.today) {
+-                            $(day).addClass("past");
+-                        } else if (start == this.today) {
+-                            $(day).addClass("today");
+-                        }
+-                        if (events[0][months][0].length > events[1][months][0].length) {
+-                            max = events[0][months][0].length;
+-                        } else {
+-                            max = events[1][months][0].length;
+-                        }
+-                        for (let p = 0; p <= max; p++) {
+-                            if (start == events[0][months][0][p]) {
+-                                let event_pd = "<p class='text-left m-0'><span class='far fa-file-alt float-left'></span>&nbsp;– {{__('gx.deadline')}}</p><p class='text-left m-0'><span class='far fa-book'></span>&nbsp;– "+events[0][months][1][p][2]+" - "+events[0][months][1][p][0]+"</p><p class='text-left m-0'><span class='far fa-calendar-alt'></span>&nbsp;– "+events[0][months][1][p][1]+"</p>";
+-                                if ($(day).hasClass("project-deadline") || $(day).hasClass("project-group-deadline") || $(day).hasClass("project-meeting")) {
+-                                    event_pd = $(day).attr("title") + '<hr class="m-1 separator">' + event_pd;
+-                                } else {
+-                                    $(day).attr('data-toggle', 'tooltip');
+-                                    $(day).attr('data-placement', 'right');
+-                                    $(day).attr('data-container', 'body');
+-                                    $(day).attr('data-html', 'true');
+-                                }
+-                                $(day).addClass("project-deadline");
+-                                $(day).attr('title', event_pd);
+-                            }
+-                            if (start == events[1][months][0][p]) {
+-                                let event_pgd = "<p class='text-left m-0'><span class='far fa-users float-left'></span>&nbsp;– {{__('gx.group formation deadline')}}</p><p class='text-left m-0'><span class='far fa-book'></span>&nbsp;– "+events[1][months][1][p][2]+" - "+events[1][months][1][p][0]+"</p><p class='text-left m-0'><span class='far fa-calendar-alt'></span>&nbsp;– "+events[1][months][1][p][1]+"</p>";
+-                                if ($(day).hasClass("project-deadline") || $(day).hasClass("project-group-deadline") || $(day).hasClass("project-meeting")) {
+-                                    event_pgd = $(day).attr("title") + '<hr class="m-1 separator">' + event_pgd;
+-                                } else {
+-                                    $(day).attr('data-toggle', 'tooltip');
+-                                    $(day).attr('data-placement', 'right');
+-                                    $(day).attr('data-container', 'body');
+-                                    $(day).attr('data-html', 'true');
+-                                }
+-                                $(day).addClass("project-group-deadline");
+-                                $(day).attr('title', event_pgd);
+-                            }
+-                        }
+-                        if (events[months+2][0].length > events[months+2][1].length) {
+-                            max1 = events[months+2][0].length;
+-                        } else {
+-                            max1 = events[months+2][1].length;
+-                        }
+-                        for (let m = 0; m <= max1; m++) {
+-                            if (start == events[months+2][0][m]) {
+-                                let event_pm = "<p class='text-left m-0'><span class='far fa-handshake float-left'></span>&nbsp;– {{__('gx.meeting')}}</p><p class='text-left m-0'><span class='far fa-book'></span>&nbsp;– "+events[months+2][1][m][5]+" - "+events[months+2][1][m][4]+"</p><p class='text-left m-0'><span class='far fa-map-marker-alt'></span>&nbsp;– "+events[months+2][1][m][1]+"</p><p class='text-left m-0'><span class='far fa-calendar-alt'></span>&nbsp;– "+events[months+2][1][m][2]+"&nbsp;"+events[months+2][1][m][3]+"</p>";
+-                                if ($(day).hasClass("project-deadline") || $(day).hasClass("project-group-deadline") || $(day).hasClass("project-meeting")) {
+-                                    event_pm = $(day).attr("title") + '<hr class="m-1 separator">' + event_pm;
+-                                } else {
+-                                    $(day).addClass("project-meeting");
+-                                    $(day).attr('data-toggle', 'tooltip');
+-                                    $(day).attr('data-placement', 'right');
+-                                    $(day).attr('data-container', 'body');
+-                                    $(day).attr('data-html', 'true');
+-                                }
+-                                $(day).attr('title', event_pm);
+-                            }
+-                        }
+-                        start = moment(start).add(1, 'day').format('YYYY-MM-DD');
+-                        weekday++;
+-                    }
+-                }
++            for (let months = 0; months <= 1; months++) {
++                let week = 1;
++                let weekday = moment(this.calendarDays[months].first).isoWeekday();
++                let start = moment(this.calendarDays[months].first).format('YYYY-MM-DD');
++                let max;
++                let max1;
++                let day;
++                for (let index = 1; index <= this.calendarDays[months].last; index++) {
++                    if (weekday == 8) {
++                        weekday = 1;
++                        week++;
++                    }
++                    day = ".month"+[months+1]+"-cal .week"+week+" ."+weekday;
++                    $(day).text(index);
++                    $(day).attr('id', start);
++                    if (start < this.today) {
++                        $(day).addClass("past");
++                    } else if (start == this.today) {
++                        $(day).addClass("today");
++                    }
++                    if (events[0][months][0].length > events[1][months][0].length) {
++                        max = events[0][months][0].length;
++                    } else {
++                        max = events[1][months][0].length;
++                    }
++                    for (let p = 0; p <= max; p++) {
++                        if (start == events[0][months][0][p]) {
++                            let event_pd = "<p class='text-left m-0'><span class='far fa-file-alt float-left'></span>&nbsp;– {{__('gx.deadline')}}</p><p class='text-left m-0'><span class='far fa-book'></span>&nbsp;– "+events[0][months][1][p][2]+" - "+events[0][months][1][p][0]+"</p><p class='text-left m-0'><span class='far fa-calendar-alt'></span>&nbsp;– "+events[0][months][1][p][1]+"</p>";
++                            if ($(day).hasClass("project-deadline") || $(day).hasClass("project-group-deadline") || $(day).hasClass("project-meeting")) {
++                                event_pd = $(day).attr("title") + '<hr class="m-1 separator">' + event_pd;
++                            } else {
++                                $(day).attr('data-toggle', 'tooltip');
++                                $(day).attr('data-placement', 'right');
++                                $(day).attr('data-container', 'body');
++                                $(day).attr('data-html', 'true');
++                            }
++                            $(day).addClass("project-deadline");
++                            $(day).attr('title', event_pd);
++                        }
++                        if (start == events[1][months][0][p]) {
++                            let event_pgd = "<p class='text-left m-0'><span class='far fa-users float-left'></span>&nbsp;– {{__('gx.group formation deadline')}}</p><p class='text-left m-0'><span class='far fa-book'></span>&nbsp;– "+events[1][months][1][p][2]+" - "+events[1][months][1][p][0]+"</p><p class='text-left m-0'><span class='far fa-calendar-alt'></span>&nbsp;– "+events[1][months][1][p][1]+"</p>";
++                            if ($(day).hasClass("project-deadline") || $(day).hasClass("project-group-deadline") || $(day).hasClass("project-meeting")) {
++                                event_pgd = $(day).attr("title") + '<hr class="m-1 separator">' + event_pgd;
++                            } else {
++                                $(day).attr('data-toggle', 'tooltip');
++                                $(day).attr('data-placement', 'right');
++                                $(day).attr('data-container', 'body');
++                                $(day).attr('data-html', 'true');
++                            }
++                            $(day).addClass("project-group-deadline");
++                            $(day).attr('title', event_pgd);
++                        }
++                    }
++                    if (events[months+2][0].length > events[months+2][1].length) {
++                        max1 = events[months+2][0].length;
++                    } else {
++                        max1 = events[months+2][1].length;
++                    }
++                    for (let m = 0; m <= max1; m++) {
++                        if (start == events[months+2][0][m]) {
++                            let event_pm = "<p class='text-left m-0'><span class='far fa-handshake float-left'></span>&nbsp;– {{__('gx.meeting')}}</p><p class='text-left m-0'><span class='far fa-book'></span>&nbsp;– "+events[months+2][1][m][5]+" - "+events[months+2][1][m][4]+"</p><p class='text-left m-0'><span class='far fa-map-marker-alt'></span>&nbsp;– "+events[months+2][1][m][1]+"</p><p class='text-left m-0'><span class='far fa-calendar-alt'></span>&nbsp;– "+events[months+2][1][m][2]+"&nbsp;"+events[months+2][1][m][3]+"</p>";
++                            if ($(day).hasClass("project-deadline") || $(day).hasClass("project-group-deadline") || $(day).hasClass("project-meeting")) {
++                                event_pm = $(day).attr("title") + '<hr class="m-1 separator">' + event_pm;
++                            } else {
++                                $(day).addClass("project-meeting");
++                                $(day).attr('data-toggle', 'tooltip');
++                                $(day).attr('data-placement', 'right');
++                                $(day).attr('data-container', 'body');
++                                $(day).attr('data-html', 'true');
++                            }
++                            $(day).attr('title', event_pm);
++                        }
++                    }
++                    start = moment(start).add(1, 'day').format('YYYY-MM-DD');
++                    weekday++;
++                }
++            }
+ 
+-                $(function () {
+-                    $('[data-toggle="tooltip"]').tooltip({
+-                        container: 'body'
+-                    })
+-                })
+-            }
+-        }
++            $(function () {
++                $('[data-toggle="tooltip"]').tooltip({
++                    container: 'body'
++                })
++            })
++        }
++    }
+ 
+-        const cal = new Calendar();
+-        cal.init();
++    const cal = new Calendar();
++    cal.init();
+ 
+-    </script>
+-    <style>
+-        table {
+-            table-layout: fixed;
+-        }
+-        .month1, .month2 {
+-            color: #2c3fb1;
+-        }
+-        tr {
+-            line-height: 37px;
+-            min-height: 37px;
+-            height: 37px;
+-        }
+-        .today, .project-deadline, .project-group-deadline, .project-meeting {
+-            font-weight: 500;
+-            border-radius: 100%;
+-            box-shadow: 0 5px 10px -5px rgba(0, 0, 0, .75);
+-        }
+-        .project-deadline, .project-group-deadline, .project-meeting {
+-            background-color: #2c3fb1;
+-            color: white;
+-            opacity: 0.9;
+-        }
+-        .past {
+-            opacity: 0.5;
+-        }
+-        .today {
+-            background-color: white;
+-            opacity: 1 !important;
+-            color: #2c3fb1;
+-        }
+-        .tooltip {
+-        }
+-        .tooltip .tooltip-inner {
+-            min-width: 215px;
+-            max-width: 300px;
+-        }
+-        .arrow {
+-        }
+-        .separator {
+-            border-top: 1px solid white; !important
+-        }
+-    </style>
+-</div>
++</script>
+ @endsection
+ 
+Index: resources/views/professor/project.blade.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>@extends('layouts.app')\r\n@section('content')\r\n<head>\r\n    <title>Project</title>\r\n</head>\r\n<div class=\"container-xl-fluid mt-2 pl-5 pr-5 pb-2\">\r\n    @include('layouts.messages')\r\n    <nav aria-label=\"breadcrumb\" >\r\n        <ol class=\"breadcrumb pl-0 pb-0 mb-4 h3\" style=\"background-color:white; \">\r\n            <li class=\"breadcrumb-item \" aria-current=\"page\"><a style=\"color:#2c3fb1;\" href={{route('Dashboard')}}>Dashboard</a></li>\r\n            <li class=\"breadcrumb-item \" aria-current=\"page\" >{{$subject->subjectName}} - {{$project->name}}</li>\r\n        </ol>\r\n    </nav>\r\n\r\n    <ul class=\"nav nav-tabs\" id=\"myTab\" role=\"tablist\">\r\n        <li class=\"nav-item\">\r\n            <a class=\"nav-link\" id=\"characteristics-tab\" data-toggle=\"tab\" href=\"#characteristics\" role=\"tab\" aria-controls=\"characteristics\" aria-selected=\"false\">Características</a>\r\n        </li>\r\n        <li class=\"nav-item\">\r\n            <a class=\"nav-link\" id=\"groups-tab\" data-toggle=\"tab\" href=\"#groups\" role=\"tab\" aria-controls=\"groups\" aria-selected=\"true\">Grupos</a>\r\n        </li>\r\n        <li class=\"nav-item\">\r\n            <a class=\"nav-link\" id=\"forum-tab\" data-toggle=\"tab\" href=\"#forum\" role=\"tab\" aria-controls=\"forum\" aria-selected=\"false\">Fórum</a>\r\n        </li>\r\n        <li class=\"rightbutton ml-auto\">\r\n            <button type=\"submit\" class=\"btn btn-sm bg-danger\" data-toggle=\"modal\" data-target=\"#modalDelete-{{$project->idProject}}\" style=\"width: 20vh;color: white;\">Delete Project</button>\r\n        </li>\r\n    </ul>\r\n\r\n    <div class=\"modal fade\" id=\"modalDelete-{{$project->idProject}}\" aria-labelledby=\"modalDelete-{{$project->idProject}}\" aria-hidden=\"true\" tabindex=\"-1\" role=\"dialog\">\r\n        <div class=\"modal-dialog\" role=\"document\">\r\n            <div class=\"modal-content\">\r\n                <div class=\"modal-header\">\r\n                    <h4 class=\"modal-title\" id=\"staticBackdropLabel\">{{__('gx.delete project')}}</h4>\r\n                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n                        <span aria-hidden=\"true\">&times;</span>\r\n                    </button>\r\n                </div>\r\n                <div class=\"modal-body\">\r\n                    <h5>{{__('gx.want to delete project?')}}</h5>\r\n                    {!!Form::open(['action' => ['ProfessorProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}\r\n                    {{Form::hidden('_method', 'DELETE')}}\r\n                    {{Form::submit(trans('gx.delete'), ['class' => 'btn btn-danger'])}}\r\n                    {!!Form::close()!!}\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"tab-content\" id=\"myTabContent\" style=\"min-height: 75vh; background-color: #ededed;\">\r\n        <div class=\"container tab-pane fade\" id=\"characteristics\" role=\"tabpanel\" aria-labelledby=\"characteristics-tab\">\r\n            <div class=\"row h-100 p-3\">\r\n                <div class=\" col-8 rounded bg-white w-100 p-3 h-100 mr-3\" style=\"position: relative; width: 500px;\">\r\n\r\n                    <button type=\"button\" class=\"btn btn-success float-right\" data-toggle=\"modal\" data-target=\"#modalEdit-{{$project->idProject}}\">{{__('gx.edit project')}}</button>                            <h4>Características</h4>\r\n                    @if($subject->idSubject == $project->idSubject)\r\n                        <div class=\"modal fade\" id=\"modalEdit-{{$project->idProject}}\" aria-labelledby=\"modalEdit-{{$project->idProject}}\" aria-hidden=\"true\" tabindex=\"-1\" role=\"dialog\">\r\n                            <div class=\"modal-dialog\" role=\"document\">\r\n                                <div class=\"modal-content\">\r\n                                    <div class=\"modal-header\">\r\n                                        <h4 class=\"modal-title\" id=\"staticBackdropLabel\">{{__('gx.edit project')}}</h4>\r\n                                        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n                                            <span aria-hidden=\"true\">&times;</span>\r\n                                        </button>\r\n                                    </div>\r\n                                    <div class=\"modal-body\">\r\n                                        {!! Form::open(['action' => ['ProfessorProjectsController@update', $project->idProject], 'method' => 'POST', 'enctype' => 'multipart/form-data', 'id' => 'formEdit']) !!}\r\n                                        <div class=\"form-group\">\r\n                                            {{Form::label('title', trans('gx.name'))}}\r\n                                            {{Form::text('title', $project->name, ['class' => 'form-control', 'placeholder' => trans('gx.project name')])}}\r\n                                        </div>\r\n                                        <div class=\"form-group\">\r\n                                            {{Form::label('deadline', trans('gx.group formation deadline'))}}\r\n                                            {{Form::text('group formation deadline', $project->groupCreationDueDate, ['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker1-'.$project->idProject, 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker1-'.$project->idProject, (\\Carbon\\Carbon::now()->floatDiffInHours($project->groupCreationDueDate, false) > 0 ? :'disabled')])}}\r\n                                        </div>\r\n                                        <div class=\"form-group\">\r\n                                            {{Form::label('deadline', trans('gx.deadline'))}}\r\n                                            {{Form::text('deadline', $project->dueDate, ['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker2-'.$project->idProject, 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker2-'.$project->idProject, (\\Carbon\\Carbon::now()->floatDiffInHours($project->dueDate, false) > 0 ? :'disabled')])}}\r\n                                        </div>\r\n                                        <div class=\"form-group\">\r\n                                            {{Form::label('minNumber', trans('gx.minimum no. of members'))}}\r\n                                            {{Form::selectRange('minNumber', 1, 10, $project->minElements)}}\r\n                                        </div>\r\n                                        <div class=\"form-group\">\r\n                                            {{Form::label('maxNumber', trans('gx.maximum no. of members'))}}\r\n                                            {{Form::selectRange('maxNumber', 1, 10, $project->maxElements)}}\r\n                                        </div>\r\n                                        {{ Form::hidden('subject', $subject->idSubject) }}\r\n                                        {{Form::hidden('option', 'project')}}\r\n\r\n                                        {{Form::hidden('_method','PUT')}}\r\n                                        {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}\r\n                                        {!! Form::close() !!}\r\n                                    </div>\r\n                                    <script>\r\n                                        $(function() {$( \"#datetimepicker1-{{$project->idProject}}\" ).datetimepicker({\r\n                                            minDate: moment().format('YYYY-MM-DD HH:mm'),\r\n                                            date: moment('{{$project->groupCreationDueDate}}').format('YYYY-MM-DD HH:mm'),\r\n                                            locale: \"{{ str_replace('_', '-', app()->getLocale()) }}\",\r\n                                            icons: {time: \"fa fa-clock\", date: \"fa fa-calendar\", up: \"fa fa-arrow-up\", down: \"fa fa-arrow-down\"}\r\n                                        });});\r\n                                        $(function() {$( \"#datetimepicker2-{{$project->idProject}}\" ).datetimepicker({\r\n                                            minDate: moment().format('YYYY-MM-DD HH:mm'),\r\n                                            date: moment('{{$project->dueDate}}').format('YYYY-MM-DD HH:mm'),\r\n                                            locale: \"{{ str_replace('_', '-', app()->getLocale()) }}\",\r\n                                            icons: {time: \"fa fa-clock\", date: \"fa fa-calendar\", up: \"fa fa-arrow-up\", down: \"fa fa-arrow-down\"}\r\n                                        });});\r\n                                    </script>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    @endif\r\n\r\n\r\n                    <div class=\"pt-3\">\r\n                        <table class=\"table \">\r\n                            <tr>\r\n                                <th scope=\"row\">Prazo para criação de grupos</th>\r\n                                <td>{{$project->groupCreationDueDate}}</td>\r\n                                <td>\r\n                                    <div id=\"timer2\"></div>\r\n                                    <style>\r\n                                        #timer2 {\r\n                                            font-size: 1.30em;\r\n                                            font-weight: 100;\r\n                                            color: navy;\r\n                                        }\r\n\r\n                                        #timer2 div {\r\n                                            display: inline-block;\r\n                                            min-width: 45px;\r\n                                        }\r\n\r\n                                        #timer2 div span {\r\n                                            color: black;\r\n                                            display: block;\r\n                                            font-size: .50em;\r\n                                            font-weight: 400;\r\n                                        }\r\n                                    </style>\r\n                                    <script>\r\n                                        function updateTimer2() {\r\n                                            future = Date.parse(\"{{$project->groupCreationDueDate}}\");\r\n                                            now = new Date();\r\n                                            diff = future - now;\r\n\r\n                                            days = Math.floor(diff / (1000 * 60 * 60 * 24));\r\n                                            hours = Math.floor(diff / (1000 * 60 * 60));\r\n                                            mins = Math.floor(diff / (1000 * 60));\r\n                                            secs = Math.floor(diff / 1000);\r\n\r\n                                            d = days;\r\n                                            h = hours - days * 24;\r\n                                            m = mins - hours * 60;\r\n                                            s = secs - mins * 60;\r\n\r\n                                            if (d<0){\r\n                                                document.getElementById(\"timer2\")\r\n                                                    .innerHTML = '<p>Terminado<p>';\r\n                                            }else if (d==0 && h==0 && m==0){\r\n                                                document.getElementById(\"timer2\")\r\n                                                    .innerHTML = '<div>' + s + '<span>seconds</span></div>';\r\n                                            } else if (d==0 && h==0 && m==0 && s==0){\r\n                                                document.getElementById(\"timer2\")\r\n                                                    .innerHTML = '<p>Terminado<p>';\r\n                                            }else if (d==0){\r\n                                                document.getElementById(\"timer2\")\r\n                                                    .innerHTML =\r\n                                                    '<div>' + h + '<span>hours</span></div>' +\r\n                                                    '<div>' + m + '<span>minutes</span></div>' +\r\n                                                    '<div>' + s + '<span>seconds</span></div>';\r\n                                            }\r\n                                            else{\r\n                                                document.getElementById(\"timer2\")\r\n                                                    .innerHTML =\r\n                                                    '<div>' + d + '<span>days</span></div>' +\r\n                                                    '<div>' + h + '<span>hours</span></div>' +\r\n                                                    '<div>' + m + '<span>minutes</span></div>';\r\n                                            }\r\n                                        }\r\n                                        updateTimer2();\r\n                                        setInterval('updateTimer2()', 1000);\r\n                                    </script>\r\n\r\n                                </td>\r\n                            </tr>\r\n                            <tr>\r\n                                <th scope=\"row\">Prazo de entrega</th>\r\n                                <td>{{$project->dueDate}}</td>\r\n                                <td style=\"width: 30%;\">\r\n                                    <div id=\"timer\"></div>\r\n                                    <style>\r\n                                        #timer {\r\n                                            font-size: 1.30em;\r\n                                            font-weight: 100;\r\n                                            color: navy;\r\n                                        }\r\n\r\n                                        #timer div {\r\n                                            display: inline-block;\r\n                                            min-width: 45px;\r\n                                        }\r\n\r\n                                        #timer div span {\r\n                                            color: black;\r\n                                            display: block;\r\n                                            font-size: .50em;\r\n                                            font-weight: 400;\r\n                                        }\r\n                                    </style>\r\n                                    <script>\r\n                                        function updateTimer() {\r\n                                            future = Date.parse(\"{{$project->dueDate}}\");\r\n                                            now = new Date();\r\n                                            diff = future - now;\r\n\r\n                                            days = Math.floor(diff / (1000 * 60 * 60 * 24));\r\n                                            hours = Math.floor(diff / (1000 * 60 * 60));\r\n                                            mins = Math.floor(diff / (1000 * 60));\r\n                                            secs = Math.floor(diff / 1000);\r\n\r\n                                            d = days;\r\n                                            h = hours - days * 24;\r\n                                            m = mins - hours * 60;\r\n                                            s = secs - mins * 60;\r\n\r\n                                            if (d<0 || (d==0 && h==0 && m==0 && s==0)){\r\n                                                document.getElementById(\"timer\")\r\n                                                    .innerHTML = '<p>Terminado<p>';\r\n                                            }else if (d==0 && h==0 && m==0){\r\n                                                document.getElementById(\"timer\")\r\n                                                    .innerHTML = '<div>' + s + '<span>seconds</span></div>';\r\n                                            }else if (d==0){\r\n                                                document.getElementById(\"timer\")\r\n                                                    .innerHTML =\r\n                                                    '<div>' + h + '<span>hours</span></div>' +\r\n                                                    '<div>' + m + '<span>minutes</span></div>' +\r\n                                                    '<div>' + s + '<span>seconds</span></div>';\r\n                                            }else{\r\n                                                document.getElementById(\"timer\")\r\n                                                    .innerHTML =\r\n                                                    '<div>' + d + '<span>days</span></div>' +\r\n                                                    '<div>' + h + '<span>hours</span></div>' +\r\n                                                    '<div>' + m + '<span>minutes</span></div>';\r\n                                            }\r\n                                        }\r\n                                        updateTimer();\r\n                                        setInterval('updateTimer()', 1000);\r\n                                    </script>\r\n                                </td>\r\n                            </tr>\r\n\r\n                            <tr>\r\n                                <th scope=\"row\">Nº máximo de grupos</th>\r\n                                <td colspan=\"2\">{{$project->maxGroups}}</td>\r\n                            </tr>\r\n                            <tr>\r\n                                <th scope=\"row\">Nº mínimo de elementos por Grupo</th>\r\n                                <td colspan=\"2\">{{$project->minElements}}</td>\r\n                            </tr>\r\n                            <tr>\r\n                                <th scope=\"row\">Nº máximo de elementos por Grupo</th>\r\n                                <td colspan=\"2\">{{$project->maxElements}}</td>\r\n                            </tr>\r\n                        </table>\r\n                    </div>\r\n\r\n                    <hr style=\"border-top: 4px double #8c8b8b; text-align: center;\">\r\n                    <table class=\"table style1\">\r\n                        <tbody>\r\n                        <tr >\r\n                            <th scope=\"row\">Número de grupos</th>\r\n                            <td colspan=\"2\" >{{count($groups)}}</td>\r\n                        </tr>\r\n                        <tr>\r\n                            <th scope=\"row\" style=\"width: 45%;\">Grupos que não cumprem os requisitos</th>\r\n                            <?php $count = 0 ?>\r\n                            @foreach($groups as $group)\r\n                                @if(\\App\\StudentsGroup::all()->where('idGroup', '==', $group->idGroup)->count() < $project->minElements)\r\n                                    <?php $count++ ?>\r\n                                @endif\r\n                            @endforeach\r\n\r\n\r\n                            @if($count >= 1)\r\n                                <td style=\"width: 53%;\"><button type=\"button\" class=\"btn btn-outline-primary btn-sm m-0 waves-effect\" data-toggle=\"modal\" data-target=\"#modalGroups-{{$project->idProject}}\">Show</button></td>\r\n                                <div class=\"modal fade\" id=\"modalGroups-{{$project->idProject}}\" aria-labelledby=\"modalGroups-{{$project->idProject}}\" aria-hidden=\"true\" tabindex=\"-1\" role=\"dialog\">\r\n                                    <div class=\"modal-dialog\" role=\"document\">\r\n                                        <div class=\"modal-content\">\r\n                                            <div class=\"modal-header\">\r\n                                                <h4 class=\"modal-title\" id=\"staticBackdropLabel\">Grupos</h4>\r\n                                                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n                                                    <span aria-hidden=\"true\">&times;</span>\r\n                                                </button>\r\n                                            </div>\r\n                                            <div class=\"modal-body\">\r\n                                                @foreach($groups as $group)\r\n                                                    @if(\\App\\StudentsGroup::all()->where('idGroup', '==', $group->idGroup)->count() < $project->minElements)\r\n                                                        <p><a onclick=\"window.location.assign ='#groups.pills-{{$group->idGroupProject}}'\" href=\"#groups.pills-{{$group->idGroupProject}}\">Grupo {{$group->idGroupProject}}</a></p>\r\n                                                    @endif\r\n                                                @endforeach\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                </div>\r\n                            @else\r\n                                <td>\r\n                                    {{$count}}\r\n                                </td>\r\n                            @endif\r\n                        </tr>\r\n                        </tbody>\r\n\r\n                    </table>\r\n                </div>\r\n                <div class=\" col rounded bg-white w-100 p-3 \" style=\"position: relative;\">\r\n                    <h5>Documentação</h5>\r\n                    <button type=\"button\" class=\"p-2 btn btn-primary btn-md\" style=\"position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;\"  data-toggle=\"modal\">Upload Files</button>\r\n\r\n                </div>\r\n            </div>\r\n        </div>\r\n\r\n        <div class=\"container-fluid ml-0 mr-0 tab-pane fade\" id=\"groups\" role=\"tabpanel\" aria-labelledby=\"groups-tab\">\r\n            <div class=\"row rounded \" style=\"height: 75vh;\">\r\n                <div class=\"col mt-3 mb-3 ml-3 rounded center\" style=\"background-color: #c6c6c6; position: relative;\">\r\n                    <div class=\"container pt-3 overflow-auto mw-80\" >\r\n                        <ul class=\"nav nav-pills mb-3 flex-column\" id=\"pills-tab\" role=\"tablist\" aria-orientation=\"vertical\">\r\n                            @foreach($groups as $group)\r\n                                 <li class=\"nav-item mb-1 rounded\" style=\"background-color: #d0e7ff;\">\r\n                                     <a class=\"nav-link \" style=\"display:flex; align-items: center;vertical-align: middle;\" id=\"pills-{{$group->idGroupProject}}-tab\" data-toggle=\"pill\" href=\"#pills-{{$group->idGroupProject}}\" role=\"tab\" aria-controls=\"pills-{{$group->idGroupProject}}\" aria-selected=\"true\">\r\n                                         <h3 class=\"float-left mb-0 mr-2\" style=\"vertical-align: middle;\">Grupo {{$group->idGroupProject}} </h3>\r\n                                     </a>\r\n                                 </li>\r\n                            @endforeach\r\n                        </ul>\r\n                    </div>\r\n                </div>\r\n                <div class=\"col-9 mt-3 mb-3 rounded\" style=\"width: 100%;\">\r\n                    <div class=\"container-fluid rounded h-100 p-3\" style=\"background-color: #c6c6c6;\">\r\n                        <div class=\"tab-content h-100\" id=\"pills-tabContent\">\r\n                            @foreach($groups as $group)\r\n                                <div class=\"container tab-pane fade h-100\" id=\"pills-{{$group->idGroupProject}}\" role=\"tabpanel\" aria-labelledby=\"pills-{{$group->idGroupProject}}-tab\">\r\n                                        <div class=\"row h-100\" style=\"position: relative; background-color: #c6c6c6;\">\r\n                                            <div class=\"col mr-2 \">\r\n                                                    <div class=\"row pb-2 \" style=\"height: 40%;\"><div class=\"bg-light p-2 w-100 rounded\"><h5>Ficheiros</h5> </div></div>\r\n                                                    <div class=\"row pb-2 \" style=\"height: 30%;\"><div class=\"bg-light p-2 w-100 rounded\"><h5>Avaliação entre alunos</h5></div></div>\r\n                                                    <div class=\"row \" style=\"height: 30%;\">\r\n                                                        <div class=\" bg-light p-2 w-100 rounded\">\r\n                                                        <h5>Avaliação final Grupo</h5>\r\n                                                        @if ($group->grade == NULL)\r\n                                                            <p class=\"mb-0\">Grupo não avaliado</p>\r\n                                                            <button type=\"button\" class=\"p-2 btn btn-primary btn-md\" style=\"position: absolute; bottom: 0; right: 0; margin-bottom: 1%; margin-right: 1%;\"  data-toggle=\"modal\" data-target=\"#modalAvaliate-{{$group->idGroup}}\">Avaliar Grupo</button>\r\n                                                            <div class=\"modal fade\" id=\"modalAvaliate-{{$group->idGroup}}\" tabindex=\"-1\" role=\"dialog\">\r\n                                                                <div class=\"modal-dialog\" role=\"document\">\r\n                                                                    <div class=\"modal-content\">\r\n                                                                        <div class=\"modal-header\">\r\n                                                                            <h4 class=\"modal-title\" id=\"staticBackdropLabel\">Avaliação</h4>\r\n                                                                            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n                                                                                <span aria-hidden=\"true\">&times;</span>\r\n                                                                            </button>\r\n                                                                        </div>\r\n                                                                        <div class=\"modal-body\">\r\n                                                                            {!! Form::open(['action' => 'ProfessorProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}\r\n                                                                            <div class=\"form-group\">\r\n                                                                                {{Form::label('grade', 'Nota do Projeto')}}\r\n                                                                                {{Form::text('grade', '', ['class' => 'form-control'])}}\r\n                                                                            </div>\r\n                                                                            <div class=\"form-group\">\r\n                                                                                {{Form::label('gradeComment', 'Comentário (opcional)')}}\r\n                                                                                {{Form::text('gradeComment', '', ['class' => 'form-control'])}}\r\n                                                                            </div>\r\n                                                                            {{Form::hidden('group', $group->idGroup)}}\r\n                                                                            {{Form::hidden('option', 'grade')}}\r\n                                                                            {{Form::hidden('project', $project->idProject)}}\r\n                                                                            {{Form::submit('Submit', ['class'=>'btn btn-success'])}}\r\n\r\n                                                                            {!! Form::close() !!}\r\n                                                                        </div>\r\n                                                                    </div>\r\n                                                                </div>\r\n                                                            </div>\r\n                                                        @else\r\n\r\n                                                            <p class=\"mb-0\">Grade: {{$group->grade}}</p>\r\n                                                            @if($group->gradeComment == NULL)\r\n                                                                <p class=\"m-0\">Sem Comentários</p>\r\n                                                            @else\r\n                                                                <p class=\"mb-0\" >Comment: {{$group->gradeComment}}</p>\r\n                                                            @endif\r\n                                                            <button type=\"button\" class=\"p-2 btn btn-primary btn-md float-right\" style=\"position: absolute; bottom: 0; right: 0; margin-bottom: 1%; margin-right: 1%;\" data-toggle=\"modal\" data-target=\"#modalAvaliate-{{$group->idGroup}}\" >Change Grade</button>\r\n                                                            <div class=\"modal fade\" id=\"modalAvaliate-{{$group->idGroup}}\" tabindex=\"-1\" role=\"dialog\">\r\n                                                                <div class=\"modal-dialog\" role=\"document\">\r\n                                                                    <div class=\"modal-content\">\r\n                                                                        <div class=\"modal-header\">\r\n                                                                            <h4 class=\"modal-title\" id=\"staticBackdropLabel\">Avaliação</h4>\r\n                                                                            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n                                                                                <span aria-hidden=\"true\">&times;</span>\r\n                                                                            </button>\r\n                                                                        </div>\r\n                                                                        <div class=\"modal-body\">\r\n                                                                            {!! Form::open(['action' => ['ProfessorProjectsController@update', $project->idProject], 'method' => 'PUT']) !!}\r\n                                                                            <div class=\"form-group\">\r\n                                                                                {{Form::label('grade', 'Nota do Projeto')}}\r\n                                                                                {{Form::text('grade', '', ['class' => 'form-control'])}}\r\n                                                                            </div>\r\n                                                                            <div class=\"form-group\">\r\n                                                                                {{Form::label('gradeComment', 'Comentário(opcional)')}}\r\n                                                                                {{Form::text('gradeComment', '', ['class' => 'form-control'])}}\r\n                                                                            </div>\r\n                                                                            {{Form::hidden('group', $group->idGroup)}}\r\n                                                                            {{Form::hidden('_method','PUT')}}\r\n                                                                            {{Form::hidden('option', 'grade')}}\r\n                                                                            {{Form::submit('Submit', ['class'=>'btn btn-success'])}}\r\n                                                                            {!! Form::close() !!}\r\n                                                                        </div>\r\n                                                                    </div>\r\n                                                                </div>\r\n                                                            </div>\r\n                                                        @endif\r\n                                                    </div>\r\n                                                </div>\r\n                                            </div>\r\n                                            <div class=\"col-3 bg-light p-3 rounded\">\r\n                                                <h5>Elementos</h5>\r\n                                                @foreach(\\App\\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) as $sg)\r\n                                                    <div class=\"mb-2\"><a href=\"/profile/{{$sg->idStudent}}\"><img class=\"editable img-responsive\" style=\"border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;\" alt=\"Avatar\" id=\"avatar2\" src=\"{{Storage::url('profilePhotos/'.\\App\\User::find($sg->idStudent)->photo)}}\"><span style=\"vertical-align: middle;\"> {{\\App\\User::find($sg->idStudent)->name}}</span></a></div>\r\n                                                @endforeach\r\n                                            </div>\r\n\r\n                                        </div>\r\n\r\n                                </div>\r\n                            @endforeach\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n\r\n        <div class=\"container tab-pane fade\" id=\"forum\" role=\"tabpanel\" aria-labelledby=\"forum-tab\">\r\n            <div class=\"container mt-2 pb-3 rounded px-5 pt-3\">\r\n                <div class=\"table-responsive\">\r\n                    <table class=\"table bg-white\" style=\"text-align:center;\">\r\n                        <thead>\r\n                        <tr>\r\n                            <th>Subject</th>\r\n                            <th>Author</th>\r\n                            <th>Responses</th>\r\n                            <th>Created</th>\r\n                        </tr>\r\n                        </thead>\r\n                        <tbody>\r\n                        @if(count($announcements) > 0)\r\n                            @for($i = 0; $i < count($announcements); $i++)\r\n                                <tr>\r\n                                    <td style=\"vertical-align: middle;\"><a href=\"/student/project/{{$project->idProject}}/post/{{$announcements[$i]->idAnnouncement}}\">{{$announcements[$i]->title}}</a></td>\r\n                                    <td style=\"vertical-align: middle;\">\r\n                                        <a href=\"/profile/{{$userPoster[$i]->id }}\"><img class=\"editable img-responsive\" style=\"border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;\" alt=\"Avatar\" id=\"avatar2\" src=\"{{Storage::url('profilePhotos/'.$userPoster[$i]->photo)}}\"><span style=\"vertical-align: middle;\"> {{$userPoster[$i]->name}}</span></a>\r\n                                    </td>\r\n                                    <td style=\"vertical-align: middle;\">{{$numberComments[$i]}}</td>\r\n                                    <td style=\"vertical-align: middle;\">{{$announcements[$i]->date}}</td>\r\n                                </tr>\r\n                            @endfor\r\n                        @else\r\n                            <tr>\r\n                                <td colspan=\"4\"><h5>No posts found</h5></td>\r\n                            </tr>\r\n                        @endif\r\n                        </tbody>\r\n                    </table>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n<script>\r\n    $('#myTab a').click(function(e) {\r\n        e.preventDefault();\r\n        $(this).tab('show');\r\n    });\r\n\r\n    $('#pills-tab a').click(function(e) {\r\n        e.preventDefault();\r\n        $(this).tab('show');\r\n    });\r\n\r\n    // store the currently selected tab in the hash value\r\n    var pills;\r\n    $(\"ul.nav-tabs > li > a\").on(\"shown.bs.tab\", function(e) {\r\n        var id = $(e.target).attr(\"href\").substr(1);\r\n        if(id == \"groups\"){\r\n            if(pills !== undefined) {\r\n                window.location.hash = id + \".\" + pills;\r\n                $('#pills-tab a[href=\"#' + pills + '\"]').tab('show');\r\n            }else{\r\n                window.location.hash = id + \".\" + \"pills-1\";\r\n                $('#pills-tab a[href=\"#pills-1\"]').tab('show');\r\n            }\r\n        }else{\r\n            window.location.hash = id;\r\n        }\r\n    });\r\n\r\n    $(\"ul.nav-pills > li > a\").on(\"shown.bs.tab\", function(e) {\r\n        var id = $(e.target).attr(\"href\").substr(1);\r\n        pills = id;\r\n        window.location.hash = window.location.hash.split(\".\")[0] + \".\" + id;\r\n    });\r\n\r\n    // on load of the page: switch to the currently selected tab\r\n    var hash = window.location.hash;\r\n    if(hash === ''){\r\n        hash = '#characteristics';\r\n    }\r\n\r\n    if(hash.split(\".\")[0] == '#groups'){\r\n        pills = hash.split(\".\")[1];\r\n        $('#myTab a[href=\"' + hash.split(\".\")[0] + '\"]').tab('show');\r\n    }else{\r\n        $('#myTab a[href=\"' + hash + '\"]').tab('show');\r\n    }\r\n\r\n\r\n\r\n</script>\r\n<style>\r\n    .style1 > tbody > tr:first-child > td {\r\n        border: none;\r\n    }\r\n    .style1 > tbody > tr:first-child > th {\r\n        border: none;\r\n    }\r\n\r\n    td {\r\n        text-align: center;\r\n    }\r\n    th{\r\n        width: 46%;\r\n    }\r\n    .nav-tabs .nav-link.active{\r\n        background-color: #ededed;\r\n        border-color:#ededed;\r\n    }\r\n</style>\r\n@endsection\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- resources/views/professor/project.blade.php	(revision da4473d3c6c7d2487781c19a4eb77fb8dea3778c)
++++ resources/views/professor/project.blade.php	(date 1589997225064)
+@@ -115,9 +115,9 @@
+                     <div class="pt-3">
+                         <table class="table ">
+                             <tr>
+-                                <th scope="row">Prazo para criação de grupos</th>
+-                                <td>{{$project->groupCreationDueDate}}</td>
+-                                <td>
++                                <th class="info-th" scope="row">Prazo para criação de grupos</th>
++                                <td class="info-td" >{{$project->groupCreationDueDate}}</td>
++                                <td class="info-td" >
+                                     <div id="timer2"></div>
+                                     <style>
+                                         #timer2 {
+@@ -185,9 +185,9 @@
+                                 </td>
+                             </tr>
+                             <tr>
+-                                <th scope="row">Prazo de entrega</th>
+-                                <td>{{$project->dueDate}}</td>
+-                                <td style="width: 30%;">
++                                <th class="info-th" scope="row">Prazo de entrega</th>
++                                <td class="info-td" >{{$project->dueDate}}</td>
++                                <td class="info-td" style="width: 30%;">
+                                     <div id="timer"></div>
+                                     <style>
+                                         #timer {
+@@ -251,16 +251,16 @@
+                             </tr>
+ 
+                             <tr>
+-                                <th scope="row">Nº máximo de grupos</th>
+-                                <td colspan="2">{{$project->maxGroups}}</td>
++                                <th class="info-th" scope="row">Nº máximo de grupos</th>
++                                <td class="info-td" colspan="2">{{$project->maxGroups}}</td>
+                             </tr>
+                             <tr>
+-                                <th scope="row">Nº mínimo de elementos por Grupo</th>
+-                                <td colspan="2">{{$project->minElements}}</td>
++                                <th class="info-th" scope="row">Nº mínimo de elementos por Grupo</th>
++                                <td class="info-td" colspan="2">{{$project->minElements}}</td>
+                             </tr>
+                             <tr>
+-                                <th scope="row">Nº máximo de elementos por Grupo</th>
+-                                <td colspan="2">{{$project->maxElements}}</td>
++                                <th class="info-th" scope="row">Nº máximo de elementos por Grupo</th>
++                                <td class="info-td" colspan="2">{{$project->maxElements}}</td>
+                             </tr>
+                         </table>
+                     </div>
+@@ -268,12 +268,12 @@
+                     <hr style="border-top: 4px double #8c8b8b; text-align: center;">
+                     <table class="table style1">
+                         <tbody>
+-                        <tr >
+-                            <th scope="row">Número de grupos</th>
+-                            <td colspan="2" >{{count($groups)}}</td>
++                        <tr>
++                            <th class="info-th" scope="row">Número de grupos</th>
++                            <td class="info-td" colspan="2" >{{count($groups)}}</td>
+                         </tr>
+                         <tr>
+-                            <th scope="row" style="width: 45%;">Grupos que não cumprem os requisitos</th>
++                            <th class="info-th" scope="row" style="width: 45%;">Grupos que não cumprem os requisitos</th>
+                             <?php $count = 0 ?>
+                             @foreach($groups as $group)
+                                 @if(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup)->count() < $project->minElements)
+@@ -283,7 +283,7 @@
+ 
+ 
+                             @if($count >= 1)
+-                                <td style="width: 53%;"><button type="button" class="btn btn-outline-primary btn-sm m-0 waves-effect" data-toggle="modal" data-target="#modalGroups-{{$project->idProject}}">Show</button></td>
++                                <td class="info-td" style="width: 53%;"><button type="button" class="btn btn-outline-primary btn-sm m-0 waves-effect" data-toggle="modal" data-target="#modalGroups-{{$project->idProject}}">Show</button></td>
+                                 <div class="modal fade" id="modalGroups-{{$project->idProject}}" aria-labelledby="modalGroups-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
+                                     <div class="modal-dialog" role="document">
+                                         <div class="modal-content">
+@@ -304,7 +304,7 @@
+                                     </div>
+                                 </div>
+                             @else
+-                                <td>
++                                <td class="info-td">
+                                     {{$count}}
+                                 </td>
+                             @endif
+@@ -438,10 +438,12 @@
+             </div>
+         </div>
+ 
+-        <div class="container tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
+-            <div class="container mt-2 pb-3 rounded px-5 pt-3">
+-                <div class="table-responsive">
+-                    <table class="table bg-white" style="text-align:center;">
++        <div class="tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
++            <button type="button" class="p-2 mt-3 mr-3 btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#modalCreatePost" style="background-color: #2c3fb1; border-color: #2c3fb1;">Create Post</button>
++
++            <div class="container rounded pb-3 pt-3">
++                <div class="table-responsive-xl">
++                    <table class="table bg-white rounded" style="text-align:center;">
+                         <thead>
+                         <tr>
+                             <th>Subject</th>
+@@ -454,7 +456,7 @@
+                         @if(count($announcements) > 0)
+                             @for($i = 0; $i < count($announcements); $i++)
+                                 <tr>
+-                                    <td style="vertical-align: middle;"><a href="/student/project/{{$project->idProject}}/post/{{$announcements[$i]->idAnnouncement}}">{{$announcements[$i]->title}}</a></td>
++                                    <td style="vertical-align: middle;"><a href="/professor/project/{{$project->idProject}}/post/{{$announcements[$i]->idAnnouncement}}">{{$announcements[$i]->title}}</a></td>
+                                     <td style="vertical-align: middle;">
+                                         <a href="/profile/{{$userPoster[$i]->id }}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$userPoster[$i]->photo)}}"><span style="vertical-align: middle;"> {{$userPoster[$i]->name}}</span></a>
+                                     </td>
+@@ -469,11 +471,116 @@
+                         @endif
+                         </tbody>
+                     </table>
++                    @if(count($announcements) > 0)
++                        <div class="d-flex justify-content-between">
++                            <span>Showing {{$a->firstItem()}} to {{$a->lastItem()}} of {{$a->total()}} posts</span>
++                            {{$a->links()}}
++                        </div>
++                    @endif
++                </div>
++
++                {{--Modal Create Post--}}
++                <div class="modal fade" id="modalCreatePost" tabindex="-1" role="dialog">
++                    <div class="modal-dialog modal-lg" role="document">
++                        <div class="modal-content">
++                            <div class="modal-header">
++                                <h4 class="modal-title" id="staticBackdropLabel">New Post</h4>
++                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
++                                    <span aria-hidden="true">&times;</span>
++                                </button>
++                            </div>
++                            <div class="modal-body">
++                                {!! Form::open(['action' => ['PostController@store', $project -> idProject], 'method' => 'POST']) !!}
++                                <div class="form-group">
++                                    {{Form::label('title', 'Title')}}
++                                    {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Title'])}}
++                                </div>
++                                <div class="form-group">
++                                    {{Form::label('body', 'Body')}}
++                                    {{Form::textarea('body', '', ['class' => 'form-control', 'placeholder' => 'Body'])}}
++                                </div>
++                                {{ Form::hidden('project', $project->idProject) }}
++
++                                {{Form::submit('Submit', ['class'=>'btn btn-success'])}}
++
++                                {!! Form::close() !!}
++                            </div>
++                            <script>ClassicEditor
++                                    .create( document.querySelector( '#body' ), {
++                                        toolbar: {
++                                            items: [
++                                                'heading',
++                                                '|',
++                                                'fontSize',
++                                                'fontFamily',
++                                                'fontColor',
++                                                'fontBackgroundColor',
++                                                'highlight',
++                                                'bold',
++                                                'italic',
++                                                'underline',
++                                                'strikethrough',
++                                                'link',,
++                                                '|',
++                                                'undo',
++                                                'redo',
++                                                '|',
++                                                'indent',
++                                                'outdent',
++                                                '|',
++                                                'bulletedList',
++                                                'numberedList',
++                                                '|',
++                                                'blockQuote',
++                                                'code',
++                                                'codeBlock'
++                                            ]
++                                        },
++                                        language: 'en',
++                                        licenseKey: '',
++                                    } )
++                                    .then( editor => {
++                                        window.editor = editor;
++                                    } )
++                                    .catch( error => {
++                                        console.error( 'Oops, something gone wrong!' );
++                                        console.error( 'Please, report the following error in the https://github.com/ckeditor/ckeditor5 with the build id and the error stack trace:' );
++                                        console.warn( 'Build id: ce7zysryrfsm-xck2pu5o5swz' );
++                                        console.error( error );
++                                    } );
++                            </script>
++                            <style>
++                                .ck-editor__editable_inline {
++                                    min-height: 40vh;
++                                }
++                            </style>
++                        </div>
++                    </div>
+                 </div>
++
+             </div>
++
+         </div>
+     </div>
+ </div>
++<style>
++    .style1 > tbody > tr:first-child > td {
++        border: none;
++    }
++    .style1 > tbody > tr:first-child > th {
++        border: none;
++    }
++    .info-th{
++        width: 46%;
++    }
++    .info-td {
++        text-align: center;
++    }
++    .nav-tabs .nav-link.active{
++        background-color: #ededed;
++        border-color:#ededed;
++    }
++</style>
+ <script>
+     $('#myTab a').click(function(e) {
+         e.preventDefault();
+@@ -521,26 +628,5 @@
+         $('#myTab a[href="' + hash + '"]').tab('show');
+     }
+ 
+-
+-
+ </script>
+-<style>
+-    .style1 > tbody > tr:first-child > td {
+-        border: none;
+-    }
+-    .style1 > tbody > tr:first-child > th {
+-        border: none;
+-    }
+-
+-    td {
+-        text-align: center;
+-    }
+-    th{
+-        width: 46%;
+-    }
+-    .nav-tabs .nav-link.active{
+-        background-color: #ededed;
+-        border-color:#ededed;
+-    }
+-</style>
+ @endsection
+diff --git .idea/shelf/Uncommitted_changes_before_Update_at_20_05_2020_14_58__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Update_at_20_05_2020_14_58__Default_Changelist_.xml
+diff --git .idea/shelf/Uncommitted_changes_before_Update_at_20_05_2020_16_48__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Update_at_20_05_2020_16_48__Default_Changelist_.xml
+diff --git .idea/shelf/Uncommitted_changes_before_Update_at_19_05_2020_14_46__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Update_at_19_05_2020_14_46__Default_Changelist_.xml

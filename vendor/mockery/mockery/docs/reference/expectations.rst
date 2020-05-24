@@ -148,7 +148,7 @@ is called.
         ->withSomeOfArgs(arg1, arg2, arg3, ...);
 
 The given expected arguments order doesn't matter.
-Check if expected values are inclued or not, but type should be matched:
+Check if expected values are included or not, but type should be matched:
 
 .. code-block:: php
 
@@ -158,8 +158,8 @@ Check if expected values are inclued or not, but type should be matched:
 
     $mock->foo(1, 2, 3);  // matches the expectation
     $mock->foo(3, 2, 1);  // matches the expectation (passed order doesn't matter)
-    $mock->foo('1', '2'); // throws a NoMatchingExpectationException (type should be matched) 
-    $mock->foo(3);        // throws a NoMatchingExpectationException 
+    $mock->foo('1', '2'); // throws a NoMatchingExpectationException (type should be matched)
+    $mock->foo(3);        // throws a NoMatchingExpectationException
 
 Any, or no arguments
 ^^^^^^^^^^^^^^^^^^^^
