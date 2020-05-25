@@ -38,7 +38,6 @@ return [
             'options' => [
                 'cluster' => 'eu',
                 'useTLS' => true,
-                'encrypted' => true
             ],
         ],
 

@@ -76,7 +76,7 @@ class ChatController extends Controller
         // pusher
         $options = array(
             'cluster' => 'eu',
-            'useTLS' => true
+            'useTLS' => true,
         );
 
         $pusher = new Pusher(

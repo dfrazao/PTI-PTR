@@ -69,6 +69,7 @@ Auth::routes([
 // Professor
 
 // Admin
+    Route::get('/admin/', 'AdminDashboardController@index', ['name' => 'Admin'])->name("Admin")->middleware(CheckRole::class);
     Route::get('/admin/{table}', 'AdminController@index', ['name' => 'Admin'])->name("Admin")->middleware(CheckRole::class);
     Route::post('/admin/{table}/store', 'AdminController@store')->middleware(CheckRole::class);
     Route::get("/admin/edit-user/{id}",'AdminController@edit')->middleware(CheckRole::class);
