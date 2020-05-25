@@ -9,7 +9,7 @@
                 <div class="collapse navbar-collapse ">
                     <ul class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
                         <li class="nav-item">
-                            <a class="nav-link pl-0 text-nowrap" href="{{url('/admin/dashboard')}}"><i class="far fa-home" ></i>  <span class="font-weight-bold" style="text-align:center;">Dashboard</span></a>
+                            <a class="nav-link pl-0 text-nowrap" href="{{url('/admin/')}}"><i class="far fa-home" ></i>  <span class="font-weight-bold" style="text-align:center;">Dashboard</span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link pl-0" href="{{url('/admin/users')}}"><i class="far fa-user" ></i> <span class="d-none d-md-inline" style="text-align:center;">Users</span></a>

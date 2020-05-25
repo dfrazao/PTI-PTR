@@ -30,7 +30,7 @@ class LoginController extends Controller
     protected function redirectTo()
     {
         if(Auth::user()->role=='admin'){
-            return redirect('/admin/dashboard');
+            return redirect('/admin/');
 
         }else{
             return redirect()->route('Dashboard') ;
