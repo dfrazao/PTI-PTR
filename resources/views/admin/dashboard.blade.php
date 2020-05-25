@@ -2,7 +2,8 @@
 @section('content2')
     <link rel="stylesheet" href="{{asset('adminLTE3.0.4/css/adminlte.min.css')}}">
     <div class="wrapper">
-
+        <script src="{{asset('dist/Chart.min.js')}}"></script>
+        <link rel="stylesheet" href="{{asset('dist/Chart.min.css')}}">
 
 
             <!-- Main content -->
@@ -81,12 +82,12 @@
                                 <div class="card-header">
                                     <h3 class="card-title">
                                         <i class="fas fa-chart-pie mr-1"></i>
-                                        Sales
+                                        Stats
                                     </h3>
                                     <div class="card-tools">
                                         <ul class="nav nav-pills ml-auto">
                                             <li class="nav-item">
-                                                <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
+                                                <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Line</a>
                                             </li>
                                             <li class="nav-item">
                                                 <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
@@ -98,11 +99,74 @@
                                     <div class="tab-content p-0">
                                         <!-- Morris chart - Sales -->
                                         <div class="chart tab-pane active" id="revenue-chart"
-                                             style="position: relative; height: 300px;">
-                                            <canvas id="revenue-chart-canvas" height="300" style="height: 300px;"></canvas>
+                                             style="position: relative; height: 600px;">
+                                            <canvas id="line-chart" ></canvas>
+                                            <script>
+                                                new Chart(document.getElementById("line-chart"), {
+                                                    type: 'line',
+                                                    data: {
+                                                        labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2050],
+                                                        datasets: [{
+                                                            data: [86,114,106,106,107,111,133,221,783,2478],
+                                                            label: "Africa",
+                                                            borderColor: "#3e95cd",
+                                                            fill: false
+                                                        }, {
+                                                            data: [282,350,411,502,635,809,947,1402,3700,5267],
+                                                            label: "Asia",
+                                                            borderColor: "#8e5ea2",
+                                                            fill: false
+                                                        }, {
+                                                            data: [168,170,178,190,203,276,408,547,675,734],
+                                                            label: "Europe",
+                                                            borderColor: "#3cba9f",
+                                                            fill: false
+                                                        }, {
+                                                            data: [40,20,10,16,24,38,74,167,508,784],
+                                                            label: "Latin America",
+                                                            borderColor: "#e8c3b9",
+                                                            fill: false
+                                                        }, {
+                                                            data: [6,3,2,2,7,26,82,172,312,433],
+                                                            label: "North America",
+                                                            borderColor: "#c45850",
+                                                            fill: false
+                                                        }
+                                                        ]
+                                                    },
+                                                    options: {
+                                                        title: {
+                                                            display: true,
+                                                            text: 'World population per region (in millions)'
+                                                        }
+                                                    }
+                                                });
+
+                                            </script>
                                         </div>
-                                        <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
-                                            <canvas id="sales-chart-canvas" height="300" style="height: 300px;"></canvas>
+                                        <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 600px;">
+                                            <canvas id="doughnut-chart" width="300" height="300"></canvas>
+                                            <script>
+                                                new Chart(document.getElementById("doughnut-chart"), {
+                                                    type: 'doughnut',
+                                                    data: {
+                                                        labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+                                                        datasets: [
+                                                            {
+                                                                label: "Population (millions)",
+                                                                backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+                                                                data: [2478,5267,734,784,433]
+                                                            }
+                                                        ]
+                                                    },
+                                                    options: {
+                                                        title: {
+                                                            display: true,
+                                                            text: 'Predicted world population (millions) in 2050'
+                                                        }
+                                                    }
+                                                });
+                                            </script>
                                         </div>
                                     </div>
                                 </div><!-- /.card-body -->
@@ -618,6 +682,7 @@
     <!-- AdminLTE App -->
     <script src="{{asset('adminLTE3.0.4/js/adminlte.min.js')}}"></script>
     <script src="{{asset('adminLTE3.0.4/js/pages/dashboard.js')}}"></script>
+
 
 
 

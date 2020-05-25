@@ -38,7 +38,7 @@ return [
             'options' => [
                 'cluster' => 'eu',
                 'useTLS' => true,
-                'encrypted' => true
+                'encryption_master_key_base64' => 'T6ySUps5XUzHayR8d+RnFs/mdh7LQr9onPomXxsaH5M=',
             ],
         ],
 

@@ -76,7 +76,8 @@ class ChatController extends Controller
         // pusher
         $options = array(
             'cluster' => 'eu',
-            'useTLS' => true
+            'useTLS' => true,
+            'encryption_master_key_base64' => 'T6ySUps5XUzHayR8d+RnFs/mdh7LQr9onPomXxsaH5M=',
         );
 
         $pusher = new Pusher(
@@ -88,7 +89,7 @@ class ChatController extends Controller
 
         $data = ['from' => $from, 'to' => $to, 'username' => $user_notification, 'message' => $message]; // sending from and to user id when pressed enter
 
-        $pusher->trigger('my-channel', 'my-event', $data);
+        $pusher->trigger('private-encrypted-my-channel', 'my-event', $data);
 
 
         $data = new Chat();

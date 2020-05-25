@@ -1,5 +1,6 @@
 @extends('layouts.app')
-
+<link rel="stylesheet" type="text/css" href="{{asset('css/emojionearea.min.css')}}"/>
+<script type="text/javascript" src="{{asset('js/emojionearea.min.js')}}"></script>
 @section('content')
 <div class="container-fluid">
     <div class="row min-vh-100 flex-column flex-md-row">

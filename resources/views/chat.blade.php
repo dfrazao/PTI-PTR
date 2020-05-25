@@ -120,7 +120,7 @@ z-index: 1; margin-left: 50%;margin-top: 5px;
            position: absolute;
            left: 13px;
            top: 9px;
-           background: #b600ff;
+           background: #ffb82a;
            margin: 0;
            border-radius: 50%;
            width: 18px;
@@ -269,9 +269,12 @@ z-index: 1; margin-left: 50%;margin-top: 5px;
 
            var pusher = new Pusher('ff4af21336ebee3e83fe', {
                cluster: 'eu',
+               encrypted: true,
            });
 
-           var channel = pusher.subscribe('my-channel');
+
+           var channel = pusher.subscribe('private-encrypted-my-channel');
+
            channel.bind('my-event', function (data) {
                $('#searchinput').val(null);
                $value=$('#searchinput').val();
