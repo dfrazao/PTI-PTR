@@ -269,11 +269,16 @@ z-index: 1; margin-left: 50%;margin-top: 5px;
 
            var pusher = new Pusher('ff4af21336ebee3e83fe', {
                cluster: 'eu',
-               encrypted: true,
+               authEndpoint: '/pusher_auth.php',
+               auth: {
+                   headers: {
+                       'X-CSRF-Token': "SOME_CSRF_TOKEN"
+                   }
+               }
            });
 
 
-           var channel = pusher.subscribe('private-encrypted-my-channel');
+           var channel = pusher.subscribe('my-channel');
 
            channel.bind('my-event', function (data) {
                $('#searchinput').val(null);
