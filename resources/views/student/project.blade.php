@@ -57,9 +57,9 @@
         <div class="container-fluid tab-pane fade ml-0 mr-0" id="content" role="tabpanel" aria-labelledby="content-tab">
             <div class="row rounded" style="height: 80vh;">
                 <div class="col mt-3 ml-3 rounded" style="background-color: #c6c6c6; position: relative;">
-                    <div class="container-fluid mt-3 px-2">
+                    <div class="container-fluid mt-3 pr-0 pl-3" style="height: 90%;">
                         @foreach($rep as $file)
-                            <div class="file text-center" style="margin-right: 10px; position:relative; display: inline-block; width: 100px;">
+                            <div class="file text-center" style="margin-right: 15px; position:relative; display: inline-block; width: 100px;">
                                 <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;" id= '{{$file->idFile}}' class="close downloadFile" download>
                                     <span class="dot" id="download" style="position:relative">
                                         <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
@@ -70,18 +70,34 @@
                                         <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
                                     </span>
                                 </button>
-                                <figure class="my-1">
+                                <figure>
                                     <i class="fas fa-folder fa-4x px-2" style="color: #ffce52;"></i>
                                     <figcaption style="overflow:hidden;">{{$file->pathFile}}</figcaption>
                                 </figure>
                             </div>
                         @endforeach
-                            {{--<div class= "file text-center mr-3 py-2" id="drop_zone" ondrop="dropHandler(event);" style="width: 100px;border:1px solid black; display: inline-block;">
-                                <i class="fal fa-file-plus fa-4x px-2"></i>
-                            </div>--}}
-                        <button type="submit" class="btn btn-sm mb-2 mr-2" id= 'newFile' data-toggle="modal" data-target="#modalCreateFile" style="width:20vh;background: #2c3fb1; color: white; position: absolute; bottom: 0px; right: 0px;">Add</button>
-                        <button type="submit" disabled class="btn btn-sm mb-2 mr-2" id= 'submitFile' style="width:20vh;background: #2c3fb1; color: white; position: absolute; bottom: 0px; right: 42vh;">Submit</button>
+                            <div id="dropzone" class="text-center" style="margin-right: 10px; position:relative; display: inline-block;">
+                                {!!Form::open(['action' => ['StudentProjectsController@store', $project->idProject], 'method' => 'POST', 'enctype' => 'multipart/form-data','files' => true, 'class' => "dropzone", 'id'=>"dropzone"])!!}
+                                @csrf
+                                <figure style="z-index: -1;">
+                                    <i class="fal fa-file-plus fa-3x px-2 dz-message" style="margin-bottom: 0px;margin-top: 0px;"></i>
+                                    <figcaption style="overflow:hidden; margin:0;">Drop or click to upload</figcaption>
+                                </figure>
+                                <script type="text/javascript">
+                                    Dropzone.options.dropzone = {
+                                        maxFilesize         :       1,
+                                        acceptedFiles: ".jpeg,.jpg,.png,.gif,.pdf,.zip,.docx,.txt"
+                                    };
+                                </script>
+                                {{ Form::hidden('group', $idGroup) }}
+                                {{ Form::hidden('project', $project->idProject) }}
+                                {{ Form::hidden('subject', $subject->subjectName) }}
+                                {{Form::hidden('submission','newFile')}}
 
+                                {!!Form::close()!!}
+                            </div>
+{{--                        <button type="submit" class="btn btn-sm mb-2 mr-2" id= 'newFile' data-toggle="modal" data-target="#modalCreateFile" style="width:20vh;background: #2c3fb1; color: white; position: absolute; bottom: 0px; right: 0px;">Add</button>--}}
+                        <button type="submit" disabled class="btn btn-sm mb-2 mr-2" id= 'submitFile' style="width:20vh;background: #2c3fb1; color: white; position: absolute; bottom: 0px; right: 42vh;">Submit</button>
                         {{-- Modal Add File --}}
                         <div class="modal fade" id="modalCreateFile" aria-labelledby="modalCreateFile" aria-hidden="true" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">
@@ -714,8 +730,25 @@
         display:none;
         color: green;
     }
-
-
+    form#dropzone.dropzone.dz-clickable {
+        padding-bottom: 0px;
+        padding-left: 0px;
+        padding-top: 10px;
+        padding-right: 0px;
+        border-top-width: 0px;
+        border-left-width: 0px;
+        border-bottom-width: 0px;
+        border-right-width: 0px;
+        width: 100px;
+        height: 100px;
+        min-height: 120px;
+        background-color: transparent;
+        border: 3px dotted black;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        opacity:0.5;
+        z-index:2;
+    }
 
 
 </style>
