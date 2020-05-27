@@ -7,7 +7,7 @@
     @include('layouts.messages')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb mt-1 pl-0 pb-0 pt-0 h3" style="background-color:white; ">
-            <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>{{__('gx.dashboard')}}</a></li>
+            <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{($user->role == "admin" ? route('Admin') : route('Dashboard'))}}>{{__('gx.dashboard')}}</a></li>
             <li class="breadcrumb-item " aria-current="page">{{__('gx.profile')}}</li>
         </ol>
     </nav>

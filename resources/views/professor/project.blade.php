@@ -52,7 +52,8 @@
             <div class="row h-100 p-3">
                 <div class=" col-8 rounded bg-white w-100 p-3 h-100 mr-3" style="position: relative; width: 500px;">
 
-                    <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modalEdit-{{$project->idProject}}">{{__('gx.edit project')}}</button>                            <h4>Características</h4>
+                    <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modalEdit-{{$project->idProject}}">{{__('gx.edit project')}}</button>
+                    <h4>Características</h4>
                     @if($subject->idSubject == $project->idSubject)
                         <div class="modal fade" id="modalEdit-{{$project->idProject}}" aria-labelledby="modalEdit-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">

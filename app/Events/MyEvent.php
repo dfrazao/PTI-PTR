@@ -18,7 +18,7 @@ class MyEvent implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return ['my-channel'];
+        return ['private-my-channel'];
     }
 
     public function broadcastAs()

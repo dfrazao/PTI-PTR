@@ -1,23 +1,34 @@
 
-   <div class="container-md" id="testee" style="width: 450px;position: absolute;;
+   <div class="container-md" id="testee" style="width: 450px;position: absolute;
 z-index: 1; margin-left: 50%;margin-top: 5px;
             background:white;
             border-radius:6px;
-            border: 1px #a5b2cb solid;
+            border: 1px rgba(0, 123, 255, 0.78) solid;
             display: none;
+            -webkit-box-shadow: 10px 10px 6px -2px rgba(211,216,222,1);
+            -moz-box-shadow: 10px 10px 6px -2px rgba(211,216,222,1);
+            box-shadow: 10px 10px 6px -2px rgba(211,216,222,1);
             ">
        <div class="row">
            <div class="col-md-4 nopadding">
                <div class="user-wrapper">
+
+
                    <div id="search" style="margin: 10px;">
-                       <input type="text" placeholder="Search" class="form-control" id="searchinput" name="searchinput" style="font-size:12px; ">
-
-
+                       <div class="input-group input-group-sm" >
+                           <input class="form-control py-1" type="text" placeholder="Search" id="searchinput" name="searchinput">
+                           <span class="input-group-append">
+                                <button class="btn btn-outline-primary btn-sm" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                       </div>
+                       {{--<input type="text" placeholder="Search" class="form-control" id="searchinput" name="searchinput" style="font-size:12px; ">--}}
                    </div>
                    <ul class="users">
                        @for($i = 0; $i < count($arr_users); $i++)
-                           <li class="user" id="{{ $arr_users[$i]->id }}" name="{{ $arr_users[$i]->name }}">
-                               <input type="hidden" id="custId" name="custId" value="{{ $arr_users[$i]->name }}">
+                         <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
+                                <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
 
                                <div class="media">
                                    <div class="media-left">
@@ -52,7 +63,7 @@ z-index: 1; margin-left: 50%;margin-top: 5px;
            </script>
            <div class="col-md-8 nopadding">
                <div id="name">
-                   <p></p>
+                   <p>Chat</p>
                </div>
                <div id="messages">
 
@@ -75,19 +86,21 @@ z-index: 1; margin-left: 50%;margin-top: 5px;
    <style>
        /* width */
        ::-webkit-scrollbar {
-           width: 7px;
-       }
-       /* Track */
+           width: 10px;}
        ::-webkit-scrollbar-track {
            background: #f1f1f1;
+           border-radius: 5px;
        }
        /* Handle */
        ::-webkit-scrollbar-thumb {
-           background: #a7a7a7;
+           background-color: #fff;
+           border-radius: 5px;
+           border: 1px solid rgba(0, 123, 255, 0.78);
        }
        /* Handle on hover */
        ::-webkit-scrollbar-thumb:hover {
-           background: #929292;
+           background: rgba(0, 123, 255, 0.78);
+
        }
        ul {
            margin: 0;
@@ -97,11 +110,12 @@ z-index: 1; margin-left: 50%;margin-top: 5px;
            list-style: none;
        }
        .user-wrapper, .message-wrapper {
-           border: 1px solid #dddddd;
            overflow-y: auto;
        }
        .user-wrapper {
-           height: 500px;
+           height: 100%;
+           border-right: 1px solid #dddddd;
+
        }
        .user {
            border-bottom: 1px solid #e7ebee;
@@ -116,6 +130,7 @@ z-index: 1; margin-left: 50%;margin-top: 5px;
        .user:last-child {
            margin-bottom: 0;
        }
+
        .pending {
            position: absolute;
            left: 13px;
@@ -137,7 +152,8 @@ z-index: 1; margin-left: 50%;margin-top: 5px;
            width:40px;
            height:40px;
            border-radius: 100%; object-fit: cover;
-           border:2px solid #fff;
+           border:2px solid #fff ;
+
        }
        .media-body p {
            margin: 6px 0;
@@ -162,7 +178,8 @@ z-index: 1; margin-left: 50%;margin-top: 5px;
            border-radius: 10px;
        }
        .received {
-           background: rgba(136, 253, 79, 0.73);
+           background: rgba(0, 123, 255, 0.78);
+           color: #ffffff;
        }
        .sent {
            background: #eceff1;
@@ -172,13 +189,18 @@ z-index: 1; margin-left: 50%;margin-top: 5px;
        .message p {
            margin: 5px 0;
        }
-       .date {
+       .sent .date {
            color: black;
-           opacity: 0.8;
+           opacity: 0.9;
+           font-size: 10px;
+       }
+       .received .date {
+           color: white;
+           opacity: 0.9;
            font-size: 10px;
        }
        .active {
-           background: #eeeeee;
+           background: #3898ff26;
        }
        .col-sm-4 {
            padding: 0;
@@ -195,7 +217,8 @@ z-index: 1; margin-left: 50%;margin-top: 5px;
            width: 100%;
            height: 47px;
            padding: 15px 29px;
-           background-color: #eceff1;
+           background: rgb(255,255,255);
+           background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(154,188,224,0.4542191876750701) 66%, rgba(56,152,255,0.30015756302521013) 100%);
        }
 
        .input_msg_write input {
@@ -269,12 +292,7 @@ z-index: 1; margin-left: 50%;margin-top: 5px;
 
            var pusher = new Pusher('ff4af21336ebee3e83fe', {
                cluster: 'eu',
-               authEndpoint: '/pusher_auth.php',
-               auth: {
-                   headers: {
-                       'X-CSRF-Token': "SOME_CSRF_TOKEN"
-                   }
-               }
+
            });
 
 
