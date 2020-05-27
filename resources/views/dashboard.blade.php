@@ -10,8 +10,18 @@
             {{ session('status') }}
         </div>
     @endif
+    <div class="dropdown float-right">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #2c3fb1; border-color: #2c3fb1;">
+            Ano Letivo
+        </button>
+        <div class="dropdown-menu" id="dropdown" aria-labelledby="dropdownMenu" style="z-index: 1;">
+            @foreach($academicYears as $academicYear)
+                <a class="dropdown-item" id="{{$academicYear->academicYear}}-tab">{{$academicYear->academicYear}}</a>
+            @endforeach
+        </div>
+    </div>
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb mt-1 pl-0 pb-0 pt-0 h3" style="background-color:white; ">
+        <ol class="breadcrumb mt-2 pl-0 pb-0 pt-0 h3" style="background-color:white; ">
             <li class="breadcrumb-item " aria-current="page">{{__('gx.dashboard')}}</li>
         </ol>
     </nav>
@@ -178,21 +188,24 @@
 
         <div class="col pl-0">
             <div class="overflow-auto rounded pb-2">
-                <div class="dropdown pt-3 mr-2 float-right">
-                    <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #2c3fb1; border-color: #2c3fb1;">
-                        Ano Letivo
-                    </button>
-                    <div class="dropdown-menu" id="dropdown" aria-labelledby="dropdownMenu" style="z-index: 1;">
-                        @foreach($academicYears as $academicYear)
-                            <a class="dropdown-item" id="{{$academicYear->academicYear}}-tab">{{$academicYear->academicYear}}</a>
-                        @endforeach
-                    </div>
-                </div>
                 <h3 class="pt-3 pl-2 mb-0">{{__('gx.subjects')}}</h3>
                 <div class="tab-content" id="myTabContent" style="min-height: 75vh;">
                     @foreach($academicYears as $academicYear)
                         <div class="years overflow-auto p-0 mr-2 ml-2 d-none" id="{{$academicYear->academicYear}}" style="max-height: 75vh;">
-                            <?php $subjectYear = $subjects->whereIn('academicYear', $academicYear->academicYear); ?>
+                            <?php
+                                $subjectYear = $subjects->whereIn('academicYear', $academicYear->academicYear);
+
+                                $first1 = Carbon\Carbon::today()->subYears(1)->month(8)->day(1);
+                                $second1 = Carbon\Carbon::today()->month(7)->day(31)->hour(23)->minute(59)->second(59);
+                                $first2 = Carbon\Carbon::today()->month(8)->day(1);
+                                $second2 = Carbon\Carbon::today()->addYears(1)->month(7)->day(31);
+
+                                if (Carbon\Carbon::today()->between($first1, $second1)) {
+                                    $currentYear = $first1->year . '/' . $second1->year;
+                                } else if (Carbon\Carbon::today()->between($first2, $second2)) {
+                                    $currentYear = $first2->year . '/' . $second2->year;
+                                }
+                            ?>
                             @if(count($subjectYear) > 0)
                                 @foreach($subjectYear as $subject)
 
@@ -210,11 +223,11 @@
                                                     <div class="p-2 align-items-center">
                                                         @if(Auth::user()->role == 'student')
                                                             @if(isset($project->group))
-                                                                <button type="button" class="btn btn-sm btn-success float-right" href="/student/project/{{$project->idProject}}" style="background-color: #2c3fb1; border-color: #2c3fb1;">{{__('gx.group')}} {{$project->group}}</button>
-                                                                <h5 class="mt-1 mb-1"><a style="color:#2c3fb1;" href="/student/project/{{$project->idProject}}">{{$project->name}}</a> {{$project->dueDate}}</h5>
+                                                                <a type="button" class="btn btn-sm btn-success float-right" href="/student/project/{{$project->idProject}}" style="background-color: #2c3fb1; border-color: #2c3fb1;">{{__('gx.group')}} {{$project->group}}</a>
+                                                                <h5 class="mt-1 mb-1"><a style="color:#2c3fb1;" href="/student/project/{{$project->idProject}}">{{$project->name}}</a> {{$project->groupCreationDueDate}} {{$project->dueDate}}</h5>
                                                             @else
-                                                                <button type="button" class="btn btn-sm btn-success float-right" href="/student/project/{{$project->idProject}}/groups">{{__('gx.join/create group')}}</button>
-                                                                <h5 class="mt-1 mb-1"><a style="color:#2c3fb1;" href="/student/project/{{$project->idProject}}/groups">{{$project->name}}</a> {{$project->groupCreationDueDate}}</h5>
+                                                                <a type="button" class="btn btn-sm btn-success float-right" href="/student/project/{{$project->idProject}}/groups">{{__('gx.join/create group')}}</a>
+                                                                <h5 class="mt-1 mb-1"><a style="color:#2c3fb1;" href="/student/project/{{$project->idProject}}/groups">{{$project->name}}</a> {{$project->groupCreationDueDate}} {{$project->dueDate}}</h5>
                                                             @endif
 
                                                         @elseif(Auth::user()->role == 'professor')
@@ -223,11 +236,11 @@
                                                     </div>
                                                 @endif
                                             @endforeach
-                                            @if (Auth::user()->role == 'professor')
+                                            @if (Auth::user()->role == 'professor' and $academicYear->academicYear == $currentYear)
                                                 <button style="background-color:#2c3fb1;color: #fff;" type="button" class="btn btn-sm float-right m-2 open_modal" id="{{$subject->idSubject}}">{{__('gx.create project')}}</button>
                                             @endif
                                         @else
-                                            @if (Auth::user()->role == 'professor')
+                                            @if (Auth::user()->role == 'professor' and $academicYear->academicYear == $currentYear)
                                                 <button style="background-color:#2c3fb1;color: #fff;" type="button" class="btn btn-sm float-right m-2 open_modal" id="{{$subject->idSubject}}">{{__('gx.create project')}}</button>
                                             @endif
                                             <h5 class="p-2">{{__('gx.no projects found')}}</h5>
@@ -367,10 +380,10 @@
     // on load of the page: switch to the currently selected tab
     if (sessionStorage.getItem("year") === null) {
         var year;
-        first1 = moment().subtract(1, 'y').month(6);
-        second1 = moment().month(6);
-        first2 = moment().month(6);
-        second2 = moment().add(1, 'y').month(6);
+        first1 = moment().subtract(1, 'y').month(8);
+        second1 = moment().month(7).day(31);
+        first2 = moment().month(8);
+        second2 = moment().add(1, 'y').month(7).day(31);
         if (moment().isBetween(first1, second1)) {
             year = first1.year() + '\\/' + second1.year();
         } else if (moment().isBetween(first2, second2)) {
@@ -460,6 +473,8 @@
             $('table.month2-cal tr > td').empty()
             $("table.month1-cal tr > td").removeClass("past today project-deadline project-group-deadline project-meeting");
             $("table.month2-cal tr > td").removeClass("past today project-deadline project-group-deadline project-meeting");
+            $("table.month1-cal tr > td").removeAttr("data-toggle data-placement data-container data-html data-original-title title");
+            $("table.month2-cal tr > td").removeAttr("data-toggle data-placement data-container data-html data-original-title title");
             this.monthDiv.innerText = this.monthString;
             this.nextMonthDiv.innerText = this.nextMonthString;
 
@@ -526,7 +541,7 @@
                         if (start == events[0][months][0][p]) {
                             let event_pd = "<p class='text-left m-0'><span class='far fa-file-alt float-left'></span>&nbsp;– {{__('gx.deadline')}}</p><p class='text-left m-0'><span class='far fa-book'></span>&nbsp;– "+events[0][months][1][p][2]+" - "+events[0][months][1][p][0]+"</p><p class='text-left m-0'><span class='far fa-calendar-alt'></span>&nbsp;– "+events[0][months][1][p][1]+"</p>";
                             if ($(day).hasClass("project-deadline") || $(day).hasClass("project-group-deadline") || $(day).hasClass("project-meeting")) {
-                                event_pd = $(day).attr("title") + '<hr class="m-1 separator">' + event_pd;
+                                event_pd = $(day).attr("data-original-title") + '<hr class="m-1 separator">' + event_pd;
                             } else {
                                 $(day).attr('data-toggle', 'tooltip');
                                 $(day).attr('data-placement', 'right');
@@ -534,12 +549,12 @@
                                 $(day).attr('data-html', 'true');
                             }
                             $(day).addClass("project-deadline");
-                            $(day).attr('title', event_pd);
+                            $(day).attr('data-original-title', event_pd);
                         }
                         if (start == events[1][months][0][p]) {
                             let event_pgd = "<p class='text-left m-0'><span class='far fa-users float-left'></span>&nbsp;– {{__('gx.group formation deadline')}}</p><p class='text-left m-0'><span class='far fa-book'></span>&nbsp;– "+events[1][months][1][p][2]+" - "+events[1][months][1][p][0]+"</p><p class='text-left m-0'><span class='far fa-calendar-alt'></span>&nbsp;– "+events[1][months][1][p][1]+"</p>";
                             if ($(day).hasClass("project-deadline") || $(day).hasClass("project-group-deadline") || $(day).hasClass("project-meeting")) {
-                                event_pgd = $(day).attr("title") + '<hr class="m-1 separator">' + event_pgd;
+                                event_pgd = $(day).attr("data-original-title") + '<hr class="m-1 separator">' + event_pgd;
                             } else {
                                 $(day).attr('data-toggle', 'tooltip');
                                 $(day).attr('data-placement', 'right');
@@ -547,7 +562,7 @@
                                 $(day).attr('data-html', 'true');
                             }
                             $(day).addClass("project-group-deadline");
-                            $(day).attr('title', event_pgd);
+                            $(day).attr('data-original-title', event_pgd);
                         }
                     }
                     if (events[months+2][0].length > events[months+2][1].length) {
@@ -559,7 +574,7 @@
                         if (start == events[months+2][0][m]) {
                             let event_pm = "<p class='text-left m-0'><span class='far fa-handshake float-left'></span>&nbsp;– {{__('gx.meeting')}}</p><p class='text-left m-0'><span class='far fa-book'></span>&nbsp;– "+events[months+2][1][m][5]+" - "+events[months+2][1][m][4]+"</p><p class='text-left m-0'><span class='far fa-map-marker-alt'></span>&nbsp;– "+events[months+2][1][m][1]+"</p><p class='text-left m-0'><span class='far fa-calendar-alt'></span>&nbsp;– "+events[months+2][1][m][2]+"&nbsp;"+events[months+2][1][m][3]+"</p>";
                             if ($(day).hasClass("project-deadline") || $(day).hasClass("project-group-deadline") || $(day).hasClass("project-meeting")) {
-                                event_pm = $(day).attr("title") + '<hr class="m-1 separator">' + event_pm;
+                                event_pm = $(day).attr("data-original-title") + '<hr class="m-1 separator">' + event_pm;
                             } else {
                                 $(day).addClass("project-meeting");
                                 $(day).attr('data-toggle', 'tooltip');
@@ -567,7 +582,7 @@
                                 $(day).attr('data-container', 'body');
                                 $(day).attr('data-html', 'true');
                             }
-                            $(day).attr('title', event_pm);
+                            $(day).attr('data-original-title', event_pm);
                         }
                     }
                     start = moment(start).add(1, 'day').format('YYYY-MM-DD');
@@ -575,11 +590,7 @@
                 }
             }
 
-            $(function () {
-                $('[data-toggle="tooltip"]').tooltip({
-                    container: 'body'
-                })
-            })
+            $("body").tooltip({ selector: '[data-toggle=tooltip]' });
         }
     }
 
