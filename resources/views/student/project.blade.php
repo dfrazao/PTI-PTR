@@ -57,9 +57,9 @@
         <div class="container-fluid tab-pane fade ml-0 mr-0" id="content" role="tabpanel" aria-labelledby="content-tab">
             <div class="row rounded" style="height: 80vh;">
                 <div class="col mt-3 ml-3 rounded" style="background-color: #c6c6c6; position: relative;">
-                    <div class="container-fluid mt-3">
+                    <div class="container-fluid mt-3 px-2">
                         @foreach($rep as $file)
-                            <div class="file text-center mr-3" style="position:relative; display: inline-block; width: 100px;">
+                            <div class="file text-center" style="margin-right: 10px; position:relative; display: inline-block; width: 100px;">
                                 <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;" id= '{{$file->idFile}}' class="close downloadFile" download>
                                     <span class="dot" id="download" style="position:relative">
                                         <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
@@ -72,7 +72,7 @@
                                 </button>
                                 <figure class="my-1">
                                     <i class="fas fa-folder fa-4x px-2" style="color: #ffce52;"></i>
-                                    <figcaption>{{$file->pathFile}}</figcaption>
+                                    <figcaption style="overflow:hidden;">{{$file->pathFile}}</figcaption>
                                 </figure>
                             </div>
                         @endforeach
@@ -692,7 +692,6 @@
     .select{
         border: 1px solid rgba(0, 0, 0, 0.2);
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
-        margin-right: 12px !important;
         border-radius: 5px;
         padding-left: 2px;
     }
