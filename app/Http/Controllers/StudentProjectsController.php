@@ -16,8 +16,8 @@ use Auth;
 use App\Group;
 use App\StudentsGroup;
 use App\Task;
-use DateTime;
-use function Sodium\add;
+use App\File;
+use Storage;
 
 class StudentProjectsController extends Controller
 {
@@ -112,6 +112,20 @@ class StudentProjectsController extends Controller
             }
 
         }
+        elseif($submission == "newFile"){
+            $this->validate($request, [
+                'file' => 'required'
+            ]);
+            $file = new File;
+            $file-> idGroup = $request ->input('group');
+            $zip = $request->file('file');
+            $file-> Pathfile = $request->file->getClientOriginalName();
+            $file->finalState = "temporary";
+            $file->save();
+            $zip->storeAs('studentRepository/'.$idGroup, $file-> Pathfile, 'gcs');
+
+            return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'File added successfully');
+        }
         else{
             $this->validate($request, [
                 'description' => 'required',
@@ -149,6 +163,9 @@ class StudentProjectsController extends Controller
             foreach ($idGroups as $g)
                 if ($g == $st)
                     $idGroup = $g;
+
+        // repository
+        $rep = File::all()->where('idGroup', '==', $idGroup);
 
         // Tasks
         $arr = Task::all()->where('idGroup', '==', $idGroup);
@@ -201,7 +218,7 @@ class StudentProjectsController extends Controller
             $idComment = AnnouncementComment::all()->where('idAnnouncement', '==', $idA)->count();
             array_push($numberComments, $idComment);
         }
-        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup)->with('notes',$notes)->with('a',$announcements)->with('meeting',$meeting)->with('groupUsers', $Users)->with('schedule', $schedule);
+        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup)->with('notes',$notes)->with('a',$announcements)->with('meeting',$meeting)->with('groupUsers', $Users)->with('schedule', $schedule)->with('rep',$rep);
     }
 
     /**
@@ -268,10 +285,24 @@ class StudentProjectsController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $idTask = $request ->input('task');
-        $task = Task::find($idTask);
-        $task ->delete();
-        return redirect()->action('StudentProjectsController@show', $id)->with('success', 'Task deleted successfully');
+
+        $submission = $request->input('submission');
+        if($submission == 'task'){
+            $idTask = $request ->input('task');
+            $task = Task::find($idTask);
+            $task ->delete();
+            return redirect()->action('StudentProjectsController@show', $id)->with('success', 'Task deleted successfully');
+        }
+        else{
+            $idGroup = $request->input('group');
+            $idFile = $request->input('idFile');
+            $file = File::find($idFile);
+            Storage::delete('studentRepository/'.$idGroup.'/'.$file->pathFile);
+            $file->delete();
+            return redirect()->action('StudentProjectsController@show', $id)->with('success', 'File deleted successfully');
+
+
+        }
     }
 
 

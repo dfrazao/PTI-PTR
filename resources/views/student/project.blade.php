@@ -57,11 +57,81 @@
         <div class="container-fluid tab-pane fade ml-0 mr-0" id="content" role="tabpanel" aria-labelledby="content-tab">
             <div class="row rounded" style="height: 80vh;">
                 <div class="col mt-3 ml-3 rounded" style="background-color: #c6c6c6; position: relative;">
-                    <div class="container-fluid d-flex flex-row mt-3" >
-                        <figure class="text-center mr-4"><i class="fas fa-folder fa-4x" style="color: #ffce52;"></i><figcaption>proj1-v1.zip</figcaption></figure>
-                        <figure class="text-center mr-4"><i class="fas fa-folder fa-4x" style="color: #ffce52;"></i><figcaption>proj1-v1.zip</figcaption></figure>
-                        <figure class="text-center mr-4"><i class="fas fa-folder fa-4x" style="color: #ffce52;"></i><figcaption>proj1-v1.zip</figcaption></figure>
-                        <button type="submit" class="btn btn-sm mb-2 mr-2" style="width:20vh;background: #2c3fb1; color: white; position: absolute; bottom: 0px; right: 0px;">{{__('gx.submit')}}</button>
+                    <div class="container-fluid mt-3">
+                        @foreach($rep as $file)
+                            <div class="file text-center mr-3" style="position:relative; display: inline-block; width: 100px;">
+                                <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;" id= '{{$file->idFile}}' class="close downloadFile" download>
+                                    <span class="dot" id="download" style="position:relative">
+                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                    </span>
+                                </a>
+                                <button style="position:absolute; top:-10px; right:-10px;" id= '{{$file->idFile}}' type="button" class="close deleteFile">
+                                    <span class="dot" id="delete" style="position:relative">
+                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
+                                    </span>
+                                </button>
+                                <figure class="my-1">
+                                    <i class="fas fa-folder fa-4x px-2" style="color: #ffce52;"></i>
+                                    <figcaption>{{$file->pathFile}}</figcaption>
+                                </figure>
+                            </div>
+                        @endforeach
+                            {{--<div class= "file text-center mr-3 py-2" id="drop_zone" ondrop="dropHandler(event);" style="width: 100px;border:1px solid black; display: inline-block;">
+                                <i class="fal fa-file-plus fa-4x px-2"></i>
+                            </div>--}}
+                        <button type="submit" class="btn btn-sm mb-2 mr-2" id= 'newFile' data-toggle="modal" data-target="#modalCreateFile" style="width:20vh;background: #2c3fb1; color: white; position: absolute; bottom: 0px; right: 0px;">Add</button>
+                        <button type="submit" disabled class="btn btn-sm mb-2 mr-2" id= 'submitFile' style="width:20vh;background: #2c3fb1; color: white; position: absolute; bottom: 0px; right: 42vh;">Submit</button>
+
+                        {{-- Modal Add File --}}
+                        <div class="modal fade" id="modalCreateFile" aria-labelledby="modalCreateFile" aria-hidden="true" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="staticBackdropLabel">Add new file</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {!!Form::open(['action' => ['StudentProjectsController@store', $project->idProject], 'method' => 'POST', 'enctype' => 'multipart/form-data'])!!}
+                                        <div class="form-group">
+                                            {{Form::label('file', 'Choose File')}}
+                                            {{Form::file('file')}}
+                                        </div>
+                                        {{ Form::hidden('group', $idGroup) }}
+                                        {{ Form::hidden('project', $project->idProject) }}
+                                        {{ Form::hidden('subject', $subject->subjectName) }}
+                                        {{Form::hidden('submission','newFile')}}
+                                        {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+
+                                        {!!Form::close()!!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- Modal Delete file --}}
+                        <div class="modal fade" id="modalDeleteFile" aria-labelledby="modalDeleteFile" aria-hidden="true" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="staticBackdropLabel">Delete file</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h5>Are you sure you want to delete this file?</h5>
+                                        {!!Form::open(['action' => ['StudentProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
+                                        {{Form::hidden('_method', 'DELETE')}}
+                                        {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+                                        {{ Form::hidden('group', $idGroup) }}
+                                        {{Form::hidden('submission','file')}}
+                                        {{Form::hidden('idFile','')}}
+                                        {!!Form::close()!!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col mt-3 rounded mx-3">
@@ -71,7 +141,7 @@
                             <div>
                                 @foreach($groupUsers as $user)
                                     <img class="profilePhoto pr-2" style="border-radius: 100%; width: 13%; height: 13%; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}">
-                                    <a style="color:black;" href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a>
+                                    <a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a>
                                     <br>
                                 @endforeach
                             </div>
@@ -80,8 +150,9 @@
                     <div class="row h-50 rounded pt-3">
                         <div class="container-fluid rounded text-center pt-2" style="background-color: #c6c6c6; ">
                             <h5>{{__('gx.documentation')}} </h5>
-                            <div>{{__('gx.files')}}: {{Storage::url('documentation/'.$project->idProject.'/'.$project->documentation)}}</div>
+                            <div>{{__('gx.files')}}: <a rel="noopener noreferrer" target="_blank" href ="{{Storage::url('documentation/'.$project->idProject.'/'.$project->documentation)}}">{{$project->documentation}}</a></div>
                             <div>{{__('gx.deadline')}}: {{$project->dueDate}}</div>
+
 
 
                         </div>
@@ -154,21 +225,21 @@
                                                 <td class="form-group float-right pr-0">{{Form::Submit('Save', ['class'=>'btn btn-sm mr-2 btn-success', 'style'=>"width: 10vh", 'id'=>'Save'])}}<button type="button" class="btn btn-sm btn-danger editTask">{{__('gx.cancel')}}</button></td>
                                             {!! Form::close() !!}
                                             <style>
-                                                #datetimepicker1-{{$t->idTask}} #datetimepicker1-{{$t->idTask}}{
-                                                    width:
-                                                }
+                                                /*#datetimepicker1-{{$t->idTask}} #datetimepicker1-{{$t->idTask}}{
+                                                    width:;
+                                                }*/
                                             </style>
                                             <script>
                                                 $(function() {$( "#datetimepicker1-{{$t->idTask}}" ).datetimepicker({
                                                     minDate: moment().format('YYYY-MM-DD HH:mm'),
-                                                    date: moment('{{\Carbon\Carbon::parse($t->beginning)}}').format('YYYY-MM-DD HH:mm'),
+                                                    date: moment('{{(\Carbon\Carbon::parse($t->beginning))}}').format('YYYY-MM-DD HH:mm'),
                                                     locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
                                                     icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"},
-                                                    defaultDate: moment('{{\Carbon\Carbon::parse($t->beginning)}}').format('YYYY-MM-DD HH:mm')
+
                                                 });});
                                                 $(function() {$( "#datetimepicker2-{{$t->idTask}}" ).datetimepicker({
                                                     minDate: moment().format('YYYY-MM-DD HH:mm'),
-                                                    date: moment('{{\Carbon\Carbon::parse($t->end)}}').format('YYYY-MM-DD HH:mm'),
+                                                    date: moment('{{(\Carbon\Carbon::parse($t->end))}}').format('YYYY-MM-DD HH:mm'),
                                                     locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
                                                     icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"},
                                                     defaultDate: moment('{{\Carbon\Carbon::parse($t->end)}}').format('YYYY-MM-DD HH:mm')
@@ -193,6 +264,7 @@
                                                         {!!Form::open(['action' => ['StudentProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
                                                         {{Form::hidden('_method', 'DELETE')}}
                                                         {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+                                                        {{Form::hidden('submission','task')}}
                                                         {{Form::hidden('task', $t->idTask) }}
                                                         {!!Form::close()!!}
                                                     </div>
@@ -584,6 +656,7 @@
     #textArea:focus{
         outline: 0;
         box-shadow: none;
+
     }
 
     .border {
@@ -615,6 +688,37 @@
         table-layout: fixed;
         width:100%;
     }
+
+    .select{
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+        margin-right: 12px !important;
+        border-radius: 5px;
+        padding-left: 2px;
+    }
+    .close{
+        opacity: 1;
+    }
+    #delete {
+        height: 25px;
+        width: 25px;
+        background-color: red;
+        border-radius: 50%;
+        display:none;
+        color:white;
+    }
+    #download {
+        height: 25px;
+        width: 25px;
+        background-color: white;
+        border-radius: 50%;
+        display:none;
+        color: green;
+    }
+
+
+
+
 </style>
 <script>
     $(".editTask").click(function () {
@@ -734,6 +838,40 @@
             });
 
         });
+
+    $('.file').on('click', function () {
+        if($(this).hasClass('select')){
+            $(this).removeClass('select');
+            $('#submitFile').attr('disabled','disabled');
+            $(this).find("#download").css("display","none");
+            $(this).find("#delete").css("display","none");
+        }else{
+            $(this).addClass('select');
+            $(this).find('#download').css("display","inline-block");
+            $(this).find('#delete').css("display","inline-block");
+            //$('#submitFile').removeAttr('disabled');
+            }
+        });
+
+    $(".file").hover(function() {
+        $(this).find('#download').css("display","inline-block");
+        $(this).find('#delete').css("display","inline-block");
+    }, function() {
+        if($(this).hasClass('select')){
+            $(this).find('#download').css("display","inline-block");
+            $(this).find('#delete').css("display","inline-block");
+        }
+        else{
+            $(this).find("#download").css("display","none");
+            $(this).find("#delete").css("display","none");
+
+        }
+    });
+
+    $('.deleteFile').click(function(){
+        $('input[name="idFile"]').val($(this).attr("id"));
+        $('#modalDeleteFile').modal('show');
+    });
 
 </script>
 @endsection
