@@ -203,7 +203,7 @@
         }
     </style>
     <div class="container-fluid footer p-2" >
-        <a class=p-1" style="color: white" href="mailto:webmaster@example.com"><u>Contact Us</u></a>
+        <a class=p-1" style="color: white" href="mailto:ptiptr9@gmail.com"><u>Contact Us</u></a>
         <p class=pt-1">&#169; 2020, All Rights Reserved. </p>
     </div>
 
