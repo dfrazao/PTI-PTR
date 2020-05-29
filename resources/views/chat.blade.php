@@ -1,6 +1,6 @@
 
    <div class="container-md" id="testee" style="width: 450px;position: absolute;
-z-index: 1; right: 1em;margin-top: 1em;
+z-index: 1; margin-left: 50%;margin-top: 5px;
             background:white;
             border-radius:6px;
             border: 1px rgba(0, 123, 255, 0.78) solid;
@@ -200,7 +200,7 @@ z-index: 1; right: 1em;margin-top: 1em;
            font-size: 10px;
        }
        .active {
-           background: #3898ff78;
+           /*background: #3898ff26;*/
        }
        .col-sm-4 {
            padding: 0;

@@ -3,7 +3,7 @@
 <head>
     <title>Project</title>
 </head>
-<div class="container-fluid pl-5 pr-5 pb-2 mt-3">
+<div class="container-fluid pl-4 pr-4 pb-2 mt-3">
     @include('layouts.messages')
     <nav aria-label="breadcrumb" >
         <ol class="breadcrumb mt-1 pl-0 pb-0 pt-0 float-right" style="background-color:white; ">
@@ -11,20 +11,43 @@
             <li class="breadcrumb-item active" aria-current="page">{{$subject->subjectName}} - {{$project->name}}</li>
         </ol>
     </nav>
-    <h2 class="pb-2">{{$subject ->subjectName}} - {{$project->name}}</h2>
-
+    <br>
+    <h2 class="name_project pb-2">{{$subject ->subjectName}} - {{$project->name}}</h2>
+    <style>
+        #btn_leave{
+            width: 11em
+        }
+        @media screen and (max-width: 750px){
+            .name_project{
+                text-align: center;
+                font-size: 4vh;
+            }
+            .breadcrumb breadcrumb-item{
+                text-align: center;
+            }
+            .nav-tabs {
+                font-size: 1.5vh;
+            }
+            #btn_leave {
+                width: 3em;
+                font-size: 1.25vh;
+                padding-right: 6.5vh;
+                padding-left: 4vh;
+            }
+        }
+    </style>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link" id="content-tab" data-toggle="tab" href="#content" role="tab" aria-controls="content" aria-selected="false">{{__('gx.content')}}</a>
+        <li class="nav-item ">
+            <a class="nav-link active" id="content-tab" data-toggle="tab" data-target="#content" role="tab" aria-controls="content" aria-selected="false">{{__('gx.content')}}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="schedule-tab" data-toggle="tab" href="#schedule" role="tab" aria-controls="schedule" aria-selected="false">{{__('gx.schedule')}}</a>
+            <a class="nav-link" id="schedule-tab" data-toggle="tab" data-target="#schedule" role="tab" aria-controls="schedule" aria-selected="false">{{__('gx.schedule')}}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="forum-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="false">{{__('gx.forum')}}</a>
+            <a class="nav-link" id="forum-tab" data-toggle="tab" data-target="#forum" role="tab" aria-controls="forum" aria-selected="false">{{__('gx.forum')}}</a>
         </li>
         <li class="rightbutton ml-auto">
-            <button  type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalLeaveGroup" style="width: 11em">{{__('gx.leave group')}}</button>
+            <button  id="btn_leave" type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalLeaveGroup" >{{__('gx.leave group')}}</button>
             <div id="modalLeaveGroup" class="modal" tabindex="-1" role="dialog"  >
                 <div class="modal-dialog modal-lg" >
                     <div class="modal-content" >
@@ -54,7 +77,7 @@
     </ul>
 
     <div class="tab-content pb-3 " id="myTabContent" style="min-height: 75vh; background-color: #ededed;">
-        <div class="container-fluid tab-pane fade ml-0 mr-0" id="content" role="tabpanel" aria-labelledby="content-tab">
+        <div class="container-fluid active tab-pane  ml-0 mr-0" id="content" role="tabpanel" aria-labelledby="content-tab">
             <div class="row rounded" style="height: 80vh;">
                 <div class="col mt-3 ml-3 rounded" style="background-color: #c6c6c6; position: relative;">
                     <div class="container-fluid mt-3 pr-0 pl-3" style="height: 90%;">
@@ -476,10 +499,10 @@
                         @if(count($meeting)>0)
                             @foreach($meeting as $m)
                                 <tr>
-                                    <td>{{$m->idMeeting}}</td>
-                                    <td>{{$m->description}}</td>
-                                    <td>{{$m->date}}</td>
-                                    <td>{{$m->place}}</td>
+                                    <td id="meeting">{{$m->idMeeting}}</td>
+                                    <td id="meeting">{{$m->description}}</td>
+                                    <td id="meeting">{{$m->date}}</td>
+                                    <td id="meeting">{{$m->place}}</td>
                                 </tr>
                             @endforeach
                         @else
@@ -490,6 +513,14 @@
                         </tbody>
                     </table>
                 </div>
+                <style>
+                    @media screen and (max-width: 800px){
+                        #meeting{
+                            font-size: 1.5vh;
+                        }
+                    }
+
+                </style>
                 <div class="container-fluid pt-3 " style="position: relative">
                     <button type="submit" class="btn btn-sm mr-2" id= 'newMeeting' data-toggle="modal" data-target="#modalCreateMeeting" style="position: absolute; width: 20vh;background: #2c3fb1; color: white;bottom: 0px; right: 0px;">{{__('gx.new meeting')}}</button>
                 </div>
@@ -542,10 +573,10 @@
             <button type="button" class="p-2 mt-3 mr-3 btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#modalCreatePost" style="background-color: #2c3fb1; border-color: #2c3fb1;">{{__('gx.create post')}}</button>
 
             <div class="container rounded pb-3 pt-3">
-                <div class="table-responsive-xl">
+                <div class="table-responsive-xl pt-2">
                     <table class="table bg-white rounded" style="text-align:center;">
                         <thead>
-                        <tr>
+                        <tr class="forum_table">
                             <th>{{__('gx.subject')}}</th>
                             <th>{{__('gx.author')}}</th>
                             <th>{{__('gx.responses')}}</th>
@@ -553,12 +584,25 @@
                         </tr>
                         </thead>
                         <tbody>
+                        <style>
+                            @media screen and (max-width: 800px){
+                                .forum_table{
+                                    font-size: 1.5vh;
+                                }
+                                .forum_content{
+                                    font-size: 1.5vh;
+                                }
+                                #img_forum{
+                                    display: none; !important;
+                                }
+                            }
+                        </style>
                         @if(count($announcements) > 0)
                             @for($i = 0; $i < count($announcements); $i++)
-                                <tr>
+                                <tr class="forum_content">
                                     <td style="vertical-align: middle;"><a href="/student/project/{{$project->idProject}}/post/{{$announcements[$i]->idAnnouncement}}">{{$announcements[$i]->title}}</a></td>
                                     <td style="vertical-align: middle;">
-                                        <a href="/profile/{{$userPoster[$i]->id }}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$userPoster[$i]->photo)}}"><span style="vertical-align: middle;"> {{$userPoster[$i]->name}}</span></a>
+                                        <a href="/profile/{{$userPoster[$i]->id }}"><img id="img_forum" class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$userPoster[$i]->photo)}}"><span style="vertical-align: middle;"> {{$userPoster[$i]->name}}</span></a>
                                     </td>
                                     <td style="vertical-align: middle;">{{$numberComments[$i]}}</td>
                                     <td style="vertical-align: middle;">{{$announcements[$i]->date}}</td>

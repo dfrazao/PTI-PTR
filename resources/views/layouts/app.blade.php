@@ -187,5 +187,25 @@
 @include('chat')
 @yield('content')
 
+    <style>
+        .footer {
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #898989;
+            color: white;
+            text-align: center;
+            height: 6vh;
+            margin-top: 1%;
+        }
+        .dentro{
+
+        }
+    </style>
+    <div class="container-fluid footer p-2" >
+        <a class=p-1" style="color: white" href="mailto:webmaster@example.com"><u>Contact Us</u></a>
+        <p class=pt-1">&#169; 2020, All Rights Reserved. </p>
+    </div>
+
 </body>
 </html>
