@@ -180,7 +180,7 @@
                                             }
                                         }
                                         updateTimer2();
-                                        setInterval('updateTimer2()', 1000);
+                                        //setInterval('updateTimer2()', 1000);
                                     </script>
 
                                 </td>

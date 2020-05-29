@@ -1,6 +1,6 @@
 
    <div class="container-md" id="testee" style="width: 450px;position: absolute;
-z-index: 1; margin-left: 50%;margin-top: 5px;
+z-index: 1; right: 1em;margin-top: 1em;
             background:white;
             border-radius:6px;
             border: 1px rgba(0, 123, 255, 0.78) solid;
@@ -172,7 +172,7 @@ z-index: 1; margin-left: 50%;margin-top: 5px;
            margin-bottom: 0;
        }
        .received, .sent {
-           width: 45%;
+           max-width: 82.5%;
            overflow-wrap: break-word;
            padding: 3px 10px;
            border-radius: 10px;
@@ -200,7 +200,7 @@ z-index: 1; margin-left: 50%;margin-top: 5px;
            font-size: 10px;
        }
        .active {
-           background: #3898ff26;
+           background: #3898ff78;
        }
        .col-sm-4 {
            padding: 0;

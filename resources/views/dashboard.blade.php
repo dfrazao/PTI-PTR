@@ -220,16 +220,104 @@
                                         @if(count($projects->whereIn('idSubject', $subject->idSubject)) > 0)
                                             @foreach($projects as $project)
                                                 @if($subject->idSubject == $project->idSubject)
-                                                    <div class="p-2 align-items-center">
+                                                    <div class="p-2 align-items-center projeto" id="{{$project->idProject}}" type="button">
                                                         @if(Auth::user()->role == 'student')
                                                             @if(isset($project->group))
                                                                 <a type="button" class="btn btn-sm btn-success float-right" href="/student/project/{{$project->idProject}}" style="background-color: #2c3fb1; border-color: #2c3fb1;">{{__('gx.group')}} {{$project->group}}</a>
-                                                                <h5 class="mt-1 mb-1"><a style="color:#2c3fb1;" href="/student/project/{{$project->idProject}}">{{$project->name}}</a> {{$project->groupCreationDueDate}} {{$project->dueDate}}</h5>
                                                             @else
                                                                 <a type="button" class="btn btn-sm btn-success float-right" href="/student/project/{{$project->idProject}}/groups">{{__('gx.join/create group')}}</a>
-                                                                <h5 class="mt-1 mb-1"><a style="color:#2c3fb1;" href="/student/project/{{$project->idProject}}/groups">{{$project->name}}</a> {{$project->groupCreationDueDate}} {{$project->dueDate}}</h5>
                                                             @endif
+                                                                <p class="my-1 h5" style="display:inline-block">
+                                                                    {{$project->name}}
+                                                                </p>
+                                                                <div style="display: inline-block;text-align: center;">
+                                                                    <div id="timer1-{{$project->idProject}}" class="timer"></div>
+                                                                    <div id="timer2-{{$project->idProject}}" class="timer"></div>
+                                                                </div>
+                                                                <script>
+                                                                    function updateTimer1{{$project->idProject}}() {
+                                                                        future = Date.parse("{{$project->groupCreationDueDate}}");
+                                                                        now = new Date();
+                                                                        diff = future - now;
 
+                                                                        days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                                                                        hours = Math.floor(diff / (1000 * 60 * 60));
+                                                                        mins = Math.floor(diff / (1000 * 60));
+                                                                        secs = Math.floor(diff / 1000);
+
+                                                                        d = days;
+                                                                        h = hours - days * 24;
+                                                                        m = mins - hours * 60;
+                                                                        s = secs - mins * 60;
+
+                                                                        if (d<0){
+                                                                            document.getElementById("timer1-{{$project->idProject}}")
+                                                                                .innerHTML = '<p>Terminado<p>';
+                                                                        }else if (d==0 && h==0 && m==0){
+                                                                            document.getElementById("timer1-{{$project->idProject}}")
+                                                                                .innerHTML = '<div>' + s + '<span>seconds</span></div>';
+                                                                        } else if (d==0 && h==0 && m==0 && s==0){
+                                                                            document.getElementById("timer1-{{$project->idProject}}")
+                                                                                .innerHTML = '<p>Terminado<p>';
+                                                                        }else if (d==0){
+                                                                            document.getElementById("timer1-{{$project->idProject}}")
+                                                                                .innerHTML =
+                                                                                '<div>' + h + '<span>hours</span></div>' +
+                                                                                '<div>' + m + '<span>minutes</span></div>' +
+                                                                                '<div>' + s + '<span>seconds</span></div>';
+                                                                        }
+                                                                        else{
+                                                                            document.getElementById("timer1-{{$project->idProject}}")
+                                                                                .innerHTML =
+                                                                                '<div>' + d + '<span>days</span></div>' +
+                                                                                '<div>' + h + '<span>hours</span></div>' +
+                                                                                '<div>' + m + '<span>minutes</span></div>';
+                                                                        }
+                                                                    }
+                                                                    function updateTimer2{{$project->idProject}}() {
+                                                                        future = Date.parse("{{$project->dueDate}}");
+                                                                        now = new Date();
+                                                                        diff = future - now;
+
+                                                                        days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                                                                        hours = Math.floor(diff / (1000 * 60 * 60));
+                                                                        mins = Math.floor(diff / (1000 * 60));
+                                                                        secs = Math.floor(diff / 1000);
+
+                                                                        d = days;
+                                                                        h = hours - days * 24;
+                                                                        m = mins - hours * 60;
+                                                                        s = secs - mins * 60;
+
+                                                                        if (d<0){
+                                                                            document.getElementById("timer2-{{$project->idProject}}")
+                                                                                .innerHTML = '<p>Terminado<p>';
+                                                                        }else if (d==0 && h==0 && m==0){
+                                                                            document.getElementById("timer2-{{$project->idProject}}")
+                                                                                .innerHTML = '<div>' + s + '<span>seconds</span></div>';
+                                                                        } else if (d==0 && h==0 && m==0 && s==0){
+                                                                            document.getElementById("timer2-{{$project->idProject}}")
+                                                                                .innerHTML = '<p>Terminado<p>';
+                                                                        }else if (d==0){
+                                                                            document.getElementById("timer2-{{$project->idProject}}")
+                                                                                .innerHTML =
+                                                                                '<div>' + h + '<span>hours</span></div>' +
+                                                                                '<div>' + m + '<span>minutes</span></div>' +
+                                                                                '<div>' + s + '<span>seconds</span></div>';
+                                                                        }
+                                                                        else{
+                                                                            document.getElementById("timer2-{{$project->idProject}}")
+                                                                                .innerHTML =
+                                                                                '<div>' + d + '<span>days</span></div>' +
+                                                                                '<div>' + h + '<span>hours</span></div>' +
+                                                                                '<div>' + m + '<span>minutes</span></div>';
+                                                                        }
+                                                                    }
+                                                                    updateTimer1{{$project->idProject}}();
+                                                                    //setInterval('updateTimer1{{$project->idProject}}()', 1000);
+                                                                    updateTimer2{{$project->idProject}}();
+                                                                    //setInterval('updateTimer2{{$project->idProject}}()', 1000);
+                                                                </script>
                                                         @elseif(Auth::user()->role == 'professor')
                                                             <h5 class="mt-1 mb-1"><a style="color:#2c3fb1;" href="/professor/project/{{$project->idProject}}">{{$project->name}}</a></h5>
                                                         @endif
@@ -365,9 +453,28 @@
     .separator {
         border-top: 1px solid white; !important
     }
+
+    .timer {
+        font-size: 1.30em;
+        font-weight: 100;
+        color: navy;
+        display: inline-block;
+        min-width: 45px;
+    }
+
+    .timer div {
+        display: inline-block;
+        min-width: 45px;
+    }
+
+    .timer div span {
+        color: black;
+        display: block;
+        font-size: .50em;
+        font-weight: 400;
+    }
 </style>
 <script>
-
     $('#dropdown a').click(function(e) {
         oldYear = sessionStorage.getItem("year");
         $("#"+oldYear).addClass("d-none");
@@ -411,6 +518,19 @@
                 $("#button-" + id).children().addClass('fa-plus').removeClass('fa-minus');
                 $("#" + id + "-groups").slideUp(400);
             }
+        });
+
+        $(".projeto").click(function(){
+            id = $(this).attr('id');
+            @if(Auth::user()->role == 'student')
+                @if(isset($project->group))
+                    window.location.href = "/student/project/"+id;
+                @else
+                    window.location.href = "/student/project/"+id+"/groups";
+                @endif
+            @elseif(Auth::user()->role == 'professor')
+                window.location.href = "/professor/project/"+id;
+            @endif
         });
 
         $(".open_modal").click(function(){
