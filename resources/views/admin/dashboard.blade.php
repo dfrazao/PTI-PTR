@@ -17,12 +17,12 @@
                                 <div class="inner">
                                     <h3>{{$countUsers}}</h3>
 
-                                    <p>User Registrations</p>
+                                    <p>{{__('gx.user registrations')}}</p>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-bag"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="#" class="small-box-footer">{{__('gx.more info')}} <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -32,12 +32,12 @@
                                 <div class="inner">
                                     <h3>{{$countStudents}}{{--<sup style="font-size: 20px">%</sup>--}}</h3>
 
-                                    <p>Students</p>
+                                    <p>{{__('gx.students')}}</p>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-stats-bars"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="#" class="small-box-footer">{{__('gx.more info')}} <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -47,12 +47,12 @@
                                 <div class="inner">
                                     <h3>{{$countProfessors}}</h3>
 
-                                    <p>Professors</p>
+                                    <p>{{__('gx.professors')}}</p>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-person-add"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="#" class="small-box-footer">{{__('gx.more info')}} <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -62,12 +62,12 @@
                                 <div class="inner">
                                     <h3>{{$countUniversities}}</h3>
 
-                                    <p>Universities</p>
+                                    <p>{{__('gx.adminUniversities')}}</p>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-pie-graph"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="#" class="small-box-footer">{{__('gx.more info')}} <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->

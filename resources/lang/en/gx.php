@@ -106,7 +106,9 @@ return [
 
 
     //project
-
+    'are you sure you want to leave the group?' =>'Are you sure you want to leave the group?',
+    'group elements' => 'Group Elements',
+    //////////////////////////////////////////////////
     'content'                   => 'Content',
     'schedule'                  => 'Schedule',
     'forum'                     => 'Forum',
@@ -157,6 +159,80 @@ return [
     'author'                   => 'Author',
     'responses'                 => 'Responses',
     'created'                   => 'Created',
-    'create post'               => 'Create Post'
+    'create post'               => 'Create Post',
+
+    //admin Dashboard
+
+    'user registrations'  => 'User Registrations',
+    'more info'         => 'More Info',
+    'students'          => 'Students',
+    'professors'        => 'Professors',
+    'adminUsers'        => 'Users',
+    'adminUniversities'      => 'Universities',
+    'adminSubjects'     => 'Subjects',
+    'adminSubject' =>'Subject',
+    'adminEnrollments'   => 'Enrollments',
+    'adminCourses'      => 'Courses',
+    'adminAcademicYears' => 'Academic Years',
+    'adminUniNumber'       => 'UniNumber',
+    'adminRole'         => 'Role',
+    'adminName'         => 'Name',
+    'adminEmail'        => 'Email',
+    'adminPhoto'        => 'Photo',
+    'adminCountry'      => 'Country',
+    'adminCity'         => 'City',
+    'adminDescription'  => 'Description',
+    'adminTools'        => 'Tools',
+    'adminCreate'       => 'Create',
+    'adminImport'       => 'Import',
+    'adminDelete'       => 'Delete',
+    'adminEdit'         =>'Edit',
+    'adminGeneralSubject' => 'General Subject',
+    'adminSubjectName' => 'Subject Name',
+    'adminClass'        => 'Class',
+    'adminAcademicYear' => 'Academic Year',
+    'adminCancel'       => 'Cancel',
+    'adminImportSubjectsData' => 'Import Subjects Data',
+    'adminEditSubject' => 'Edit Subject',
+    'adminUpdate'       => 'Update',
+    'adminAreyousureyouwanttodeletethissubject?' => 'Are you sure you want to delete this subject?',
+    'adminIdSubject'       => 'IdSubject',
+    'adminIdGeneralSubject' => 'IdGeneralSubject',
+    'adminGeneralSubjectName' => 'General Subject Name',
+    'adminAcademicYear' =>'Academic Year',
+    'adminImportAcademicyearsData' => 'Import Academic years Data',
+    'adminCourseName'           => 'CourseName',
+    'adminUniversity'       =>'University',
+    'adminImportCoursesData'=>'Import Couses Data',
+    'adminIdCourses' => 'Id Courses',
+    'adminIdUniversity'=>'IdUniversity',
+    'adminUniversityName' => 'University Name',
+    'adminImportStudentsData' => 'Import Students Data',
+    'adminEditEnrollment' => 'Edit Enrollment',
+    'adminSubjectEnrollments' => 'Subject Enrollments',
+    'adminIdUser'   => 'Id User',
+    'adminUserName' => 'User Name',
+    'adminAreyousureyouwanttodeletethisuser?' => 'Are you sure you want to delete this user?',
+    'adminRole' => 'Role',
+    'adminAdmin' => 'Admin',
+    'adminProfessor' => 'Professor',
+    'adminEmailAddress' => 'Email Address',
+    'adminnevershareyouremail' => 'We\'ll never share your email with anyone else.',
+    'adminPassword' =>'Password',
+    'adminPhoto' => 'Photo',
+    'adminCountry' => 'Country',
+    'adminDescription' => 'Description',
+    'adminSearch' => 'Search',
+    'adminUploadCSVFile' =>  'Upload .csv File',
+    'adminStudent' => 'Student',
+
+
+
+
+
+
+
+
+
 
 ];

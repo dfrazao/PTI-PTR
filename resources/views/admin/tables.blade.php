@@ -7,7 +7,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Create</h5>
+                        <h5 class="modal-title">{{__('gx.adminCreate')}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -20,32 +20,32 @@
                             <input type="hidden" id="table" name="table" value="users">
 
                             <div class="form-group">
-                                <label >uniNumber</label>
+                                <label >{{__('gx.adminUniNumber')}}</label>
                                 <input type="text" class="form-control" name="uniNumber" id="uniNumber">
                             </div>
                             <div class="form-group">
-                                <label for="exampleFormControlSelect1">Role</label>
+                                <label for="exampleFormControlSelect1">{{__('gx.adminRole')}}</label>
                                 <select class="form-control" name="role" id="role">
-                                    <option value="admin">Admin</option>
-                                    <option value="student">Student</option>
-                                    <option value="professor">Professor</option>
+                                    <option value="admin">{{__('gx.adminAdmin')}}</option>
+                                    <option value="student">{{__('gx.adminStudent')}}</option>
+                                    <option value="professor">{{__('gx.adminProfessor')}}</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label >Name</label>
+                                <label >{{__('gx.adminName')}}</label>
                                 <input type="text" class="form-control" name="name" id="name">
                             </div>
                             <div class="form-group">
-                                <label >Email address</label>
+                                <label >{{__('gx.adminEmailAddress')}}</label>
                                 <input type="email" class="form-control" name="email" id="email">
-                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                <small id="emailHelp" class="form-text text-muted">{{__('gx.adminnevershareyouremail')}}</small>
                             </div>
                             <div class="form-group">
-                                <label >Password</label>
+                                <label >{{__('gx.adminPassword')}}</label>
                                 <input type="password" minlength="8" class="form-control" name="password" id="password">
                             </div>
                             <div class="form-group">
-                                <label >Country</label>
+                                <label >{{__('gx.adminCountry')}}</label>
                                 <select id="country" name="country" class="form-control">
                                     <option value="Afghanistan">Afghanistan</option>
                                     <option value="Åland Islands">Åland Islands</option>
@@ -294,11 +294,11 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label >City</label>
+                                <label >{{__('gx.adminCity')}}</label>
                                 <input type="text" class="form-control" name="city" id="city">
                             </div>
-                            <button type="submit" class="btn btn-success">Create</button>
-                            <button href="/tables" type="submit" class="btn btn-danger" style="float: right">Cancel</button>
+                            <button type="submit" class="btn btn-success">{{__('gx.adminCreate')}}</button>
+                            <button href="/tables" type="submit" class="btn btn-danger" style="float: right">{{__('gx.adminCancel')}}</button>
                         </form>
 
 
@@ -313,7 +313,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Import Students Data</h5>
+                        <h5 class="modal-title">{{__('gx.adminImportStudentsData')}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -326,7 +326,7 @@
                             <div class="form-group">
                                 <input type="file" name="upload-file" class="form-control-file">
                             </div>
-                            <input class="btn btn-success" type="submit" value="Upload .csv File" name="submit">
+                            <input class="btn btn-success" type="submit" value="{{__('gx.adminUploadCSVFile')}}" name="submit">
                         </form>
                     </div>
                 </div>
@@ -338,7 +338,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Import Students Data</h5>
+                        <h5 class="modal-title">{{__('gx.adminImportStudentsData')}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -355,38 +355,38 @@
                             <input required="required" type="text" class="form-control" id="uniNumber" name="uniNumber" value="">
                             </div>
                             <div class="col">
-                            <label for="exampleFormControlSelect1">Role</label>
+                            <label for="exampleFormControlSelect1">{{__('gx.adminRole')}}</label>
                             <select class="form-control" id="role" name="role">
-                                <option value="admin">Admin</option>
-                                <option value="student">Student</option>
-                                <option value="professor">Professor</option>
+                                <option value="admin">{{__('gx.adminAdmin')}}</option>
+                                <option value="student">{{__('gx.adminStudent')}}</option>
+                                <option value="professor">{{__('gx.adminProfessor')}}</option>
                             </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label >Name</label>
+                            <label >{{__('gx.adminName')}}</label>
                             <input type="text" required="required" class="form-control" id="name" name="name" value="">
                         </div>
                         <div class="form-group">
-                            <label >Email address</label>
+                            <label >{{__('gx.adminEmailAddress')}}</label>
                             <input type="email" class="form-control" required="required" id="email" name="email" value="">
-                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                            <small id="emailHelp" class="form-text text-muted">{{__('gx.adminnevershareyouremail')}}</small>
                         </div>
                         <div class="form-group">
-                            <label >Password</label>
+                            <label >{{__('gx.adminName')}}</label>
                             <input required="required" type="password" minlength="8" class="form-control" id="password" name="password" value="">
                         </div>
                         <div class="form-group">
-                            <label >Photo</label>
+                            <label >{{__('gx.adminPhoto')}}</label>
                             <input type="file" class="form-control-file" id="profilePhoto" name="profilePhoto">
                         </div>
                         <div class="form-group">
-                            <label >Description</label>
+                            <label >{{__('gx.adminDescription')}}</label>
                             <input type="text" class="form-control" id="description" name="description" value="">
                         </div>
                         <div class="form-row">
                             <div class="col">
-                                <label >Country</label>
+                                <label >{{__('gx.adminCountry')}}</label>
                                 <select id="country" name="country" value="" class="form-control">
                                     <option value="Afghanistan">Afghanistan</option>
                                     <option value="Åland Islands">Åland Islands</option>
@@ -635,15 +635,15 @@
                                 </select>
                             </div>
                             <div class="col">
-                            <label >City</label>
+                            <label >{{__('gx.adminCity')}}</label>
                             <input type="text" class="form-control" id="city" name="city" value="">
                             </div>
                         </div>
                         <input type="hidden" id="idUser" name="idUser" value="">
                         <div class="modal-footer">
 
-                            <button type="submit" class="btn btn-outline-success" >Update</button>
-                            <button style="float: right" data-dismiss="modal" aria-label="Close" type="button" class="btn btn-outline-danger">Cancel</button>
+                            <button type="submit" class="btn btn-outline-success" ></button>
+                            <button style="float: right" data-dismiss="modal" aria-label="Close" type="button" class="btn btn-outline-danger">{{__('gx.adminCancel')}}</button>
                         </div>
                         </form>
                     </div>
@@ -656,7 +656,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Delete</h5>
+                        <h5 class="modal-title">{{__('gx.adminDelete')}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -666,12 +666,12 @@
                             {{method_field('DELETE')}}
                             {{ csrf_field() }}
                             <div class="form-group">
-                                <p>Are you sure you want to delete this user?</p>
+                                <p>{{__('gx.adminAreyousureyouwanttodeletethisuser?')}}</p>
                                 <span id="uniNumber"></span><span>    </span><span id="nameUser"></span>
                                 <input type="hidden" id="id" name="id">
                             </div>
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                            <button data-dismiss="modal" aria-label="Close" class="btn btn-outline-secondary" style="float: right">Cancel</button>
+                            <button type="submit" class="btn btn-danger">{{__('gx.adminDelete')}}</button>
+                            <button data-dismiss="modal" aria-label="Close" class="btn btn-outline-secondary" style="float: right">{{__('gx.adminCancel')}}</button>
                         </form>
                     </div>
                 </div>
@@ -683,7 +683,7 @@
         <div class="container-xl" style="max-width: 100%; margin-bottom: 5%;">
             <!-- Search form -->
             <div style="margin-top: 1%;margin-bottom: 3%;">
-                <h3>Users</h3>
+                <h3>{{__('gx.adminUsers')}}</h3>
             </div>
 
             <div class="content" style="">
@@ -696,8 +696,8 @@
                         @endif
                         <div class="card">
                             <div class="card-header">
-                                <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-1"><i class="fa fa-plus" aria-hidden="true"></i> Create</button>
-                                <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-2"><i class="fa fa-upload" aria-hidden="true"></i> Import</button>
+                                <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-1"><i class="fa fa-plus" aria-hidden="true"></i> {{__('gx.adminCreate')}}</button>
+                                <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-2"><i class="fa fa-upload" aria-hidden="true"></i> {{__('gx.adminImport')}}</button>
                             </div>
 
                             <div class="card-body" >
@@ -710,31 +710,31 @@
                                                 ID
                                             </th>
                                             <th scope="col">
-                                                uniNumber
+                                                {{__('gx.adminUniNumber')}}
                                             </th>
                                             <th scope="col">
-                                                Role
+                                                {{__('gx.adminRole')}}
                                             </th>
                                             <th scope="col">
-                                                Name
+                                                {{__('gx.adminName')}}
                                             </th>
                                             <th scope="col">
-                                                Email
+                                                {{__('gx.adminEmail')}}
                                             </th>
                                             <th scope="col" >
-                                                Photo
+                                                {{__('gx.adminPhoto')}}
                                             </th>
                                             <th scope="col" >
-                                                Country
+                                                {{__('gx.adminCountry')}}
                                             </th>
                                             <th scope="col" >
-                                                City
+                                                {{__('gx.adminCity')}}
                                             </th>
                                             <th scope="col" >
-                                                Description
+                                                {{__('gx.adminDescription')}}
                                             </th>
                                             <th scope="col" >
-                                                Tools
+                                                {{__('gx.adminTools')}}
                                             </th>
                                         </tr>
 
@@ -778,8 +778,8 @@
                                                             <i class="fal fa-tools"></i>
                                                         </button>
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                            <button  data-id="{{$user->id}}" data-uninumber="{{$user->uniNumber}}" data-role="{{$user->role}}" data-name="{{$user->name}}" data-email="{{$user->email}}" data-password="{{$user->password}}" data-photo="{{$user->photo}}" data-description="{{$user->description}}" data-country="{{$user->country}}" data-city="{{$user->city}}"class="dropdown-item editbtn" data-toggle="modal" data-target="#modal-edit-user" id="edit" type="submit" ><i class="fa fa-edit" aria-hidden="true"></i> Edit</button>
-                                                            <button class="dropdown-item" data-id="{{$user->id}}" data-name="{{$user->name}}" data-uninumber="{{$user->uniNumber}}" data-toggle="modal" data-target="#modal-delete-user" style="float: right;margin-right:1%;display: inline-block;" ><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+                                                            <button  data-id="{{$user->id}}" data-uninumber="{{$user->uniNumber}}" data-role="{{$user->role}}" data-name="{{$user->name}}" data-email="{{$user->email}}" data-password="{{$user->password}}" data-photo="{{$user->photo}}" data-description="{{$user->description}}" data-country="{{$user->country}}" data-city="{{$user->city}}"class="dropdown-item editbtn" data-toggle="modal" data-target="#modal-edit-user" id="edit" type="submit" ><i class="fa fa-edit" aria-hidden="true"></i> {{__('gx.adminEdit')}}</button>
+                                                            <button class="dropdown-item" data-id="{{$user->id}}" data-name="{{$user->name}}" data-uninumber="{{$user->uniNumber}}" data-toggle="modal" data-target="#modal-delete-user" style="float: right;margin-right:1%;display: inline-block;" ><i class="fa fa-trash" aria-hidden="true"></i> {{__('gx.adminDelete')}}</button>
                                                         </div>
                                                     </div>
 
@@ -850,7 +850,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Create</h5>
+                        <h5 class="modal-title">{{__('gx.adminCreate')}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -864,7 +864,7 @@
                             <input type="hidden" id="table" name="table" value="subjects">
 
                             <div class="form-group">
-                                <label for="exampleFormControlSelect1">General Subject</label>
+                                <label for="exampleFormControlSelect1">{{__('gx.adminGeneralSubject')}}</label>
                                 <select class="form-control" name="idGenSubject" id="idGenSubject">
                                     @foreach($general_subjects as $gsubject)
 
@@ -874,16 +874,16 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Subject Name</label>
+                                <label>{{__('gx.adminSubjectName')}}</label>
                                 <input type="text" class="form-control" name="subjectName" id="subjectName">
                             </div>
                             <div class="form-group">
-                                <label>Class</label>
+                                <label>{{__('gx.adminClass')}}</label>
                                 <input type="text" class="form-control" name="class" id="class">
                             </div>
 
                             <div class="form-group">
-                                <label for="exampleFormControlSelect1">Academic Year</label>
+                                <label for="exampleFormControlSelect1">{{__('gx.adminAcademicYear')}}</label>
                                 <select class="form-control" name="academicYear" id="academicYear">
                                     @foreach($academicYears as $year)
 
@@ -894,8 +894,8 @@
                             </div>
                             <input type="hidden" id="table" name="table" value="subjects">
 
-                            <button type="submit" class="btn btn-success">Create</button>
-                            <button href="/admin/subjects" type="submit" class="btn btn-danger" style="float: right">Cancel</button>
+                            <button type="submit" class="btn btn-success">{{__('gx.adminCreate')}}</button>
+                            <button href="/admin/subjects" type="submit" class="btn btn-danger" style="float: right">{{__('gx.adminCancel')}}</button>
                         </form>
                     </div>
 
@@ -910,7 +910,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Import Subjects Data</h5>
+                            <h5 class="modal-title">{{__('gx.adminImportSubjectsData')}}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -933,7 +933,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Edit Subject</h5>
+                            <h5 class="modal-title">{{__('gx.adminEditSubject')}}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -944,7 +944,7 @@
                                 {{method_field('PUT')}}
                                 <input type="hidden" id="table" name="table" value="subjects">
                                 <div class="form-group">
-                                    <label for="exampleFormControlSelect1">General Subject</label>
+                                    <label for="exampleFormControlSelect1">{{__('gx.adminGeneralSubject')}}</label>
                                     <select class="form-control" name="idGenSubject" id="idGenSubject">
                                         @foreach($general_subjects as $gsubject)
 
@@ -954,16 +954,16 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>Subject Name</label>
+                                    <label>{{__('gx.adminSubjectName')}}</label>
                                     <input type="text" class="form-control" name="subname" id="subname">
                                 </div>
                                 <div class="form-group">
-                                    <label>Class</label>
+                                    <label>{{__('gx.adminClass')}}</label>
                                     <input type="text" class="form-control" name="classes" id="classes">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Academic Year</label>
+                                    <label for="exampleFormControlSelect1">{{__('gx.adminAcademicYear')}}</label>
                                     <select class="form-control" name="academicYear" id="academicYear">
                                         @foreach($academicYears as $year)
 
@@ -975,8 +975,8 @@
                                     <input type="hidden" id="idSub" name="idSub">
                                     <div class="modal-footer">
 
-                                        <button type="submit" class="btn btn-outline-success" >Update</button>
-                                        <button style="float: right" data-dismiss="modal" aria-label="Close" type="button" class="btn btn-outline-danger">Cancel</button>
+                                        <button type="submit" class="btn btn-outline-success" >{{__('gx.adminUpdate')}}</button>
+                                        <button style="float: right" data-dismiss="modal" aria-label="Close" type="button" class="btn btn-outline-danger">{{__('gx.adminCancel')}}</button>
                                     </div>
                             </form>
                         </div>
@@ -989,7 +989,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Delete</h5>
+                            <h5 class="modal-title">{{__('gx.adminDelete')}}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -999,12 +999,12 @@
                                 {{method_field('DELETE')}}
                                 {{ csrf_field() }}
                                 <div class="form-group">
-                                    <p>Are you sure you want to delete this subject?</p>
+                                    <p>{{__('gx.adminAreyousureyouwanttodeletethissubject')}}</p>
                                     <span id="subname"></span>
                                     <input type="hidden" id="id" name="id">
                                 </div>
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                                <button data-dismiss="modal" aria-label="Close" class="btn btn-outline-secondary" style="float: right">Cancel</button>
+                                <button type="submit" class="btn btn-danger">{{__('gx.adminDelete')}}</button>
+                                <button data-dismiss="modal" aria-label="Close" class="btn btn-outline-secondary" style="float: right">{{__('gx.adminCancel')}}</button>
 
                             </form>
                         </div>
@@ -1015,7 +1015,7 @@
             <div class="container-xl" style="max-width: 100%; margin-bottom: 5%;">
                 <!-- Search form -->
                 <div style="margin-top: 1%;margin-bottom: 3%;">
-                    <h3>Subjects</h3>
+                    <h3>{{__('gx.adminSubjects')}}</h3>
                 </div>
 
             <div class="content" style="">
@@ -1028,8 +1028,8 @@
                         @endif
                         <div class="card">
                             <div class="card-header">
-                                <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-1"><i class="fa fa-plus" aria-hidden="true"></i> Create</button>
-                                <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-2"><i class="fa fa-upload" aria-hidden="true"></i> Import</button>
+                                <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-1"><i class="fa fa-plus" aria-hidden="true"></i> {{__('gx.adminCreate')}}</button>
+                                <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-2"><i class="fa fa-upload" aria-hidden="true"></i>{{__('gx.adminImport')}}</button>
                             </div>
 
                             <div class="card-body" >
@@ -1038,25 +1038,25 @@
                                         <thead class=" text-primary">
                                         <tr>
                                             <th scope="col" >
-                                                idSubject
+                                                {{__('gx.adminIdSubject')}}
                                             </th>
                                             <th scope="col">
-                                                Subject Name
+                                                {{__('gx.adminSubjectName')}}
                                             </th>
                                             <th scope="col" >
-                                                idGeneralSubject
+                                                {{__('gx.adminIdGeneralSubject')}}
                                             </th>
                                             <th scope="col">
-                                                General Subject Name
+                                                {{__('gx.adminGeneralSubjectName')}}
                                             </th>
                                             <th scope="col">
-                                                Class
+                                                {{__('gx.adminClass')}}
                                             </th>
                                             <th scope="col" >
-                                                Academic Year
+                                                {{__('gx.adminAcademicYear')}}
                                             </th>
                                             <th scope="col" class="text-right">
-                                                Tools
+                                                {{__('gx.adminTools')}}
                                             </th>
                                         </tr>
 
@@ -1088,8 +1088,8 @@
                                                             <i class="fal fa-tools"></i>
                                                         </button>
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                            <button  data-id="{{$subjects->idSubject}}" data-gensub="{{$subjects->idGeneralSubject}}" data-subname="{{$subjects->subjectName}}" data-classes="{{$subjects->class}}" data-year="{{$subjects->academicYear}}" class="dropdown-item" data-toggle="modal" data-target="#modal-edit-subjects" id="edit" type="submit" ><i class="fa fa-edit" aria-hidden="true"></i> Edit</button>
-                                                            <button class="dropdown-item" data-id="{{$subjects->idSubject}}" data-subname="{{$subjects->subjectName}}" data-toggle="modal" data-target="#modal-delete-subject" style="float: right;margin-right:1%;display: inline-block;" ><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+                                                            <button  data-id="{{$subjects->idSubject}}" data-gensub="{{$subjects->idGeneralSubject}}" data-subname="{{$subjects->subjectName}}" data-classes="{{$subjects->class}}" data-year="{{$subjects->academicYear}}" class="dropdown-item" data-toggle="modal" data-target="#modal-edit-subjects" id="edit" type="submit" ><i class="fa fa-edit" aria-hidden="true"></i> {{__('gx.adminEdit')}}</button>
+                                                            <button class="dropdown-item" data-id="{{$subjects->idSubject}}" data-subname="{{$subjects->subjectName}}" data-toggle="modal" data-target="#modal-delete-subject" style="float: right;margin-right:1%;display: inline-block;" ><i class="fa fa-trash" aria-hidden="true"></i> {{__('gx.adminDelete')}}</button>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -1149,7 +1149,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Create</h5>
+                                    <h5 class="modal-title">{{__('gx.adminCreate')}}</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -1159,11 +1159,11 @@
                                         {{ csrf_field() }}
                                         <input type="hidden" id="table" name="table" value="academicYears">
                                         <div class="form-group">
-                                            <label>Academic Year</label>
+                                            <label>{{__('gx.adminAcademicYear')}}</label>
                                             <input type="text" class="form-control" name="academicYear" id="academicYear">
                                         </div>
-                                        <button type="submit" class="btn btn-success">Create</button>
-                                        <button href="/admin/subjects" type="submit" class="btn btn-danger" style="float: right">Cancel</button>
+                                        <button type="submit" class="btn btn-success">{{__('gx.adminCreate')}}</button>
+                                        <button href="/admin/subjects" type="submit" class="btn btn-danger" style="float: right">{{__('gx.adminCancel')}}</button>
                                     </form>
                                 </div>
 
@@ -1178,7 +1178,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Import Academic years Data</h5>
+                                    <h5 class="modal-title">{{__('gx.adminImportAcademicyearsData')}}</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -1203,7 +1203,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Delete</h5>
+                                    <h5 class="modal-title">{{__('gx.adminDelete')}}</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -1213,12 +1213,12 @@
                                         {{method_field('DELETE')}}
                                         {{ csrf_field() }}
                                         <div class="form-group">
-                                            <p>Are you sure you want to delete this subject?</p>
+                                            <p>{{__('gx.adminAreyousureyouwanttodeletethissubject?')}}</p>
                                             <span id="year"></span>
                                             <input type="hidden" id="id" name="id">
                                         </div>
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                        <button data-dismiss="modal" aria-label="Close" class="btn btn-outline-secondary" style="float: right">Cancel</button>
+                                        <button type="submit" class="btn btn-danger">{{__('gx.adminDelete')}}</button>
+                                        <button data-dismiss="modal" aria-label="Close" class="btn btn-outline-secondary" style="float: right">{{__('gx.adminCancel')}}</button>
 
                                     </form>
                                 </div>
@@ -1229,7 +1229,7 @@
                     <div class="container-xl" style="max-width: 100%; margin-bottom: 5%;">
                         <!-- Search form -->
                         <div style="margin-top: 1%;margin-bottom: 3%;">
-                            <h3>Academic Years</h3>
+                            <h3>{{__('gx.adminAcademicYears')}}</h3>
                         </div>
 
                         <div class="content" style="">
@@ -1242,8 +1242,8 @@
                                     @endif
                                     <div class="card">
                                         <div class="card-header">
-                                            <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-1"><i class="fa fa-plus" aria-hidden="true"></i> Create</button>
-                                            <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-2"><i class="fa fa-upload" aria-hidden="true"></i> Import</button>
+                                            <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-1"><i class="fa fa-plus" aria-hidden="true"></i> {{__('gx.adminCreate')}}</button>
+                                            <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-2"><i class="fa fa-upload" aria-hidden="true"></i> {{__('gx.adminImport')}}</button>
                                         </div>
 
                                         <div class="card-body" >
@@ -1252,10 +1252,10 @@
                                                     <thead class=" text-primary">
                                                     <tr>
                                                         <th scope="col" >
-                                                            Academic Year
+                                                            {{__('gx.adminAcademicYear')}}
                                                         </th>
                                                         <th scope="col" class="text-right">
-                                                            Tools
+                                                            {{__('gx.adminTools')}}
                                                         </th>
                                                     </tr>
 
@@ -1273,7 +1273,7 @@
                                                                     </button>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                                         {{--<button data-academicyear="{{$years->academicYear}}" class="dropdown-item" data-toggle="modal" data-target="#modal-edit-years" id="edit" type="submit" ><i class="fa fa-edit" aria-hidden="true"></i> Edit</button>--}}
-                                                                        <button data-academicyear="{{$years->academicYear}}" class="dropdown-item" data-toggle="modal" data-target="#modal-del-years" id="edit" type="submit" style="float: right;margin-right:1%;display: inline-block;" ><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+                                                                        <button data-academicyear="{{$years->academicYear}}" class="dropdown-item" data-toggle="modal" data-target="#modal-del-years" id="edit" type="submit" style="float: right;margin-right:1%;display: inline-block;" ><i class="fa fa-trash" aria-hidden="true"></i> {{__('gx.adminDelete')}}</button>
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -1311,7 +1311,7 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Create</h5>
+                                            <h5 class="modal-title">{{__('gx.adminCreate')}}</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -1322,12 +1322,12 @@
                                                 <input type="hidden" id="table" name="table" value="courses">
 
                                                 <div class="form-group">
-                                                    <label>Course Name</label>
+                                                    <label>{{__('gx.adminCourseName')}}</label>
                                                     <input type="text" class="form-control" name="coursename" id="coursename">
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label for="exampleFormControlSelect1">University</label>
+                                                    <label for="exampleFormControlSelect1">{{__('gx.adminUniversity')}}</label>
                                                     <select class="form-control" name="idUniv" id="idUniv">
                                                         @foreach($universities as $univ)
                                                         <option value="{{$univ->idUniversity}}">{{$univ->name}}</option>
@@ -1335,8 +1335,8 @@
                                                     </select>
                                                 </div>
 
-                                                <button type="submit" class="btn btn-success">Create</button>
-                                                <button data-dismiss="modal" aria-label="Close" type="button" class="btn btn-danger" style="float: right">Cancel</button>
+                                                <button type="submit" class="btn btn-success">{{__('gx.adminCreate')}}</button>
+                                                <button data-dismiss="modal" aria-label="Close" type="button" class="btn btn-danger" style="float: right">{{__('gx.adminCancel')}}</button>
                                             </form>
                                         </div>
 
@@ -1351,7 +1351,7 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Import Courses Data</h5>
+                                            <h5 class="modal-title">{{__('gx.adminImportCoursesData')}}</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -1374,7 +1374,7 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Edit Subject</h5>
+                                            <h5 class="modal-title">{{__('gx.adminEditSubject')}}</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -1385,14 +1385,14 @@
                                                 {{method_field('PUT')}}
                                                 <input type="hidden" id="table" name="table" value="courses">
                                                 <div class="form-group">
-                                                    <label>Course Name</label>
+                                                    <label>{{__('gx.adminCourseName')}}</label>
                                                     <input type="text" class="form-control" name="coursename" id="coursename">
                                                 </div>
                                                 <input type="hidden" id="id" name="id">
                                                 <div class="modal-footer">
 
-                                                    <button type="submit" class="btn btn-outline-success" >Update</button>
-                                                    <button style="float: right" data-dismiss="modal" aria-label="Close" type="button" class="btn btn-outline-danger">Cancel</button>
+                                                    <button type="submit" class="btn btn-outline-success" >{{__('gx.adminUpdate')}}</button>
+                                                    <button style="float: right" data-dismiss="modal" aria-label="Close" type="button" class="btn btn-outline-danger">{{__('gx.adminCancel')}}</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -1405,7 +1405,7 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Delete</h5>
+                                            <h5 class="modal-title">{{__('gx.adminDelete')}}</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -1415,12 +1415,12 @@
                                                 {{method_field('DELETE')}}
                                                 {{ csrf_field() }}
                                                 <div class="form-group">
-                                                    <p>Are you sure you want to delete this subject?</p>
+                                                    <p>{{__('gx.adminAreyousureyouwanttodeletethissubject?')}}</p>
                                                     <span id="coursename"></span>
                                                     <input type="hidden" id="id" name="id">
                                                 </div>
-                                                <button type="submit" class="btn btn-danger">Delete</button>
-                                                <button data-dismiss="modal" aria-label="Close" class="btn btn-outline-secondary" style="float: right">Cancel</button>
+                                                <button type="submit" class="btn btn-danger">{{__('gx.adminDelete')}}</button>
+                                                <button data-dismiss="modal" aria-label="Close" class="btn btn-outline-secondary" style="float: right">{{__('gx.adminCancel')}}</button>
 
                                             </form>
                                         </div>
@@ -1431,7 +1431,7 @@
                             <div class="container-xl" style="max-width: 100%; margin-bottom: 5%;">
                                 <!-- Search form -->
                                 <div style="margin-top: 1%;margin-bottom: 3%;">
-                                    <h3>Courses</h3>
+                                    <h3>{{__('gx.adminCourses')}}</h3>
                                 </div>
 
                                 <div class="content" style="">
@@ -1444,8 +1444,8 @@
                                             @endif
                                             <div class="card">
                                                 <div class="card-header">
-                                                    <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-1"><i class="fa fa-plus" aria-hidden="true"></i> Create</button>
-                                                    <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-2"><i class="fa fa-upload" aria-hidden="true"></i> Import</button>
+                                                    <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-1"><i class="fa fa-plus" aria-hidden="true"></i> {{__('gx.adminCreate')}}</button>
+                                                    <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-2"><i class="fa fa-upload" aria-hidden="true"></i> {{__('gx.adminImport')}}</button>
                                                 </div>
 
                                                 <div class="card-body" >
@@ -1454,19 +1454,19 @@
                                                             <thead class=" text-primary">
                                                             <tr>
                                                                 <th scope="col" >
-                                                                    idCourses
+                                                                    {{__('gx.adminIdCourses')}}
                                                                 </th>
                                                                 <th scope="col" >
-                                                                    Name
+                                                                    {{__('gx.adminName')}}
                                                                 </th>
                                                                 <th scope="col" >
-                                                                    idUniversity
+                                                                    {{__('gx.adminIdUniversity')}}
                                                                 </th>
                                                                 <th scope="col" >
-                                                                    University
+                                                                    {{__('gx.adminUniversity')}}
                                                                 </th>
                                                                 <th scope="col" class="text-right">
-                                                                    Tools
+                                                                    {{__('gx.adminTools')}}
                                                                 </th>
                                                             </tr>
 
@@ -1492,8 +1492,8 @@
                                                                                 <i class="fal fa-tools"></i>
                                                                             </button>
                                                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                                <button data-id="{{$courses->idCourse}}" data-coursename="{{$courses->name}}" class="dropdown-item" data-toggle="modal" data-target="#modal-edit-courses" id="edit" type="submit" ><i class="fa fa-edit" aria-hidden="true"></i> Edit</button>
-                                                                                <button data-id="{{$courses->idCourse}}" data-coursename="{{$courses->name}}" class="dropdown-item" data-toggle="modal" data-target="#modal-delete-courses" style="float: right;margin-right:1%;display: inline-block;" ><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+                                                                                <button data-id="{{$courses->idCourse}}" data-coursename="{{$courses->name}}" class="dropdown-item" data-toggle="modal" data-target="#modal-edit-courses" id="edit" type="submit" ><i class="fa fa-edit" aria-hidden="true"></i> {{__('gx.adminEdit')}}</button>
+                                                                                <button data-id="{{$courses->idCourse}}" data-coursename="{{$courses->name}}" class="dropdown-item" data-toggle="modal" data-target="#modal-delete-courses" style="float: right;margin-right:1%;display: inline-block;" ><i class="fa fa-trash" aria-hidden="true"></i>{{__('gx.adminDelete')}}</button>
                                                                             </div>
                                                                         </div>
                                                                     </td>
@@ -1545,7 +1545,7 @@
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title">Create</h5>
+                                                    <h5 class="modal-title">{{__('gx.adminCreate')}}</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
@@ -1555,11 +1555,11 @@
                                                         {{ csrf_field() }}
                                                         <input type="hidden" id="table" name="table" value="universities">
                                                         <div class="form-group">
-                                                            <label>University Name</label>
+                                                            <label>{{__('gx.adminUniversityName')}}</label>
                                                             <input type="text" class="form-control" name="univName" id="univName">
                                                         </div>
-                                                        <button type="submit" class="btn btn-success">Create</button>
-                                                        <button data-dismiss="modal" aria-label="Close" type="button" class="btn btn-danger" style="float: right">Cancel</button>
+                                                        <button type="submit" class="btn btn-success">{{__('gx.adminCreate')}}</button>
+                                                        <button data-dismiss="modal" aria-label="Close" type="button" class="btn btn-danger" style="float: right">{{__('gx.adminCancel')}}</button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -1573,7 +1573,7 @@
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title">Import Subjects Data</h5>
+                                                    <h5 class="modal-title">{{__('gx.adminImportSubjectsData')}}</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
@@ -1596,7 +1596,7 @@
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title">Edit Subject</h5>
+                                                    <h5 class="modal-title">{{__('gx.adminEditSubject')}}</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
@@ -1607,15 +1607,15 @@
                                                         {{method_field('PUT')}}
                                                         <input type="hidden" id="table" name="table" value="universities">
                                                         <div class="form-group">
-                                                            <label>University Name</label>
+                                                            <label>{{__('gx.adminUniversityName')}}</label>
                                                             <input type="text" class="form-control" name="univName" id="univName">
                                                         </div>
                                                         <input type="hidden" id="idUniv" name="idUniv">
 
                                                         <div class="modal-footer">
 
-                                                            <button type="submit" class="btn btn-outline-success" >Update</button>
-                                                            <button style="float: right" data-dismiss="modal" aria-label="Close" type="button" class="btn btn-outline-danger">Cancel</button>
+                                                            <button type="submit" class="btn btn-outline-success" >{{__('gx.adminUpdate')}}</button>
+                                                            <button style="float: right" data-dismiss="modal" aria-label="Close" type="button" class="btn btn-outline-danger">{{__('gx.adminCancel')}}</button>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -1628,7 +1628,7 @@
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title">Delete</h5>
+                                                    <h5 class="modal-title">{{__('gx.adminDelete')}}</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
@@ -1638,12 +1638,12 @@
                                                         {{method_field('DELETE')}}
                                                         {{ csrf_field() }}
                                                         <div class="form-group">
-                                                            <p>Are you sure you want to delete this subject?</p>
+                                                            <p>{{__('gx.adminAreyousureyouwanttodeletethissubject')}}</p>
                                                             <span id="univname"></span>
                                                             <input type="hidden" id="id" name="id">
                                                         </div>
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                                        <button data-dismiss="modal" aria-label="Close" class="btn btn-outline-secondary" style="float: right">Cancel</button>
+                                                        <button type="submit" class="btn btn-danger">{{__('gx.adminDelete')}}</button>
+                                                        <button data-dismiss="modal" aria-label="Close" class="btn btn-outline-secondary" style="float: right">{{__('gx.adminCancel')}}</button>
 
                                                     </form>
                                                 </div>
@@ -1653,7 +1653,7 @@
                                     <div class="container-xl" style="max-width: 100%; margin-bottom: 5%;">
                                         <!-- Search form -->
                                         <div style="margin-top: 1%;margin-bottom: 3%;">
-                                            <h3>University</h3>
+                                            <h3>{{__('gx.adminUniversity')}}</h3>
                                         </div>
 
                                         <div class="content" style="">
@@ -1671,8 +1671,8 @@
                                                     @endif
                                                     <div class="card">
                                                         <div class="card-header">
-                                                            <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-1"><i class="fa fa-plus" aria-hidden="true"></i> Create</button>
-                                                            <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-2"><i class="fa fa-upload" aria-hidden="true"></i> Import</button>
+                                                            <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-1"><i class="fa fa-plus" aria-hidden="true"></i> {{__('gx.adminCreate')}}</button>
+                                                            <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-2"><i class="fa fa-upload" aria-hidden="true"></i> {{__('gx.adminImport')}}</button>
                                                         </div>
 
                                                         <div class="card-body" >
@@ -1681,13 +1681,13 @@
                                                                     <thead class=" text-primary">
                                                                     <tr>
                                                                         <th scope="col" >
-                                                                            idUniversity
+                                                                            {{__('gx.adminIdUniversity')}}
                                                                         </th>
                                                                         <th scope="col" >
-                                                                            Name
+                                                                            {{__('gx.adminName')}}
                                                                         </th>
                                                                         <th scope="col" class="text-right">
-                                                                            Tools
+                                                                            {{__('gx.adminTools')}}
                                                                         </th>
                                                                     </tr>
 
@@ -1707,8 +1707,8 @@
                                                                                         <i class="fal fa-tools"></i>
                                                                                     </button>
                                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                                        <button data-id="{{$univ->idUniversity}}" data-univname="{{$univ->name}}" class="dropdown-item" data-toggle="modal" data-target="#modal-edit-univ" id="edit" type="submit" ><i class="fa fa-edit" aria-hidden="true"></i> Edit</button>
-                                                                                        <button data-id="{{$univ->idUniversity}}" data-univname="{{$univ->name}}" class="dropdown-item" data-toggle="modal" data-target="#modal-delete-univ" id="edit" type="submit" ><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+                                                                                        <button data-id="{{$univ->idUniversity}}" data-univname="{{$univ->name}}" class="dropdown-item" data-toggle="modal" data-target="#modal-edit-univ" id="edit" type="submit" ><i class="fa fa-edit" aria-hidden="true"></i> {{__('gx.adminEdit')}}</button>
+                                                                                        <button data-id="{{$univ->idUniversity}}" data-univname="{{$univ->name}}" class="dropdown-item" data-toggle="modal" data-target="#modal-delete-univ" id="edit" type="submit" ><i class="fa fa-trash" aria-hidden="true"></i> {{__('gx.adminDelete')}}</button>
 
                                                                                     </div>
                                                                                 </div>
@@ -1760,7 +1760,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Create</h5>
+                                <h5 class="modal-title">{{__('gx.adminCreate')}}</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -1774,7 +1774,7 @@
                                     <input type="hidden" id="table" name="table" value="subjectEnrollments">
 
                                     <div class="form-group">
-                                        <label for="exampleFormControlSelect1">User</label>
+                                        <label for="exampleFormControlSelect1">{{__('gx.adminUser')}}</label>
                                         <select class="form-control" name="idUser" id="idUser">
                                             @foreach($users as $user)
                                             <option value="{{$user->id}}">{{$user->name}}</option>
@@ -1783,7 +1783,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleFormControlSelect1">Subject</label>
+                                        <label for="exampleFormControlSelect1">{{__('gx.adminSubject')}}</label>
                                         <select class="form-control" name="idSubject" id="idSubject">
                                             @foreach($subjects as $sub)
                                                 <option value="{{$sub->idSubject}}">{{$sub->subjectName}}</option>
@@ -1792,7 +1792,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleFormControlSelect1">Class</label>
+                                        <label for="exampleFormControlSelect1">{{__('gx.adminClass')}}</label>
                                         <select class="form-control" name="class" id="class">
                                             @foreach($subjects as $sub)
                                                 <option value="{{$ze = $sub->class}}">{{$sub->class}}</option>
@@ -1801,8 +1801,8 @@
                                         </select>
                                     </div>
 
-                                    <button type="submit" class="btn btn-success">Create</button>
-                                    <button type="submit" data-dismiss="modal" aria-label="Close"  class="btn btn-danger" style="float: right">Cancel</button>
+                                    <button type="submit" class="btn btn-success">{{__('gx.adminCreate')}}</button>
+                                    <button type="submit" data-dismiss="modal" aria-label="Close"  class="btn btn-danger" style="float: right">{{__('gx.adminCancel')}}</button>
                                 </form>
                             </div>
 
@@ -1817,7 +1817,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Import Students Data</h5>
+                                <h5 class="modal-title">{{__('gx.adminImportStudentsData')}}</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -1840,7 +1840,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Edit Enrollment</h5>
+                                <h5 class="modal-title">{{__('gx.adminEditEnrollment')}}</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -1851,19 +1851,19 @@
                                     {{method_field('PUT')}}
                                     <input type="hidden" id="table" name="table" value="subjectEnrollments">
                                     <div class="form-group">
-                                        <label for="exampleFormControlSelect1">User:</label>
+                                        <label for="exampleFormControlSelect1">{{__('gx.adminUser')}}:</label>
                                         <span name="iduser_s" id="iduser_s"></span>
                                         <input type="hidden" id="iduser" name="iduser">
 
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleFormControlSelect1">Subject:</label>
+                                        <label for="exampleFormControlSelect1">{{__('gx.adminSubject')}}:</label>
                                             <span name="idSub_s" id="idSub_s"></span>
                                         <input type="hidden" id="idSub" name="idSub">
 
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleFormControlSelect1">Class</label>
+                                        <label for="exampleFormControlSelect1">{{__('gx.adminClass')}}</label>
                                         <select class="form-control" name="classes" id="classes">
                                             @foreach($subjects as $sub)
                                                 <option value="{{$sub->class}}">{{$sub->class}}</option>
@@ -1875,8 +1875,8 @@
                                     </div>
                                     <div class="modal-footer">
 
-                                        <button type="submit" class="btn btn-outline-success" >Update</button>
-                                        <button style="float: right" data-dismiss="modal" aria-label="Close" type="button" class="btn btn-outline-danger">Cancel</button>
+                                        <button type="submit" class="btn btn-outline-success" >{{__('gx.adminUpdate')}}</button>
+                                        <button style="float: right" data-dismiss="modal" aria-label="Close" type="button" class="btn btn-outline-danger">{{__('gx.adminCancel')}}</button>
                                     </div>
                                 </form>
                             </div>
@@ -1889,7 +1889,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Delete</h5>
+                                <h5 class="modal-title">{{__('gx.adminDelete')}}</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -1899,12 +1899,12 @@
                                     {{method_field('DELETE')}}
                                     {{ csrf_field() }}
                                     <div class="form-group">
-                                        <p>Are you sure you want to delete this subject?</p>
+                                        <p>{{__('gx.adminAreyousureyouwanttodeletethissubject?')}}</p>
                                         <span id="idSub"></span>
                                         <input type="hidden" id="id" name="id">
                                     </div>
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                    <button data-dismiss="modal" aria-label="Close" class="btn btn-outline-secondary" style="float: right">Cancel</button>
+                                    <button type="submit" class="btn btn-danger">{{__('gx.adminDelete')}}</button>
+                                    <button data-dismiss="modal" aria-label="Close" class="btn btn-outline-secondary" style="float: right">{{__('gx.adminCancel')}}</button>
 
                                 </form>
                             </div>
@@ -1915,7 +1915,7 @@
                 <div class="container-xl" style="max-width: 100%; margin-bottom: 5%;">
                     <!-- Search form -->
                     <div style="margin-top: 1%;margin-bottom: 3%;">
-                        <h3>Subjects Enrollments</h3>
+                        <h3>{{__('gx.adminSubjectEnrollments')}}</h3>
                     </div>
 
                     <div class="content" style="">
@@ -1928,8 +1928,8 @@
                                 @endif
                                 <div class="card">
                                     <div class="card-header">
-                                        <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-1"><i class="fa fa-plus" aria-hidden="true"></i> Create</button>
-                                        <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-2"><i class="fa fa-upload" aria-hidden="true"></i> Import</button>
+                                        <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-1"><i class="fa fa-plus" aria-hidden="true"></i> {{__('gx.adminCreate')}}</button>
+                                        <button class="btn btn-outline-primary"  type="submit" data-toggle="modal" data-target="#modal-2"><i class="fa fa-upload" aria-hidden="true"></i> {{__('gx.adminImport')}}</button>
                                     </div>
 
                                     <div class="card-body" >
@@ -1938,23 +1938,23 @@
                                                 <thead class=" text-primary">
                                                 <tr>
                                                     <th scope="col" >
-                                                        idUser
+                                                        {{__('gx.adminIdUser')}}
                                                     </th>
                                                     <th scope="col" >
-                                                        User Name
+                                                        {{__('gx.adminUserName')}}
                                                     </th>
                                                     <th scope="col">
-                                                        idSubject
+                                                        {{__('gx.adminIdSubject')}}
                                                     </th>
                                                     <th scope="col">
-                                                        Subject
+                                                        {{__('gx.adminSubject')}}
                                                     </th>
                                                     <th scope="col">
-                                                        Class
+                                                        {{__('gx.adminClass')}}
                                                     </th>
 
                                                     <th scope="col" class="text-right">
-                                                        Tools
+                                                        {{__('gx.adminTools')}}
                                                     </th>
                                                 </tr>
 
@@ -1986,8 +1986,8 @@
                                                                     <i class="fal fa-tools"></i>
                                                                 </button>
                                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                    <button  data-idUser="{{$enroll->idUser}}" data-idsub="{{$enroll->idSubject}}" data-classes="{{$enroll->Class}}" class="dropdown-item" data-toggle="modal" data-target="#modal-edit-subjectenroll" id="edit" type="submit" ><i class="fa fa-edit" aria-hidden="true"></i> Edit</button>
-                                                                    <button class="dropdown-item" data-iduser="{{$enroll->idUser}}" data-idsubject="{{$enroll->idSubject}}" data-toggle="modal" data-target="#modal-delete-subjectenroll" style="float: right;margin-right:1%;display: inline-block;" ><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+                                                                    <button  data-idUser="{{$enroll->idUser}}" data-idsub="{{$enroll->idSubject}}" data-classes="{{$enroll->Class}}" class="dropdown-item" data-toggle="modal" data-target="#modal-edit-subjectenroll" id="edit" type="submit" ><i class="fa fa-edit" aria-hidden="true"></i> {{__('gx.adminEdit')}}</button>
+                                                                    <button class="dropdown-item" data-iduser="{{$enroll->idUser}}" data-idsubject="{{$enroll->idSubject}}" data-toggle="modal" data-target="#modal-delete-subjectenroll" style="float: right;margin-right:1%;display: inline-block;" ><i class="fa fa-trash" aria-hidden="true"></i> {{__('gx.adminDelete')}}</button>
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -2057,7 +2057,7 @@
                         return;
                     }else{
                     var title = $(this).text();
-                    $(this).html( '<input type="text" class="form-control" placeholder="Search " />' );
+                    $(this).html( '<input type="text" class="form-control" placeholder="{{__('gx.adminSearch')}}" />' );
 
                     $( 'input', this ).on( 'keyup change', function () {
                         if ( table.column(i).search() !== this.value ) {

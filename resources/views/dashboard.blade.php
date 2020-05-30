@@ -15,7 +15,7 @@
             Ano Letivo
         </button>
         <div class="dropdown-menu" id="dropdown" aria-labelledby="dropdownMenu" style="z-index: 1;">
-            @foreach($academicYears as $academicYear)
+            @foreach($academicYears  as $academicYear)
                 <a class="dropdown-item" id="{{$academicYear->academicYear}}-tab">{{$academicYear->academicYear}}</a>
             @endforeach
         </div>
@@ -190,7 +190,7 @@
             <div class="overflow-auto rounded pb-2">
                 <h3 class="pt-3 pl-2 mb-0">{{__('gx.subjects')}}</h3>
                 <div class="tab-content" id="myTabContent" style="min-height: 75vh;">
-                    @foreach($academicYears as $academicYear)
+                    @foreach($academicYears  as $academicYear)
                         <div class="years overflow-auto p-0 mr-2 ml-2 d-none" id="{{$academicYear->academicYear}}" style="max-height: 75vh;">
                             <?php
                                 $subjectYear = $subjects->whereIn('academicYear', $academicYear->academicYear);
