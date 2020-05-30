@@ -288,7 +288,7 @@ z-index: 1; margin-left: 50%;margin-top: 5px;
            });
 
            // Enable pusher logging - don't include this in production
-           Pusher.logToConsole = true;
+           Pusher.logToConsole = false;
 
            var pusher = new Pusher('ff4af21336ebee3e83fe', {
                cluster: 'eu',

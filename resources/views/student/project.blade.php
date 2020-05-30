@@ -46,18 +46,18 @@
             <a class="nav-link" id="forum-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="false">{{__('gx.forum')}}</a>
         </li>
         <li class="rightbutton ml-auto">
-            <button  id="btn_leave" type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalLeaveGroup" >{{__('gx.leave group')}}</button>
-            <div id="modalLeaveGroup" class="modal" tabindex="-1" role="dialog"  >
+            <button  type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalLeaveGroup" style="width: 11em">{{__('gx.leave group')}}</button>
+            {{--<div id="modalLeaveGroup" class="modal" tabindex="-1" role="dialog"  >
                 <div class="modal-dialog modal-lg" >
                     <div class="modal-content" >
                         <div class="modal-header">
 
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body" style="display: inline" >
-                            <h5>Are you sure you want to leave the group?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="display: inline" >
+                    <h5>Are you sure you want to leave the group?</h5>
 
                         </div>
                         <div class="modal-footer">
@@ -70,7 +70,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>--}}
         </li>
     </ul>
 
@@ -80,7 +80,7 @@
                 <div class="col mt-3 ml-3 rounded" style="background-color: #c6c6c6; position: relative;">
                     <div class="container-fluid mt-3 pr-0 pl-3" style="height: 90%;">
                         @foreach($rep as $file)
-                            <div class="file text-center" style="margin-right: 15px; position:relative; display: inline-block; width: 100px;">
+                            <div class="file text-center" id= '{{$file->idFile}}' style="margin-right: 15px; position:relative; display: inline-block; width: 100px;">
                                 <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;" id= '{{$file->idFile}}' class="close downloadFile" download>
                                     <span class="dot" id="download" style="position:relative">
                                         <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
@@ -93,7 +93,7 @@
                                 </button>
                                 <figure>
                                     <i class="fas fa-folder fa-4x px-2" style="color: #ffce52;"></i>
-                                    <figcaption style="overflow:hidden;">{{$file->pathFile}}</figcaption>
+                                    <figcaption>{{$file->pathFile}}</figcaption>
                                 </figure>
                             </div>
                         @endforeach
@@ -106,8 +106,15 @@
                                 </figure>
                                 <script type="text/javascript">
                                     Dropzone.options.dropzone = {
-                                        maxFilesize         :       1,
-                                        acceptedFiles: ".jpeg,.jpg,.png,.gif,.pdf,.zip,.docx,.txt"
+                                        maxFilesize: 1,
+                                        acceptedFiles: ".jpeg,.jpg,.png,.gif,.pdf,.zip,.docx,.txt,.py,.html,.css,.js",
+                                        init: function () {
+                                            // Set up any event handlers
+                                            this.on('complete', function () {
+                                                location.reload();
+
+                                            });
+                                        },
                                     };
                                 </script>
                                 {{ Form::hidden('group', $idGroup) }}
@@ -117,29 +124,29 @@
 
                                 {!!Form::close()!!}
                             </div>
-{{--                        <button type="submit" class="btn btn-sm mb-2 mr-2" id= 'newFile' data-toggle="modal" data-target="#modalCreateFile" style="width:20vh;background: #2c3fb1; color: white; position: absolute; bottom: 0px; right: 0px;">Add</button>--}}
-                        <button type="submit" disabled class="btn btn-sm mb-2 mr-2" id= 'submitFile' style="width:20vh;background: #2c3fb1; color: white; position: absolute; bottom: 0px; right: 42vh;">Submit</button>
-                        {{-- Modal Add File --}}
-                        <div class="modal fade" id="modalCreateFile" aria-labelledby="modalCreateFile" aria-hidden="true" tabindex="-1" role="dialog">
+                        <button type="submit" disabled class="btn btn-sm mb-2 mr-2" id= 'submitFile' data-toggle="modal" data-target="#modalSubmitFile" style="width:20vh;background: #2c3fb1; color: white; position: absolute; bottom: 0px; right: 0px;">Submit</button>
+
+
+                        {{-- Modal Submit File --}}
+                        <div class="modal fade" id="modalSubmitFile" aria-labelledby="modalSubmitFile" aria-hidden="true" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title" id="staticBackdropLabel">Add new file</h4>
+                                        <h4 class="modal-title" id="staticBackdropLabel">Submit file to evaluation</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        {!!Form::open(['action' => ['StudentProjectsController@store', $project->idProject], 'method' => 'POST', 'enctype' => 'multipart/form-data'])!!}
-                                        <div class="form-group">
-                                            {{Form::label('file', 'Choose File')}}
-                                            {{Form::file('file')}}
-                                        </div>
+                                        <h5>Are you sure you want to submit this file?</h5>
+                                        {!!Form::open(['action' => ['StudentProjectsController@update', $project->idProject], 'method' => 'PUT', 'enctype' => 'multipart/form-data'])!!}
+                                        <div class="filesSelected" style="padding:10px;"></div>
+                                        {{ Form::hidden('filesSubmit', 'files') }}
                                         {{ Form::hidden('group', $idGroup) }}
                                         {{ Form::hidden('project', $project->idProject) }}
                                         {{ Form::hidden('subject', $subject->subjectName) }}
-                                        {{Form::hidden('submission','newFile')}}
-                                        {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+                                        {{ Form::hidden('submission','submitFile')}}
+                                        {{ Form::submit('Submit', ['class'=>'btn btn-primary'])}}
 
                                         {!!Form::close()!!}
                                     </div>
@@ -254,7 +261,7 @@
                                                     {{ Form::text('end', $t->end ,['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker2-'.$t->idTask, 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker2-'.$t->idTask])}}
                                                 </td>
                                                 <td class="form-group"></td>
-
+                                                {{Form::hidden('submission', 'task')}}
                                                 {{Form::hidden('task', $t->idTask) }}
                                                 {{Form::hidden('group', $t-> idGroup)}}
                                                 {{Form::hidden('_method','PUT')}}
@@ -378,13 +385,13 @@
             @csrf
             <div class="grid-container">
                 <div></div>
-                <div>{{__('gx.monday')}}</div>
-                <div>{{__('gx.tuesday')}}</div>
-                <div>{{__('gx.wednesday')}}</div>
-                <div>{{__('gx.thursday')}}</div>
-                <div>{{__('gx.friday')}}</div>
-                <div>{{__('gx.saturday')}}</div>
-                <div>{{__('gx.sunday')}}</div>
+                <div>{{__('gx.monday+')}}</div>
+                <div>{{__('gx.tuesday+')}}</div>
+                <div>{{__('gx.wednesday+')}}</div>
+                <div>{{__('gx.thursday+')}}</div>
+                <div>{{__('gx.friday+')}}</div>
+                <div>{{__('gx.saturday+')}}</div>
+                <div>{{__('gx.sunday+')}}</div>
                 <div style="border: 1px solid black;">8:00h-9:00h</div>
                 <div class="cell" id="1x1" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
                 <div class="cell" id="1x2" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
@@ -919,21 +926,32 @@
     $('.file').on('click', function () {
         if($(this).hasClass('select')){
             $(this).removeClass('select');
-            $('#submitFile').attr('disabled','disabled');
             $(this).find("#download").css("display","none");
             $(this).find("#delete").css("display","none");
         }else{
             $(this).addClass('select');
             $(this).find('#download').css("display","inline-block");
             $(this).find('#delete').css("display","inline-block");
-            //$('#submitFile').removeAttr('disabled');
+            $('#submitFile').removeAttr('disabled');
             }
+        if($('.select').length == 0){
+            $('#submitFile').attr('disabled','disabled');
+        }
         });
 
     $(".file").hover(function() {
         $(this).find('#download').css("display","inline-block");
         $(this).find('#delete').css("display","inline-block");
-    };
+    }, function() {
+        if($(this).hasClass('select')){
+            $(this).find('#download').css("display","inline-block");
+            $(this).find('#delete').css("display","inline-block");
+        }
+        else{
+            $(this).find("#download").css("display","none");
+            $(this).find("#delete").css("display","none");
+        }
+    });
 
     $('.deleteFile').click(function(){
         $('input[name="idFile"]').val($(this).attr("id"));

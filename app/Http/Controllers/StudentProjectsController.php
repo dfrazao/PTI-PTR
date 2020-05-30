@@ -126,6 +126,9 @@ class StudentProjectsController extends Controller
 
             return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'File added successfully');
         }
+        elseif($submission == 'submitFile'){
+            dd($request->input('filesSubmit'));
+        }
         else{
             $this->validate($request, [
                 'description' => 'required',
@@ -152,7 +155,6 @@ class StudentProjectsController extends Controller
      */
     public function show($id)
     {
-
         $user = Auth::user()->id;
         $project = Project::find($id);
         $subject = Subject::find($project->idSubject);
@@ -171,10 +173,20 @@ class StudentProjectsController extends Controller
         $arr = Task::all()->where('idGroup', '==', $idGroup);
         if(count($arr)>0){
             foreach ($arr as $task){
+                $local = Carbon::getLocale();
+                if($local == 'pt') {
+                    Carbon::setLocale('en');
+                }
                 $task->beginning = Carbon::parse($task->beginning)->isoFormat('MMMM Do YYYY, h:mm a');
                 if(!is_null($task->end)){
                     $task->end = Carbon::parse($task->end)->isoFormat('MMMM Do YYYY, h:mm a');
+                    if(Carbon::parse($task->beginning)->diffInDays(Carbon::parse($task->end)) == 0) {
+                        $task->duration = Carbon::parse($task->beginning)->addSeconds($task->duration)->diffForHumans(Carbon::parse($task->beginning));
+                    }else {
+                        $task->duration = Carbon::parse($task->beginning)->diffInDays(Carbon::parse($task->end)) . ' days and ' . Carbon::parse($task->beginning)->diff(Carbon::parse($task->end))->format('%H:%I');
+                    }
                 }
+                Carbon::setLocale($local);
             }
         }
 
@@ -241,40 +253,49 @@ class StudentProjectsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $idTask = $request->input('task');
-        $task = Task::find($idTask);
-        if (!empty($request->input('description'))) {
-            $task->description = $request->input('description');
-        } else {
-            $task->description = $task->value('description');
-        }
-        if (!empty($request->input('responsible'))) {
-            $task->responsible = $request->input('responsible');
-        } else {
-            $task->responsible = $task->value('responsible');
-        }
-        if (!empty(Carbon::parse($request->input('beginning')))) {
-            $task->beginning = Carbon::parse($request->input('beginning'));
-        } else {
-            $task->beginning = Carbon::parse($task->value('beginning'));
-        }
-        if (!empty(Carbon::parse($request->input('end')))) {
-            $task->end = Carbon::parse($request->input('end'));
-            $start = Carbon::parse($task->beginning);
-            $end = Carbon::parse($request->input('end'));
-            if($start->diffInDays($end) == 0) {
-                $task->duration = $end->diffForHumans($start);
-            }else{
-                $task->duration = $start->diffInDays($end). ' days and '.$start->diff($end)->format('%H:%I');
+        $submission = $request->input('submission');
+        if ($submission == 'task') {
+            $idTask = $request->input('task');
+            $task = Task::find($idTask);
+            if (!empty($request->input('description'))) {
+                $task->description = $request->input('description');
+            } else {
+                $task->description = $task->value('description');
+            }
+            if (!empty($request->input('responsible'))) {
+                $task->responsible = $request->input('responsible');
+            } else {
+                $task->responsible = $task->value('responsible');
+            }
+            if (!empty(Carbon::parse($request->input('beginning')))) {
+                $task->beginning = Carbon::parse($request->input('beginning'));
+            } else {
+                $task->beginning = Carbon::parse($task->value('beginning'));
+            }
+            if (!empty(Carbon::parse($request->input('end')))) {
+                $task->end = Carbon::parse($request->input('end'));
+                $start = Carbon::parse($task->beginning);
+                $end = Carbon::parse($request->input('end'));
+                $task->duration = $start->diffInSeconds($end);
+
+
+
+            } else {
+                $task->end = Carbon::parse($task->value("end"));
             }
 
+            $task->save();
+            return redirect()->action('StudentProjectsController@show', $id)->with('success', 'Task updated successfully');
+        }else{
 
-        } else {
-            $task->end = Carbon::parse($task->value("end"));
+            $idFiles = explode(',',$request->filesSubmit);
+            foreach($idFiles as $idfile){
+                $file = File::find($idfile);
+                $file->finalState = 'final';
+                $file->save();
+            }
+            return redirect()->action('StudentProjectsController@show', $id)->with('success', 'File submitted successfully');
         }
-
-        $task->save();
-        return redirect()->action('StudentProjectsController@show', $id)->with('success', 'Task updated successfully');
     }
 
     /**
