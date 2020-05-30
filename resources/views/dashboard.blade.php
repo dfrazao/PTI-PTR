@@ -506,22 +506,6 @@
             }
         });
 
-        /*$(".projeto").click(function(){
-            id = $(this).attr('id');
-            @if(Auth::user()->role == 'student')
-                @if(isset($project->group))
-                    console.log("aqui com grupo");
-                    //window.location.href = "/student/project/"+id;
-                @else
-                    console.log("aqui sem grupo");
-                    //window.location.href = "/student/project/"+id+"/groups";
-                @endif
-            @elseif(Auth::user()->role == 'professor')
-                console.log("prof");
-                //window.location.href = "/professor/project/"+id;
-            @endif
-        });*/
-
         $(".open_modal").click(function(){
             $('input[name="subject"]').val($(this).attr("id"));
             $('#modalCreate').modal('show');
