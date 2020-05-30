@@ -14,6 +14,7 @@ use App\SubjectEnrollment;
 use App\Announcement;
 use Storage;
 use Carbon\Carbon;
+use App\Documentation;
 
 class ProfessorProjectsController extends Controller
 {
@@ -71,7 +72,22 @@ class ProfessorProjectsController extends Controller
 
             return redirect('/')->with('success', 'Project Created');
 
-        } else {
+        } elseif ($request->option=="projectFiles"){
+            $this->validate($request, [
+                'documentation' => 'required'
+            ]);
+
+            $doc = new Documentation;
+            $doc-> idProject = $request->project;
+            $doc-> pathfile = $request->file('documentation')->getClientOriginalName();
+            $zip = $request->file('documentation');
+            $doc->save();
+            $zip->storeAs('documentation/'.$request->project, $doc-> pathfile, 'gcs');
+
+            return redirect('professor/project/'.$request->project)->with('success', 'File Uploaded');
+
+        }
+        else {
             $this->validate($request, [
                 'grade' => 'required'
             ]);
@@ -94,6 +110,9 @@ class ProfessorProjectsController extends Controller
      */
     public function show($id)
     {
+
+        $rep1 = Documentation::all()->where('idProject', '==', $id);
+
         $project = Project::find($id);
         $subject = Subject::find($project->idSubject);
         $groups = Group::all()->where('idProject', '==', $id);
@@ -116,7 +135,7 @@ class ProfessorProjectsController extends Controller
             array_push($numberComments, $idComment);
         }
 
-        return view('professor.project')->with('numberComments', $numberComments)->with('project' , $project)->with('subject', $subject)->with('groups', $groups)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('a',$announcements);
+        return view('professor.project')->with('numberComments', $numberComments)->with('project' , $project)->with('subject', $subject)->with('groups', $groups)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('a',$announcements)->with('rep1', $rep1);
     }
 
     /**
@@ -161,13 +180,13 @@ class ProfessorProjectsController extends Controller
             $project->minElements = $request->minNumber;
             $project->maxElements = $request->maxNumber;
             $project->idSubject = $project->idSubject;
-            if( $request->file('documentation') ) {
+            /*if( $request->file('documentation') ) {
                 Storage::delete('documentation/'.$project->idProject."/".$project->documentation);
                 $file = $request->file('documentation');
                 $filename = $request->documentation->getClientOriginalName();
                 $file->storeAs('documentation/'.$project->idProject, $filename, 'gcs');
                 $project->documentation = $filename;
-            }
+            }*/
 
             $project->maxGroups = SubjectEnrollment::all()->where('idSubject', '==', $request->subject)->count();
             $project->save();
@@ -195,11 +214,21 @@ class ProfessorProjectsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy(Request $request, $id){
+
+        if($request->option == "doc"){
+            $idDoc = $request->input('idDoc');
+            $doc = Documentation::find($idDoc);
+            Storage::delete('Documentation/'.$id.'/'.$doc->pathFile);
+            $doc->delete();
+            return redirect()->action('ProfessorProjectsController@show', $id)->with('success', 'Doc deleted successfully');
+
+        }else{
         $project = Project::find($id);
         Storage::delete('documentation/'.$project->idProject."/".$project->documentation);
         $project->delete();
         return redirect('/')->with('success', 'Project Deleted');
+        }
+
     }
 }

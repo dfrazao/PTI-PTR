@@ -932,17 +932,7 @@
     $(".file").hover(function() {
         $(this).find('#download').css("display","inline-block");
         $(this).find('#delete').css("display","inline-block");
-    }, function() {
-        if($(this).hasClass('select')){
-            $(this).find('#download').css("display","inline-block");
-            $(this).find('#delete').css("display","inline-block");
-        }
-        else{
-            $(this).find("#download").css("display","none");
-            $(this).find("#delete").css("display","none");
-
-        }
-    });
+    };
 
     $('.deleteFile').click(function(){
         $('input[name="idFile"]').val($(this).attr("id"));

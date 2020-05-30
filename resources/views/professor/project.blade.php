@@ -297,7 +297,7 @@
                                             <div class="modal-body">
                                                 @foreach($groups as $group)
                                                     @if(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup)->count() < $project->minElements)
-                                                        <p><a onclick="window.location.assign ='#groups.pills-{{$group->idGroupProject}}'" href="#groups.pills-{{$group->idGroupProject}}">Grupo {{$group->idGroupProject}}</a></p>
+                                                        <p><a {{--onclick="window.location.assign ='#groups.pills-{{$group->idGroupProject}}'"--}} {{--href="#groups.pills-{{$group->idGroupProject}}"--}} href="{{url('/professor/project/'.$project->idProject.'#groups.pills-'.$group->idGroupProject)}}">Grupo {{$group->idGroupProject}}</a></p>
                                                     @endif
                                                 @endforeach
                                             </div>
@@ -316,8 +316,76 @@
                 </div>
                 <div class=" col rounded bg-white w-100 p-3 " style="position: relative;">
                     <h5>Documentação</h5>
-                    <button type="button" class="p-2 btn btn-primary btn-md" style="position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal">Upload Files</button>
+                    <button type="button" class="p-2 btn btn-primary btn-md" data-toggle="modal" data-target="#modalUploadFiles-{{$project->idProject}}" style="position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal">Upload Files</button>
 
+                    @foreach($rep1 as $document)
+                        <div class="doc text-center" style="margin-right: 10px; position:relative; display: inline-block; width: 100px;">
+                            <a href="{{Storage::url('studentRepository/'.$project->idProject.'/'.$document->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;"></a>
+                            <button style="position:absolute; top:-10px; right:-10px;" id= '{{$document->idDocumentation}}' type="button" class="close deleteFile">
+                                    <span class="dot" id="delete" style="position:relative">
+                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
+                                    </span>
+                            </button>
+                            <figure class="my-1">
+                                <i class="fas fa-folder fa-4x px-2" style="color: #ffce52;"></i>
+                                <figcaption style="overflow:hidden;">{{$document->pathFile}}</figcaption>
+                            </figure>
+                        </div>
+                    @endforeach
+
+
+
+
+
+
+                  {{--modal upload file--}}
+                    <div class="modal fade" id="modalUploadFiles-{{$project->idProject}}" aria-labelledby="modalUploadFiles-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.upload files')}}</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    {!! Form::open(['action' => ['ProfessorProjectsController@store', $project->idProject], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                                    <div class="form-group">
+                                        {{Form::label('documentation', trans('gx.documentation'))}}
+                                        {{Form::file('documentation')}}
+                                    </div>
+                                    {{Form::hidden('option', 'projectFiles')}}
+                                    {{ Form::hidden('project', $project->idProject) }}
+                                    {{Form::hidden('_method','POST')}}
+                                    {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
+                                    {!! Form::close() !!}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Modal Delete file --}}
+                    <div class="modal fade" id="modalDeleteDoc" aria-labelledby="modalDeleteDoc" aria-hidden="true" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="staticBackdropLabel">Delete file</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <h5>Are you sure you want to delete this Document?</h5>
+                                    {!!Form::open(['action' => ['ProfessorProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
+                                    {{Form::hidden('_method', 'DELETE')}}
+                                    {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+                                    {{Form::hidden('option','doc')}}
+                                    {{Form::hidden('idDoc','')}}
+                                    {!!Form::close()!!}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -558,7 +626,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
         </div>
@@ -580,6 +647,10 @@
     .nav-tabs .nav-link.active{
         background-color: #ededed;
         border-color:#ededed;
+    }
+
+    .table td, .table th{
+        vertical-align: middle;
     }
 </style>
 <script>
@@ -628,6 +699,12 @@
     }else{
         $('#myTab a[href="' + hash + '"]').tab('show');
     }
+
+
+    $('.deleteFile').click(function(){
+        $('input[name="idDoc"]').val($(this).attr("id"));
+        $('#modalDeleteDoc').modal('show');
+    });
 
 </script>
 @endsection
