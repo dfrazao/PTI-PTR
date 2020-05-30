@@ -220,7 +220,7 @@
                                         @if(count($projects->whereIn('idSubject', $subject->idSubject)) > 0)
                                             @foreach($projects as $project)
                                                 @if($subject->idSubject == $project->idSubject)
-                                                    <div class="p-2 projeto" id="{{$project->idProject}}" type="button" style="display: flex;justify-content: space-between;align-items: center;">
+                                                    <div class="p-2 projeto" id="{{$project->idProject}}" type="button" onclick="{{(Auth::user()->role == 'student' ? (isset($project->group) == True ? 'window.location.href = "/student/project/"+id;':'window.location.href = "/student/project/"+id+"/groups";'): 'window.location.href = "/professor/project/"+id;')}}" style="display: flex;justify-content: space-between;align-items: center;">
                                                         @if(Auth::user()->role == 'student')
                                                             <p class="my-1 h5" style="display:inline-block;width: 10em;">{{$project->name}}</p>
                                                             <div style="display: flex;text-align: center;align-items: center;"><i class='far fa-lg fa-users float-left'></i><div id="timer1-{{$project->idProject}}" class="timer"></div></div>
@@ -506,18 +506,21 @@
             }
         });
 
-        $(".projeto").click(function(){
+        /*$(".projeto").click(function(){
             id = $(this).attr('id');
             @if(Auth::user()->role == 'student')
                 @if(isset($project->group))
-                    window.location.href = "/student/project/"+id;
+                    console.log("aqui com grupo");
+                    //window.location.href = "/student/project/"+id;
                 @else
-                    window.location.href = "/student/project/"+id+"/groups";
+                    console.log("aqui sem grupo");
+                    //window.location.href = "/student/project/"+id+"/groups";
                 @endif
             @elseif(Auth::user()->role == 'professor')
-                window.location.href = "/professor/project/"+id;
+                console.log("prof");
+                //window.location.href = "/professor/project/"+id;
             @endif
-        });
+        });*/
 
         $(".open_modal").click(function(){
             $('input[name="subject"]').val($(this).attr("id"));

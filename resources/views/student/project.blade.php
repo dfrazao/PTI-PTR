@@ -6,13 +6,11 @@
 <div class="container-fluid pl-4 pr-4 pb-2 mt-3">
     @include('layouts.messages')
     <nav aria-label="breadcrumb" >
-        <ol class="breadcrumb mt-1 pl-0 pb-0 pt-0 float-right" style="background-color:white; ">
+        <ol class="breadcrumb pl-0 pb-0 mb-4 h3" style="background-color:white; ">
             <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{$subject->subjectName}} - {{$project->name}}</li>
+            <li class="breadcrumb-item " aria-current="page" >{{$subject->subjectName}} - {{$project->name}}</li>
         </ol>
     </nav>
-    <br>
-    <h2 class="name_project pb-2">{{$subject ->subjectName}} - {{$project->name}}</h2>
     <style>
         #btn_leave{
             width: 11em
@@ -36,15 +34,16 @@
             }
         }
     </style>
+
     <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item ">
-            <a class="nav-link active" id="content-tab" data-toggle="tab" data-target="#content" role="tab" aria-controls="content" aria-selected="false">{{__('gx.content')}}</a>
+        <li class="nav-item">
+            <a class="nav-link" id="content-tab" data-toggle="tab" href="#content" role="tab" aria-controls="content" aria-selected="false">{{__('gx.content')}}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="schedule-tab" data-toggle="tab" data-target="#schedule" role="tab" aria-controls="schedule" aria-selected="false">{{__('gx.schedule')}}</a>
+            <a class="nav-link" id="schedule-tab" data-toggle="tab" href="#schedule" role="tab" aria-controls="schedule" aria-selected="false">{{__('gx.schedule')}}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="forum-tab" data-toggle="tab" data-target="#forum" role="tab" aria-controls="forum" aria-selected="false">{{__('gx.forum')}}</a>
+            <a class="nav-link" id="forum-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="false">{{__('gx.forum')}}</a>
         </li>
         <li class="rightbutton ml-auto">
             <button  id="btn_leave" type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalLeaveGroup" >{{__('gx.leave group')}}</button>
@@ -72,12 +71,11 @@
                     </div>
                 </div>
             </div>
-
         </li>
     </ul>
 
     <div class="tab-content pb-3 " id="myTabContent" style="min-height: 75vh; background-color: #ededed;">
-        <div class="container-fluid active tab-pane  ml-0 mr-0" id="content" role="tabpanel" aria-labelledby="content-tab">
+        <div class="container-fluid fade tab-pane  ml-0 mr-0" id="content" role="tabpanel" aria-labelledby="content-tab">
             <div class="row rounded" style="height: 80vh;">
                 <div class="col mt-3 ml-3 rounded" style="background-color: #c6c6c6; position: relative;">
                     <div class="container-fluid mt-3 pr-0 pl-3" style="height: 90%;">
@@ -797,6 +795,27 @@
 
 </style>
 <script>
+    $('#myTab a').click(function(e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+
+    // on load of the page: switch to the currently selected tab
+    var hash = window.location.hash;
+    if(hash === ''){
+        hash = '#content';
+    }
+
+    $('#myTab a[href="' + hash + '"]').tab('show');
+
+    // store the currently selected tab in the hash value
+    $("ul.nav-tabs > li > a").on("shown.bs.tab", function(e) {
+        var id = $(e.target).attr("href").substr(1);
+        window.location.hash = id;
+    });
+
+
+
     $(".editTask").click(function () {
         var id = $(this).closest("tr").attr("id").split("-");
         if ($("#" + id[0] + "-edit").hasClass("d-none") && id[1] == 'show'){
@@ -807,24 +826,6 @@
             $("#" + id[0] + "-show").removeClass("d-none");
         }
     });
-
-    $('#myTab a').click(function(e) {
-        e.preventDefault();
-        $(this).tab('show');
-    });
-
-    // store the currently selected tab in the hash value
-    $("ul.nav-tabs > li > a").on("shown.bs.tab", function(e) {
-        var id = $(e.target).attr("href").substr(1);
-        window.location.hash = id;
-    });
-
-    // on load of the page: switch to the currently selected tab
-    var hash = window.location.hash;
-    if(hash === ''){
-        hash = '#content';
-    }
-    $('#myTab a[href="' + hash + '"]').tab('show');
 
     $(".pagination").addClass("justify-content-right");
 
