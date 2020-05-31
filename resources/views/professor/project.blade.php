@@ -568,6 +568,7 @@
                                     {{Form::label('body', trans('gx.body'))}}
                                     {{Form::textarea('body', '', ['class' => 'form-control', 'placeholder' => 'Body'])}}
                                 </div>
+
                                 {{ Form::hidden('project', $project->idProject) }}
 
                                 {{Form::submit('Submit', ['class'=>'btn btn-success'])}}
