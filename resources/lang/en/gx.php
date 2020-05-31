@@ -227,6 +227,66 @@ return [
     'adminStudent' => 'Student',
 
 
+    //professor
+    'dashboard' => 'Dashboard',
+    'characteristics' => 'Characteristics',
+    'groups' => 'Groups',
+    'forum' =>'Forum',
+    'deleteproject' => 'Delete Project',
+    'edit project' =>'Edit Project',
+    'group formation deadline' => 'Group formation deadline',
+    'minimum no. of members' => 'Minimum No. of members',
+    'maximum no. of members' => 'Maximum No. of members',
+    'group creation deadline' => 'Group creation deadline',
+    'finished' => 'Finished',
+    'seconds' =>'Seconds',
+    'hours' => 'Hours',
+    'minutes' => 'Minutes',
+    'days' => 'Days',
+    'delivery time' => 'Delivery Time',
+    'maximum no. of groups' => 'Maximum No. of groups',
+    'minimum no. of groups' => 'Minimum No. of groups',
+    'maximum no. of elements group' => 'Maximum No. of elements per group',
+    'number of groups' => 'Number of groups',
+    'groups that dont match requirements' => 'Groups that don\'t match requirements',
+    'show' => 'Show',
+    'documentation' =>'Documentation',
+    'upload files' => 'Upload Files',
+    'delete file' => 'Delete file',
+    'areyousuredeletedocument' => 'Are you sure you want to delete this Document?',
+    'files' => 'Files',
+    'students assessments' => 'Students assessments',
+    'final group evaluation' => 'Final group evaluation',
+    'evaluate group' => 'Evaluate Group',
+    'evaluation' => 'Evaluation',
+    'group not evaluated' => 'Group not evaluated',
+    'grade' => 'Grade',
+    'no comments' => 'No comments',
+    'comment' => 'Comment',
+    'change grade' => 'Change Grade',
+    'create post' => 'Create Post',
+    'subject' => 'Subject',
+    'author' => 'Author',
+    'responses' => 'Responses',
+    'created' => 'Created',
+    'no posts found' => 'No posts found',
+    'posts' => 'Posts',
+    'showing' => 'Showing',
+    'new post' => 'New Post',
+    'elements' =>'Elements',
+    'project grade' => 'Project Grade',
+    'title' => 'Title',
+    'body' => 'Body',
+    'comment(opcional)' => 'Comment(opcional)',
+
+
+
+
+
+
+
+
+
 
 
 
