@@ -1,8 +1,12 @@
 
-   <div class="container-md" id="testee" style="width: 450px;position: absolute;
-z-index: 1; margin-left: 50%;margin-top: 5px;
+   <div class="container-md" id="testee" style="
+            width: 450px;
+            position: fixed;
+            z-index: 4;
+            right: 1em;
+            margin-top: -0.5em;
             background:white;
-            border-radius:6px;
+            border-radius: 6px;
             border: 1px rgba(0, 123, 255, 0.78) solid;
             display: none;
             -webkit-box-shadow: 10px 10px 6px -2px rgba(211,216,222,1);
@@ -91,32 +95,39 @@ z-index: 1; margin-left: 50%;margin-top: 5px;
            background: #f1f1f1;
            border-radius: 5px;
        }
+
        /* Handle */
        ::-webkit-scrollbar-thumb {
            background-color: #fff;
            border-radius: 5px;
            border: 1px solid rgba(0, 123, 255, 0.78);
        }
+
        /* Handle on hover */
        ::-webkit-scrollbar-thumb:hover {
            background: rgba(0, 123, 255, 0.78);
 
        }
+
        ul {
            margin: 0;
            padding: 0;
        }
+
        li {
            list-style: none;
        }
+
        .user-wrapper, .message-wrapper {
            overflow-y: auto;
        }
+
        .user-wrapper {
            height: 100%;
            border-right: 1px solid #dddddd;
 
        }
+
        .user {
            border-bottom: 1px solid #e7ebee;
            cursor: pointer;
@@ -124,9 +135,11 @@ z-index: 1; margin-left: 50%;margin-top: 5px;
            position: relative;
            width: 100%;
        }
+
        .user:hover {
            background: #eeeeee;
        }
+
        .user:last-child {
            margin-bottom: 0;
        }
@@ -199,8 +212,8 @@ z-index: 1; margin-left: 50%;margin-top: 5px;
            opacity: 0.9;
            font-size: 10px;
        }
-       .active {
-           /*background: #3898ff26;*/
+       .chat-active {
+           background: #3898ff26;
        }
        .col-sm-4 {
            padding: 0;
@@ -398,8 +411,8 @@ z-index: 1; margin-left: 50%;margin-top: 5px;
 
 
            $("body").on( "click", '.user', function( event ){
-               $('.user').removeClass('active');
-               $(this).addClass('active');
+               $('.user').removeClass('chat-active');
+               $(this).addClass('chat-active');
                $(this).find('.pending').remove();
                receiver_id = $(this).attr('id');
                var n = receiver_id.toString();

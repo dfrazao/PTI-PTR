@@ -52,8 +52,8 @@ class ProfessorProjectsController extends Controller
                 'deadline' => 'required',
                 'group_formation_deadline' => 'required',
                 'documentation' => 'required',
-                'minNumber' => 'integer|lte:maxElements',
-                'maxNumber' => 'integer|gte:minElements'
+                'minNumber' => 'integer|lte:maxNumber',
+                'maxNumber' => 'integer'
             ]);
             //dd($request->deadline);
             $project = new Project;

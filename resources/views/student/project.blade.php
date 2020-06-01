@@ -615,7 +615,7 @@
                             @endfor
                         @else
                             <tr>
-                                <td colspan="4"><h5>{__('gx.no posts found')}}</h5></td>
+                                <td colspan="4"><h5>{{__('gx.no posts found')}}</h5></td>
                             </tr>
                         @endif
                         </tbody>

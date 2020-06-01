@@ -27,14 +27,31 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <style>
-        html, body {
+        html {
             height: 100%;
+        }
+
+        body {
+            min-height: 100%;
+            position:relative;
             margin: 0;
         }
 
-        .full-height {
-            height: 100%;
-            background: #eee;
+        .padding {
+            padding-bottom: 65px;    /* height of footer */
+        }
+
+        .footer {
+            height: 65px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            background-color: #898989;
+            color: white;
+            text-align: center;
+            margin-top: 1%;
         }
     </style>
 </head>
@@ -184,28 +201,14 @@
         });
     </script>
 
-@include('chat')
-@yield('content')
-
-    <style>
-        .footer {
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            background-color: #898989;
-            color: white;
-            text-align: center;
-            height: 6vh;
-            margin-top: 1%;
-        }
-        .dentro{
-
-        }
-    </style>
-    <div class="container-fluid footer p-2" >
-        <a class=p-1" style="color: white" href="mailto:ptiptr9@gmail.com"><u>Contact Us</u></a>
-        <p class=pt-1">&#169; 2020, All Rights Reserved. </p>
+    <div class="padding">
+        @include('chat')
+        @yield('content')
     </div>
 
+    <div class="footer p-2">
+        <a class="p-1" style="color: white" href="mailto:ptiptr9@gmail.com"><u>Contact Us</u></a>
+        <p class="p-0 m-0">&#169; 2020, All Rights Reserved. </p>
+    </div>
 </body>
 </html>
