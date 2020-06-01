@@ -230,7 +230,11 @@ class StudentProjectsController extends Controller
             $idComment = AnnouncementComment::all()->where('idAnnouncement', '==', $idA)->count();
             array_push($numberComments, $idComment);
         }
-        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup)->with('notes',$notes)->with('a',$announcements)->with('meeting',$meeting)->with('groupUsers', $Users)->with('schedule', $schedule)->with('rep',$rep);
+
+        //Submission
+        $submittedFiles = File::all()->where('idGroup','==', $idGroup)->where('finalState','==','final');
+
+        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup)->with('notes',$notes)->with('a',$announcements)->with('meeting',$meeting)->with('groupUsers', $Users)->with('schedule', $schedule)->with('rep',$rep)->with('submittedFiles',$submittedFiles);
     }
 
     /**
@@ -292,6 +296,7 @@ class StudentProjectsController extends Controller
             foreach($idFiles as $idfile){
                 $file = File::find($idfile);
                 $file->finalState = 'final';
+                $file->submissionTime = Carbon::now();
                 $file->save();
             }
             return redirect()->action('StudentProjectsController@show', $id)->with('success', 'File submitted successfully');

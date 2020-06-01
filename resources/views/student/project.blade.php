@@ -45,6 +45,9 @@
         <li class="nav-item">
             <a class="nav-link" id="forum-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="false">{{__('gx.forum')}}</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" id="submission-tab" data-toggle="tab" href="#submission" role="tab" aria-controls="submission" aria-selected="false">{{__('gx.submission')}}</a>
+        </li>
         <li class="rightbutton ml-auto">
             <button  type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalLeaveGroup" style="width: 11em">{{__('gx.leave group')}}</button>
             {{--<div id="modalLeaveGroup" class="modal" tabindex="-1" role="dialog"  >
@@ -153,29 +156,6 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- Modal Delete file --}}
-                        <div class="modal fade" id="modalDeleteFile" aria-labelledby="modalDeleteFile" aria-hidden="true" tabindex="-1" role="dialog">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title" id="staticBackdropLabel">Delete file</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <h5>Are you sure you want to delete this file?</h5>
-                                        {!!Form::open(['action' => ['StudentProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
-                                        {{Form::hidden('_method', 'DELETE')}}
-                                        {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
-                                        {{ Form::hidden('group', $idGroup) }}
-                                        {{Form::hidden('submission','file')}}
-                                        {{Form::hidden('idFile','')}}
-                                        {!!Form::close()!!}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="col mt-3 rounded mx-3">
@@ -275,18 +255,17 @@
                                             </style>
                                             <script>
                                                 $(function() {$( "#datetimepicker1-{{$t->idTask}}" ).datetimepicker({
-                                                    minDate: moment().format('YYYY-MM-DD HH:mm'),
-                                                    date: moment('{{(\Carbon\Carbon::parse($t->beginning))}}').format('YYYY-MM-DD HH:mm'),
+                                                    minDate: moment('{{(\Carbon\Carbon::now())}}').format('YYYY-MM-DD HH:mm:ss'),
+                                                    //date: moment('{{(\Carbon\Carbon::parse($t->beginning))}}').format('YYYY-MM-DD HH:mm'),
                                                     locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
                                                     icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"},
-
+                                                    default: moment('{{(\Carbon\Carbon::parse($t->beginning))}}').format('YYYY-MM-DD HH:mm:ss')
                                                 });});
                                                 $(function() {$( "#datetimepicker2-{{$t->idTask}}" ).datetimepicker({
-                                                    minDate: moment().format('YYYY-MM-DD HH:mm'),
+                                                    minDate: moment('{{(\Carbon\Carbon::parse($t->end))}}').format('YYYY-MM-DD HH:mm'),
                                                     date: moment('{{(\Carbon\Carbon::parse($t->end))}}').format('YYYY-MM-DD HH:mm'),
                                                     locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
-                                                    icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"},
-                                                    defaultDate: moment('{{\Carbon\Carbon::parse($t->end)}}').format('YYYY-MM-DD HH:mm')
+                                                    icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
                                                 });});
                                                 $("#datetimepicker1-{{$t->idTask}}").on("change.datetimepicker", function (e) {
                                                     $('#datetimepicker2-{{$t->idTask}}').datetimepicker('minDate', e.date);
@@ -327,6 +306,29 @@
                         <div class="container-fluid pt-3 mr-2" style="position: relative">
                             <button type="button" class="btn btn-sm open_modal" id="{{$idGroup}}" style="width:20vh;background: #2c3fb1; color: white;position: absolute; bottom: 0px; right: 0px;">{{__('gx.new task')}}</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- Modal Delete file --}}
+        <div class="modal fade" id="modalDeleteFile" aria-labelledby="modalDeleteFile" aria-hidden="true" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="staticBackdropLabel">Delete file</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h5>Are you sure you want to delete this file?</h5>
+                        {!!Form::open(['action' => ['StudentProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
+                        {{Form::hidden('_method', 'DELETE')}}
+                        {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+                        {{ Form::hidden('group', $idGroup) }}
+                        {{Form::hidden('submission','file')}}
+                        {{Form::hidden('idFile','')}}
+                        {!!Form::close()!!}
                     </div>
                 </div>
             </div>
@@ -708,6 +710,52 @@
                 </div>
             </div>
         </div>
+        <div class="fade tab-pane  ml-0 mr-0" id="submission" role="tabpanel" aria-labelledby="submission-tab">
+            <div class="container rounded pb-3 pt-3">
+                <h5>Submission</h5>
+                <div>Group: {{$idGroup}}</div>
+                <div>Deadline: {{\App\Project::find($project->idProject)->dueDate}}</div>
+                <?php
+                    $last = \Carbon\Carbon::create(0, 0, 0, 0, 0, 0);
+                    foreach($submittedFiles as $file){
+                        if($file->submissionTime > $last){
+                            $last = $file->submissionTime;
+
+                        }
+                }
+
+                ?>
+
+                <div>Submission time: {{$last}}</div>
+                <div>Files submitted:</div>
+                <div class="container-fluid mt-3 pr-0 pl-3" id="submittedFiles">
+                    @foreach($submittedFiles as $file)
+                        <div class="text-center" id= '{{$file->idFile}}' style="margin-right: 15px; position:relative; display: inline-block; width: 100px;">
+                            <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;" id= '{{$file->idFile}}' class="close downloadFile" download>
+                                <span class="dot" id="download" style="position:relative; display:inline-block">
+                                    <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                </span>
+                            </a>
+                            <button style="position:absolute; top:-10px; right:-10px;" id= '{{$file->idFile}}' type="button" class="close">
+                                <span class="dot" id="delete" style="position:relative; display:inline-block">
+                                    <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
+                                </span>
+                            </button>
+                            <figure>
+                                <i class="fas fa-folder fa-4x px-2" style="color: #ffce52;"></i>
+                                <figcaption>{{$file->pathFile}}</figcaption>
+                            </figure>
+                        </div>
+                        {{--<script>
+                            $('#{{$file->idFile}}.close').click(function() {
+                                $('div#{{$file->idFile}}.text-center').remove();
+                            })
+                        </script>--}}
+                    @endforeach
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
 <style>
@@ -957,6 +1005,22 @@
         $('input[name="idFile"]').val($(this).attr("id"));
         $('#modalDeleteFile').modal('show');
     });
+
+    $('#modalSubmitFile').on('show.bs.modal', function (event) {
+        var f = new Array;
+        $('.select').each( function () {
+            f.push($(this).attr("id"));
+            var x = $(this).find('figure').css('display','inline-block').css('padding','5px').attr('class', 'text-center').clone().wrap('<p/>').parent().html();
+            $('#modalSubmitFile .filesSelected').append(x);
+        });
+        $('input[name="filesSubmit"]').val(f);
+    });
+
+    $("#modalSubmitFile").on("hidden.bs.modal", function () {
+        $('#modalSubmitFile .filesSelected').empty();
+    });
+
+
 
 </script>
 @endsection
