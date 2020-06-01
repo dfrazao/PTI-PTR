@@ -59,6 +59,7 @@ Auth::routes([
     Route::post('professor/project/message', 'ChatController@sendMessage');
     Route::get('/searchchat','SearchController@index', ['name' => 'searchchat'])->name("searchchat");
     Route::get('/search','SearchController@search');
+    Route::post('/pusher/auth', 'ChatController@authorizeUser');
 
 
 // Student

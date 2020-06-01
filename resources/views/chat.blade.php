@@ -292,12 +292,19 @@ z-index: 1; margin-left: 50%;margin-top: 5px;
 
            var pusher = new Pusher('ff4af21336ebee3e83fe', {
                cluster: 'eu',
+               authEndpoint: '/pusher/auth',
+               encrypted: true,
+               forceTLS: true,
+               auth: {
+                   headers: {
+                       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                   }
+               }
 
            });
 
 
-           var channel = pusher.subscribe('my-channel');
-
+           var channel = pusher.subscribe('private-my-channel');
            channel.bind('my-event', function (data) {
                $('#searchinput').val(null);
                $value=$('#searchinput').val();

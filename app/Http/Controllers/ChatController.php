@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Chat;
 use App\User;
+use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\DB;
@@ -62,8 +63,31 @@ class ChatController extends Controller
         return view('messages.conv', ['messages' => $messages]);
     }
 
+    public function authorizeUser(Request $request){
+        if(!Auth::check()){
+            return new Response('Forbidden', 403);
+        }
+
+        // pusher
+        $options = array(
+            'cluster' => 'eu',
+            'useTLS' => true,
+        );
+
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            $options
+        );
+        echo $pusher->socket_auth($_POST['channel_name'], $_POST['socket_id']);
+    }
+
     public function sendMessage(Request $request)
     {
+        if(!Auth::check()){
+            return new Response('Forbidden', 403);
+        }
 
         $from = Auth::id();
         $to = $request->receiver_id;
@@ -88,7 +112,7 @@ class ChatController extends Controller
 
         $data = ['from' => $from, 'to' => $to, 'username' => $user_notification, 'message' => $message]; // sending from and to user id when pressed enter
 
-        $pusher->trigger('my-channel', 'my-event', $data);
+        $pusher->trigger('private-my-channel', 'my-event', $data);
 
 
         $data = new Chat();
