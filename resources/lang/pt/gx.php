@@ -103,6 +103,7 @@ return [
     'sorted by average'       => 'Ordenado por média',
     'search'                  => 'Pesquisar',
     'group full'              => 'Grupo Cheio',
+    'no groups found'         => 'Ainda não foram criados grupos.',
 
 
     //project

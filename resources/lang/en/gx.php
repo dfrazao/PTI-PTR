@@ -103,6 +103,7 @@ return [
     'sorted by average'       => 'Sorted by Average',
     'search'                  => 'Search',
     'group full'              => 'Group Full',
+    'no groups found'         => 'There isn\'t any groups created yet.',
 
 
     //project
