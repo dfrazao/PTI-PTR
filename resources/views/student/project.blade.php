@@ -81,18 +81,16 @@
         </li>
         <li class="rightbutton ml-auto">
             <button  type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalLeaveGroup" style="width: 11em">{{__('gx.leave group')}}</button>
-            <div id="modalLeaveGroup" class="modal" tabindex="-1" role="dialog"  >
+            <div id="modalLeaveGroup" class="modal" tabindex="-1" role="dialog" >
                 <div class="modal-dialog modal-lg" >
                     <div class="modal-content" >
                         <div class="modal-header">
-
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" style="display: inline" >
-                    <h5>Are you sure you want to leave the group?</h5>
-
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="display: inline" >
+                            <h5>Are you sure you want to leave the group?</h5>
                         </div>
                         <div class="modal-footer">
                             {!!Form::open(['action' => ['GroupController@destroy', $project -> idProject] , 'method' => 'POST']) !!}
@@ -228,9 +226,9 @@
                         <div id="col_docs" class="container-fluid rounded text-center pt-2" style="background-color: #c6c6c6; ">
                             <h5>{{__('gx.documentation')}} </h5>
                             <div>{{__('gx.files')}}:
-                            @foreach($docs as $d)
-                                <a rel="noopener noreferrer" target="_blank" href ="{{Storage::url('documentation/'.$project->idProject.'/'.$d->pathFile)}}">{{$d->pathFile}}</a>
-                            @endforeach
+                                @foreach($docs as $d)
+                                    <a rel="noopener noreferrer" target="_blank" href ="{{Storage::url('documentation/'.$project->idProject.'/'.$d->pathFile)}}">{{$d->pathFile}}</a>
+                                @endforeach
                             </div>
                             <div>{{__('gx.deadline')}}: {{$project->dueDate}}</div>
 
@@ -687,12 +685,7 @@
                 }
             }
 
-                </style>
-                <div class="container-fluid pt-3 " style="position: relative">
-                    <button type="submit" class="btn btn-sm mr-2" id= 'newMeeting' data-toggle="modal" data-target="#modalCreateMeeting" style="position: absolute; width: 20vh;background: #2c3fb1; color: white;bottom: 0px; right: 0px;">{{__('gx.new meeting')}}</button>
-                </div>
-            </div>
-        </div>
+        </style>
         {{-- Modal Create Meeting --}}
         <div class="modal fade" id="modalCreateMeeting" aria-labelledby="modalCreateMeeting" aria-hidden="true" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -743,12 +736,12 @@
                 <div class="table-responsive-xl pt-2">
                     <table class="table bg-white rounded" style="text-align:center;">
                         <thead>
-                        <tr class="forum_table">
-                            <th>{{__('gx.subject')}}</th>
-                            <th>{{__('gx.author')}}</th>
-                            <th>{{__('gx.responses')}}</th>
-                            <th>{{__('gx.created')}}</th>
-                        </tr>
+                            <tr class="forum_table">
+                                <th>{{__('gx.subject')}}</th>
+                                <th>{{__('gx.author')}}</th>
+                                <th>{{__('gx.responses')}}</th>
+                                <th>{{__('gx.created')}}</th>
+                            </tr>
                         </thead>
                         <tbody>
                         <style>
@@ -959,7 +952,6 @@
                         @endforeach
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -1016,7 +1008,7 @@
         padding-top: 10px;
         padding-bottom: 10px;
         text-align: center;
-        font-size: 1vh;
+        font-size: 2vh;
     }
      .nav-tabs .nav-link.active{
          background-color: #ededed;
