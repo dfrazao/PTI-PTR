@@ -125,6 +125,7 @@ return [
     'beginning'                 => 'Início',
     'end'                       => 'Fim',
     'wasted time'               => 'Tempo despendido',
+    'submission'                => 'Submissão',
     'your group has no tasks.'  =>'O seu grupo não tem tarefas.',
     'your group has no meetings.'  =>'O seu grupo não tem reuniões.',
     'new task'                  => 'Nova Tarefa',
@@ -139,7 +140,7 @@ return [
     'meetings'                  => 'Reuniões',
     'number'                    => 'Numéro',
     'description'               => 'Descrição',
-    'create new meeting'        =>  'Criar mnova reunião',
+    'create new meeting'        =>  'Criar nova reunião',
     'date'                      => 'Data',
     'place'                     => 'Localização',
     'group elements weekly availability' => 'Disponibilidade dos membros do grupo',
@@ -169,7 +170,7 @@ return [
     'adminEnrollments'   => 'Matrículas',
     'adminCourses'      => 'Cursos',
     'adminAcademicYears' => 'Anos Académicos',
-    'adminUniNumber'       => 'UniNúmero',
+    'adminUniNumber'       => 'Nº Aluno',
     'adminRole'         => 'Papel',
     'adminName'         => 'Nome',
     'adminEmail'        => 'Email',
@@ -192,6 +193,7 @@ return [
     'adminUpdate'       => 'Atualizar',
     'adminAreyousureyouwanttodeletethissubject?' => 'Tem a certeza que deseja apagar esta disciplina?',
     'adminIdSubject'       => 'IdDisciplina',
+    'adminUser'             => 'Utilizador',
     'adminIdGeneralSubject' => 'IdDisciplinaGeral',
     'adminGeneralSubjectName' => 'Nome Disciplina geral',
     'adminAcademicYear' =>'Ano académico',
@@ -273,4 +275,30 @@ return [
     'project grade' => 'Nota do projeto',
     'comment(opcional)' => 'Comentário(opcional)',
 
+
+
+    //posts
+
+    'content' => 'Conteúdo',
+    'schedule' => 'Horário',
+    'posted on' => 'Publicado em',
+    'reply' => 'Responder',
+    'new comment' => 'Novo comentário',
+    'edit' => 'Editar',
+    'comment' => 'Comentar',
+    'edit post' => 'Editar publicação',
+    'title' => 'Título',
+    'body' => 'Corpo',
+    'delete post' => 'Apagar Publicação',
+    'delete comment' => 'Elimnar Comentário',
+    'areyousuredeletethispost' =>'Tem a certeza que deseja elimnar esta publicação?',
+    're:' => 'Re',
+    'by' => 'By',
+    'delete comment' => 'Apagar Comentário',
+    'areyousuredeletethiscomment' => 'Tem a certeza que deseja eliminar este comentário?',
+
+
+    //footer
+    'contact us' => 'Contacte-nos',
+    '2020, allRightsReserved.' => '2020, Todos os Direitos Reservados.'
 ];

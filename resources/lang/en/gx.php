@@ -108,6 +108,7 @@ return [
     //project
     'are you sure you want to leave the group?' =>'Are you sure you want to leave the group?',
     'group elements' => 'Group Elements',
+    'submission' => 'Submission',
     //////////////////////////////////////////////////
     'content'                   => 'Content',
     'schedule'                  => 'Schedule',
@@ -168,6 +169,7 @@ return [
     'students'          => 'Students',
     'professors'        => 'Professors',
     'adminUsers'        => 'Users',
+    'adminUser' => 'User',
     'adminUniversities'      => 'Universities',
     'adminSubjects'     => 'Subjects',
     'adminSubject' =>'Subject',
@@ -280,7 +282,28 @@ return [
     'comment(opcional)' => 'Comment(opcional)',
 
 
+    //posts
+    'content' => 'Content',
+    'schedule' => 'Schedule',
+    'posted on' => 'Posted on',
+    'reply' => 'Reply',
+    'new comment' => 'New comment',
+    'edit' => 'Edit',
+    'comment' => 'Comment',
+    'edit post' => 'Edit Post',
+    'title' => 'Title',
+    'body' => 'Body',
+    'delete post' => 'Delete Post',
+    'delete comment' => 'Delete Comment',
+    'areyousuredeletethispost' =>'Are you sure you want to delete this post?',
+    're:' => 'Re',
+    'by' => 'By',
+    'delete comment' => 'Delete Comment',
+    'areyousuredeletethiscomment' => 'Are you sure you want to delete this comment?',
 
+    //footer
+    'contact us' => 'Contact Us',
+    '2020, allRightsReserved.' => '2020, All Rights Reserved.'
 
 
 

@@ -62,11 +62,10 @@ Auth::routes([
 
 
 // Student
-/*    Route::get('student/project/{id}/groups', 'GroupController@show')->middleware('auth');
-    Route::post('student/project/{id}','GroupController@store')->middleware('auth');
-    Route::put('student/project/{id}/update','GroupController@update')->middleware('auth');
-    Route::delete('student/project/{id}/destroy'
-,'GroupController@destroy')->middleware('auth');*/
+    Route::get('student/project/{id}/groups', 'GroupController@show')->middleware('auth');
+    Route::post('student/project/{id}/groups','GroupController@store')->middleware('auth');
+    Route::put('student/project/{id}/update/groups','GroupController@update')->middleware('auth');
+    Route::delete('student/project/{id}/destroy/groups','GroupController@destroy')->middleware('auth');
 // Professor
 
 // Admin

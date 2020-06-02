@@ -50,7 +50,7 @@
         </li>
         <li class="rightbutton ml-auto">
             <button  type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalLeaveGroup" style="width: 11em">{{__('gx.leave group')}}</button>
-            {{--<div id="modalLeaveGroup" class="modal" tabindex="-1" role="dialog"  >
+            <div id="modalLeaveGroup" class="modal" tabindex="-1" role="dialog"  >
                 <div class="modal-dialog modal-lg" >
                     <div class="modal-content" >
                         <div class="modal-header">
@@ -73,7 +73,7 @@
                         </div>
                     </div>
                 </div>
-            </div>--}}
+            </div>
         </li>
     </ul>
 
