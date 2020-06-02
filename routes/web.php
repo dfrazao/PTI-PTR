@@ -59,14 +59,14 @@ Auth::routes([
     Route::post('professor/project/message', 'ChatController@sendMessage');
     Route::get('/searchchat','SearchController@index', ['name' => 'searchchat'])->name("searchchat");
     Route::get('/search','SearchController@search');
-    Route::post('/pusher/auth', 'ChatController@authorizeUser');
 
 
 // Student
-    Route::get('student/project/{id}/groups', 'GroupController@show')->middleware('auth');
+/*    Route::get('student/project/{id}/groups', 'GroupController@show')->middleware('auth');
     Route::post('student/project/{id}','GroupController@store')->middleware('auth');
     Route::put('student/project/{id}/update','GroupController@update')->middleware('auth');
-    Route::delete('student/project/{id}/destroy','GroupController@destroy')->middleware('auth');
+    Route::delete('student/project/{id}/destroy'
+,'GroupController@destroy')->middleware('auth');*/
 // Professor
 
 // Admin
