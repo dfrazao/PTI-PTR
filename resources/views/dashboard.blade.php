@@ -241,19 +241,19 @@
                                                                 s = secs - mins * 60;
 
                                                                 if (d<0 || (d==0 && h==0 && m==0 && s==0)) {
-                                                                    document.getElementById("timer1-{{$project->idProject}}").innerHTML = '<div class="ml-2">Terminado</div>';
+                                                                    document.getElementById("timer1-{{$project->idProject}}").innerHTML = '<div class="ml-2">{{__("gx.finished")}}</div>';
                                                                 } else if (d==0 && h==0 && m==0) {
-                                                                    document.getElementById("timer1-{{$project->idProject}}").innerHTML = '<div>' + s + '<span>seconds</span></div>';
+                                                                    document.getElementById("timer1-{{$project->idProject}}").innerHTML = '<div>' + s + '<span>{{__("gx.seconds")}}</span></div>';
                                                                 } else if (d==0) {
                                                                     document.getElementById("timer1-{{$project->idProject}}").innerHTML =
-                                                                        '<div>' + h + '<span>hours</span></div>' +
-                                                                        '<div>' + m + '<span>minutes</span></div>' +
-                                                                        '<div>' + s + '<span>seconds</span></div>';
+                                                                        '<div>' + h + '<span>{{__("gx.hours")}}</span></div>' +
+                                                                        '<div>' + m + '<span>{{__("gx.minutes")}}</span></div>' +
+                                                                        '<div>' + s + '<span>{{__("gx.seconds")}}</span></div>';
                                                                 } else {
                                                                     document.getElementById("timer1-{{$project->idProject}}").innerHTML =
-                                                                        '<div>' + d + '<span>days</span></div>' +
-                                                                        '<div>' + h + '<span>hours</span></div>' +
-                                                                        '<div>' + m + '<span>minutes</span></div>';
+                                                                        '<div>' + d + '<span>{{__("gx.days")}}</span></div>' +
+                                                                        '<div>' + h + '<span>{{__("gx.hours")}}</span></div>' +
+                                                                        '<div>' + m + '<span>{{__("gx.minutes")}}</span></div>';
                                                                 }
                                                             }
                                                             function updateTimer2{{$project->idProject}}() {
@@ -272,19 +272,19 @@
                                                                 s = secs - mins * 60;
 
                                                                 if (d<0 || (d==0 && h==0 && m==0 && s==0)) {
-                                                                    document.getElementById("timer2-{{$project->idProject}}").innerHTML = '<div class="ml-2">Terminado</div>';
+                                                                    document.getElementById("timer2-{{$project->idProject}}").innerHTML = '<div class="ml-2">{{__("gx.finished")}}</div>';
                                                                 } else if (d==0 && h==0 && m==0) {
-                                                                    document.getElementById("timer2-{{$project->idProject}}").innerHTML = '<div>' + s + '<span>seconds</span></div>';
+                                                                    document.getElementById("timer2-{{$project->idProject}}").innerHTML = '<div>' + s + '<span>{{__("gx.seconds")}}</span></div>';
                                                                 } else if (d==0) {
                                                                     document.getElementById("timer2-{{$project->idProject}}").innerHTML =
-                                                                        '<div>' + h + '<span>hours</span></div>' +
-                                                                        '<div>' + m + '<span>minutes</span></div>' +
-                                                                        '<div>' + s + '<span>seconds</span></div>';
+                                                                        '<div>' + h + '<span>{{__("gx.hours")}}</span></div>' +
+                                                                        '<div>' + m + '<span>{{__("gx.minutes")}}</span></div>' +
+                                                                        '<div>' + s + '<span>{{__("gx.seconds")}}</span></div>';
                                                                 } else {
                                                                     document.getElementById("timer2-{{$project->idProject}}").innerHTML =
-                                                                        '<div>' + d + '<span>days</span></div>' +
-                                                                        '<div>' + h + '<span>hours</span></div>' +
-                                                                        '<div>' + m + '<span>minutes</span></div>';
+                                                                        '<div>' + d + '<span>{{__("gx.days")}}</span></div>' +
+                                                                        '<div>' + h + '<span>{{__("gx.hours")}}</span></div>' +
+                                                                        '<div>' + m + '<span>{{__("gx.minutes")}}</span></div>';
                                                                 }
                                                             }
                                                             updateTimer1{{$project->idProject}}();

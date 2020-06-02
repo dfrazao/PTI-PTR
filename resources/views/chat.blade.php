@@ -14,7 +14,7 @@
             box-shadow: 10px 10px 6px -2px rgba(211,216,222,1);
             ">
        <div class="row">
-           <div class="col-md-4 nopadding">
+           <div id="col-md-4" class="col-md-4 nopadding">
                <div class="user-wrapper">
 
 
@@ -266,7 +266,7 @@
        @media screen and (max-width: 800px) {
            .container-md{
            }
-           .col-md-4{
+           #col-md-4{
                width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
                overflow-x: hidden;
            }
