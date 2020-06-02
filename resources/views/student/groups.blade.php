@@ -6,17 +6,49 @@
     <div class="container-fluid pl-5 pr-5 pb-2 mt-3">
         @include('layouts.messages')
         <nav aria-label="breadcrumb" >
-            <ol class="breadcrumb mt-1 pl-0 pb-0 pt-0 float-right" style="background-color:white; ">
-                <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>{{__('gx.dashboard')}}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{__('gx.groups')}}</li>
-                <li class="breadcrumb-item active" aria-current="page">{{$subject->subjectName}} - {{$project->name}}</li>
+            <ol class="breadcrumb pl-0 pb-0 mb-4 h3" style="background-color:white; ">
+                <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>Dashboard</a></li>
+                <li class="breadcrumb-item " aria-current="page" >{{__('gx.group creation')}} - {{$subject->subjectName}} - {{$project->name}}</li>
             </ol>
         </nav>
-        <h2 class="pb-2"></h2>
-        <br>
-        <h1> {{__('gx.group creation')}} </h1>
-        <br>
-        <div class="container-fluid overflow-auto "  >
+        <div class="container-fluid overflow-auto">
+
+            <div class="countdown" style="display: flex;text-align: center;align-items: center;justify-content: center;"><p class="h5">{{__('gx.group creation deadline')}}: {{$project->groupCreationDueDate}} - </p> <div id="timer1" class="timer"></div></div>
+            <script>
+                function updateTimer1() {
+                    future = Date.parse("{{$project->groupCreationDueDate}}");
+                    now = new Date();
+                    diff = future - now;
+
+                    days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    hours = Math.floor(diff / (1000 * 60 * 60));
+                    mins = Math.floor(diff / (1000 * 60));
+                    secs = Math.floor(diff / 1000);
+
+                    d = days;
+                    h = hours - days * 24;
+                    m = mins - hours * 60;
+                    s = secs - mins * 60;
+
+                    if (d<0 || (d==0 && h==0 && m==0 && s==0)) {
+                        document.getElementById("timer1").innerHTML = '<div class="ml-2">Terminado</div>';
+                    } else if (d==0 && h==0 && m==0) {
+                        document.getElementById("timer1").innerHTML = '<div>' + s + '<span>seconds</span></div>';
+                    } else if (d==0) {
+                        document.getElementById("timer1").innerHTML =
+                            '<div>' + h + '<span>hours</span></div>' +
+                            '<div>' + m + '<span>minutes</span></div>' +
+                            '<div>' + s + '<span>seconds</span></div>';
+                    } else {
+                        document.getElementById("timer1").innerHTML =
+                            '<div>' + d + '<span>days</span></div>' +
+                            '<div>' + h + '<span>hours</span></div>' +
+                            '<div>' + m + '<span>minutes</span></div>';
+                    }
+                }
+                updateTimer1();
+                setInterval('updateTimer1()', 1000);
+            </script>
             <div class="table-responsive">
                 <table class="table bg-white" style="text-align:center;">
                     <thead>
@@ -29,43 +61,47 @@
                     </thead>
                     <tbody style="overflow: auto;max-height: 20%">
 
+                    @if(count($groupNumber) > 0)
+                        @foreach($groupNumber as $groupN)
+                            <tr>
+                                <td>
+                                    {{$students_per_group[$groupN][0]->idGroupProject }}
+                                </td>
+                                <td>
+                                    {{count($students_per_group[$groupN])}}/{{$projectMaxElements}}</td>
+                                <td>
+                            @foreach($students_per_group[$groupN] as $studInfo)
+                                        <a href="/profile/{{$studInfo->id }}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$studInfo->photo)}}"><span style="vertical-align: middle;"> {{$studInfo->name}}</span></a>
 
-                    @foreach($groupNumber as $groupN)
-                        <tr>
-                            <td>
-                                {{$students_per_group[$groupN][0]->idGroupProject }}
-                            </td>
-                            <td>
-                                {{count($students_per_group[$groupN])}}/{{$projectMaxElements}}</td>
-                            <td>
-                        @foreach($students_per_group[$groupN] as $studInfo)
-                                    <a href="/profile/{{$studInfo->id }}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$studInfo->photo)}}"><span style="vertical-align: middle;"> {{$studInfo->name}}</span></a>
+
+                            @endforeach
 
 
+                            @if(count($students_per_group[$groupN]) == $projectMaxElements)
+                                    <td><button type="button" class="btn btn-danger" disabled>{{__('gx.group full')}}</button> </td>
+                            @elseif(in_array($user,$studentsIdGroupValues))
+                                    <td><button type="button" class="btn btn-info disabled" disabled>{{__('gx.join group')}}</button> </td>
+                            @else
+                                <td>
+                                    @csrf
+                                    {!!Form::open(['action' => ['GroupController@update', $project -> idProject], 'method' => 'POST'])!!}
+                                    {!!Form::hidden('userJoin', $user)!!}
+                                    {!!Form::hidden('idProject', $project->idProject)!!}
+                                    {!!Form::hidden('idGroupJoin', $groupN)!!}
+                                    {!!Form::hidden('_method','PUT')!!}
+                                    {{Form::Submit(trans('gx.join group'), ['class'=>'btn btn-info','id'=>'Join Group'])}}
+                                    {!!Form::close()!!}
+                                </td>
+
+                            </tr>
+
+                            @endif
                         @endforeach
-
-
-                        @if(count($students_per_group[$groupN]) == $projectMaxElements)
-                                <td><button type="button" class="btn btn-danger" disabled>{{__('gx.group full')}}</button> </td>
-                        @elseif(in_array($user,$studentsIdGroupValues))
-                                <td><button type="button" class="btn btn-info disabled" disabled>{{__('gx.join group')}}</button> </td>
-                        @else
-                            <td>
-                                @csrf
-                                {!!Form::open(['action' => ['GroupController@update', $project -> idProject], 'method' => 'POST'])!!}
-                                {!!Form::hidden('userJoin', $user)!!}
-                                {!!Form::hidden('idProject', $project->idProject)!!}
-                                {!!Form::hidden('idGroupJoin', $groupN)!!}
-                                {!!Form::hidden('_method','PUT')!!}
-                                {{Form::Submit(trans('gx.join group'), ['class'=>'btn btn-info','id'=>'Join Group'])}}
-                                {!!Form::close()!!}
-                            </td>
-
+                    @else
+                        <tr>
+                            <td colspan="4"><h5>{{__('gx.no groups found')}}</h5></td>
                         </tr>
-
-                        @endif
-                    @endforeach
-
+                    @endif
 
 
                     </tbody>
@@ -248,7 +284,24 @@
         overflow-y: auto;
     }
 
-    </style>
+    #timer1 {
+        font-size: 1.30em;
+        font-weight: 100;
+        color: navy;
+    }
+
+    #timer1 div {
+        display: inline-block;
+        min-width: 45px;
+    }
+
+    #timer1 div span {
+        color: black;
+        display: block;
+        font-size: .50em;
+        font-weight: 400;
+    }
+</style>
 
 
 @endsection

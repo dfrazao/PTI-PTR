@@ -55,7 +55,7 @@ class ProfessorProjectsController extends Controller
                 'minNumber' => 'integer|lte:maxNumber',
                 'maxNumber' => 'integer'
             ]);
-            //dd($request->deadline);
+
             $project = new Project;
             $project->name = $request->title;
             $project->dueDate = Carbon::parse($request->deadline);
@@ -63,12 +63,15 @@ class ProfessorProjectsController extends Controller
             $project->minElements = $request->minNumber;
             $project->maxElements = $request->maxNumber;
             $project->idSubject = $request->subject;
-            $file = $request->file('documentation');
-            $filename = $request->documentation->getClientOriginalName();
-            $project->documentation = $filename;
             $project->maxGroups = SubjectEnrollment::all()->where('idSubject', '==', $request->subject)->count();
             $project->save();
-            $file->storeAs('documentation/'.$project->idProject, $filename, 'gcs');
+
+            $doc = new Documentation;
+            $doc->idProject = $project->idProject;
+            $doc->pathfile = $request->documentation->getClientOriginalName();
+            $file = $request->file('documentation');
+            $doc->save();
+            $file->storeAs('documentation/'.$project->idProject, $doc->pathfile, 'gcs');
 
             return redirect('/')->with('success', 'Project Created');
 
@@ -78,11 +81,11 @@ class ProfessorProjectsController extends Controller
             ]);
 
             $doc = new Documentation;
-            $doc-> idProject = $request->project;
-            $doc-> pathfile = $request->file('documentation')->getClientOriginalName();
+            $doc->idProject = $request->project;
+            $doc->pathfile = $request->file('documentation')->getClientOriginalName();
             $zip = $request->file('documentation');
             $doc->save();
-            $zip->storeAs('documentation/'.$request->project, $doc-> pathfile, 'gcs');
+            $zip->storeAs('documentation/'.$request->project, $doc->pathfile, 'gcs');
 
             return redirect('professor/project/'.$request->project)->with('success', 'File Uploaded');
 
@@ -224,10 +227,10 @@ class ProfessorProjectsController extends Controller
             return redirect()->action('ProfessorProjectsController@show', $id)->with('success', 'Doc deleted successfully');
 
         }else{
-        $project = Project::find($id);
-        Storage::delete('documentation/'.$project->idProject."/".$project->documentation);
-        $project->delete();
-        return redirect('/')->with('success', 'Project Deleted');
+            $project = Project::find($id);
+            Storage::delete('documentation/'.$project->idProject."/".$project->documentation);
+            $project->delete();
+            return redirect('/')->with('success', 'Project Deleted');
         }
 
     }

@@ -46,7 +46,7 @@ Auth::routes([
     Route::resource('/professor/project/{projectId}/post', 'PostController')->middleware('auth');
     Route::resource('/student/project/{projectId}/post', 'PostController')->middleware('auth');
 
-//chat
+//Chat
     Route::get('/chat', 'ChatController@index')->name('chat');
     Route::get('/message/{id}', 'ChatController@getMessage')->name('message');
     Route::get('profile/message/{id}', 'ChatController@getMessage')->name('message');
@@ -59,6 +59,7 @@ Auth::routes([
     Route::post('professor/project/message', 'ChatController@sendMessage');
     Route::get('/searchchat','SearchController@index', ['name' => 'searchchat'])->name("searchchat");
     Route::get('/search','SearchController@search');
+    Route::post('/pusher/auth', 'ChatController@authorizeUser');
 
 
 // Student

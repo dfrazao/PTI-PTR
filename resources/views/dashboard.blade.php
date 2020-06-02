@@ -222,8 +222,8 @@
                                                 @if($subject->idSubject == $project->idSubject)
                                                     <div class="p-2 projeto" id="{{$project->idProject}}" type="button" onclick="{{(Auth::user()->role == 'student' ? (isset($project->group) == True ? 'window.location.href = "/student/project/"+id;':'window.location.href = "/student/project/"+id+"/groups";'): 'window.location.href = "/professor/project/"+id;')}}" style="display: flex;justify-content: space-between;align-items: center;min-height: 65px;">
                                                         <p class="my-1 h5" style="display:inline-block;width: 10em;">{{$project->name}}</p>
-                                                        <div style="display: flex;text-align: center;align-items: center;"><i class='far fa-lg fa-users float-left'></i><div id="timer1-{{$project->idProject}}" class="timer"></div></div>
-                                                        <div style="display: flex;text-align: center;align-items: center;"><i class='far fa-lg fa-file-alt float-left'></i><div id="timer2-{{$project->idProject}}" class="timer"></div></div>
+                                                        <div style="display: flex;text-align: center;align-items: center;width: 15em;"><i class='far fa-lg fa-users float-left'></i><div id="timer1-{{$project->idProject}}" class="timer"></div></div>
+                                                        <div style="display: flex;text-align: center;align-items: center;width: 15em;"><i class='far fa-lg fa-file-alt float-left'></i><div id="timer2-{{$project->idProject}}" class="timer"></div></div>
                                                         <script>
                                                             function updateTimer1{{$project->idProject}}() {
                                                                 future = Date.parse("{{$project->groupCreationDueDate}}");
@@ -294,10 +294,12 @@
                                                         </script>
                                                         @if(Auth::user()->role == 'student')
                                                             @if(isset($project->group))
-                                                                <a type="button" class="btn btn-sm btn-success" href="/student/project/{{$project->idProject}}" style="background-color: #2c3fb1; border-color: #2c3fb1;width: 10em;">{{__('gx.group')}} {{$project->group}}</a>
+                                                                <a type="button" class="btn btn-sm btn-success" href="/student/project/{{$project->idProject}}" style="background-color: #2c3fb1; border-color: #2c3fb1;width: 10em;">{{__('gx.group')}} {{\App\Group::find($project->group)->idGroupProject}}</a>
                                                             @else
                                                                 <a type="button" class="btn btn-sm btn-success" href="/student/project/{{$project->idProject}}/groups" style="width: 10em;">{{__('gx.join/create group')}}</a>
                                                             @endif
+                                                        @else
+                                                            <a type="button" class="btn btn-sm" style="background-color: transparent; border-color: none;width: 10em;"></a>
                                                         @endif
                                                     </div>
                                                 @endif
@@ -435,6 +437,10 @@
         border-top: 1px solid white; !important
     }
 
+    .dropdown-item {
+        cursor: pointer;
+    }
+
     .projeto:hover {
         background: #3898ff26;
     }
@@ -462,10 +468,12 @@
 <script>
     $('#dropdown a').click(function(e) {
         oldYear = sessionStorage.getItem("year");
+        $("#"+oldYear+'-tab').removeClass("d-none");
         $("#"+oldYear).addClass("d-none");
         selected = $(this).attr('id').split("-")[0]
         $("#dropdownMenu").html(selected);
         $("#"+selected.replace("/","\\/")).removeClass("d-none");
+        $("#"+selected.replace("/","\\/")+'-tab').addClass("d-none");
         sessionStorage.setItem("year", selected.replace("/","\\/"));
     });
 
@@ -481,11 +489,13 @@
         } else if (moment().isBetween(first2, second2)) {
             year = first2.year() + '\\/' + second2.year();
         }
+        $("#"+year+'-tab').addClass("d-none");
         $("#"+year).removeClass("d-none");
         sessionStorage.setItem("year", year);
         $("#dropdownMenu").html(year.replace("\\",""));
     } else {
         year = sessionStorage.getItem("year");
+        $("#"+year+'-tab').addClass("d-none");
         $("#"+year).removeClass("d-none");
         $("#dropdownMenu").html(year.replace("\\",""));
     }

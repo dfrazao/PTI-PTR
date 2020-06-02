@@ -66,7 +66,11 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="/">
+        @guest
+            <a class="navbar-brand" href="/">
+        @else
+            <a class="navbar-brand" href="{{(Auth::user()->role == "admin" ? '/admin/':'/')}}">
+        @endguest
             <div>
                 <img src="/images/logo1.png" style="width: 150px; height: 50px;">
             </div>
