@@ -423,6 +423,7 @@
                                                                             <figcaption style="overflow:hidden;">{{$docSub->pathFile}}</figcaption>
                                                                         </figure>
                                                                     </div>
+                                                                @endif
                                                             @endforeach
 
                                                         </div>
