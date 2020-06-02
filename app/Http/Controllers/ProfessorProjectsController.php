@@ -166,8 +166,8 @@ class ProfessorProjectsController extends Controller
         if($request->option=="project") {
             $this->validate($request, [
                 'title' => 'required',
-                'minNumber' => 'integer|lte:maxElements',
-                'maxNumber' => 'integer|gte:minElements'
+                'minNumber' => 'integer|lte:maxNumber',
+                'maxNumber' => 'integer'
             ]);
 
             $project = Project::find($id);
