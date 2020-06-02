@@ -11,29 +11,6 @@
             <li class="breadcrumb-item " aria-current="page" >{{$subject->subjectName}} - {{$project->name}}</li>
         </ol>
     </nav>
-    <style>
-        #btn_leave{
-            width: 11em
-        }
-        @media screen and (max-width: 750px){
-            .name_project{
-                text-align: center;
-                font-size: 4vh;
-            }
-            .breadcrumb breadcrumb-item{
-                text-align: center;
-            }
-            .nav-tabs {
-                font-size: 1.5vh;
-            }
-            #btn_leave {
-                width: 3em;
-                font-size: 1.25vh;
-                padding-right: 6.5vh;
-                padding-left: 4vh;
-            }
-        }
-    </style>
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
@@ -174,11 +151,12 @@
                     <div class="row h-50 rounded pt-3">
                         <div class="container-fluid rounded text-center pt-2" style="background-color: #c6c6c6; ">
                             <h5>{{__('gx.documentation')}} </h5>
-                            <div>{{__('gx.files')}}: <a rel="noopener noreferrer" target="_blank" href ="{{Storage::url('documentation/'.$project->idProject.'/'.$project->documentation)}}">{{$project->documentation}}</a></div>
+                            <div>{{__('gx.files')}}:
+                            @foreach($docs as $d)
+                                <a rel="noopener noreferrer" target="_blank" href ="{{Storage::url('documentation/'.$project->idProject.'/'.$d->pathFile)}}">{{$d->pathFile}}</a>
+                            @endforeach
+                            </div>
                             <div>{{__('gx.deadline')}}: {{$project->dueDate}}</div>
-
-
-
                         </div>
                     </div>
                 </div>
@@ -248,11 +226,6 @@
 
                                                 <td class="form-group float-right pr-0">{{Form::Submit('Save', ['class'=>'btn btn-sm mr-2 btn-success', 'style'=>"width: 10vh", 'id'=>'Save'])}}<button type="button" class="btn btn-sm btn-danger editTask">{{__('gx.cancel')}}</button></td>
                                             {!! Form::close() !!}
-                                            <style>
-                                                /*#datetimepicker1-{{$t->idTask}} #datetimepicker1-{{$t->idTask}}{
-                                                    width:;
-                                                }*/
-                                            </style>
                                             <script>
                                                 $(function() {$( "#datetimepicker1-{{$t->idTask}}" ).datetimepicker({
                                                     minDate: moment('{{(\Carbon\Carbon::now())}}').format('YYYY-MM-DD HH:mm:ss'),
@@ -711,54 +684,121 @@
             </div>
         </div>
         <div class="fade tab-pane  ml-0 mr-0" id="submission" role="tabpanel" aria-labelledby="submission-tab">
-            <div class="container rounded pb-3 pt-3">
-                <h5>Submission</h5>
-                <div>Group: {{$idGroup}}</div>
-                <div>Deadline: {{\App\Project::find($project->idProject)->dueDate}}</div>
-                <?php
-                    $last = \Carbon\Carbon::create(0, 0, 0, 0, 0, 0);
-                    foreach($submittedFiles as $file){
-                        if($file->submissionTime > $last){
-                            $last = $file->submissionTime;
+            <div class="row">
+                <div class="col">
+                    <div class="container rounded pb-3 pt-3">
+                        <h5>Submission</h5>
+                        <div>Group: {{$idGroup}}</div>
+                        <div>Deadline: {{\App\Project::find($project->idProject)->dueDate}}</div>
+                        <?php
+                            $last = \Carbon\Carbon::create(0, 0, 0, 0, 0, 0);
+                            foreach($submittedFiles as $file){
+                                if($file->submissionTime > $last){
+                                    $last = $file->submissionTime;
 
-                        }
-                }
-
-                ?>
-
-                <div>Submission time: {{$last}}</div>
-                <div>Files submitted:</div>
-                <div class="container-fluid mt-3 pr-0 pl-3" id="submittedFiles">
-                    @foreach($submittedFiles as $file)
-                        <div class="text-center" id= '{{$file->idFile}}' style="margin-right: 15px; position:relative; display: inline-block; width: 100px;">
-                            <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;" id= '{{$file->idFile}}' class="close downloadFile" download>
-                                <span class="dot" id="download" style="position:relative; display:inline-block">
-                                    <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
-                                </span>
-                            </a>
-                            <button style="position:absolute; top:-10px; right:-10px;" id= '{{$file->idFile}}' type="button" class="close">
-                                <span class="dot" id="delete" style="position:relative; display:inline-block">
-                                    <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
-                                </span>
-                            </button>
-                            <figure>
-                                <i class="fas fa-folder fa-4x px-2" style="color: #ffce52;"></i>
-                                <figcaption>{{$file->pathFile}}</figcaption>
-                            </figure>
+                                }
+                            }
+                        ?>
+                        <div>Submission time: {{$last}}</div>
+                        <div>Files submitted:</div>
+                        <div class="container-fluid mt-3 pr-0 pl-3" id="submittedFiles">
+                            @foreach($submittedFiles as $file)
+                                <div class="text-center" id= '{{$file->idFile}}' style="margin-right: 15px; position:relative; display: inline-block; width: 100px;">
+                                    <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;" id= '{{$file->idFile}}' class="close downloadFile" download>
+                                        <span class="dot" id="download" style="position:relative; display:inline-block">
+                                            <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                        </span>
+                                    </a>
+                                    <button style="position:absolute; top:-10px; right:-10px;" id= '{{$file->idFile}}' type="button" class="close removeFile">
+                                        <span class="dot" id="delete" style="position:relative; display:inline-block">
+                                            <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
+                                        </span>
+                                    </button>
+                                    <figure>
+                                        <i class="fas fa-folder fa-4x px-2" style="color: #ffce52;"></i>
+                                        <figcaption>{{$file->pathFile}}</figcaption>
+                                    </figure>
+                                </div>
+                                {{-- Modal Remove file --}}
+                                <div class="modal fade" id="modalRemoveFile" aria-labelledby="modalRemoveFile" aria-hidden="true" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="staticBackdropLabel">Remove file</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h5>Are you sure you want to remove this file?</h5>
+                                                {!!Form::open(['action' => ['StudentProjectsController@update', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
+                                                {{Form::hidden('_method', 'PUT')}}
+                                                {{Form::submit('Yes', ['class' => 'btn btn-danger'])}}
+                                                {{ Form::hidden('group', $idGroup) }}
+                                                {{Form::hidden('submission','removeFile')}}
+                                                {{Form::hidden('idFile','')}}
+                                                {!!Form::close()!!}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
-                        {{--<script>
-                            $('#{{$file->idFile}}.close').click(function() {
-                                $('div#{{$file->idFile}}.text-center').remove();
-                            })
-                        </script>--}}
-                    @endforeach
+                    </div>
                 </div>
+                <div class="col">
+                    <div class="container rounded pb-3 pt-3">
+                        @foreach($groupUsers as $user)
+                            <div id="{{$user->id}}">
+                                {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST']) !!}
+                                    <img class="profilePhoto pr-2" style="border-radius: 100%; width: 13%; height: 13%; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}">
+                                    <a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a>
+                                    <div class="form-group">
+                                        {{Form::label('grade', trans('gx.grade'))}}
+                                        {{Form::text('grade', '', ['class' => 'form-control', 'placeholder' => 'Grade'])}}
+                                    </div>
+                                    <div class="form-group">
+                                        {{Form::label('commentary', trans('gx.commentary'))}}
+                                        {{Form::text('commentary', '', ['class' => 'form-control', 'placeholder' => 'Comments'])}}
+                                    </div>
+                                {{ Form::hidden('project', $project->idProject) }}
+                                {{ Form::hidden('submission', 'studentsEvaluation')}}
+                                {{ Form::hidden('group', $idGroup) }}
+                                {{Form::hidden('idStudent', $user->id)}}
+                                {{Form::submit('Submit', ['class'=>'btn btn-success float-right'])}}
 
+                                {!! Form::close() !!}
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <style>
+    #btn_leave{
+        width: 11em
+    }
+    @media screen and (max-width: 750px){
+        .name_project{
+            text-align: center;
+            font-size: 4vh;
+        }
+        .breadcrumb breadcrumb-item{
+            text-align: center;
+        }
+        .nav-tabs {
+            font-size: 1.5vh;
+        }
+        #btn_leave {
+            width: 3em;
+            font-size: 1.25vh;
+            padding-right: 6.5vh;
+            padding-left: 4vh;
+        }
+    }
+
     #textArea{
         width: 100%;
         height: 100%;
@@ -936,40 +976,40 @@
             };
     @endforeach
 
-        $('.cell').on('click', function () {
-            if($(this).find('div#{{Auth::user()->id}}').length == 1) {
-                $(this).find('div#{{Auth::user()->id}}').remove();
-                datastring = {
-                    'cell': this.id,
-                    'group': $('input[name=group]').val(),
-                    'submission': $('#scheduleform input[name=submission]').val(),
-                    '_token': $('input[name=_token]').val(),
-                    'idStudent': {{Auth::user()->id}},
-                    'option': 'delete'
-                }
-            }else {
-                var add = document.createElement("div");
-                add.setAttribute("class", "border align-middle usercolor");
-                add.setAttribute("id", '{{Auth::user()->id}}');
-                this.appendChild(add);
-                $('div#{{Auth::user()->id}}.usercolor').css('background-color', $('div#{{Auth::user()->id}}.Mastercolor').css('background-color'));
-                datastring = {
-                    'cell': this.id,
-                    'group': $('input[name=group]').val(),
-                    'submission': $('#scheduleform input[name=submission]').val(),
-                    '_token': $('input[name=_token]').val(),
-                    'idStudent': {{Auth::user()->id}},
-                    'option': 'add'
-                }
+    $('.cell').on('click', function () {
+        if($(this).find('div#{{Auth::user()->id}}').length == 1) {
+            $(this).find('div#{{Auth::user()->id}}').remove();
+            datastring = {
+                'cell': this.id,
+                'group': $('input[name=group]').val(),
+                'submission': $('#scheduleform input[name=submission]').val(),
+                '_token': $('input[name=_token]').val(),
+                'idStudent': {{Auth::user()->id}},
+                'option': 'delete'
             }
-            $.ajax({
-                type: "post",
-                data: datastring,
-                dataType: 'JSON',
-                url: "/student/project/"
-            });
-
+        }else {
+            var add = document.createElement("div");
+            add.setAttribute("class", "border align-middle usercolor");
+            add.setAttribute("id", '{{Auth::user()->id}}');
+            this.appendChild(add);
+            $('div#{{Auth::user()->id}}.usercolor').css('background-color', $('div#{{Auth::user()->id}}.Mastercolor').css('background-color'));
+            datastring = {
+                'cell': this.id,
+                'group': $('input[name=group]').val(),
+                'submission': $('#scheduleform input[name=submission]').val(),
+                '_token': $('input[name=_token]').val(),
+                'idStudent': {{Auth::user()->id}},
+                'option': 'add'
+            }
+        }
+        $.ajax({
+            type: "post",
+            data: datastring,
+            dataType: 'JSON',
+            url: "/student/project/"
         });
+
+    });
 
     $('.file').on('click', function () {
         if($(this).hasClass('select')){
@@ -1004,6 +1044,11 @@
     $('.deleteFile').click(function(){
         $('input[name="idFile"]').val($(this).attr("id"));
         $('#modalDeleteFile').modal('show');
+    });
+
+    $('.removeFile').click(function() {
+        $('input[name="idFile"]').val($(this).attr("id"));
+        $('#modalRemoveFile').modal('show');
     });
 
     $('#modalSubmitFile').on('show.bs.modal', function (event) {

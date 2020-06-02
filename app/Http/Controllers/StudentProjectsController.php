@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Availability;
+use App\Documentation;
+use App\Evaluation;
 use App\Http\Controllers\Controller;
 use App\Meeting;
 use Carbon\Carbon;
@@ -126,8 +128,23 @@ class StudentProjectsController extends Controller
 
             return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'File added successfully');
         }
-        elseif($submission == 'submitFile'){
-            dd($request->input('filesSubmit'));
+        elseif($submission == 'studentsEvaluation'){
+
+
+                $this->validate($request, [
+                    'grade' => 'required',
+                    'commentary' => 'required'
+                ]);
+
+                $eval = new Evaluation;
+                $eval->idGroup = $request->group;
+                $eval->sender = $user;
+                $eval->receiver = $request->idStudent;
+                $eval->grade = $request->input('grade');
+                $eval->commentary= $request->input('commentary');
+                $eval->save();
+
+            return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Grade sent successfully');
         }
         else{
             $this->validate($request, [
@@ -190,6 +207,8 @@ class StudentProjectsController extends Controller
             }
         }
 
+        //Documentation
+        $docs = Documentation::all()->where('idProject', '==', $id);
 
         //Notes
         $notes = Group::find($idGroup)->notes;
@@ -234,7 +253,7 @@ class StudentProjectsController extends Controller
         //Submission
         $submittedFiles = File::all()->where('idGroup','==', $idGroup)->where('finalState','==','final');
 
-        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup)->with('notes',$notes)->with('a',$announcements)->with('meeting',$meeting)->with('groupUsers', $Users)->with('schedule', $schedule)->with('rep',$rep)->with('submittedFiles',$submittedFiles);
+        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup)->with('notes',$notes)->with('a',$announcements)->with('meeting',$meeting)->with('groupUsers', $Users)->with('schedule', $schedule)->with('rep',$rep)->with('submittedFiles',$submittedFiles)->with('docs', $docs);
     }
 
     /**
@@ -290,7 +309,7 @@ class StudentProjectsController extends Controller
 
             $task->save();
             return redirect()->action('StudentProjectsController@show', $id)->with('success', 'Task updated successfully');
-        }else{
+        }elseif($submission == 'submitFile'){
 
             $idFiles = explode(',',$request->filesSubmit);
             foreach($idFiles as $idfile){
@@ -300,6 +319,14 @@ class StudentProjectsController extends Controller
                 $file->save();
             }
             return redirect()->action('StudentProjectsController@show', $id)->with('success', 'File submitted successfully');
+        }else{
+
+            $idFile = $request->idFile;
+            $file = File::find($idFile);
+            $file->finalState = 'temporary';
+            $file->save();
+
+            return redirect()->action('StudentProjectsController@show', $id)->with('success', 'File removed successfully');
         }
     }
 
