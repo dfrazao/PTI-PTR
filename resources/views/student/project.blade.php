@@ -215,9 +215,10 @@
                             <h5>{{__('gx.group elements')}}</h5>
                             <div>
                                 @foreach($groupUsers as $user)
-                                    <img class="profilePhoto pr-2" style="padding-bottom:5px; border-radius: 100%; width: 13%; height: 13%; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}">
-                                    <a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a>
-                                    <br>
+                                    <div class="pb-1">
+                                        <img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}">
+                                        <a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a>
+                                    </div>
                                 @endforeach
                             </div>
                         </div>
@@ -762,7 +763,7 @@
                                 <tr class="forum_content">
                                     <td style="vertical-align: middle;"><a href="/student/project/{{$project->idProject}}/post/{{$announcements[$i]->idAnnouncement}}">{{$announcements[$i]->title}}</a></td>
                                     <td style="vertical-align: middle;">
-                                        <a href="/profile/{{$userPoster[$i]->id }}"><img id="img_forum" class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$userPoster[$i]->photo)}}"><span style="vertical-align: middle;"> {{$userPoster[$i]->name}}</span></a>
+                                        <a href="/profile/{{$userPoster[$i]->id }}"><img id="img_forum" class="editable img-responsive" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$userPoster[$i]->photo)}}"><span style="vertical-align: middle;"> {{$userPoster[$i]->name}}</span></a>
                                     </td>
                                     <td style="vertical-align: middle;">{{$numberComments[$i]}}</td>
                                     <td style="vertical-align: middle;">{{$announcements[$i]->date}}</td>
@@ -863,6 +864,7 @@
                 </div>
             </div>
         </div>
+
         <div class="fade tab-pane  ml-0 mr-0" id="submission" role="tabpanel" aria-labelledby="submission-tab">
             <div class="row">
                 <div class="col">
@@ -931,7 +933,7 @@
                         @foreach($groupUsers as $user)
                             <div id="{{$user->id}}">
                                 {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST']) !!}
-                                    <img class="profilePhoto pr-2" style="border-radius: 100%; width: 13%; height: 13%; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}">
+                                    <img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}">
                                     <a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a>
                                     <div class="form-group">
                                         {{Form::label('grade', trans('gx.grade'))}}
@@ -954,6 +956,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 <style>
