@@ -15,6 +15,7 @@ use App\Announcement;
 use Storage;
 use Carbon\Carbon;
 use App\Documentation;
+use App\File;
 
 class ProfessorProjectsController extends Controller
 {
@@ -52,8 +53,8 @@ class ProfessorProjectsController extends Controller
                 'deadline' => 'required',
                 'group_formation_deadline' => 'required',
                 'documentation' => 'required',
-                'minNumber' => 'integer|lte:maxNumber',
-                'maxNumber' => 'integer'
+                'minNumber' => 'integer|lte:maxElements',
+                'maxNumber' => 'integer|gte:minElements'
             ]);
 
             $project = new Project;
@@ -115,6 +116,7 @@ class ProfessorProjectsController extends Controller
     {
 
         $rep1 = Documentation::all()->where('idProject', '==', $id);
+        $rep2 = File::all()->where('finalState', '==', 'final');
 
         $project = Project::find($id);
         $subject = Subject::find($project->idSubject);
@@ -138,7 +140,7 @@ class ProfessorProjectsController extends Controller
             array_push($numberComments, $idComment);
         }
 
-        return view('professor.project')->with('numberComments', $numberComments)->with('project' , $project)->with('subject', $subject)->with('groups', $groups)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('a',$announcements)->with('rep1', $rep1);
+        return view('professor.project')->with('numberComments', $numberComments)->with('project' , $project)->with('subject', $subject)->with('groups', $groups)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('a',$announcements)->with('rep1', $rep1)->with('rep2', $rep2);
     }
 
     /**

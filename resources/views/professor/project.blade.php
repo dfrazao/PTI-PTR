@@ -157,7 +157,7 @@
 
                                             if (d<0){
                                                 document.getElementById("timer2")
-                                                    .innerHTML = '<p>{{__('gx.edit project')}}<p>';
+                                                    .innerHTML = '<p>{{__('gx.finished')}}<p>';
                                             }else if (d==0 && h==0 && m==0){
                                                 document.getElementById("timer2")
                                                     .innerHTML = '<div>' + s + '<span>{{__('gx.seconds')}}</span></div>';
@@ -180,7 +180,7 @@
                                             }
                                         }
                                         updateTimer2();
-                                        setInterval('updateTimer2()', 1000);
+                                        //setInterval('updateTimer2()', 1000);
                                     </script>
 
                                 </td>
@@ -320,7 +320,7 @@
 
                     @foreach($rep1 as $document)
                         <div class="doc text-center" style="margin-right: 10px; position:relative; display: inline-block; width: 100px;">
-                            <a href="{{Storage::url('studentRepository/'.$project->idProject.'/'.$document->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;"></a>
+                            <a href="{{Storage::url('documentation/'.$project->idProject.'/'.$document->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;"></a>
                             <button style="position:absolute; top:-10px; right:-10px;" id= '{{$document->idDocumentation}}' type="button" class="close deleteFile">
                                     <span class="dot" id="delete" style="position:relative">
                                         <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
@@ -332,11 +332,6 @@
                             </figure>
                         </div>
                     @endforeach
-
-
-
-
-
 
                   {{--modal upload file--}}
                     <div class="modal fade" id="modalUploadFiles-{{$project->idProject}}" aria-labelledby="modalUploadFiles-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
@@ -412,7 +407,26 @@
                                 <div class="container tab-pane fade h-100" id="pills-{{$group->idGroupProject}}" role="tabpanel" aria-labelledby="pills-{{$group->idGroupProject}}-tab">
                                         <div class="row h-100" style="position: relative; background-color: #c6c6c6;">
                                             <div class="col mr-2 ">
-                                                    <div class="row pb-2 " style="height: 40%;"><div class="bg-light p-2 w-100 rounded"><h5>{{__('gx.files')}}</h5> </div></div>
+                                                    <div class="row pb-2 " style="height: 40%;">
+                                                        <div class="bg-light p-2 w-100 rounded">
+                                                            <h5>{{__('gx.files')}}</h5>
+                                                            @foreach($rep2 as $docSub)
+                                                                @if($docSub->idGroup == $group->idGroup)
+                                                                    <div class="doc text-center" style="margin-right: 10px; position:relative; display: inline-block; width: 100px;">
+                                                                        <a href="{{Storage::url('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;" class="close downloadFile" download>
+                                                                            <span class="dot" id="download" style="position:relative">
+                                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                                                            </span>
+                                                                        </a>
+                                                                        <figure class="my-1">
+                                                                            <i class="fas fa-folder fa-4x px-2" style="color: #ffce52;"></i>
+                                                                            <figcaption style="overflow:hidden;">{{$docSub->pathFile}}</figcaption>
+                                                                        </figure>
+                                                                    </div>
+                                                            @endforeach
+
+                                                        </div>
+                                                    </div>
                                                     <div class="row pb-2 " style="height: 30%;"><div class="bg-light p-2 w-100 rounded"><h5>{{__('gx.students assessments')}}</h5></div></div>
                                                     <div class="row " style="height: 30%;">
                                                         <div class=" bg-light p-2 w-100 rounded">
@@ -652,6 +666,22 @@
 
     .table td, .table th{
         vertical-align: middle;
+    }
+    #delete {
+        height: 25px;
+        width: 25px;
+        background-color: red;
+        border-radius: 50%;
+        display: inline-block;
+        color:white;
+    }
+    #download {
+        height: 25px;
+        width: 25px;
+        background-color: white;
+        border-radius: 50%;
+        display: inline-block;
+        color: green;
     }
 </style>
 <script>
