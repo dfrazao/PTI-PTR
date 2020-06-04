@@ -68,10 +68,10 @@ return [
             'driver' => 'gcs',
             'project_id' => env('GOOGLE_CLOUD_PROJECT_ID', 'groupx-273814'),
             'key_file' => env('GOOGLE_CLOUD_KEY_FILE', base_path().'/groupx-bucket-key.json'), // optional: /path/to/service-account.json
-            'bucket' => env('GOOGLE_CLOUD_STORAGE_BUCKET', 'bucket-groupx'),
+            'bucket' => env('GOOGLE_CLOUD_STORAGE_BUCKET', 'file.groupx.pt'),
             'path_prefix' => env('GOOGLE_CLOUD_STORAGE_PATH_PREFIX', null), // optional: /default/path/to/apply/in/bucket
-            'storage_api_uri' => env('GOOGLE_CLOUD_STORAGE_API_URI', null), // see: Public URLs below
-            'visibility' => 'public', // optional: public|private
+            'storage_api_uri' => env('GOOGLE_CLOUD_STORAGE_API_URI', 'http://file.groupx.pt'), // see: Public URLs below
+            'visibility' => 'private', // optional: public|private
         ]
 
     ],
