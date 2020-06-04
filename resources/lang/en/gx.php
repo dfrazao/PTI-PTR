@@ -107,10 +107,11 @@ return [
 
 
     //project
+    'project' => 'Project',
     'are you sure you want to leave the group?' =>'Are you sure you want to leave the group?',
     'group elements' => 'Group Elements',
     'submission' => 'Submission',
-    //////////////////////////////////////////////////
+    'groups' => 'Groups',
     'content'                   => 'Content',
     'schedule'                  => 'Schedule',
     'forum'                     => 'Forum',
@@ -198,7 +199,7 @@ return [
     'adminImportSubjectsData' => 'Import Subjects Data',
     'adminEditSubject' => 'Edit Subject',
     'adminUpdate'       => 'Update',
-    'adminAreyousureyouwanttodeletethissubject?' => 'Are you sure you want to delete this subject?',
+    'adminAreyousureyouwanttodeletethissubject' => 'Are you sure you want to delete this subject?',
     'adminIdSubject'       => 'IdSubject',
     'adminIdGeneralSubject' => 'IdGeneralSubject',
     'adminGeneralSubjectName' => 'General Subject Name',
@@ -228,6 +229,10 @@ return [
     'adminSearch' => 'Search',
     'adminUploadCSVFile' =>  'Upload .csv File',
     'adminStudent' => 'Student',
+    'adminAreyousureyouwanttodeletethisuniversity' => 'Are you sure you want to delete this university?',
+    'adminAreyousureyouwanttodeletethiscourse' => 'Are you sure you want to delete this course?',
+    'adminAreyousureyouwanttodeletethisacademicyear' => 'Are you sure you want to delete this academic year?',
+    'adminAreyousureyouwanttodeletethissubjectenrollment' => 'Are you sure you want to delete this subject enrollment?',
 
 
     //professor
@@ -304,11 +309,32 @@ return [
 
     //footer
     'contact us' => 'Contact Us',
-    '2020, allRightsReserved.' => '2020, All Rights Reserved.'
+    '2020, allRightsReserved.' => '2020, All Rights Reserved.',
+
+    //login
+
+    'remember login' => 'Remember Login',
+    'forgot password' => 'forgot password',
+    'clean' => 'Clean',
+    'email address' => 'Email Address',
+    'password' => 'Password',
+    'remember me' => 'Remember me',
+    'forgot password' => 'Forgot your password?',
+    'login' => 'Login',
+    'clear' => 'Clear',
 
 
+    //register
+    'register' => 'Register',
+    'name' => 'Name',
+    'confirm password' => 'Confirm Password',
 
-
+    //verify
+    'verify email address' => 'Verify Your Email Address',
+    'verification link' => 'A fresh verification link has been sent to your email address.',
+    'check verification link' => 'Before proceeding, please check your email for a verification link.',
+    'if not receive email' => 'If you did not receive the email',
+    'request another' => 'click here to request another',
 
 
 

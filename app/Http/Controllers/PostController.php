@@ -111,6 +111,7 @@ class PostController extends Controller
 
                 return view('post')->with('announcement',$announcement)->with('project',$project)->with('subject',$subject)->with('poster',$poster)->with('comments',$comments)->with('commenters',$commenters);
             }
+            //dd($announcement->idProject);
             abort(404);
         }
         abort(404);

@@ -12,7 +12,7 @@
                     @csrf
 
                     <div class="form-group">
-                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="{{ __('E-Mail Address') }}" name="email" value="{{ old('email') }}" autocomplete="email">
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="{{__('gx.email address') }}" name="email" value="{{ old('email') }}" autocomplete="email">
                         @error('email')
                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -21,7 +21,7 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" placeholder="{{ __('Password') }}" name="password">
+                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" placeholder="{{ __('gx.password') }}" name="password">
                         @error('password')
                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -31,7 +31,7 @@
 
                     <div class="row p-0 m-0 text-center" style="font-size: 13px;">
                         <div class="col-sm-6">
-                                <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}> {{ __('Remember Me') }}
+                                <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}> {{ __('gx.remember me') }}
                         </div>
                         <style>
                             @media (min-width: 576px) {
@@ -44,7 +44,7 @@
 
                          <div class="col-sm-6 vl">
                                 <a class="" href="{{ route('password.request') }}">
-                                    {{ __('Forgot Your Password?') }}
+                                    {{__('gx.forgot password') }}
                                 </a>
                         </div>
                     </div>
@@ -53,11 +53,11 @@
                     <div class="form-group row mb-0 text-center">
                         <div class="col-md-12">
                             <button type="submit" class="btn btn-primary mb-2" style="background:#2c3fb1; width: 100%;">
-                                {{ __('Login') }}
+                                {{ __('gx.login') }}
                             </button>
                         </div>
                         <div class="col-md-12">
-                            <button type="button" class="btn btn-primary clear" style="background:white; color: black; width: 100%;">Clear</button>
+                            <button type="button" class="btn btn-primary clear" style="background:white; color: black; width: 100%;">{{ __('gx.clear') }}</button>
                         </div>
                     </div>
                 </form>

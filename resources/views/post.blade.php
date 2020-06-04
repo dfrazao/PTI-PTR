@@ -158,7 +158,7 @@
                                         </div>
 
                                         {{Form::hidden('_method','PUT')}}
-                                        {{Form::submit(trans('gx.submit')), ['class'=>'btn btn-success'])}}
+                                        {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
 
                                         {!! Form::close() !!}
                                     </div>

@@ -107,6 +107,8 @@ return [
 
 
     //project
+    'project' => 'Projeto',
+    'are you sure you want to leave the group?' => 'Tem a certeza que deseja sair do grupo?',
     'content'                   => 'Conteúdo',
     'schedule'                  => 'Horário',
     'forum'                     => 'Fórum',
@@ -192,7 +194,7 @@ return [
     'adminImportSubjectsData' => 'Importar dados de disciplina',
     'adminEditSubject' => 'Editar Disciplina',
     'adminUpdate'       => 'Atualizar',
-    'adminAreyousureyouwanttodeletethissubject?' => 'Tem a certeza que deseja apagar esta disciplina?',
+    'adminAreyousureyouwanttodeletethissubject' => 'Tem a certeza que deseja apagar esta disciplina?',
     'adminIdSubject'       => 'IdDisciplina',
     'adminUser'             => 'Utilizador',
     'adminIdGeneralSubject' => 'IdDisciplinaGeral',
@@ -224,6 +226,11 @@ return [
     'adminSubject' => 'Disciplina',
     'adminUploadCSVFile' => 'Upload de ficheiro .csv',
     'adminStudent' => 'Aluno',
+
+    'adminAreyousureyouwanttodeletethisuniversity' =>'Tem a certeza que deseja eliminar esta universidade?',
+    'adminAreyousureyouwanttodeletethiscourse' => 'Tem a certeza que deseja eliminar este curso?',
+    'adminAreyousureyouwanttodeletethisacademicyear' => 'Tem a certeza que deseja eliminar este ano académico?',
+    'adminAreyousureyouwanttodeletethissubjectenrollment' => 'Tem a certeza que deseja eliminar esta matrícula?',
 
     //professor
 

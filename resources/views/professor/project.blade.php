@@ -352,7 +352,7 @@
                                     {{Form::hidden('option', 'projectFiles')}}
                                     {{ Form::hidden('project', $project->idProject) }}
                                     {{Form::hidden('_method','POST')}}
-                                    {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
+                                    {{Form::submit( trans('gx.submit'), ['class'=>'btn btn-success'])}}
                                     {!! Form::close() !!}
                                 </div>
                             </div>
@@ -495,7 +495,7 @@
                                                                             {{Form::hidden('group', $group->idGroup)}}
                                                                             {{Form::hidden('_method','PUT')}}
                                                                             {{Form::hidden('option', 'grade')}}
-                                                                            {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
+                                                                            {{Form::submit( trans('gx.submit'), ['class'=>'btn btn-success'])}}
                                                                             {!! Form::close() !!}
                                                                         </div>
                                                                     </div>
@@ -586,7 +586,7 @@
 
                                 {{ Form::hidden('project', $project->idProject) }}
 
-                                {{Form::submit('Submit', ['class'=>'btn btn-success'])}}
+                                {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
 
                                 {!! Form::close() !!}
                             </div>

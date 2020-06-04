@@ -16,17 +16,17 @@
             </div>
             <div class="form-group form-check text-center" style="font-size: 13px;">
                 <label class="pr-3 form-check-label" style="border-right: 1px solid black;">
-                    <input class="form-check-input" type="checkbox" name="remember"> Memorizar Login
+                    <input class="form-check-input" type="checkbox" name="remember"> {{__('gx.remember login')}}
                 </label>
                 <label class="pl-3" style="text-decoration: underline; font-weight: bold; color: #2c3fb1">
-                    <p>Recuperar palavra-passe</p>
+                    <p>{{__('gx.forgot passsword')}}</p>
                 </label>
             </div>
 
             <hr style="border-top: 1px solid black; width: 100%;">
             <div class="text-center">
-                <button type="submit" class="btn btn-primary"  style="background:#2c3fb1; width: 47.5%;">Submit</button>
-                <button type="submit" class="btn btn-primary" style="background:white; color: black; width: 47.5%;">Limpar</button>
+                <button type="submit" class="btn btn-primary"  style="background:#2c3fb1; width: 47.5%;">{{__('gx.submit')}}</button>
+                <button type="submit" class="btn btn-primary" style="background:white; color: black; width: 47.5%;">{{__('gx.clean')}}</button>
             </div>
             </form>
         </div>

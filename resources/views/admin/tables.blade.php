@@ -351,7 +351,7 @@
                         <input type="hidden" id="table" name="table" value="users">
                         <div class="form-row">
                             <div class="col">
-                            <label >uniNumber</label>
+                            <label >{{__('gx.adminUniNumber')}}</label>
                             <input required="required" type="text" class="form-control" id="uniNumber" name="uniNumber" value="">
                             </div>
                             <div class="col">
@@ -642,7 +642,7 @@
                         <input type="hidden" id="idUser" name="idUser" value="">
                         <div class="modal-footer">
 
-                            <button type="submit" class="btn btn-outline-success" ></button>
+                            <button type="submit" class="btn btn-outline-success" >{{__('gx.adminUpdate')}}</button>
                             <button style="float: right" data-dismiss="modal" aria-label="Close" type="button" class="btn btn-outline-danger">{{__('gx.adminCancel')}}</button>
                         </div>
                         </form>
@@ -921,7 +921,7 @@
                                 <div class="form-group">
                                     <input type="file" name="upload-file" class="form-control-file">
                                 </div>
-                                <input class="btn btn-success" type="submit" value="Upload .csv File" name="submit">
+                                <input class="btn btn-success" type="submit" value="{{__('gx.adminUploadCSVFile')}}" name="submit">
                             </form>
                         </div>
                     </div>
@@ -1189,7 +1189,7 @@
                                         <div class="form-group">
                                             <input type="file" name="upload-file" class="form-control-file">
                                         </div>
-                                        <input class="btn btn-success" type="submit" value="Upload .csv File" name="submit">
+                                        <input class="btn btn-success" type="submit" value="{{__('gx.adminUploadCSVFile')}}" name="submit">
                                     </form>
                                 </div>
                             </div>
@@ -1213,7 +1213,7 @@
                                         {{method_field('DELETE')}}
                                         {{ csrf_field() }}
                                         <div class="form-group">
-                                            <p>{{__('gx.adminAreyousureyouwanttodeletethissubject?')}}</p>
+                                            <p>{{__('gx.adminAreyousureyouwanttodeletethisacademicyear')}}</p>
                                             <span id="year"></span>
                                             <input type="hidden" id="id" name="id">
                                         </div>
@@ -1362,7 +1362,7 @@
                                                 <div class="form-group">
                                                     <input type="file" name="upload-file" class="form-control-file">
                                                 </div>
-                                                <input class="btn btn-success" type="submit" value="Upload .csv File" name="submit">
+                                                <input class="btn btn-success" type="submit" value="{{__('gx.adminUploadCSVFile')}}" name="submit">
                                             </form>
                                         </div>
                                     </div>
@@ -1415,7 +1415,7 @@
                                                 {{method_field('DELETE')}}
                                                 {{ csrf_field() }}
                                                 <div class="form-group">
-                                                    <p>{{__('gx.adminAreyousureyouwanttodeletethissubject?')}}</p>
+                                                    <p>{{__('gx.adminAreyousureyouwanttodeletethiscourse')}}</p>
                                                     <span id="coursename"></span>
                                                     <input type="hidden" id="id" name="id">
                                                 </div>
@@ -1584,7 +1584,7 @@
                                                         <div class="form-group">
                                                             <input type="file" name="upload-file" class="form-control-file">
                                                         </div>
-                                                        <input class="btn btn-success" type="submit" value="Upload .csv File" name="submit">
+                                                        <input class="btn btn-success" type="submit" value="{{__('gx.adminUploadCSVFile')}}" name="submit">
                                                     </form>
                                                 </div>
                                             </div>
@@ -1638,7 +1638,7 @@
                                                         {{method_field('DELETE')}}
                                                         {{ csrf_field() }}
                                                         <div class="form-group">
-                                                            <p>{{__('gx.adminAreyousureyouwanttodeletethissubject')}}</p>
+                                                            <p>{{__('gx.adminAreyousureyouwanttodeletethisuniversity')}}</p>
                                                             <span id="univname"></span>
                                                             <input type="hidden" id="id" name="id">
                                                         </div>
@@ -1828,7 +1828,7 @@
                                     <div class="form-group">
                                         <input type="file" name="upload-file" class="form-control-file">
                                     </div>
-                                    <input class="btn btn-success" type="submit" value="Upload .csv File" name="submit">
+                                    <input class="btn btn-success" type="submit" value="{{__('gx.adminUploadCSVFile')}}" name="submit">
                                 </form>
                             </div>
                         </div>
@@ -1899,7 +1899,7 @@
                                     {{method_field('DELETE')}}
                                     {{ csrf_field() }}
                                     <div class="form-group">
-                                        <p>{{__('gx.adminAreyousureyouwanttodeletethissubject?')}}</p>
+                                        <p>{{__('gx.adminAreyousureyouwanttodeletethissubjectenrollment')}}</p>
                                         <span id="idSub"></span>
                                         <input type="hidden" id="id" name="id">
                                     </div>

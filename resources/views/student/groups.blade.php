@@ -1,13 +1,13 @@
 @extends('layouts.app')
 @section('content')
     <head>
-        <title>Groups</title>
+        <title>{{__('gx.group')}}</title>
     </head>
     <div class="container-fluid pl-5 pr-5 pb-2 mt-3">
         @include('layouts.messages')
         <nav aria-label="breadcrumb" >
             <ol class="breadcrumb pl-0 pb-0 mb-4 h3" style="background-color:white; ">
-                <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>Dashboard</a></li>
+                <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>{{__('gx.dashboard')}}</a></li>
                 <li class="breadcrumb-item " aria-current="page" >{{__('gx.group creation')}} - {{$subject->subjectName}} - {{$project->name}}</li>
             </ol>
         </nav>
@@ -31,19 +31,20 @@
                     s = secs - mins * 60;
 
                     if (d<0 || (d==0 && h==0 && m==0 && s==0)) {
-                        document.getElementById("timer1").innerHTML = '<div class="ml-2">Terminado</div>';
-                    } else if (d==0 && h==0 && m==0) {
-                        document.getElementById("timer1").innerHTML = '<div>' + s + '<span>seconds</span></div>';
+                        document.getElementById("timer1").innerHTML = '<div class="ml-2">{{__('gx.finished')}}</div>';
+                    }
+                    else if (d==0 && h==0 && m==0) {
+                    document.getElementById("timer1").innerHTML = '<div>' + s + '<span>{{__('gx.seconds')}}</span></div>';
                     } else if (d==0) {
-                        document.getElementById("timer1").innerHTML =
-                            '<div>' + h + '<span>hours</span></div>' +
-                            '<div>' + m + '<span>minutes</span></div>' +
-                            '<div>' + s + '<span>seconds</span></div>';
+                    document.getElementById("timer1").innerHTML =
+                        '<div>' + h + '<span>{{__('gx.hours')}}</span></div>' +
+                        '<div>' + m + '<span>{{__('gx.minutes')}}</span></div>' +
+                        '<div>' + s + '<span>{{__('gx.seconds')}}</span></div>';
                     } else {
                         document.getElementById("timer1").innerHTML =
-                            '<div>' + d + '<span>days</span></div>' +
-                            '<div>' + h + '<span>hours</span></div>' +
-                            '<div>' + m + '<span>minutes</span></div>';
+                            '<div>' + d + '<span>{{__('gx.days')}}</span></div>' +
+                            '<div>' + h + '<span>{{__('gx.hours')}}</span></div>' +
+                            '<div>' + m + '<span>{{__('gx.minutes')}}</span></div>';
                     }
                 }
                 updateTimer1();
