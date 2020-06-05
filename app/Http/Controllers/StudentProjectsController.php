@@ -131,20 +131,39 @@ class StudentProjectsController extends Controller
         elseif($submission == 'studentsEvaluation'){
 
 
-                $this->validate($request, [
+                /*$this->validate($request, [
                     'grade' => 'required',
                     'commentary' => 'required'
-                ]);
-
-                $eval = new Evaluation;
-                $eval->idGroup = $request->group;
-                $eval->sender = $user;
-                $eval->receiver = $request->idStudent;
-                $eval->grade = $request->input('grade');
-                $eval->commentary= $request->input('commentary');
-                $eval->save();
-
-            return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Grade sent successfully');
+                ]);*/
+                if(!is_null(Evaluation::all()->where('idGroup',$idGroup))) {
+                    $idEval = Evaluation::where("idGroup", $idGroup)->where("sender", $user)->where("receiver", $request->receiver)->pluck("idEval")->first();
+                    if (!is_null(Evaluation::find($idEval))) {
+                        $eval = Evaluation::find($idEval);
+                        $eval->idGroup = $idGroup;
+                        $eval->sender = $user;
+                        $eval->receiver = $request->receiver;
+                        $eval->grade = $request->input('grade');
+                        $eval->commentary = $request->input('commentary');
+                        $eval->save();
+                    } else {
+                        $eval = new Evaluation;
+                        $eval->idGroup = $idGroup;
+                        $eval->sender = $user;
+                        $eval->receiver = $request->receiver;
+                        $eval->grade = $request->input('grade');
+                        $eval->commentary = $request->input('commentary');
+                        $eval->save();
+                    }
+                }else{
+                    $eval = new Evaluation;
+                    $eval->idGroup = $idGroup;
+                    $eval->sender = $user;
+                    $eval->receiver = $request->receiver;
+                    $eval->grade = $request->input('grade');
+                    $eval->commentary = $request->input('commentary');
+                    $eval->save();
+                }
+            //return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Grade sent successfully');
         }
         else{
             $this->validate($request, [
