@@ -864,7 +864,6 @@
                 </div>
             </div>
         </div>
-
         <div class="fade tab-pane  ml-0 mr-0" id="submission" role="tabpanel" aria-labelledby="submission-tab">
             <div class="row">
                 <div class="col">
@@ -931,32 +930,69 @@
                 <div class="col">
                     <div class="container rounded pb-3 pt-3">
                         @foreach($groupUsers as $user)
-                            <div id="{{$user->id}}">
+                            <div>
                                 {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST']) !!}
-                                    <img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}">
-                                    <a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a>
-                                    <div class="form-group">
-                                        {{Form::label('grade', trans('gx.grade'))}}
-                                        {{Form::text('grade', '', ['class' => 'form-control', 'placeholder' => 'Grade'])}}
-                                    </div>
-                                    <div class="form-group">
-                                        {{Form::label('commentary', trans('gx.commentary'))}}
-                                        {{Form::text('commentary', '', ['class' => 'form-control', 'placeholder' => 'Comments'])}}
-                                    </div>
+                                <img class="profilePhoto pr-2" style="border-radius: 100%; width: 13%; height: 13%; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}">
+                                <a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a>
+                                <div class="rating-{{$user->id}}">
+                                    <i class="fa fa-star" aria-hidden="true" id="s1"></i>
+                                    <i class="fa fa-star" aria-hidden="true" id="s2"></i>
+                                    <i class="fa fa-star" aria-hidden="true" id="s3"></i>
+                                    <i class="fa fa-star" aria-hidden="true" id="s4"></i>
+                                    <i class="fa fa-star" aria-hidden="true" id="s5"></i>
+                                </div>
                                 {{ Form::hidden('project', $project->idProject) }}
-                                {{ Form::hidden('submission', 'studentsEvaluation')}}
-                                {{ Form::hidden('group', $idGroup) }}
-                                {{Form::hidden('idStudent', $user->id)}}
-                                {{Form::submit('Submit', ['class'=>'btn btn-success float-right'])}}
 
                                 {!! Form::close() !!}
+                                <script>
+                                    var rating=0;
+                                    $('div.rating-{{$user->id}} #s1').click(function(){
+                                        $('.fa-star').css("color","black");
+                                        $('div.rating-{{$user->id}} #s1').css("color","yellow");
+                                        rating=1;
+                                    });
+                                    $('div.rating-{{$user->id}} #s2').click(function(){
+                                        $('.fa-star').css("color","black");
+                                        $('div.rating-{{$user->id}} #s1, div.rating-{{$user->id}} #s2').css("color","yellow");
+                                        rating=2;
+                                    });
+                                    $('div.rating-{{$user->id}} #s3').click(function(){
+                                        $('.fa-star').css("color","black");
+                                        $('div.rating-{{$user->id}} #s1, div.rating-{{$user->id}} #s2,div.rating-{{$user->id}} #s3').css("color","yellow");
+                                        rating=3;
+                                    });
+                                    $('div.rating-{{$user->id}} #s4').click(function(){
+                                        $('.fa-star').css("color","black");
+                                        $('div.rating-{{$user->id}} #s1,div.rating-{{$user->id}} #s2,div.rating-{{$user->id}} #s3,div.rating-{{$user->id}} #s4').css("color","yellow");
+                                        rating=4;
+                                    });
+                                    $('div.rating-{{$user->id}} #s5').click(function(){
+                                        $('.fa-star').css("color","black");
+                                        $('div.rating-{{$user->id}} #s1,div.rating-{{$user->id}} #s2,div.rating-{{$user->id}} #s3,div.rating-{{$user->id}} #s4, div.rating-{{$user->id}} #s5').css("color","yellow");
+                                        rating=5;
+                                    });
+                                    $('div.rating-{{$user->id}}').on('click',function() {
+                                        $.ajax({
+                                            url: "/student/project/",
+                                            method: "POST",
+                                            data: {
+                                                'group': {{$idGroup}},
+                                                'receiver': {{$user->id}},
+                                                'grade': rating,
+                                                'commentary':'something',
+                                                'submission': 'studentsEvaluation',
+                                                '_token': $('input[name=_token]').val()
+                                            },
+                                            datatype: 'JSON'
+                                        });
+                                    });
+                                </script>
                             </div>
                         @endforeach
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 <style>
