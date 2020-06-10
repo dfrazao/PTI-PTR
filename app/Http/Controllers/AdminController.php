@@ -8,6 +8,8 @@ use App\Chats;
 use App\Evaluations;
 use App\GeneralSubjects;
 use App\GroupChats;
+use App\Jobs\Users;
+use App\Jobs\UsersJob;
 use App\StudentsCourse;
 use App\StudentsGroup;
 use App\University;
@@ -362,49 +364,22 @@ class AdminController extends Controller
             $filePath=$upload->getRealPath();
             $file=fopen($filePath, 'r');
             $header = fgetcsv($file,1000,";");
-
-            $escapedHeader = [];
-            foreach ($header as $key => $value){
-                $lheader = strtolower($value);
-                $escapedItem = preg_replace('/[^a-z]/', '',$lheader);
-                array_push($escapedHeader, $escapedItem);
-            }
+            $allData = [];
+            $id = DB::table('users')->latest('id')->first()->id;
 
             while (($columns = fgetcsv($file, 1000, ";")) !== FALSE){
-                print_r($columns[0]);
-                if($columns[0] == ""){
-                    continue;
-                }
 
-                $data = array_combine($escapedHeader, $columns);
+                $data = array_combine($header, $columns);
+                $id = $id + 1;
+                $data['id'] = $id;
+                $data['email_verified_at'] = date('Y-m-d H:i:s');
+                $data['created_at'] = date('Y-m-d H:i:s');
+                $data['updated_at'] = date('Y-m-d H:i:s');
+                array_push($allData, $data);
 
-                $id = $data['id'];
-                $uniNumber = $data['uninumber'];
-                $role = $data['role'];
-                $name = $data['name'];
-                $email = $data['email'];
-                $email_verified_at = $data['emailverifiedat'];
-                $password = $data['password'];
-                $photo = $data['photo'];
-                $country = $data['country'];
-                $city = $data['city'];
-                $remember_token = $data['remembertoken'];
-                $created_at = $data['createdat'];
-                $updated_at = $data['updatedat'];
-                $description = $data['description'];
-
-                $user = new User;
-                $user-> uniNumber = $uniNumber;
-                $user-> role = $role;
-                $user-> name = $name;
-                $user-> email = $email;
-                $user-> password = Hash::make($password);
-                $user-> photo = $photo;
-                $user->country = $country;
-                $user->city = $city;
-                $user->save();
             }
-            return redirect('admin/users')->with('success','Users Imported');
+            UsersJob::dispatch($allData);
+            return redirect('admin/users')->with('success','Users are being imported. It might take a while.');
 
         }elseif($table == 'subjects'){
                 $upload=$request->file('upload-file');
@@ -433,10 +408,10 @@ class AdminController extends Controller
                     $academicYear = $data['academicyear'];
 
                     $subject = new Subject();
-                    $subject-> idGeneralSubject = $idGeneralSubject;
-                    $subject-> subjectName = $subjectName;
-                    $subject-> class = $class;
-                    $subject-> academicYear =$academicYear;
+                    $subject->idGeneralSubject = $idGeneralSubject;
+                    $subject->subjectName = $subjectName;
+                    $subject->class = $class;
+                    $subject->academicYear =$academicYear;
                     $subject->save();
                 }
                 return redirect('admin/subjects')->with('success','Subjects Imported');
@@ -467,9 +442,9 @@ class AdminController extends Controller
                 $class = $data['class'];
 
                 $subjectEnroll = new SubjectEnrollment();
-                $subjectEnroll-> idUser = $idUser;
-                $subjectEnroll-> idSubject = $idSubject;
-                $subjectEnroll-> class = $class;
+                $subjectEnroll->idUser = $idUser;
+                $subjectEnroll->idSubject = $idSubject;
+                $subjectEnroll->class = $class;
                 $subjectEnroll->save();
                 }
 
