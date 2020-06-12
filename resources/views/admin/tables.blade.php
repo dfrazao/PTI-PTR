@@ -1,7 +1,13 @@
 @extends('layouts.adminbase')
-@section('content2')
-    @if($data[0]->role == 'admin' || $data[0]->role == 'student' || $data[0]->role == 'professor')
 
+
+@section('content2')
+    @if(empty($data[0]))
+        <p>No results found for this table</p>
+    @elseif($data[0]->role == 'admin' || $data[0]->role == 'student' || $data[0]->role == 'professor')
+        <head>
+            <title>Admin - Users</title>
+        </head>
         <!-- Modal - Create -->
         <div class="modal" id="modal-1" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -843,8 +849,11 @@
 
             </script>
 
-    @elseif($data[0]->idGeneralSubject >0 )
 
+    @elseif($data[0]->idGeneralSubject >0 )
+                <head>
+                    <title>Admin - Subjetcs</title>
+                </head>
         <!-- Modal - Create -->
         <div class="modal" id="modal-1" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -1143,7 +1152,9 @@
                 </script>
 
             @elseif($data[0]->academicYear >0 )
-
+                    <head>
+                        <title>Admin - Year</title>
+                    </head>
                 <!-- Modal - Create -->
                     <div class="modal" id="modal-1" tabindex="-1" role="dialog">
                         <div class="modal-dialog" role="document">
@@ -1305,7 +1316,9 @@
 
 
                     @elseif($data[0]->idCourse == 1)
-
+                            <head>
+                                <title>Admin - Courses</title>
+                            </head>
                         <!-- Modal - Create -->
                             <div class="modal" id="modal-1" tabindex="-1" role="dialog">
                                 <div class="modal-dialog" role="document">
@@ -1539,7 +1552,9 @@
                                 </script>
 
                             @elseif($data[0]->idUniversity > 0)
-
+                                    <head>
+                                        <title>Admin - University</title>
+                                    </head>
                                 <!-- Modal - Create -->
                                     <div class="modal" id="modal-1" tabindex="-1" role="dialog">
                                         <div class="modal-dialog" role="document">
@@ -1755,6 +1770,9 @@
                                         </script>
 
             @else
+            <head>
+                <title>Admin - Enrrolments</title>
+            </head>
             <!-- Modal - Create -->
                 <div class="modal" id="modal-1" tabindex="-1" role="dialog">
                     <div class="modal-dialog" role="document">

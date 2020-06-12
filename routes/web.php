@@ -69,12 +69,14 @@ Auth::routes([
     Route::delete('student/project/{id}/destroy/groups','GroupController@destroy')->middleware('auth');
 // Professor
 
-// Admin
-    Route::get('/admin/', 'AdminDashboardController@index', ['name' => 'Admin'])->name("Admin")->middleware(CheckRole::class);
-    Route::get('/admin/{table}', 'AdminController@index', ['name' => 'Admin'])->name("Admin")->middleware(CheckRole::class);
-    Route::post('/admin/{table}/store', 'AdminController@store')->middleware(CheckRole::class);
-    Route::get("/admin/edit-user/{id}",'AdminController@edit')->middleware(CheckRole::class);
-    Route::put("/admin/edit-update/",'AdminController@update')->middleware(CheckRole::class);
-    Route::delete('/admin/{table}/delete/','AdminController@destroy')->middleware(CheckRole::class);
-    Route::post('/admin/{table}/import/','AdminController@import')->middleware(CheckRole::class);
 
+// Admin
+Route::group(['middleware' => 'is.admin'], function () {
+    Route::get('/admin/', 'AdminDashboardController@index');
+    Route::get('/admin/{table}', 'AdminController@index');
+    Route::post('/admin/{table}/store', 'AdminController@store');
+    Route::get("/admin/edit-user/{id}", 'AdminController@edit');
+    Route::put("/admin/edit-update/", 'AdminController@update');
+    Route::delete('/admin/{table}/delete/', 'AdminController@destroy');
+    Route::post('/admin/{table}/import/', 'AdminController@import');
+});

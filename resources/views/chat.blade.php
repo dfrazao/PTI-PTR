@@ -30,22 +30,67 @@
                        {{--<input type="text" placeholder="Search" class="form-control" id="searchinput" name="searchinput" style="font-size:12px; ">--}}
                    </div>
                    <ul class="users">
-                       @for($i = 0; $i < count($arr_users); $i++)
-                         <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
-                                <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
+
+                       @if ($tem === 0)
+                           @for($i = 0; $i < count($arr_users); $i++)
+                               <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
+                                   <span class='pending'></span>
+
+                                   <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
+
+                                   <div class="media">
+                                       <div class="media-left">
+                                           <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
+                                       </div>
+
+                                       <div class="media-body">
+                                           <p class="name" style="font-size: 12px;">{{ $arr_users[$i]->name }}</p>
+                                           {{--<p class="email">{{ $user->email }}</p>--}}
+                                       </div>
+                                   </div>
+                               </li>
+                           @endfor
+                       @else
+                           @for($i = 0; $i < count($arr_users); $i++)
+                               <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
+                                   <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
+
+                                   <div class="media">
+                                       <div class="media-left">
+                                           <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
+                                       </div>
+
+                                       <div class="media-body">
+                                           <p class="name" style="font-size: 12px;">{{ $arr_users[$i]->name }}</p>
+                                           {{--<p class="email">{{ $user->email }}</p>--}}
+                                       </div>
+                                   </div>
+                               </li>
+                           @endfor
+                       @endif
+
+
+                   </ul>
+                   <ul class="groups">
+                       @foreach ($arr_groups as $group )
+                           <li class='user' id='{{ $group }}' name=''>
+                               <input type='hidden' id="name" name='custId' value='{{ $group }}'>
 
                                <div class="media">
                                    <div class="media-left">
-                                       <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
+                                       {{--<img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">--}}
                                    </div>
 
                                    <div class="media-body">
-                                       <p class="name" style="font-size: 12px;">{{ $arr_users[$i]->name }}</p>
-                                       {{--<p class="email">{{ $user->email }}</p>--}}
+                                       <p class="name" style="font-size: 12px;">{{ $group }}</p>
+                                       <p class="email"></p>
                                    </div>
                                </div>
                            </li>
-                       @endfor
+                        @endforeach
+
+
+
                    </ul>
                </div>
            </div>
@@ -146,13 +191,27 @@
 
        .pending {
            position: absolute;
-           left: 13px;
-           top: 9px;
-           background: #ffb82a;
+           left: 20px;
+           top: 7px;
+           background: #b600ff;
            margin: 0;
            border-radius: 50%;
-           width: 18px;
-           height: 18px;
+           width: 10px;
+           height: 10px;
+           line-height: 18px;
+           padding-left: 5px;
+           color: #ffffff;
+           font-size: 12px;
+       }
+       .pending_nav {
+           position: absolute;
+           left: 20px;
+           top: 7px;
+           background: #b600ff;
+           margin: 0;
+           border-radius: 50%;
+           width: 10px;
+           height: 10px;
            line-height: 18px;
            padding-left: 5px;
            color: #ffffff;
@@ -333,27 +392,11 @@
                            if (receiver_id == data.from) {
                                // if receiver is selected, reload the selected user ...
                                $('#' + data.from).click();
-                               sessionStorage.removeItem("notification");
 
                            } else {
+                               $('#chat_button').append('<span class="pending_nav"></span>');
 
-                               // if receiver is not seleted, add notification for that user
-                               var pending = sessionStorage.getItem("notification");
-                               var pending_total = sessionStorage.getItem("notification_total");
 
-                               if (pending) {
-
-                                   pending_total = parseInt(pending_total) + 1
-                                   sessionStorage.setItem("notification_total", pending_total);
-
-                                   $('#' + data.from).append('<span class="pending">'+pending_total+'</span>');
-                                   $('#chat_button').append('<span class="pending"></span>');
-                               } else {
-                                   $('#' + data.from).append('<span class="pending">1</span>');
-                                   $('#chat_button').append('<span class="pending"></span>');
-                                   sessionStorage.setItem("notification", 1);
-                                   sessionStorage.setItem("notification_total", 1);
-                               }
                            }
                        }
                    }
@@ -431,16 +474,7 @@
                });
                $('.input-text').css("display", "block");
                $('.input-group-append').css("display", "block");
-
-               var pending = sessionStorage.getItem("notification");
-               var pending_total = sessionStorage.getItem("notification_total");
-               if (parseInt(pending_total) >= 1) {
-                   pending = parseInt(pending) - 1
-                   sessionStorage.setItem("notification_total", pending_total);
-               }else{
-                   sessionStorage.removeItem("notification");
-                   $('.pending').remove();
-               }
+               $('.pending_nav').remove();
 
 
            });

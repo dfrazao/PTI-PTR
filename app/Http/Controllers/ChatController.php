@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Chat;
+use App\groupChat;
 use App\User;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
@@ -40,7 +41,10 @@ class ChatController extends Controller
             $user_m = User::find($m);
             array_push($arr_users, $user_m);
         }
-        return view('chat')->with('arr_users', $arr_users);
+
+        $groupChat = groupChat::all();
+
+        return view('chat')->with('arr_users', $arr_users)->with('groupChat', $groupChat);
     }
 
     public function getMessage($user_id)
@@ -49,7 +53,10 @@ class ChatController extends Controller
         $my_id = Auth::id();
 
         // Make read all unread message
-//        Chat::where(['sender' => $user_id, 'receiver' => $my_id])->update(['is_read' => 1]);
+        DB::table('chats')
+            ->where('sender', '=', $user_id)
+            ->where('receiver', '=', $my_id)
+            ->update(['isread' => 1]);
 
         // Get all message from selected user
 
@@ -61,6 +68,22 @@ class ChatController extends Controller
         })->get();
 
         return view('messages.conv', ['messages' => $messages]);
+    }
+
+    public function getChatMessage($user_id)
+    {
+
+        $my_id = Auth::id();
+
+        // Make read all unread message
+        //Chat::where(['sender' => $user_id, 'receiver' => $my_id])->update(['isread' => 1]);
+
+        // Get all message from selected user
+
+
+        $messages = groupChat::all()->where('sender', "=",$my_id);
+
+        return view('messages.groupChat', ['messages' => $messages]);
     }
 
     public function authorizeUser(Request $request){
@@ -91,9 +114,10 @@ class ChatController extends Controller
 
         $from = Auth::id();
         $to = $request->receiver_id;
-        $user_notification =  $mu = DB::table('users')
+        $user_notification =  DB::table('users')
                     ->where('id', '=', $from)
                     ->value('name');
+
         $message = $request->message;
 
 
@@ -119,6 +143,7 @@ class ChatController extends Controller
         $data->sender = $from;
         $data->receiver = $to;
         $data->message = $message;
+        $data->isread = 0; // message will be unread when sending message
         $data->save();
     }
 }

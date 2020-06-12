@@ -89,21 +89,29 @@
                 @guest
 
                 @else
-
+                    @if(Auth::user()->role != "admin")
                     <li class="nav-item dropdown dropdown-notifications">
-                        <a href="#notifications-panel" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-bell"></i>
-                        </a>
+
+                            <a href="#notifications-panel" class="nav-link" data-toggle="dropdown">
+                                <i class="fa fa-bell"></i>
+                            </a>
+
+
                         {{--<span class="notif-count">0</span>--}}
                         <div class="dropdown-container">
                             <ul class="dropdown-menu">
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="chat_button" onclick="chat()"><i class="fa fa-envelope"></i></a>
+                    @if ($notification_chat === 0)
+                    <li class="nav-item dropdown dropdown-notifications">
+                        <a class="nav-link " id="chat_button" onclick="chat()"><i class="fa fa-envelope"></i><span class='pending_nav'></span></a>
                     </li>
-
+                    @else
+                        <li class="nav-item dropdown dropdown-notifications">
+                            <a class="nav-link" id="chat_button" onclick="chat()"><i class="fa fa-envelope"></i></a>
+                        </li>
+                    @endif
                     <script>
                         function chat() {
                             var x = document.getElementById("testee");
@@ -114,7 +122,7 @@
                             }
                         }
                     </script>
-
+                        @endif
                     @if ( Config::get('app.locale') == 'en')
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="flag-icon flag-icon-us"> </span> English</a>
@@ -132,9 +140,15 @@
 
                         </li>
                     @endif
+                        @if(Auth::user()->role != "admin")
                     <li class="nav-item">
                         <a class="nav-link" href="/profile/{{ Auth::user()->id }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.Auth::user()->photo)}}"> <span style="vertical-align: middle;">{{ Auth::user()->name }}</span></a>
                     </li>
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link" role="button" aria-haspopup="true" aria-expanded="false" v-pre><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.Auth::user()->photo)}}"> <span style="vertical-align: middle;">{{ Auth::user()->name }}</span></a>
+                            </li>
+                            @endif
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></a>
 
