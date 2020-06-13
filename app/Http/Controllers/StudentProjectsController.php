@@ -143,7 +143,6 @@ class StudentProjectsController extends Controller
                         $eval->sender = $user;
                         $eval->receiver = $request->receiver;
                         $eval->grade = $request->input('grade');
-                        $eval->commentary = $request->input('commentary');
                         $eval->save();
                     } else {
                         $eval = new Evaluation;
@@ -151,7 +150,6 @@ class StudentProjectsController extends Controller
                         $eval->sender = $user;
                         $eval->receiver = $request->receiver;
                         $eval->grade = $request->input('grade');
-                        $eval->commentary = $request->input('commentary');
                         $eval->save();
                     }
                 }else{
@@ -160,11 +158,19 @@ class StudentProjectsController extends Controller
                     $eval->sender = $user;
                     $eval->receiver = $request->receiver;
                     $eval->grade = $request->input('grade');
-                    $eval->commentary = $request->input('commentary');
                     $eval->save();
                 }
             //return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Grade sent successfully');
         }
+        elseif($submission == 'studentsEvaluationSubmission'){
+            $idEval = Evaluation::all()->where("idGroup", $idGroup);
+            foreach($idEval as $ev) {
+                $eval = Evaluation::find($ev->idEval);
+                $eval->status = $request->status;
+                $eval->save();
+            }
+        }
+
         else{
             $this->validate($request, [
                 'description' => 'required',
@@ -269,10 +275,13 @@ class StudentProjectsController extends Controller
             array_push($numberComments, $idComment);
         }
 
+        //Evaluation
+        $eval = Evaluation::all()->where('idGroup','==', $idGroup);
+
         //Submission
         $submittedFiles = File::all()->where('idGroup','==', $idGroup)->where('finalState','==','final');
 
-        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup)->with('notes',$notes)->with('a',$announcements)->with('meeting',$meeting)->with('groupUsers', $Users)->with('schedule', $schedule)->with('rep',$rep)->with('submittedFiles',$submittedFiles)->with('docs', $docs);
+        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup)->with('notes',$notes)->with('a',$announcements)->with('meeting',$meeting)->with('groupUsers', $Users)->with('schedule', $schedule)->with('rep',$rep)->with('submittedFiles',$submittedFiles)->with('docs', $docs)->with('eval', $eval);
     }
 
     /**

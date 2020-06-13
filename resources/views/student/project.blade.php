@@ -929,72 +929,123 @@
                 </div>
                 <div class="col">
                     <div class="container rounded pb-3 pt-3">
-                        @foreach($groupUsers as $user)
-                            <div>
-                                {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST']) !!}
-                                <img class="profilePhoto pr-2" style="border-radius: 100%; width: 13%; height: 13%; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}">
-                                <a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a>
-                                <div class="rating-{{$user->id}}">
-                                    <i class="fa fa-star" aria-hidden="true" id="s1"></i>
-                                    <i class="fa fa-star" aria-hidden="true" id="s2"></i>
-                                    <i class="fa fa-star" aria-hidden="true" id="s3"></i>
-                                    <i class="fa fa-star" aria-hidden="true" id="s4"></i>
-                                    <i class="fa fa-star" aria-hidden="true" id="s5"></i>
-                                </div>
-                                {{ Form::hidden('project', $project->idProject) }}
+                        @if($eval->first()->status == 'submitted')
+                            <h1>Group elements evaluation submitted!</h1>
+                        @else
+                            <div class="StudentsEvaluation">
+                                @foreach($groupUsers as $user)
+                                    {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST']) !!}
+                                    <img class="profilePhoto pr-2" style="border-radius: 100%; width: 13%; height: 13%; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}">
+                                    <a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a>
+                                    <div class="rating-{{$user->id}}">
+                                        <i class="fa fa-star" aria-hidden="true" id="s1"></i>
+                                        <i class="fa fa-star" aria-hidden="true" id="s2"></i>
+                                        <i class="fa fa-star" aria-hidden="true" id="s3"></i>
+                                        <i class="fa fa-star" aria-hidden="true" id="s4"></i>
+                                        <i class="fa fa-star" aria-hidden="true" id="s5"></i>
+                                    </div>
 
-                                {!! Form::close() !!}
-                                <script>
-                                    var rating=0;
-                                    $('div.rating-{{$user->id}} #s1').click(function(){
-                                        $('.fa-star').css("color","black");
-                                        $('div.rating-{{$user->id}} #s1').css("color","yellow");
-                                        rating=1;
-                                    });
-                                    $('div.rating-{{$user->id}} #s2').click(function(){
-                                        $('.fa-star').css("color","black");
-                                        $('div.rating-{{$user->id}} #s1, div.rating-{{$user->id}} #s2').css("color","yellow");
-                                        rating=2;
-                                    });
-                                    $('div.rating-{{$user->id}} #s3').click(function(){
-                                        $('.fa-star').css("color","black");
-                                        $('div.rating-{{$user->id}} #s1, div.rating-{{$user->id}} #s2,div.rating-{{$user->id}} #s3').css("color","yellow");
-                                        rating=3;
-                                    });
-                                    $('div.rating-{{$user->id}} #s4').click(function(){
-                                        $('.fa-star').css("color","black");
-                                        $('div.rating-{{$user->id}} #s1,div.rating-{{$user->id}} #s2,div.rating-{{$user->id}} #s3,div.rating-{{$user->id}} #s4').css("color","yellow");
-                                        rating=4;
-                                    });
-                                    $('div.rating-{{$user->id}} #s5').click(function(){
-                                        $('.fa-star').css("color","black");
-                                        $('div.rating-{{$user->id}} #s1,div.rating-{{$user->id}} #s2,div.rating-{{$user->id}} #s3,div.rating-{{$user->id}} #s4, div.rating-{{$user->id}} #s5').css("color","yellow");
-                                        rating=5;
-                                    });
-                                    $('div.rating-{{$user->id}}').on('click',function() {
-                                        $.ajax({
-                                            url: "/student/project/",
-                                            method: "POST",
-                                            data: {
-                                                'group': {{$idGroup}},
-                                                'receiver': {{$user->id}},
-                                                'grade': rating,
-                                                'commentary':'something',
-                                                'submission': 'studentsEvaluation',
-                                                '_token': $('input[name=_token]').val()
-                                            },
-                                            datatype: 'JSON'
+
+                                    {{ Form::hidden('project', $project->idProject) }}
+
+                                    <script>
+                                        @foreach($eval as $ev)
+                                        @for($i=0;$i<=$ev->grade;$i++)
+                                        $('div.rating-{{$ev->receiver}} #s{{$i}}').css('color','yellow');
+                                            @endfor
+                                            @endforeach
+                                        var rating=0;
+                                        $('div.rating-{{$user->id}} #s1').click(function(){
+                                            $('div.rating-{{$user->id}} .fa-star').css("color","black");
+                                            $('div.rating-{{$user->id}} #s1').css("color","yellow");
+                                            rating=1;
                                         });
-                                    });
-                                </script>
+                                        $('div.rating-{{$user->id}} #s2').click(function(){
+                                            $('div.rating-{{$user->id}} .fa-star').css("color","black");
+                                            $('div.rating-{{$user->id}} #s1, div.rating-{{$user->id}} #s2').css("color","yellow");
+                                            rating=2;
+                                        });
+                                        $('div.rating-{{$user->id}} #s3').click(function(){
+                                            $('div.rating-{{$user->id}} .fa-star').css("color","black");
+                                            $('div.rating-{{$user->id}} #s1, div.rating-{{$user->id}} #s2,div.rating-{{$user->id}} #s3').css("color","yellow");
+                                            rating=3;
+                                        });
+                                        $('div.rating-{{$user->id}} #s4').click(function(){
+                                            $('div.rating-{{$user->id}} .fa-star').css("color","black");
+                                            $('div.rating-{{$user->id}} #s1,div.rating-{{$user->id}} #s2,div.rating-{{$user->id}} #s3,div.rating-{{$user->id}} #s4').css("color","yellow");
+                                            rating=4;
+                                        });
+                                        $('div.rating-{{$user->id}} #s5').click(function(){
+                                            $('div.rating-{{$user->id}} .fa-star').css("color","black");
+                                            $('div.rating-{{$user->id}} #s1,div.rating-{{$user->id}} #s2,div.rating-{{$user->id}} #s3,div.rating-{{$user->id}} #s4, div.rating-{{$user->id}} #s5').css("color","yellow");
+                                            rating=5;
+                                        });
+                                        $('div.rating-{{$user->id}} .fa-star').on('click',function() {
+
+                                            $.ajax({
+                                                url: "/student/project/",
+                                                method: "POST",
+                                                data: {
+                                                    'group': {{$idGroup}},
+                                                    'receiver': {{$user->id}},
+                                                    'grade': rating,
+                                                    'submission': 'studentsEvaluation',
+                                                    '_token': $('input[name=_token]').val()
+                                                },
+                                                datatype: 'JSON'
+                                            });
+                                        });
+                                        $('#submitEval').click(function() {
+                                            $('.StudentsEvaluation').hide();
+                                            $('.submitEval').addClass('d-none');
+                                            $('#submitted').removeClass('d-none');
+                                            $('#modalSubmitEvaluations').modal('hide');
+                                            $.ajax({
+                                                url: "/student/project/",
+                                                method: "POST",
+                                                data: {
+                                                    'group': {{$idGroup}},
+                                                    'receiver': {{$user->id}},
+                                                    'grade': rating,
+                                                    'status': 'submitted',
+                                                    'submission': 'studentsEvaluationSubmission',
+                                                    '_token': $('input[name=_token]').val()
+                                                },
+                                                datatype: 'JSON'
+                                            });
+                                        });
+                                    </script>
+                                    {{-- Modal Submit Evaluations --}}
+                                    <div class="modal fade" id="modalSubmitEvaluations" aria-labelledby="modalSubmitEvaluations" aria-hidden="true" tabindex="-1" role="dialog">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="staticBackdropLabel">Submit Evaluations</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <h5>Are you sure you want to submit the evaluation?</h5>
+                                                    <p>if you submit the evaluations you can no longer make changes</p>
+                                                    <button type="button" class="btn btn-danger" id="submitEval">Yes</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {!! Form::close() !!}
+                                @endforeach
                             </div>
-                        @endforeach
+                            <button type="button" class="btn btn-primary submitEval" data-toggle="modal" data-target="#modalSubmitEvaluations">Submit</button>
+                            <h1 class="d-none" id="submitted">Group elements evaluation submitted!</h1>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <style>
     #btn_leave{
         width: 11em
@@ -1283,6 +1334,8 @@
     $("#modalSubmitFile").on("hidden.bs.modal", function () {
         $('#modalSubmitFile .filesSelected').empty();
     });
+
+
 
 
 
