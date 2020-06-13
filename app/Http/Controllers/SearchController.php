@@ -45,7 +45,7 @@ class SearchController extends Controller
 
                 foreach ($arr_users as $user) {
                     $user_id = User::all()->pluck('id');
-                    $isread = Chat::all()->where('receiver','=',$my_id)->where('sender','=',$user->id)->where('sender','!=',$my_id);
+                    $isread = Chat::all()->where('receiver','=',$my_id)->where('sender','=',$user->id);
                     $uniques = array();
                     foreach ($isread as $c) {
                         $uniques[$c->code] = $c; // Get unique country by code.

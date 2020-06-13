@@ -7,6 +7,9 @@
                 <div class="{{ ($message->sender == Auth::id()) ? 'sent' : 'received' }}">
                     <p>{{ $message->message }}</p>
                     <p class="date">{{ date('d M y, h:i a', strtotime($message->Date)) }}</p>
+                    <script>
+                        sessionStorage.setItem("not", {{$notification_chat}});
+                    </script>
                 </div>
             </li>
         @endforeach

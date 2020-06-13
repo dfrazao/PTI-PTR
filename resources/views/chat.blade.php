@@ -29,69 +29,94 @@
                        </div>
                        {{--<input type="text" placeholder="Search" class="form-control" id="searchinput" name="searchinput" style="font-size:12px; ">--}}
                    </div>
-                   <ul class="users">
-
-                       @if ($tem === 0)
-                           @for($i = 0; $i < count($arr_users); $i++)
-                               <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
-                                   <span class='pending'></span>
-
-                                   <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
-
-                                   <div class="media">
-                                       <div class="media-left">
-                                           <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
-                                       </div>
-
-                                       <div class="media-body">
-                                           <p class="name" style="font-size: 12px;">{{ $arr_users[$i]->name }}</p>
-                                           {{--<p class="email">{{ $user->email }}</p>--}}
-                                       </div>
-                                   </div>
-                               </li>
-                           @endfor
-                       @else
-                           @for($i = 0; $i < count($arr_users); $i++)
-                               <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
-                                   <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
-
-                                   <div class="media">
-                                       <div class="media-left">
-                                           <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
-                                       </div>
-
-                                       <div class="media-body">
-                                           <p class="name" style="font-size: 12px;">{{ $arr_users[$i]->name }}</p>
-                                           {{--<p class="email">{{ $user->email }}</p>--}}
-                                       </div>
-                                   </div>
-                               </li>
-                           @endfor
-                       @endif
-
-
-                   </ul>
-                   <ul class="groups">
-                       @foreach ($arr_groups as $group )
-                           <li class='user' id='{{ $group }}' name=''>
-                               <input type='hidden' id="name" name='custId' value='{{ $group }}'>
-
-                               <div class="media">
-                                   <div class="media-left">
-                                       {{--<img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">--}}
-                                   </div>
-
-                                   <div class="media-body">
-                                       <p class="name" style="font-size: 12px;">{{ $group }}</p>
-                                       <p class="email"></p>
-                                   </div>
-                               </div>
+                   <div class="    ">
+                       <!-- Nav tabs -->
+                       <ul class="nav nav-tabs nav-justified">
+                           <li class="nav-item">
+                               <a class="nav-link active" data-toggle="tab" href="#users"><i class="far fa-user" ></i> </a>
                            </li>
-                        @endforeach
+                           <li class="nav-item">
+                               <a class="nav-link" data-toggle="tab" href="#groups"> <i class="far fa-users"></i></a>
+                           </li>
+
+                       </ul>
+
+                       <!-- Tab panes -->
+                       <div class="tab-content">
+                           <div id="users" class=" tab-pane active"><br>
+                               <ul class="users">
+                                   @if(count($isread) != 0)
+                                       @for($i = 0; $i < count($arr_users); $i++)
+                                           @foreach( $isread as $ele)
+                                               @if ($tem == 0 && $arr_users[$i]->id == $ele)
+                                                   <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
+                                                       <span class='pending'></span>
+                                                       <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
+                                                       <div class="media">
+                                                           <div class="media-left">
+                                                               <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
+                                                           </div>
+                                                           <div class="media-body">
+                                                               <p class="name" style="font-size: 12px;">{{ $arr_users[$i]->name }}</p>
+                                                           </div>
+                                                       </div>
+                                                   </li>
+                                               @else
+                                                   <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
+                                                       <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
+                                                       <div class="media">
+                                                           <div class="media-left">
+                                                               <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
+                                                           </div>
+                                                           <div class="media-body">
+                                                               <p class="name" style="font-size: 12px;">{{ $arr_users[$i]->name }}</p>
+                                                           </div>
+                                                       </div>
+                                                   </li>
+                                               @endif
+                                           @endforeach
+                                       @endfor
+                                   @else
+                                       @for($i = 0; $i < count($arr_users); $i++)
+                                           <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
+                                               <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
+                                               <div class="media">
+                                                   <div class="media-left">
+                                                       <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
+                                                   </div>
+                                                   <div class="media-body">
+                                                       <p class="name" style="font-size: 12px;">{{ $arr_users[$i]->name }}</p>
+                                                   </div>
+                                               </div>
+                                           </li>
+                                       @endfor
+                                   @endif
+                               </ul>
+                           </div>
+                           <div id="groups" class="tab-pane fade"><br>
+                               <ul class="groups">
+                                   @foreach ($arr_groups as $group )
+                                       <li class='user' id='{{ $group }}' name=''>
+                                           <input type='hidden' id="name" name='custId' value='{{ $group }}'>
+
+                                           <div class="media">
+                                               <div class="media-left">
+                                                   {{--<img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">--}}
+                                               </div>
+
+                                               <div class="media-body">
+                                                   <p class="name" style="font-size: 12px;">{{ $group }}</p>
+                                                   <p class="email"></p>
+                                               </div>
+                                           </div>
+                                       </li>
+                                   @endforeach
+                               </ul>
+                           </div>
+                       </div>
+                   </div>
 
 
-
-                   </ul>
                </div>
            </div>
            <script type="text/javascript">
@@ -470,11 +495,18 @@
                        $('#messages').html(data);
                        scrollToBottomFunc();
 
+                       // Retrieve
+                       var num = sessionStorage.getItem("not");
+                       if (num > 0){
+                           var novo = num -1;
+                           sessionStorage.setItem("not", novo);
+                       }else{
+                           $('.pending_nav').remove();
+                       }
                    }
                });
                $('.input-text').css("display", "block");
                $('.input-group-append').css("display", "block");
-               $('.pending_nav').remove();
 
 
            });

@@ -104,13 +104,17 @@
                         </div>
                     </li>
                     @if ($notification_chat === 0)
-                    <li class="nav-item dropdown dropdown-notifications">
-                        <a class="nav-link " id="chat_button" onclick="chat()"><i class="fa fa-envelope"></i><span class='pending_nav'></span></a>
-                    </li>
+                            <li class="nav-item dropdown dropdown-notifications">
+                                <a class="nav-link" id="chat_button" onclick="chat()"><i class="fa fa-envelope"></i></a>
+                            </li>
+
                     @else
-                        <li class="nav-item dropdown dropdown-notifications">
-                            <a class="nav-link" id="chat_button" onclick="chat()"><i class="fa fa-envelope"></i></a>
-                        </li>
+                        <script>
+                            sessionStorage.setItem("not", {{$notification_chat}});
+                        </script>
+                            <li class="nav-item dropdown dropdown-notifications">
+                                <a class="nav-link " id="chat_button" onclick="chat()"><i class="fa fa-envelope"></i><span class='pending_nav'></span></a>
+                            </li>
                     @endif
                     <script>
                         function chat() {

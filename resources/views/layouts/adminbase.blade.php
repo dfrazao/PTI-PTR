@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="{{asset('css/emojionearea.min.css')}}"/>
 <script type="text/javascript" src="{{asset('js/emojionearea.min.js')}}"></script>
 @section('content')
-<div class="container-fluid">
+<div class="container-fluid" >
     <div class="row min-vh-100 flex-column flex-md-row">
         <aside class="col-12 col-sm-2 p-0 bg-light flex-shrink-1" >
             <nav class="navbar navbar-expand navbar-light bg-light flex-md-column flex-row align-items-middle py-2">

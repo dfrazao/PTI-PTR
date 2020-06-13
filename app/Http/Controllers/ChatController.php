@@ -59,15 +59,23 @@ class ChatController extends Controller
             ->update(['isread' => 1]);
 
         // Get all message from selected user
-
-
         $messages = Chat::where(function ($query) use ($user_id, $my_id) {
             $query->where('sender', $user_id)->where('receiver', $my_id);
         })->oRwhere(function ($query) use ($user_id, $my_id) {
             $query->where('sender', $my_id)->where('receiver', $user_id);
         })->get();
 
-        return view('messages.conv', ['messages' => $messages]);
+
+        $isread = Chat::all()->where('receiver','=',$my_id)->where('isread','=',0);
+
+        if(count($isread) > 0){
+            $notification_chat = count($isread);
+        }else{
+            $notification_chat = 0;
+        }
+
+
+        return view('messages.conv', ['messages' => $messages, "notification_chat" => $notification_chat]);
     }
 
     public function getChatMessage($user_id)

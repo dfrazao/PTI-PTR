@@ -118,15 +118,15 @@ class AppServiceProvider extends ServiceProvider
 
 
             $notification_chat = 1;
-            $isread = Chat::all()->where('receiver','=',$my_id)->where('isread','=',0);
+            $isread = Chat::all()->where('receiver','=',$my_id)->where('isread','=',0)->pluck('sender');
             if(count($isread) > 0){
-                $notification_chat = 0;
+                $notification_chat = count($isread);
             }else{
-                $notification_chat = 1;
+                $notification_chat = 0;
             }
 
 
-            $view->with('arr_users', $arr_users)->with('arr_groups',$arr_groups)->with('notification_chat',$notification_chat)->with('tem',$tem);
+            $view->with('arr_users', $arr_users)->with('arr_groups',$arr_groups)->with('notification_chat',$notification_chat)->with('tem',$tem)->with('isread',$isread);
         });
     }
 }
