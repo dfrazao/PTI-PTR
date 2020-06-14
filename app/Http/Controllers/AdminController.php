@@ -373,10 +373,6 @@ class AdminController extends Controller
             }
 
             while (($columns = fgetcsv($file, 1000, ";")) !== FALSE){
-                if($columns[0] == ""){
-                    continue;
-                }
-
                 $data = array_combine($escapedHeader, $columns);
 
                 $id = $data['id'];
