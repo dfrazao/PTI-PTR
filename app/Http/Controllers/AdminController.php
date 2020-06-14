@@ -364,22 +364,48 @@ class AdminController extends Controller
             $filePath=$upload->getRealPath();
             $file=fopen($filePath, 'r');
             $header = fgetcsv($file,1000,";");
-            $allData = [];
-            $id = DB::table('users')->latest('id')->first()->id;
+
+            $escapedHeader = [];
+            foreach ($header as $key => $value){
+                $lheader = strtolower($value);
+                $escapedItem = preg_replace('/[^a-z]/', '',$lheader);
+                array_push($escapedHeader, $escapedItem);
+            }
 
             while (($columns = fgetcsv($file, 1000, ";")) !== FALSE){
+                if($columns[0] == ""){
+                    continue;
+                }
 
-                $data = array_combine($header, $columns);
-                $id = $id + 1;
-                $data['id'] = $id;
-                $data['email_verified_at'] = date('Y-m-d H:i:s');
-                $data['created_at'] = date('Y-m-d H:i:s');
-                $data['updated_at'] = date('Y-m-d H:i:s');
-                array_push($allData, $data);
+                $data = array_combine($escapedHeader, $columns);
 
+                $id = $data['id'];
+                $uniNumber = $data['uninumber'];
+                $role = $data['role'];
+                $name = $data['name'];
+                $email = $data['email'];
+                $email_verified_at = $data['emailverifiedat'];
+                $password = $data['password'];
+                $photo = $data['photo'];
+                $country = $data['country'];
+                $city = $data['city'];
+                $remember_token = $data['remembertoken'];
+                $created_at = $data['createdat'];
+                $updated_at = $data['updatedat'];
+                $description = $data['description'];
+
+                $user = new User;
+                $user-> uniNumber = $uniNumber;
+                $user-> role = $role;
+                $user-> name = $name;
+                $user-> email = $email;
+                $user-> password = Hash::make($password);
+                $user-> photo = $photo;
+                $user->country = $country;
+                $user->city = $city;
+                $user->save();
             }
-            UsersJob::dispatch($allData);
-            return redirect('admin/users')->with('success','Users are being imported. It might take a while.');
+            return redirect('admin/users')->with('success','Users Imported');
 
         }elseif($table == 'subjects'){
                 $upload=$request->file('upload-file');
