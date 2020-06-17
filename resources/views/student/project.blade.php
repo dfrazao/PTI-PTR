@@ -8,9 +8,16 @@
     <nav id="breadcrumb" aria-label="breadcrumb" >
         <ol id="breadcrumb" class="breadcrumb pl-0 pb-0 mb-4 h3" style="background-color:white; ">
             <li id="bc1" class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>Dashboard</a></li>
-            <li id="bc2" class="breadcrumb-item " aria-current="page" >{{$subject->subjectName}} - {{$project->name}}</li>
+            <li id="bc2" class="breadcrumb-item " aria-current="page" >{{$subject->subjectName}} - {{$project->name}} - Group {{$idGroup}}</li>
+            <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto">
+                <div id="timer2-{{$project->idProject}}" class="timer"></div>
+                <i class="fal fa-lg fa-flag-checkered float-left pl-2"></i>
+            </div>
         </ol>
     </nav>
+
+
+
     <style>
         /*#btn_leave{
             width: 11em
@@ -144,10 +151,36 @@
                                         <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
                                     </span>
                                 </button>
-                                <figure>
-                                    <i class="fas fa-folder fa-4x px-2" style="color: #ffce52;"></i>
-                                    <figcaption>{{$file->pathFile}}</figcaption>
-                                </figure>
+                                @if((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "txt")
+                                    <figure>
+                                        <i class="fad fa-file-alt fa-4x px-2"></i>
+                                        <figcaption>{{$file->pathFile}}</figcaption>
+                                    </figure>
+                                @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpg")
+                                    <figure>
+                                        <i class="fas fa-image fa-4x px-2"></i>
+                                        <figcaption>{{$file->pathFile}}</figcaption>
+                                    </figure>
+                                @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "pdf" )
+                                    <figure>
+                                        <i class="fal fa-file-pdf fa-4x px-2"></i>
+                                        <figcaption>{{$file->pathFile}}</figcaption>
+                                    </figure>
+                                @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "docx" )
+                                    <figure>
+                                        <i class="fal fa-file-word fa-4x px-2"></i>
+                                        <figcaption>{{$file->pathFile}}</figcaption>
+                                    </figure>
+                                @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "zip" )
+                                    <figure>
+                                        <i class="fal fa-file-archive fa-4x px-2"></i>
+                                        <figcaption>{{$file->pathFile}}</figcaption>
+                                    </figure>
+
+
+                                @endif
+
+
                             </div>
                         @endforeach
                             <div id="dropzone" class="text-center" style="margin-right: 10px; position:relative; display: inline-block;">
@@ -212,7 +245,7 @@
                 <div id="2col" style="padding-left:30px;" class="col-md-4 mt-3 rounded">
                     <div class="row h-50">
                         <div id="col_groups" class="container-fluid rounded text-center pt-2 pb-2" style="background-color: #c6c6c6;">
-                            <h5>{{__('gx.group elements')}}</h5>
+                            <h5>{{__('gx.group').' '. $idGroup}}</h5>
                             <div>
                                 @foreach($groupUsers as $user)
                                     <div class="pb-1">
@@ -635,7 +668,10 @@
                 </div>
             </div>
             <div class="container-fluid rounded text-center pt-2 h-100 px-0">
-                <h5 class="pt-2">{{__('gx.meetings')}}</h5>
+                <div style="display:inline-flex;" class="h5 pt-2">
+                    <i class="far fa-user-friends float-left"></i>
+                    <div class="pl-2">{{__('gx.meetings')}}</div>
+                </div>
                 <div class="table-fixed">
                     <table class="table table-hover text-center">
                         <thead>
@@ -868,29 +904,40 @@
             <div class="row">
                 <div class="col">
                     <div class="container rounded pb-3 pt-3">
-                        <h5>Submission</h5>
-                        <div>Group: {{$idGroup}}</div>
-                        <div>Deadline: {{\App\Project::find($project->idProject)->dueDate}}</div>
+                        <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-2">
+                            <i class='pl-1 far fa-lg fa-file-alt float-left'></i>
+                            <div id="deadline" style="display: inline-flex" class="pl-3">Deadline: {{$project->dueDate}}</div>
+                        </div>
                         <?php
                             $last = \Carbon\Carbon::create(0, 0, 0, 0, 0, 0);
-                            foreach($submittedFiles as $file){
-                                if($file->submissionTime > $last){
-                                    $last = $file->submissionTime;
+                            if($submittedFiles->count() > 0){
+                                foreach($submittedFiles as $file){
+                                    if($file->submissionTime > $last){
+                                        $last = $file->submissionTime;
 
+                                    }
                                 }
+                            }else{
+                                $last = "No files submitted!";
                             }
                         ?>
-                        <div>Submission time: {{$last}}</div>
-                        <div>Files submitted:</div>
-                        <div class="container-fluid mt-3 pr-0 pl-3" id="submittedFiles">
+                        <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-4">
+                            <i class="far fa-lg fa-clock float-left"></i>
+                            <div style="display: inline-flex" class="pl-3"> Submission time: {{$last}}</div>
+                        </div>
+                        <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-4">
+                            <i class="pl-1 far fa-lg fa-file float-left"></i>
+                            <div id="submissionTime" style="display: inline-flex" class="pl-3"> Files submitted:</div>
+                        </div>
+                        <div class="container-fluid mt-3 pr-0 ml-2" id="submittedFiles" style="background-color: white">
                             @foreach($submittedFiles as $file)
-                                <div class="text-center" id= '{{$file->idFile}}' style="margin-right: 15px; position:relative; display: inline-block; width: 100px;">
-                                    <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;" id= '{{$file->idFile}}' class="close downloadFile" download>
+                                <div class="text-center pt-2" id= '{{$file->idFile}}' style="margin-right: 15px; position:relative; display: inline-block; width: 100px;">
+                                    <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="position:absolute; top:-1px; right:17px;" id= '{{$file->idFile}}' class="close downloadFile" download>
                                         <span class="dot" id="download" style="position:relative; display:inline-block">
                                             <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
                                         </span>
                                     </a>
-                                    <button style="position:absolute; top:-10px; right:-10px;" id= '{{$file->idFile}}' type="button" class="close removeFile">
+                                    <button style="position:absolute; top:-1px; right:-10px;" id= '{{$file->idFile}}' type="button" class="close removeFile">
                                         <span class="dot" id="delete" style="position:relative; display:inline-block">
                                             <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
                                         </span>
@@ -929,8 +976,10 @@
                 </div>
                 <div class="col">
                     <div class="container rounded pb-3 pt-3">
-                        @if($eval->first()->status == 'submitted')
-                            <h1>Group elements evaluation submitted!</h1>
+                        @if($eval->count() > 0 && $eval->first()->status == 'submitted')
+                            <div class="alert alert-success alert-dismissible fade show">
+                                <strong>Success!</strong> Your group elements evaluation has been sent successfully.
+                            </div>
                         @else
                             <div class="StudentsEvaluation">
                                 @foreach($groupUsers as $user)
@@ -1037,7 +1086,9 @@
                                 @endforeach
                             </div>
                             <button type="button" class="btn btn-primary submitEval" data-toggle="modal" data-target="#modalSubmitEvaluations">Submit</button>
-                            <h1 class="d-none" id="submitted">Group elements evaluation submitted!</h1>
+                            <div class="alert alert-success alert-dismissible fade show d-none" id="submitted">
+                                <strong>Success!</strong> Your group elements evaluation has been sent successfully.
+                            </div>
                         @endif
                     </div>
                 </div>
@@ -1156,7 +1207,25 @@
         opacity:0.5;
         z-index:2;
     }
+    .timer {
+        font-size: 1.30em;
+        font-weight: 100;
+        color: navy;
+        display: inline-block;
+        min-width: 45px;
+    }
 
+    .timer div {
+        display: inline-block;
+        min-width: 45px;
+    }
+
+    .timer div span {
+        color: black;
+        display: block;
+        font-size: .30em;
+        font-weight: 400;
+    }
 
 </style>
 <script>
@@ -1282,12 +1351,12 @@
     });
 
     $('.file').on('click', function () {
-        if($(this).hasClass('select')){
-            $(this).removeClass('select');
+        if($($(this).find("figure i")).hasClass('select')){
+            $($(this).find("figure i")).removeClass('select');
             $(this).find("#download").css("display","none");
             $(this).find("#delete").css("display","none");
         }else{
-            $(this).addClass('select');
+            $($(this).find("figure i")).addClass('select');
             $(this).find('#download').css("display","inline-block");
             $(this).find('#delete').css("display","inline-block");
             $('#submitFile').removeAttr('disabled');
@@ -1301,7 +1370,7 @@
         $(this).find('#download').css("display","inline-block");
         $(this).find('#delete').css("display","inline-block");
     }, function() {
-        if($(this).hasClass('select')){
+        if($($(this).find("figure i")).hasClass('select')){
             $(this).find('#download').css("display","inline-block");
             $(this).find('#delete').css("display","inline-block");
         }
@@ -1334,7 +1403,39 @@
     $("#modalSubmitFile").on("hidden.bs.modal", function () {
         $('#modalSubmitFile .filesSelected').empty();
     });
+    function updateTimer2{{$project->idProject}}() {
+        future = Date.parse("{{$project->dueDate}}");
+        now = new Date();
+        diff = future - now;
 
+        days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        hours = Math.floor(diff / (1000 * 60 * 60));
+        mins = Math.floor(diff / (1000 * 60));
+        secs = Math.floor(diff / 1000);
+
+        d = days;
+        h = hours - days * 24;
+        m = mins - hours * 60;
+        s = secs - mins * 60;
+
+        if (d<0 || (d==0 && h==0 && m==0 && s==0)) {
+            document.getElementById("timer2-{{$project->idProject}}").innerHTML = '<div class="ml-2">{{__("gx.finished")}}</div>';
+        } else if (d==0 && h==0 && m==0) {
+            document.getElementById("timer2-{{$project->idProject}}").innerHTML = '<div>' + s + '<span>{{__("gx.seconds")}}</span></div>';
+        } else if (d==0) {
+            document.getElementById("timer2-{{$project->idProject}}").innerHTML =
+                '<div>' + h + '<span>{{__("gx.hours")}}</span></div>' +
+                '<div>' + m + '<span>{{__("gx.minutes")}}</span></div>' +
+                '<div>' + s + '<span>{{__("gx.seconds")}}</span></div>';
+        } else {
+            document.getElementById("timer2-{{$project->idProject}}").innerHTML =
+                '<div>' + d + '<span>{{__("gx.days")}}</span></div>' +
+                '<div>' + h + '<span>{{__("gx.hours")}}</span></div>' +
+                '<div>' + m + '<span>{{__("gx.minutes")}}</span></div>';
+        }
+    }
+    updateTimer2{{$project->idProject}}();
+    setInterval('updateTimer2{{$project->idProject}}()', 1000);
 
 
 

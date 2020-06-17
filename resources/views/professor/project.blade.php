@@ -17,7 +17,7 @@
             <a class="nav-link" id="characteristics-tab" data-toggle="tab" href="#characteristics" role="tab" aria-controls="characteristics" aria-selected="false">{{__('gx.characteristics')}}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="groups-tab" data-toggle="tab" href="#groups" role="tab" aria-controls="groups" aria-selected="true">{{__('gx.groups')}}</a>
+            <a class="nav-link" id="gr-tab" data-toggle="tab" href="#gr" role="tab" aria-controls="gr" aria-selected="false">{{__('gx.groups')}}</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="forum-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="false">{{__('gx.forum')}}</a>
@@ -385,17 +385,17 @@
             </div>
         </div>
 
-        <div class="container-fluid ml-0 mr-0 tab-pane fade" id="groups" role="tabpanel" aria-labelledby="groups-tab">
+        <div class="container-fluid ml-0 mr-0 tab-pane fade" id="gr" role="tabpanel" aria-labelledby="gr-tab">
             <div class="row rounded " style="height: 75vh;">
                 <div class="col mt-3 mb-3 ml-3 rounded center" style="background-color: #c6c6c6; position: relative;">
                     <div class="container pt-3 overflow-auto mw-80" >
                         <ul class="nav nav-pills mb-3 flex-column" id="pills-tab" role="tablist" aria-orientation="vertical">
                             @foreach($groups as $group)
-                                 <li class="nav-item mb-1 rounded" style="background-color: #d0e7ff;">
-                                     <a class="nav-link " style="display:flex; align-items: center;vertical-align: middle;" id="pills-{{$group->idGroupProject}}-tab" data-toggle="pill" href="#pills-{{$group->idGroupProject}}" role="tab" aria-controls="pills-{{$group->idGroupProject}}" aria-selected="true">
-                                         <h3 class="float-left mb-0 mr-2" style="vertical-align: middle;">{{__('gx.group')}} {{$group->idGroupProject}} </h3>
-                                     </a>
-                                 </li>
+                                <li class="nav-item mb-1 rounded" style="background-color: #d0e7ff;">
+                                    <a class="nav-link " style="display:flex; align-items: center;vertical-align: middle;" id="pills-{{$group->idGroupProject}}-tab" data-toggle="pill" href="#pills-{{$group->idGroupProject}}" role="tab" aria-controls="pills-{{$group->idGroupProject}}" aria-selected="true">
+                                        <h3 class="float-left mb-0 mr-2" style="vertical-align: middle;">{{__('gx.group')}} {{$group->idGroupProject}} </h3>
+                                    </a>
+                                </li>
                             @endforeach
                         </ul>
                     </div>
@@ -405,114 +405,114 @@
                         <div class="tab-content h-100" id="pills-tabContent">
                             @foreach($groups as $group)
                                 <div class="container tab-pane fade h-100" id="pills-{{$group->idGroupProject}}" role="tabpanel" aria-labelledby="pills-{{$group->idGroupProject}}-tab">
-                                        <div class="row h-100" style="position: relative; background-color: #c6c6c6;">
-                                            <div class="col mr-2 ">
-                                                    <div class="row pb-2 " style="height: 40%;">
-                                                        <div class="bg-light p-2 w-100 rounded">
-                                                            <h5>{{__('gx.files')}}</h5>
-                                                            @foreach($rep2 as $docSub)
-                                                                @if($docSub->idGroup == $group->idGroup)
-                                                                    <div class="doc text-center" style="margin-right: 10px; position:relative; display: inline-block; width: 100px;">
-                                                                        <a href="{{Storage::url('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;" class="close downloadFile" download>
+                                    <div class="row h-100" style="position: relative; background-color: #c6c6c6;">
+                                        <div class="col mr-2 ">
+                                            <div class="row pb-2 " style="height: 40%;">
+                                                <div class="bg-light p-2 w-100 rounded">
+                                                    <h5>{{__('gx.files')}}</h5>
+                                                    @foreach($rep2 as $docSub)
+                                                        @if($docSub->idGroup == $group->idGroup)
+                                                            <div class="doc text-center" style="margin-right: 10px; position:relative; display: inline-block; width: 100px;">
+                                                                <a href="{{Storage::url('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;" class="close downloadFile" download>
                                                                             <span class="dot" id="download" style="position:relative">
                                                                                 <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
                                                                             </span>
-                                                                        </a>
-                                                                        <figure class="my-1">
-                                                                            <i class="fas fa-folder fa-4x px-2" style="color: #ffce52;"></i>
-                                                                            <figcaption style="overflow:hidden;">{{$docSub->pathFile}}</figcaption>
-                                                                        </figure>
-                                                                    </div>
-                                                                @endif
-                                                            @endforeach
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="row pb-2 " style="height: 30%;"><div class="bg-light p-2 w-100 rounded"><h5>{{__('gx.students assessments')}}</h5></div></div>
-                                                    <div class="row " style="height: 30%;">
-                                                        <div class=" bg-light p-2 w-100 rounded">
-                                                        <h5>{{__('gx.final group evaluation')}}</h5>
-                                                        @if ($group->grade == NULL)
-                                                            <p class="mb-0">{{__('gx.group not evaluated')}}</p>
-                                                            <button type="button" class="p-2 btn btn-primary btn-md" style="position: absolute; bottom: 0; right: 0; margin-bottom: 1%; margin-right: 1%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}">{{__('gx.evaluate group')}}</button>
-                                                            <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
-                                                                <div class="modal-dialog" role="document">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.evaluation')}}</h4>
-                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                <span aria-hidden="true">&times;</span>
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            {!! Form::open(['action' => 'ProfessorProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
-                                                                            <div class="form-group">
-                                                                                {{Form::label('grade', trans('gx.project grade'))}}
-                                                                                {{Form::text('grade', '', ['class' => 'form-control'])}}
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                {{Form::label('gradeComment', trans('gx.comment(opcional)'))}}
-                                                                                {{Form::text('gradeComment', '', ['class' => 'form-control'])}}
-                                                                            </div>
-                                                                            {{Form::hidden('group', $group->idGroup)}}
-                                                                            {{Form::hidden('option', 'grade')}}
-                                                                            {{Form::hidden('project', $project->idProject)}}
-                                                                            {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
-
-                                                                            {!! Form::close() !!}
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        @else
-
-                                                            <p class="mb-0">{{__('gx.grade')}}: {{$group->grade}}</p>
-                                                            @if($group->gradeComment == NULL)
-                                                                <p class="m-0">{{__('gx.no comments')}}</p>
-                                                            @else
-                                                                <p class="mb-0" >: {{$group->gradeComment}}</p>
-                                                            @endif
-                                                            <button type="button" class="p-2 btn btn-primary btn-md float-right" style="position: absolute; bottom: 0; right: 0; margin-bottom: 1%; margin-right: 1%;" data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}" >{{__('gx.change grade')}}</button>
-                                                            <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
-                                                                <div class="modal-dialog" role="document">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.evaluation')}}</h4>
-                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                <span aria-hidden="true">&times;</span>
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            {!! Form::open(['action' => ['ProfessorProjectsController@update', $project->idProject], 'method' => 'PUT']) !!}
-                                                                            <div class="form-group">
-                                                                                {{Form::label('grade', trans('gx.project grade'))}}
-                                                                                {{Form::text('grade', '', ['class' => 'form-control'])}}
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                {{Form::label('gradeComment', trans('gx.comment(opcional)'))}}
-                                                                                {{Form::text('gradeComment', '', ['class' => 'form-control'])}}
-                                                                            </div>
-                                                                            {{Form::hidden('group', $group->idGroup)}}
-                                                                            {{Form::hidden('_method','PUT')}}
-                                                                            {{Form::hidden('option', 'grade')}}
-                                                                            {{Form::submit( trans('gx.submit'), ['class'=>'btn btn-success'])}}
-                                                                            {!! Form::close() !!}
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                                </a>
+                                                                <figure class="my-1">
+                                                                    <i class="fas fa-folder fa-4x px-2" style="color: #ffce52;"></i>
+                                                                    <figcaption style="overflow:hidden;">{{$docSub->pathFile}}</figcaption>
+                                                                </figure>
                                                             </div>
                                                         @endif
-                                                    </div>
+                                                    @endforeach
+
                                                 </div>
                                             </div>
-                                            <div class="col-3 bg-light p-3 rounded">
-                                                <h5>{{__('gx.elements')}}</h5>
-                                                @foreach(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) as $sg)
-                                                    <div class="mb-2"><a href="/profile/{{$sg->idStudent}}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.\App\User::find($sg->idStudent)->photo)}}"><span style="vertical-align: middle;"> {{\App\User::find($sg->idStudent)->name}}</span></a></div>
-                                                @endforeach
-                                            </div>
+                                            <div class="row pb-2 " style="height: 30%;"><div class="bg-light p-2 w-100 rounded"><h5>{{__('gx.students assessments')}}</h5></div></div>
+                                            <div class="row " style="height: 30%;">
+                                                <div class=" bg-light p-2 w-100 rounded">
+                                                    <h5>{{__('gx.final group evaluation')}}</h5>
+                                                    @if ($group->grade == NULL)
+                                                        <p class="mb-0">{{__('gx.group not evaluated')}}</p>
+                                                        <button type="button" class="p-2 btn btn-primary btn-md" style="position: absolute; bottom: 0; right: 0; margin-bottom: 1%; margin-right: 1%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}">{{__('gx.evaluate group')}}</button>
+                                                        <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.evaluation')}}</h4>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        {!! Form::open(['action' => 'ProfessorProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                                                                        <div class="form-group">
+                                                                            {{Form::label('grade', trans('gx.project grade'))}}
+                                                                            {{Form::text('grade', '', ['class' => 'form-control'])}}
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            {{Form::label('gradeComment', trans('gx.comment(opcional)'))}}
+                                                                            {{Form::text('gradeComment', '', ['class' => 'form-control'])}}
+                                                                        </div>
+                                                                        {{Form::hidden('group', $group->idGroup)}}
+                                                                        {{Form::hidden('option', 'grade')}}
+                                                                        {{Form::hidden('project', $project->idProject)}}
+                                                                        {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
 
+                                                                        {!! Form::close() !!}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @else
+
+                                                        <p class="mb-0">{{__('gx.grade')}}: {{$group->grade}}</p>
+                                                        @if($group->gradeComment == NULL)
+                                                            <p class="m-0">{{__('gx.no comments')}}</p>
+                                                        @else
+                                                            <p class="mb-0" >: {{$group->gradeComment}}</p>
+                                                        @endif
+                                                        <button type="button" class="p-2 btn btn-primary btn-md float-right" style="position: absolute; bottom: 0; right: 0; margin-bottom: 1%; margin-right: 1%;" data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}" >{{__('gx.change grade')}}</button>
+                                                        <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.evaluation')}}</h4>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        {!! Form::open(['action' => ['ProfessorProjectsController@update', $project->idProject], 'method' => 'PUT']) !!}
+                                                                        <div class="form-group">
+                                                                            {{Form::label('grade', trans('gx.project grade'))}}
+                                                                            {{Form::text('grade', '', ['class' => 'form-control'])}}
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            {{Form::label('gradeComment', trans('gx.comment(opcional)'))}}
+                                                                            {{Form::text('gradeComment', '', ['class' => 'form-control'])}}
+                                                                        </div>
+                                                                        {{Form::hidden('group', $group->idGroup)}}
+                                                                        {{Form::hidden('_method','PUT')}}
+                                                                        {{Form::hidden('option', 'grade')}}
+                                                                        {{Form::submit( trans('gx.submit'), ['class'=>'btn btn-success'])}}
+                                                                        {!! Form::close() !!}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
                                         </div>
+                                        <div class="col-3 bg-light p-3 rounded">
+                                            <h5>{{__('gx.elements')}}</h5>
+                                            @foreach(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) as $sg)
+                                                <div class="mb-2"><a href="/profile/{{$sg->idStudent}}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.\App\User::find($sg->idStudent)->photo)}}"><span style="vertical-align: middle;"> {{\App\User::find($sg->idStudent)->name}}</span></a></div>
+                                            @endforeach
+                                        </div>
+
+                                    </div>
 
                                 </div>
                             @endforeach
@@ -521,6 +521,7 @@
                 </div>
             </div>
         </div>
+
 
         <div class="tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
             <button type="button" class="p-2 mt-3 mr-3 btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#modalCreatePost" style="background-color: #2c3fb1; border-color: #2c3fb1;">{{__('gx.create post')}}</button>
@@ -645,6 +646,7 @@
             </div>
 
         </div>
+
     </div>
 </div>
 <style>
@@ -689,6 +691,8 @@
     $('#myTab a').click(function(e) {
         e.preventDefault();
         $(this).tab('show');
+
+
     });
 
     $('#pills-tab a').click(function(e) {
@@ -699,8 +703,9 @@
     // store the currently selected tab in the hash value
     var pills;
     $("ul.nav-tabs > li > a").on("shown.bs.tab", function(e) {
+
         var id = $(e.target).attr("href").substr(1);
-        if(id == "groups"){
+        if(id == "gr"){
             if(pills !== undefined) {
                 window.location.hash = id + "." + pills;
                 $('#pills-tab a[href="#' + pills + '"]').tab('show');
@@ -724,9 +729,11 @@
     if(hash === ''){
         hash = '#characteristics';
     }
+    console.log(hash.split(".")[0]);
 
-    if(hash.split(".")[0] == '#groups'){
+    if(hash.split(".")[0] == '#gr'){
         pills = hash.split(".")[1];
+        console.log(pills);
         $('#myTab a[href="' + hash.split(".")[0] + '"]').tab('show');
     }else{
         $('#myTab a[href="' + hash + '"]').tab('show');
