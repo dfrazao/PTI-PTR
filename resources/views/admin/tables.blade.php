@@ -886,10 +886,6 @@
                                 <label>{{__('gx.adminSubjectName')}}</label>
                                 <input type="text" class="form-control" name="subjectName" id="subjectName">
                             </div>
-                            <div class="form-group">
-                                <label>{{__('gx.adminClass')}}</label>
-                                <input type="text" class="form-control" name="class" id="class">
-                            </div>
 
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">{{__('gx.adminAcademicYear')}}</label>
@@ -965,10 +961,6 @@
                                 <div class="form-group">
                                     <label>{{__('gx.adminSubjectName')}}</label>
                                     <input type="text" class="form-control" name="subname" id="subname">
-                                </div>
-                                <div class="form-group">
-                                    <label>{{__('gx.adminClass')}}</label>
-                                    <input type="text" class="form-control" name="classes" id="classes">
                                 </div>
 
                                 <div class="form-group">

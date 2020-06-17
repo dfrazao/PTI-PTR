@@ -135,7 +135,6 @@ class AdminController extends Controller
             $subjects = new Subject();
             $subjects->idGeneralSubject = $request->input('idGenSubject');
             $subjects->subjectName = $request->input('subjectName');
-            $subjects->class = $request->input('class');
             $subjects->academicYear = $request->input('academicYear');
             $subjects->save();
             return redirect('admin/subjects')->with('success', 'Subject Added');
@@ -254,7 +253,6 @@ class AdminController extends Controller
             $subjects = Subject::find($idSub);
             $subjects->idGeneralSubject = $request->input('idGenSubject');
             $subjects->subjectName = $request->input('subname');
-            $subjects->class = $request->input('classes');
             $subjects->academicYear = $request->input('academicYear');
             $subjects->update();
             return redirect('admin/subjects')->with('success', 'Subject updated');

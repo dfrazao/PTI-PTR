@@ -3,19 +3,39 @@
 <head>
     <title>Post</title>
 </head>
-<div class="container-fluid pl-5 pr-5 pb-2 mt-3">
+<div class="container-fluid pl-4 pr-4 pb-2 mt-3">
     @include('layouts.messages')
-    <nav aria-label="breadcrumb" >
-        <ol class="breadcrumb mt-1 pl-0 pb-0 pt-0 h3" style="background-color:white; ">
-            <li class="breadcrumb-item" aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>{{__('gx.dashboard')}}</a></li>
+    <nav id="breadcrumb" aria-label="breadcrumb" >
+        <ol id="breadcrumb" class="breadcrumb pl-0 pb-0 mb-4 h3" style="background-color:white; ">
+            <li id="bc1" class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>{{__('gx.dashboard')}}</a></li>
             @if (Auth::user()->role == 'professor')
                 <li class="breadcrumb-item" aria-current="page"><a style="color:#2c3fb1;" href="/professor/project/{{$project->idProject}}#forum">{{$subject->subjectName}} - {{$project->name}}</a></li>
             @elseif (Auth::user()->role == 'student')
-                <li class="breadcrumb-item" aria-current="page"><a style="color:#2c3fb1;" href="/student/project/{{$project->idProject}}#forum">{{$subject->subjectName}} - {{$project->name}}</a></li>
+                <li id="bc2" class="breadcrumb-item" aria-current="page"><a style="color:#2c3fb1;" href="/student/project/{{$project->idProject}}#forum">{{$subject->subjectName}} - {{$project->name}}</a></li>
             @endif
-            <li class="breadcrumb-item" aria-current="page">{{$announcement->title}}</li>
+            <li id="bc3" class="breadcrumb-item" aria-current="page">{{$announcement->title}}</li>
         </ol>
     </nav>
+
+    <style>
+        @media screen and (max-width: 750px){
+            #breadcrumb {
+                font-size: 3vh;
+                margin:0 auto;
+                list-style:none;
+            }
+            #bc1 {
+                margin-left: 33%;
+            }
+            #bc2 {
+                margin-left: 10%; !important;
+            }
+            #bc3 {
+                margin-left: 40%; !important;
+            }
+        }
+    </style>
+
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         @if (Auth::user()->role == 'professor')
             <li class="nav-item">
@@ -37,6 +57,9 @@
             <li class="nav-item">
                 <a class="nav-link active" id="forum-tab" data-toggle="tab" href="#forum" role="tab">{{__('gx.forum')}}</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" id="submission-tab" data-toggle="tab" href="#submission" role="tab" aria-controls="submission" aria-selected="false">{{__('gx.submission')}}</a>
+            </li>
         @endif
     </ul>
 
@@ -44,7 +67,7 @@
         <div class="container-fluid tab-pane fade ml-0 mr-0" id="content" role="tabpanel" aria-labelledby="conteudo-tab" style="background-color: #ededed;"></div>
         <div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab"></div>
         <div class="tab-pane fade active show" id="forum" role="tabpanel" aria-labelledby="forum-tab">
-            <div class="container pb-3 rounded px-5 pt-3">
+            <div class="container pb-3 rounded px-3 pt-3">
                 <div class="container-xl-fluid mt-3 p-3 rounded" style="background-color: white;">
                     <header class="header row mb-3 pl-3">
                         <div class="mr-3">
@@ -56,9 +79,16 @@
                         </div>
                     </header>
                     <hr>
-                    <div>
+                    <div id="text_post">
                         {!!$announcement->body!!}
                     </div>
+                    <style>
+                        @media screen and (max-width: 500px) {
+                            #text_post{
+                                margin-left: 0px; !important;
+                            }
+                        }
+                    </style>
                     <hr>
                     <button type="button" class="btn" data-toggle="modal" data-target="#modalComment" style="background: #2c3fb1;color: white;">{{__('gx.reply')}}</button>
                     <div class="modal fade" id="modalComment" tabindex="-1" role="dialog">
@@ -158,7 +188,7 @@
                                         </div>
 
                                         {{Form::hidden('_method','PUT')}}
-                                        {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
+                                        {{Form::submit(trans('gx.submit')), ['class'=>'btn btn-success']}}
 
                                         {!! Form::close() !!}
                                     </div>
