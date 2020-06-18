@@ -16,6 +16,7 @@ use Storage;
 use Carbon\Carbon;
 use App\Documentation;
 use App\File;
+use App\Evaluation;
 
 class ProfessorProjectsController extends Controller
 {
@@ -114,6 +115,7 @@ class ProfessorProjectsController extends Controller
      */
     public function show($id)
     {
+
 
         $rep1 = Documentation::all()->where('idProject', '==', $id);
         $rep2 = File::all()->where('finalState', '==', 'final');

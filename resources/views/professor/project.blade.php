@@ -32,7 +32,7 @@
             <a class="nav-link" id="characteristics-tab" data-toggle="tab" href="#characteristics" role="tab" aria-controls="characteristics" aria-selected="false">{{__('gx.characteristics')}}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="gr-tab" data-toggle="tab" href="#gr" role="tab" aria-controls="gr" aria-selected="false">{{__('gx.groups')}}</a>
+            <a class="nav-link" id="gr-tab" data-toggle="tab" href="#gr" role="tab" aria-controls="groups" aria-selected="true">{{__('gx.groups')}}</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="forum-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="false">{{__('gx.forum')}}</a>
@@ -312,7 +312,7 @@
                                             <div class="modal-body">
                                                 @foreach($groups as $group)
                                                     @if(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup)->count() < $project->minElements)
-                                                        <p><a {{--onclick="window.location.assign ='#groups.pills-{{$group->idGroupProject}}'"--}} {{--href="#groups.pills-{{$group->idGroupProject}}"--}} href="{{url('/professor/project/'.$project->idProject.'#groups.pills-'.$group->idGroupProject)}}">Grupo {{$group->idGroupProject}}</a></p>
+                                                        <p><a onclick="reloadPage('{{url('/professor/project/'.$project->idProject.'#groups.pills-'.$group->idGroupProject)}}')" {{--onclick="window.location.assign ='#groups.pills-{{$group->idGroupProject}}'"--}} {{--href="#groups.pills-{{$group->idGroupProject}}"--}} {{--href="{{url('/professor/project/'.$project->idProject.'#groups.pills-'.$group->idGroupProject)}}"--}}>Grupo {{$group->idGroupProject}}</a></p>
                                                     @endif
                                                 @endforeach
                                             </div>
@@ -450,6 +450,74 @@
                                                             <h5>{{__('gx.files')}}</h5>
                                                             @foreach($rep2 as $docSub)
                                                                 @if($docSub->idGroup == $group->idGroup)
+                                                                    <div id="box1" style="position: absolute; right: 1%; top: 1%; border: 1px solid darkgrey; border-radius: 15px; width: 37%; padding: 5px; vertical-align: middle;">
+                                                                        <img src="/images/deathlineSub.png" style="width: 30px; height: 30px; float: left; ">
+                                                                        <div id="timer3"></div>
+
+                                                                    </div>
+                                                                    <style>
+                                                                        #timer3 {
+                                                                            font-size: 1.0em;
+                                                                            color: black;
+                                                                            vertical-align: middle;
+                                                                        }
+
+                                                                        #timer3 div {
+                                                                            display: inline-block;
+                                                                            min-width: 35px;
+
+                                                                        }
+
+                                                                        #timer3 p {
+                                                                            float: left;
+                                                                            margin-left: 7px;
+                                                                            margin-right: 3px;
+
+                                                                        }
+
+                                                                        #timer3 div span {
+                                                                            color: black;
+                                                                            display: block;
+                                                                            font-size: .60em;
+                                                                            font-weight: 400;
+                                                                        }
+                                                                    </style>
+                                                                    <script>
+                                                                        function updateTimer3() {
+                                                                            future = Date.parse("{{$project->dueDate}}");
+                                                                            now = Date.parse("{{$docSub->submissionTime}}");
+                                                                            diff = Math.abs(future - now);
+
+                                                                            days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                                                                            hours = Math.floor(diff / (1000 * 60 * 60));
+                                                                            mins = Math.floor(diff / (1000 * 60));
+                                                                            secs = Math.floor(diff / 1000);
+
+                                                                            d = days;
+                                                                            h = hours - days * 24;
+                                                                            m = mins - hours * 60;
+                                                                            s = secs - mins * 60;
+
+                                                                            if (now>future){
+                                                                                $('#box1').css('border', '1.5px solid red');
+                                                                                $('#box1').css('background-color', '#ff000042');
+                                                                                document.getElementById("timer3")
+                                                                                    .innerHTML = '<p>Atraso de:<p>'+
+                                                                                    '<div>' + d + '<span>days</span></div>' +
+                                                                                    '<div>' + h + '<span>hrs</span></div>' +
+                                                                                    '<div>' + m + '<span>mins</span></div>'+
+                                                                                    '<div>' + s + '<span>secs</span></div>';
+                                                                            }else{
+                                                                                document.getElementById("timer3")
+                                                                                    .innerHTML =
+                                                                                    '<div>' + d + '<span>{{__('gx.days')}}</span></div>' +
+                                                                                    '<div>' + h + '<span>{{__('gx.hours')}}</span></div>' +
+                                                                                    '<div>' + m + '<span>{{__('gx.minutes')}}</span></div>';
+                                                                            }
+                                                                        }
+                                                                        updateTimer3();
+                                                                    </script>
+
                                                                     <div class="doc text-center" style="margin-right: 10px; position:relative; display: inline-block; width: 100px;">
                                                                         <a href="{{Storage::url('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;" class="close downloadFile" download>
                                                                             <span class="dot" id="download" style="position:relative">
@@ -466,8 +534,46 @@
 
                                                 </div>
                                             </div>
-                                            <div id="assessments_row" class="row pb-2 "><div class="bg-light p-2 w-100 rounded" style="margin-right: 10px"><h5>{{__('gx.students assessments')}}</h5></div></div>
-                                                        <style>
+                                            <div id="assessments_row" class="row pb-2 "><div class="bg-light p-2 w-100 rounded" style="margin-right: 10px">
+                                                    <h5>Teamwork Evaluation</h5>
+                                                    <table class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col">Elementos</th>
+                                                            <th scope="col">Autoavaliação</th>
+                                                            <th scope="col">Avaliação do grupo</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) as $sg)
+                                                            <tr>
+                                                                <td>{{\App\User::find($sg->idStudent)->name}}</td>
+                                                                <td>
+                                                                    @if(is_null(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', $sg->idStudent)->where('idGroup', $group->idGroup)->value('grade')))
+                                                                        <p>-</p>
+                                                                    @else
+                                                                        <img src="/images/star.png" style="width: 25px; height: 25px; ">{{\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', $sg->idStudent)->where('idGroup', $group->idGroup)->value('grade')}}
+                                                                    @endif
+                                                                </td>
+                                                                {{--<td>{{\App\Evaluation::find(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', $sg->idStudent)->where('idGroup', $group->idGroup))}}</td>--}}
+                                                                {{--<td>{{\App\Evaluation::find()->where([['receiver', '==', $sg->idStudent],['sender', '==', $sg->idStudent]])->first()}}</td>--}}
+                                                                <td>
+                                                                    @if(\App\Evaluation::find(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', "!=", $sg->idStudent)->where('idGroup', $group->idGroup)->pluck('idEval'))->pluck('grade')->avg() == 0)
+                                                                        <p>-</p>
+                                                                    @else
+                                                                        <img src="/images/star.png" style="width: 25px; height: 25px;"> {{\App\Evaluation::find(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', "!=", $sg->idStudent)->where('idGroup', $group->idGroup)->pluck('idEval'))->pluck('grade')->avg()}}
+                                                                    @endif
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+
+
+                                                <style>
                                                             #assessments_row{
                                                                 height: 30%;
                                                             }
@@ -517,12 +623,12 @@
                                                                         {{Form::hidden('project', $project->idProject)}}
                                                                         {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
 
-                                                                        {!! Form::close() !!}
+                                                                            {!! Form::close() !!}
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    @else
+                                                        @else
 
                                                         <p class="mb-0">{{__('gx.grade')}}: {{$group->grade}}</p>
                                                         @if($group->gradeComment == NULL)
@@ -595,7 +701,7 @@
                                                 }
                                             </style>
 
-                                    </div>
+                                        </div>
 
                                 </div>
                             @endforeach
@@ -741,7 +847,6 @@
             </div>
 
         </div>
-
     </div>
 </div>
 <style>
@@ -786,8 +891,6 @@
     $('#myTab a').click(function(e) {
         e.preventDefault();
         $(this).tab('show');
-
-
     });
 
     $('#pills-tab a').click(function(e) {
@@ -837,6 +940,12 @@
         $('input[name="idDoc"]').val($(this).attr("id"));
         $('#modalDeleteDoc').modal('show');
     });
+
+    function reloadPage(link) {
+        window.location.assign(link);
+        window.location.reload();
+    };
+
 
 </script>
 @endsection
