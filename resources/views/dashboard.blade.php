@@ -31,7 +31,7 @@
                     height: 90vh;
                 }
             </style>
-            <div id="calendario" class="col-md-2">
+            <div id="calendario" class="col-md-3">
                 <style>
                     #calendario{
                         max-width: 20%;
@@ -55,6 +55,11 @@
                         #calendario{
                             min-width: 30%;
                         }
+                    @media screen and (max-width: 1440px) {
+                        #calendario {
+                            min-width: 30%;
+                        }
+                    }
                     }
                 </style>
                 <div class="container">
@@ -240,7 +245,7 @@
                 </div>
             </div>
 
-            <div id="subjs" class="col-md-10 pl-0">
+            <div id="subjs" class="col-md-9 pl-0">
                 <style>
                     #subjs{
                         max-width: 80%
