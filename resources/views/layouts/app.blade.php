@@ -34,14 +34,17 @@
         html {
             height: 100%;
         }
+
         body {
             min-height: 100%;
             position:relative;
             margin: 0;
         }
+
         .padding {
             padding-bottom: 65px;    /* height of footer */
         }
+
         .footer {
             height: 65px;
             position: absolute;
@@ -61,137 +64,143 @@
 </script>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background-color: #2c3fb1;z-index: 3;">
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background-color: #2c3fb1;z-index: 3;">
 
-    <!-- Left Side Of Navbar -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    @guest
-        <a class="navbar-brand" href="/">
-            @else
-                <a class="navbar-brand" href="{{(Auth::user()->role == "admin" ? '/admin/':'/')}}">
-                    @endguest
-                    <div>
-                        <img src="/images/logo1.png" style="width: 150px; height: 50px;">
-                    </div>
-                </a>
+        <!-- Left Side Of Navbar -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        @guest
+            <a class="navbar-brand" href="/">
+        @else
+            <a class="navbar-brand" href="{{(Auth::user()->role == "admin" ? '/admin/':'/')}}">
+        @endguest
+            <div>
+                <img src="/images/logo1.png" style="width: 150px; height: 50px;">
+            </div>
+        </a>
 
-                <!-- Right Side Of Navbar -->
-                <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right pr-5 m-2 my-lg-0 align-items-center">
+        <!-- Right Side Of Navbar -->
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            </ul>
+            <ul class="nav navbar-nav navbar-right pr-5 m-2 my-lg-0 align-items-center">
 
-                        @guest
+                @guest
 
-                        @else
-                            @if(Auth::user()->role != "admin")
-                                <li class="nav-item dropdown dropdown-notifications">
+                @else
+                    @if(Auth::user()->role != "admin")
+                    <li class="nav-item dropdown dropdown-notifications">
 
-                                    <a href="#notifications-panel" class="nav-link" data-toggle="dropdown">
-                                        <i class="fa fa-bell"></i>
-                                    </a>
+                            <a href="#notifications-panel" class="nav-link" data-toggle="dropdown">
+                                <i class="fa fa-bell"></i>
+                            </a>
 
 
-                                    {{--<span class="notif-count">0</span>--}}
-                                    <div class="dropdown-container">
-                                        <ul class="dropdown-menu">
-                                        </ul>
-                                    </div>
-                                </li>
-                                @if ($notification_chat === 0)
-                                    <li class="nav-item dropdown dropdown-notifications">
-                                        <a class="nav-link" id="chat_button" onclick="chat()"><i class="fa fa-envelope"></i></a>
-                                    </li>
-
-                                @else
-                                    <script>
-                                        sessionStorage.setItem("not", {{$notification_chat}});
-                                    </script>
-                                    <li class="nav-item dropdown dropdown-notifications">
-                                        <a class="nav-link " id="chat_button" onclick="chat()"><i class="fa fa-envelope"></i><span class='pending_nav'></span></a>
-                                    </li>
-                                @endif
-                                <script>
-                                    function chat() {
-                                        var x = document.getElementById("testee");
-                                        if (x.style.display === "block") {
-                                            x.style.display = "none";
-                                        } else {
-                                            x.style.display = "block";
-                                        }
-                                    }
-                                </script>
-                            @endif
-                            @if ( Config::get('app.locale') == 'en')
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="flag-icon flag-icon-us"> </span> English</a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdown09">
-                                        <a class="dropdown-item" href="{{ route('set.language', 'pt') }}"><span class="flag-icon flag-icon-pt"> </span> Portuguese</a>
-                                    </div>
-
-                                </li>
-                            @elseif ( Config::get('app.locale') == 'pt')
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="flag-icon flag-icon-pt"> </span> Portuguese</a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdown09">
-                                        <a class="dropdown-item" href="{{ route('set.language', 'en') }}"><span class="flag-icon flag-icon-us"> </span> English</a>
-                                    </div>
-
-                                </li>
-                            @endif
-                            @if(Auth::user()->role != "admin")
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/profile/{{ Auth::user()->id }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.Auth::user()->photo)}}"> <span style="vertical-align: middle;">{{ Auth::user()->name }}</span></a>
-                                </li>
-                            @else
-                                <li class="nav-item">
-                                    <a class="nav-link" role="button" aria-haspopup="true" aria-expanded="false" v-pre><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.Auth::user()->photo)}}"> <span style="vertical-align: middle;">{{ Auth::user()->name }}</span></a>
-                                </li>
-                            @endif
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                         document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-
+                        {{--<span class="notif-count">0</span>--}}
+                        <div class="dropdown-container">
+                            <ul class="dropdown-menu">
+                            </ul>
+                        </div>
+                    </li>
+                    @if ($notification_chat === 0)
+                            <li class="nav-item dropdown dropdown-notifications">
+                                <a class="nav-link" id="chat_button" onclick="chat()"><i class="fa fa-envelope"></i></a>
                             </li>
-                        @endguest
 
-                    </ul>
-                </div>
-</nav>
-<script src="https://js.pusher.com/6.0/pusher.min.js"></script>
+                    @else
+                        <script>
+                            sessionStorage.setItem("not", {{$notification_chat}});
+                        </script>
+                            <li class="nav-item dropdown dropdown-notifications">
+                                <a class="nav-link " id="chat_button" onclick="chat()"><i class="fa fa-envelope"></i><span class='pending_nav'></span></a>
+                            </li>
+                    @endif
+                    <script>
+                        function chat() {
+                            var x = document.getElementById("testee");
+                            if (x.style.display === "block") {
+                                x.style.display = "none";
+                            } else {
+                                x.style.display = "block";
+                            }
+                        }
+                    </script>
+                        @endif
+                    @if ( Config::get('app.locale') == 'en')
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="flag-icon flag-icon-us"> </span> English</a>
+                            <div class="dropdown-menu" aria-labelledby="dropdown09">
+                                <a class="dropdown-item" href="{{ route('set.language', 'pt') }}"><span class="flag-icon flag-icon-pt"> </span> Portuguese</a>
+                            </div>
 
-<script type="text/javascript">
-    var notificationsWrapper   = $('.dropdown-notifications');
-    var notificationsToggle    = notificationsWrapper.find('a[data-toggle]');
-    var notificationsCountElem = notificationsToggle.find('i[data-count]');
-    var notificationsCount     = parseInt(notificationsCountElem.data('count'));
-    var notifications          = notificationsWrapper.find('ul.dropdown-menu');
-    if (notificationsCount <= 0) {
-        notificationsWrapper.hide();
-    }
-    // Enable pusher logging - don't include this in production
-    Pusher.logToConsole = true;
-    var pusher = new Pusher('ff4af21336ebee3e83fe', {
-        cluster: 'eu',
-    });
-    var channel = pusher.subscribe('my-channel');
-    channel.bind('my-event', function (data) {
-        var existingNotifications = notifications.html();
-        var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
-        var newNotificationHtml = `
+                        </li>
+                    @elseif ( Config::get('app.locale') == 'pt')
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="flag-icon flag-icon-pt"> </span> Portuguese</a>
+                            <div class="dropdown-menu" aria-labelledby="dropdown09">
+                                <a class="dropdown-item" href="{{ route('set.language', 'en') }}"><span class="flag-icon flag-icon-us"> </span> English</a>
+                            </div>
+
+                        </li>
+                    @endif
+                        @if(Auth::user()->role != "admin")
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile/{{ Auth::user()->id }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.Auth::user()->photo)}}"> <span style="vertical-align: middle;">{{ Auth::user()->name }}</span></a>
+                    </li>
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link" role="button" aria-haspopup="true" aria-expanded="false" v-pre><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.Auth::user()->photo)}}"> <span style="vertical-align: middle;">{{ Auth::user()->name }}</span></a>
+                            </li>
+                            @endif
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></a>
+
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                                                         document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </div>
+
+                    </li>
+                @endguest
+
+            </ul>
+        </div>
+    </nav>
+    <script src="https://js.pusher.com/6.0/pusher.min.js"></script>
+
+    <script type="text/javascript">
+        var notificationsWrapper   = $('.dropdown-notifications');
+        var notificationsToggle    = notificationsWrapper.find('a[data-toggle]');
+        var notificationsCountElem = notificationsToggle.find('i[data-count]');
+        var notificationsCount     = parseInt(notificationsCountElem.data('count'));
+        var notifications          = notificationsWrapper.find('ul.dropdown-menu');
+
+        if (notificationsCount <= 0) {
+            notificationsWrapper.hide();
+        }
+
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('ff4af21336ebee3e83fe', {
+            cluster: 'eu',
+        });
+
+        var channel = pusher.subscribe('my-channel');
+        channel.bind('my-event', function (data) {
+
+
+            var existingNotifications = notifications.html();
+            var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
+            var newNotificationHtml = `
           <li class="notification active">
               <div class="media">
                 <div class="media-left">
@@ -209,22 +218,23 @@
               </div>
           </li>
         `;
-        notifications.html(newNotificationHtml + existingNotifications);
-        notificationsCount += 1;
-        notificationsCountElem.attr('data-count', notificationsCount);
-        notificationsWrapper.find('.notif-count').text(notificationsCount);
-        notificationsWrapper.show();
-    });
-</script>
+            notifications.html(newNotificationHtml + existingNotifications);
 
-<div class="padding">
-    @include('chat')
-    @yield('content')
-</div>
+            notificationsCount += 1;
+            notificationsCountElem.attr('data-count', notificationsCount);
+            notificationsWrapper.find('.notif-count').text(notificationsCount);
+            notificationsWrapper.show();
+        });
+    </script>
 
-<div class="footer p-2">
-    <a class="p-1" style="color: white" href="mailto:ptiptr9@gmail.com"><u>{{__('gx.contact us')}}</u></a>
-    <p class="p-0 m-0">&#169; {{__('gx.2020, allRightsReserved.')}} </p>
-</div>
+    <div class="padding">
+        @include('chat')
+        @yield('content')
+    </div>
+
+    <div class="footer p-2">
+        <a class="p-1" style="color: white" href="mailto:ptiptr9@gmail.com"><u>{{__('gx.contact us')}}</u></a>
+        <p class="p-0 m-0">&#169; {{__('gx.2020, allRightsReserved.')}} </p>
+    </div>
 </body>
 </html>

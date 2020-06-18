@@ -3,45 +3,17 @@
     <head>
         <title>{{__('gx.group')}}</title>
     </head>
-    <div class="container-fluid pl-4 pr-4 pb-2 mt-3">
+    <div class="container-fluid pl-5 pr-5 pb-2 mt-3">
         @include('layouts.messages')
-        <nav id="breadcrumb" aria-label="breadcrumb" >
-            <ol id="breadcrumb" class="breadcrumb pl-0 pb-0 mb-4 h3" style="background-color:white; ">
-                <li id="bc1" class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>{{__('gx.dashboard')}}</a></li>
-                <li id="bc2" class="breadcrumb-item " aria-current="page" >{{__('gx.group creation')}} - {{$subject->subjectName}} - {{$project->name}}</li>
+        <nav aria-label="breadcrumb" >
+            <ol class="breadcrumb pl-0 pb-0 mb-4 h3" style="background-color:white; ">
+                <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>{{__('gx.dashboard')}}</a></li>
+                <li class="breadcrumb-item " aria-current="page" >{{__('gx.group creation')}} - {{$subject->subjectName}} - {{$project->name}}</li>
             </ol>
         </nav>
-        <style>
-            @media screen and (max-width: 750px){
-                #breadcrumb {
-                    font-size: 3vh;
-                    margin:0 auto;
-                    list-style:none;
-                }
-                #bc1 {
-                    margin-left: 33%;
-                }
-                #bc2 {
-                    margin-left: 10%; !important;
-                }
-            }
-        </style>
         <div class="container-fluid overflow-auto">
 
-            <div id="creation_deadline" class="countdown"><p class="h5">{{__('gx.group creation deadline')}}: {{$project->groupCreationDueDate}} - </p> <div id="timer1" class="timer"></div></div>
-            <style>
-               #creation_deadline{
-                   display: flex;
-                   text-align: center;
-                   align-items: center;
-                   justify-content: center;"
-               }
-               @media screen and (max-width: 750px) {
-                   #creation_deadline {
-                       display: block;
-                   }
-               }
-            </style>
+            <div class="countdown" style="display: flex;text-align: center;align-items: center;justify-content: center;"><p class="h5">{{__('gx.group creation deadline')}}: {{$project->groupCreationDueDate}} - </p> <div id="timer1" class="timer"></div></div>
             <script>
                 function updateTimer1() {
                     future = Date.parse("{{$project->groupCreationDueDate}}");

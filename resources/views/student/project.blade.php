@@ -7,7 +7,7 @@
     @include('layouts.messages')
     <nav id="breadcrumb" aria-label="breadcrumb" >
         <ol id="breadcrumb" class="breadcrumb pl-0 pb-0 mb-4 h3" style="background-color:white; ">
-            <li id="bc1" class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>{{__('gx.dashboard')}}</a></li>
+            <li id="bc1" class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>Dashboard</a></li>
             <li id="bc2" class="breadcrumb-item " aria-current="page" >{{$subject->subjectName}} - {{$project->name}} - Group {{$idGroup}}</li>
             <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto">
                 <div id="timer2-{{$project->idProject}}" class="timer"></div>
@@ -15,7 +15,13 @@
             </div>
         </ol>
     </nav>
+
+
+
     <style>
+        /*#btn_leave{
+            width: 11em
+        }*/
         @media screen and (max-width: 750px){
             #breadcrumb {
                 font-size: 3vh;
@@ -28,8 +34,44 @@
             #bc2 {
                 margin-left: 10%; !important;
             }
+            /*#btn_leave {
+                width: 3em;
+                font-size: 1.25vh;
+                padding-right: 6.5vh;
+                padding-left: 4vh;
+            }*/
         }
     </style>
+
+        {{--<div id="toggle_menu" class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#myTab">
+                <span ><i class="fa fa-align-justify"></i></span>
+            </button>
+        </div>
+        <div id="toggle_menu" class="navbar-collapse collapse" id="myTab">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="content-tab" data-toggle="tab" href="#content" role="tab" aria-controls="content" aria-selected="false">{{__('gx.content')}}</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="schedule-tab" data-toggle="tab" href="#schedule" role="tab" aria-controls="schedule" aria-selected="false">{{__('gx.schedule')}}</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="forum-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="false">{{__('gx.forum')}}</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="submission-tab" data-toggle="tab" href="#submission" role="tab" aria-controls="submission" aria-selected="false">{{__('gx.submission')}}</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button  type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalLeaveGroup" style="width: 11em">{{__('gx.leave group')}}</button>
+                </li>
+            </ul>
+            <style>
+                @media screen and (min-width: 500px){
+                    #toggle_menu{display: none}
+                }
+            </style>
+        </div>--}}
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
@@ -71,8 +113,8 @@
         </li>
     </ul>
 
-    <div class="tab-content pb-3 ml-0 mr-0" id="myTabContent" style="min-height: 75vh; background-color: #ededed; overflow: auto;">
-        <div class="container-fluid fade tab-pane " id="content" role="tabpanel" aria-labelledby="content-tab">
+    <div class="tab-content pb-3 " id="myTabContent" style="min-height: 75vh; background-color: #ededed;">
+        <div class="container-fluid fade tab-pane  ml-0 mr-0" id="content" role="tabpanel" aria-labelledby="content-tab">
             <div id="row1" class="row rounded">
                 <style>
                     #row1{
@@ -95,8 +137,8 @@
                         }
 
                 </style>
-                <div id="1col" class="col-md-4" style="padding-bottom:10px; position: relative;">
-                    <div class="container-fluid mt-3 rounded h-100 pt-2" style="height: 90%; background-color: #c6c6c6;">
+                <div id="1col" class="col-md-4 mt-3 rounded" style="padding-bottom:10px; background-color: #c6c6c6; position: relative;">
+                    <div class="container-fluid mt-3 pr-0 pl-3" style="height: 90%;">
                         @foreach($rep as $file)
                             <div class="file text-center" id= '{{$file->idFile}}' style="margin-right: 15px; position:relative; display: inline-block; width: 100px;">
                                 <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;" id= '{{$file->idFile}}' class="close downloadFile" download>
@@ -114,7 +156,7 @@
                                         <i class="fad fa-file-alt fa-4x px-2"></i>
                                         <figcaption>{{$file->pathFile}}</figcaption>
                                     </figure>
-                                @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpg")
+                                @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpg")
                                     <figure>
                                         <i class="fas fa-image fa-4x px-2"></i>
                                         <figcaption>{{$file->pathFile}}</figcaption>
@@ -168,7 +210,7 @@
 
                                 {!!Form::close()!!}
                             </div>
-                        <button type="submit" disabled class="btn btn-sm mb-2 mr-2" id= 'submitFile' data-toggle="modal" data-target="#modalSubmitFile" style="width:20vh;background: #2c3fb1; color: white; position: absolute; bottom: 0px; right: 15px;">Submit</button>
+                        <button type="submit" disabled class="btn btn-sm mb-2 mr-2" id= 'submitFile' data-toggle="modal" data-target="#modalSubmitFile" style="width:20vh;background: #2c3fb1; color: white; position: absolute; bottom: 0px; right: 0px;">Submit</button>
 
 
                         {{-- Modal Submit File --}}
@@ -200,7 +242,7 @@
                     </div>
                 </div>
 
-                <div id="2col"  class="col-md-4 mt-3 rounded">
+                <div id="2col" style="padding-left:30px;" class="col-md-4 mt-3 rounded">
                     <div class="row h-50">
                         <div id="col_groups" class="container-fluid rounded text-center pt-2 pb-2" style="background-color: #c6c6c6;">
                             <h5>{{__('gx.group').' '. $idGroup}}</h5>
@@ -231,18 +273,16 @@
                     <style>
                         @media screen and (max-width: 500px) {
                             #col_docs {
+                                margin-top: 20px;
                                 margin-right: 15px;
-                                margin-left: 15px;
                             }
                             #col_groups{
-                                margin-bottom: 20%;
                                 margin-right: 15px;
-                                margin-left: 15px;
                             }
                         }
                     </style>
                 </div>
-                <div id="3col"  class="col-md-4 mt-3 pt-2">
+                <div id="3col"  class="col-md-4 mt-3">
                     <div class="container-fluid rounded notes h-100 pt-2" style="background-color: #ffe680; " >
                         <h5 class="text-center">{{__('gx.notes')}}</h5>
                         {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST', 'id'=>'myform']) !!}
@@ -254,15 +294,9 @@
                         {!! Form::close() !!}
                     </div>
                 </div>
-                <style>
-                    @media screen and (max-width: 500px) {
-                        #3col{
-                        }
-                    }
-                </style>
             </div>
             <div id="row2" class="row rounded">
-                <div id="container_row2" class="container-fluid rounded mx-3 mt-3 p-2" style=" position: relative;">
+                <div class="container-fluid rounded mx-3 mt-3 p-2" style="background-color: #c6c6c6; position: relative;">
                     <div class="form-group mb-0">
                         <div class="table-fixed">
                             <table class="table table-hover text-center">
@@ -366,20 +400,14 @@
                                     #edit_tasks{
                                         width: 10vh;
                                     }
-                                    #container_row2{
-                                        background-color: #c6c6c6;
-                                    }
                                     @media screen and (max-width: 500px) {
                                         #edit_tasks{
                                             margin-bottom: 5px;
                                         }
                                         #row2{
-                                            height: 20vh;
-                                            margin-top: 200px;
+                                            margin-top:15%;
                                         }
-                                        .table{
-                                            table-layout: auto;
-                                        }
+                                        .table{}
                                     }
                                     @media screen and (max-width: 800px) {
                                         #edit_tasks{
@@ -390,6 +418,12 @@
                                         }
                                         .tasks_letra {
                                             font-size: 1.2vh;
+                                        }
+                                        #task_b {
+                                            display: none;
+                                        }
+                                        #task_e {
+                                            display: none;
                                         }
 
                                     }
@@ -642,10 +676,10 @@
                     <table class="table table-hover text-center">
                         <thead>
                         <tr>
-                            <th id="meetings_font">{{__('gx.number')}}</th>
-                            <th id="meetings_font">{{__('gx.description')}}</th>
-                            <th id="meetings_font">{{__('gx.date')}}</th>
-                            <th id="meetings_font">{{__('gx.place')}}</th>
+                            <th>{{__('gx.number')}}</th>
+                            <th>{{__('gx.description')}}</th>
+                            <th>{{__('gx.date')}}</th>
+                            <th>{{__('gx.place')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -684,9 +718,6 @@
 
             @media screen and (max-width: 800px){
                 #meeting{
-                    font-size: 1.5vh;
-                }
-                #meetings_font{
                     font-size: 1.5vh;
                 }
             }
@@ -807,7 +838,7 @@
                                 </div>
                                 <div class="form-group">
                                     {{Form::label('body', trans('gx.body'))}}
-                                    {{Form::textarea('body', '', ['class' => 'form-control', 'placeholder' => 'Body', 'maxlength' => 900])}}
+                                    {{Form::textarea('body', '', ['class' => 'form-control', 'placeholder' => 'Body'])}}
                                 </div>
                                 {{ Form::hidden('project', $project->idProject) }}
 
@@ -871,7 +902,7 @@
         </div>
         <div class="fade tab-pane  ml-0 mr-0" id="submission" role="tabpanel" aria-labelledby="submission-tab">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col">
                     <div class="container rounded pb-3 pt-3">
                         <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-2">
                             <i class='pl-1 far fa-lg fa-file-alt float-left'></i>
@@ -943,7 +974,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col">
                     <div class="container rounded pb-3 pt-3">
                         @if($eval->count() > 0 && $eval->first()->status == 'submitted')
                             <div class="alert alert-success alert-dismissible fade show">
@@ -1118,15 +1149,8 @@
         padding-top: 10px;
         padding-bottom: 10px;
         text-align: center;
-        font-size: 1.7vh;
+        font-size: 2vh;
     }
-    @media screen and (max-width: 800px){
-        .grid-container > div {
-            font-size: 1vh;
-        }
-    }
-
-
      .nav-tabs .nav-link.active{
          background-color: #ededed;
          border-color:#ededed;
@@ -1135,9 +1159,7 @@
         color: #2c3fb1;
     }
     .table{
-/*
         table-layout: fixed;
-*/
         width:100%;
     }
 
@@ -1175,7 +1197,6 @@
         border-left-width: 0px;
         border-bottom-width: 0px;
         border-right-width: 0px;
-        margin-bottom: 40px;
         width: 100px;
         height: 100px;
         min-height: 120px;
