@@ -1894,7 +1894,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="{{action('AdminController@destroy',['table' => 'subjects'])}}" method="POST">
+                                <form action="{{action('AdminController@destroy',['table' => 'subjectEnrollments'])}}" method="POST">
                                     {{method_field('DELETE')}}
                                     {{ csrf_field() }}
                                     <div class="form-group">
