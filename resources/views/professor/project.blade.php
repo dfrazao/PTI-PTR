@@ -3,14 +3,29 @@
 <head>
     <title>Project</title>
 </head>
-<div class="container-xl-fluid mt-2 pl-5 pr-5 pb-2">
+<div class="container-fluid pl-4 pr-4 pb-2 mt-3">
     @include('layouts.messages')
-    <nav aria-label="breadcrumb" >
-        <ol class="breadcrumb pl-0 pb-0 mb-4 h3" style="background-color:white; ">
-            <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>{{__('gx.dashboard')}}</a></li>
-            <li class="breadcrumb-item " aria-current="page" >{{$subject->subjectName}} - {{$project->name}}</li>
+    <nav id="breadcrumb" aria-label="breadcrumb" >
+        <ol id="breadcrumb" class="breadcrumb pl-0 pb-0 mb-4 h3" style="background-color:white; ">
+            <li id="bc1" class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>{{__('gx.dashboard')}}</a></li>
+            <li id="bc2" class="breadcrumb-item " aria-current="page" >{{$subject->subjectName}} - {{$project->name}}</li>
         </ol>
     </nav>
+        <style>
+            @media screen and (max-width: 750px){
+                #breadcrumb {
+                    font-size: 3vh;
+                    margin:0 auto;
+                    list-style:none;
+                }
+                #bc1 {
+                    margin-left: 33%;
+                }
+                #bc2 {
+                    margin-left: 10%; !important;
+                }
+            }
+        </style>
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
@@ -48,9 +63,9 @@
     </div>
 
     <div class="tab-content" id="myTabContent" style="min-height: 75vh; background-color: #ededed;">
-        <div class="container tab-pane fade" id="characteristics" role="tabpanel" aria-labelledby="characteristics-tab">
-            <div class="row h-100 p-3">
-                <div class=" col-8 rounded bg-white w-100 p-3 h-100 mr-3" style="position: relative; width: 500px;">
+        <div class="container tab-pane fade " id="characteristics" role="tabpanel" aria-labelledby="characteristics-tab">
+            <div class="row  p-3">
+                <div class=" col-md-8 rounded bg-white w-100 p-3 " style="position: relative;">
 
                     <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modalEdit-{{$project->idProject}}">{{__('gx.edit project')}}</button>
                     <h4>{{__('gx.characteristics')}}</h4>
@@ -385,10 +400,23 @@
             </div>
         </div>
 
-        <div class="container-fluid ml-0 mr-0 tab-pane fade" id="gr" role="tabpanel" aria-labelledby="gr-tab">
-            <div class="row rounded " style="height: 75vh;">
-                <div class="col mt-3 mb-3 ml-3 rounded center" style="background-color: #c6c6c6; position: relative;">
-                    <div class="container pt-3 overflow-auto mw-80" >
+        <div class="container-fluid ml-0 mr-0 tab-pane fade" id="gr" role="tabpanel" aria-labelledby="groups-tab">
+            <div id="altura_col_groups_prof" class="row rounded">
+                <div id="col_groups_prof"class="col-md-3 mt-3 mb-3 rounded center" style="position: relative;">
+                    <style>
+                        #altura_col_groups_prof{
+                            height: 75vh;
+                        }
+                        @media screen and (max-width: 750px){
+                            #col_groups_prof {
+                                max-height: 40%;
+                            }
+                            #altura_col_groups_prof{
+                                height: unset;
+                            }
+                        }
+                    </style>
+                    <div class="container pt-3 overflow-auto mw-80 h-100" style="background-color: #c6c6c6;">
                         <ul class="nav nav-pills mb-3 flex-column" id="pills-tab" role="tablist" aria-orientation="vertical">
                             @foreach($groups as $group)
                                 <li class="nav-item mb-1 rounded" style="background-color: #d0e7ff;">
@@ -400,20 +428,30 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-9 mt-3 mb-3 rounded" style="width: 100%;">
+                <div class="col-md-9 mt-3 mb-3 rounded" style="width: 100%;">
                     <div class="container-fluid rounded h-100 p-3" style="background-color: #c6c6c6;">
                         <div class="tab-content h-100" id="pills-tabContent">
                             @foreach($groups as $group)
-                                <div class="container tab-pane fade h-100" id="pills-{{$group->idGroupProject}}" role="tabpanel" aria-labelledby="pills-{{$group->idGroupProject}}-tab">
-                                    <div class="row h-100" style="position: relative; background-color: #c6c6c6;">
-                                        <div class="col mr-2 ">
-                                            <div class="row pb-2 " style="height: 40%;">
-                                                <div class="bg-light p-2 w-100 rounded">
-                                                    <h5>{{__('gx.files')}}</h5>
-                                                    @foreach($rep2 as $docSub)
-                                                        @if($docSub->idGroup == $group->idGroup)
-                                                            <div class="doc text-center" style="margin-right: 10px; position:relative; display: inline-block; width: 100px;">
-                                                                <a href="{{Storage::url('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;" class="close downloadFile" download>
+                                <div class="container-fluid tab-pane fade h-100" id="pills-{{$group->idGroupProject}}" role="tabpanel" aria-labelledby="pills-{{$group->idGroupProject}}-tab">
+                                        <div class="row h-100" style="position: relative; background-color: #c6c6c6;">
+                                            <div class="col-md-9">
+                                                    <div id="files_row" class="row pb-2 ">
+                                                        <style>
+                                                            #files_row{
+                                                                height: 40%;
+                                                            }
+                                                            @media screen and (max-width: 500px){
+                                                                #files_row {
+                                                                    height: 70%;
+                                                                }
+                                                            }
+                                                        </style>
+                                                        <div class="bg-light p-2 w-100 rounded" style="margin-right: 10px">
+                                                            <h5>{{__('gx.files')}}</h5>
+                                                            @foreach($rep2 as $docSub)
+                                                                @if($docSub->idGroup == $group->idGroup)
+                                                                    <div class="doc text-center" style="margin-right: 10px; position:relative; display: inline-block; width: 100px;">
+                                                                        <a href="{{Storage::url('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;" class="close downloadFile" download>
                                                                             <span class="dot" id="download" style="position:relative">
                                                                                 <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
                                                                             </span>
@@ -428,8 +466,28 @@
 
                                                 </div>
                                             </div>
-                                            <div class="row pb-2 " style="height: 30%;"><div class="bg-light p-2 w-100 rounded"><h5>{{__('gx.students assessments')}}</h5></div></div>
-                                            <div class="row " style="height: 30%;">
+                                            <div id="assessments_row" class="row pb-2 "><div class="bg-light p-2 w-100 rounded" style="margin-right: 10px"><h5>{{__('gx.students assessments')}}</h5></div></div>
+                                                        <style>
+                                                            #assessments_row{
+                                                                height: 30%;
+                                                            }
+                                                            @media screen and (max-width: 500px){
+                                                                #assessments_row {
+                                                                    height: 70%;
+                                                                }
+                                                            }
+                                                        </style>
+                                            <div id="final_row" class="row pb-2" >
+                                                        <style>
+                                                            #final_row{
+                                                                height: 30%;
+                                                            }
+                                                            @media screen and (max-width: 500px){
+                                                                #final_row {
+                                                                    height: 70%;
+                                                                }
+                                                            }
+                                                        </style>
                                                 <div class=" bg-light p-2 w-100 rounded">
                                                     <h5>{{__('gx.final group evaluation')}}</h5>
                                                     @if ($group->grade == NULL)
@@ -472,7 +530,22 @@
                                                         @else
                                                             <p class="mb-0" >: {{$group->gradeComment}}</p>
                                                         @endif
-                                                        <button type="button" class="p-2 btn btn-primary btn-md float-right" style="position: absolute; bottom: 0; right: 0; margin-bottom: 1%; margin-right: 1%;" data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}" >{{__('gx.change grade')}}</button>
+                                                        <button id="changegrade" type="button" class="p-2 btn btn-primary btn-md float-right" style="position: absolute; bottom: 0; right: 0; margin-bottom: 1%; margin-right: 1%;" data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}" >{{__('gx.change grade')}}</button>
+                                                        <style>
+                                                                #changegrade{
+                                                                    position: absolute;
+                                                                    bottom: 0;
+                                                                    right: 0;
+                                                                    margin-bottom: 2%;
+                                                                    margin-right: 3%;
+                                                                }
+                                                                @media screen and (max-width: 500px){
+                                                                    #changegrade {
+                                                                        bottom: -30%;
+                                                                        right: 2%;
+                                                                    }
+                                                                }
+                                                            </style>
                                                         <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
                                                             <div class="modal-dialog" role="document">
                                                                 <div class="modal-content">
@@ -505,12 +578,22 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-3 bg-light p-3 rounded">
-                                            <h5>{{__('gx.elements')}}</h5>
-                                            @foreach(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) as $sg)
-                                                <div class="mb-2"><a href="/profile/{{$sg->idStudent}}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.\App\User::find($sg->idStudent)->photo)}}"><span style="vertical-align: middle;"> {{\App\User::find($sg->idStudent)->name}}</span></a></div>
+                                        <div id="col3_groups" class="col-md-3 bg-light p-3 rounded">
+                                                <h5>{{__('gx.elements')}}</h5>
+                                                @foreach(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) as $sg)
+                                                    <div class="mb-2"><a href="/profile/{{$sg->idStudent}}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.\App\User::find($sg->idStudent)->photo)}}"><span style="vertical-align: middle;"> {{\App\User::find($sg->idStudent)->name}}</span></a></div>
                                             @endforeach
                                         </div>
+                                        <style>
+                                                @media screen and (max-width: 500px){
+                                                    #col3_groups {
+                                                        margin-top: 90%;
+                                                    }
+                                                    #altura_col_groups_prof{
+                                                        height: unset;
+                                                    }
+                                                }
+                                            </style>
 
                                     </div>
 
@@ -522,15 +605,14 @@
             </div>
         </div>
 
-
         <div class="tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
             <button type="button" class="p-2 mt-3 mr-3 btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#modalCreatePost" style="background-color: #2c3fb1; border-color: #2c3fb1;">{{__('gx.create post')}}</button>
 
             <div class="container rounded pb-3 pt-3">
-                <div class="table-responsive-xl">
+                <div class="table-responsive-xl pt-2">
                     <table class="table bg-white rounded" style="text-align:center;">
                         <thead>
-                        <tr>
+                        <tr class="forum_table">
                             <th>{{__('gx.subject')}}</th>
                             <th>{{__('gx.author')}}</th>
                             <th>{{__('gx.responses')}}</th>
@@ -538,12 +620,25 @@
                         </tr>
                         </thead>
                         <tbody>
+                            <style>
+                            @media screen and (max-width: 800px){
+                                .forum_table{
+                                    font-size: 1.5vh;
+                                }
+                                .forum_content{
+                                    font-size: 1.5vh;
+                                }
+                                #img_forum{
+                                    display: none; !important;
+                                }
+                            }
+                        </style>
                         @if(count($announcements) > 0)
                             @for($i = 0; $i < count($announcements); $i++)
-                                <tr>
+                                <tr class="forum_content">
                                     <td style="vertical-align: middle;"><a href="/professor/project/{{$project->idProject}}/post/{{$announcements[$i]->idAnnouncement}}">{{$announcements[$i]->title}}</a></td>
                                     <td style="vertical-align: middle;">
-                                        <a href="/profile/{{$userPoster[$i]->id }}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$userPoster[$i]->photo)}}"><span style="vertical-align: middle;"> {{$userPoster[$i]->name}}</span></a>
+                                        <a href="/profile/{{$userPoster[$i]->id }}"><img id="img_forum" class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$userPoster[$i]->photo)}}"><span style="vertical-align: middle;"> {{$userPoster[$i]->name}}</span></a>
                                     </td>
                                     <td style="vertical-align: middle;">{{$numberComments[$i]}}</td>
                                     <td style="vertical-align: middle;">{{$announcements[$i]->date}}</td>
@@ -729,11 +824,9 @@
     if(hash === ''){
         hash = '#characteristics';
     }
-    console.log(hash.split(".")[0]);
 
     if(hash.split(".")[0] == '#gr'){
         pills = hash.split(".")[1];
-        console.log(pills);
         $('#myTab a[href="' + hash.split(".")[0] + '"]').tab('show');
     }else{
         $('#myTab a[href="' + hash + '"]').tab('show');

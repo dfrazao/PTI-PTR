@@ -962,6 +962,10 @@
                                     <label>{{__('gx.adminSubjectName')}}</label>
                                     <input type="text" class="form-control" name="subname" id="subname">
                                 </div>
+                                <div class="form-group">
+                                    <label>{{__('gx.adminClass')}}</label>
+                                    <input type="text" class="form-control" name="classes" id="classes">
+                                </div>
 
                                 <div class="form-group">
                                     <label for="exampleFormControlSelect1">{{__('gx.adminAcademicYear')}}</label>
@@ -1894,7 +1898,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="{{action('AdminController@destroy',['table' => 'subjects'])}}" method="POST">
+                                <form action="{{action('AdminController@destroy',['table' => 'subjectEnrollments'])}}" method="POST">
                                     {{method_field('DELETE')}}
                                     {{ csrf_field() }}
                                     <div class="form-group">

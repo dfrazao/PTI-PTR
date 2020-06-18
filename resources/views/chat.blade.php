@@ -1,18 +1,5 @@
 
-   <div class="container-md" id="testee" style="
-            width: 450px;
-            position: fixed;
-            z-index: 4;
-            right: 1em;
-            margin-top: -0.5em;
-            background:white;
-            border-radius: 6px;
-            border: 1px rgba(0, 123, 255, 0.78) solid;
-            display: none;
-            -webkit-box-shadow: 10px 10px 6px -2px rgba(211,216,222,1);
-            -moz-box-shadow: 10px 10px 6px -2px rgba(211,216,222,1);
-            box-shadow: 10px 10px 6px -2px rgba(211,216,222,1);
-            ">
+   <div class="container-md" id="testee" >
        <div class="row">
            <div id="col-md-4" class="col-md-4 nopadding">
                <div class="user-wrapper">
@@ -347,9 +334,25 @@
            text-align: center;
        }
 
+       #testee{
+           width: 450px;
+           position: fixed;
+           z-index: 4;
+           right: 1em;
+           margin-top: -0.5em;
+           background:white;
+           border-radius: 6px;
+           border: 1px rgba(0, 123, 255, 0.78) solid;
+           display: none;
+           -webkit-box-shadow: 10px 10px 6px -2px rgba(211,216,222,1);
+           -moz-box-shadow: 10px 10px 6px -2px rgba(211,216,222,1);
+           box-shadow: 10px 10px 6px -2px rgba(211,216,222,1);
+       }
        @media screen and (max-width: 800px) {
-           .container-md{
+           #testee{
+               width: 90%;!important;
            }
+
            #col-md-4{
                width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
                overflow-x: hidden;
