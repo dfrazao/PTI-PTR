@@ -314,8 +314,7 @@ class AdminController extends Controller
         }
         elseif($table == 'subjectEnrollments') {
 
-            $subject = SubjectEnrollment::all()->where('idUser', '==', $idUser)->where('idSubject', '==', $id);
-            dd($subject = SubjectEnrollment::find($id));
+            $subject = SubjectEnrollment::all()->where('idUser', '==', $idUser)->where('idSubject', '==', $idSubject);
             $subject->delete();
 
             return redirect('admin/subjectEnrollments')->with('success','Enrollment deleted');

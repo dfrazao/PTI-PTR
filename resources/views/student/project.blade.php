@@ -71,7 +71,7 @@
         </li>
     </ul>
 
-    <div class="tab-content pb-3 ml-0 mr-0" id="myTabContent" style="min-height: 75vh; background-color: #ededed; overflow: auto;">
+    <div class="tab-content pb-3 ml-0 mr-0" id="myTabContent" style="min-height: 75vh; background-color: #ededed;">
         <div class="container-fluid fade tab-pane " id="content" role="tabpanel" aria-labelledby="content-tab">
             <div id="row1" class="row rounded">
                 <style>
@@ -95,9 +95,170 @@
                         }
 
                 </style>
-                <div id="1col" class="col-md-4" style="padding-bottom:10px; position: relative;">
-                    <div class="container-fluid mt-3 rounded h-100 pt-2" style="height: 90%; background-color: #c6c6c6;">
-                        @foreach($rep as $file)
+                <div id="1col" class="col-md-5 mt-3">
+                    <div class="container-fluid rounded h-100 pt-2" style="background-color: #c6c6c6;">
+                        <h5 class="text-center">Repository</h5>
+                        <div>
+                            <table class="table table-sm fixed_header">
+                                <thead class="text-center">
+                                <tr>
+                                    <th scope="col">File name</th>
+                                    <th scope="col">User</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col"></th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($rep as $file)
+                                    @if((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "txt")
+                                        <tr class="file" id="{{$file->idFile}}">
+                                            <td id="filename"><i class="fad fa-file-alt pr-2" id= '{{$file->idFile}}'></i>{{$file->pathFile}}</td>
+                                            <td>{{$file->userUpload}}</td>
+                                            <td>{{$file->uploadTime}}</td>
+                                            <td>
+                                                <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
+                                                    <span class="dot" id="download" style="position:relative">
+                                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                                    </span>
+                                                </a>
+                                                <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile">
+                                                    <span class="dot" id="delete" style="position:relative">
+                                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
+                                                    </span>
+                                                </button>
+                                            </td>
+
+                                        </tr>
+                                    @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "png")
+                                        <tr class="file" id="{{$file->idFile}}">
+                                            <td id="filename"><i class="fas fa-image pr-2"  id= '{{$file->idFile}}'></i>{{$file->pathFile}}</td>
+                                            <td >{{$file->userUpload}}</td>
+                                            <td>{{$file->uploadTime}}</td>
+                                            <td>
+                                                <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
+                                                    <span class="dot" id="download" style="position:relative">
+                                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                                    </span>
+                                                </a>
+                                                <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile ">
+                                                    <span class="dot" id="delete" style="position:relative">
+                                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
+                                                    </span>
+                                                </button>
+                                            </td>
+
+                                        </tr>
+                                    @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "pdf" )
+                                        <tr class="file" id="{{$file->idFile}}">
+                                            <td id="filename"><i class="fal fa-file-pdf pr-2"  id= '{{$file->idFile}}'></i>{{$file->pathFile}}</td>
+                                            <td>{{$file->userUpload}}</td>
+                                            <td>{{$file->uploadTime}}</td>
+                                            <td>
+                                                <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
+                                                    <span class="dot" id="download" style="position:relative">
+                                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                                    </span>
+                                                </a>
+                                                <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile">
+                                                    <span class="dot" id="delete" style="position:relative">
+                                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
+                                                    </span>
+                                                </button>
+                                            </td>
+
+                                        </tr>
+                                    @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "docx" )
+                                        <tr class="file" id="{{$file->idFile}}">
+                                            <td id="filename"><i class="fal fa-file-word pr-2"  id= '{{$file->idFile}}'></i>{{$file->pathFile}}</td>
+                                            <td>{{$file->userUpload}}</td>
+                                            <td>{{$file->uploadTime}}</td>
+                                            <td>
+                                                <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
+                                                    <span class="dot" id="download" style="position:relative">
+                                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                                    </span>
+                                                </a>
+                                                <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile">
+                                                    <span class="dot" id="delete" style="position:relative">
+                                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
+                                                    </span>
+                                                </button>
+                                            </td>
+
+                                        </tr>
+                                    @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "zip" )
+                                        <tr class="file" id="{{$file->idFile}}">
+                                            <td id="filename"><i class="fal fa-file-archive pr-2" id= '{{$file->idFile}}'></i>{{$file->pathFile}}</td>
+                                            <td >{{$file->userUpload}}</td>
+                                            <td>{{$file->uploadTime}}</td>
+                                            <td>
+                                                <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
+                                                    <span class="dot" id="download" style="position:relative">
+                                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                                    </span>
+                                                </a>
+                                                <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile">
+                                                    <span class="dot" id="delete" style="position:relative">
+                                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
+                                                    </span>
+                                                </button>
+                                            </td>
+
+                                        </tr>
+                                    @else
+                                        <tr class="file" id="{{$file->idFile}}">
+                                            <td id="filename"><i class="fal fa-file-code pr-2"  id= '{{$file->idFile}}'></i>{{$file->pathFile}}</td>
+                                            <td >{{$file->userUpload}}</td>
+                                            <td>{{$file->uploadTime}}</td>
+                                            <td>
+                                                <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
+                                                    <span class="dot" id="download" style="position:relative">
+                                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                                    </span>
+                                                </a>
+                                                <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile ">
+                                                    <span class="dot" id="delete" style="position:relative">
+                                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
+                                                    </span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="container text-center">
+                            {!!Form::open(['action' => ['StudentProjectsController@store', $project->idProject], 'method' => 'POST', 'enctype' => 'multipart/form-data','files' => true, 'class' => "dropzone dz-clickable p-0", 'id'=>"dropzone" , 'style'=>"min-height: 0 !important; height:15vh; border: 3px dotted black;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);border-radius: 5px;opacity:0.5;"])!!}
+                            @csrf
+                            <div class="dz-message m-0 pt-2">
+                                <i class="fal fa-file-plus fa-3x px-2"><p style="font-size: medium">Drop or click to upload files</p></i>
+                            </div>
+                            <script type="text/javascript">
+                                Dropzone.options.dropzone = {
+                                    init: function () {
+                                        // Set up any event handlers
+                                        this.on('complete', function () {
+                                            location.reload();
+
+                                        });
+                                        this.on('error', function(file, response) {
+                                            $(file.previewElement).find('.dz-error-message').text(response);
+                                        });
+                                    },
+                                    maxFilesize: 12,
+                                    acceptedFiles: ".jpeg,.jpg,.png,.gif,.pdf,.zip,.docx,.txt,.py,.html,.css,.js",
+                                };
+                            </script>
+                            {{ Form::hidden('group', $idGroup) }}
+                            {{ Form::hidden('project', $project->idProject) }}
+                            {{ Form::hidden('subject', $subject->subjectName) }}
+                            {{Form::hidden('submission','newFile')}}
+
+                            {!!Form::close()!!}
+                        </div>
+                        {{--@foreach($rep as $file)
                             <div class="file text-center" id= '{{$file->idFile}}' style="margin-right: 15px; position:relative; display: inline-block; width: 100px;">
                                 <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;" id= '{{$file->idFile}}' class="close downloadFile" download>
                                     <span class="dot" id="download" style="position:relative">
@@ -111,28 +272,33 @@
                                 </button>
                                 @if((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "txt")
                                     <figure>
-                                        <i class="fad fa-file-alt fa-4x px-2"></i>
-                                        <figcaption>{{$file->pathFile}}</figcaption>
+                                        <i class="fad fa-file-alt fa-4x p-2" style= "border:transparent;" id= '{{$file->idFile}}'></i>
+                                        <figcaption style="overflow-wrap: break-word; ">{{$file->pathFile}}</figcaption>
                                     </figure>
-                                @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpg")
+                                @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "png")
                                     <figure>
-                                        <i class="fas fa-image fa-4x px-2"></i>
-                                        <figcaption>{{$file->pathFile}}</figcaption>
+                                        <i class="fas fa-image fa-4x p-2" style= "border: 1px solid transparent;" id= '{{$file->idFile}}'></i>
+                                        <figcaption style="overflow-wrap: break-word; ">{{$file->pathFile}}</figcaption>
                                     </figure>
                                 @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "pdf" )
                                     <figure>
-                                        <i class="fal fa-file-pdf fa-4x px-2"></i>
-                                        <figcaption>{{$file->pathFile}}</figcaption>
+                                        <i class="fal fa-file-pdf fa-4x p-2" style= "border:transparent;" id= '{{$file->idFile}}'></i>
+                                        <figcaption style="overflow-wrap: break-word; ">{{$file->pathFile}}</figcaption>
                                     </figure>
                                 @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "docx" )
                                     <figure>
-                                        <i class="fal fa-file-word fa-4x px-2"></i>
-                                        <figcaption>{{$file->pathFile}}</figcaption>
+                                        <i class="fal fa-file-word fa-4x p-2" style= "border:1px solid transparent;" id= '{{$file->idFile}}'></i>
+                                        <figcaption style="overflow-wrap: break-word; ">{{$file->pathFile}}</figcaption>
                                     </figure>
                                 @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "zip" )
                                     <figure>
-                                        <i class="fal fa-file-archive fa-4x px-2"></i>
-                                        <figcaption>{{$file->pathFile}}</figcaption>
+                                        <i class="fal fa-file-archive fa-4x p-2" id= '{{$file->idFile}}'></i>
+                                        <figcaption style="overflow-wrap: break-word;">{{$file->pathFile}}</figcaption>
+                                    </figure>
+                                @else
+                                    <figure>
+                                        <i class="fal fa-file-code fa-4x p-2" id= '{{$file->idFile}}'></i>
+                                        <figcaption style="overflow-wrap: break-word;">{{$file->pathFile}}</figcaption>
                                     </figure>
 
 
@@ -150,8 +316,6 @@
                                 </figure>
                                 <script type="text/javascript">
                                     Dropzone.options.dropzone = {
-                                        maxFilesize: 1,
-                                        acceptedFiles: ".jpeg,.jpg,.png,.gif,.pdf,.zip,.docx,.txt,.py,.html,.css,.js",
                                         init: function () {
                                             // Set up any event handlers
                                             this.on('complete', function () {
@@ -159,6 +323,8 @@
 
                                             });
                                         },
+                                        maxFilesize: 12,
+                                        acceptedFiles: ".jpeg,.jpg,.png,.gif,.pdf,.zip,.docx,.txt,.py,.html,.css,.js",
                                     };
                                 </script>
                                 {{ Form::hidden('group', $idGroup) }}
@@ -167,9 +333,8 @@
                                 {{Form::hidden('submission','newFile')}}
 
                                 {!!Form::close()!!}
-                            </div>
-                        <button type="submit" disabled class="btn btn-sm mb-2 mr-2" id= 'submitFile' data-toggle="modal" data-target="#modalSubmitFile" style="width:20vh;background: #2c3fb1; color: white; position: absolute; bottom: 0px; right: 0px;">Submit</button>
-
+                            </div>--}}
+                        <button type="submit" disabled class="btn btn-sm" id= 'submitFile' data-toggle="modal" data-target="#modalSubmitFile" style="width:20vh;background: #2c3fb1; color: white; position: absolute; bottom: 7px; right: 22px;">Submit</button>
 
                         {{-- Modal Submit File --}}
                         <div class="modal fade" id="modalSubmitFile" aria-labelledby="modalSubmitFile" aria-hidden="true" tabindex="-1" role="dialog">
@@ -197,35 +362,48 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div id="2col"  class="col-md-4 mt-3 rounded">
-                    <div class="row h-50">
-                        <div id="col_groups" class="container-fluid rounded text-center pt-2 pb-2" style="background-color: #c6c6c6;">
-                            <h5>{{__('gx.group').' '. $idGroup}}</h5>
-                            <div>
-                                @foreach($groupUsers as $user)
-                                    <div class="pb-1">
-                                        <img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}">
-                                        <a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a>
+                        {{-- Modal Add File --}}
+                        <div class="modal fade" id="modalAddFile" aria-labelledby="modalAddFile" aria-hidden="true" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="staticBackdropLabel">Add file to repository</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
-                                @endforeach
+                                    <div class="modal-body">
+                                        {!! Form::open(['action' => 'StudentProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                                        {{Form::file('file')}}
+
+
+
+                                        {{ Form::hidden('group', $idGroup) }}
+                                        {{ Form::hidden('project', $project->idProject) }}
+                                        {{ Form::hidden('subject', $subject->subjectName) }}
+                                        {{Form::hidden('submission','newFile')}}
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        {{Form::submit('Upload File', ['class'=>'btn btn-primary'])}}
+                                    </div>
+                                    {!! Form::close() !!}
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row h-50 rounded pt-3">
-                        <div id="col_docs" class="container-fluid rounded text-center pt-2" style="background-color: #c6c6c6; ">
-                            <h5>{{__('gx.documentation')}} </h5>
-                            <div>{{__('gx.files')}}:
-                                @foreach($docs as $d)
-                                    <a rel="noopener noreferrer" target="_blank" href ="{{Storage::url('documentation/'.$project->idProject.'/'.$d->pathFile)}}">{{$d->pathFile}}</a>
-                                @endforeach
-                            </div>
-                            <div>{{__('gx.deadline')}}: {{$project->dueDate}}</div>
+                </div>
 
-
-
+                <div id="2col"  class="col-md-3 mt-3 rounded pl-0">
+                    <div id="col_groups" class="container-fluid rounded text-center h-100 pt-2" style="background-color: #c6c6c6;">
+                        <h5>{{__('gx.group').' '. $idGroup}}</h5>
+                        <div>
+                            @foreach($groupUsers as $user)
+                                <div class="pb-1">
+                                    <img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}">
+                                    <a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                     <style>
@@ -243,16 +421,58 @@
                         }
                     </style>
                 </div>
-                <div id="3col"  class="col-md-4 mt-3 pt-2">
-                    <div class="container-fluid rounded notes h-100 pt-2" style="background-color: #ffe680; " >
-                        <h5 class="text-center">{{__('gx.notes')}}</h5>
-                        {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST', 'id'=>'myform']) !!}
-                        @csrf
-                        {{Form::textarea('notes', $notes, ['class' => 'form-control', 'id'=>'textArea', 'rows'=>'10'])}}
-                        {{Form::hidden('group',$idGroup)}}
-                        {{Form::hidden('submission','notes')}}
-                        {{Form::submit('Submit', ['class'=>'btn btn-primary d-none', 'id'=>'notesButton'])}}
-                        {!! Form::close() !!}
+                <div id="3col" class="col-md-4 mt-3">
+                    <div class="row rounded h-50 pr-3">
+                        <div class="container-fluid rounded notes pt-2" style="background-color: #ffe680; " >
+                            <h5 class="text-center">{{__('gx.notes')}}</h5>
+                            {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST', 'id'=>'myform']) !!}
+                            @csrf
+                            {{Form::textarea('notes', $notes, ['class' => 'form-control', 'id'=>'textArea', 'rows'=>'5'])}}
+                            {{Form::hidden('group',$idGroup)}}
+                            {{Form::hidden('submission','notes')}}
+                            {{Form::submit('Submit', ['class'=>'btn btn-primary d-none', 'id'=>'notesButton'])}}
+                            {!! Form::close() !!}
+                        </div>
+                    </div>
+                    <div class="row rounded h-50 pt-3 pr-3">
+                        <div id="col_docs" class="container-fluid rounded text-center pt-2" style="background-color: #c6c6c6; ">
+                            <h5>{{__('gx.documentation')}} </h5>
+                            <div class="text-center">
+                                @foreach($docs as $d)
+                                    @if((pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "txt")
+                                        <div>
+                                            <i class="fad fa-file-alt fa-2x"></i>
+                                            <a rel="noopener noreferrer" target="_blank" href ="{{Storage::url('documentation/'.$project->idProject.'/'.$d->pathFile)}}">{{$d->pathFile}}</a>
+                                        </div>
+                                    @elseif((pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "png")
+                                        <div>
+                                            <i class="fas fa-image fa-2x"></i>
+                                            <a rel="noopener noreferrer" target="_blank" href ="{{Storage::url('documentation/'.$project->idProject.'/'.$d->pathFile)}}">{{$d->pathFile}}</a>
+                                        </div>
+                                    @elseif((pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "pdf" )
+                                        <div>
+                                            <i class="fal fa-file-pdf fa-2x"></i>
+                                            <a rel="noopener noreferrer" target="_blank" href ="{{Storage::url('documentation/'.$project->idProject.'/'.$d->pathFile)}}">{{$d->pathFile}}</a>
+                                        </div>
+                                    @elseif((pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "docx" )
+                                        <div>
+                                            <i class="fal fa-file-word fa-2x"></i>
+                                            <a rel="noopener noreferrer" target="_blank" href ="{{Storage::url('documentation/'.$project->idProject.'/'.$d->pathFile)}}">{{$d->pathFile}}</a>
+                                        </div>
+                                    @elseif((pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "zip" )
+                                        <div>
+                                            <i class="fal fa-file-archive fa-2x"></i>
+                                            <a rel="noopener noreferrer" target="_blank" href ="{{Storage::url('documentation/'.$project->idProject.'/'.$d->pathFile)}}">{{$d->pathFile}}</a>
+                                        </div>
+                                    @else
+                                        <div>
+                                            <i class="fal fa-file-code fa-2x"></i>
+                                            <a rel="noopener noreferrer" target="_blank" href ="{{Storage::url('documentation/'.$project->idProject.'/'.$d->pathFile)}}">{{$d->pathFile}}</a>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <style>
@@ -896,23 +1116,40 @@
                         </div>
                         <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-4">
                             <i class="pl-1 far fa-lg fa-file float-left"></i>
-                            <div id="submissionTime" style="display: inline-flex" class="pl-3"> Files submitted:</div>
+                            <div style="display: inline-flex" class="pl-3"> Files submitted:</div>
                         </div>
                         <div class="container-fluid mt-3 pr-0 ml-2" id="submittedFiles" style="background-color: white">
                             @foreach($submittedFiles as $file)
                                 <div class="text-center pt-2" id= '{{$file->idFile}}' style="margin-right: 15px; position:relative; display: inline-block; width: 100px;">
-                                    <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="position:absolute; top:-1px; right:17px;" id= '{{$file->idFile}}' class="close downloadFile" download>
+                                    <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style=" z-index:2; position:absolute; top:-1px; right:10px;" id= '{{$file->idFile}}' class="close downloadFile" download>
                                         <span class="dot" id="download" style="position:relative; display:inline-block">
                                             <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
                                         </span>
                                     </a>
-                                    <button style="position:absolute; top:-1px; right:-10px;" id= '{{$file->idFile}}' type="button" class="close removeFile">
-                                        <span class="dot" id="delete" style="position:relative; display:inline-block">
+                                    <button style="position:absolute; top:-1px; right:-15px;" id= '{{$file->idFile}}' type="button" class="close removeFile">
+                                        <span class="dot" id="delete" style="position:relative; display:inline-block; ">
                                             <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
                                         </span>
                                     </button>
                                     <figure>
-                                        <i class="fas fa-folder fa-4x px-2" style="color: #ffce52;"></i>
+                                        @if((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "txt")
+                                            <i class="fad fa-file-alt fa-4x px-2" ></i>
+
+                                        @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "png")
+                                            <i class="fas fa-image fa-4x px-2" ></i>
+
+                                        @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "pdf" )
+                                            <i class="fal fa-file-pdf fa-4x px-2" ></i>
+
+                                        @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "docx" )
+                                            <i class="fal fa-file-word fa-4x px-2"></i>
+
+                                        @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "zip" )
+                                            <i class="fal fa-file-archive fa-4x px-2" ></i>
+
+                                        @else
+                                            <i class="fal fa-file-code fa-4x px-2" ></i>
+                                        @endif
                                         <figcaption>{{$file->pathFile}}</figcaption>
                                     </figure>
                                 </div>
@@ -955,7 +1192,7 @@
                                     {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST']) !!}
                                     <img class="profilePhoto pr-2" style="border-radius: 100%; width: 13%; height: 13%; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}">
                                     <a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a>
-                                    <div class="rating-{{$user->id}}">
+                                    <div class="rating-{{$user->id}}" style="display:inline-flex;">
                                         <i class="fa fa-star" aria-hidden="true" id="s1"></i>
                                         <i class="fa fa-star" aria-hidden="true" id="s2"></i>
                                         <i class="fa fa-star" aria-hidden="true" id="s3"></i>
@@ -968,10 +1205,10 @@
 
                                     <script>
                                         @foreach($eval as $ev)
-                                        @for($i=0;$i<=$ev->grade;$i++)
-                                        $('div.rating-{{$ev->receiver}} #s{{$i}}').css('color','yellow');
+                                            @for($i=0;$i<=$ev->grade;$i++)
+                                            $('div.rating-{{$ev->receiver}} #s{{$i}}').css('color','#f1f1f1');
                                             @endfor
-                                            @endforeach
+                                        @endforeach
                                         var rating=0;
                                         $('div.rating-{{$user->id}} #s1').click(function(){
                                             $('div.rating-{{$user->id}} .fa-star').css("color","black");
@@ -1054,7 +1291,7 @@
                                     {!! Form::close() !!}
                                 @endforeach
                             </div>
-                            <button type="button" class="btn btn-primary submitEval" data-toggle="modal" data-target="#modalSubmitEvaluations">Submit</button>
+                            <button type="button" class="btn btn-primary submitEval float-right pt-2" data-toggle="modal" data-target="#modalSubmitEvaluations">Submit</button>
                             <div class="alert alert-success alert-dismissible fade show d-none" id="submitted">
                                 <strong>Success!</strong> Your group elements evaluation has been sent successfully.
                             </div>
@@ -1133,15 +1370,40 @@
         color: #2c3fb1;
     }
     .table{
-    /*    table-layout: fixed;*/
+        table-layout: fixed;
         width:100%;
     }
+    .fixed_header{
+        height: 75%;
+        table-layout: fixed;
+        border: none;
 
+    }
+
+    .fixed_header tbody{
+        display:block;
+        width: 100%;
+        overflow: auto;
+        height: 40vh;
+    }
+
+    .fixed_header thead tr {
+        display: block;
+    }
+
+
+    .fixed_header th{
+        padding: 5px;
+        text-align: center;
+        width: 485px;
+    }
+    .fixed_header td {
+        padding: 8px;
+        text-align: left;
+        table-layout: fixed;
+    }
     .select{
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
-        border-radius: 5px;
-        padding-left: 2px;
+        background-color: #e2e2e2;
     }
     .close{
         opacity: 1;
@@ -1151,7 +1413,7 @@
         width: 25px;
         background-color: red;
         border-radius: 50%;
-        display:none;
+        display:inline-block;
         color:white;
     }
     #download {
@@ -1159,10 +1421,10 @@
         width: 25px;
         background-color: white;
         border-radius: 50%;
-        display:none;
+        display:inline-block;
         color: green;
     }
-    form#dropzone.dropzone.dz-clickable {
+    /*form#dropzone.dropzone.dz-clickable {
         padding-bottom: 0px;
         padding-left: 0px;
         padding-top: 10px;
@@ -1181,6 +1443,9 @@
         border-radius: 5px;
         opacity:0.5;
         z-index:2;
+    }*/
+    .file{
+        cursor:pointer;
     }
     .timer {
         font-size: 1.30em;
@@ -1326,14 +1591,14 @@
     });
 
     $('.file').on('click', function () {
-        if($($(this).find("figure i")).hasClass('select')){
-            $($(this).find("figure i")).removeClass('select');
-            $(this).find("#download").css("display","none");
-            $(this).find("#delete").css("display","none");
+        if($(this).hasClass('select')){
+            $(this).removeClass('select');
+            /*$(this).find("#download").css("display","none");
+            $(this).find("#delete").css("display","none");*/
         }else{
-            $($(this).find("figure i")).addClass('select');
-            $(this).find('#download').css("display","inline-block");
-            $(this).find('#delete').css("display","inline-block");
+            $(this).addClass('select');
+            /*$(this).find('#download').css("display","inline-block");
+            $(this).find('#delete').css("display","inline-block");*/
             $('#submitFile').removeAttr('disabled');
             }
         if($('.select').length == 0){
@@ -1341,7 +1606,7 @@
         }
         });
 
-    $(".file").hover(function() {
+    /*$(".file").hover(function() {
         $(this).find('#download').css("display","inline-block");
         $(this).find('#delete').css("display","inline-block");
     }, function() {
@@ -1353,7 +1618,7 @@
             $(this).find("#download").css("display","none");
             $(this).find("#delete").css("display","none");
         }
-    });
+    });*/
 
     $('.deleteFile').click(function(){
         $('input[name="idFile"]').val($(this).attr("id"));
@@ -1369,7 +1634,7 @@
         var f = new Array;
         $('.select').each( function () {
             f.push($(this).attr("id"));
-            var x = $(this).find('figure').css('display','inline-block').css('padding','5px').attr('class', 'text-center').clone().wrap('<p/>').parent().html();
+            var x = $(this).clone().removeClass('select').find('#filename').css('display','block').css('padding','5px').css('font-size','20px').attr('class', 'text-left').wrap('<p/>').parent().html();
             $('#modalSubmitFile .filesSelected').append(x);
         });
         $('input[name="filesSubmit"]').val(f);

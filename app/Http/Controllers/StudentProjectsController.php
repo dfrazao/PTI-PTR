@@ -123,6 +123,8 @@ class StudentProjectsController extends Controller
             $zip = $request->file('file');
             $file-> Pathfile = $request->file->getClientOriginalName();
             $file->finalState = "temporary";
+            $file->uploadTime = Carbon::now();
+            $file->userUpload = User::find($user)->name;
             $file->save();
             $zip->storeAs('studentRepository/'.$idGroup, $file-> Pathfile, 'gcs');
 
@@ -160,7 +162,7 @@ class StudentProjectsController extends Controller
                     $eval->grade = $request->input('grade');
                     $eval->save();
                 }
-            //return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Grade sent successfully');
+            return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Grade sent successfully');
         }
         elseif($submission == 'studentsEvaluationSubmission'){
             $idEval = Evaluation::all()->where("idGroup", $idGroup);
@@ -340,6 +342,7 @@ class StudentProjectsController extends Controller
         }elseif($submission == 'submitFile'){
 
             $idFiles = explode(',',$request->filesSubmit);
+
             foreach($idFiles as $idfile){
                 $file = File::find($idfile);
                 $file->finalState = 'final';
