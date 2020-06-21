@@ -375,7 +375,7 @@
                                                                     <a type="button" class="btn btn-sm btn-success" href="/student/project/{{$project->idProject}}/groups" style="width: 10em;">{{__('gx.join/create group')}}</a>
                                                                 @endif
                                                             @else
-                                                                <a type="button" class="btn btn-sm" style="background-color: transparent; border-color: none;width: 10em;"></a>
+                                                                <a type="button" class="btn btn-sm" style="background-color: transparent; width: 10em;"></a>
                                                             @endif
                                                         </div>
                                                     @endif

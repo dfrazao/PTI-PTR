@@ -416,7 +416,7 @@
                             }
                         }
                     </style>
-                    <div class="container pt-3 overflow-auto mw-80 h-100" style="background-color: #c6c6c6;">
+                    <div class="container rounded pt-3 overflow-auto mw-80 h-100" style="background-color: #c6c6c6;">
                         <ul class="nav nav-pills mb-3 flex-column" id="pills-tab" role="tablist" aria-orientation="vertical">
                             @foreach($groups as $group)
                                 <li class="nav-item mb-1 rounded" style="background-color: #d0e7ff;">
@@ -435,7 +435,7 @@
                                 <div class="container-fluid tab-pane fade h-100" id="pills-{{$group->idGroupProject}}" role="tabpanel" aria-labelledby="pills-{{$group->idGroupProject}}-tab">
                                         <div class="row h-100" style="position: relative; background-color: #c6c6c6;">
                                             <div class="col-md-9">
-                                                    <div id="files_row" class="row pb-2 ">
+                                                <div id="files_row" class="row pb-2 h-40">
                                                         <style>
                                                             #files_row{
                                                                 height: 40%;
@@ -448,18 +448,21 @@
                                                         </style>
                                                         <div class="bg-light p-2 w-100 rounded" style="margin-right: 10px">
                                                             <h5>{{__('gx.files')}}</h5>
+
                                                             @foreach($rep2 as $docSub)
                                                                 @if($docSub->idGroup == $group->idGroup)
-                                                                    <div id="box1" style="position: absolute; right: 1%; top: 1%; border: 1px solid darkgrey; border-radius: 15px; width: 37%; padding: 5px; vertical-align: middle;">
-                                                                        <img src="/images/deathlineSub.png" style="width: 30px; height: 30px; float: left; ">
+                                                                    <div id="box1" style="position: absolute; right: 1.60%; top: 1%; height: 9%; border: 1px solid darkgrey; border-radius: 15px; width: 69%;  vertical-align: middle;">
+                                                                        <img src="/images/deathlineSub.png" style="width: 30px; height: 30px; float: left; margin:1%;">
                                                                         <div id="timer3"></div>
 
                                                                     </div>
+                                                                else
                                                                     <style>
                                                                         #timer3 {
                                                                             font-size: 1.0em;
                                                                             color: black;
                                                                             vertical-align: middle;
+                                                                            text-align: center;
                                                                         }
 
                                                                         #timer3 div {
@@ -468,11 +471,8 @@
 
                                                                         }
 
-                                                                        #timer3 p {
-                                                                            float: left;
-                                                                            margin-left: 7px;
-                                                                            margin-right: 3px;
-
+                                                                        #timer3 b {
+                                                                            margin: 1%;
                                                                         }
 
                                                                         #timer3 div span {
@@ -502,17 +502,21 @@
                                                                                 $('#box1').css('border', '1.5px solid red');
                                                                                 $('#box1').css('background-color', '#ff000042');
                                                                                 document.getElementById("timer3")
-                                                                                    .innerHTML = '<p>Atraso de:<p>'+
+                                                                                    .innerHTML = '<b style="float: left;">Submetido com atraso,</b>'+
                                                                                     '<div>' + d + '<span>days</span></div>' +
                                                                                     '<div>' + h + '<span>hrs</span></div>' +
                                                                                     '<div>' + m + '<span>mins</span></div>'+
-                                                                                    '<div>' + s + '<span>secs</span></div>';
+                                                                                    '<b style="float: right;">depois do prazo terminar</b>';
                                                                             }else{
+                                                                                $('#box1').css('border', '1.5px solid #61af61');
+                                                                                $('#box1').css('background-color', '#bbf5bb');
                                                                                 document.getElementById("timer3")
                                                                                     .innerHTML =
-                                                                                    '<div>' + d + '<span>{{__('gx.days')}}</span></div>' +
-                                                                                    '<div>' + h + '<span>{{__('gx.hours')}}</span></div>' +
-                                                                                    '<div>' + m + '<span>{{__('gx.minutes')}}</span></div>';
+                                                                                    '<b style="float: left;">Submetido com sucesso,</b>'+
+                                                                                    '<div>' + d + '<span>days</span></div>' +
+                                                                                    '<div>' + h + '<span>hrs</span></div>' +
+                                                                                    '<div>' + m + '<span>mins</span></div>'+
+                                                                                    '<b style="float: right;">antes do prazo terminar</b>';
                                                                             }
                                                                         }
                                                                         updateTimer3();
@@ -534,48 +538,49 @@
 
                                                 </div>
                                             </div>
-                                            <div id="assessments_row" class="row pb-2 "><div class="bg-light p-2 w-100 rounded" style="margin-right: 10px">
-                                                    <h5>Teamwork Evaluation</h5>
-                                                    <table class="table">
-                                                        <thead>
-                                                        <tr>
-                                                            <th scope="col">Elementos</th>
-                                                            <th scope="col">Autoavaliação</th>
-                                                            <th scope="col">Avaliação do grupo</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        @foreach(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) as $sg)
+                                                <div id="assessments_row" class="row ">
+                                                    <div class="bg-light p-2 w-100 rounded" style="margin-right: 10px">
+                                                        <h5 class="mb-2">Teamwork Evaluation</h5>
+                                                        @if(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) == '[]')
+                                                            <p>No avaliations available</p>
+                                                        @else
+                                                        <table class="table table-sm " style="text-align: center; vertical-align: middle;">
+                                                            <thead>
                                                             <tr>
-                                                                <td>{{\App\User::find($sg->idStudent)->name}}</td>
-                                                                <td>
-                                                                    @if(is_null(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', $sg->idStudent)->where('idGroup', $group->idGroup)->value('grade')))
-                                                                        <p>-</p>
-                                                                    @else
-                                                                        <img src="/images/star.png" style="width: 25px; height: 25px; ">{{\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', $sg->idStudent)->where('idGroup', $group->idGroup)->value('grade')}}
-                                                                    @endif
-                                                                </td>
-                                                                {{--<td>{{\App\Evaluation::find(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', $sg->idStudent)->where('idGroup', $group->idGroup))}}</td>--}}
-                                                                {{--<td>{{\App\Evaluation::find()->where([['receiver', '==', $sg->idStudent],['sender', '==', $sg->idStudent]])->first()}}</td>--}}
-                                                                <td>
-                                                                    @if(\App\Evaluation::find(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', "!=", $sg->idStudent)->where('idGroup', $group->idGroup)->pluck('idEval'))->pluck('grade')->avg() == 0)
-                                                                        <p>-</p>
-                                                                    @else
-                                                                        <img src="/images/star.png" style="width: 25px; height: 25px;"> {{\App\Evaluation::find(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', "!=", $sg->idStudent)->where('idGroup', $group->idGroup)->pluck('idEval'))->pluck('grade')->avg()}}
-                                                                    @endif
-                                                                </td>
+                                                                <th scope="col">Elementos</th>
+                                                                <th scope="col" >Autoavaliação</th>
+                                                                <th scope="col" >Avaliação do grupo</th>
                                                             </tr>
-                                                        @endforeach
-                                                        </tbody>
-                                                    </table>
+                                                            </thead>
+                                                            <tbody>
+                                                            @foreach(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) as $sg)
+                                                                <tr>
+                                                                    <td>{{\App\User::find($sg->idStudent)->name}}</td>
+                                                                    <td>
+                                                                        @if(is_null(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', $sg->idStudent)->where('idGroup', $group->idGroup)->value('grade')))
+                                                                            -
+                                                                        @else
+                                                                            <img src="/images/star.png" style="width: 23px; height: 23px; margin-right: 3%; margin-bottom: 2%;">{{\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', $sg->idStudent)->where('idGroup', $group->idGroup)->value('grade')}}/5
+                                                                        @endif
+                                                                    </td>
+                                                                    <td>
+                                                                        @if(\App\Evaluation::find(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', "!=", $sg->idStudent)->where('idGroup', $group->idGroup)->pluck('idEval'))->pluck('grade')->avg() == 0)
+                                                                            -
+                                                                        @else
+                                                                            <img src="/images/star.png" style="width: 23px; height: 23px; margin-bottom: 2%; margin-right: 1%;"> {{\App\Evaluation::find(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', "!=", $sg->idStudent)->where('idGroup', $group->idGroup)->pluck('idEval'))->pluck('grade')->avg()}}/5
+                                                                        @endif
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                        @endif
+                                                    </div>
                                                 </div>
-                                            </div>
-
-
 
                                                 <style>
                                                             #assessments_row{
-                                                                height: 30%;
+                                                                height: 60%;
                                                             }
                                                             @media screen and (max-width: 500px){
                                                                 #assessments_row {
@@ -583,22 +588,32 @@
                                                                 }
                                                             }
                                                         </style>
-                                            <div id="final_row" class="row pb-2" >
-                                                        <style>
-                                                            #final_row{
-                                                                height: 30%;
-                                                            }
-                                                            @media screen and (max-width: 500px){
-                                                                #final_row {
-                                                                    height: 70%;
-                                                                }
-                                                            }
-                                                        </style>
-                                                <div class=" bg-light p-2 w-100 rounded">
+
+
+                                        </div>
+                                        <div  class="col-md-3 ">
+                                            <div id="col3_groups" class="row p-2 bg-light rounded h-50" style=" display: block;">
+                                                <h5>{{__('gx.elements')}}</h5>
+                                                @foreach(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) as $sg)
+                                                    <p><a href="/profile/{{$sg->idStudent}}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.\App\User::find($sg->idStudent)->photo)}}"><span style="vertical-align: middle;"> {{\App\User::find($sg->idStudent)->name}}</span></a><img src="/images/comment.png" style="width: 20px; height: 20px; float: right; margin-top: 3%; margin-right: 3%"></p>
+                                                @endforeach
+                                            </div>
+                                            <div id="final_row" class="row pt-2 rounded h-50" >
+                                                <style>
+                                                    #final_row{
+
+                                                    }
+                                                    @media screen and (max-width: 500px){
+                                                        #final_row {
+                                                            height: 70%;
+                                                        }
+                                                    }
+                                                </style>
+                                                <div class=" bg-light p-2 w-100 rounded " style="max-height: 100%;">
                                                     <h5>{{__('gx.final group evaluation')}}</h5>
                                                     @if ($group->grade == NULL)
                                                         <p class="mb-0">{{__('gx.group not evaluated')}}</p>
-                                                        <button type="button" class="p-2 btn btn-primary btn-md" style="position: absolute; bottom: 0; right: 0; margin-bottom: 1%; margin-right: 1%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}">{{__('gx.evaluate group')}}</button>
+                                                        <button type="button" class="p-2 btn btn-sm btn-primary" style="position: absolute; width: 17vh; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}">{{__('gx.evaluate group')}}</button>
                                                         <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
                                                             <div class="modal-dialog" role="document">
                                                                 <div class="modal-content">
@@ -623,35 +638,35 @@
                                                                         {{Form::hidden('project', $project->idProject)}}
                                                                         {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
 
-                                                                            {!! Form::close() !!}
-                                                                        </div>
+                                                                        {!! Form::close() !!}
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        @else
+                                                        </div>
+                                                    @else
 
                                                         <p class="mb-0">{{__('gx.grade')}}: {{$group->grade}}</p>
                                                         @if($group->gradeComment == NULL)
                                                             <p class="m-0">{{__('gx.no comments')}}</p>
                                                         @else
-                                                            <p class="mb-0" >: {{$group->gradeComment}}</p>
+                                                            <p class="mb-0 p-1 rounded" style=" overflow: auto; height: 46%; background-color: #d0e7ff; margin-top: 3%;" >{{$group->gradeComment}}</p>
                                                         @endif
-                                                        <button id="changegrade" type="button" class="p-2 btn btn-primary btn-md float-right" style="position: absolute; bottom: 0; right: 0; margin-bottom: 1%; margin-right: 1%;" data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}" >{{__('gx.change grade')}}</button>
+                                                        <button id="changegrade" type="button" class="p-2 btn btn-primary btn-sm float-right" style="position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%; width: 16vh;" data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}" >{{__('gx.change grade')}}</button>
                                                         <style>
-                                                                #changegrade{
-                                                                    position: absolute;
-                                                                    bottom: 0;
-                                                                    right: 0;
-                                                                    margin-bottom: 2%;
-                                                                    margin-right: 3%;
+                                                            #changegrade{
+                                                                position: absolute;
+                                                                bottom: 0;
+                                                                right: 0;
+                                                                margin-bottom: 2%;
+                                                                margin-right: 2%;
+                                                            }
+                                                            @media screen and (max-width: 500px){
+                                                                #changegrade {
+                                                                    bottom: -30%;
+                                                                    right: 2%;
                                                                 }
-                                                                @media screen and (max-width: 500px){
-                                                                    #changegrade {
-                                                                        bottom: -30%;
-                                                                        right: 2%;
-                                                                    }
-                                                                }
-                                                            </style>
+                                                            }
+                                                        </style>
                                                         <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
                                                             <div class="modal-dialog" role="document">
                                                                 <div class="modal-content">
@@ -683,12 +698,6 @@
                                                     @endif
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div id="col3_groups" class="col-md-3 bg-light p-3 rounded">
-                                                <h5>{{__('gx.elements')}}</h5>
-                                                @foreach(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) as $sg)
-                                                    <div class="mb-2"><a href="/profile/{{$sg->idStudent}}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.\App\User::find($sg->idStudent)->photo)}}"><span style="vertical-align: middle;"> {{\App\User::find($sg->idStudent)->name}}</span></a></div>
-                                            @endforeach
                                         </div>
                                         <style>
                                                 @media screen and (max-width: 500px){
