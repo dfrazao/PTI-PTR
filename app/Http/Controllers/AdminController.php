@@ -445,30 +445,16 @@ class AdminController extends Controller
             $file=fopen($filePath, 'r');
             $header = fgetcsv($file,1000,";");
 
-            $escapedHeader = [];
-            foreach ($header as $key => $value){
-                $lheader = strtolower($value);
-                $escapedItem = preg_replace('/[^a-z]/', '',$lheader);
-                array_push($escapedHeader, $escapedItem);
-            }
+            $allData = [];
 
             while (($columns = fgetcsv($file, 1000, ";")) !== FALSE){
-                print_r($columns[0]);
-                if($columns[0] == ""){
-                    continue;
-                }
-
-                $data = array_combine($escapedHeader, $columns);
-                $idUser = $data['iduser'];
-                $idSubject = $data['idsubject'];
-                $class = $data['class'];
-
-                $subjectEnroll = new SubjectEnrollment();
-                $subjectEnroll->idUser = $idUser;
-                $subjectEnroll->idSubject = $idSubject;
-                $subjectEnroll->class = $class;
-                $subjectEnroll->save();
-                }
+                $data = array_combine($header, $columns);
+                array_push($allData, $data);
+            }
+            foreach (array_chunk($allData,1000) as $t) {
+                DB::table('subjectEnrollments')->insert($t);
+            }
+            return redirect('admin/subjectEnrollments')->with('success','Subject Enrollments Imported');
 
         }elseif($table == 'universities'){
             $upload=$request->file('upload-file');
