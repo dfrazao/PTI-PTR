@@ -8,8 +8,10 @@ use App\Announcement;
 use App\AnnouncementComment;
 use App\Project;
 use App\Subject;
-use App\User;
 use Auth;
+use App\User;
+use DB;
+use App\StudentsGroup;
 
 class PostController extends Controller
 {
@@ -41,12 +43,19 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+
+
+
+        $user = Auth::user();
         $this->validate($request, [
             'title' => 'required',
             'body' => 'required'
         ]);
 
         $id = $request ->input('project');
+
+
+
 
         $announcement = new Announcement();
         $announcement->idProject = $id;
@@ -55,6 +64,34 @@ class PostController extends Controller
         $announcement->body = $request->input('body');
         $announcement->date = date("Y-m-d H:i:s");
         $announcement->save();
+
+
+
+        $my_id = Auth::id();
+
+
+        $groups = DB::table('groups')->where('idProject', '=', $id)->value('idGroup');;
+        $stuGroups = StudentsGroup::all()->where('idGroup', '=', $groups)->pluck("idStudent");
+        $project = DB::table('projects')->where('idProject', '=', $id)->value('idSubject');
+        $project_name = DB::table('projects')->where('idProject', '=', $id)->value('name');
+
+        $subject = DB::table('subjects')->where('idSubject', '=', $project)->value('subjectName');
+        if($stuGroups->count() > 0){
+
+            foreach ($stuGroups as $stu){
+                $users = User::all()->where('id', '=', $stu)->where('id', '!=', $my_id);
+
+                foreach ($users as $user){
+
+                    $user->notify(new \App\Notifications\InvoicePaid($my_id,"Posted", $project_name,$subject));
+
+                }
+
+            }
+
+
+        }
+
 
         return redirect()->to(url()->previous() . '#forum')->with('success', 'Post Created');
     }

@@ -91,19 +91,80 @@
 
                 @else
                     @if(Auth::user()->role != "admin")
-                    <li class="nav-item dropdown dropdown-notifications">
 
-                            <a href="#notifications-panel" class="nav-link" data-toggle="dropdown">
+                        <li class="nav-item dropdown dropdown-notifications">
+                            @if (Auth::user()->unreadNotifications->count() === 0)
+
+                            <a id="notifications" href="#notifications-panel" class="nav-link" data-toggle="dropdown">
                                 <i class="fa fa-bell"></i>
                             </a>
 
+                            @else
+                                <a id="notifications" href="#notifications-panel" class="nav-link" data-toggle="dropdown">
+                                    <i class="fa fa-bell"></i><span class='pending_not'></span>
+                                </a>
+                                <?php
 
-                        {{--<span class="notif-count">0</span>--}}
-                        <div class="dropdown-container">
-                            <ul class="dropdown-menu">
-                            </ul>
-                        </div>
-                    </li>
+                                ?>
+                            @endif
+
+                                {{--<span class="notif-count">0</span>--}}
+                            <div class="dropdown-container" >
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuOffset" style="max-height: 200px; overflow-y: scroll;" >
+                                    @foreach(Auth::user()->Notifications as $notification)
+                                        @if($notification->unread())
+                                            <a class="dropdown-item"  style="padding: 5px; !important; background-color: rgba(171,198,248,0.69) ">
+                                                <div class="media">
+                                                    <div class="media-left">
+                                                        <div class="media-object">
+                                                            <?php
+                                                            $usernot = \App\User::find($notification->data['user_id']);
+                                                            $notification->markAsRead();
+                                                            ?>
+                                                            <script>
+                                                                $('#notifications').click(function () {
+                                                                    $('.pending_not').remove();
+
+                                                                });
+                                                            </script>
+                                                            <img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$usernot->photo)}}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <span class="notification-title">{{$usernot->name}}</span> <small> - {{$notification->created_at->diffForHumans()}}</small>
+                                                        <p class="notification-desc">{{$notification->data['action']}} on {{$notification->data['idProject']}} forum - {{$notification->data['subject']}}</p>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            @else
+                                            <a class="dropdown-item" style="padding: 5px; !important;  ">
+                                                <div class="media" style="padding: 3px;">
+                                                    <div class="media-left">
+                                                        <div class="media-object">
+                                                            <?php
+                                                            $usernot = \App\User::find($notification->data['user_id']);
+                                                            $notification->markAsRead();
+                                                            ?>
+                                                            <script>
+                                                                $('#notifications').click(function () {
+                                                                    $('.pending_not').remove();
+                                                                });
+                                                            </script>
+                                                            <img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$usernot->photo)}}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <span class="notification-title">{{$usernot->name}}</span> <small> - {{$notification->created_at->diffForHumans()}}</small>
+                                                        <p class="notification-desc">{{$notification->data['action']}} on {{$notification->data['idProject']}} forum - {{$notification->data['subject']}}</p>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            @endif
+
+                                    @endforeach
+                                </div>
+                            </div>
+                        </li>
                     @if ($notification_chat === 0)
                             <li class="nav-item dropdown dropdown-notifications">
                                 <a class="nav-link" id="chat_button" onclick="chat()"><i class="fa fa-envelope"></i></a>
@@ -177,62 +238,28 @@
     </nav>
     <script src="https://js.pusher.com/6.0/pusher.min.js"></script>
 
-    <script type="text/javascript">
-        var notificationsWrapper   = $('.dropdown-notifications');
-        var notificationsToggle    = notificationsWrapper.find('a[data-toggle]');
-        var notificationsCountElem = notificationsToggle.find('i[data-count]');
-        var notificationsCount     = parseInt(notificationsCountElem.data('count'));
-        var notifications          = notificationsWrapper.find('ul.dropdown-menu');
 
-        if (notificationsCount <= 0) {
-            notificationsWrapper.hide();
-        }
-
-        // Enable pusher logging - don't include this in production
-        Pusher.logToConsole = true;
-
-        var pusher = new Pusher('ff4af21336ebee3e83fe', {
-            cluster: 'eu',
-        });
-
-        var channel = pusher.subscribe('my-channel');
-        channel.bind('my-event', function (data) {
-
-
-            var existingNotifications = notifications.html();
-            var avatar = Math.floor(Math.random() * (71 - 20 + 1)) + 20;
-            var newNotificationHtml = `
-          <li class="notification active">
-              <div class="media">
-                <div class="media-left">
-                  <div class="media-object">
-                    <img src="https://api.adorable.io/avatars/71/`+avatar+`.png" class="img-circle" alt="50x50" style="width: 50px; height: 50px;">
-                  </div>
-                </div>
-                <div class="media-body">
-                  <strong class="notification-title">`+data.username+`</strong>
-                  <p class="notification-desc">`+data.message+`</p>
-                  <div class="notification-meta">
-                    <small class="timestamp">about a minute ago</small>
-                  </div>
-                </div>
-              </div>
-          </li>
-        `;
-            notifications.html(newNotificationHtml + existingNotifications);
-
-            notificationsCount += 1;
-            notificationsCountElem.attr('data-count', notificationsCount);
-            notificationsWrapper.find('.notif-count').text(notificationsCount);
-            notificationsWrapper.show();
-        });
-    </script>
 
     <div class="padding">
         @include('chat')
         @yield('content')
     </div>
-
+<style>
+    .pending_not {
+        position: absolute;
+        left: 20px;
+        top: 7px;
+        background: #ff505f;
+        margin: 0;
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        line-height: 18px;
+        padding-left: 5px;
+        color: #ffffff;
+        font-size: 12px;
+    }
+</style>
     <div class="footer p-2">
         <a class="p-1" style="color: white" href="mailto:ptiptr9@gmail.com"><u>{{__('gx.contact us')}}</u></a>
         <p class="p-0 m-0">&#169; {{__('gx.2020, allRightsReserved.')}} </p>

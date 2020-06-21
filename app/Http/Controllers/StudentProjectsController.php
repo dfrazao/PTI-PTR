@@ -19,7 +19,9 @@ use App\Group;
 use App\StudentsGroup;
 use App\Task;
 use App\File;
+use Illuminate\Support\Facades\Notification;
 use Storage;
+use DB;
 
 class StudentProjectsController extends Controller
 {
@@ -349,6 +351,29 @@ class StudentProjectsController extends Controller
                 $file->submissionTime = Carbon::now();
                 $file->save();
             }
+
+            $my_id = Auth::id();
+
+            $groups = DB::table('groups')->where('idProject', '=', $id)->value('idGroup');;
+            $stuGroups = StudentsGroup::all()->where('idGroup', '=', $groups)->pluck("idStudent");
+            $project = DB::table('projects')->where('idProject', '=', $id)->value('idSubject');
+            $project_name = DB::table('projects')->where('idProject', '=', $id)->value('name');
+
+            $subject = DB::table('subjects')->where('idSubject', '=', $project)->value('subjectName');
+            if($stuGroups->count() > 0) {
+
+                foreach ($stuGroups as $stu) {
+                    $users = User::all()->where('id', '=', $stu)->where('id', '!=', $my_id);
+
+                    foreach ($users as $user) {
+
+                        $user->notify(new \App\Notifications\InvoicePaid($my_id, "Submitted a file", $project_name, $subject));
+
+                    }
+
+                }
+            }
+
             return redirect()->action('StudentProjectsController@show', $id)->with('success', 'File submitted successfully');
         }else{
 

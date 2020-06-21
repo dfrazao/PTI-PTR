@@ -82,13 +82,18 @@ class AppServiceProvider extends ServiceProvider
 
             $arr_groups = [];
 
+            $collection = collect([]);
+            $idgroup = collect([]);
 
 
+            $cadeiras = collect([]);
             $estaInscrito = DB::table('subjectEnrollments')->where('idUser', '=', $my_id)->pluck('idSubject');
 
             if($estaInscrito){
                 $arr_estaInscrito = [];
                 foreach ($estaInscrito as $cadeira){
+
+                    $subject = DB::table('subjects')->where('idSubject', '=', $cadeira)->pluck('subjectName');
 
                     $projetos = DB::table('projects')->where('idSubject', '=', $cadeira)->pluck('idProject');
 
@@ -103,12 +108,24 @@ class AppServiceProvider extends ServiceProvider
                                 ->pluck('idGroup');
                             foreach ($groupChat as $groupCh){
                                 if ($group == $groupCh){
+                                    $idGroupProject = DB::table('groups')
+                                        ->where('idGroup', '=', $groupCh)
+                                        ->value('idGroupProject');
                                     array_push($arr_groups, $groupCh);
                                     $arr_groups = array_unique($arr_groups);
+
+                                    $groups_n = DB::table('groups')->where('idGroup', '=', $groupCh)->value('idProject');
+                                    $projetos_n = DB::table('projects')->where('idProject', '=', $groups_n)->value('idSubject');
+                                    $subject_n = DB::table('subjects')->where('idSubject', '=', $projetos_n)->value('subjectName');
+
+
+                                    $collection->push([
+                                            'idGroup' => $groupCh,
+                                            'idGroupProject' => $idGroupProject,
+                                            'cadeira' => $subject_n,
+                                    ]);
                                 }
                             }
-
-
                         }
                     }
                 }
@@ -126,7 +143,7 @@ class AppServiceProvider extends ServiceProvider
             }
 
 
-            $view->with('arr_users', $arr_users)->with('arr_groups',$arr_groups)->with('notification_chat',$notification_chat)->with('tem',$tem)->with('isread',$isread);
+            $view->with('arr_users', $arr_users)->with('arr_groups',$arr_groups)->with('notification_chat',$notification_chat)->with('tem',$tem)->with('isread',$isread)->with('idgroup',$idgroup)->with('collection',$collection);
         });
     }
 }

@@ -78,7 +78,7 @@ class ChatController extends Controller
         return view('messages.conv', ['messages' => $messages, "notification_chat" => $notification_chat]);
     }
 
-    public function getChatMessage($user_id)
+    public function getGroupChatMessage($group_id)
     {
 
         $my_id = Auth::id();
@@ -88,8 +88,7 @@ class ChatController extends Controller
 
         // Get all message from selected user
 
-
-        $messages = groupChat::all()->where('sender', "=",$my_id);
+        $messages = groupChat::all()->where('idGroup', "=",$group_id);
 
         return view('messages.groupChat', ['messages' => $messages]);
     }
@@ -99,7 +98,6 @@ class ChatController extends Controller
             return new Response('Forbidden', 403);
         }
 
-        // pusher
         $options = array(
             'cluster' => 'eu',
             'useTLS' => true,

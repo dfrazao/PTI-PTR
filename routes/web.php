@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckRole;
-
+use App\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +20,9 @@ Auth::routes([
     'verify' => false, // Email Verification Routes...
     'confirm' => false
 ]);
+
+
+
 
 //locale
     Route::get('/set-language/{lang}', 'LanguagesController@set')->name('set.language');

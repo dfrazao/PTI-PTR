@@ -35,6 +35,10 @@ class DashboardController extends Controller
     {
         $user = Auth::user()->id;
         $subjectsEnrolled = SubjectEnrollment::all()->where('idUser', '==', $user)->pluck('idSubject');
+
+
+
+
         if (count($subjectsEnrolled) > 0) {
             $academicYears = AcademicYear::all()->sortKeysDesc();
             $subjects = Subject::all()->whereIn('idSubject', $subjectsEnrolled);
@@ -65,6 +69,7 @@ class DashboardController extends Controller
                     }
                 }
             }
+
 
             return view('dashboard')->with('academicYears', $academicYears)->with('subjects', $subjects)->with('projects', $projects)->with('meetings', $meetings);
         }

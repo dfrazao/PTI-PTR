@@ -82,9 +82,12 @@
                            </div>
                            <div id="groups" class="tab-pane fade"><br>
                                <ul class="groups">
-                                   @foreach ($arr_groups as $group )
-                                       <li class='user' id='{{ $group }}' name=''>
-                                           <input type='hidden' id="name" name='custId' value='{{ $group }}'>
+
+                               @foreach ($collection as $col )
+
+                                       <li class='user' id='{{ $col['idGroup'] }}' name=''>
+                                           <input type='hidden' id="name" name='custId' value='{{ $col['idGroup'] }}'>
+
 
                                            <div class="media">
                                                <div class="media-left">
@@ -92,12 +95,13 @@
                                                </div>
 
                                                <div class="media-body">
-                                                   <p class="name" style="font-size: 12px;">{{ $group }}</p>
+                                                   <p class="name" style="font-size: 12px;">Group {{$col['idGroupProject']}} - {{$col['cadeira']}}</p>
                                                    <p class="email"></p>
                                                </div>
                                            </div>
                                        </li>
-                                   @endforeach
+
+                                       @endforeach
                                </ul>
                            </div>
                        </div>
@@ -203,13 +207,13 @@
 
        .pending {
            position: absolute;
-           left: 20px;
+           left: 10px;
            top: 7px;
-           background: #b600ff;
+           background: #ff505f;
            margin: 0;
            border-radius: 50%;
-           width: 10px;
-           height: 10px;
+           width: 12px;
+           height: 12px;
            line-height: 18px;
            padding-left: 5px;
            color: #ffffff;
@@ -219,7 +223,7 @@
            position: absolute;
            left: 20px;
            top: 7px;
-           background: #b600ff;
+           background: #ff505f;
            margin: 0;
            border-radius: 50%;
            width: 10px;
@@ -229,6 +233,8 @@
            color: #ffffff;
            font-size: 12px;
        }
+
+
        .media-left {
            margin: 0 10px;
        }
