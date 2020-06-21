@@ -97,7 +97,7 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <div class="modal-body">
+                                <div class="modal-body modal-body-post">
                                     {!! Form::open(['action' => ['PostController@reply', $project -> idProject], 'method' => 'POST']) !!}
                                     <div class="form-group">
                                         {{Form::label('comment', trans('gx.comment'))}}
@@ -105,11 +105,29 @@
                                     </div>
                                     {{ Form::hidden('announcement', $announcement->idAnnouncement) }}
 
-                                    {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
+                                    <div class="demo-update__controls">
+                                        <span class="demo-update__words"></span>
+                                        <svg class="demo-update__chart" viewbox="0 0 40 40" width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+                                            <circle stroke="hsl(0, 0%, 93%)" stroke-width="3" fill="none" cx="20" cy="20" r="17" />
+                                            <circle class="demo-update__chart__circle" stroke="hsl(202, 92%, 59%)" stroke-width="3" stroke-dasharray="134,534" stroke-linecap="round" fill="none" cx="20" cy="20" r="17" />
+                                            <text class="demo-update__chart__characters" x="50%" y="50%" dominant-baseline="central" text-anchor="middle"></text>
+                                        </svg>
+                                    </div>
+
+                                    {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success update__send'])}}
 
                                     {!! Form::close() !!}
                                 </div>
-                                <script>ClassicEditor
+                                <script>
+                                    const maxCharacters = 800;
+                                    const container = document.querySelector( '.modal-body-post' );
+                                    const progressCircle = document.querySelector( '.demo-update__chart__circle' );
+                                    const charactersBox = document.querySelector( '.demo-update__chart__characters' );
+                                    const wordsBox = document.querySelector( '.demo-update__words' );
+                                    const circleCircumference = Math.floor( 2 * Math.PI * progressCircle.getAttribute( 'r' ) );
+                                    const sendButton = document.querySelector( '.update__send' );
+
+                                    ClassicEditor
                                         .create( document.querySelector( '#comment' ), {
                                             toolbar: {
                                                 items: [
@@ -140,8 +158,42 @@
                                                     'codeBlock'
                                                 ]
                                             },
-                                            language: 'en',
+                                            language: '{{ str_replace('_', '-', app()->getLocale()) }}',
                                             licenseKey: '',
+                                            wordCount: {
+                                                onUpdate: stats => {
+                                                    // Prints the current content statistics.
+                                                    //console.log( `Characters: ${ stats.characters }\nWords: ${ stats.words }` );
+
+                                                    const charactersProgress = stats.characters / maxCharacters * circleCircumference;
+                                                    const isLimitExceeded = stats.characters > maxCharacters;
+                                                    const isCloseToLimit = !isLimitExceeded && stats.characters > maxCharacters * .8;
+                                                    const circleDashArray = Math.min( charactersProgress, circleCircumference );
+
+                                                    // Set the stroke of the circle to show how many characters were typed.
+                                                    progressCircle.setAttribute( 'stroke-dasharray', `${ circleDashArray },${ circleCircumference }` );
+
+                                                    // Display the number of characters in the progress chart. When the limit is exceeded,
+                                                    // display how many characters should be removed.
+                                                    if ( isLimitExceeded ) {
+                                                        charactersBox.textContent = `-${ stats.characters - maxCharacters }`;
+                                                    } else {
+                                                        charactersBox.textContent = stats.characters;
+                                                    }
+
+                                                    wordsBox.textContent = `{{__('gx.words in the post')}}: ${ stats.words }`;
+
+                                                    // If the content length is close to the character limit, add a CSS class to warn the user.
+                                                    container.classList.toggle( 'demo-update__limit-close', isCloseToLimit );
+
+                                                    // If the character limit is exceeded, add a CSS class that makes the content's background red.
+                                                    container.classList.toggle( 'demo-update__limit-exceeded', isLimitExceeded );
+
+                                                    // If the character limit is exceeded, disable the send button.
+                                                    sendButton.toggleAttribute( 'disabled', isLimitExceeded );
+
+                                                }
+                                            }
                                         } )
                                         .then( editor => {
                                             window.editor = editor;
@@ -173,7 +225,7 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <div class="modal-body">
+                                    <div class="modal-body modal-body-post">
                                         {!! Form::open(['action' => ['PostController@update', $project -> idProject, $announcement->idAnnouncement], 'method' => 'PUT']) !!}
                                         <div class="form-group">
                                             {{Form::label('title', trans('gx.title'))}}
@@ -184,12 +236,30 @@
                                             {{Form::textarea('body', $announcement->body, ['class' => 'form-control', 'placeholder' => 'Body'])}}
                                         </div>
 
+                                        <div class="demo-update__controls">
+                                            <span class="demo-update__words"></span>
+                                            <svg class="demo-update__chart" viewbox="0 0 40 40" width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+                                                <circle stroke="hsl(0, 0%, 93%)" stroke-width="3" fill="none" cx="20" cy="20" r="17" />
+                                                <circle class="demo-update__chart__circle" stroke="hsl(202, 92%, 59%)" stroke-width="3" stroke-dasharray="134,534" stroke-linecap="round" fill="none" cx="20" cy="20" r="17" />
+                                                <text class="demo-update__chart__characters" x="50%" y="50%" dominant-baseline="central" text-anchor="middle"></text>
+                                            </svg>
+                                        </div>
+
                                         {{Form::hidden('_method','PUT')}}
-                                        {{Form::submit(trans('gx.submit')), ['class'=>'btn btn-success']}}
+                                        {{Form::submit(trans('gx.submit')), ['class'=>'btn btn-success update__send']}}
 
                                         {!! Form::close() !!}
                                     </div>
-                                    <script>ClassicEditor
+                                    <script>
+                                        const maxCharacters = 800;
+                                        const container = document.querySelector( '.modal-body-post' );
+                                        const progressCircle = document.querySelector( '.demo-update__chart__circle' );
+                                        const charactersBox = document.querySelector( '.demo-update__chart__characters' );
+                                        const wordsBox = document.querySelector( '.demo-update__words' );
+                                        const circleCircumference = Math.floor( 2 * Math.PI * progressCircle.getAttribute( 'r' ) );
+                                        const sendButton = document.querySelector( '.update__send' );
+
+                                        ClassicEditor
                                             .create( document.querySelector( '#body' ), {
                                                 toolbar: {
                                                     items: [
@@ -220,8 +290,42 @@
                                                         'codeBlock'
                                                     ]
                                                 },
-                                                language: 'en',
+                                                language: '{{ str_replace('_', '-', app()->getLocale()) }}',
                                                 licenseKey: '',
+                                                wordCount: {
+                                                    onUpdate: stats => {
+                                                        // Prints the current content statistics.
+                                                        //console.log( `Characters: ${ stats.characters }\nWords: ${ stats.words }` );
+
+                                                        const charactersProgress = stats.characters / maxCharacters * circleCircumference;
+                                                        const isLimitExceeded = stats.characters > maxCharacters;
+                                                        const isCloseToLimit = !isLimitExceeded && stats.characters > maxCharacters * .8;
+                                                        const circleDashArray = Math.min( charactersProgress, circleCircumference );
+
+                                                        // Set the stroke of the circle to show how many characters were typed.
+                                                        progressCircle.setAttribute( 'stroke-dasharray', `${ circleDashArray },${ circleCircumference }` );
+
+                                                        // Display the number of characters in the progress chart. When the limit is exceeded,
+                                                        // display how many characters should be removed.
+                                                        if ( isLimitExceeded ) {
+                                                            charactersBox.textContent = `-${ stats.characters - maxCharacters }`;
+                                                        } else {
+                                                            charactersBox.textContent = stats.characters;
+                                                        }
+
+                                                        wordsBox.textContent = `{{__('gx.words in the post')}}: ${ stats.words }`;
+
+                                                        // If the content length is close to the character limit, add a CSS class to warn the user.
+                                                        container.classList.toggle( 'demo-update__limit-close', isCloseToLimit );
+
+                                                        // If the character limit is exceeded, add a CSS class that makes the content's background red.
+                                                        container.classList.toggle( 'demo-update__limit-exceeded', isLimitExceeded );
+
+                                                        // If the character limit is exceeded, disable the send button.
+                                                        sendButton.toggleAttribute( 'disabled', isLimitExceeded );
+
+                                                    }
+                                                }
                                             } )
                                             .then( editor => {
                                                 window.editor = editor;
@@ -320,6 +424,69 @@
     }
     .nav-tabs .nav-link{
         color: #2c3fb1;
+    }
+
+    /*.demo-update {
+        border: 1px solid var(--ck-color-base-border);
+        border-radius: var(--ck-border-radius);
+        box-shadow: 2px 2px 0px hsla( 0, 0%, 0%, 0.1 );
+        margin: 1.5em 0;
+        padding: 1em;
+    }
+
+    .demo-update h3 {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 0 0 .5em;
+        padding: 0;
+    }
+
+    .demo-update .ck.ck-editor__editable_inline {
+        border: 1px solid hsla( 0, 0%, 0%, 0.15 );
+        transition: background .5s ease-out;
+        min-height: 6em;
+        margin-bottom: 1em;
+    }*/
+
+    .demo-update__controls {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .demo-update__chart {
+        margin-right: 1em;
+    }
+
+    .demo-update__chart__circle {
+        transform: rotate(-90deg);
+        transform-origin: center;
+    }
+
+    .demo-update__chart__characters {
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .demo-update__words {
+        flex-grow: 1;
+        opacity: .5;
+    }
+
+    .demo-update__limit-close .demo-update__chart__circle {
+        stroke: hsl( 30, 100%, 52% );
+    }
+
+    .demo-update__limit-exceeded .ck.ck-editor__editable_inline {
+        background: hsl( 0, 100%, 97% );
+    }
+
+    .demo-update__limit-exceeded .demo-update__chart__circle {
+        stroke: hsl( 0, 100%, 52% );
+    }
+
+    .demo-update__limit-exceeded .demo-update__chart__characters {
+        fill: hsl( 0, 100%, 52% );
     }
 </style>
 @endsection

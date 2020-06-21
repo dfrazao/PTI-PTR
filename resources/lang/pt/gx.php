@@ -304,6 +304,7 @@ return [
     'by' => 'By',
     'delete comment' => 'Apagar Comentário',
     'areyousuredeletethiscomment' => 'Tem a certeza que deseja eliminar este comentário?',
+    'words in the post' => 'Palavras na publicação',
 
 
     //footer

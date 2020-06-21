@@ -306,6 +306,7 @@ return [
     'by' => 'By',
     'delete comment' => 'Delete Comment',
     'areyousuredeletethiscomment' => 'Are you sure you want to delete this comment?',
+    'words in the post' => 'Words in the post',
 
     //footer
     'contact us' => 'Contact Us',
