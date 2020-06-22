@@ -51,7 +51,7 @@ Auth::routes([
 
 //Chat
     Route::get('/chat', 'ChatController@index')->name('chat');
-    Route::get('/message/{id}', 'ChatController@getMessage')->name('message');
+    Route::get('/message/{entity}/{id}', 'ChatController@getMessage')->name('message');
     Route::get('profile/message/{id}', 'ChatController@getMessage')->name('message');
     Route::get('student/message/{id}', 'ChatController@getMessage')->name('message');
     Route::post('/message', 'ChatController@sendMessage');

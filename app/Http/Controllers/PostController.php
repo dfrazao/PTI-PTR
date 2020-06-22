@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\SubjectEnrollment;
 use Illuminate\Http\Request;
 use App\Announcement;
 use App\AnnouncementComment;
@@ -69,27 +70,20 @@ class PostController extends Controller
 
         $my_id = Auth::id();
 
-
-        $groups = DB::table('groups')->where('idProject', '=', $id)->value('idGroup');;
-        $stuGroups = StudentsGroup::all()->where('idGroup', '=', $groups)->pluck("idStudent");
         $project = DB::table('projects')->where('idProject', '=', $id)->value('idSubject');
+
+        $enrollm = SubjectEnrollment::all()->where('idSubject','=',$project)->pluck('idUser');
+
         $project_name = DB::table('projects')->where('idProject', '=', $id)->value('name');
 
         $subject = DB::table('subjects')->where('idSubject', '=', $project)->value('subjectName');
-        if($stuGroups->count() > 0){
-
-            foreach ($stuGroups as $stu){
-                $users = User::all()->where('id', '=', $stu)->where('id', '!=', $my_id);
-
+        if($enrollm->count() > 0){
+            foreach ($enrollm as $u){
+                $users = User::all()->where('id', '=', $u)->where('id', '!=', $my_id);
                 foreach ($users as $user){
-
-                    $user->notify(new \App\Notifications\InvoicePaid($my_id,"Posted", $project_name,$subject));
-
+                    $user->notify(new \App\Notifications\InvoicePaid($my_id,"Posted", $id ,$project_name,$subject));
                 }
-
             }
-
-
         }
 
 

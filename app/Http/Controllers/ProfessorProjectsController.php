@@ -17,7 +17,8 @@ use Carbon\Carbon;
 use App\Documentation;
 use App\File;
 use App\Evaluation;
-
+use Auth;
+use DB;
 class ProfessorProjectsController extends Controller
 {
     /**
@@ -75,6 +76,25 @@ class ProfessorProjectsController extends Controller
             $doc->save();
             $file->storeAs('documentation/'.$project->idProject, $doc->pathfile, 'gcs');
 
+            $my_id = Auth::id();
+
+            $project_ = DB::table('projects')->where('idProject', '=', $project->idProject)->value('idSubject');
+
+            $enrollm = SubjectEnrollment::all()->where('idSubject','=',$project_)->pluck('idUser');
+
+            $project_name = DB::table('projects')->where('idProject', '=', $project->idProject)->value('name');
+
+            $subject = DB::table('subjects')->where('idSubject', '=', $project_)->value('subjectName');
+
+            if($enrollm->count() > 0){
+                foreach ($enrollm as $u){
+                    $users = User::all()->where('id', '=', $u)->where('id', '!=', $my_id);
+                    foreach ($users as $user){
+                        $user->notify(new \App\Notifications\InvoicePaid($my_id,"Created", $project->idProject ,$project_name,$subject));
+                    }
+                }
+            }
+
             return redirect('/')->with('success', 'Project Created');
 
         } elseif ($request->option=="projectFiles"){
@@ -88,6 +108,25 @@ class ProfessorProjectsController extends Controller
             $zip = $request->file('documentation');
             $doc->save();
             $zip->storeAs('documentation/'.$request->project, $doc->pathfile, 'gcs');
+
+            $my_id = Auth::id();
+
+            $project_ = DB::table('projects')->where('idProject', '=', $request->project)->value('idSubject');
+
+            $enrollm = SubjectEnrollment::all()->where('idSubject','=',$project_)->pluck('idUser');
+
+            $project_name = DB::table('projects')->where('idProject', '=', $request->project)->value('name');
+
+            $subject = DB::table('subjects')->where('idSubject', '=', $project_)->value('subjectName');
+
+            if($enrollm->count() > 0){
+                foreach ($enrollm as $u){
+                    $users = User::all()->where('id', '=', $u)->where('id', '!=', $my_id);
+                    foreach ($users as $user){
+                        $user->notify(new \App\Notifications\InvoicePaid($my_id,"Uploaded a file to documentation", $request->project ,$project_name,$subject));
+                    }
+                }
+            }
 
             return redirect('professor/project/'.$request->project)->with('success', 'File Uploaded');
 

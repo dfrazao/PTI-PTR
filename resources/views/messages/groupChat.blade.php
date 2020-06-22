@@ -1,4 +1,3 @@
-
 <div class="message-wrapper">
     <ul class="messages">
         @foreach($messages as $message)

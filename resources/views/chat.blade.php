@@ -39,6 +39,8 @@
                                                    <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
                                                        <span class='pending'></span>
                                                        <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
+                                                       <input type='hidden' id="entity{{ $arr_users[$i]->id }}" name='entity' value='person'>
+
                                                        <div class="media">
                                                            <div class="media-left">
                                                                <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
@@ -51,6 +53,8 @@
                                                @else
                                                    <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
                                                        <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
+                                                       <input type='hidden' id="entity{{ $arr_users[$i]->id }}" name='entity' value='person'>
+
                                                        <div class="media">
                                                            <div class="media-left">
                                                                <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
@@ -67,6 +71,8 @@
                                        @for($i = 0; $i < count($arr_users); $i++)
                                            <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
                                                <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
+                                               <input type='hidden' id="entity{{ $arr_users[$i]->id }}" name='entity' value='person'>
+
                                                <div class="media">
                                                    <div class="media-left">
                                                        <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
@@ -87,6 +93,7 @@
 
                                        <li class='user' id='{{ $col['idGroup'] }}' name=''>
                                            <input type='hidden' id="name" name='custId' value='{{ $col['idGroup'] }}'>
+                                           <input type='hidden' id="entity" name='entity' value='group'>
 
 
                                            <div class="media">
@@ -184,7 +191,7 @@
        }
 
        .user-wrapper {
-           height: 100%;
+           height: 400px;
            border-right: 1px solid #dddddd;
 
        }
@@ -494,6 +501,7 @@
                receiver_id = $(this).attr('id');
                var n = receiver_id.toString();
                receiver_name = $('#'+'name'+n).val();
+
                $("#name").text(receiver_name);
                $.ajax({
                    type: "get",

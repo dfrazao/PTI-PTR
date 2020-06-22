@@ -7,6 +7,7 @@ use App\Documentation;
 use App\Evaluation;
 use App\Http\Controllers\Controller;
 use App\Meeting;
+use App\SubjectEnrollment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Project;
@@ -130,6 +131,32 @@ class StudentProjectsController extends Controller
             $file->save();
             $zip->storeAs('studentRepository/'.$idGroup, $file-> Pathfile, 'gcs');
 
+
+            $my_id = Auth::id();
+
+            $groups = DB::table('groups')->where('idProject', '=', $idProject)->value('idGroup');;
+            $stuGroups = StudentsGroup::all()->where('idGroup', '=', $groups)->pluck("idStudent");
+            $project = DB::table('projects')->where('idProject', '=', $idProject)->value('idSubject');
+            $project_name = DB::table('projects')->where('idProject', '=', $idProject)->value('name');
+
+            $subject = DB::table('subjects')->where('idSubject', '=', $project)->value('subjectName');
+            if($stuGroups->count() > 0) {
+
+                foreach ($stuGroups as $stu) {
+                    $users = User::all()->where('id', '=', $stu)->where('id', '!=', $my_id);
+
+                    foreach ($users as $user) {
+
+                        $user->notify(new \App\Notifications\InvoicePaid($my_id, "New file added to repository", $idProject,$project_name, $subject));
+
+                    }
+
+                }
+            }
+
+
+
+
             return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'File added successfully');
         }
         elseif($submission == 'studentsEvaluation'){
@@ -176,6 +203,11 @@ class StudentProjectsController extends Controller
         }
 
         else{
+
+
+            $my_id = $user = Auth::id();
+
+
             $this->validate($request, [
                 'description' => 'required',
                 'place' => 'required',
@@ -188,6 +220,27 @@ class StudentProjectsController extends Controller
             $meeting -> place = $request->input('place');
 
             $meeting->save();
+
+            $id_project = DB::table('groups')->where('idGroup', '=', $request->input('group'))->value('idProject');
+            $stuGroups = StudentsGroup::all()->where('idGroup', '=', $request->input('group'))->pluck("idStudent");
+            $project = DB::table('projects')->where('idProject', '=', $id_project)->value('idSubject');
+            $project_name = DB::table('projects')->where('idProject', '=', $project)->value('name');
+
+            $subject = DB::table('subjects')->where('idSubject', '=', $project)->value('subjectName');
+            if($stuGroups->count() > 0) {
+
+                foreach ($stuGroups as $stu) {
+                    $users = User::all()->where('id', '=', $stu)->where('id', '!=', $my_id);
+
+                    foreach ($users as $user) {
+
+                        $user->notify(new \App\Notifications\InvoicePaid($my_id, "Scheduled a meeting", $idProject ,$project_name, $subject));
+
+                    }
+
+                }
+            }
+
             return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Meeting created successfully');
             }
 
@@ -367,20 +420,32 @@ class StudentProjectsController extends Controller
 
                     foreach ($users as $user) {
 
-                        $user->notify(new \App\Notifications\InvoicePaid($my_id, "Submitted a file", $project_name, $subject));
+                        $user->notify(new \App\Notifications\InvoicePaid($my_id, "Submitted", $id ,$project_name, $subject));
 
                     }
 
                 }
             }
 
+            $profs = User::all()->where('role', '=', 'professor');
+            foreach ($profs as $pr) {
+                $enroll = SubjectEnrollment::all()->where('idUser','=',$pr->id)->where('idSubject','=',$id);
+
+                $pr->notify(new \App\Notifications\InvoicePaid($my_id, "Submitted",$id , $project_name, $subject));
+
+            }
+
+
             return redirect()->action('StudentProjectsController@show', $id)->with('success', 'File submitted successfully');
+
         }else{
 
             $idFile = $request->idFile;
             $file = File::find($idFile);
             $file->finalState = 'temporary';
             $file->save();
+
+
 
             return redirect()->action('StudentProjectsController@show', $id)->with('success', 'File removed successfully');
         }

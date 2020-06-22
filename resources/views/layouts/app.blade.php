@@ -103,27 +103,29 @@
                                 <a id="notifications" href="#notifications-panel" class="nav-link" data-toggle="dropdown">
                                     <i class="fa fa-bell"></i><span class='pending_not'></span>
                                 </a>
-                                <?php
 
-                                ?>
                             @endif
-
-                                {{--<span class="notif-count">0</span>--}}
                             <div class="dropdown-container" >
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuOffset" style="max-height: 200px; overflow-y: scroll;" >
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuOffset" style="max-height: 400px; overflow-y: scroll;" >
                                     @foreach(Auth::user()->Notifications as $notification)
                                         @if($notification->unread())
-                                            <a class="dropdown-item"  style="padding: 5px; !important; background-color: rgba(171,198,248,0.69) ">
+
+                                            @if(Auth::user()->role == "student")
+                                                    <a class="dropdown-item" href="/student/project/{{$notification->data['idProject']}}" style="padding: 5px; !important; background: rgba(255,80,95,0.23); ">
+                                            @elseif(Auth::user()->role == "professor")
+                                                    <a class="dropdown-item" href="/professor/project/{{$notification->data['idProject']}}" style="padding: 5px; !important; background: rgba(255,80,95,0.23); ">
+                                            @endif
                                                 <div class="media">
                                                     <div class="media-left">
                                                         <div class="media-object">
-                                                            <?php
-                                                            $usernot = \App\User::find($notification->data['user_id']);
-                                                            $notification->markAsRead();
-                                                            ?>
+
                                                             <script>
                                                                 $('#notifications').click(function () {
                                                                     $('.pending_not').remove();
+                                                                    <?php
+                                                                    $usernot = \App\User::find($notification->data['user_id']);
+                                                                    $notification->markAsRead();
+                                                                    ?>
 
                                                                 });
                                                             </script>
@@ -132,12 +134,16 @@
                                                     </div>
                                                     <div class="media-body">
                                                         <span class="notification-title">{{$usernot->name}}</span> <small> - {{$notification->created_at->diffForHumans()}}</small>
-                                                        <p class="notification-desc">{{$notification->data['action']}} on {{$notification->data['idProject']}} forum - {{$notification->data['subject']}}</p>
+                                                        <p class="notification-desc">{{$notification->data['action']}} on {{$notification->data['projectName']}} - {{$notification->data['subject']}}</p>
                                                     </div>
                                                 </div>
                                             </a>
-                                            @else
-                                            <a class="dropdown-item" style="padding: 5px; !important;  ">
+                                        @else
+                                            @if(Auth::user()->role == "student")
+                                                <a class="dropdown-item" href="/student/project/{{$notification->data['idProject']}}" style="padding: 5px; !important;  ">
+                                            @elseif(Auth::user()->role == "professor")
+                                                    <a class="dropdown-item" href="/professor/project/{{$notification->data['idProject']}}" style="padding: 5px; !important;  ">
+                                            @endif
                                                 <div class="media" style="padding: 3px;">
                                                     <div class="media-left">
                                                         <div class="media-object">
@@ -154,8 +160,8 @@
                                                         </div>
                                                     </div>
                                                     <div class="media-body">
-                                                        <span class="notification-title">{{$usernot->name}}</span> <small> - {{$notification->created_at->diffForHumans()}}</small>
-                                                        <p class="notification-desc">{{$notification->data['action']}} on {{$notification->data['idProject']}} forum - {{$notification->data['subject']}}</p>
+                                                        <span class="notification-title">{{$usernot->name}}</span><small> - {{$notification->created_at->diffForHumans()}}</small>
+                                                        <p class="notification-desc">{{$notification->data['action']}} on {{$notification->data['projectName']}} - {{$notification->data['subject']}}</p>
                                                     </div>
                                                 </div>
                                             </a>

@@ -18,12 +18,13 @@ class InvoicePaid extends Notification
      *
      * @return void
      */
-    public function __construct($user, $action, $idProject, $subject)
+    public function __construct($user, $action, $idProject, $projectName, $subject)
     {
 
         $this->user = User::find($user);
         $this->action = $action;
         $this->idProject = $idProject;
+        $this->projectName = $projectName;
         $this->subject = $subject;
     }
 
@@ -61,6 +62,7 @@ class InvoicePaid extends Notification
             'user_name' => $this->user->name,
             'action' => $this->action,
             'idProject' => $this->idProject,
+            'projectName' => $this->projectName,
             'subject' => $this->subject,
         ];
     }
