@@ -88,7 +88,7 @@ class GroupController extends Controller
 
 
 
-   return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Group created successfully');
+        return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Group created successfully');
 
 
     }
@@ -123,6 +123,7 @@ class GroupController extends Controller
             ->pluck('idStudent')->toArray();
 
 
+
         //Alunos sem grupo
         $subjectStudentsNoGroup = DB::table('users')
             ->where('users.role','=','student')
@@ -133,11 +134,86 @@ class GroupController extends Controller
             })
             ->whereNotIn('id',$groupStudents)
             ->where('id','!=',$user)
-            ->orderBy('average', 'desc')
-            ->get(['name','uniNumber','class','id','average']);
+            ->get(['name','uniNumber','class','id']);
 
 
-       //----------------------------------------------------------------------------------------------------------------
+
+        //Alunos sem grupo
+        $studentsSugestions = DB::table('users')
+            ->where('users.role','=','student')
+            ->join('subjectEnrollments', function($join) use($idSubject) {
+                $join->on('subjectEnrollments.idUser', '=', 'users.id')
+                    ->where('subjectEnrollments.idSubject','=',$idSubject);
+
+            })
+            ->whereNotIn('id',$groupStudents)
+            ->where('id','!=',$user)
+            ->join('evaluations',function($join) use($idSubject){
+                $join->on('subjectEnrollments.idUser', '=', 'evaluations.receiver');
+            })
+
+            ->get(['id','grade','name','uniNumber','class']);
+
+        $studentsSugestions1 = DB::table('users')
+            ->where('users.role','=','student')
+            ->join('subjectEnrollments', function($join) use($idSubject) {
+                $join->on('subjectEnrollments.idUser', '=', 'users.id')
+                    ->where('subjectEnrollments.idSubject','=',$idSubject);
+
+            })
+            ->whereNotIn('id',$groupStudents)
+            ->where('id','!=',$user)
+            ->join('evaluations',function($join) use($idSubject){
+                $join->on('subjectEnrollments.idUser', '=', 'evaluations.receiver');
+            })
+
+            ->get(['id','grade','name','uniNumber','class']);
+
+
+
+        return $studentsSugestions1;
+        $studSugestions = $studentsSugestions->groupBy('id');
+        foreach($studSugestions as $st)
+            return $st[0]->id;
+
+        //return $studSugestions;
+
+
+        $gradeArray = array();
+        $idArray = array();
+        $studIdArray = $studentsSugestions->groupBy('id')->keys();
+
+
+        foreach($studentsSugestions as $stud)
+            array_push($idArray,$stud->id);
+
+        foreach($studentsSugestions as $stud)
+            array_push($gradeArray,$stud->grade);
+
+
+
+        $sumGrade = array_unique($idArray);
+        $sumGrade = array_combine($sumGrade, array_fill(0, count($sumGrade), 0));
+
+        foreach($idArray as $k=>$v) {
+            $sumGrade[$v] += $gradeArray[$k];
+        }
+
+        $avgArray = array();
+
+        foreach($sumGrade as $key=>$v)
+            foreach (array_count_values($idArray) as $occ=>$oc)
+                if($key == $occ)
+                    array_push($avgArray,($v / $oc));
+
+
+        $avgStudent = array_combine($studIdArray->toArray(),$avgArray);
+
+        return $avgStudent;
+
+
+
+        //----------------------------------------------------------------------------------------------------------------
 
 
         $idGroups = $groups->pluck('idGroup')->toArray();
@@ -152,7 +228,7 @@ class GroupController extends Controller
             ->whereIn('id',$groupStudents)
             ->join('studentGroups', function($join) use($idSubject,$idGroups) {
                 $join->on('studentGroups.idStudent', '=', 'users.id')
-                ->whereIn('studentGroups.idGroup',$idGroups);
+                    ->whereIn('studentGroups.idGroup',$idGroups);
 
             })
             ->join('groups', function($join) use($idSubject,$idGroups) {
@@ -194,8 +270,8 @@ class GroupController extends Controller
 
 
 
-                    return view('student/groups')->with('groupNumber',$groupNumber)->with('students_per_group',$students_per_group)->with('subjectStudentsNoGroup',$subjectStudentsNoGroup)->with('projectMaxElements',$projectMaxElements)->with('projectMinElements',$projectMinElements)->with('project',$project)
-                        ->with('numberGroupsInsideProject',$numberGroupsInsideProject)->with('subject',$subject)->with('user',$user)->with('projectMaxGroups',$projectMaxGroups)->with('studentsIdGroupValues',$studentsIdGroupValues);
+        return view('student/groups')->with('groupNumber',$groupNumber)->with('students_per_group',$students_per_group)->with('subjectStudentsNoGroup',$subjectStudentsNoGroup)->with('projectMaxElements',$projectMaxElements)->with('projectMinElements',$projectMinElements)->with('project',$project)
+            ->with('numberGroupsInsideProject',$numberGroupsInsideProject)->with('subject',$subject)->with('user',$user)->with('projectMaxGroups',$projectMaxGroups)->with('studentsIdGroupValues',$studentsIdGroupValues)->with('studentsSugestions',$studentsSugestions)->with('avgStudent',$avgStudent);
 
     }
 

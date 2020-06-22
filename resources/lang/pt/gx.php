@@ -41,7 +41,7 @@ return [
     'friday'                    => 'S',
     'saturday'                  => 'S',
     'sunday'                    => 'D',
-    'join/create group'         => 'Juntar/Criar Grupo',
+    'create group'         => 'Criar Grupo',
     'no projects found'         => 'Nenhum projeto encontrado',
     'new project'               => 'Novo Projeto',
     'create project'            => 'Criar Projeto',
@@ -104,6 +104,7 @@ return [
     'search'                  => 'Pesquisar',
     'group full'              => 'Grupo Cheio',
     'no groups found'         => 'Ainda não foram criados grupos.',
+    'join/create group'       => 'Juntar/Criar Grupo',
 
 
     //project
@@ -160,7 +161,22 @@ return [
     'responses'                 => 'Respostas',
     'created'                   => 'Criado',
     'create post'               => 'Criar post',
-
+    'sub_time' =>                   'Tempo de submissão',
+    'files_sub' =>                  'Ficheiros submetidos',
+    'no_files_sub' => 'Nenhum ficheiro submetido!',
+    'remove file' => 'Remover ficheiro',
+    'rmv_file_sure' => 'Tem a certeza que pretende remover o ficheiro?',
+    'eval_sent_success' => 'A sua avaliação dos membros do grupo foi enviada com sucesso',
+    'success' => 'Sucesso',
+    'submit_eval' => 'Submeter avaliações',
+    'submit_eval_sure' => 'Tem a certeza que pretende submeter a avaliação?',
+    'if_submit_eval' => 'Se submeter a avaliação não cinseguirá fazer alterá-la.',
+    'eval_sent_succ' => 'A sua avaliação dos membros do grupo foi enviada com sucesso.',
+    'submit_file_eval' => 'Submeter ficheiro para avaliação',
+    'sure_sub_file' => 'Tem a certeza que deseja submeter o ficheiro?',
+    'submit' => 'Submeter',
+    'project' => 'Projeto',
+    'beg_date' => 'Data de Início',
 
     //admin
     'user registrations'  => 'Registo de utilizadores',
@@ -309,5 +325,54 @@ return [
 
     //footer
     'contact us' => 'Contacte-nos',
-    '2020, allRightsReserved.' => '2020, Todos os Direitos Reservados.'
+    '2020, allRightsReserved.' => '2020, Todos os Direitos Reservados.',
+
+    //help modal
+    'help' => 'Ajuda',
+    'calendar' => 'Calendário',
+    'subjects' => 'Unidades Curriculares',
+    'helpProf' => 'Nesta área , o utilizador consegue consultar o seu perfil , editar a password , editar o perfil e mudar a foto de perfil.',
+    'helpDashStudent' => 'O calendário na zona esquerda permite ao utilizador ver qual é o presente dia, a atividade passada e a atividade futura, ao passar com o cursor num dia que esteja sinalizado , mais informação será visível.',
+    'helpDashStudent2' => 'As unidades curriculares são exibidas segundo o papel do utilizador e o ano académico selecionado , no entanto o utilizador tem a possibilidade de aceder a unidades curriculares de anos letivos anteriores clicando no dropdown azul com a indicação do ano.
+                            As unidades curriculares aparecem minimizadas , por isso o utilizador deve expandir a desejada. Dentro da unidade curricular selecionada o utilizador tem a possibilidade de se juntar a um grupo ou entrar na página do projeto caso já possuo grupo. ',
+
+    'helpProjectStud'=> 'Nesta área o utilizador consegue fazer upload dos ficheiros no repositório , tendo a possibilidade de os submeter, para submeter os ficheiros o utilizador deverá selecionar os ficheiros a submeter. O utilizador também consegue observar quais são os membros do
+                    grupo e consegue sair do grupo(uma confirmação irá aparecer) , ver a documentação do projeto e criar notas. O utilizador consegue também criar tarefas , especifando para cada uma , o título, a pessoa responsável e a data de início, posteriormente o utilizador também consegue editar a tarefa,
+                    especificando o fim , conseguindo observar o tempo despendido na mesma.',
+
+    'helpProjectStud2' => 'Nesta área o utilizador consegue marcar a sua disponibilidade semanal clicando nas células desejadas do horário apresentado, o utilizador consegue observar a
+                        disponibilidade dos outros membros dos grupos. Outra funcionalidade é a criação de uma reunião com os membros do grupo, especifando a descrição o sítio e a data da mesma.',
+
+    'helpProjectStud3' => 'Nesta área o utilizador consegue aceder ao fórum do projeto, ver publicações de outros estudante e professores , conseguindo criar publicações com um título e um corpo de texto.',
+    'helpProjectStud4' => 'Nesta área o utilizador consegue submeter ficheiros do grupo para avaliação, e avaliar a participação de cada membro do grupo no desenvolviemtno do projeto (escala: 1-5 estrelas).',
+
+    'helpGroupStud' => 'Ao clicar neste botão, um modal será exibido e o utilizador poderá criar um grupo de trabalho para o projeto , o utilizador pode adicionar
+    outros estudantes que pertençam à mesma unidade curricular que ainda não tenho grupo até ao momento, ou o utilizador poderá criar um grupo apenas com um elemento(grupo apenas com o utilizador).Quando o utilizador cria o grupo , será redirecionado para a página do projeto.
+    Caso se tenha chegado a um número máximo de grupos , o utilizador  deverá juntar-se a um grupo existente.',
+
+    'helpGroupStud2' => 'Ao clicar neste botão o utilizador juntar-se-à ao grupo respetivo e será redirecionado para a página do projeto, caso o botão esteja desativado , o grupo atingiu a capacidade máxima.',
+
+    'helpGroupStud3' => 'Ao clicar neste botão , irá aparecer um modal onde o aluno terá acesso a outros estudantes da mesma unidade curricular que ainda não possuem grupo. A lista apresentada está ordenada pela maior classificação nas avaliações ntre alunos. O
+    utilizador pode pesquisar por um utilizador e abrir um chat com esse estudante ao clicar no icon de mensagem.',
+
+
+    'helpDashboardProf' => 'As unidades curriculares são exibidas segundo o papel do utilizador e o ano académico selecionado , no entanto o utilizador tem a possibilidade de aceder a
+    unidades curriculares de anos letivos anteriores clicando no dropdown azul com a indicação do ano. As unidades curriculares aparecem minimizadas , por isso o utilizador terá de as expandir para obter mais informação acerca da unidade curricular. O utilizador
+    poderá observar projetos já criados , ou poderá criar um novo projeto especificando o nome do projeto , o tempo máximo de formação de grupos, o prazo limite do projeto, o número mínimo e máximo de elementos por grupo e o número máximo de grupos , bem como fazer
+    upload de documentação para o projeto.',
+
+
+    'helpProjectProf' => 'Nesta área o utilizador consegue aceder às carater´sticas do projeto que foram previamente estabelecidas ( prazo máximo de criação de grupo, tempo de entrega do projeto, número máximo de grupos
+    e o número mínimo e máximo de elementos por grupo.O utilizador também tem a possibilidade de ver quantos grupos estão criados até ao momento e os grupos que já foram criados mas que não cumprem os requisitos
+    mínimos. é possível também editar o projeto, e fazer upload de uma nova documentação, é possível também eliminar o projeto ( uma confirmação será exibida).',
+
+
+    'helpProjectProf2' => 'Nesta área o utilizador consegue observar os ficheiros que foram submetidos pelo grupo , os elementos do grupo e a avaliação do trabalho de equipa de cada um dos elementos. O utilizador
+consegue atribuir uma nota ao grupo com a possibilidade de alterar a nota atribuída.',
+
+    'helpProjectProf3' =>'Nesta área o utilizador consegue aceder ao fórum do projeto, observar posts de alunos relacionados com o projeto em causa, conseguindo também criar um post , ou responder a
+    um já existente.' ,
+
+
+
 ];

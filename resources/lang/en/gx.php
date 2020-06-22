@@ -41,7 +41,7 @@ return [
     'friday'                    => 'F',
     'saturday'                  => 'S',
     'sunday'                    => 'S',
-    'join/create group'         => 'Join/Create Group',
+    'create group'         => 'Create Group',
     'no projects found'         => 'No projects found',
     'new project'               => 'New Project',
     'create project'            => 'Create Project',
@@ -163,6 +163,24 @@ return [
     'responses'                 => 'Responses',
     'created'                   => 'Created',
     'create post'               => 'Create Post',
+    'join/create group'         => 'Join/Create Group',
+    'sub_time' => 'Submission time',
+    'files_sub' => 'Files submitted',
+    'no_files_sub' => 'No files submitted!',
+    'remove file' => 'Remove File',
+    'rmv_file_sure' => 'Are you sure you want to remove this file?',
+    'eval_sent_success' => 'Your group elements evaluation has been sent successfully.',
+    'success' => 'Success',
+    'submit_eval' => 'Submit Evaluations',
+    'submit_eval_sure' => 'Are you sure you want to submit the evaluation?',
+    'if_submit_eval' => 'If you submit the evaluations you can no longer make changes',
+    'eval_sent_succ' => 'Your group elements evaluation has been sent successfully.',
+    'submit_file_eval' => 'Submit file to evaluation',
+    'sure_sub_file' => 'Are you sure you want to submit this file?',
+    'submit' => 'Submit',
+    'project' => 'Project',
+    'beg_date' => 'Begging date',
+
 
     //admin Dashboard
 
@@ -338,8 +356,40 @@ return [
     'request another' => 'click here to request another',
 
 
+    //help modal
+    'help' => 'Help',
+    'helpProf' => 'In this area , the user can check his profile , edit password , edit profile and change profile photo.',
+    'calendar' => 'Calendar',
+    'helpDashStudent' => 'The calendar on the left side allows the user to check the current day, the past activity and future activity, when moving the cursor to an highlighted item more information about that day will be prompted.',
+    'subjects' => 'Subjects',
+    'helpDashStudent2' => 'The subjects are displayed according to the current user and the current academic year however the user has the possibility to check for past subjects by clicking the blue drop down button and select the intended year.
+                        The subjects appear minimized , so the user has to expand the desired one to view data. Inside the selected subject the user has the possibility to join a group or to enter the project page in case the user belongs to a group.',
+    'helpProjectStud'=> 'In this area , the user can upload files into the repository and as the possibility to submit them for evaluation, to submit the user has to select the files that wants to be submitted.The user also can check the group members and leave the group by clicking the leave group button (a confirmation will prompt), check the project documentation and some notes.
+                    The user can create tasks specifying the task title , responsible and beginning date. After creating a task , the user can edit the task , specifying the end date , and check what was the time wasted in that task.',
+    'helpProjectStud2' => 'In this area , the user can mark his weekly availability by clicking in the desired schedule cells, the user can watch the other group elements weekly availability.
+                        Another feature is that the user can create a new group meeting specifying the meeting description, place and date.',
+    'helpProjectStud3' => 'In this area , the user can access the project forum, checking posts from other students and professors for the specific project , the user can create a post with a title and body.',
+    'helpProjectStud4' => 'In this area , the user can submit the group files and grade the group members participation (scale: 1-5 stars).',
+
+    'helpGroupStud' => 'When clicking this button a modal will prompt and the user can create a work group for the current project , the user can add other students that belong to the same subject but don\'t have a group yet , or the user can create a group only with 1 member(himself).
+                        When the user creates a group , he will be redirected to the project, if reached the maximum number of groups the user won\'t be able to create a group , instead he must join an existing one.',
+    'helpGroupStud2' => 'When clicking this button , the user will join the respective group and will be redirected to the project page, if the button is disabled , the group has reached the maximum capacity.',
+    'helpGroupStud3' => 'When clicking this button a modal will prompt , and the student will have access to other students in the same subject that don\'t belong to a group yet. The students list is sorted by the highest average first, the user can search
+                        for a specific student and open up the chat interface with that student by clicking the message icon.',
 
 
+    'helpDashboardProf' => 'The subjects are displayed according to the current user and the current academic year however the user can select a different academic year in the blue drop down
+                        menu with an year format. The subjects appear minimized , so the user has to expand the desired one to view data to get more info about the subject. The user is able view projects or create a new project specifying the project name ,
+                        the group formation deadline, the project deadline , the minimum number of group members, the maximum number of group members ,
+                         the user can also upload the documentation of the project.',
+
+    'helpProjectProf' => 'In this area , the user can access the project characteristics that were established before(group creation deadline, delivery time, max number of groups, minimum number of groups, maximum number of elements per group). The user has the possibility to see how many groups are created , and the groups that are created but don\'t match the requirements.
+                            It\'s possibile to edit the project , and upload new documentation or delete any documentation, it\'s possible to delete the entire
+                        project(a confirmation will be prompted).',
+
+    'helpProjectProf2' => 'In this area , the user can check the files that were submitted and the group , the group elements and the corresponding teamwork evaluation from the group selected in the left tab.
+                            The user can assign a grade to the group , with the possibility to change that given grade after.',
+    'helpProjectProf3' => 'In this area , the user can access the project forum, checking posts from students for the specific project , the user can create a post or reply to an existing one.',
 
 
 

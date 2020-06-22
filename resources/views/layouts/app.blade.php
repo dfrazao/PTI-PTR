@@ -206,36 +206,256 @@
 
                         </li>
                     @endif
-                        @if(Auth::user()->role != "admin")
-                    <li class="nav-item">
-                        <a class="nav-link" href="/profile/{{ Auth::user()->id }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.Auth::user()->photo)}}"> <span style="vertical-align: middle;">{{ Auth::user()->name }}</span></a>
-                    </li>
-                        @else
+                        @if(Auth::user()->role == "student")
                             <li class="nav-item">
-                                <a class="nav-link" role="button" aria-haspopup="true" aria-expanded="false" v-pre><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.Auth::user()->photo)}}"> <span style="vertical-align: middle;">{{ Auth::user()->name }}</span></a>
+                                <a class="nav-link" href="/profile/{{ Auth::user()->id }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.Auth::user()->photo)}}"> <span style="vertical-align: middle;">{{ Auth::user()->name }}</span></a>
                             </li>
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                </div>
+
+                            </li>
+                            @if(request()->path() == "/")
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="modal" data-target="#modalHelpDashboardStudent" role="button" aria-haspopup="true" aria-expanded="false" v-pre> <span style="vertical-align: middle;"><i class="fa fa-question-circle" style="font-size: 1em"></i></span></a>
+                                </li>
+
+
+                            @elseif(request()->segment(4)  == "groups")
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="modal" data-target="#modalHelpGroupsStudent" role="button" aria-haspopup="true" aria-expanded="false" v-pre> <span style="vertical-align: middle;"><i class="fa fa-question-circle" style="font-size: 1em"></i></span></a>
+                                </li>
+                            @elseif(request()->segment(2)  == "project")
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="modal" data-target="#modalHelpProjectStudent" role="button" aria-haspopup="true" aria-expanded="false" v-pre> <span style="vertical-align: middle;"><i class="fa fa-question-circle" style="font-size: 1em"></i></span></a>
+                                </li>
+                            @elseif(request()->segment(1)  == "profile")
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="modal" data-target="#modalHelpProfile" role="button" aria-haspopup="true" aria-expanded="false" v-pre> <span style="vertical-align: middle;"><i class="fa fa-question-circle" style="font-size: 1em"></i></span></a>
+                                </li>
+                            @else
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/profile/{{ Auth::user()->id }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.Auth::user()->photo)}}"> <span style="vertical-align: middle;">{{ Auth::user()->name }}</span></a>
+                                </li>
+
                             @endif
-                    <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></a>
+                        @elseif(Auth::user()->role == "professor")
 
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('logout') }}"
-                               onclick="event.preventDefault();
-                                                         document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/profile/{{ Auth::user()->id }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.Auth::user()->photo)}}"> <span style="vertical-align: middle;">{{ Auth::user()->name }}</span></a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></a>
 
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                        </div>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                 document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
 
-                    </li>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                </div>
+
+                            </li>
+                            @if(request()->path() == "/")
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="modal" data-target="#modalHelpDashboardProfessor" role="button" aria-haspopup="true" aria-expanded="false" v-pre> <span style="vertical-align: middle;"><i class="fa fa-question-circle" style="font-size: 1em"></i></span></a>
+                                </li>
+                            @elseif(request()->segment(1)  == "profile")
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="modal" data-target="#modalHelpProfile" role="button" aria-haspopup="true" aria-expanded="false" v-pre> <span style="vertical-align: middle;"><i class="fa fa-question-circle" style="font-size: 1em"></i></span></a>
+                                </li>
+                            @elseif(request()->segment(2)  == "project")
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="modal" data-target="#modalHelpProjectprofessor" role="button" aria-haspopup="true" aria-expanded="false" v-pre> <span style="vertical-align: middle;"><i class="fa fa-question-circle" style="font-size: 1em"></i></span></a>
+                                </li>
+                            @else
+                                <li class="nav-item">
+                                    <a class="nav-link" role="button" aria-haspopup="true" aria-expanded="false" v-pre><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.Auth::user()->photo)}}"> <span style="vertical-align: middle;">{{ Auth::user()->name }}</span></a>
+                                </li>
+                            @endif
+                        @endif
                 @endguest
 
             </ul>
         </div>
     </nav>
+    <div id="modalHelpProfile" class="modal" tabindex="-1" role="dialog"  >
+        <div class="modal-dialog modal-xl" >
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <h2 class="modal-title">{{__('gx.help')}}</h2>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="display: inline" >
+                    <dl>
+                        <dt><h5 class="text-light bg-secondary rounded" style="width:fit-content;padding-right:0.5%;padding-left:0.5%">{{__('gx.profile')}}</h5></dt>
+                        <dd>{{__('gx.helpProf')}}</dd>
+
+                    </dl>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+            <<<<<<< HEAD
+        </div>
+    </div>
+    <div id="modalHelpDashboardStudent" class="modal" tabindex="-1" role="dialog"  >
+        <div class="modal-dialog modal-xl" >
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <h2 class="modal-title">{{__('gx.help')}}</h2>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="display: inline" >
+                    <dl>
+                        <dt><h5 class="text-light bg-secondary rounded" style="width:fit-content;padding-right:0.5%;padding-left:0.5%">{{__('gx.calendar')}}</h5></dt>
+                        <dd>{{__('gx.helpDashStudent')}}</dd><br>
+                        <dt><h5 class="text-light bg-secondary rounded" style="width:fit-content;padding-right:0.5%;padding-left:0.5%">{{__('gx.subjects')}}</h5></dt>
+                        <dd>{{__('gx.helpDashStudent2')}}</dd>
+                    </dl>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalHelpProjectStudent" class="modal" tabindex="-1" role="dialog"  >
+        <div class="modal-dialog modal-xl" >
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <h2 class="modal-title">{{__('gx.help')}}</h2>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="display: inline" >
+                    <dl>
+                        <dt><h5 class="text-light bg-secondary rounded" style="width:fit-content;padding-right:0.5%;padding-left:0.5%">{{__('gx.content')}}</h5></dt>
+                        <dd>{{__('gx.helpProjectStud')}}</dd><br>
+                        <dt><h5 class="text-light bg-secondary rounded" style="width:fit-content;padding-right:0.5%;padding-left:0.5%">{{__('gx.schedule')}}</h5></dt>
+                        <dd>{{__('gx.helpProjectStud2')}}</dd><br>
+                        <dt><h5 class="text-light bg-secondary rounded" style="width:fit-content;padding-right:0.5%;padding-left:0.5%">{{__('gx.forum')}}</h5></dt>
+                        <dd>{{__('gx.helpProjectStud3')}} </dd><br>
+                        <dt><h5 class="text-light bg-secondary rounded" style="width:fit-content;padding-right:0.5%;padding-left:0.5%">{{__('gx.submission')}}</h5></dt>
+                        <dd>{{__('gx.helpProjectStud4')}}</dd>
+                    </dl>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div id="modalHelpGroupsStudent" class="modal" tabindex="-1" role="dialog"  >
+        <div class="modal-dialog modal-xl" >
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <h2 class="modal-title">{{__('gx.help')}}</h2>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="display: inline" >
+                    <dl>
+                        <dt><h5 class="text-light bg-secondary rounded" style="width:fit-content;padding-right:0.5%;padding-left:0.5%">{{__('gx.join group')}}</h5></dt>
+                        <dd>{{__('gx.helpGroupStud2')}}</dd><br>
+                        <dt><h5 class="text-light bg-secondary rounded" style="width:fit-content;padding-right:0.5%;padding-left:0.5%">{{__('gx.create group')}}</h5></dt>
+                        <dd>{{__('gx.helpGroupStud')}}</dd><br>
+                        <dt><h5 class="text-light bg-secondary rounded" style="width:fit-content;padding-right:0.5%;padding-left:0.5%">{{__('gx.student sugestions')}}</h5></dt>
+                        <dd>{{__('gx.helpGroupStud3')}}</dd>
+                    </dl>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="modalHelpDashboardProfessor" class="modal" tabindex="-1" role="dialog"  >
+        <div class="modal-dialog modal-xl" >
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <h2 class="modal-title">{{__('gx.help')}}</h2>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="display: inline" >
+                    <dl>
+                        <dt><h5 class="text-light bg-secondary rounded" style="width:fit-content;padding-right:0.5%;padding-left:0.5%">{{__('gx.calendar')}}</h5></dt>
+                        <dd>{{__('gx.helpDashStudent')}}</dd><br>
+                        <dt><h5 class="text-light bg-secondary rounded" style="width:fit-content;padding-right:0.5%;padding-left:0.5%">{{__('gx.subjects')}}</h5></dt>
+                        <dd>{{__('gx.helpDashboardProf')}}</dd>
+                    </dl>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="modalHelpProjectprofessor" class="modal" tabindex="-1" role="dialog"  >
+        <div class="modal-dialog modal-xl" >
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <h2 class="modal-title">{{__('gx.help')}}</h2>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="display: inline" >
+                    <dl>
+                        <dt><h5 class="text-light bg-secondary rounded" style="width:fit-content;padding-right:0.5%;padding-left:0.5%">{{__('gx.characteristics')}}</h5></dt>
+                        <dd>{{__('gx.helpProjectProf')}}</dd><br>
+                        <dt><h5 class="text-light bg-secondary rounded" style="width:fit-content;padding-right:0.5%;padding-left:0.5%">{{__('gx.groups')}}</h5></dt>
+                        <dd>{{__('gx.helpProjectProf2')}} </dd><br>
+                        <dt><h5 class="text-light bg-secondary rounded" style="width:fit-content;padding-right:0.5%;padding-left:0.5%">{{__('gx.forum')}}</h5></dt>
+                        <dd>{{__('gx.helpProjectProf3')}} </dd>
+
+                    </dl>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://js.pusher.com/6.0/pusher.min.js"></script>
 
 
