@@ -100,7 +100,7 @@ return [
     'close'                   => 'Close',
     'successfully left group' => 'Successfully left group',
     'successfully joined group' => 'Successfully joined group',
-    'sorted by average'       => 'Sorted by Average',
+    'sorted by average'       => 'Table sorted by teamwork evaluation average',
     'search'                  => 'Search',
     'group full'              => 'Group Full',
     'no groups found'         => 'There isn\'t any groups created yet.',
@@ -374,8 +374,8 @@ return [
     'helpGroupStud' => 'When clicking this button a modal will prompt and the user can create a work group for the current project , the user can add other students that belong to the same subject but don\'t have a group yet , or the user can create a group only with 1 member(himself).
                         When the user creates a group , he will be redirected to the project, if reached the maximum number of groups the user won\'t be able to create a group , instead he must join an existing one.',
     'helpGroupStud2' => 'When clicking this button , the user will join the respective group and will be redirected to the project page, if the button is disabled , the group has reached the maximum capacity.',
-    'helpGroupStud3' => 'When clicking this button a modal will prompt , and the student will have access to other students in the same subject that don\'t belong to a group yet. The students list is sorted by the highest average first, the user can search
-                        for a specific student and open up the chat interface with that student by clicking the message icon.',
+    'helpGroupStud3' => 'When clicking this button a modal will prompt , and the student will have access to other students in the same subject that don\'t belong to a group yet and that have previous teamwork evaluation. The students list is sorted by the highest teamwork evaluation average first, the user can search
+                        for a specific student,class and name and open up the chat interface with that student by clicking the message icon.',
 
 
     'helpDashboardProf' => 'The subjects are displayed according to the current user and the current academic year however the user can select a different academic year in the blue drop down

@@ -100,7 +100,7 @@ return [
     'close'                   => 'Fechar',
     'successfully left group' => 'Deixou com sucesso o grupo',
     'successfully joined group' => 'Entrou com sucesso no grupo',
-    'sorted by average'       => 'Ordenado por média',
+    'sorted by average'       => 'Tabela ordenada por média de avaliações de trabalho de equipa',
     'search'                  => 'Pesquisar',
     'group full'              => 'Grupo Cheio',
     'no groups found'         => 'Ainda não foram criados grupos.',
@@ -352,7 +352,7 @@ return [
 
     'helpGroupStud2' => 'Ao clicar neste botão o utilizador juntar-se-à ao grupo respetivo e será redirecionado para a página do projeto, caso o botão esteja desativado , o grupo atingiu a capacidade máxima.',
 
-    'helpGroupStud3' => 'Ao clicar neste botão , irá aparecer um modal onde o aluno terá acesso a outros estudantes da mesma unidade curricular que ainda não possuem grupo. A lista apresentada está ordenada pela maior classificação nas avaliações ntre alunos. O
+    'helpGroupStud3' => 'Ao clicar neste botão , irá aparecer um modal onde o aluno terá acesso a outros estudantes da mesma unidade curricular que ainda não possuem grupo e que têm avaliações relativas ao trabalho de equipa previamente feito. A lista apresentada está ordenada pela maior média de classificação de trabalho de equipa nas avaliações entre alunos. O
     utilizador pode pesquisar por um utilizador e abrir um chat com esse estudante ao clicar no icon de mensagem.',
 
 

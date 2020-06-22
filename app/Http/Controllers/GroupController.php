@@ -150,33 +150,23 @@ class GroupController extends Controller
             ->where('id','!=',$user)
             ->join('evaluations',function($join) use($idSubject){
                 $join->on('subjectEnrollments.idUser', '=', 'evaluations.receiver');
-            })
-
-            ->get(['id','grade','name','uniNumber','class']);
-
-        $studentsSugestions1 = DB::table('users')
-            ->where('users.role','=','student')
-            ->join('subjectEnrollments', function($join) use($idSubject) {
-                $join->on('subjectEnrollments.idUser', '=', 'users.id')
-                    ->where('subjectEnrollments.idSubject','=',$idSubject);
+                $join->on('evaluations.receiver', '!=', 'evaluations.sender');
 
             })
-            ->whereNotIn('id',$groupStudents)
-            ->where('id','!=',$user)
-            ->join('evaluations',function($join) use($idSubject){
-                $join->on('subjectEnrollments.idUser', '=', 'evaluations.receiver');
-            })
-
             ->get(['id','grade','name','uniNumber','class']);
 
 
 
-        return $studentsSugestions1;
+
+
+
+
+        //return $studentsSugestions1;
         $studSugestions = $studentsSugestions->groupBy('id');
+        $stdSugestWGrade = array();
         foreach($studSugestions as $st)
-            return $st[0]->id;
+            array_push($stdSugestWGrade,$st[0]);
 
-        //return $studSugestions;
 
 
         $gradeArray = array();
@@ -209,7 +199,22 @@ class GroupController extends Controller
 
         $avgStudent = array_combine($studIdArray->toArray(),$avgArray);
 
-        return $avgStudent;
+        //return $avgStudent;
+        //return $arr;
+        function cmp($a, $b) {
+            return strcmp($a->grade, $b->grade);
+        }
+        //---------------------------------------------------------
+        //grade atualizada com grade media
+        foreach($stdSugestWGrade as $st)
+                $st->grade = $avgStudent[$st->id];
+
+        usort($stdSugestWGrade, function($a, $b)
+        {
+            return strcmp($b->grade, $a->grade);
+        });
+
+
 
 
 
@@ -271,7 +276,7 @@ class GroupController extends Controller
 
 
         return view('student/groups')->with('groupNumber',$groupNumber)->with('students_per_group',$students_per_group)->with('subjectStudentsNoGroup',$subjectStudentsNoGroup)->with('projectMaxElements',$projectMaxElements)->with('projectMinElements',$projectMinElements)->with('project',$project)
-            ->with('numberGroupsInsideProject',$numberGroupsInsideProject)->with('subject',$subject)->with('user',$user)->with('projectMaxGroups',$projectMaxGroups)->with('studentsIdGroupValues',$studentsIdGroupValues)->with('studentsSugestions',$studentsSugestions)->with('avgStudent',$avgStudent);
+            ->with('numberGroupsInsideProject',$numberGroupsInsideProject)->with('subject',$subject)->with('user',$user)->with('projectMaxGroups',$projectMaxGroups)->with('studentsIdGroupValues',$studentsIdGroupValues)->with('stdSugestWGrade',$stdSugestWGrade);
 
     }
 
