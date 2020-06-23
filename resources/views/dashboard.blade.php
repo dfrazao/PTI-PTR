@@ -37,9 +37,9 @@
         </style>
         <div id="calendario" class="col-md-3">
             <style>
-                #calendario{
+                /*#calendario{
                     max-width: 20%;
-                }
+                }*/
                 @media screen and (max-width: 500px) {
                     #calendario {
                         max-width: 100%;

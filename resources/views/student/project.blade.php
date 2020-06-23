@@ -80,23 +80,23 @@
                     }
                     @media screen and (max-width: 1300px) {
                         #row1 {
-                            height: 60vh;
+                            height: 100%;
                         }
                     }
                         @media screen and (max-width: 700px) {
                             #row1 {
-                                height: 60vh;
+                                height: 100%;
                             }
                         }
                         @media screen and (max-width: 500px) {
                             #row1 {
-                                height: 90vh;
+                                height: 100%;
                             }
                         }
 
                 </style>
                 <div id="1col" class="col-md-5 mt-3">
-                    <div class="container-fluid rounded h-100 pt-2" style="background-color: #c6c6c6;">
+                    <div class="container-fluid rounded h-100 pt-2" style="background-color: #c6c6c6;padding-bottom: 20%;">
                         <h5 class="text-center">Repository</h5>
                         <div>
                             <table class="table table-sm fixed_header">
@@ -106,8 +106,8 @@
                                     <th scope="col">User</th>
                                     <th scope="col">Date</th>
                                     <th scope="col"></th>
-
                                 </tr>
+
                                 </thead>
                                 <tbody>
                                 @foreach($rep as $file)
@@ -128,7 +128,6 @@
                                                     </span>
                                                 </button>
                                             </td>
-
                                         </tr>
                                     @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "png")
                                         <tr class="file" id="{{$file->idFile}}">
@@ -409,14 +408,11 @@
                     <style>
                         @media screen and (max-width: 500px) {
                             #col_docs {
-                                margin-top: 20px;
-                                margin-right: 15px;
-                                margin-left: 15px;
                             }
                             #col_groups{
-                                margin-bottom: 20%;
-                                margin-right: 15px;
-                                margin-left: 15px;
+                            }
+                            #2col{
+                                margin-left: 15px;!important;
                             }
                         }
                     </style>
@@ -594,10 +590,7 @@
                                         #edit_tasks{
                                             margin-bottom: 5px;
                                         }
-                                        #row2{
-                                            height: 20vh;
-                                            margin-top: 200px;
-                                        }
+
                                         .table{
                                             table-layout: auto;
                                         }

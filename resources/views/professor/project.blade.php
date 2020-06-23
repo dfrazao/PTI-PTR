@@ -409,10 +409,9 @@
                         }
                         @media screen and (max-width: 750px){
                             #col_groups_prof {
-                                max-height: 40%;
                             }
                             #altura_col_groups_prof{
-                                height: unset;
+                                height: 100%;
                             }
                         }
                     </style>
@@ -544,14 +543,24 @@
                                                         @if(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) == '[]')
                                                             <p>No avaliations available</p>
                                                         @else
-                                                        <table class="table table-sm " style="text-align: center; vertical-align: middle;">
+                                                        <table id="tabela_aval"  class="table table-sm " style="text-align: center; vertical-align: middle;">
                                                             <thead>
-                                                            <tr>
+                                                            <tr id="font_tabela_aval">
                                                                 <th scope="col">Elementos</th>
                                                                 <th scope="col" >Autoavaliação</th>
                                                                 <th scope="col" >Avaliação do grupo</th>
                                                             </tr>
                                                             </thead>
+                                                            <style>
+                                                                @media screen and (max-width: 500px) {
+                                                                    #font_tabela_aval {
+                                                                        font-size: 1.5vh;
+                                                                    }
+                                                                    #tabela_aval{
+                                                                        display: inline-grid;
+                                                                    }
+                                                                }
+                                                            </style>
                                                             <tbody>
                                                             @foreach(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) as $sg)
                                                                 <tr>
@@ -584,7 +593,7 @@
                                                             }
                                                             @media screen and (max-width: 500px){
                                                                 #assessments_row {
-                                                                    height: 70%;
+                                                                    margin-bottom: 50%;
                                                                 }
                                                             }
                                                         </style>
@@ -603,11 +612,11 @@
                                                     #final_row{
 
                                                     }
-                                                    @media screen and (max-width: 500px){
+                                                    /*@media screen and (max-width: 500px){
                                                         #final_row {
                                                             height: 70%;
                                                         }
-                                                    }
+                                                    }*/
                                                 </style>
                                                 <div class=" bg-light p-2 w-100 rounded " style="max-height: 100%;">
                                                     <h5>{{__('gx.final group evaluation')}}</h5>
@@ -702,10 +711,8 @@
                                         <style>
                                                 @media screen and (max-width: 500px){
                                                     #col3_groups {
-                                                        margin-top: 90%;
                                                     }
                                                     #altura_col_groups_prof{
-                                                        height: unset;
                                                     }
                                                 }
                                             </style>
