@@ -475,8 +475,8 @@
                     </div>
                 </div>
                 <style>
-                    #col_notes{
-
+                    #col_notas{
+                        margin-left: 15px;
                     }
                     #col_docs{
 
@@ -495,9 +495,24 @@
                             <table class="table table-hover text-center">
                                 <thead>
                                 <tr class="tasks_letra">
-                                    <th>{{__('gx.task')}}</th>
-                                    <th>{{__('gx.responsible')}}</th>
-                                    <th id="task_b">{{__('gx.beginning')}}</th>
+                                    <th>
+                                        <div>
+                                            <span class="full-text_task">{{__('gx.task')}}</span>
+                                            <span class="short-text_task">Mon</span>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div>
+                                            <span class="full-text_task">{{__('gx.responsible')}}</span>
+                                            <span class="short-text_task">Resp.</span>
+                                        </div>
+                                    </th>
+                                    <th id="task_b">
+                                        <div>
+                                            <span class="full-text_task">{{__('gx.beginning')}}</span>
+                                            <span class="short-text_task">Start</span>
+                                        </div>
+                                    </th>
                                     <th id="task_e">{{__('gx.end')}}</th>
                                     <th>{{__('gx.wasted time')}}</th>
                                     <th></th>
@@ -590,6 +605,13 @@
                                 @endif
                                 </tbody>
                                 <style>
+                                    .short-text_task { display: none; }
+
+
+                                    @media (max-width: 800px) {
+                                        .short-text_task { display: inline-block; }
+                                        .full-text_task { display: none; }
+                                    }
                                     #edit_tasks{
                                         width: 10vh;
                                     }
