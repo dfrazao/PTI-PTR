@@ -406,6 +406,9 @@
                         </div>
                     </div>
                     <style>
+                        #2col{
+                            padding-left: 1%;
+                        }
                         @media screen and (max-width: 500px) {
                             #col_docs {
                             }
@@ -418,7 +421,7 @@
                     </style>
                 </div>
                 <div id="3col" class="col-md-4 mt-3">
-                    <div class="row rounded h-50 pr-3">
+                    <div id="col_notes" class="row rounded h-50 pr-3">
                         <div class="container-fluid rounded notes pt-2" style="background-color: #ffe680; " >
                             <h5 class="text-center">{{__('gx.notes')}}</h5>
                             {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST', 'id'=>'myform']) !!}
@@ -430,7 +433,7 @@
                             {!! Form::close() !!}
                         </div>
                     </div>
-                    <div class="row rounded h-50 pt-3 pr-3">
+                    <div id="col_docs" class="row rounded h-50 pt-3 pr-3">
                         <div id="col_docs" class="container-fluid rounded text-center pt-2" style="background-color: #c6c6c6; ">
                             <h5>{{__('gx.documentation')}} </h5>
                             <div class="text-center">
@@ -472,8 +475,15 @@
                     </div>
                 </div>
                 <style>
+                    #col_notes{
+
+                    }
+                    #col_docs{
+
+                    }
                     @media screen and (max-width: 500px) {
-                        #3col{
+                        #col_docs{
+                            margin-top: 20px;
                         }
                     }
                 </style>
@@ -593,6 +603,9 @@
 
                                         .table{
                                             table-layout: auto;
+                                        }
+                                        #row2{
+                                            margin-top: 20px;
                                         }
                                     }
                                     @media screen and (max-width: 800px) {
