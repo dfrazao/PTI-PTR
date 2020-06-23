@@ -33,16 +33,16 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->role == "admin") {
+            return redirect('admin');
+        }
         $user = Auth::user()->id;
         $subjectsEnrolled = SubjectEnrollment::all()->where('idUser', '==', $user)->pluck('idSubject');
 
-
-
-
         if (count($subjectsEnrolled) > 0) {
             $academicYears = AcademicYear::all()->sortKeysDesc();
-            $subjects = Subject::all()->whereIn('idSubject', $subjectsEnrolled);
-            $subjectsId = Subject::all()->whereIn('idSubject', $subjectsEnrolled)->pluck('idSubject');
+            $subjects = Subject::whereIn('idSubject', $subjectsEnrolled)->orderBy('subjectName', 'asc')->get();
+            $subjectsId = Subject::whereIn('idSubject', $subjectsEnrolled)->orderBy('subjectName', 'asc')->get()->pluck('idSubject');
             $projects = Project::all()->whereIn('idSubject', $subjectsId);
 
             $meetings = [];

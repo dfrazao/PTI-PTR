@@ -7,7 +7,7 @@
     @include('layouts.messages')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb mt-1 pl-0 pb-0 pt-0 h3" style="background-color:white; ">
-            <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{($user->role == "admin" ? route('Admin') : route('Dashboard'))}}>{{__('gx.dashboard')}}</a></li>
+            <li class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>{{__('gx.dashboard')}}</a></li>
             <li class="breadcrumb-item " aria-current="page">{{__('gx.profile')}}</li>
         </ol>
     </nav>
@@ -396,8 +396,6 @@
                                     {{__('gx.student')}}
                                 @elseif($user->role == 'professor')
                                     {{__('gx.professor')}}
-                                @else
-                                    {{__('gx.admin')}}
                                 @endif
                             </span>
                         </div>
@@ -419,13 +417,15 @@
                         </div>
                     </div>
 
-                    <div class="profile-info-row">
-                        <div class="profile-info-name"> {{__('gx.number')}} </div>
+                    @if($user->role == 'student')
+                        <div class="profile-info-row">
+                            <div class="profile-info-name"> {{__('gx.number')}} </div>
 
-                        <div class="profile-info-value">
-                            <span>{{ $user->uniNumber }}</span>
+                            <div class="profile-info-value">
+                                <span>{{ $user->uniNumber }}</span>
+                            </div>
                         </div>
-                    </div>
+                    @endif
 
                     <div class="profile-info-row">
                         <div id="city" class="profile-info-name"> {{__('gx.email')}} </div>
@@ -460,29 +460,40 @@
                     </div>
 
                     <div class="profile-info-row">
-                        <div class="profile-info-name"> {{__('gx.last online')}} </div>
-
-                        <div class="profile-info-value">
-                            <span>{{ $user->updated_at }}</span>
-                        </div>
-                    </div>
-
-                    <div class="profile-info-row">
                         <div class="profile-info-name"> {{__('gx.subjects')}} </div>
 
                         <div class="profile-info-value">
-                            @foreach($subjects as $subject)
-                                <span>{{ $subject->subjectName }} - {{ $subject->academicYear }}</span>
-                            @endforeach
+                            @if(count($subjects)>0)
+                                @foreach($academicYears  as $academicYear)
+                                    <?php
+                                    $subjectYear = $subjects->whereIn('academicYear', $academicYear->academicYear);
+                                    $first1 = Carbon\Carbon::today()->subYears(1)->month(8)->day(1);
+                                    $second1 = Carbon\Carbon::today()->month(7)->day(31)->hour(23)->minute(59)->second(59);
+                                    $first2 = Carbon\Carbon::today()->month(8)->day(1);
+                                    $second2 = Carbon\Carbon::today()->addYears(1)->month(7)->day(31);
+                                    if (Carbon\Carbon::today()->between($first1, $second1)) {
+                                        $currentYear = $first1->year . '/' . $second1->year;
+                                    } else if (Carbon\Carbon::today()->between($first2, $second2)) {
+                                        $currentYear = $first2->year . '/' . $second2->year;
+                                    }
+                                    ?>
+                                    @if(count($subjectYear)>0)
+                                        <p style="margin-bottom: 0; margin-top: 0.5rem;">{{$academicYear->academicYear}}</p>
+                                        @foreach($subjectYear as $subject)
+                                            <span>{{ $subject->subjectName }}</span>
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                            @else
+                                <span>{{__('gx.no subjects found')}}</span>
+                            @endif
                         </div>
                     </div>
                 </div>
 
                 <div class="hr hr-8 dotted"></div>
-
             </div>
-           <!-- /.col -->
-        </div><!-- /.row -->
+        </div>
 
         <div class="space-20"></div>
 

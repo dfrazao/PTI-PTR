@@ -1243,7 +1243,7 @@
                             <div class="StudentsEvaluation">
                                 @foreach($groupUsers as $user)
                                     {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST']) !!}
-                                    <img class="profilePhoto pr-2" style="border-radius: 100%; width: 13%; height: 13%; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}">
+                                    <img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}">
                                     <a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a>
                                     <div class="rating-{{$user->id}}" style="display:inline-flex;">
                                         <i class="fa fa-star" aria-hidden="true" id="s1"></i>

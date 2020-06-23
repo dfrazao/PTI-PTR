@@ -56,12 +56,13 @@ class StudentProjectsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
+
         $submission = $request->input('submission');
         $idGroup = $request->input('group');
         $idProject = $request ->input('project');
         $user = Auth::user()->id;
+
         if($submission == "notes") {
             $this->validate($request, [
                 'notes' => 'required'
@@ -77,15 +78,15 @@ class StudentProjectsController extends Controller
                 'beginning' => 'required'
             ]);
             $task = new Task;
-            $task-> idGroup = $request ->input('group');
-            $task-> description = $request->input('description');
-            $task-> responsible = $request->input('responsible');
-            $task-> beginning = Carbon::parse($request->input('beginning'));
+            $task->idGroup = $request->group;
+            $task->description = $request->input('description');
+            $task->responsible = $request->input('responsible');
+            $task->beginning = Carbon::parse($request->input('beginning'));
             $task->save();
 
-            return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Task created successfully');
-        }
-        elseif($submission == "schedule"){
+            return redirect()->to("/student/project/". $idProject . '#content')->with('success', 'Task created successfully');
+
+        } elseif($submission == "schedule"){
             $group = $request->input('group');
             $student = $request->input('idStudent');
             $id = Availability::where("idGroup", $group)->where("member", $student)->pluck("id")->first();
@@ -116,8 +117,7 @@ class StudentProjectsController extends Controller
                 $availability->save();
             }
 
-        }
-        elseif($submission == "newFile"){
+        } elseif($submission == "newFile"){
             $this->validate($request, [
                 'file' => 'required'
             ]);
@@ -131,7 +131,6 @@ class StudentProjectsController extends Controller
             $file->save();
             $zip->storeAs('studentRepository/'.$idGroup, $file-> Pathfile, 'gcs');
 
-
             $my_id = Auth::id();
 
             $groups = DB::table('groups')->where('idProject', '=', $idProject)->value('idGroup');;
@@ -141,26 +140,17 @@ class StudentProjectsController extends Controller
 
             $subject = DB::table('subjects')->where('idSubject', '=', $project)->value('subjectName');
             if($stuGroups->count() > 0) {
-
                 foreach ($stuGroups as $stu) {
                     $users = User::all()->where('id', '=', $stu)->where('id', '!=', $my_id);
-
                     foreach ($users as $user) {
-
                         $user->notify(new \App\Notifications\InvoicePaid($my_id, "New file added to repository", $idProject,$project_name, $subject));
-
                     }
-
                 }
             }
 
+            return redirect()->to("/student/project/". $idProject . '#content')->with('success', 'File added successfully');
 
-
-
-            return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'File added successfully');
-        }
-        elseif($submission == 'studentsEvaluation'){
-
+        } elseif($submission == 'studentsEvaluation') {
 
                 /*$this->validate($request, [
                     'grade' => 'required',
@@ -191,22 +181,18 @@ class StudentProjectsController extends Controller
                     $eval->grade = $request->input('grade');
                     $eval->save();
                 }
-            return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Grade sent successfully');
-        }
-        elseif($submission == 'studentsEvaluationSubmission'){
+            return redirect()->to("/student/project/". $idProject . '#submission')->with('success', 'Grade sent successfully');
+
+        } elseif($submission == 'studentsEvaluationSubmission') {
             $idEval = Evaluation::all()->where("idGroup", $idGroup);
             foreach($idEval as $ev) {
                 $eval = Evaluation::find($ev->idEval);
                 $eval->status = $request->status;
                 $eval->save();
             }
-        }
 
-        else{
-
-
+        } else {
             $my_id = $user = Auth::id();
-
 
             $this->validate($request, [
                 'description' => 'required',
@@ -228,20 +214,15 @@ class StudentProjectsController extends Controller
 
             $subject = DB::table('subjects')->where('idSubject', '=', $project)->value('subjectName');
             if($stuGroups->count() > 0) {
-
                 foreach ($stuGroups as $stu) {
                     $users = User::all()->where('id', '=', $stu)->where('id', '!=', $my_id);
-
                     foreach ($users as $user) {
-
                         $user->notify(new \App\Notifications\InvoicePaid($my_id, "Scheduled a meeting", $idProject ,$project_name, $subject));
-
                     }
-
                 }
             }
 
-            return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Meeting created successfully');
+            return redirect()->to("/student/project/". $idProject . '#schedule')->with('success', 'Meeting created successfully');
             }
 
         }
@@ -347,8 +328,7 @@ class StudentProjectsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         //
     }
 
@@ -359,8 +339,7 @@ class StudentProjectsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         $submission = $request->input('submission');
         if ($submission == 'task') {
             $idTask = $request->input('task');
@@ -386,15 +365,14 @@ class StudentProjectsController extends Controller
                 $end = Carbon::parse($request->input('end'));
                 $task->duration = $start->diffInSeconds($end);
 
-
-
             } else {
                 $task->end = Carbon::parse($task->value("end"));
             }
 
             $task->save();
-            return redirect()->action('StudentProjectsController@show', $id)->with('success', 'Task updated successfully');
-        }elseif($submission == 'submitFile'){
+            return redirect()->to("/student/project/". $id . '#content')->with('success', 'Task updated successfully');
+
+        } elseif($submission == 'submitFile') {
 
             $idFiles = explode(',',$request->filesSubmit);
 
@@ -414,29 +392,21 @@ class StudentProjectsController extends Controller
 
             $subject = DB::table('subjects')->where('idSubject', '=', $project)->value('subjectName');
             if($stuGroups->count() > 0) {
-
                 foreach ($stuGroups as $stu) {
                     $users = User::all()->where('id', '=', $stu)->where('id', '!=', $my_id);
-
                     foreach ($users as $user) {
-
                         $user->notify(new \App\Notifications\InvoicePaid($my_id, "Submitted", $id ,$project_name, $subject));
-
                     }
-
                 }
             }
 
             $profs = User::all()->where('role', '=', 'professor');
             foreach ($profs as $pr) {
                 $enroll = SubjectEnrollment::all()->where('idUser','=',$pr->id)->where('idSubject','=',$id);
-
                 $pr->notify(new \App\Notifications\InvoicePaid($my_id, "Submitted",$id , $project_name, $subject));
-
             }
 
-
-            return redirect()->action('StudentProjectsController@show', $id)->with('success', 'File submitted successfully');
+            return redirect()->to("/student/project/". $id . '#submission')->with('success', 'File submitted successfully');
 
         }else{
 
@@ -445,9 +415,7 @@ class StudentProjectsController extends Controller
             $file->finalState = 'temporary';
             $file->save();
 
-
-
-            return redirect()->action('StudentProjectsController@show', $id)->with('success', 'File removed successfully');
+            return redirect()->to("/student/project/". $id . '#submission')->with('success', 'File removed successfully');
         }
     }
 
@@ -461,21 +429,21 @@ class StudentProjectsController extends Controller
     {
 
         $submission = $request->input('submission');
-        if($submission == 'task'){
+        if($submission == 'task') {
             $idTask = $request ->input('task');
             $task = Task::find($idTask);
             $task ->delete();
-            return redirect()->action('StudentProjectsController@show', $id)->with('success', 'Task deleted successfully');
-        }
-        else{
+
+            return redirect()->to("/student/project/". $id . '#content')->with('success', 'Task deleted successfully');
+
+        } else {
             $idGroup = $request->input('group');
             $idFile = $request->input('idFile');
             $file = File::find($idFile);
             Storage::delete('studentRepository/'.$idGroup.'/'.$file->pathFile);
             $file->delete();
-            return redirect()->action('StudentProjectsController@show', $id)->with('success', 'File deleted successfully');
 
-
+            return redirect()->to("/student/project/". $id . '#content')->with('success', 'File deleted successfully');
         }
     }
 

@@ -8,6 +8,9 @@
     <meta name="robots" content="index, follow" />
     <meta name="googlebot" content="index, follow" />
 
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
@@ -26,42 +29,39 @@
     <script type="text/javascript" src="{{asset('js/emojionearea.min.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/dropzone.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/dropzone.css">
-
-
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <style>
-        html {
-            height: 100%;
-        }
-
-        body {
-            min-height: 100%;
-            position:relative;
-            margin: 0;
-        }
-
-        .padding {
-            padding-bottom: 65px;    /* height of footer */
-        }
-
-        .footer {
-            height: 65px;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            width: 100%;
-            background-color: #898989;
-            color: white;
-            text-align: center;
-            margin-top: 1%;
-        }
-    </style>
+    <script src="https://js.pusher.com/6.0/pusher.min.js"></script>
 </head>
 <script>
     moment.locale("{{ str_replace('_', '-', app()->getLocale()) }}");
+
+    if (sessionStorage.getItem("currentYear") === null) {
+        createCurrentYear();
+    } else {
+        currentYear = sessionStorage.getItem("currentYear");
+        currentYearTimestamp = moment.unix(sessionStorage.getItem("currentYearTimestamp"));
+
+        console.log(moment().isAfter(currentYearTimestamp, 'year'));
+
+        if (moment().isAfter(currentYearTimestamp, 'year')) {
+            createCurrentYear();
+        }
+    }
+
+    function createCurrentYear() {
+        var year;
+        first1 = moment().subtract(1, 'y').month(8);
+        second1 = moment().month(7).day(31);
+        first2 = moment().month(8);
+        second2 = moment().add(1, 'y').month(7).day(31);
+        if (moment().isBetween(first1, second1)) {
+            year = first1.year() + '\\/' + second1.year();
+        } else if (moment().isBetween(first2, second2)) {
+            year = first2.year() + '\\/' + second2.year();
+        }
+        sessionStorage.setItem("currentYear", year);
+        sessionStorage.setItem("currentYearTimestamp", moment().unix());
+    }
+
 </script>
 <body>
 
@@ -93,18 +93,17 @@
                     @if(Auth::user()->role != "admin")
 
                         <li class="nav-item dropdown dropdown-notifications">
-                            @if (Auth::user()->unreadNotifications->count() === 0)
 
+                            @if (Auth::user()->unreadNotifications->count() === 0)
                             <a id="notifications" href="#notifications-panel" class="nav-link" data-toggle="dropdown">
                                 <i class="fa fa-bell"></i>
                             </a>
-
                             @else
                                 <a id="notifications" href="#notifications-panel" class="nav-link" data-toggle="dropdown">
                                     <i class="fa fa-bell"></i><span class='pending_not'></span>
                                 </a>
-
                             @endif
+
                             <div class="dropdown-container" >
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuOffset" style="max-height: 400px; overflow-y: scroll;" >
                                     @foreach(Auth::user()->Notifications as $notification)
@@ -470,7 +469,41 @@
         @include('chat')
         @yield('content')
     </div>
+
+    <div class="footer p-2">
+        <a class="p-1" style="color: white" href="mailto:ptiptr9@gmail.com"><u>{{__('gx.contact us')}}</u></a>
+        <p class="p-0 m-0">&#169; {{__('gx.2020, allRightsReserved.')}} </p>
+    </div>
+
+</body>
 <style>
+    html {
+        height: 100%;
+    }
+
+    body {
+        min-height: 100%;
+        position:relative;
+        margin: 0;
+    }
+
+    .padding {
+        padding-bottom: 65px;    /* height of footer */
+    }
+
+    .footer {
+        height: 65px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        background-color: #898989;
+        color: white;
+        text-align: center;
+        margin-top: 1%;
+    }
+
     .pending_not {
         position: absolute;
         left: 20px;
@@ -486,9 +519,4 @@
         font-size: 12px;
     }
 </style>
-    <div class="footer p-2">
-        <a class="p-1" style="color: white" href="mailto:ptiptr9@gmail.com"><u>{{__('gx.contact us')}}</u></a>
-        <p class="p-0 m-0">&#169; {{__('gx.2020, allRightsReserved.')}} </p>
-    </div>
-</body>
 </html>

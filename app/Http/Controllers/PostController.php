@@ -122,7 +122,6 @@ class PostController extends Controller
     public function show($id, $id2)
     {
         $announcement = Announcement::find($id2);
-        //dd($id2);
 
         if($announcement != "") {
             if($announcement->idProject == $id) {
@@ -200,6 +199,7 @@ class PostController extends Controller
             $announcement->delete();
 
             return redirect()->to("/student/project/". $id . '#forum')->with('success', 'Post Deleted');
+
         } elseif($option == 'comment') {
 
             $announcementComment = AnnouncementComment::find($request ->input('comment'));

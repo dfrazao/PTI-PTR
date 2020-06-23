@@ -10,6 +10,7 @@ use App\Course;
 use App\University;
 use App\Subject;
 use App\SubjectEnrollment;
+use App\AcademicYear;
 use Storage;
 use Auth;
 use Hash;
@@ -23,7 +24,7 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        return view('profile');
+        return abort(404);
     }
 
     /**
@@ -55,20 +56,29 @@ class ProfileController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id);
-        $courseId = StudentsCourse::all()->where('idStudent', '==', $id)->pluck('idCourse')->first();
-        $courseName = Course::all()->where('idCourse', '==', $courseId)->pluck('name')->first();
-        $universityId = Course::all()->where('idCourse', '==', $courseId)->pluck('idUniversity')->first();
-        $universityName = University::all()->where('idUniversity', '==', $universityId)->pluck('name')->first();
-
-        $subjectsEnrolled = SubjectEnrollment::all()->where('idUser', '==', $id)->pluck('idSubject');
-        if (count($subjectsEnrolled) > 0) {
-            $subjects = Subject::all()->whereIn('idSubject', $subjectsEnrolled);
-
-            return view('profile')->with('user', $user)->with('courseName', $courseName)->with('universityName', $universityName)->with('subjects', $subjects);
+        if (Auth::user()->role == "admin") {
+            abort('403');
         }
-        else{
-            return view('profile')->with('user', $user)->with('courseName', $courseName)->with('universityName', $universityName)->with('subjects', $subjectsEnrolled);
+        $user = User::find($id);
+
+        if ($user != null) {
+            $courseId = StudentsCourse::all()->where('idStudent', '==', $id)->pluck('idCourse')->first();
+            $courseName = Course::all()->where('idCourse', '==', $courseId)->pluck('name')->first();
+            $universityId = Course::all()->where('idCourse', '==', $courseId)->pluck('idUniversity')->first();
+            $universityName = University::all()->where('idUniversity', '==', $universityId)->pluck('name')->first();
+
+            $subjectsEnrolled = SubjectEnrollment::all()->where('idUser', '==', $id)->pluck('idSubject');
+
+            if (count($subjectsEnrolled) > 0) {
+                $subjects = Subject::whereIn('idSubject', $subjectsEnrolled)->orderBy('subjectName', 'asc')->get();
+                $academicYears = AcademicYear::all()->sortKeysDesc();
+                //dd($subjects);
+                return view('profile')->with('user', $user)->with('courseName', $courseName)->with('universityName', $universityName)->with('subjects', $subjects)->with('academicYears', $academicYears);
+            } else {
+                return view('profile')->with('user', $user)->with('courseName', $courseName)->with('universityName', $universityName)->with('subjects', $subjectsEnrolled);
+            }
+        } else {
+            abort('404');
         }
     }
 
