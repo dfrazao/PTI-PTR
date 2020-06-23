@@ -65,9 +65,9 @@
     <div class="tab-content" id="myTabContent" style="min-height: 75vh; background-color: #ededed;">
         <div class="container tab-pane fade " id="characteristics" role="tabpanel" aria-labelledby="characteristics-tab">
             <div class="row  p-3">
-                <div class=" col-md-8 rounded bg-white w-100 p-3 " style="position: relative;">
+                <div class=" col-md-8 rounded bg-white w-100 p-3 mr-2" style="position: relative;">
 
-                    <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#modalEdit-{{$project->idProject}}">{{__('gx.edit project')}}</button>
+                    <button type="button" class="btn btn-success btn-sm float-right" data-toggle="modal" data-target="#modalEdit-{{$project->idProject}}">{{__('gx.edit project')}}</button>
                     <h4>{{__('gx.characteristics')}}</h4>
                     @if($subject->idSubject == $project->idSubject)
                         <div class="modal fade" id="modalEdit-{{$project->idProject}}" aria-labelledby="modalEdit-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
@@ -195,7 +195,7 @@
                                             }
                                         }
                                         updateTimer2();
-                                        //setInterval('updateTimer2()', 1000);
+
                                     </script>
 
                                 </td>
@@ -271,7 +271,7 @@
                                 <td class="info-td" colspan="2">{{$project->maxGroups}}</td>
                             </tr>
                             <tr>
-                                <th class="info-th" scope="row">{{__('gx.minimum no. of groups')}}</th>
+                                <th class="info-th" scope="row">Minimum no. of elements groups</th>
                                 <td class="info-td" colspan="2">{{$project->minElements}}</td>
                             </tr>
                             <tr>
@@ -312,7 +312,7 @@
                                             <div class="modal-body">
                                                 @foreach($groups as $group)
                                                     @if(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup)->count() < $project->minElements)
-                                                        <p><a onclick="reloadPage('{{url('/professor/project/'.$project->idProject.'#groups.pills-'.$group->idGroupProject)}}')" {{--onclick="window.location.assign ='#groups.pills-{{$group->idGroupProject}}'"--}} {{--href="#groups.pills-{{$group->idGroupProject}}"--}} {{--href="{{url('/professor/project/'.$project->idProject.'#groups.pills-'.$group->idGroupProject)}}"--}}>Grupo {{$group->idGroupProject}}</a></p>
+                                                        <p><a onclick="reloadPage('{{url('/professor/project/'.$project->idProject.'#gr.pills-'.$group->idGroupProject)}}')">Grupo {{$group->idGroupProject}}</a></p>
                                                     @endif
                                                 @endforeach
                                             </div>
@@ -332,22 +332,96 @@
                 <div class=" col rounded bg-white w-100 p-3 " style="position: relative;">
                     <h5>{{__('gx.documentation')}}</h5>
                     <button type="button" class="p-2 btn btn-primary btn-md" data-toggle="modal" data-target="#modalUploadFiles-{{$project->idProject}}" style="position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal">{{__('gx.upload files')}}</button>
+                        <table class="table table-sm fixed_header">
 
-                    @foreach($rep1 as $document)
-                        <div class="doc text-center" style="margin-right: 10px; position:relative; display: inline-block; width: 100px;">
-                            <a href="{{Storage::url('documentation/'.$project->idProject.'/'.$document->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;"></a>
-                            <button style="position:absolute; top:-10px; right:-10px;" id= '{{$document->idDocumentation}}' type="button" class="close deleteFile">
-                                    <span class="dot" id="delete" style="position:relative">
-                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
-                                    </span>
-                            </button>
-                            <figure class="my-1">
-                                <i class="fas fa-folder fa-4x px-2" style="color: #ffce52;"></i>
-                                <figcaption style="overflow:hidden;">{{$document->pathFile}}</figcaption>
-                            </figure>
-                        </div>
-                    @endforeach
+                            <tbody>
+                            @foreach($rep1 as $document)
+                                @if((pathinfo($document->pathFile, PATHINFO_EXTENSION)) == "txt")
+                                <tr>
+                                    <td style="width: 5%;"><i class="fad fa-file-alt fa-2x pr-2"  id= '{{$document->idDocumentation}}'></i></td>
+                                    <td>{{$document->pathFile}}</td>
+                                    <td>
+                                        <a href="{{Storage::url('documentation/'.$project->idProject.'/'.$document->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;"></a>
+                                        <button  id= '{{$document->idDocumentation}}' type="button" class="close deleteFile">
+                                            <span class="dot" id="delete" style="position:relative">
+                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
+                                            </span>
+                                        </button>
+                                    </td>
+                                </tr>
 
+
+
+                                @elseif((pathinfo($document->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($document->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($document->pathFile, PATHINFO_EXTENSION)) == "png")
+                                    <tr>
+                                        <td style="width: 5%;"><i class="fad fa-image-alt fa-2x pr-2"  id= '{{$document->idDocumentation}}'></i></td>
+                                        <td>{{$document->pathFile}}</td>
+                                        <td>
+                                            <a href="{{Storage::url('documentation/'.$project->idProject.'/'.$document->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;"></a>
+                                            <button  id= '{{$document->idDocumentation}}' type="button" class="close deleteFile">
+                                                <span class="dot" id="delete" style="position:relative">
+                                                    <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
+                                                </span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @elseif((pathinfo($document->pathFile, PATHINFO_EXTENSION)) == "pdf" )
+                                    <tr>
+                                        <td style="width: 5%;"><i class="fad fa-file-pdf fa-2x pr-2"  id= '{{$document->idDocumentation}}'></i></td>
+                                        <td>{{$document->pathFile}}</td>
+                                        <td>
+                                            <a href="{{Storage::url('documentation/'.$project->idProject.'/'.$document->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;"></a>
+                                            <button  id= '{{$document->idDocumentation}}' type="button" class="close deleteFile">
+                                                <span class="dot" id="delete" style="position:relative">
+                                                    <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
+                                                </span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @elseif((pathinfo($document->pathFile, PATHINFO_EXTENSION)) == "docx" )
+                                    <tr>
+                                        <td style="width: 5%;"><i class="fad fa-file-word fa-2x pr-2" id= '{{$document->idDocumentation}}'></i></td>
+                                        <td>{{$document->pathFile}}</td>
+                                        <td>
+                                            <a href="{{Storage::url('documentation/'.$project->idProject.'/'.$document->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;"></a>
+                                            <button  id= '{{$document->idDocumentation}}' type="button" class="close deleteFile">
+                                                <span class="dot" id="delete" style="position:relative">
+                                                    <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
+                                                </span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @elseif((pathinfo($document->pathFile, PATHINFO_EXTENSION)) == "zip" )
+                                    <tr>
+                                        <td style="width: 5%;"><i class="fad fa-file-archive fa-2x pr-2" id= '{{$document->idDocumentation}}'></i></td>
+                                        <td>{{$document->pathFile}}</td>
+                                        <td>
+                                            <a href="{{Storage::url('documentation/'.$project->idProject.'/'.$document->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;"></a>
+                                            <button  id= '{{$document->idDocumentation}}' type="button" class="close deleteFile">
+                                                <span class="dot" id="delete" style="position:relative">
+                                                    <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
+                                                </span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @else
+                                    <tr>
+                                        <td style="width: 5%;"><i class="fad fa-file-code fa-2x pr-2" id= '{{$document->idDocumentation}}'></i></td>
+                                        <td>{{$document->pathFile}}</td>
+                                        <td>
+                                            <a href="{{Storage::url('documentation/'.$project->idProject.'/'.$document->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;"></a>
+                                            <button  id= '{{$document->idDocumentation}}' type="button" class="close deleteFile">
+                                                <span class="dot" id="delete" style="position:relative">
+                                                    <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
+                                                </span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach
+
+                            </tbody>
+                        </table>
                   {{--modal upload file--}}
                     <div class="modal fade" id="modalUploadFiles-{{$project->idProject}}" aria-labelledby="modalUploadFiles-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
                         <div class="modal-dialog" role="document">
@@ -419,8 +493,8 @@
                         <ul class="nav nav-pills mb-3 flex-column" id="pills-tab" role="tablist" aria-orientation="vertical">
                             @foreach($groups as $group)
                                 <li class="nav-item mb-1 rounded" style="background-color: #d0e7ff;">
-                                    <a class="nav-link " style="display:flex; align-items: center;vertical-align: middle;" id="pills-{{$group->idGroupProject}}-tab" data-toggle="pill" href="#pills-{{$group->idGroupProject}}" role="tab" aria-controls="pills-{{$group->idGroupProject}}" aria-selected="true">
-                                        <h3 class="float-left mb-0 mr-2" style="vertical-align: middle;">{{__('gx.group')}} {{$group->idGroupProject}} </h3>
+                                    <a class="nav-link " style="display:flex; align-items: center;vertical-align: middle; justify-content: space-between;" id="pills-{{$group->idGroupProject}}-tab" data-toggle="pill" href="#pills-{{$group->idGroupProject}}" role="tab" aria-controls="pills-{{$group->idGroupProject}}" aria-selected="true">
+                                        <h3 class="float-left mb-0 mr-2" style="vertical-align: middle;">{{__('gx.group')}} {{$group->idGroupProject}} </h3><i class="fas fa-check-circle" id="pills-{{$group->idGroupProject}}-tab-image" style="display: none;"></i>
                                     </a>
                                 </li>
                             @endforeach
@@ -446,94 +520,165 @@
                                                             }
                                                         </style>
                                                         <div class="bg-light p-2 w-100 rounded" style="margin-right: 10px">
-                                                            <h5>{{__('gx.files')}}</h5>
+                                                            <h5>{{__('gx.files submited')}}</h5>
 
-                                                            @foreach($rep2 as $docSub)
-                                                                @if($docSub->idGroup == $group->idGroup)
-                                                                    <div id="box1" style="position: absolute; right: 1.60%; top: 1%; height: 9%; border: 1px solid darkgrey; border-radius: 15px; width: 69%;  vertical-align: middle;">
-                                                                        <img src="/images/deathlineSub.png" style="width: 30px; height: 30px; float: left; margin:1%;">
-                                                                        <div id="timer3"></div>
+                                                            <table class="table table-sm fixed_header mt-3">
+                                                                <tbody>
+                                                                    @foreach($rep2 as $docSub)
+                                                                        @if($docSub->idGroup == $group->idGroup)
+                                                                            <div id="box1" style="position: absolute; right: 1.60%; top: 1%; height: 9%; border: 1px solid darkgrey; border-radius: 15px; width: 47%;  vertical-align: middle;">
+                                                                                <img src="/images/deathlineSub.png" style="width: 30px; height: 30px; float: left; margin:1%;">
+                                                                                <div id="timer3"></div>
+                                                                            </div>
 
-                                                                    </div>
-                                                                else
-                                                                    <style>
-                                                                        #timer3 {
-                                                                            font-size: 1.0em;
-                                                                            color: black;
-                                                                            vertical-align: middle;
-                                                                            text-align: center;
-                                                                        }
+                                                                            @if((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "txt")
+                                                                                <tr>
+                                                                                    <td style="width: 5%;"><i class="fad fa-file-alt fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
+                                                                                    <td>{{$docSub->pathFile}}</td>
+                                                                                    <td>{{$docSub->submissionTime}}</td>
+                                                                                    <td>{{Storage::size('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}B</td>
+                                                                                    <td>
+                                                                                        <a href="{{Storage::url('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}" style="margin-right: 40%;" target="_blank" class="close downloadFile" download>
+                                                                                            <span class="dot" id="download" >
+                                                                                                <i style="font-size: 18px;" class="fal fa-download"></i>
+                                                                                            </span>
+                                                                                        </a>
+                                                                                    </td>
+                                                                                </tr>
 
-                                                                        #timer3 div {
-                                                                            display: inline-block;
-                                                                            min-width: 35px;
+                                                                            @elseif((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "png")
+                                                                                <tr>
+                                                                                    <td style="width: 5%;"><i class="fad fa-image-alt fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
+                                                                                    <td>{{$docSub->pathFile}}</td>
+                                                                                    <td>{{$docSub->submissionTime}}</td>
+                                                                                    <td>
+                                                                                        <a href="{{Storage::url('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}" target="_blank"  style="margin-right: 40%;" class="close downloadFile" download>
+                                                                                            <span class="dot" id="download" style="position:relative">
+                                                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                                                                            </span>
+                                                                                        </a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            @elseif((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "pdf" )
+                                                                                <tr>
+                                                                                    <td style="width: 5%;"><i class="fad fa-file-pdf fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
+                                                                                    <td>{{$docSub->pathFile}}</td>
+                                                                                    <td>{{$docSub->submissionTime}}</td>
+                                                                                    <td>
+                                                                                        <a href="{{Storage::url('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}" target="_blank" style="margin-right: 40%;" class="close downloadFile" download>
+                                                                                            <span class="dot" id="download" style="position:relative">
+                                                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                                                                            </span>
+                                                                                        </a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            @elseif((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "docx" )
+                                                                                <tr>
+                                                                                    <td style="width: 5%;"><i class="fad fa-file-word fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
+                                                                                    <td>{{$docSub->pathFile}}</td>
+                                                                                    <td>{{$docSub->submissionTime}}</td>
+                                                                                    <td>
+                                                                                        <a href="{{Storage::url('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}" target="_blank" style="margin-right: 40%;" class="close downloadFile" download>
+                                                                                            <span class="dot" id="download" style="position:relative">
+                                                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                                                                            </span>
+                                                                                        </a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            @elseif((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "zip" )
+                                                                                <tr>
+                                                                                    <td style="width: 5%;"><i class="fad fa-file-archive fa-2x pr-2"  id= '{{$docSub->idFile}}'></td>
+                                                                                    <td></i>{{$docSub->pathFile}}</td>
+                                                                                    <td>{{$docSub->submissionTime}}</td>
+                                                                                    <td>
+                                                                                        <a href="{{Storage::url('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}" target="_blank" style="margin-right: 40%;" class="close downloadFile" download>
+                                                                                            <span class="dot" id="download" style="position:relative">
+                                                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                                                                            </span>
+                                                                                        </a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            @else
+                                                                                <tr>
+                                                                                    <td style="width: 5%;"><i class="fad fa-file-code fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
+                                                                                    <td>{{$docSub->pathFile}}</td>
+                                                                                    <td>{{$docSub->submissionTime}}</td>
+                                                                                    <td>
+                                                                                        <a href="{{Storage::url('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}" target="_blank" style="margin-right: 40%;" class="close downloadFile" download>
+                                                                                            <span class="dot" id="download" style="position:relative">
+                                                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                                                                            </span>
+                                                                                        </a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            @endif
+                                                                         @endif
 
-                                                                        }
-
-                                                                        #timer3 b {
-                                                                            margin: 1%;
-                                                                        }
-
-                                                                        #timer3 div span {
-                                                                            color: black;
-                                                                            display: block;
-                                                                            font-size: .60em;
-                                                                            font-weight: 400;
-                                                                        }
-                                                                    </style>
-                                                                    <script>
-                                                                        function updateTimer3() {
-                                                                            future = Date.parse("{{$project->dueDate}}");
-                                                                            now = Date.parse("{{$docSub->submissionTime}}");
-                                                                            diff = Math.abs(future - now);
-
-                                                                            days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                                                                            hours = Math.floor(diff / (1000 * 60 * 60));
-                                                                            mins = Math.floor(diff / (1000 * 60));
-                                                                            secs = Math.floor(diff / 1000);
-
-                                                                            d = days;
-                                                                            h = hours - days * 24;
-                                                                            m = mins - hours * 60;
-                                                                            s = secs - mins * 60;
-
-                                                                            if (now>future){
-                                                                                $('#box1').css('border', '1.5px solid red');
-                                                                                $('#box1').css('background-color', '#ff000042');
-                                                                                document.getElementById("timer3")
-                                                                                    .innerHTML = '<b style="float: left;">Submetido com atraso,</b>'+
-                                                                                    '<div>' + d + '<span>days</span></div>' +
-                                                                                    '<div>' + h + '<span>hrs</span></div>' +
-                                                                                    '<div>' + m + '<span>mins</span></div>'+
-                                                                                    '<b style="float: right;">depois do prazo terminar</b>';
-                                                                            }else{
-                                                                                $('#box1').css('border', '1.5px solid #61af61');
-                                                                                $('#box1').css('background-color', '#bbf5bb');
-                                                                                document.getElementById("timer3")
-                                                                                    .innerHTML =
-                                                                                    '<b style="float: left;">Submetido com sucesso,</b>'+
-                                                                                    '<div>' + d + '<span>days</span></div>' +
-                                                                                    '<div>' + h + '<span>hrs</span></div>' +
-                                                                                    '<div>' + m + '<span>mins</span></div>'+
-                                                                                    '<b style="float: right;">antes do prazo terminar</b>';
+                                                                        <style>
+                                                                            #timer3 {
+                                                                                font-size: 1.0em;
+                                                                                color: black;
+                                                                                vertical-align: middle;
+                                                                                text-align: center;
                                                                             }
-                                                                        }
-                                                                        updateTimer3();
-                                                                    </script>
 
-                                                                    <div class="doc text-center" style="margin-right: 10px; position:relative; display: inline-block; width: 100px;">
-                                                                        <a href="{{Storage::url('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;" class="close downloadFile" download>
-                                                                            <span class="dot" id="download" style="position:relative">
-                                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
-                                                                            </span>
-                                                                </a>
-                                                                <figure class="my-1">
-                                                                    <i class="fas fa-folder fa-4x px-2" style="color: #ffce52;"></i>
-                                                                    <figcaption style="overflow:hidden;">{{$docSub->pathFile}}</figcaption>
-                                                                </figure>
-                                                            </div>
-                                                        @endif
-                                                    @endforeach
+                                                                            #timer3 div {
+                                                                                display: inline-block;
+                                                                                min-width: 35px;
+
+                                                                            }
+
+                                                                            #timer3 p {
+                                                                                margin: 2%;
+                                                                            }
+
+                                                                            #timer3 div span {
+                                                                                color: black;
+                                                                                display: block;
+                                                                                font-size: .60em;
+                                                                                font-weight: 400;
+                                                                            }
+                                                                        </style>
+                                                                        <script>
+                                                                            function updateTimer3() {
+                                                                                future = Date.parse("{{$project->dueDate}}");
+                                                                                now = Date.parse("{{$docSub->submissionTime}}");
+                                                                                diff = Math.abs(future - now);
+
+                                                                                days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                                                                                hours = Math.floor(diff / (1000 * 60 * 60));
+                                                                                mins = Math.floor(diff / (1000 * 60));
+                                                                                secs = Math.floor(diff / 1000);
+
+                                                                                d = days;
+                                                                                h = hours - days * 24;
+                                                                                m = mins - hours * 60;
+                                                                                s = secs - mins * 60;
+
+                                                                                if (now>future){
+                                                                                    $('#box1').css('border', '1.5px solid red');
+                                                                                    $('#box1').css('background-color', '#ff000042');
+                                                                                    document.getElementById("timer3")
+                                                                                        .innerHTML = '<p style="float: left;">Submetido com atraso de</p>'+
+                                                                                        '<div>' + d + '<span>days</span></div>' +
+                                                                                        '<div>' + h + '<span>hrs</span></div>' +
+                                                                                        '<div>' + m + '<span>mins</span></div>';
+                                                                                }else{
+                                                                                    $('#box1').css('border', '1.5px solid #61af61');
+                                                                                    $('#box1').css('background-color', '#bbf5bb');
+                                                                                    $('#box1').css('width', '30%');
+                                                                                    document.getElementById("timer3")
+                                                                                        .innerHTML =
+                                                                                        '<p>Submetido com sucesso!</p>';
+
+                                                                                }
+                                                                            }
+                                                                            updateTimer3();
+                                                                        </script>
+                                                                    @endforeach
+
+                                                                </tbody>
+                                                            </table>
 
                                                 </div>
                                             </div>
@@ -604,7 +749,7 @@
                                             <div id="col3_groups" class="row p-2 bg-light rounded h-50" style=" display: block;">
                                                 <h5>{{__('gx.elements')}}</h5>
                                                 @foreach(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) as $sg)
-                                                    <p><a href="/profile/{{$sg->idStudent}}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.\App\User::find($sg->idStudent)->photo)}}"><span style="vertical-align: middle;"> {{\App\User::find($sg->idStudent)->name}}</span></a><img src="/images/comment.png" style="width: 20px; height: 20px; float: right; margin-top: 3%; margin-right: 3%"></p>
+                                                    <p style="margin-bottom: 0.4rem;" ><a href="/profile/{{$sg->idStudent}}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.\App\User::find($sg->idStudent)->photo)}}"><span style="vertical-align: middle;"> {{\App\User::find($sg->idStudent)->name}}</span></a><img src="/images/comment.png" style="width: 20px; height: 20px; float: right; margin-top: 3%; margin-right: 3%"></p>
                                                 @endforeach
                                             </div>
                                             <div id="final_row" class="row pt-2 rounded h-50" >
@@ -621,6 +766,7 @@
                                                 <div class=" bg-light p-2 w-100 rounded " style="max-height: 100%;">
                                                     <h5>{{__('gx.final group evaluation')}}</h5>
                                                     @if ($group->grade == NULL)
+
                                                         <p class="mb-0">{{__('gx.group not evaluated')}}</p>
                                                         <button type="button" class="p-2 btn btn-sm btn-primary" style="position: absolute; width: 17vh; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}">{{__('gx.evaluate group')}}</button>
                                                         <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
@@ -653,6 +799,9 @@
                                                             </div>
                                                         </div>
                                                     @else
+                                                        <script>
+                                                            $('#pills-{{$group->idGroupProject}}-tab-image').css('display','block');
+                                                        </script>
 
                                                         <p class="mb-0">{{__('gx.grade')}}: {{$group->grade}}</p>
                                                         @if($group->gradeComment == NULL)

@@ -124,6 +124,7 @@ return [
     'delete'                    => 'Delete',
     'are you sure you want to delete this task?' => 'Are you sure you want to delete this task?',
     'files'                     => 'Files',
+    'files submited'            => 'Files Submited',
     'deadline'                  =>'Deadline',
     'submit'                    =>'Submit',
     'task'                      => 'Task',

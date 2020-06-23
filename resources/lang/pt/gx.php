@@ -122,6 +122,7 @@ return [
     'delete'                    => 'Apagar',
     'are you sure you want to delete this task?' => 'Tem a certeza que deseja apagar esta tarefa?',
     'files'                     => 'Ficheiros',
+    'files submited'            => 'Ficheiros Submetidos',
     'deadline'                  =>'Prazo de Entrega',
     'submit'                    =>'Submeter',
     'task'                      => 'Tarefa',
