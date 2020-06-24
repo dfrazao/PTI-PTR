@@ -95,7 +95,7 @@
                         }
 
                 </style>
-                <div id="1col" class="col-md-5 mt-3">
+                <div id="1col" class="col-lg-5 mt-3">
                     <div class="container-fluid rounded h-100 pt-2" style="background-color: #c6c6c6;padding-bottom: 20%;">
                         <h5 class="text-center">Repository</h5>
                         <div>
@@ -393,8 +393,8 @@
                     </div>
                 </div>
 
-                <div id="2col"  class="col-md-3 mt-3 rounded pl-0">
-                    <div id="col_groups" class="container-fluid rounded text-center h-100 pt-2" style="background-color: #c6c6c6;">
+                <div id="2col"  class="col-lg-3 mt-3 rounded pl-0" >
+                    <div id="col_groups" class="container-fluid rounded text-center h-100 pt-2" style="background-color: #c6c6c6;padding-bottom: 5%;">
                         <h5>{{__('gx.group').' '. $idGroup}}</h5>
                         <div>
                             @foreach($groupUsers as $user)
@@ -407,20 +407,18 @@
                     </div>
                     <style>
                         #2col{
-                            padding-left: 1%;
+
                         }
+
                         @media screen and (max-width: 500px) {
-                            #col_docs {
-                            }
-                            #col_groups{
-                            }
                             #2col{
-                                margin-left: 15px;!important;
+                                margin-left: 15px;
                             }
+
                         }
                     </style>
                 </div>
-                <div id="3col" class="col-md-4 mt-3">
+                <div id="3col" class="col-lg-4 mt-3">
                     <div id="col_notes" class="row rounded h-50 pr-3">
                         <div class="container-fluid rounded notes pt-2" style="background-color: #ffe680; " >
                             <h5 class="text-center">{{__('gx.notes')}}</h5>
@@ -475,15 +473,36 @@
                     </div>
                 </div>
                 <style>
-                    #col_notas{
-                        margin-left: 15px;
-                    }
+
                     #col_docs{
 
                     }
+                    @media screen and (max-width: 1000px) {
+                        #col_docs{
+                            margin-left: 0.5%;
+                            margin-bottom: 5%;
+                        }
+                        #col_notes{
+                            margin-left: 0.8%;
+                        }
+                    }
+                    @media screen and (max-width: 768px) {
+                        #col_docs{
+                            margin-left: 0.5%;
+                            margin-bottom: 8%;
+                        }
+                        #col_notes{
+                            margin-left: 0.8%;
+                        }
+                    }
                     @media screen and (max-width: 500px) {
                         #col_docs{
-                            margin-top: 20px;
+                            margin-left: 0.8%;
+                            margin-bottom: 10%;
+                        }
+                        #col_notes{
+                            margin-left: 0.8%;
+                            margin-bottom: 5%;
                         }
                     }
                 </style>
@@ -1172,7 +1191,7 @@
         </div>
         <div class="fade tab-pane  ml-0 mr-0" id="submission" role="tabpanel" aria-labelledby="submission-tab">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-lg-6">
                     <div class="container rounded pb-3 pt-3">
                         <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-2">
                             <i class='pl-1 far fa-lg fa-file-alt float-left'></i>
@@ -1261,7 +1280,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-lg-6">
                     <div class="container rounded pb-3 pt-3">
                         @if($eval->count() > 0 && $eval->first()->status == 'submitted')
                             <div class="alert alert-success alert-dismissible fade show">

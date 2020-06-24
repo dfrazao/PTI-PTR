@@ -35,7 +35,7 @@
                 height: 90vh;
             }
         </style>
-        <div id="calendario" class="col-md-3">
+        <div id="calendario" class="col-lg-3">
             <style>
                 /*#calendario{
                     max-width: 20%;
@@ -249,24 +249,21 @@
             </div>
         </div>
 
-        <div id="subjs" class="col-md-9 pl-0">
+        <div id="subjs" class="col-lg-9 pl-0">
             <style>
                 #subjs{
                     max-width: 80%
                 }
-                @media screen and (max-width: 768px) {
-                    #subjs{
-                        max-width: 70%
-                    }
-                }
-                @media screen and (max-width: 1024px) {
-                    #subjs{
-                        max-width: 70%
-                    }
-                }
+
+
                 @media screen and (max-width: 1080px) {
                     #subjs {
                         max-width: 70%
+                    }
+                }
+                @media screen and (max-width: 992px) {
+                    #subjs{
+                        max-width: 100%
                     }
                 }
                 @media screen and (max-width: 500px) {
@@ -400,7 +397,7 @@
                                             justify-content: space-between;
                                             align-items: center; min-height: 65px;
                                         }
-                                        @media screen and (max-width: 500px) {
+                                        @media screen and (max-width: 768px) {
                                             .projeto {
                                                 display: block;
                                             }
@@ -490,9 +487,23 @@
         color: #2c3fb1;
     }
     tr {
-        line-height: 37px;
+        line-height: 40px;
         min-height: 37px;
-        height: 37px;
+        height: 40px;
+    }
+    @media screen and (max-width: 991px) {
+        tr {
+            line-height: 60px;
+            min-height: 60px;
+            height: 60px;
+        }
+    }
+    @media screen and (max-width: 500px) {
+        tr {
+            line-height: 25px;
+            min-height: 25px;
+            height: 25px;
+        }
     }
     .today, .project-deadline, .project-group-deadline, .project-meeting {
         font-weight: 500;
