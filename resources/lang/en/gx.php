@@ -181,6 +181,44 @@ return [
     'submit' => 'Submit',
     'project' => 'Project',
     'beg_date' => 'Begging date',
+    'nostdfound' => 'No students sugestions found.',
+
+    'surelvgroup' => 'Are you sure you want to leave the group?',
+    'repo' => 'Repository',
+    'fileName' => 'File name',
+    'user' => 'User',
+    'date' => 'Date',
+    'dropclickdownload' => 'Drop or click to upload files',
+    'sureSubFile' => 'Are you sure you want to submit this file?',
+    'subFileEval' => 'Submit file to evaluation',
+    'addFileRepo' => 'Add file to repository',
+    'uploadFile' => 'Upload file',
+    'start' => 'Start',
+    'beginning' => 'Beginning',
+    'end' =>'End',
+    'save' => 'Save',
+    'delete' => 'Delete',
+    'deleteFile' => 'Delete file',
+    'sureDelFile' => 'Are you sure you want to delete this file?',
+    'description' => 'Description',
+    'title' => 'Title',
+    'showing' => 'Showing',
+    'newPost' => 'New post',
+    'deadline' => 'Deadline',
+    'submTime' => 'Submission time',
+    'filesSubm' => 'Files submitted',
+    'removeFile' => 'Remove file',
+    'sureRmvFile' => 'Are you sure you want to remove this file?',
+    'success!' => 'Success !',
+    'evaluationSentSucc' => 'Your group elements evaluation has been sent successfully.',
+    'submitEvals' => 'Submit evaluations',
+    'sureSubmitEval?' => 'Are you sure you want to submit the evaluation?',
+    'makeChangesEvals' => 'If you submit the evaluations you can no longer make changes.',
+    'evalSentSucc' => 'Your group elements evaluation has been sent successfully.',
+    'noFilesSubm' => 'No files submitted',
+    'to' => 'to',
+    'of' => 'of',
+
 
 
     //admin Dashboard
@@ -393,10 +431,78 @@ return [
                             The user can assign a grade to the group , with the possibility to change that given grade after.',
     'helpProjectProf3' => 'In this area , the user can access the project forum, checking posts from students for the specific project , the user can create a post or reply to an existing one.',
 
+    //controllers groups
+
+    'groupSucc' =>'Group created successfully',
+    'joinGroupSucc' => 'Successfully joined the group',
+    'leftGroupSucc' => 'Successfully left the group',
+
+    //controllers admin
+
+    'usersAdded' => 'User added',
+    'subjAdded' => 'Subject added',
+    'enrollAdded' => 'Enrollment added',
+    'uniAdded' => 'University added',
+    'courseAdded' => 'Course added',
+    'acadYearAdded' => 'Academic year added',
+
+    'usersUp' => 'User updated',
+    'subjUp' => 'Subject updated',
+    'enrollUp' => 'Enrollment updated',
+    'uniUp' => 'University updated',
+    'courseUp' => 'Course updated',
+    'acadYearUp' => 'Academic year updated',
+
+    'usersDel' => 'User deleted',
+    'subjDel' => 'Subject deleted',
+    'enrollDel' => 'Enrollment deleted',
+    'uniDel' => 'University deleted',
+    'uniCDel' => 'University can\'t be deleted',
+    'courseDel' => 'Course deleted',
+    'acadYearDel' => 'Academic year deleted',
+
+    'usersImp' => 'Users imported',
+    'subImp' => 'Subjects imported',
+    'enrollImp' => 'Subject enrollments imported',
+    'uniImp' => 'Universities imported',
+    'coursesImp' => 'Courses imported',
+    'acadImp' => 'Academic years imported',
 
 
+    //posts controller
+    'postCreated' => 'Post created',
+    'commentPosted' => 'Comment posted',
+    'postEdited' => 'Post edited',
+    'postDeleted' => 'Post deleted',
+    'commentDeleted' => 'Comment deleted',
 
+    //projectProfessor controller
+    'projectCreated' => 'Project created',
+    'fileUploaded' => 'File uploaded',
+    'gradeGiven' => 'Grade given',
+    'projectUpdated' => 'Project updated',
+    'gradeUpd' => 'Grade updated',
+    'docDeleted' => 'Document deleted',
+    'projectDeleted' => 'Project deleted',
 
+    //profile controller
+    'profilePicUptd' => 'Profile picture updated',
+    'errProfilePic' =>'Error updating profile picture',
+    'passwordUptd' => 'Password updated',
+    'errorPwdUptd' => 'Error changing password',
+    'profileUpdated' => 'Profile Updated',
 
+    // project controller
+    'taskSucc' => 'Task created successfully',
+    'newFRepo' => 'New file added to repository',
+    'fileSucc' => 'File added successfully',
+    'gradeSucc' => 'Grade sent successfully',
+    'meetingSucc' =>'Meeting created successfully',
+    'taskSucc' => 'Task updated successfully',
+    'fileSub ' => 'File submitted successfully',
+    'fileRemov' => 'File removed successfully',
+    'taskDel' => 'Task deleted successfully',
+    'fileDel' => 'File deleted successfully',
+    'meetingSche' => 'Scheduled a meeting',
 
 ];

@@ -156,13 +156,13 @@
             @if(count($subjectStudentsNoGroup)==0 or $numberGroupsInsideProject == $projectMaxGroups or in_array($user,$studentsIdGroupValues))
 
                 <div style="padding-left:40%;margin-bottom: 20%">
-                    <button type="button" class="btn btn-primary disabled" data-toggle ="modal" style="width: 11em" >{{__('gx.create group')}} </button>
-                    <button  type="button" class="btn btn-info disabled" data-toggle="modal" style="width: 11em">{{__('gx.student sugestions')}}</button>
+                    <button type="button" class="btn btn-primary disabled " data-toggle ="modal" style="width: 11em" ><i class="fas fa-plus-circle"></i> {{__('gx.create group')}} </button>
+                    <button  type="button" class="btn btn-info disabled" data-toggle="modal" style="width: 11em"><i class="far fa-user-graduate"></i>{{__('gx.student sugestions')}}</button>
                 </div>
             @else
                 <div style="padding-left:40%;margin-bottom: 20%">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCriarGrupo" style="width: 11em">{{__('gx.create group')}}</button>
-                    <button  type="button" class="btn btn-info" data-toggle="modal" data-target="#modalSugestaoGrupo" style="width: 11em">{{__('gx.student sugestions')}}</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCriarGrupo" style="width: 12em"><i class="fas fa-plus-circle"></i> {{__('gx.create group')}}</button>
+                    <button  type="button" class="btn btn-info" data-toggle="modal" data-target="#modalSugestaoGrupo" style="width: 12em"><i class="fas fa-user-graduate"></i> {{__('gx.student sugestions')}}</button>
                 </div>
 
             @endif
@@ -208,8 +208,8 @@
                                         <td>{!!Form::label('nameStudent', $studentInfo->name)!!}</td>
                                         <td>{!!Form::label('uniNumber', $studentInfo->uniNumber)!!}</td>
                                         <td>{!!Form::label('class', $studentInfo->class)!!}</td>
-                                        <td><p><a onclick='chat()' data-dismiss="modal"><i class="fa fa-envelope" style="font-size: 1.5em;padding-top:10%"></i></a></p></td>
-                                        <td>{!!Form::checkbox('idStudent[]'.$studentInfo->id, $studentInfo->id,false,['onClick' => 'countCheck()'])!!}</td>
+                                        <td><p><a onclick='chat()' data-dismiss="modal"><i class="fa fa-envelope" style="font-size: 1.5em;padding-top:10%;cursor: pointer;"></i></a></p></td>
+                                        <td style="cursor: pointer">{!!Form::checkbox('idStudent[]'.$studentInfo->id, $studentInfo->id,false,['onClick' => 'countCheck()'])!!}</td>
 
 
                                     </tr>
@@ -220,9 +220,9 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">{{__('gx.cancel')}}</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-ban"></i> {{__('gx.cancel')}}</button>
 
-                            {{Form::submit(trans('gx.create group'),['class'=>'btn btn-primary'],['style'=>'display: block; margin: 0 auto'])}}
+                            {{Form::button('<i class="fas fa-plus-circle"></i> ' . trans('gx.create group'),['type' => 'submit','class'=>'btn btn-primary'],['style'=>'display: block; margin: 0 auto'])}}
                             {{Form::hidden('project', $project->idProject)}}
                             {{Form::hidden('numberGroupsInsideProject', $numberGroupsInsideProject)}}
 
@@ -263,7 +263,7 @@
                                     <td>{{$studentInfo->uniNumber}}</td>
                                     <td>{{$studentInfo->class}}</td>
                                     <td>{{$studentInfo->grade}}</td>
-                                    <td><p><a onclick='chat()' data-dismiss="modal"><i class="fa fa-envelope" style="font-size: 1.5em;padding-top:10%"></i></a></p></td>
+                                    <td><p><a onclick='chat()' data-dismiss="modal"><i class="fa fa-envelope" style="font-size: 1.5em;padding-top:10%;cursor: pointer;"></i></a></p></td>
                                 </tr>
 
                             @endforeach
@@ -271,7 +271,7 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">{{__('gx.close')}}</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-ban"></i> {{__('gx.close')}}</button>
                     </div>
                 </div>
             </div>
@@ -326,11 +326,6 @@
             $('#datatable').DataTable();
         } );</script>
 
-    <!--<script>$('#datatable').dataTable( {
-            "columnDefs": [
-                { "orderable": false, "targets": 4 }
-        ]
-    } );</script> -->
     <script>
         $('#example').DataTable( {
             fixedHeader: true
@@ -359,13 +354,20 @@
             "bFilter": true,
             "bInfo": false,
             "bAutoWidth": false,
-            "ordering": false});
+            "ordering": false,
+            "language": {
+                "emptyTable": "No data available in table"
+            }
+        });
     </script>
 
     <script>$(document).ready( function () {
             $('#datatable2').DataTable();
-        } );
+        });
     </script>
+
+
+
 
 
 
@@ -380,6 +382,7 @@
             -o-transform: scale(1.5); /* Opera */
             transform: scale(1.5);
             padding: 5%;
+            cursor: pointer;
         }
         .modal-body{
             max-height: calc(100vh - 300px);

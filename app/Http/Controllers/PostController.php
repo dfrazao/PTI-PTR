@@ -87,7 +87,7 @@ class PostController extends Controller
         }
 
 
-        return redirect()->to(url()->previous() . '#forum')->with('success', 'Post Created');
+        return redirect()->to(url()->previous() . '#forum')->with('success', trans('gx.postCreated'));
     }
 
     /**
@@ -109,7 +109,7 @@ class PostController extends Controller
         $announcementComment->date = date("Y-m-d H:i:s");
         $announcementComment->save();
 
-        return redirect()->to(url()->previous())->with('success', 'Comment Posted');
+        return redirect()->to(url()->previous())->with('success', trans('gx.commentPosted'));
     }
 
     /**
@@ -179,7 +179,7 @@ class PostController extends Controller
         $announcement->date = date("Y-m-d H:i:s");
         $announcement->save();
 
-        return redirect()->to(url()->previous())->with('success', 'Post Edited');
+        return redirect()->to(url()->previous())->with('success', trans('gx.postEdited'));
     }
 
     /**
@@ -198,14 +198,14 @@ class PostController extends Controller
             $announcement = Announcement::find($id2);
             $announcement->delete();
 
-            return redirect()->to("/student/project/". $id . '#forum')->with('success', 'Post Deleted');
+            return redirect()->to("/student/project/". $id . '#forum')->with('success', trans('gx.postDeleted'));
 
         } elseif($option == 'comment') {
 
             $announcementComment = AnnouncementComment::find($request ->input('comment'));
             $announcementComment->delete();
 
-            return redirect()->to(url()->previous())->with('success', 'Comment Deleted');
+            return redirect()->to(url()->previous())->with('success', trans('gx.commentDeleted'));
         }
     }
 }

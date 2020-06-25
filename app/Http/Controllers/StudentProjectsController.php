@@ -84,7 +84,7 @@ class StudentProjectsController extends Controller
             $task->beginning = Carbon::parse($request->input('beginning'));
             $task->save();
 
-            return redirect()->to("/student/project/". $idProject . '#content')->with('success', 'Task created successfully');
+            return redirect()->to("/student/project/". $idProject . '#content')->with('success', trans('gx.taskSucc'));
 
         } elseif($submission == "schedule"){
             $group = $request->input('group');
@@ -143,12 +143,12 @@ class StudentProjectsController extends Controller
                 foreach ($stuGroups as $stu) {
                     $users = User::all()->where('id', '=', $stu)->where('id', '!=', $my_id);
                     foreach ($users as $user) {
-                        $user->notify(new \App\Notifications\InvoicePaid($my_id, "New file added to repository", $idProject,$project_name, $subject));
+                        $user->notify(new \App\Notifications\InvoicePaid($my_id, trans('gx.newFRepo'), $idProject,$project_name, $subject));
                     }
                 }
             }
 
-            return redirect()->to("/student/project/". $idProject . '#content')->with('success', 'File added successfully');
+            return redirect()->to("/student/project/". $idProject . '#content')->with('success', trans('gx.fileSucc'));
 
         } elseif($submission == 'studentsEvaluation') {
 
@@ -181,7 +181,7 @@ class StudentProjectsController extends Controller
                     $eval->grade = $request->input('grade');
                     $eval->save();
                 }
-            return redirect()->to("/student/project/". $idProject . '#submission')->with('success', 'Grade sent successfully');
+            return redirect()->to("/student/project/". $idProject . '#submission')->with('success', trans('gx.gradeSucc'));
 
         } elseif($submission == 'studentsEvaluationSubmission') {
             $idEval = Evaluation::all()->where("idGroup", $idGroup);
@@ -217,12 +217,12 @@ class StudentProjectsController extends Controller
                 foreach ($stuGroups as $stu) {
                     $users = User::all()->where('id', '=', $stu)->where('id', '!=', $my_id);
                     foreach ($users as $user) {
-                        $user->notify(new \App\Notifications\InvoicePaid($my_id, "Scheduled a meeting", $idProject ,$project_name, $subject));
+                        $user->notify(new \App\Notifications\InvoicePaid($my_id, trans('gx.meetingSche'), $idProject ,$project_name, $subject));
                     }
                 }
             }
 
-            return redirect()->to("/student/project/". $idProject . '#schedule')->with('success', 'Meeting created successfully');
+            return redirect()->to("/student/project/". $idProject . '#schedule')->with('success', trans('gx.meetingSucc'));
             }
 
         }
@@ -370,7 +370,7 @@ class StudentProjectsController extends Controller
             }
 
             $task->save();
-            return redirect()->to("/student/project/". $id . '#content')->with('success', 'Task updated successfully');
+            return redirect()->to("/student/project/". $id . '#content')->with('success', trans('gx.taskSucc'));
 
         } elseif($submission == 'submitFile') {
 
@@ -406,7 +406,7 @@ class StudentProjectsController extends Controller
                 $pr->notify(new \App\Notifications\InvoicePaid($my_id, "Submitted",$id , $project_name, $subject));
             }
 
-            return redirect()->to("/student/project/". $id . '#submission')->with('success', 'File submitted successfully');
+            return redirect()->to("/student/project/". $id . '#submission')->with('success', trans('gx.fileSub'));
 
         }else{
 
@@ -415,7 +415,7 @@ class StudentProjectsController extends Controller
             $file->finalState = 'temporary';
             $file->save();
 
-            return redirect()->to("/student/project/". $id . '#submission')->with('success', 'File removed successfully');
+            return redirect()->to("/student/project/". $id . '#submission')->with('success', trans('gx.fileRemov'));
         }
     }
 
@@ -434,7 +434,7 @@ class StudentProjectsController extends Controller
             $task = Task::find($idTask);
             $task ->delete();
 
-            return redirect()->to("/student/project/". $id . '#content')->with('success', 'Task deleted successfully');
+            return redirect()->to("/student/project/". $id . '#content')->with('success', trans('gx.taskDel'));
 
         } else {
             $idGroup = $request->input('group');
@@ -443,7 +443,7 @@ class StudentProjectsController extends Controller
             Storage::delete('studentRepository/'.$idGroup.'/'.$file->pathFile);
             $file->delete();
 
-            return redirect()->to("/student/project/". $id . '#content')->with('success', 'File deleted successfully');
+            return redirect()->to("/student/project/". $id . '#content')->with('success', trans('gx.fileDel'));
         }
     }
 

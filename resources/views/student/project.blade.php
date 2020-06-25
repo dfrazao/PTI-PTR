@@ -55,7 +55,7 @@
                             </button>
                         </div>
                         <div class="modal-body" style="display: inline" >
-                            <h5>Are you sure you want to leave the group?</h5>
+                            <h5>{{__('gx.surelvgroup')}}</h5>
                         </div>
                         <div class="modal-footer">
                             {!!Form::open(['action' => ['GroupController@destroy', $project -> idProject] , 'method' => 'POST']) !!}
@@ -97,14 +97,14 @@
                 </style>
                 <div id="1col" class="col-lg-5 mt-3">
                     <div class="container-fluid rounded h-100 pt-2" style="background-color: #c6c6c6;padding-bottom: 20%;">
-                        <h5 class="text-center">Repository</h5>
+                        <h5 class="text-center">{{__('gx.repo')}}</h5>
                         <div>
                             <table class="table table-sm fixed_header">
                                 <thead class="text-center">
                                 <tr>
-                                    <th scope="col">File name</th>
-                                    <th scope="col">User</th>
-                                    <th scope="col">Date</th>
+                                    <th scope="col">{{__('gx.fileName')}}</th>
+                                    <th scope="col">{{__('gx.user')}}</th>
+                                    <th scope="col">{{__('gx.date')}}</th>
                                     <th scope="col"></th>
                                 </tr>
 
@@ -232,7 +232,7 @@
                             {!!Form::open(['action' => ['StudentProjectsController@store', $project->idProject], 'method' => 'POST', 'enctype' => 'multipart/form-data','files' => true, 'class' => "dropzone dz-clickable p-0", 'id'=>"dropzone" , 'style'=>"min-height: 0 !important; height:15vh; border: 3px dotted black;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);border-radius: 5px;opacity:0.5;"])!!}
                             @csrf
                             <div class="dz-message m-0 pt-2">
-                                <i class="fal fa-file-plus fa-3x px-2"><p style="font-size: medium">Drop or click to upload files</p></i>
+                                <i class="fal fa-file-plus fa-3x px-2"><p style="font-size: medium"> {{__('gx.dropclickdownload')}}</p></i>
                             </div>
                             <script type="text/javascript">
                                 Dropzone.options.dropzone = {
@@ -333,20 +333,20 @@
 
                                 {!!Form::close()!!}
                             </div>--}}
-                        <button type="submit" disabled class="btn btn-sm" id= 'submitFile' data-toggle="modal" data-target="#modalSubmitFile" style="width:20vh;background: #2c3fb1; color: white; position: absolute; bottom: 7px; right: 22px;">Submit</button>
+                        <button type="submit" disabled class="btn btn-sm" id= 'submitFile' data-toggle="modal" data-target="#modalSubmitFile" style="width:20vh;background: #2c3fb1; color: white; position: absolute; bottom: 7px; right: 22px;">{{__('gx.submit')}}</button>
 
                         {{-- Modal Submit File --}}
                         <div class="modal fade" id="modalSubmitFile" aria-labelledby="modalSubmitFile" aria-hidden="true" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title" id="staticBackdropLabel">Submit file to evaluation</h4>
+                                        <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.subFileEval')}}</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <h5>Are you sure you want to submit this file?</h5>
+                                        <h5>{{__('gx.sureSubFile')}}</h5>
                                         {!!Form::open(['action' => ['StudentProjectsController@update', $project->idProject], 'method' => 'PUT', 'enctype' => 'multipart/form-data'])!!}
                                         <div class="filesSelected" style="padding:10px;"></div>
                                         {{ Form::hidden('filesSubmit', 'files') }}
@@ -354,7 +354,7 @@
                                         {{ Form::hidden('project', $project->idProject) }}
                                         {{ Form::hidden('subject', $subject->subjectName) }}
                                         {{ Form::hidden('submission','submitFile')}}
-                                        {{ Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+                                        {{ Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary'])}}
 
                                         {!!Form::close()!!}
                                     </div>
@@ -366,7 +366,7 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title" id="staticBackdropLabel">Add file to repository</h4>
+                                        <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.addFileRepo')}}</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -384,7 +384,7 @@
 
                                     </div>
                                     <div class="modal-footer">
-                                        {{Form::submit('Upload File', ['class'=>'btn btn-primary'])}}
+                                        {{Form::submit(trans('gx.uploadFile'), ['class'=>'btn btn-primary'])}}
                                     </div>
                                     {!! Form::close() !!}
                                 </div>
@@ -427,7 +427,7 @@
                             {{Form::textarea('notes', $notes, ['class' => 'form-control', 'id'=>'textArea', 'rows'=>'5'])}}
                             {{Form::hidden('group',$idGroup)}}
                             {{Form::hidden('submission','notes')}}
-                            {{Form::submit('Submit', ['class'=>'btn btn-primary d-none', 'id'=>'notesButton'])}}
+                            {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary d-none', 'id'=>'notesButton'])}}
                             {!! Form::close() !!}
                         </div>
                     </div>
@@ -517,7 +517,7 @@
                                     <th>
                                         <div>
                                             <span class="full-text_task">{{__('gx.task')}}</span>
-                                            <span class="short-text_task">Mon</span>
+                                            <span class="short-text_task">Mon</span> //????
                                         </div>
                                     </th>
                                     <th>
@@ -529,7 +529,7 @@
                                     <th id="task_b">
                                         <div>
                                             <span class="full-text_task">{{__('gx.beginning')}}</span>
-                                            <span class="short-text_task">Start</span>
+                                            <span class="short-text_task">{{__('gx.start')}}</span>
                                         </div>
                                     </th>
                                     <th id="task_e">{{__('gx.end')}}</th>
@@ -552,7 +552,7 @@
                                             @csrf
                                             {!!Form::open(['action' => ['StudentProjectsController@update', $project -> idProject], 'method' => 'POST'])!!}
                                                 <td class="form-group">
-                                                    {{Form::text('description', $t->description, ['class' => 'form-control'])}}
+                                                    {{Form::text(trans('gx.description'), $t->description, ['class' => 'form-control'])}}
                                                 </td>
                                                 <td class="form-group">
                                                     <select class="form-control " name="responsible" id="responsible">
@@ -562,10 +562,10 @@
                                                     </select>
                                                 </td>
                                                 <td class="form-group" style="position:relative">
-                                                    {{ Form::text('beginning', $t->beginning ,['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker1-'.$t->idTask, 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker1-'.$t->idTask])}}
+                                                    {{ Form::text(trans('gx.beginning'), $t->beginning ,['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker1-'.$t->idTask, 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker1-'.$t->idTask])}}
                                                 </td>
                                                 <td class="form-group" style="position:relative">
-                                                    {{ Form::text('end', $t->end ,['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker2-'.$t->idTask, 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker2-'.$t->idTask])}}
+                                                    {{ Form::text(trans('gx.end'), $t->end ,['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker2-'.$t->idTask, 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker2-'.$t->idTask])}}
                                                 </td>
                                                 <td class="form-group"></td>
                                                 {{Form::hidden('submission', 'task')}}
@@ -573,7 +573,7 @@
                                                 {{Form::hidden('group', $t-> idGroup)}}
                                                 {{Form::hidden('_method','PUT')}}
 
-                                                <td class="form-group float-right pr-0">{{Form::Submit('Save', ['class'=>'btn btn-sm mr-2 btn-success', 'style'=>"width: 10vh", 'id'=>'Save'])}}<button type="button" class="btn btn-sm btn-danger editTask">{{__('gx.cancel')}}</button></td>
+                                                <td class="form-group float-right pr-0">{{Form::Submit(trans('gx.save'), ['class'=>'btn btn-sm mr-2 btn-success', 'style'=>"width: 10vh", 'id'=>'Save'])}}<button type="button" class="btn btn-sm btn-danger editTask">{{__('gx.cancel')}}</button></td>
                                             {!! Form::close() !!}
                                             <script>
                                                 $(function() {$( "#datetimepicker1-{{$t->idTask}}" ).datetimepicker({
@@ -608,7 +608,7 @@
                                                         <h5>{{__('gx.are you sure you want to delete this task?')}}</h5>
                                                         {!!Form::open(['action' => ['StudentProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
                                                         {{Form::hidden('_method', 'DELETE')}}
-                                                        {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+                                                        {{Form::submit(trans('gx.delete'), ['class' => 'btn btn-danger'])}}
                                                         {{Form::hidden('submission','task')}}
                                                         {{Form::hidden('task', $t->idTask) }}
                                                         {!!Form::close()!!}
@@ -680,16 +680,16 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="staticBackdropLabel">Delete file</h4>
+                        <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.deleteFile')}}</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <h5>Are you sure you want to delete this file?</h5>
+                        <h5>{{__('gx.sureDelFile')}}</h5>
                         {!!Form::open(['action' => ['StudentProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
                         {{Form::hidden('_method', 'DELETE')}}
-                        {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+                        {{Form::submit(trans('gx.delete'), ['class' => 'btn btn-danger'])}}
                         {{ Form::hidden('group', $idGroup) }}
                         {{Form::hidden('submission','file')}}
                         {{Form::hidden('idFile','')}}
@@ -711,11 +711,11 @@
                     <div class="modal-body">
                         {!! Form::open(['action' => 'StudentProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                         <div class="form-group">
-                            {{Form::label('description', 'Title')}}
-                            {{Form::text('description', '', ['class' => 'form-control', 'placeholder' => 'Task title'])}}
+                            {{Form::label('description', trans('gx.title'))}}
+                            {{Form::text(trans('gx.description'), '', ['class' => 'form-control', 'placeholder' => 'Task title'])}}
                         </div>
                         <div class="form-group">
-                            {{Form::label('responsible', 'Responsible')}}
+                            {{Form::label('responsible', trans('gx.responsible'))}}
                             <select class="form-control " name="responsible" id="responsible">
                                 @foreach($groupUsers as $gu)
                                     <option value="{{$gu->name}}">{{$gu->name}}</option>
@@ -723,15 +723,15 @@
                             </select>
                         </div>
                         <td class="form-group">
-                            {{Form::label('beginnig', 'Beginning Date')}}
-                            {{ Form::text('beginning','',['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker', 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker'])}}
+                            {{Form::label('beginnig', trans('gx.beginning'))}}
+                            {{ Form::text(trans('gx.beginning'),'',['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker', 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker'])}}
                         </td>
                         {{ Form::hidden('group', $idGroup) }}
                         {{ Form::hidden('project', $project->idProject) }}
                         {{ Form::hidden('subject', $subject->subjectName) }}
                         {{Form::hidden('submission','task')}}
 
-                        {{Form::submit('Submit', ['class'=>'btn btn-primary mt-2'])}}
+                        {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary mt-2'])}}
 
                         {!! Form::close() !!}
                     </div>
@@ -878,7 +878,7 @@
             </div>
             {{Form::hidden('group',$idGroup)}}
             {{Form::hidden('submission','schedule')}}
-            {{Form::submit('Submit', ['class'=>'btn btn-primary d-none'])}}
+            {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary d-none'])}}
             {!! Form::close() !!}
             <style>
                 .short-text { display: none; }
@@ -976,11 +976,11 @@
                             {{Form::text('description', '', ['class' => 'form-control'])}}
                         </div>
                         <div class="form-group">
-                            {{Form::label('place', 'Meeting place')}}
+                            {{Form::label('place', trans('gx.meeting place'))}}
                             {{Form::text('place', '', ['class' => 'form-control'])}}
                         </div>
                         <div class="form-group">
-                            {{Form::label('date', 'Meeting date')}}
+                            {{Form::label('date', trans('gx.meeting date'))}}
                             {{Form::text('date', '',['class' => 'form-control datetimepicker-input', 'id' => 'datetimepickerMeeting', 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepickerMeeting'])}}
                         </div>
                         {{ Form::hidden('group', $idGroup) }}
@@ -1050,7 +1050,7 @@
                     </table>
                     @if(count($announcements) > 0)
                         <div class="d-flex justify-content-between">
-                            <span>Showing {{$a->firstItem()}} to {{$a->lastItem()}} of {{$a->total()}} posts</span>
+                            <span>{{__('gx.showing')}} {{$a->firstItem()}} {{__('gx.to')}} {{$a->lastItem()}} {{__('gx.of')}} {{$a->total()}} posts</span>
                             {{$a->links()}}
                         </div>
                     @endif
@@ -1061,7 +1061,7 @@
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" id="staticBackdropLabel">New Post</h4>
+                                <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.newPost')}}</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -1088,7 +1088,7 @@
 
                                 {{ Form::hidden('project', $project->idProject) }}
 
-                                {{Form::submit('Submit', ['class'=>'btn btn-success update__send'])}}
+                                {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success update__send'])}}
 
                                 {!! Form::close() !!}
                             </div>
@@ -1195,7 +1195,7 @@
                     <div class="container rounded pb-3 pt-3">
                         <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-2">
                             <i class='pl-1 far fa-lg fa-file-alt float-left'></i>
-                            <div id="deadline" style="display: inline-flex" class="pl-3">Deadline: {{$project->dueDate}}</div>
+                            <div id="deadline" style="display: inline-flex" class="pl-3">{{__('gx.deadline')}}: {{$project->dueDate}}</div>
                         </div>
                         <?php
                             $last = \Carbon\Carbon::create(0, 0, 0, 0, 0, 0);
@@ -1207,16 +1207,16 @@
                                     }
                                 }
                             }else{
-                                $last = "No files submitted!";
+                                $last = trans('gx.noFilesSubm');
                             }
                         ?>
                         <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-4">
                             <i class="far fa-lg fa-clock float-left"></i>
-                            <div style="display: inline-flex" class="pl-3"> Submission time: {{$last}}</div>
+                            <div style="display: inline-flex" class="pl-3"> {{__('gx.submTime')}}: {{$last}}</div>
                         </div>
                         <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-4">
                             <i class="pl-1 far fa-lg fa-file float-left"></i>
-                            <div style="display: inline-flex" class="pl-3"> Files submitted:</div>
+                            <div style="display: inline-flex" class="pl-3"> {{__('gx.filesSubm')}}:</div>
                         </div>
                         <div class="container-fluid mt-3 pr-0 ml-2" id="submittedFiles" style="background-color: white">
                             @foreach($submittedFiles as $file)
@@ -1258,16 +1258,16 @@
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4 class="modal-title" id="staticBackdropLabel">Remove file</h4>
+                                                <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.removeFile')}}</h4>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <h5>Are you sure you want to remove this file?</h5>
+                                                <h5>{{__('gx.sureRmvFile')}}</h5>
                                                 {!!Form::open(['action' => ['StudentProjectsController@update', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
                                                 {{Form::hidden('_method', 'PUT')}}
-                                                {{Form::submit('Yes', ['class' => 'btn btn-danger'])}}
+                                                {{Form::submit(trans('gx.yes'), ['class' => 'btn btn-danger'])}}
                                                 {{ Form::hidden('group', $idGroup) }}
                                                 {{Form::hidden('submission','removeFile')}}
                                                 {{Form::hidden('idFile','')}}
@@ -1284,7 +1284,7 @@
                     <div class="container rounded pb-3 pt-3">
                         @if($eval->count() > 0 && $eval->first()->status == 'submitted')
                             <div class="alert alert-success alert-dismissible fade show">
-                                <strong>Success!</strong> Your group elements evaluation has been sent successfully.
+                                <strong>{{__('gx.success!')}}</strong> {{__('gx.evaluationSentSucc')}}
                             </div>
                         @else
                             <div class="StudentsEvaluation">
@@ -1375,15 +1375,15 @@
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title" id="staticBackdropLabel">Submit Evaluations</h4>
+                                                    <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.submitEvals')}}</h4>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <h5>Are you sure you want to submit the evaluation?</h5>
-                                                    <p>if you submit the evaluations you can no longer make changes</p>
-                                                    <button type="button" class="btn btn-danger" id="submitEval">Yes</button>
+                                                    <h5>{{__('gx.sureSubmitEval')}}</h5>
+                                                    <p>{{__('gx.makeChangesEvals')}}</p>
+                                                    <button type="button" class="btn btn-danger" id="submitEval">{{__('gx.yes')}}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1391,9 +1391,9 @@
                                     {!! Form::close() !!}
                                 @endforeach
                             </div>
-                            <button type="button" class="btn btn-primary submitEval float-right pt-2" data-toggle="modal" data-target="#modalSubmitEvaluations">Submit</button>
+                            <button type="button" class="btn btn-primary submitEval float-right pt-2" data-toggle="modal" data-target="#modalSubmitEvaluations">{{__('gx.submit')}}</button>
                             <div class="alert alert-success alert-dismissible fade show d-none" id="submitted">
-                                <strong>Success!</strong> Your group elements evaluation has been sent successfully.
+                                <strong>{{__('gx.success!')}}</strong> {{__('gx.evalSentSucc')}}
                             </div>
                         @endif
                     </div>

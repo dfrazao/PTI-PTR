@@ -128,7 +128,7 @@ class AdminController extends Controller
             $user->city = $request->input('city');
             $user->description = $request->input('description');
             $user->save();
-            return redirect('admin/users')->with('success', 'User Added');
+            return redirect('admin/users')->with('success', trans('gx.usersAdded'));
 
         }elseif($table == 'subjects'){
 
@@ -138,7 +138,7 @@ class AdminController extends Controller
             $subjects->class = $request->input('class');
             $subjects->academicYear = $request->input('academicYear');
             $subjects->save();
-            return redirect('admin/subjects')->with('success', 'Subject Added');
+            return redirect('admin/subjects')->with('success', trans('gx.subjAdded'));
 
         }elseif ($table == 'subjectEnrollments'){
             $subjectEnroll = new SubjectEnrollment();
@@ -146,7 +146,7 @@ class AdminController extends Controller
             $subjectEnroll->idSubject = $request->input('idSubject');
             $subjectEnroll->Class = $request->input('class');
             $subjectEnroll->save();
-            return redirect('admin/subjectEnrollments')->with('success', 'Enrollment Added');
+            return redirect('admin/subjectEnrollments')->with('success',trans('gx.enrollAdded') );
 
         }elseif ($table == 'universities'){
 
@@ -154,7 +154,7 @@ class AdminController extends Controller
             $university->name = $request->input('univName');
 
             $university->save();
-            return redirect('admin/universities')->with('success', 'University Added');
+            return redirect('admin/universities')->with('success', trans('gx.uniAdded'));
 
         }elseif ($table == 'courses') {
 
@@ -163,14 +163,14 @@ class AdminController extends Controller
             $courses->name = $request->input('coursename');
 
             $courses->save();
-            return redirect('admin/courses')->with('success', 'Course Added');
+            return redirect('admin/courses')->with('success', trans('gx.uniAdded'));
 
         }elseif ($table == 'academicYears') {
 
             $years = new AcademicYear();
             $years->academicYear = $request->input('academicYear');
             $years->save();
-            return redirect('admin/academicYears')->with('success', 'Academic Year Added');
+            return redirect('admin/academicYears')->with('success', trans('gx.courseAdded'));
         }
 }
 
@@ -246,7 +246,7 @@ class AdminController extends Controller
             $users->description = $request->input('description');
             $users->update();
 
-            return redirect('admin/users')->with('success','User updated');
+            return redirect('admin/users')->with('success',trans('gx.usersUp'));
 
         }elseif($table == 'subjects'){
 
@@ -257,26 +257,26 @@ class AdminController extends Controller
             $subjects->class = $request->input('classes');
             $subjects->academicYear = $request->input('academicYear');
             $subjects->update();
-            return redirect('admin/subjects')->with('success', 'Subject updated');
+            return redirect('admin/subjects')->with('success', trans('gx.subjUp'));
 
         }elseif ($table == 'subjectEnrollments'){
             //Está maaaaaaaaaaaaal
             $subjectEnroll = SubjectEnrollment::all()->where('idUser', '=', $idu, 'and')->where('idSubject', '=', $idSub);
             $subjectEnroll->Class = $classes;
             $subjectEnroll->update();
-            return redirect('admin/subjectEnrollments')->with('success', 'Enrollment updated');
+            return redirect('admin/subjectEnrollments')->with('success', trans('gx.enrollUp'));
         }
         elseif ($table == 'universities'){
             $university = University::find($idUniv);
             $university->name = $request->input('univName');
             $university->update();
-            return redirect('admin/universities')->with('success', 'University updated');
+            return redirect('admin/universities')->with('success', trans('gx.uniUp'));
         }
         elseif ($table == 'courses'){
             $course = Course::find($idCourse);
             $course->name = $request->input('coursename');
             $course->update();
-            return redirect('admin/courses')->with('success', 'Course updated');
+            return redirect('admin/courses')->with('success', trans('gx.courseUp'));
 
         }
 
@@ -302,7 +302,7 @@ class AdminController extends Controller
 
             $user->delete();
 
-            return redirect('admin/users')->with('success','User deleted');
+            return redirect('admin/users')->with('success',trans('gx.usersDel'));
 
         }
         elseif($table == 'subjects') {
@@ -310,14 +310,14 @@ class AdminController extends Controller
             $subject = Subject::find($id);
             $subject->delete();
 
-            return redirect('admin/subjects')->with('success', 'Subject deleted');
+            return redirect('admin/subjects')->with('success', trans('gx.subjDel'));
         }
         elseif($table == 'subjectEnrollments') {
 
             $subject = SubjectEnrollment::all()->where('idUser', '==', $idUser)->where('idSubject', '==', $idSubject);
             $subject->delete();
 
-            return redirect('admin/subjectEnrollments')->with('success','Enrollment deleted');
+            return redirect('admin/subjectEnrollments')->with('success',trans('gx.enrollDel'));
         }
         elseif($table == 'universities') {
 
@@ -330,27 +330,27 @@ class AdminController extends Controller
             catch (\Illuminate\Database\QueryException $e) {
 
                 if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                    return redirect('admin/universities')->with('fail','University can´t be deleted');
+                    return redirect('admin/universities')->with('fail',trans('gx.uniCDel'));
 
                 }
             }
 
 
 
-            return redirect('admin/universities')->with('success','University deleted');
+            return redirect('admin/universities')->with('success',trans('gx.uniDel'));
         }
         elseif($table == 'courses') {
 
             $course = Course::find($id);
             $course->delete();
 
-            return redirect('admin/courses')->with('success','Course deleted');
+            return redirect('admin/courses')->with('success',trans('gx.courseDel'));
 
         }elseif($table == 'academicYears') {
             $year = AcademicYear::where('academicYear',$id);
             $year->delete();
 
-            return redirect('admin/academicYears')->with('success','Academic Year deleted');
+            return redirect('admin/academicYears')->with('success',trans('gx.acadYearDel'));
         }
     }
 
@@ -401,7 +401,7 @@ class AdminController extends Controller
                 $user->city = $city;
                 $user->save();
             }
-            return redirect('admin/users')->with('success','Users Imported');
+            return redirect('admin/users')->with('success',trans('gx.usersImp'));
 
         }elseif($table == 'subjects'){
                 $upload=$request->file('upload-file');
@@ -436,7 +436,7 @@ class AdminController extends Controller
                     $subject->academicYear =$academicYear;
                     $subject->save();
                 }
-                return redirect('admin/subjects')->with('success','Subjects Imported');
+                return redirect('admin/subjects')->with('success',trans('gx.subImp'));
 
         }elseif ($table == 'subjectEnrollments'){
 
@@ -454,7 +454,7 @@ class AdminController extends Controller
             foreach (array_chunk($allData,1000) as $t) {
                 DB::table('subjectEnrollments')->insert($t);
             }
-            return redirect('admin/subjectEnrollments')->with('success','Subject Enrollments Imported');
+            return redirect('admin/subjectEnrollments')->with('success',trans('gx.enrollImp'));
 
         }elseif($table == 'universities'){
             $upload=$request->file('upload-file');
@@ -484,7 +484,7 @@ class AdminController extends Controller
                 $university-> name = $univName;
                 $university->save();
                 }
-            return redirect('admin/universities')->with('success','Universities Imported');
+            return redirect('admin/universities')->with('success',trans('gx.uniImp'));
 
         }elseif($table == 'courses'){
             $upload=$request->file('upload-file');
@@ -516,7 +516,7 @@ class AdminController extends Controller
                 $course-> idUniversity = $idUniv;
                 $course->save();
             }
-            return redirect('admin/courses')->with('success','Courses Imported');
+            return redirect('admin/courses')->with('success',trans('gx.coursesImp'));
 
         }elseif($table == 'academicYears'){
             $upload=$request->file('upload-file');
@@ -546,7 +546,7 @@ class AdminController extends Controller
                 $Year-> academicYear = $academicYear;
                 $Year->save();
             }
-            return redirect('admin/academicYears')->with('success','Academic Years Imported');
+            return redirect('admin/academicYears')->with('success',trans('gx.acadImp'));
         }
 
 

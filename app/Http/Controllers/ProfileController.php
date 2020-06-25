@@ -121,9 +121,9 @@ class ProfileController extends Controller
             $user->save();
 
             if ($request->file('profilePhoto')->isValid()) {
-                return redirect()->action('ProfileController@show', $id)->with('success', 'Profile picture updated');
+                return redirect()->action('ProfileController@show', $id)->with('success', trans('gx.profilePicUptd'));
             }
-            return redirect()->action('ProfileController@show', $id)->with('error', 'Error updating profile picture');
+            return redirect()->action('ProfileController@show', $id)->with('error', trans('gx.errProfilePic'));
 
         }  else if ($request->option=="password") {
             $this->validate($request, [
@@ -139,9 +139,9 @@ class ProfileController extends Controller
                 $user->password = Hash::make($request->password);
                 $user->save();
 
-                return redirect()->action('ProfileController@show', $id)->with('success', 'Password updated');
+                return redirect()->action('ProfileController@show', $id)->with('success', trans('gx.passwordUptd'));
             } else {
-                return redirect()->action('ProfileController@show', $id)->with('error', 'Error changing password');
+                return redirect()->action('ProfileController@show', $id)->with('error', trans('gx.errorPwdUptd'));
             }
 
         } else {
@@ -156,7 +156,7 @@ class ProfileController extends Controller
             $user->description = $request->input('about');
             $user->save();
 
-            return redirect()->action('ProfileController@show', $id)->with('success', 'Profile Updated');
+            return redirect()->action('ProfileController@show', $id)->with('success', trans('gx.profileUpdated'));
         }
     }
 
