@@ -149,6 +149,29 @@ class ProfessorProjectsController extends Controller
             $group->gradeComment = $request->gradeComment;
             $group->save();
 
+            $my_id = Auth::id();
+
+            $groups = DB::table('groups')->where('idProject', '=', $projectId)->value('idGroup');;
+            $stuGroups = StudentsGroup::all()->where('idGroup', '=', $groups)->pluck("idStudent");
+            $project = DB::table('projects')->where('idProject', '=', $projectId)->value('idSubject');
+            $project_name = DB::table('projects')->where('idProject', '=', $projectId)->value('name');
+
+            $subject = DB::table('subjects')->where('idSubject', '=', $project)->value('subjectName');
+            if($stuGroups->count() > 0) {
+
+                foreach ($stuGroups as $stu) {
+                    $users = User::all()->where('id', '=', $stu)->where('id', '!=', $my_id);
+
+                    foreach ($users as $user) {
+
+                        $user->notify(new \App\Notifications\InvoicePaid($my_id, "Grade given", $projectId ,$project_name, $subject));
+
+                    }
+
+                }
+            }
+
+
             return redirect('professor/project/'. $request->project. '#gr.pills-'.$group->idGroupProject)->with('success', 'Grade Given');
         }
     }

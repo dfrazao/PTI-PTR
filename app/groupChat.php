@@ -8,5 +8,7 @@ class groupChat extends Model
 {
     protected $primaryKey = 'idGroup';
     protected $table = "groupChats";
+    public $timestamps = false;
+
 
 }

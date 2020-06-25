@@ -139,7 +139,7 @@
                                             </a>
                                         @else
                                             @if(Auth::user()->role == "student")
-                                                <a class="dropdown-item" href="/student/project/{{$notification->data['idProject']}}" style="padding: 5px; !important;  ">
+                                                <a class="dropdown-item" href="/student/project/{{$notification->data['idProject']}}" style="padding: 5px; !important; border-bottom: 1px solid #e7ebee;  ">
                                             @elseif(Auth::user()->role == "professor")
                                                     <a class="dropdown-item" href="/professor/project/{{$notification->data['idProject']}}" style="padding: 5px; !important;  ">
                                             @endif
@@ -185,7 +185,7 @@
                     @endif
                     <script>
                         function chat() {
-                            var x = document.getElementById("testee");
+                            var x = document.getElementById("este");
                             if (x.style.display === "block") {
                                 x.style.display = "none";
                             } else {

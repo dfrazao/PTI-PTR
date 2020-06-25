@@ -47,51 +47,66 @@ class ChatController extends Controller
         return view('chat')->with('arr_users', $arr_users)->with('groupChat', $groupChat);
     }
 
-    public function getMessage($user_id)
+    public function getMessage($entity, $user_id)
     {
+        if($entity === "group"){
 
-        $my_id = Auth::id();
+            $my_id = Auth::id();
 
-        // Make read all unread message
-        DB::table('chats')
-            ->where('sender', '=', $user_id)
-            ->where('receiver', '=', $my_id)
-            ->update(['isread' => 1]);
+            // Make read all unread message
+            DB::table('groupChats')
+                ->where('idGroup', '=', $user_id)
+                ->update(['isread' => 1]);
 
-        // Get all message from selected user
-        $messages = Chat::where(function ($query) use ($user_id, $my_id) {
-            $query->where('sender', $user_id)->where('receiver', $my_id);
-        })->oRwhere(function ($query) use ($user_id, $my_id) {
-            $query->where('sender', $my_id)->where('receiver', $user_id);
-        })->get();
+            // Get all message from selected user
+            $messages = groupChat::all()->where('idGroup','=',$user_id);
 
 
-        $isread = Chat::all()->where('receiver','=',$my_id)->where('isread','=',0);
+            $isread = Chat::all()->where('receiver','=',$my_id)->where('isread','=',0);
 
-        if(count($isread) > 0){
-            $notification_chat = count($isread);
+            if(count($isread) > 0){
+                $notification_chat = count($isread);
+            }else{
+                $notification_chat = 0;
+            }
+
+
+            return view('messages.groupChat', ['messages' => $messages, "notification_chat" => $notification_chat]);
+
         }else{
-            $notification_chat = 0;
+
+            $my_id = Auth::id();
+
+            // Make read all unread message
+            DB::table('chats')
+                ->where('sender', '=', $user_id)
+                ->where('receiver', '=', $my_id)
+                ->update(['isread' => 1]);
+
+            // Get all message from selected user
+            $messages = Chat::where(function ($query) use ($user_id, $my_id) {
+                $query->where('sender', $user_id)->where('receiver', $my_id);
+            })->oRwhere(function ($query) use ($user_id, $my_id) {
+                $query->where('sender', $my_id)->where('receiver', $user_id);
+            })->get();
+
+
+            $isread = Chat::all()->where('receiver','=',$my_id)->where('isread','=',0);
+
+            if(count($isread) > 0){
+                $notification_chat = count($isread);
+            }else{
+                $notification_chat = 0;
+            }
+
+
+            return view('messages.conv', ['messages' => $messages, "notification_chat" => $notification_chat]);
         }
 
 
-        return view('messages.conv', ['messages' => $messages, "notification_chat" => $notification_chat]);
     }
 
-    public function getGroupChatMessage($group_id)
-    {
 
-        $my_id = Auth::id();
-
-        // Make read all unread message
-        //Chat::where(['sender' => $user_id, 'receiver' => $my_id])->update(['isread' => 1]);
-
-        // Get all message from selected user
-
-        $messages = groupChat::all()->where('idGroup', "=",$group_id);
-
-        return view('messages.groupChat', ['messages' => $messages]);
-    }
 
     public function authorizeUser(Request $request){
         if(!Auth::check()){
@@ -117,39 +132,78 @@ class ChatController extends Controller
         if(!Auth::check()){
             return new Response('Forbidden', 403);
         }
+        $entity = $request->entity;
 
-        $from = Auth::id();
-        $to = $request->receiver_id;
-        $user_notification =  DB::table('users')
-                    ->where('id', '=', $from)
-                    ->value('name');
+        if($entity == 'person'){
+            $from = Auth::id();
+            $to = $request->receiver_id;
+            $user_notification =  DB::table('users')
+                ->where('id', '=', $from)
+                ->value('name');
 
-        $message = $request->message;
-
-
-        // pusher
-        $options = array(
-            'cluster' => 'eu',
-            'useTLS' => true,
-        );
-
-        $pusher = new Pusher(
-            env('PUSHER_APP_KEY'),
-            env('PUSHER_APP_SECRET'),
-            env('PUSHER_APP_ID'),
-            $options
-        );
-
-        $data = ['from' => $from, 'to' => $to, 'username' => $user_notification, 'message' => $message]; // sending from and to user id when pressed enter
-
-        $pusher->trigger('private-my-channel', 'my-event', $data);
+            $message = $request->message;
 
 
-        $data = new Chat();
-        $data->sender = $from;
-        $data->receiver = $to;
-        $data->message = $message;
-        $data->isread = 0; // message will be unread when sending message
-        $data->save();
+            // pusher
+            $options = array(
+                'cluster' => 'eu',
+                'useTLS' => true,
+            );
+
+            $pusher = new Pusher(
+                env('PUSHER_APP_KEY'),
+                env('PUSHER_APP_SECRET'),
+                env('PUSHER_APP_ID'),
+                $options
+            );
+
+            $data = ['from' => $from, 'to' => $to, 'entity' => $entity, 'username' => $user_notification, 'message' => $message]; // sending from and to user id when pressed enter
+
+            $pusher->trigger('private-my-channel', 'my-event', $data);
+
+
+            $data = new Chat();
+            $data->sender = $from;
+            $data->receiver = $to;
+            $data->message = $message;
+            $data->isread = 0; // message will be unread when sending message
+            $data->save();
+
+        }else{
+            $from = Auth::id();
+            $group_id = $request->receiver_id;
+            $user_notification =  DB::table('users')
+                ->where('id', '=', $from)
+                ->value('name');
+
+            $message = $request->message;
+
+            // pusher
+            $options = array(
+                'cluster' => 'eu',
+                'useTLS' => true,
+            );
+
+            $pusher = new Pusher(
+                env('PUSHER_APP_KEY'),
+                env('PUSHER_APP_SECRET'),
+                env('PUSHER_APP_ID'),
+                $options
+            );
+
+            $data = ['from' => $from, 'entity' => $entity, 'group_id' => $group_id, 'username' => $user_notification, 'message' => $message]; // sending from and to user id when pressed enter
+
+            $pusher->trigger('private-my-channel', 'my-event', $data);
+
+
+            $data = new groupChat();
+            $data->sender = $from;
+            $data->idGroup = $group_id;
+            $data->message = $message;
+            $data->isread = 0; // message will be unread when sending message
+            $data->save();
+        }
+
+
     }
 }

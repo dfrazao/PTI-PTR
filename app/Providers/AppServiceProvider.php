@@ -50,11 +50,14 @@ class AppServiceProvider extends ServiceProvider
                 ->orWhere('receiver', '=', $my_id)
                 ->orderBy('Date', 'desc')
                 ->pluck('sender');
+
+
             $unique = [];
             foreach ($mu as $m){
                 array_push($unique, $m);
             }
             $mu = array_unique($unique);
+
             $arr_users = [];
             foreach ($mu as $m){
                 $user_m = User::find($m);
@@ -85,7 +88,8 @@ class AppServiceProvider extends ServiceProvider
             $collection = collect([]);
             $idgroup = collect([]);
 
-
+            $unique_ch = [];
+            $fin = [];
             $cadeiras = collect([]);
             $estaInscrito = DB::table('subjectEnrollments')->where('idUser', '=', $my_id)->pluck('idSubject');
 
@@ -106,7 +110,13 @@ class AppServiceProvider extends ServiceProvider
                                 ->where('sender', '=', $my_id)
                                 ->orderBy('Date', 'desc')
                                 ->pluck('idGroup');
-                            foreach ($groupChat as $groupCh){
+
+                            foreach ($groupChat as $m){
+                                array_push($unique_ch, $m);
+                            }
+                            $fin = array_unique($unique_ch);
+
+                            foreach ($fin as $groupCh){
                                 if ($group == $groupCh){
                                     $idGroupProject = DB::table('groups')
                                         ->where('idGroup', '=', $groupCh)

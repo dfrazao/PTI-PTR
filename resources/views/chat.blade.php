@@ -1,6 +1,9 @@
 
-   <div class="container-md" id="testee" >
+   <div class="container-md" id="este" style="">
+       <div id="mydivheader"></div>
+
        <div class="row">
+
            <div id="col-md-4" class="col-md-4 nopadding">
                <div class="user-wrapper">
 
@@ -16,14 +19,15 @@
                        </div>
                        {{--<input type="text" placeholder="Search" class="form-control" id="searchinput" name="searchinput" style="font-size:12px; ">--}}
                    </div>
+
                    <div class="    ">
                        <!-- Nav tabs -->
                        <ul class="nav nav-tabs nav-justified">
                            <li class="nav-item">
-                               <a class="nav-link active" data-toggle="tab" href="#users"><i class="far fa-user" ></i> </a>
+                               <a class="nav-link active" id="tabusers" data-toggle="tab" href="#users"><i class="far fa-user" ></i> </a>
                            </li>
                            <li class="nav-item">
-                               <a class="nav-link" data-toggle="tab" href="#groups"> <i class="far fa-users"></i></a>
+                               <a class="nav-link" id="tabgroups" data-toggle="tab" href="#groups" > <i class="far fa-users"></i></a>
                            </li>
 
                        </ul>
@@ -39,7 +43,7 @@
                                                    <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
                                                        <span class='pending'></span>
                                                        <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
-                                                       <input type='hidden' id="entity{{ $arr_users[$i]->id }}" name='entity' value='person'>
+                                                       <input type='hidden' id="entity" name='entity' value='person'>
 
                                                        <div class="media">
                                                            <div class="media-left">
@@ -53,7 +57,7 @@
                                                @else
                                                    <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
                                                        <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
-                                                       <input type='hidden' id="entity{{ $arr_users[$i]->id }}" name='entity' value='person'>
+                                                       <input type='hidden' id="entity" name='entity' value='person'>
 
                                                        <div class="media">
                                                            <div class="media-left">
@@ -71,14 +75,14 @@
                                        @for($i = 0; $i < count($arr_users); $i++)
                                            <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
                                                <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
-                                               <input type='hidden' id="entity{{ $arr_users[$i]->id }}" name='entity' value='person'>
+                                               <input type='hidden' id="entity" name='entity' value='person'>
 
                                                <div class="media">
                                                    <div class="media-left">
                                                        <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
                                                    </div>
                                                    <div class="media-body">
-                                                       <p class="name" style="font-size: 12px;">{{ $arr_users[$i]->name }}</p>
+                                                       <p class="name_n" style="font-size: 12px;">{{ $arr_users[$i]->name }}</p>
                                                    </div>
                                                </div>
                                            </li>
@@ -91,8 +95,8 @@
 
                                @foreach ($collection as $col )
 
-                                       <li class='user' id='{{ $col['idGroup'] }}' name=''>
-                                           <input type='hidden' id="name" name='custId' value='{{ $col['idGroup'] }}'>
+                                       <li class='group' id='group{{ $col['idGroup'] }}' name=''>
+                                           <input type='hidden' id="namegroup{{ $col['idGroup'] }}" name='custId' value='{{ $col['idGroupProject'] }}'>
                                            <input type='hidden' id="entity" name='entity' value='group'>
 
 
@@ -102,7 +106,7 @@
                                                </div>
 
                                                <div class="media-body">
-                                                   <p class="name" style="font-size: 12px;">Group {{$col['idGroupProject']}} - {{$col['cadeira']}}</p>
+                                                   <p class="name_gr" style="font-size: 12px;">Group {{$col['idGroupProject']}} - {{$col['cadeira']}}</p>
                                                    <p class="email"></p>
                                                </div>
                                            </div>
@@ -117,22 +121,8 @@
 
                </div>
            </div>
-           <script type="text/javascript">
-               $('#searchinput').on('keyup',function(){
-                   $value=$('#searchinput').val();
-                   $.ajax({
-                       type : 'get',
-                       url : '{{URL::to('search')}}',
-                       data:{'search':$value},
-                       success:function(data){
-                           $('.users').html(data);
-                       }
-                   });
-               })
-           </script>
-           <script type="text/javascript">
-               $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
-           </script>
+
+
            <div class="col-md-8 nopadding">
                <div id="name">
                    <p>Chat</p>
@@ -154,8 +144,63 @@
            </div>
        </div>
    </div>
+<script>dragElement(document.getElementById("este"));
 
+    function dragElement(elmnt) {
+        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        if (document.getElementById(elmnt.id + "header")) {
+            // if present, the header is where you move the DIV from:
+            document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+        } else {
+            // otherwise, move the DIV from anywhere inside the DIV:
+            elmnt.onmousedown = dragMouseDown;
+        }
+
+        function dragMouseDown(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // get the mouse cursor position at startup:
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            // call a function whenever the cursor moves:
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // calculate the new cursor position:
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            // set the element's new position:
+            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+        }
+
+        function closeDragElement() {
+            // stop moving when mouse button is released:
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+    }</script>
    <style>
+
+       #este {
+           position: fixed;
+           z-index: 9;
+           background-color: #f1f1f1;
+           border: 1px solid #d3d3d3;
+           text-align: center;
+       }
+
+       #mydivheader {
+           cursor: move;
+           z-index: 10;
+       }
+
        /* width */
        ::-webkit-scrollbar {
            width: 10px;}
@@ -191,7 +236,7 @@
        }
 
        .user-wrapper {
-           height: 400px;
+           height: 500px;
            border-right: 1px solid #dddddd;
 
        }
@@ -209,6 +254,22 @@
        }
 
        .user:last-child {
+           margin-bottom: 0;
+       }
+
+       .group {
+           border-bottom: 1px solid #e7ebee;
+           cursor: pointer;
+           padding: 5px 0;
+           position: relative;
+           width: 100%;
+       }
+
+       .group:hover {
+           background: #eeeeee;
+       }
+
+       .group:last-child {
            margin-bottom: 0;
        }
 
@@ -347,12 +408,11 @@
            text-align: center;
        }
 
-       #testee{
+       #este{
            width: 450px;
-           position: fixed;
+           position: absolute;
            z-index: 4;
-           right: 1em;
-           margin-top: -0.5em;
+
            background:white;
            border-radius: 6px;
            border: 1px rgba(0, 123, 255, 0.78) solid;
@@ -362,7 +422,7 @@
            box-shadow: 10px 10px 6px -2px rgba(211,216,222,1);
        }
        @media screen and (max-width: 800px) {
-           #testee{
+           #este{
                width: 90%;!important;
            }
 
@@ -388,9 +448,27 @@
    </style>
 
    <script src="https://js.pusher.com/6.0/pusher.min.js"></script>
+   <script type="text/javascript">
 
-   <script>
+       $( ".nav-link" ).click(function() {
+           $('#name').hide();
+           $('#messages').hide();
+           $('.input-text').hide();
+           $('#searchinput').val(null);
+           {{--$.ajax({--}}
+               {{--type : 'get',--}}
+               {{--url : '{{URL::to('search')}}',--}}
+               {{--data:{'search':$value,'entity':entity},--}}
+               {{--success:function(data){--}}
+                   {{--$('.groups').html(data);--}}
+               {{--}--}}
+           {{--});--}}
+       });
+
+       $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+
        var receiver_id = '';
+       var entity = '';
        var my_id = "{{ Auth::id() }}";
        $(document).ready(function () {
            // ajax setup form csrf token
@@ -424,22 +502,36 @@
                $.ajax({
                    type : 'get',
                    url : '{{URL::to('search')}}',
-                   data:{'search':$value},
+                   data:{'search':$value,'entity':entity},
                    success:function(oi){
-                       $('.users').html(oi);
-                       if (my_id == data.from) {
-                           $('#' + data.to).click();
-                       } else if (my_id == data.to) {
-                           if (receiver_id == data.from) {
-                               // if receiver is selected, reload the selected user ...
-                               $('#' + data.from).click();
 
-                           } else {
-                               $('#chat_button').append('<span class="pending_nav"></span>');
-
-
+                       if(entity == "person"){
+                           $('.users').html(oi);
+                           if (my_id == data.from) {
+                               $('#' + data.to).click();
+                           } else if (my_id == data.to) {
+                               if (receiver_id == data.from) {
+                                   // if receiver is selected, reload the selected user ...
+                                   $('#' + data.from).click();
+                               } else {
+                                   $('#chat_button').append('<span class="pending_nav"></span>');
+                               }
+                           }
+                       }else{
+                           alert(data.from);
+                           $('.groups').html(oi);
+                           if (my_id == data.from) {
+                               $('#group' + data.group_id).click();
+                           } else if (my_id == data.to) {
+                               if (receiver_id == data.from) {
+                                   // if receiver is selected, reload the selected user ...
+                                   $('#group' + data.from).click();
+                               } else {
+                                   $('#chat_button').append('<span class="pending_nav"></span>');
+                               }
                            }
                        }
+
                    }
                });
 
@@ -456,20 +548,19 @@
                events: {
                    keyup: function (editor, event) {
                        if(event.which == 13){
-                           event.preventDefault(); // < ---------- preventDefault
+                           event.preventDefault();
                            var message = $('#message').data("emojioneArea").getText();
-                           // check if enter key is pressed and message is not null also receiver is selected
-                           if (message != '' && receiver_id != '') {
-                               $('#message').data("emojioneArea").setText(""); // this work
-                               var datastr = "receiver_id=" + receiver_id + "&message=" + message;
+
+                           if (message != '' && entity != '') {
+                               $('#message').data("emojioneArea").setText("");
+                                var datastr = "receiver_id=" + receiver_id + "&message=" + message + "&entity=" + entity ;
 
                                $.ajax({
                                    type: "post",
-                                   url: "message", // need to create this post route
+                                   url: "message",
                                    data: datastr,
                                    cache: false,
                                    success: function (data) {
-
                                    },
                                    error: function (jqXHR, status, err) {
                                    },
@@ -477,14 +568,26 @@
                                        scrollToBottomFunc();
                                        $('#searchinput').val(null);
                                        $value=$('#searchinput').val();
-                                       $.ajax({
-                                           type : 'get',
-                                           url : '{{URL::to('search')}}',
-                                           data:{'search':$value},
-                                           success:function(data){
-                                               $('.users').html(data);
-                                           }
-                                       });
+                                       if(entity == "person"){
+                                           $.ajax({
+                                               type : 'get',
+                                               url : '{{URL::to('search')}}',
+                                               data:{'search':$value,'entity':entity},
+                                               success:function(oi){
+                                                   $('.users').html(oi);
+                                               }
+                                           });
+                                       }else if(entity == "group"){
+                                           $.ajax({
+                                               type : 'get',
+                                               url : '{{URL::to('search')}}',
+                                               data:{'search':$value,'entity':entity},
+                                               success:function(oi){
+                                                   $('.groups').html(oi);
+                                               }
+                                           });
+                                       }
+
                                    }
                                })
                            }
@@ -498,21 +601,22 @@
                $('.user').removeClass('chat-active');
                $(this).addClass('chat-active');
                $(this).find('.pending').remove();
+               $('#name').show();
+               $('#messages').show();
                receiver_id = $(this).attr('id');
                var n = receiver_id.toString();
                receiver_name = $('#'+'name'+n).val();
-
+               entity = $(this).find('#entity').val();
                $("#name").text(receiver_name);
                $.ajax({
                    type: "get",
-                   url: "/message/" + receiver_id, // need to create this route
+                   url: "/message/" + entity + "/" + receiver_id, // need to create this route
                    data: "",
                    cache: false,
                    success: function (data) {
                        $('#messages').html(data);
                        scrollToBottomFunc();
 
-                       // Retrieve
                        var num = sessionStorage.getItem("not");
                        if (num > 0){
                            var novo = num -1;
@@ -529,6 +633,42 @@
            });
        });
 
+       $("body").on( "click", '.group', function( event ){
+           $('.group').removeClass('chat-active');
+           $(this).addClass('chat-active');
+           $(this).find('.pending').remove();
+           receiver_id = $(this).attr('id');
+           $('#name').show();
+           $('#messages').show();
+           var n = receiver_id.toString();
+           group_name = $('#name'+n).val();
+           entity = $(this).find('#entity').val();
+           $("#name").text("Group " + group_name);
+
+           receiver_id = receiver_id.split('group').join('');
+
+           $.ajax({
+               type: "get",
+               url: "/message/" + entity + "/" + receiver_id, // need to create this route
+               data: "",
+               cache: false,
+               success: function (data) {
+                   $('#messages').html(data);
+                   scrollToBottomFunc();
+                   var num = sessionStorage.getItem("not");
+                   if (num > 0){
+                       var novo = num -1;
+                       sessionStorage.setItem("not", novo);
+                   }else{
+                       $('.pending_nav').remove();
+                   }
+               }
+           });
+           $('.input-text').css("display", "block");
+           $('.input-group-append').css("display", "block");
+
+
+       });
 
        $(document).on('click', '.send_btn', function () {
            var message = $('.input-text input').val();
@@ -564,32 +704,51 @@
                            events: {
                                keyup: function (editor, event) {
                                    if(event.which == 13){
-                                       event.preventDefault(); // < ---------- preventDefault
+                                       event.preventDefault();
                                        var message = $('#message').data("emojioneArea").getText();
-                                       // check if enter key is pressed and message is not null also receiver is selected
-                                       if (message != '' && receiver_id != '') {
-                                           $('#message').data("emojioneArea").setText(""); // this work
-                                           var datastr = "receiver_id=" + receiver_id + "&message=" + message;
+
+                                       if (message != '' && entity != '') {
+                                           $('#message').data("emojioneArea").setText("");
+                                           var datastr = "receiver_id=" + receiver_id + "&message=" + message + "&entity=" + entity ;
 
                                            $.ajax({
                                                type: "post",
-                                               url: "message", // need to create this post route
+                                               url: "message",
                                                data: datastr,
                                                cache: false,
                                                success: function (data) {
-
                                                },
                                                error: function (jqXHR, status, err) {
                                                },
                                                complete: function () {
                                                    scrollToBottomFunc();
-                                                   $('#searchinput').val("");
+                                                   $('#searchinput').val(null);
+                                                   $value=$('#searchinput').val();
+                                                   if(entity == "person"){
+                                                       $.ajax({
+                                                           type : 'get',
+                                                           url : '{{URL::to('search')}}',
+                                                           data:{'search':$value,'entity':entity},
+                                                           success:function(oi){
+                                                               $('.users').html(oi);
+                                                           }
+                                                       });
+                                                   }else if(entity == "group"){
+                                                       $.ajax({
+                                                           type : 'get',
+                                                           url : '{{URL::to('search')}}',
+                                                           data:{'search':$value,'entity':entity},
+                                                           success:function(oi){
+                                                               $('.groups').html(oi);
+                                                           }
+                                                       });
+                                                   }
+
                                                }
                                            })
                                        }
                                    }
                                },
-
                            }
                        });
                    }
@@ -604,16 +763,34 @@
            }, 0);
        }
 
+
+
        $('#searchinput').on('keyup',function(){
            $value=$('#searchinput').val();
-           $.ajax({
-               type : 'get',
-               url : '{{URL::to('search')}}',
-               data:{'search':$value},
-               success:function(data){
-                   $('.users').html(data);
-               }
-           });
+           const tabusers = document.querySelector("#tabusers");
+           tem = tabusers.classList.contains("active");
+
+           if(tem == true){
+               $.ajax({
+                   type : 'get',
+                   url : '{{URL::to('search')}}',
+                   data:{'search':$value,'entity':"person"},
+                   success:function(data){
+                       $('.users').html(data);
+                   }
+               });
+
+           }else{
+               $.ajax({
+                   type : 'get',
+                   url : '{{URL::to('search')}}',
+                   data:{'search':$value,'entity':"group"},
+                   success:function(data){
+                       $('.groups').html(data);
+                   }
+               });
+           }
+
        })
    </script>
 

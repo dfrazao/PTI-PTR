@@ -365,6 +365,28 @@ class GroupController extends Controller
         else
             $studentGroup->delete();
 
+        $my_id = Auth::id();
+
+        $groups = DB::table('groups')->where('idProject', '=', $id)->value('idGroup');;
+        $stuGroups = StudentsGroup::all()->where('idGroup', '=', $groups)->pluck("idStudent");
+        $project_i = DB::table('projects')->where('idProject', '=', $id)->value('idSubject');
+        $project_name = DB::table('projects')->where('idProject', '=', $id)->value('name');
+
+        $subject = DB::table('subjects')->where('idSubject', '=', $project_i)->value('subjectName');
+        if($stuGroups->count() > 0) {
+
+            foreach ($stuGroups as $stu) {
+                $users = User::all()->where('id', '=', $stu)->where('id', '!=', $my_id);
+
+                foreach ($users as $user) {
+
+                    $user->notify(new \App\Notifications\InvoicePaid($my_id, "Left the group", $id ,$project_name, $subject));
+
+                }
+
+            }
+        }
+
         return redirect()->action('DashboardController@index',$project->idProject)->with('success', __('gx.successfully left the group') .$idGroup);
     }
 }
