@@ -105,12 +105,16 @@ class ProfessorProjectsController extends Controller
                 'documentation' => 'required'
             ]);
 
-            $doc = new Documentation;
-            $doc->idProject = $request->project;
-            $doc->pathfile = $request->file('documentation')->getClientOriginalName();
-            $zip = $request->file('documentation');
-            $doc->save();
-            $zip->storeAs('documentation/'.$request->project, $doc->pathfile, 'gcs');
+            $files = $request->documentation;
+            foreach ($files as $file) {
+                $doc = new Documentation;
+                $doc->idProject = $request->project;
+                $doc->pathfile = $file->getClientOriginalName();
+                $file = $file;
+                $doc->save();
+                $file->storeAs('documentation/'.$request->project, $doc->pathfile, 'gcs');
+            }
+
 
             $my_id = Auth::id();
 
@@ -157,34 +161,47 @@ class ProfessorProjectsController extends Controller
      */
     public function show($id)
     {
-        $rep1 = Documentation::all()->where('idProject', '==', $id);
-        $rep2 = File::all()->where('finalState', '==', 'final');
-
         $project = Project::find($id);
-        $subject = Subject::find($project->idSubject);
-        $groups = Group::all()->where('idProject', '==', $id);
 
-        $announcements = Announcement::orderBy('date', 'desc')->paginate(10)->fragment('forum');
-        $allAnnouncements = [];
-        foreach ($announcements as $a) {
-            array_push($allAnnouncements, $a);
-        }
-        $userId = $announcements->pluck('sender');
-        $users = [];
-        foreach ($userId as $uId) {
-            $user = User::find($uId);
-            array_push($users, $user);
-        }
-        $idAnnouncement = $announcements->pluck('idAnnouncement');
-        $numberComments = [];
-        foreach ($idAnnouncement as $idA) {
-            $idComment = AnnouncementComment::all()->where('idAnnouncement', '==', $idA)->count();
-            array_push($numberComments, $idComment);
-        }
+        if ($project != null) {
+            $belongsProj = ['idSubject' => $project->idSubject, 'idUser' => Auth::user()->id];
 
-        return view('professor.project')->with('numberComments', $numberComments)->with('project' , $project)->with('subject', $subject)->with('groups', $groups)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('a',$announcements)->with('rep1', $rep1)->with('rep2', $rep2);
+            if (Auth::user()->role == "student" or count(SubjectEnrollment::where($belongsProj)->get()) == 0) {
+                abort('403');
+            }
+
+            $rep1 = Documentation::all()->where('idProject', '==', $id);
+            $rep2 = File::all()->where('finalState', '==', 'final');
+
+
+            $subject = Subject::find($project->idSubject);
+            $groups = Group::all()->where('idProject', '==', $id);
+
+            $announcements = Announcement::orderBy('date', 'desc')->paginate(10)->fragment('forum');
+            $allAnnouncements = [];
+            foreach ($announcements as $a) {
+                array_push($allAnnouncements, $a);
+            }
+            $userId = $announcements->pluck('sender');
+            $users = [];
+            foreach ($userId as $uId) {
+                $user = User::find($uId);
+                array_push($users, $user);
+            }
+            $idAnnouncement = $announcements->pluck('idAnnouncement');
+            $numberComments = [];
+            foreach ($idAnnouncement as $idA) {
+                $idComment = AnnouncementComment::all()->where('idAnnouncement', '==', $idA)->count();
+                array_push($numberComments, $idComment);
+            }
+
+
+            return view('professor.project')->with('numberComments', $numberComments)->with('project', $project)->with('subject', $subject)->with('groups', $groups)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('a', $announcements)->with('rep1', $rep1)->with('rep2', $rep2);
+
+        }else{
+            abort('404');
+        }
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -227,13 +244,6 @@ class ProfessorProjectsController extends Controller
             $project->minElements = $request->minNumber;
             $project->maxElements = $request->maxNumber;
             $project->idSubject = $project->idSubject;
-            /*if( $request->file('documentation') ) {
-                Storage::delete('documentation/'.$project->idProject."/".$project->documentation);
-                $file = $request->file('documentation');
-                $filename = $request->documentation->getClientOriginalName();
-                $file->storeAs('documentation/'.$project->idProject, $filename, 'gcs');
-                $project->documentation = $filename;
-            }*/
 
             $project->maxGroups = SubjectEnrollment::all()->where('idSubject', '==', $request->subject)->count();
             $project->save();

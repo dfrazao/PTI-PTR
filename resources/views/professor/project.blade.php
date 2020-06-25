@@ -4,6 +4,17 @@
     <title>Project</title>
 </head>
 <div class="container-fluid pl-4 pr-4 pb-2 mt-3">
+    <?php
+    $first1 = Carbon\Carbon::today()->subYears(1)->month(8)->day(1);
+    $second1 = Carbon\Carbon::today()->month(7)->day(31)->hour(23)->minute(59)->second(59);
+    $first2 = Carbon\Carbon::today()->month(8)->day(1);
+    $second2 = Carbon\Carbon::today()->addYears(1)->month(7)->day(31);
+    if (Carbon\Carbon::today()->between($first1, $second1)) {
+        $currentYear = $first1->year . '/' . $second1->year;
+    } else if (Carbon\Carbon::today()->between($first2, $second2)) {
+        $currentYear = $first2->year . '/' . $second2->year;
+    }
+    ?>
     @include('layouts.messages')
     <nav id="breadcrumb" aria-label="breadcrumb" >
         <ol id="breadcrumb" class="breadcrumb pl-0 pb-0 mb-4 h3" style="background-color:white; ">
@@ -67,9 +78,9 @@
             <div class="row  p-3">
                 <div class=" col-md-8 rounded bg-white w-100 p-3 mr-2" style="position: relative;">
 
-                    <button type="button" class="btn btn-success btn-sm float-right" data-toggle="modal" data-target="#modalEdit-{{$project->idProject}}">{{__('gx.edit project')}}</button>
+                    <button type="button" class="btn btn-success btn-sm float-right stopYear" data-toggle="modal" data-target="#modalEdit-{{$project->idProject}}">{{__('gx.edit project')}}</button>
                     <h4>{{__('gx.characteristics')}}</h4>
-                    @if($subject->idSubject == $project->idSubject)
+                    @if($subject->idSubject == $project->idSubject or $subject->academicYear == $currentYear)
                         <div class="modal fade" id="modalEdit-{{$project->idProject}}" aria-labelledby="modalEdit-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -289,6 +300,11 @@
                             <td class="info-td" colspan="2" >{{count($groups)}}</td>
                         </tr>
                         <tr>
+                            <th class="info-th" scope="row">Number of Submissions</th>
+                            <td class="info-td" colspan="2" >{{count($rep2->whereIn('idGroup', $groups->pluck('idGroup'))->groupBy('idGroup'))}} of {{count($groups)}}</td>
+                        </tr>
+
+                        <tr>
                             <th class="info-th" scope="row" style="width: 45%;">{{__('gx.groups that dont match requirements')}}</th>
                             <?php $count = 0 ?>
                             @foreach($groups as $group)
@@ -331,152 +347,100 @@
                 </div>
                 <div class=" col rounded bg-white w-100 p-3 " style="position: relative;">
                     <h5>{{__('gx.documentation')}}</h5>
-                    <button type="button" class="p-2 btn btn-primary btn-md" data-toggle="modal" data-target="#modalUploadFiles-{{$project->idProject}}" style="position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal">{{__('gx.upload files')}}</button>
+                    <button type="button" class="p-2 btn btn-primary btn-md stopYear" data-toggle="modal" data-target="#modalUploadFiles-{{$project->idProject}}" style="position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal">{{__('gx.upload files')}}</button>
+                    <div class="table-wrapper-scroll-y my-custom-scrollbar" style="display: block; position: absolute; right: 2%; left: 2%; top:10%; overflow: auto; height: 76%;">
                         <table class="table table-sm fixed_header">
 
                             <tbody>
-                            @foreach($rep1 as $document)
-                                @if((pathinfo($document->pathFile, PATHINFO_EXTENSION)) == "txt")
-                                <tr>
-                                    <td style="width: 5%;"><i class="fad fa-file-alt fa-2x pr-2"  id= '{{$document->idDocumentation}}'></i></td>
-                                    <td>{{$document->pathFile}}</td>
-                                    <td>
-                                        <a href="{{Storage::url('documentation/'.$project->idProject.'/'.$document->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;"></a>
-                                        <button  id= '{{$document->idDocumentation}}' type="button" class="close deleteFile">
-                                            <span class="dot" id="delete" style="position:relative">
-                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
-                                            </span>
-                                        </button>
-                                    </td>
-                                </tr>
 
-
-
-                                @elseif((pathinfo($document->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($document->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($document->pathFile, PATHINFO_EXTENSION)) == "png")
+                                @foreach($rep1 as $document)
                                     <tr>
+                                    @if((pathinfo($document->pathFile, PATHINFO_EXTENSION)) == "txt")
+                                        <td style="width: 5%;"><i class="fad fa-file-alt fa-2x pr-2"  id= '{{$document->idDocumentation}}'></i></td>
+                                    @elseif((pathinfo($document->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($document->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($document->pathFile, PATHINFO_EXTENSION)) == "png")
                                         <td style="width: 5%;"><i class="fad fa-image-alt fa-2x pr-2"  id= '{{$document->idDocumentation}}'></i></td>
-                                        <td>{{$document->pathFile}}</td>
-                                        <td>
-                                            <a href="{{Storage::url('documentation/'.$project->idProject.'/'.$document->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;"></a>
-                                            <button  id= '{{$document->idDocumentation}}' type="button" class="close deleteFile">
-                                                <span class="dot" id="delete" style="position:relative">
-                                                    <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
-                                                </span>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                @elseif((pathinfo($document->pathFile, PATHINFO_EXTENSION)) == "pdf" )
-                                    <tr>
+                                    @elseif((pathinfo($document->pathFile, PATHINFO_EXTENSION)) == "pdf" )
                                         <td style="width: 5%;"><i class="fad fa-file-pdf fa-2x pr-2"  id= '{{$document->idDocumentation}}'></i></td>
-                                        <td>{{$document->pathFile}}</td>
-                                        <td>
-                                            <a href="{{Storage::url('documentation/'.$project->idProject.'/'.$document->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;"></a>
-                                            <button  id= '{{$document->idDocumentation}}' type="button" class="close deleteFile">
-                                                <span class="dot" id="delete" style="position:relative">
-                                                    <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
-                                                </span>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                @elseif((pathinfo($document->pathFile, PATHINFO_EXTENSION)) == "docx" )
-                                    <tr>
+                                    @elseif((pathinfo($document->pathFile, PATHINFO_EXTENSION)) == "docx" )
                                         <td style="width: 5%;"><i class="fad fa-file-word fa-2x pr-2" id= '{{$document->idDocumentation}}'></i></td>
-                                        <td>{{$document->pathFile}}</td>
-                                        <td>
-                                            <a href="{{Storage::url('documentation/'.$project->idProject.'/'.$document->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;"></a>
-                                            <button  id= '{{$document->idDocumentation}}' type="button" class="close deleteFile">
-                                                <span class="dot" id="delete" style="position:relative">
-                                                    <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
-                                                </span>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                @elseif((pathinfo($document->pathFile, PATHINFO_EXTENSION)) == "zip" )
-                                    <tr>
+                                    @elseif((pathinfo($document->pathFile, PATHINFO_EXTENSION)) == "zip" )
                                         <td style="width: 5%;"><i class="fad fa-file-archive fa-2x pr-2" id= '{{$document->idDocumentation}}'></i></td>
-                                        <td>{{$document->pathFile}}</td>
-                                        <td>
-                                            <a href="{{Storage::url('documentation/'.$project->idProject.'/'.$document->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;"></a>
-                                            <button  id= '{{$document->idDocumentation}}' type="button" class="close deleteFile">
-                                                <span class="dot" id="delete" style="position:relative">
-                                                    <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
-                                                </span>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                @else
-                                    <tr>
+                                    @else
                                         <td style="width: 5%;"><i class="fad fa-file-code fa-2x pr-2" id= '{{$document->idDocumentation}}'></i></td>
-                                        <td>{{$document->pathFile}}</td>
+                                    @endif
+                                        <td><a href="{{Storage::url('documentation/'.$project->idProject.'/'.$document->pathFile)}}" target="_blank" class="downloadFile" download>{{$document->pathFile}}</a></td>
                                         <td>
                                             <a href="{{Storage::url('documentation/'.$project->idProject.'/'.$document->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;"></a>
                                             <button  id= '{{$document->idDocumentation}}' type="button" class="close deleteFile">
-                                                <span class="dot" id="delete" style="position:relative">
-                                                    <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
-                                                </span>
+                                                        <span class="dot" id="delete" style="position:relative">
+                                                            <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
+                                                        </span>
                                             </button>
                                         </td>
                                     </tr>
-                                @endif
-                            @endforeach
-
+                                @endforeach
                             </tbody>
                         </table>
-                  {{--modal upload file--}}
-                    <div class="modal fade" id="modalUploadFiles-{{$project->idProject}}" aria-labelledby="modalUploadFiles-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.upload files')}}</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    {!! Form::open(['action' => ['ProfessorProjectsController@store', $project->idProject], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
-                                    <div class="form-group">
-                                        {{Form::label('documentation', trans('gx.documentation'))}}
-                                        {{Form::file('documentation')}}
-                                    </div>
-                                    {{Form::hidden('option', 'projectFiles')}}
-                                    {{ Form::hidden('project', $project->idProject) }}
-                                    {{Form::hidden('_method','POST')}}
-                                    {{Form::submit( trans('gx.submit'), ['class'=>'btn btn-success'])}}
-                                    {!! Form::close() !!}
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
-                    {{-- Modal Delete file --}}
-                    <div class="modal fade" id="modalDeleteDoc" aria-labelledby="modalDeleteDoc" aria-hidden="true" tabindex="-1" role="dialog">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.delete file')}}</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <h5>{{__('gx.areyousuredeletedocument')}}</h5>
-                                    {!!Form::open(['action' => ['ProfessorProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
-                                    {{Form::hidden('_method', 'DELETE')}}
-                                    {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
-                                    {{Form::hidden('option','doc')}}
-                                    {{Form::hidden('idDoc','')}}
-                                    {!!Form::close()!!}
+                    @if($subject->academicYear == $currentYear)
+                        {{--modal upload file--}}
+                        <div class="modal fade" id="modalUploadFiles-{{$project->idProject}}" aria-labelledby="modalUploadFiles-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.upload files')}}</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {!! Form::open(['action' => ['ProfessorProjectsController@store', $project->idProject], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                                        <div class="form-group">
+                                            {{Form::label('documentation', trans('gx.documentation'))}}
+                                            {{Form::file('documentation[]' , ['multiple' => 'multiple'] )}}
+                                        </div>
+                                        {{Form::hidden('option', 'projectFiles')}}
+                                        {{ Form::hidden('project', $project->idProject) }}
+                                        {{Form::hidden('_method','POST')}}
+                                        {{Form::submit( trans('gx.submit'), ['class'=>'btn btn-success'])}}
+                                        {!! Form::close() !!}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+
+
+                        {{-- Modal Delete file --}}
+                        <div class="modal fade" id="modalDeleteDoc" aria-labelledby="modalDeleteDoc" aria-hidden="true" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.delete file')}}</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h5>{{__('gx.areyousuredeletedocument')}}</h5>
+                                        {!!Form::open(['action' => ['ProfessorProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
+                                        {{Form::hidden('_method', 'DELETE')}}
+                                        {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+                                        {{Form::hidden('option','doc')}}
+                                        {{Form::hidden('idDoc','')}}
+                                        {!!Form::close()!!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
 
         <div class="container-fluid ml-0 mr-0 tab-pane fade" id="gr" role="tabpanel" aria-labelledby="groups-tab">
             <div id="altura_col_groups_prof" class="row rounded">
-                <div id="col_groups_prof"class="col-md-3 mt-3 mb-3 rounded center" style="position: relative;">
+                <div id="col_groups_prof"class="col-md-3 mt-3 mb-3 px-3 rounded center" style="position: relative; height: 94%;">
                     <style>
                         #altura_col_groups_prof{
                             height: 75vh;
@@ -501,197 +465,25 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-9 mt-3 mb-3 rounded" style="width: 100%;">
+                <div class="col-md-9 mt-3 mb-3 rounded pl-0 pr-3" style="width: 100%;">
                     <div class="container-fluid rounded h-100 p-3" style="background-color: #c6c6c6;">
                         <div class="tab-content h-100" id="pills-tabContent">
                             @foreach($groups as $group)
                                 <div class="container-fluid tab-pane fade h-100" id="pills-{{$group->idGroupProject}}" role="tabpanel" aria-labelledby="pills-{{$group->idGroupProject}}-tab">
                                         <div class="row h-100" style="position: relative; background-color: #c6c6c6;">
-                                            <div class="col-md-9">
-                                                <div id="files_row" class="row pb-2 h-40">
-                                                        <style>
-                                                            #files_row{
-                                                                height: 40%;
-                                                            }
-                                                            @media screen and (max-width: 500px){
-                                                                #files_row {
-                                                                    height: 70%;
-                                                                }
-                                                            }
-                                                        </style>
-                                                        <div class="bg-light p-2 w-100 rounded" style="margin-right: 10px">
-                                                            <h5>{{__('gx.files submited')}}</h5>
+                                            <div class="col-md-6">
 
-                                                            <table class="table table-sm fixed_header mt-3">
-                                                                <tbody>
-                                                                    @foreach($rep2 as $docSub)
-                                                                        @if($docSub->idGroup == $group->idGroup)
-                                                                            <div id="box1" style="position: absolute; right: 1.60%; top: 1%; height: 9%; border: 1px solid darkgrey; border-radius: 15px; width: 47%;  vertical-align: middle;">
-                                                                                <img src="/images/deathlineSub.png" style="width: 30px; height: 30px; float: left; margin:1%;">
-                                                                                <div id="timer3"></div>
-                                                                            </div>
-
-                                                                            @if((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "txt")
-                                                                                <tr>
-                                                                                    <td style="width: 5%;"><i class="fad fa-file-alt fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
-                                                                                    <td>{{$docSub->pathFile}}</td>
-                                                                                    <td>{{$docSub->submissionTime}}</td>
-                                                                                    <td>{{Storage::size('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}B</td>
-                                                                                    <td>
-                                                                                        <a href="{{Storage::url('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}" style="margin-right: 40%;" target="_blank" class="close downloadFile" download>
-                                                                                            <span class="dot" id="download" >
-                                                                                                <i style="font-size: 18px;" class="fal fa-download"></i>
-                                                                                            </span>
-                                                                                        </a>
-                                                                                    </td>
-                                                                                </tr>
-
-                                                                            @elseif((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "png")
-                                                                                <tr>
-                                                                                    <td style="width: 5%;"><i class="fad fa-image-alt fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
-                                                                                    <td>{{$docSub->pathFile}}</td>
-                                                                                    <td>{{$docSub->submissionTime}}</td>
-                                                                                    <td>
-                                                                                        <a href="{{Storage::url('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}" target="_blank"  style="margin-right: 40%;" class="close downloadFile" download>
-                                                                                            <span class="dot" id="download" style="position:relative">
-                                                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
-                                                                                            </span>
-                                                                                        </a>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            @elseif((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "pdf" )
-                                                                                <tr>
-                                                                                    <td style="width: 5%;"><i class="fad fa-file-pdf fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
-                                                                                    <td>{{$docSub->pathFile}}</td>
-                                                                                    <td>{{$docSub->submissionTime}}</td>
-                                                                                    <td>
-                                                                                        <a href="{{Storage::url('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}" target="_blank" style="margin-right: 40%;" class="close downloadFile" download>
-                                                                                            <span class="dot" id="download" style="position:relative">
-                                                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
-                                                                                            </span>
-                                                                                        </a>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            @elseif((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "docx" )
-                                                                                <tr>
-                                                                                    <td style="width: 5%;"><i class="fad fa-file-word fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
-                                                                                    <td>{{$docSub->pathFile}}</td>
-                                                                                    <td>{{$docSub->submissionTime}}</td>
-                                                                                    <td>
-                                                                                        <a href="{{Storage::url('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}" target="_blank" style="margin-right: 40%;" class="close downloadFile" download>
-                                                                                            <span class="dot" id="download" style="position:relative">
-                                                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
-                                                                                            </span>
-                                                                                        </a>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            @elseif((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "zip" )
-                                                                                <tr>
-                                                                                    <td style="width: 5%;"><i class="fad fa-file-archive fa-2x pr-2"  id= '{{$docSub->idFile}}'></td>
-                                                                                    <td></i>{{$docSub->pathFile}}</td>
-                                                                                    <td>{{$docSub->submissionTime}}</td>
-                                                                                    <td>
-                                                                                        <a href="{{Storage::url('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}" target="_blank" style="margin-right: 40%;" class="close downloadFile" download>
-                                                                                            <span class="dot" id="download" style="position:relative">
-                                                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
-                                                                                            </span>
-                                                                                        </a>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            @else
-                                                                                <tr>
-                                                                                    <td style="width: 5%;"><i class="fad fa-file-code fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
-                                                                                    <td>{{$docSub->pathFile}}</td>
-                                                                                    <td>{{$docSub->submissionTime}}</td>
-                                                                                    <td>
-                                                                                        <a href="{{Storage::url('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}" target="_blank" style="margin-right: 40%;" class="close downloadFile" download>
-                                                                                            <span class="dot" id="download" style="position:relative">
-                                                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
-                                                                                            </span>
-                                                                                        </a>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            @endif
-                                                                         @endif
-
-                                                                        <style>
-                                                                            #timer3 {
-                                                                                font-size: 1.0em;
-                                                                                color: black;
-                                                                                vertical-align: middle;
-                                                                                text-align: center;
-                                                                            }
-
-                                                                            #timer3 div {
-                                                                                display: inline-block;
-                                                                                min-width: 35px;
-
-                                                                            }
-
-                                                                            #timer3 p {
-                                                                                margin: 2%;
-                                                                            }
-
-                                                                            #timer3 div span {
-                                                                                color: black;
-                                                                                display: block;
-                                                                                font-size: .60em;
-                                                                                font-weight: 400;
-                                                                            }
-                                                                        </style>
-                                                                        <script>
-                                                                            function updateTimer3() {
-                                                                                future = Date.parse("{{$project->dueDate}}");
-                                                                                now = Date.parse("{{$docSub->submissionTime}}");
-                                                                                diff = Math.abs(future - now);
-
-                                                                                days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                                                                                hours = Math.floor(diff / (1000 * 60 * 60));
-                                                                                mins = Math.floor(diff / (1000 * 60));
-                                                                                secs = Math.floor(diff / 1000);
-
-                                                                                d = days;
-                                                                                h = hours - days * 24;
-                                                                                m = mins - hours * 60;
-                                                                                s = secs - mins * 60;
-
-                                                                                if (now>future){
-                                                                                    $('#box1').css('border', '1.5px solid red');
-                                                                                    $('#box1').css('background-color', '#ff000042');
-                                                                                    document.getElementById("timer3")
-                                                                                        .innerHTML = '<p style="float: left;">Submetido com atraso de</p>'+
-                                                                                        '<div>' + d + '<span>days</span></div>' +
-                                                                                        '<div>' + h + '<span>hrs</span></div>' +
-                                                                                        '<div>' + m + '<span>mins</span></div>';
-                                                                                }else{
-                                                                                    $('#box1').css('border', '1.5px solid #61af61');
-                                                                                    $('#box1').css('background-color', '#bbf5bb');
-                                                                                    $('#box1').css('width', '30%');
-                                                                                    document.getElementById("timer3")
-                                                                                        .innerHTML =
-                                                                                        '<p>Submetido com sucesso!</p>';
-
-                                                                                }
-                                                                            }
-                                                                            updateTimer3();
-                                                                        </script>
-                                                                    @endforeach
-
-                                                                </tbody>
-                                                            </table>
-
-                                                </div>
-                                            </div>
-                                                <div id="assessments_row" class="row ">
+                                                <div id="assessments_row" class="row h-100">
                                                     <div class="bg-light p-2 w-100 rounded" style="margin-right: 10px">
                                                         <h5 class="mb-2">Teamwork Evaluation</h5>
                                                         @if(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) == '[]')
-                                                            <p>No avaliations available</p>
+                                                            <p>No evaluations available</p>
                                                         @else
-                                                        <table id="tabela_aval"  class="table table-sm " style="text-align: center; vertical-align: middle;">
+                                                        <table id="tabela_aval"  class="table table-sm mt-4 " style="text-align: center; vertical-align: middle;">
                                                             <thead>
                                                             <tr id="font_tabela_aval">
                                                                 <th scope="col">Elementos</th>
+                                                                <th scope="col"></th>
                                                                 <th scope="col" >Autoavaliação</th>
                                                                 <th scope="col" >Avaliação do grupo</th>
                                                             </tr>
@@ -709,7 +501,8 @@
                                                             <tbody>
                                                             @foreach(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) as $sg)
                                                                 <tr>
-                                                                    <td>{{\App\User::find($sg->idStudent)->name}}</td>
+                                                                    <td><a href="/profile/{{$sg->idStudent}}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.\App\User::find($sg->idStudent)->photo)}}"><span style="vertical-align: middle;"> {{\App\User::find($sg->idStudent)->name}}</span></a></td>
+                                                                    <td><i class="far fa-envelope"></i></td>
                                                                     <td>
                                                                         @if(is_null(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', $sg->idStudent)->where('idGroup', $group->idGroup)->value('grade')))
                                                                             -
@@ -745,12 +538,138 @@
 
 
                                         </div>
-                                        <div  class="col-md-3 ">
-                                            <div id="col3_groups" class="row p-2 bg-light rounded h-50" style=" display: block;">
-                                                <h5>{{__('gx.elements')}}</h5>
-                                                @foreach(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) as $sg)
-                                                    <p style="margin-bottom: 0.4rem;" ><a href="/profile/{{$sg->idStudent}}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.\App\User::find($sg->idStudent)->photo)}}"><span style="vertical-align: middle;"> {{\App\User::find($sg->idStudent)->name}}</span></a><img src="/images/comment.png" style="width: 20px; height: 20px; float: right; margin-top: 3%; margin-right: 3%"></p>
-                                                @endforeach
+                                        <div  class="col-md-6 ">
+                                            <div id="files_row" class="row h-50">
+                                                <style>
+                                                    #files_row{
+                                                        height: 40%;
+                                                    }
+                                                    @media screen and (max-width: 500px){
+                                                        #files_row {
+                                                            height: 70%;
+                                                        }
+                                                    }
+                                                </style>
+                                                <div class="bg-light p-2 w-100 rounded" >
+                                                    <h5 style="margin-top: 1%;">{{__('gx.files submited')}}</h5>
+                                                    <script>
+                                                        function bytesToHuman(bytes)
+                                                        {
+                                                            units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'];
+
+                                                            for (i = 0; bytes > 1024; i++) {
+                                                                bytes /= 1024;
+                                                            }
+
+                                                            return (Math.round((bytes + Number.EPSILON) * 100) / 100 )+ ' ' + units[i];
+                                                        }
+                                                    </script>
+                                                    <div>
+                                                    <table class="table table-sm fixed_header mt-4">
+                                                        <tbody>
+                                                        @if(count($rep2->whereIn('idGroup', $group->idGroup))>0)
+                                                            <div id="box1" style="position: absolute; right: 1%; top: 1%; height: 9%; border: 1px solid darkgrey; border-radius: 15px; width: 66%;  vertical-align: middle;">
+                                                                <img src="/images/deathlineSub.png" style="width: 30px; height: 30px; float: left; margin:1%;">
+                                                                <div id="timer3"></div>
+                                                            </div>
+
+                                                            <style>
+                                                                #timer3 {
+                                                                    font-size: 1.0em;
+                                                                    color: black;
+                                                                    vertical-align: middle;
+                                                                    text-align: center;
+                                                                }
+
+                                                                #timer3 div {
+                                                                    display: inline-block;
+                                                                    min-width: 35px;
+
+                                                                }
+
+                                                                #timer3 p {
+                                                                    margin: 2%;
+                                                                }
+
+                                                                #timer3 div span {
+                                                                    color: black;
+                                                                    display: block;
+                                                                    font-size: .60em;
+                                                                    font-weight: 400;
+                                                                }
+                                                            </style>
+                                                            <script>
+                                                                function updateTimer3() {
+                                                                    future = Date.parse("{{$project->dueDate}}");
+                                                                    now = Date.parse("{{$rep2->whereIn('idGroup', $group->idGroup)->first()->submissionTime}}");
+                                                                    diff = Math.abs(future - now);
+
+                                                                    days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                                                                    hours = Math.floor(diff / (1000 * 60 * 60));
+                                                                    mins = Math.floor(diff / (1000 * 60));
+                                                                    secs = Math.floor(diff / 1000);
+
+                                                                    d = days;
+                                                                    h = hours - days * 24;
+                                                                    m = mins - hours * 60;
+                                                                    s = secs - mins * 60;
+
+                                                                    if (now>future){
+                                                                        $('#box1').css('border', '1.5px solid red');
+                                                                        $('#box1').css('background-color', '#ff000042');
+                                                                        $('#box1').css('width', '66%');
+
+                                                                        document.getElementById("timer3")
+                                                                            .innerHTML = '<p style="float: left;">Submetido com atraso de</p>'+
+                                                                            '<div>' + d + '<span>days</span></div>' +
+                                                                            '<div>' + h + '<span>hrs</span></div>' +
+                                                                            '<div>' + m + '<span>mins</span></div>';
+
+
+                                                                    }else{
+
+                                                                        $('#box1').css('border', '1.5px solid #61af61');
+                                                                        $('#box1').css('background-color', '#bbf5bb');
+                                                                        $('#box1').css('width', '44%');
+                                                                        document.getElementById("timer3")
+                                                                            .innerHTML =
+                                                                            '<p>Submetido com sucesso!</p>';
+
+                                                                    }
+                                                                }
+                                                                updateTimer3();
+                                                            </script>
+                                                            @foreach($rep2->whereIn('idGroup', $group->idGroup) as $docSub)
+                                                                <tr>
+                                                                    @if((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "txt")
+                                                                        <td style="width: 5%;"><i class="fad fa-file-alt fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
+                                                                    @elseif((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "png")
+                                                                        <td style="width: 5%;"><i class="fad fa-image-alt fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
+                                                                    @elseif((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "pdf" )
+                                                                        <td style="width: 5%;"><i class="fad fa-file-pdf fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
+                                                                    @elseif((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "docx" )
+                                                                        <td style="width: 5%;"><i class="fad fa-file-word fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
+                                                                    @elseif((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "zip" )
+                                                                        <td style="width: 5%;"><i class="fad fa-file-archive fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
+                                                                    @else
+                                                                        <td style="width: 5%;"><i class="fad fa-file-code fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
+                                                                    @endif
+                                                                    <td><a href="{{Storage::url('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}" target="_blank" class="downloadFile" download>{{$docSub->pathFile}}</a></td>
+                                                                    <td>{{$docSub->submissionTime}}</td>
+                                                                    <td id="{{$docSub->pathFile}}-size">
+                                                                    </td>
+                                                                        <script>
+                                                                            document.getElementById('{{$docSub->pathFile}}-size').innerHTML = bytesToHuman({{Storage::size('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}) ;
+                                                                        </script>
+                                                                </tr>
+                                                            @endforeach
+                                                        @else
+                                                            <p>No Files submited</p>
+                                                        @endif
+                                                        </tbody>
+                                                    </table>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div id="final_row" class="row pt-2 rounded h-50" >
                                                 <style>
@@ -765,51 +684,54 @@
                                                 </style>
                                                 <div class=" bg-light p-2 w-100 rounded " style="max-height: 100%;">
                                                     <h5>{{__('gx.final group evaluation')}}</h5>
-                                                    @if ($group->grade == NULL)
-
-                                                        <p class="mb-0">{{__('gx.group not evaluated')}}</p>
-                                                        <button type="button" class="p-2 btn btn-sm btn-primary" style="position: absolute; width: 17vh; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}">{{__('gx.evaluate group')}}</button>
-                                                        <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
-                                                            <div class="modal-dialog" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.evaluation')}}</h4>
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        {!! Form::open(['action' => 'ProfessorProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
-                                                                        <div class="form-group">
-                                                                            {{Form::label('grade', trans('gx.project grade'))}}
-                                                                            {{Form::text('grade', '', ['class' => 'form-control'])}}
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            {{Form::label('gradeComment', trans('gx.comment(opcional)'))}}
-                                                                            {{Form::text('gradeComment', '', ['class' => 'form-control'])}}
-                                                                        </div>
-                                                                        {{Form::hidden('group', $group->idGroup)}}
-                                                                        {{Form::hidden('option', 'grade')}}
-                                                                        {{Form::hidden('project', $project->idProject)}}
-                                                                        {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
-
-                                                                        {!! Form::close() !!}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @else
+                                                    @if($group->grade != null)
                                                         <script>
                                                             $('#pills-{{$group->idGroupProject}}-tab-image').css('display','block');
                                                         </script>
+                                                    @endif
+                                                    @if ($group->grade == NULL and $project->dueDate <= date("Y-m-d H:i:s"))
+                                                        <p class="mb-0">{{__('gx.group not evaluated')}}</p>
+                                                        <button type="button" class="p-2 btn btn-sm btn-primary stopYear" style="position: absolute; width: 17vh; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}">{{__('gx.evaluate group')}}</button>
 
+                                                        @if($subject->academicYear == $currentYear)
+                                                            <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.evaluation')}}</h4>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            {!! Form::open(['action' => 'ProfessorProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                                                                            <div class="form-group">
+                                                                                {{Form::label('grade', trans('gx.project grade'))}}
+                                                                                {{Form::text('grade', '', ['class' => 'form-control'])}}
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                {{Form::label('gradeComment', trans('gx.comment(opcional)'))}}
+                                                                                {{Form::text('gradeComment', '', ['class' => 'form-control'])}}
+                                                                            </div>
+                                                                            {{Form::hidden('group', $group->idGroup)}}
+                                                                            {{Form::hidden('option', 'grade')}}
+                                                                            {{Form::hidden('project', $project->idProject)}}
+                                                                            {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
+
+                                                                            {!! Form::close() !!}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    @elseif($group->grade != NULL and $project->dueDate <= date("Y-m-d H:i:s"))
                                                         <p class="mb-0">{{__('gx.grade')}}: {{$group->grade}}</p>
                                                         @if($group->gradeComment == NULL)
                                                             <p class="m-0">{{__('gx.no comments')}}</p>
                                                         @else
-                                                            <p class="mb-0 p-1 rounded" style=" overflow: auto; height: 46%; background-color: #d0e7ff; margin-top: 3%;" >{{$group->gradeComment}}</p>
+                                                            <p class="mb-0 p-1 rounded" style=" overflow: auto; height: 46%; background-color: #d0e7ff; margin-top: 2%;" >{{$group->gradeComment}}</p>
                                                         @endif
-                                                        <button id="changegrade" type="button" class="p-2 btn btn-primary btn-sm float-right" style="position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%; width: 16vh;" data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}" >{{__('gx.change grade')}}</button>
+                                                        <button id="changegrade" type="button" class="p-2 btn btn-primary btn-sm float-right stopYear" style="position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%; width: 16vh;" data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}" >{{__('gx.change grade')}}</button>
                                                         <style>
                                                             #changegrade{
                                                                 position: absolute;
@@ -825,34 +747,41 @@
                                                                 }
                                                             }
                                                         </style>
-                                                        <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
-                                                            <div class="modal-dialog" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.evaluation')}}</h4>
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        {!! Form::open(['action' => ['ProfessorProjectsController@update', $project->idProject], 'method' => 'PUT']) !!}
-                                                                        <div class="form-group">
-                                                                            {{Form::label('grade', trans('gx.project grade'))}}
-                                                                            {{Form::text('grade', '', ['class' => 'form-control'])}}
+
+                                                        @if($subject->academicYear == $currentYear)
+                                                            <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.evaluation')}}</h4>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
                                                                         </div>
-                                                                        <div class="form-group">
-                                                                            {{Form::label('gradeComment', trans('gx.comment(opcional)'))}}
-                                                                            {{Form::text('gradeComment', '', ['class' => 'form-control'])}}
+                                                                        <div class="modal-body">
+                                                                            {!! Form::open(['action' => ['ProfessorProjectsController@update', $project->idProject], 'method' => 'PUT']) !!}
+                                                                            <div class="form-group">
+                                                                                {{Form::label('grade', trans('gx.project grade'))}}
+                                                                                {{Form::text('grade', '', ['class' => 'form-control'])}}
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                {{Form::label('gradeComment', trans('gx.comment(opcional)'))}}
+                                                                                {{Form::text('gradeComment', '', ['class' => 'form-control'])}}
+                                                                            </div>
+                                                                            {{Form::hidden('group', $group->idGroup)}}
+                                                                            {{Form::hidden('_method','PUT')}}
+                                                                            {{Form::hidden('option', 'grade')}}
+                                                                            {{Form::submit( trans('gx.submit'), ['class'=>'btn btn-success'])}}
+                                                                            {!! Form::close() !!}
                                                                         </div>
-                                                                        {{Form::hidden('group', $group->idGroup)}}
-                                                                        {{Form::hidden('_method','PUT')}}
-                                                                        {{Form::hidden('option', 'grade')}}
-                                                                        {{Form::submit( trans('gx.submit'), ['class'=>'btn btn-success'])}}
-                                                                        {!! Form::close() !!}
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        @endif
+
+                                                    @else
+                                                        <p class="mb-0">{{__('gx.group cant evaluate')}}</p>
+                                                        <button type="button" disabled class="p-2 btn btn-sm btn-primary stopYear" style="position: absolute; width: 17vh; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}">{{__('gx.evaluate group')}}</button>
                                                     @endif
                                                 </div>
                                             </div>
@@ -877,7 +806,7 @@
         </div>
 
         <div class="tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
-            <button type="button" class="p-2 mt-3 mr-3 btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#modalCreatePost" style="background-color: #2c3fb1; border-color: #2c3fb1;">{{__('gx.create post')}}</button>
+            <button type="button" class="p-2 mt-3 mr-3 btn btn-sm btn-primary float-right stopYear" data-toggle="modal" data-target="#modalCreatePost" style="background-color: #2c3fb1; border-color: #2c3fb1;">{{__('gx.create post')}}</button>
 
             <div class="container rounded pb-3 pt-3">
                 <div class="table-responsive-xl pt-2">
@@ -930,139 +859,140 @@
                     @endif
                 </div>
 
-                {{--Modal Create Post--}}
-                <div class="modal fade" id="modalCreatePost" tabindex="-1" role="dialog">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.new post')}}</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body modal-body-post">
-                                {!! Form::open(['action' => ['PostController@store', $project -> idProject], 'method' => 'POST']) !!}
-                                <div class="form-group">
-                                    {{Form::label('title', trans('gx.title'))}}
-                                    {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Title'])}}
+                @if($subject->academicYear == $currentYear)
+                    {{--Modal Create Post--}}
+                    <div class="modal fade" id="modalCreatePost" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.new post')}}</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
                                 </div>
-                                <div class="form-group">
-                                    {{Form::label('body', trans('gx.body'))}}
-                                    {{Form::textarea('body', '', ['class' => 'form-control', 'placeholder' => 'Body'])}}
+                                <div class="modal-body modal-body-post">
+                                    {!! Form::open(['action' => ['PostController@store', $project -> idProject], 'method' => 'POST']) !!}
+                                    <div class="form-group">
+                                        {{Form::label('title', trans('gx.title'))}}
+                                        {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Title'])}}
+                                    </div>
+                                    <div class="form-group">
+                                        {{Form::label('body', trans('gx.body'))}}
+                                        {{Form::textarea('body', '', ['class' => 'form-control', 'placeholder' => 'Body'])}}
+                                    </div>
+
+                                    <div class="demo-update__controls">
+                                        <span class="demo-update__words"></span>
+                                        <svg class="demo-update__chart" viewbox="0 0 40 40" width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+                                            <circle stroke="hsl(0, 0%, 93%)" stroke-width="3" fill="none" cx="20" cy="20" r="17" />
+                                            <circle class="demo-update__chart__circle" stroke="hsl(202, 92%, 59%)" stroke-width="3" stroke-dasharray="134,534" stroke-linecap="round" fill="none" cx="20" cy="20" r="17" />
+                                            <text class="demo-update__chart__characters" x="50%" y="50%" dominant-baseline="central" text-anchor="middle"></text>
+                                        </svg>
+                                    </div>
+
+                                    {{ Form::hidden('project', $project->idProject) }}
+
+                                    {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success update__send'])}}
+
+                                    {!! Form::close() !!}
                                 </div>
+                                <script>
+                                    const maxCharacters = 800;
+                                    const container = document.querySelector( '.modal-body-post' );
+                                    const progressCircle = document.querySelector( '.demo-update__chart__circle' );
+                                    const charactersBox = document.querySelector( '.demo-update__chart__characters' );
+                                    const wordsBox = document.querySelector( '.demo-update__words' );
+                                    const circleCircumference = Math.floor( 2 * Math.PI * progressCircle.getAttribute( 'r' ) );
+                                    const sendButton = document.querySelector( '.update__send' );
 
-                                <div class="demo-update__controls">
-                                    <span class="demo-update__words"></span>
-                                    <svg class="demo-update__chart" viewbox="0 0 40 40" width="40" height="40" xmlns="http://www.w3.org/2000/svg">
-                                        <circle stroke="hsl(0, 0%, 93%)" stroke-width="3" fill="none" cx="20" cy="20" r="17" />
-                                        <circle class="demo-update__chart__circle" stroke="hsl(202, 92%, 59%)" stroke-width="3" stroke-dasharray="134,534" stroke-linecap="round" fill="none" cx="20" cy="20" r="17" />
-                                        <text class="demo-update__chart__characters" x="50%" y="50%" dominant-baseline="central" text-anchor="middle"></text>
-                                    </svg>
-                                </div>
+                                    ClassicEditor
+                                        .create( document.querySelector( '#body' ), {
+                                            toolbar: {
+                                                items: [
+                                                    'heading',
+                                                    '|',
+                                                    'fontSize',
+                                                    'fontFamily',
+                                                    'fontColor',
+                                                    'fontBackgroundColor',
+                                                    'highlight',
+                                                    'bold',
+                                                    'italic',
+                                                    'underline',
+                                                    'strikethrough',
+                                                    'link',,
+                                                    '|',
+                                                    'undo',
+                                                    'redo',
+                                                    '|',
+                                                    'indent',
+                                                    'outdent',
+                                                    '|',
+                                                    'bulletedList',
+                                                    'numberedList',
+                                                    '|',
+                                                    'blockQuote',
+                                                    'code',
+                                                    'codeBlock'
+                                                ]
+                                            },
+                                            language: 'en',
+                                            licenseKey: '',
+                                            wordCount: {
+                                                onUpdate: stats => {
+                                                    // Prints the current content statistics.
+                                                    //console.log( `Characters: ${ stats.characters }\nWords: ${ stats.words }` );
 
-                                {{ Form::hidden('project', $project->idProject) }}
+                                                    const charactersProgress = stats.characters / maxCharacters * circleCircumference;
+                                                    const isLimitExceeded = stats.characters > maxCharacters;
+                                                    const isCloseToLimit = !isLimitExceeded && stats.characters > maxCharacters * .8;
+                                                    const circleDashArray = Math.min( charactersProgress, circleCircumference );
 
-                                {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success update__send'])}}
+                                                    // Set the stroke of the circle to show how many characters were typed.
+                                                    progressCircle.setAttribute( 'stroke-dasharray', `${ circleDashArray },${ circleCircumference }` );
 
-                                {!! Form::close() !!}
-                            </div>
-                            <script>
-                                const maxCharacters = 800;
-                                const container = document.querySelector( '.modal-body-post' );
-                                const progressCircle = document.querySelector( '.demo-update__chart__circle' );
-                                const charactersBox = document.querySelector( '.demo-update__chart__characters' );
-                                const wordsBox = document.querySelector( '.demo-update__words' );
-                                const circleCircumference = Math.floor( 2 * Math.PI * progressCircle.getAttribute( 'r' ) );
-                                const sendButton = document.querySelector( '.update__send' );
+                                                    // Display the number of characters in the progress chart. When the limit is exceeded,
+                                                    // display how many characters should be removed.
+                                                    if ( isLimitExceeded ) {
+                                                        charactersBox.textContent = `-${ stats.characters - maxCharacters }`;
+                                                    } else {
+                                                        charactersBox.textContent = stats.characters;
+                                                    }
 
-                                ClassicEditor
-                                    .create( document.querySelector( '#body' ), {
-                                        toolbar: {
-                                            items: [
-                                                'heading',
-                                                '|',
-                                                'fontSize',
-                                                'fontFamily',
-                                                'fontColor',
-                                                'fontBackgroundColor',
-                                                'highlight',
-                                                'bold',
-                                                'italic',
-                                                'underline',
-                                                'strikethrough',
-                                                'link',,
-                                                '|',
-                                                'undo',
-                                                'redo',
-                                                '|',
-                                                'indent',
-                                                'outdent',
-                                                '|',
-                                                'bulletedList',
-                                                'numberedList',
-                                                '|',
-                                                'blockQuote',
-                                                'code',
-                                                'codeBlock'
-                                            ]
-                                        },
-                                        language: 'en',
-                                        licenseKey: '',
-                                        wordCount: {
-                                            onUpdate: stats => {
-                                                // Prints the current content statistics.
-                                                //console.log( `Characters: ${ stats.characters }\nWords: ${ stats.words }` );
+                                                    wordsBox.textContent = `{{__('gx.words in the post')}}: ${ stats.words }`;
 
-                                                const charactersProgress = stats.characters / maxCharacters * circleCircumference;
-                                                const isLimitExceeded = stats.characters > maxCharacters;
-                                                const isCloseToLimit = !isLimitExceeded && stats.characters > maxCharacters * .8;
-                                                const circleDashArray = Math.min( charactersProgress, circleCircumference );
+                                                    // If the content length is close to the character limit, add a CSS class to warn the user.
+                                                    container.classList.toggle( 'demo-update__limit-close', isCloseToLimit );
 
-                                                // Set the stroke of the circle to show how many characters were typed.
-                                                progressCircle.setAttribute( 'stroke-dasharray', `${ circleDashArray },${ circleCircumference }` );
+                                                    // If the character limit is exceeded, add a CSS class that makes the content's background red.
+                                                    container.classList.toggle( 'demo-update__limit-exceeded', isLimitExceeded );
 
-                                                // Display the number of characters in the progress chart. When the limit is exceeded,
-                                                // display how many characters should be removed.
-                                                if ( isLimitExceeded ) {
-                                                    charactersBox.textContent = `-${ stats.characters - maxCharacters }`;
-                                                } else {
-                                                    charactersBox.textContent = stats.characters;
+                                                    // If the character limit is exceeded, disable the send button.
+                                                    sendButton.toggleAttribute( 'disabled', isLimitExceeded );
+
                                                 }
-
-                                                wordsBox.textContent = `{{__('gx.words in the post')}}: ${ stats.words }`;
-
-                                                // If the content length is close to the character limit, add a CSS class to warn the user.
-                                                container.classList.toggle( 'demo-update__limit-close', isCloseToLimit );
-
-                                                // If the character limit is exceeded, add a CSS class that makes the content's background red.
-                                                container.classList.toggle( 'demo-update__limit-exceeded', isLimitExceeded );
-
-                                                // If the character limit is exceeded, disable the send button.
-                                                sendButton.toggleAttribute( 'disabled', isLimitExceeded );
-
                                             }
-                                        }
-                                    } )
-                                    .then( editor => {
-                                        window.editor = editor;
-                                    } )
-                                    .catch( error => {
-                                        console.error( 'Oops, something gone wrong!' );
-                                        console.error( 'Please, report the following error in the https://github.com/ckeditor/ckeditor5 with the build id and the error stack trace:' );
-                                        console.warn( 'Build id: ce7zysryrfsm-xck2pu5o5swz' );
-                                        console.error( error );
-                                    } );
-                            </script>
-                            <style>
-                                .ck-editor__editable_inline {
-                                    min-height: 40vh;
-                                }
-                            </style>
+                                        } )
+                                        .then( editor => {
+                                            window.editor = editor;
+                                        } )
+                                        .catch( error => {
+                                            console.error( 'Oops, something gone wrong!' );
+                                            console.error( 'Please, report the following error in the https://github.com/ckeditor/ckeditor5 with the build id and the error stack trace:' );
+                                            console.warn( 'Build id: ce7zysryrfsm-xck2pu5o5swz' );
+                                            console.error( error );
+                                        } );
+                                </script>
+                                <style>
+                                    .ck-editor__editable_inline {
+                                        min-height: 40vh;
+                                    }
+                                </style>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
             </div>
-
         </div>
     </div>
 </div>
@@ -1145,6 +1075,7 @@
         fill: hsl( 0, 100%, 52% );
     }
 
+
 </style>
 <script>
     $('#myTab a').click(function(e) {
@@ -1204,6 +1135,21 @@
         window.location.assign(link);
         window.location.reload();
     };
+
+    subjectYear = '{{$subject->academicYear}}';
+    currentYear = sessionStorage.getItem("currentYear").replace("\\","");
+
+    if(subjectYear != currentYear){
+        console.log(subjectYear);
+        console.log(currentYear);
+        $(".stopYear").prop('disabled', true);
+    }
+
+
+
+
+
+
 
 
 </script>

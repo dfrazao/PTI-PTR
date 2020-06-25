@@ -285,6 +285,7 @@ return [
     'students assessments' => 'Students assessments',
     'final group evaluation' => 'Final group evaluation',
     'evaluate group' => 'Evaluate Group',
+    'group cant evaluate' => 'You can only grade this group after the project deadline',
     'evaluation' => 'Evaluation',
     'group not evaluated' => 'Group not evaluated',
     'grade' => 'Grade',

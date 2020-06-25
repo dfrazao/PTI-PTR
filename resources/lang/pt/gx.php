@@ -281,6 +281,7 @@ return [
     'students assessments' => 'Avaliação dos alunos',
     'final group evaluation' => 'Avaliação final do grupo',
     'evaluate group' => 'Avaliar grupo',
+    'group cant evaluate' => 'Apenas poderá avaliar este grupo após o prazo do projeto terminar',
     'evaluation' => 'Avaliação',
     'group not evaluated' => 'Grupo não avaliado',
     'grade' => 'Nota',
