@@ -483,6 +483,9 @@ consegue atribuir uma nota ao grupo com a possibilidade de alterar a nota atribu
     'helpProjectProf3' =>'Nesta área o utilizador consegue aceder ao fórum do projeto, observar posts de alunos relacionados com o projeto em causa, conseguindo também criar um post , ou responder a
     um já existente.' ,
 
-
+    //notifications
+    'createdGroupN' => 'Criou um grupo consigo',
+    'joinedGroupN' => 'Juntou-se ao grupo',
+    'leftGroupN' => 'Saiu do grupo',
 
 ];

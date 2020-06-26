@@ -93,12 +93,12 @@ class ProfessorProjectsController extends Controller
                 foreach ($enrollm as $u){
                     $users = User::all()->where('id', '=', $u)->where('id', '!=', $my_id);
                     foreach ($users as $user){
-                        $user->notify(new \App\Notifications\InvoicePaid($my_id,"Created", $project->idProject ,$project_name,$subject));
+                        $user->notify(new \App\Notifications\InvoicePaid($my_id,trans('gx.created'), $project->idProject ,$project_name,$subject));
                     }
                 }
             }
 
-            return redirect('/')->with('success', 'Project Created');
+            return redirect('/')->with('success', trans('gx.projectCreated'));
 
         } elseif ($request->option=="projectFiles"){
             $this->validate($request, [
@@ -135,7 +135,7 @@ class ProfessorProjectsController extends Controller
                 }
             }
 
-            return redirect('professor/project/'. $request->project. '#characteristics')->with('success', 'File Uploaded');
+            return redirect('professor/project/'. $request->project. '#characteristics')->with('success', trans('gx.fileUploaded'));
 
         }
         else {
@@ -172,7 +172,7 @@ class ProfessorProjectsController extends Controller
             }
 
 
-            return redirect('professor/project/'. $request->project. '#gr.pills-'.$group->idGroupProject)->with('success', 'Grade Given');
+            return redirect('professor/project/'. $request->project. '#gr.pills-'.$group->idGroupProject)->with('success', trans('gx.gradeGiven'));
         }
     }
 
@@ -271,7 +271,7 @@ class ProfessorProjectsController extends Controller
             $project->maxGroups = SubjectEnrollment::all()->where('idSubject', '==', $request->subject)->count();
             $project->save();
 
-            return redirect('professor/project/'. $id. '#characteristics')->with('success', 'Project Updated');
+            return redirect('professor/project/'. $id. '#characteristics')->with('success', trans('gx.projectUpdated'));
 
         } else {
             $this->validate($request, [
@@ -283,7 +283,7 @@ class ProfessorProjectsController extends Controller
             $group->gradeComment = $request->gradeComment;
             $group->save();
 
-            return redirect('professor/project/'. $id. '#gr.pills-'.$group->idGroupProject)->with('success', 'Grade Updated');
+            return redirect('professor/project/'. $id. '#gr.pills-'.$group->idGroupProject)->with('success', trans('gx.gradeUpd'));
         }
 
     }
@@ -301,13 +301,13 @@ class ProfessorProjectsController extends Controller
             $doc = Documentation::find($idDoc);
             Storage::delete('Documentation/'.$id.'/'.$doc->pathFile);
             $doc->delete();
-            return redirect('professor/project/'. $id. '#characteristics')->with('success', 'Doc deleted successfully');
+            return redirect('professor/project/'. $id. '#characteristics')->with('success', trans('gx.docDeleted'));
 
         }else{
             $project = Project::find($id);
             Storage::delete('documentation/'.$project->idProject."/".$project->documentation);
             $project->delete();
-            return redirect('/')->with('success', 'Project Deleted');
+            return redirect('/')->with('success', trans('gx.projectDeleted'));
         }
 
     }

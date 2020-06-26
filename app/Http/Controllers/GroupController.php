@@ -94,7 +94,7 @@ class GroupController extends Controller
 
                         foreach ($users as $user) {
 
-                            $user->notify(new \App\Notifications\InvoicePaid($my_id, "Created a group with you", $idProject ,$project_name, $subject));
+                            $user->notify(new \App\Notifications\InvoicePaid($my_id, trans('gx.createdGroupN'), $idProject ,$project_name, $subject));
 
                         }
 
@@ -105,7 +105,7 @@ class GroupController extends Controller
 
         }
 
-        return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Group created successfully');
+        return redirect()->action('StudentProjectsController@show', $idProject)->with('success', trans('gx.groupSucc'));
 
 
     }
@@ -338,11 +338,11 @@ class GroupController extends Controller
             foreach ($stuGroups as $stu) {
                 $users = User::all()->where('id', '=', $stu)->where('id', '!=', $my_id);
                 foreach ($users as $user) {
-                    $user->notify(new \App\Notifications\InvoicePaid($my_id, "Joined your group", $idProject ,$project_name, $subject));
+                    $user->notify(new \App\Notifications\InvoicePaid($my_id, trans('gx.joinedGroupN'), $idProject ,$project_name, $subject));
                 }
             }
         }
-        return redirect()->action('StudentProjectsController@show', $idProject)->with('success', 'Successfully joined the group '.$idGroup);
+        return redirect()->action('StudentProjectsController@show', $idProject)->with('success', trans('gx.joinGroupSucc'));
     }
 
     /**
@@ -380,14 +380,14 @@ class GroupController extends Controller
 
                 foreach ($users as $user) {
 
-                    $user->notify(new \App\Notifications\InvoicePaid($my_id, "Left the group", $id ,$project_name, $subject));
+                    $user->notify(new \App\Notifications\InvoicePaid($my_id, trans('gx.leftGroupN'), $id ,$project_name, $subject));
 
                 }
 
             }
         }
 
-        return redirect()->action('DashboardController@index',$project->idProject)->with('success', __('gx.successfully left the group') .$idGroup);
+        return redirect()->action('DashboardController@index',$project->idProject)->with('success',trans('gx.leftGroupSucc') );
     }
 }
 

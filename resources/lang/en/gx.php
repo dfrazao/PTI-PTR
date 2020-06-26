@@ -482,7 +482,7 @@ return [
     'gradeGiven' => 'Grade given',
     'projectUpdated' => 'Project updated',
     'gradeUpd' => 'Grade updated',
-    'docDeleted' => 'Document deleted',
+    'docDeleted' => 'Document deleted successfully',
     'projectDeleted' => 'Project deleted',
 
     //profile controller
@@ -504,5 +504,14 @@ return [
     'taskDel' => 'Task deleted successfully',
     'fileDel' => 'File deleted successfully',
     'meetingSche' => 'Scheduled a meeting',
+
+    //notifications
+    'createdGroupN' => 'Created a group with you',
+    'joinedGroupN' => 'Joined your group',
+    'leftGroupN' => 'Left the group',
+
+    //professor
+    'created' => 'Created',
+
 
 ];
