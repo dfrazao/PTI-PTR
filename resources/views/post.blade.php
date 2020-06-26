@@ -11,7 +11,7 @@
             @if (Auth::user()->role == 'professor')
                 <li class="breadcrumb-item" aria-current="page"><a style="color:#2c3fb1;" href="/professor/project/{{$project->idProject}}#forum">{{$subject->subjectName}} - {{$project->name}}</a></li>
             @elseif (Auth::user()->role == 'student')
-                <li id="bc2" class="breadcrumb-item" aria-current="page"><a style="color:#2c3fb1;" href="/student/project/{{$project->idProject}}#forum">{{$subject->subjectName}} - {{$project->name}}</a></li>
+                <li id="bc2" class="breadcrumb-item" aria-current="page"><a style="color:#2c3fb1;" href="/student/project/{{$project->idProject}}#forum">{{$subject->subjectName}} - {{$project->name}} - Group {{\App\Group::find($idGroup)->idGroupProject}}</a></li>
             @endif
             <li id="bc3" class="breadcrumb-item" aria-current="page">{{$announcement->title}}</li>
         </ol>
@@ -56,6 +56,10 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link active" id="forum-tab" data-toggle="tab" href="#forum" role="tab">{{__('gx.forum')}}</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="submission-tab" data-toggle="tab" href="/student/project/{{$project->idProject}}#submission">{{__('gx.submission')}}</a>
             </li>
         @endif
     </ul>

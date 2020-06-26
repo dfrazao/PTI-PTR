@@ -40,8 +40,6 @@
         currentYear = sessionStorage.getItem("currentYear");
         currentYearTimestamp = moment.unix(sessionStorage.getItem("currentYearTimestamp"));
 
-        console.log(moment().isAfter(currentYearTimestamp, 'year'));
-
         if (moment().isAfter(currentYearTimestamp, 'year')) {
             createCurrentYear();
         }
@@ -170,30 +168,30 @@
                                 </div>
                             </div>
                         </li>
-                    @if ($notification_chat === 0)
-                            <li class="nav-item dropdown dropdown-notifications">
-                                <a class="nav-link" id="chat_button" onclick="chat()"><i class="fa fa-envelope"></i></a>
-                            </li>
+                        @if ($notification_chat === 0)
+                                <li class="nav-item dropdown dropdown-notifications">
+                                    <a class="nav-link" id="chat_button" onclick="chat()"><i class="fa fa-envelope"></i></a>
+                                </li>
 
-                    @else
-                        <script>
-                            sessionStorage.setItem("not", {{$notification_chat}});
-                        </script>
-                            <li class="nav-item dropdown dropdown-notifications">
-                                <a class="nav-link " id="chat_button" onclick="chat()"><i class="fa fa-envelope"></i><span class='pending_nav'></span></a>
-                            </li>
-                    @endif
-                    <script>
-                        function chat() {
-                            var x = document.getElementById("este");
-                            if (x.style.display === "block") {
-                                x.style.display = "none";
-                            } else {
-                                x.style.display = "block";
-                            }
-                        }
-                    </script>
+                        @else
+                            <script>
+                                sessionStorage.setItem("not", {{$notification_chat}});
+                            </script>
+                                <li class="nav-item dropdown dropdown-notifications">
+                                    <a class="nav-link " id="chat_button" onclick="chat()"><i class="fa fa-envelope"></i><span class='pending_nav'></span></a>
+                                </li>
                         @endif
+                        <script>
+                            function chat() {
+                                var x = document.getElementById("este");
+                                if (x.style.display === "block") {
+                                    x.style.display = "none";
+                                } else {
+                                    x.style.display = "block";
+                                }
+                            }
+                        </script>
+                    @endif
                     @if ( Config::get('app.locale') == 'en')
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="flag-icon flag-icon-us"> </span> English</a>
@@ -211,89 +209,103 @@
 
                         </li>
                     @endif
-                        @if(Auth::user()->role == "student")
-                            <li class="nav-item">
-                                <a class="nav-link" href="/profile/{{ Auth::user()->id }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.Auth::user()->photo)}}"> <span style="vertical-align: middle;">{{ Auth::user()->name }}</span></a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></a>
+                    @if(Auth::user()->role == "student")
+                        <li class="nav-item">
+                            <a class="nav-link" href="/profile/{{ Auth::user()->id }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.Auth::user()->photo)}}"> <span style="vertical-align: middle;">{{ Auth::user()->name }}</span></a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></a>
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-
-                            </li>
-                            @if(request()->path() == "/")
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="modal" data-target="#modalHelpDashboardStudent" role="button" aria-haspopup="true" aria-expanded="false" v-pre> <span style="vertical-align: middle;"><i class="fa fa-question-circle" style="font-size: 1em"></i></span></a>
-                                </li>
-
-
-                            @elseif(request()->segment(4)  == "groups")
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="modal" data-target="#modalHelpGroupsStudent" role="button" aria-haspopup="true" aria-expanded="false" v-pre> <span style="vertical-align: middle;"><i class="fa fa-question-circle" style="font-size: 1em"></i></span></a>
-                                </li>
-                            @elseif(request()->segment(2)  == "project")
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="modal" data-target="#modalHelpProjectStudent" role="button" aria-haspopup="true" aria-expanded="false" v-pre> <span style="vertical-align: middle;"><i class="fa fa-question-circle" style="font-size: 1em"></i></span></a>
-                                </li>
-                            @elseif(request()->segment(1)  == "profile")
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="modal" data-target="#modalHelpProfile" role="button" aria-haspopup="true" aria-expanded="false" v-pre> <span style="vertical-align: middle;"><i class="fa fa-question-circle" style="font-size: 1em"></i></span></a>
-                                </li>
-                            @else
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/profile/{{ Auth::user()->id }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.Auth::user()->photo)}}"> <span style="vertical-align: middle;">{{ Auth::user()->name }}</span></a>
-                                </li>
-
-                            @endif
-                        @elseif(Auth::user()->role == "professor")
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="/profile/{{ Auth::user()->id }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.Auth::user()->photo)}}"> <span style="vertical-align: middle;">{{ Auth::user()->name }}</span></a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+                                    {{ __('Logout') }}
+                                </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </div>
 
+                        </li>
+                        @if(request()->path() == "/")
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="modal" data-target="#modalHelpDashboardStudent" role="button" aria-haspopup="true" aria-expanded="false" v-pre> <span style="vertical-align: middle;"><i class="fa fa-question-circle" style="font-size: 1em"></i></span></a>
                             </li>
-                            @if(request()->path() == "/")
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="modal" data-target="#modalHelpDashboardProfessor" role="button" aria-haspopup="true" aria-expanded="false" v-pre> <span style="vertical-align: middle;"><i class="fa fa-question-circle" style="font-size: 1em"></i></span></a>
-                                </li>
-                            @elseif(request()->segment(1)  == "profile")
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="modal" data-target="#modalHelpProfile" role="button" aria-haspopup="true" aria-expanded="false" v-pre> <span style="vertical-align: middle;"><i class="fa fa-question-circle" style="font-size: 1em"></i></span></a>
-                                </li>
-                            @elseif(request()->segment(2)  == "project")
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="modal" data-target="#modalHelpProjectprofessor" role="button" aria-haspopup="true" aria-expanded="false" v-pre> <span style="vertical-align: middle;"><i class="fa fa-question-circle" style="font-size: 1em"></i></span></a>
-                                </li>
-                            @else
-                                <li class="nav-item">
-                                    <a class="nav-link" role="button" aria-haspopup="true" aria-expanded="false" v-pre><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.Auth::user()->photo)}}"> <span style="vertical-align: middle;">{{ Auth::user()->name }}</span></a>
-                                </li>
-                            @endif
+                        @elseif(request()->segment(4)  == "groups")
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="modal" data-target="#modalHelpGroupsStudent" role="button" aria-haspopup="true" aria-expanded="false" v-pre> <span style="vertical-align: middle;"><i class="fa fa-question-circle" style="font-size: 1em"></i></span></a>
+                            </li>
+                        @elseif(request()->segment(2)  == "project")
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="modal" data-target="#modalHelpProjectStudent" role="button" aria-haspopup="true" aria-expanded="false" v-pre> <span style="vertical-align: middle;"><i class="fa fa-question-circle" style="font-size: 1em"></i></span></a>
+                            </li>
+                        @elseif(request()->segment(1)  == "profile")
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="modal" data-target="#modalHelpProfile" role="button" aria-haspopup="true" aria-expanded="false" v-pre> <span style="vertical-align: middle;"><i class="fa fa-question-circle" style="font-size: 1em"></i></span></a>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="/profile/{{ Auth::user()->id }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.Auth::user()->photo)}}"> <span style="vertical-align: middle;">{{ Auth::user()->name }}</span></a>
+                            </li>
+
                         @endif
+                    @elseif(Auth::user()->role == "professor")
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/profile/{{ Auth::user()->id }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.Auth::user()->photo)}}"> <span style="vertical-align: middle;">{{ Auth::user()->name }}</span></a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                             document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </div>
+
+                        </li>
+                        @if(request()->path() == "/")
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="modal" data-target="#modalHelpDashboardProfessor" role="button" aria-haspopup="true" aria-expanded="false" v-pre> <span style="vertical-align: middle;"><i class="fa fa-question-circle" style="font-size: 1em"></i></span></a>
+                            </li>
+                        @elseif(request()->segment(1)  == "profile")
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="modal" data-target="#modalHelpProfile" role="button" aria-haspopup="true" aria-expanded="false" v-pre> <span style="vertical-align: middle;"><i class="fa fa-question-circle" style="font-size: 1em"></i></span></a>
+                            </li>
+                        @elseif(request()->segment(2)  == "project")
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="modal" data-target="#modalHelpProjectprofessor" role="button" aria-haspopup="true" aria-expanded="false" v-pre> <span style="vertical-align: middle;"><i class="fa fa-question-circle" style="font-size: 1em"></i></span></a>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link" role="button" aria-haspopup="true" aria-expanded="false" v-pre><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.Auth::user()->photo)}}"> <span style="vertical-align: middle;">{{ Auth::user()->name }}</span></a>
+                            </li>
+                        @endif
+                    @elseif (Auth::user()->role == "admin")
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.Auth::user()->photo)}}"> <span style="vertical-align: middle;">{{ Auth::user()->name }}</span></a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                                 document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
+                    @endif
                 @endguest
 
             </ul>

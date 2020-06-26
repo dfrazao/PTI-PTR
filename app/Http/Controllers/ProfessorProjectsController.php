@@ -26,10 +26,10 @@ class ProfessorProjectsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-/*    public function index()
+    public function index()
     {
-        return view('professor.project');
-    }*/
+        return abort(404);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -214,7 +214,7 @@ class ProfessorProjectsController extends Controller
             $subject = Subject::find($project->idSubject);
             $groups = DB::table('groups')->where('idProject', $id)->orderBy('idGroupProject', 'ASC')->get();
 
-            $announcements = Announcement::orderBy('date', 'desc')->paginate(10)->fragment('forum');
+            $announcements = Announcement::orderByDesc('date')->where('idProject', $id)->paginate(10)->fragment('forum');
             $allAnnouncements = [];
             foreach ($announcements as $a) {
                 array_push($allAnnouncements, $a);
@@ -239,6 +239,7 @@ class ProfessorProjectsController extends Controller
             abort('404');
         }
     }
+
     /**
      * Show the form for editing the specified resource.
      *

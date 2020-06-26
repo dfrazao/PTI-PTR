@@ -343,7 +343,7 @@ return [
     'project grade' => 'Project Grade',
     'title' => 'Title',
     'body' => 'Body',
-    'comment(opcional)' => 'Comment(opcional)',
+    'comment(opcional)' => 'Comment(optional)',
 
 
     //posts

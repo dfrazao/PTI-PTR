@@ -294,6 +294,9 @@
 
                                     <div class="overflow-auto p-2 mt-2 rounded cadeira" type="button" id="{{$subject->idSubject}}" style="background-color: #c6c6c6;">
                                         <h4 class="mt-2 pl-2 float-left">{{$subject->subjectName}}</h4>
+                                        @if ($subject->projNumb > 0)
+                                            <i class="fas fa-dot-circle" style="display: inline-block;color: #00b44e;"></i>
+                                        @endif
                                         <button style="color:#2c3fb1" type="button" class="btn btn-default btn-lg float-right" id="button-{{$subject->idSubject}}">
                                             <span class="fas fa-plus"></span>
                                         </button>
@@ -305,70 +308,74 @@
                                                 @if($subject->idSubject == $project->idSubject)
                                                     <div  class="p-2 projeto" id="{{$project->idProject}}" type="button" onclick="{{(Auth::user()->role == 'student' ? (isset($project->group) == True ? 'window.location.href = "/student/project/"+id;':'window.location.href = "/student/project/"+id+"/groups";'): 'window.location.href = "/professor/project/"+id;')}}">
                                                         <p class="my-1 h5" style="display:inline-block;width: 10em;">{{$project->name}}</p>
-                                                        <div style="display: flex;text-align: center;align-items: center;width: 15em;"><i class='far fa-lg fa-users float-left'></i><div id="timer1-{{$project->idProject}}" class="timer"></div></div>
-                                                        <div style="display: flex;text-align: center;align-items: center;width: 15em;"><i class='far fa-lg fa-file-alt float-left'></i><div id="timer2-{{$project->idProject}}" class="timer"></div></div>
-                                                        <script>
-                                                            function updateTimer1{{$project->idProject}}() {
-                                                                future = Date.parse("{{$project->groupCreationDueDate}}");
-                                                                now = new Date();
-                                                                diff = future - now;
-                                                                days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                                                                hours = Math.floor(diff / (1000 * 60 * 60));
-                                                                mins = Math.floor(diff / (1000 * 60));
-                                                                secs = Math.floor(diff / 1000);
-                                                                d = days;
-                                                                h = hours - days * 24;
-                                                                m = mins - hours * 60;
-                                                                s = secs - mins * 60;
-                                                                if (d<0 || (d==0 && h==0 && m==0 && s==0)) {
-                                                                    document.getElementById("timer1-{{$project->idProject}}").innerHTML = '<div class="ml-2">{{__("gx.finished")}}</div>';
-                                                                } else if (d==0 && h==0 && m==0) {
-                                                                    document.getElementById("timer1-{{$project->idProject}}").innerHTML = '<div>' + s + '<span>{{__("gx.seconds")}}</span></div>';
-                                                                } else if (d==0) {
-                                                                    document.getElementById("timer1-{{$project->idProject}}").innerHTML =
-                                                                        '<div>' + h + '<span>{{__("gx.hours")}}</span></div>' +
-                                                                        '<div>' + m + '<span>{{__("gx.minutes")}}</span></div>' +
-                                                                        '<div>' + s + '<span>{{__("gx.seconds")}}</span></div>';
-                                                                } else {
-                                                                    document.getElementById("timer1-{{$project->idProject}}").innerHTML =
-                                                                        '<div>' + d + '<span>{{__("gx.days")}}</span></div>' +
-                                                                        '<div>' + h + '<span>{{__("gx.hours")}}</span></div>' +
-                                                                        '<div>' + m + '<span>{{__("gx.minutes")}}</span></div>';
+                                                        @if ($currentYear == $subject->academicYear or Auth::user()->role == 'professor')
+                                                            <div style="display: flex;text-align: center;align-items: center;width: 15em;"><i class='far fa-lg fa-users float-left'></i><div id="timer1-{{$project->idProject}}" class="timer"></div></div>
+                                                            <div style="display: flex;text-align: center;align-items: center;width: 15em;"><i class='far fa-lg fa-file-alt float-left'></i><div id="timer2-{{$project->idProject}}" class="timer"></div></div>
+                                                            <script>
+                                                                function updateTimer1{{$project->idProject}}() {
+                                                                    future = Date.parse("{{$project->groupCreationDueDate}}");
+                                                                    now = new Date();
+                                                                    diff = future - now;
+                                                                    days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                                                                    hours = Math.floor(diff / (1000 * 60 * 60));
+                                                                    mins = Math.floor(diff / (1000 * 60));
+                                                                    secs = Math.floor(diff / 1000);
+                                                                    d = days;
+                                                                    h = hours - days * 24;
+                                                                    m = mins - hours * 60;
+                                                                    s = secs - mins * 60;
+                                                                    if (d<0 || (d==0 && h==0 && m==0 && s==0)) {
+                                                                        document.getElementById("timer1-{{$project->idProject}}").innerHTML = '<div class="ml-2">{{__("gx.finished")}}</div>';
+                                                                    } else if (d==0 && h==0 && m==0) {
+                                                                        document.getElementById("timer1-{{$project->idProject}}").innerHTML = '<div>' + s + '<span>{{__("gx.seconds")}}</span></div>';
+                                                                    } else if (d==0) {
+                                                                        document.getElementById("timer1-{{$project->idProject}}").innerHTML =
+                                                                            '<div>' + h + '<span>{{__("gx.hours")}}</span></div>' +
+                                                                            '<div>' + m + '<span>{{__("gx.minutes")}}</span></div>' +
+                                                                            '<div>' + s + '<span>{{__("gx.seconds")}}</span></div>';
+                                                                    } else {
+                                                                        document.getElementById("timer1-{{$project->idProject}}").innerHTML =
+                                                                            '<div>' + d + '<span>{{__("gx.days")}}</span></div>' +
+                                                                            '<div>' + h + '<span>{{__("gx.hours")}}</span></div>' +
+                                                                            '<div>' + m + '<span>{{__("gx.minutes")}}</span></div>';
+                                                                    }
                                                                 }
-                                                            }
-                                                            function updateTimer2{{$project->idProject}}() {
-                                                                future = Date.parse("{{$project->dueDate}}");
-                                                                now = new Date();
-                                                                diff = future - now;
-                                                                days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                                                                hours = Math.floor(diff / (1000 * 60 * 60));
-                                                                mins = Math.floor(diff / (1000 * 60));
-                                                                secs = Math.floor(diff / 1000);
-                                                                d = days;
-                                                                h = hours - days * 24;
-                                                                m = mins - hours * 60;
-                                                                s = secs - mins * 60;
-                                                                if (d<0 || (d==0 && h==0 && m==0 && s==0)) {
-                                                                    document.getElementById("timer2-{{$project->idProject}}").innerHTML = '<div class="ml-2">{{__("gx.finished")}}</div>';
-                                                                } else if (d==0 && h==0 && m==0) {
-                                                                    document.getElementById("timer2-{{$project->idProject}}").innerHTML = '<div>' + s + '<span>{{__("gx.seconds")}}</span></div>';
-                                                                } else if (d==0) {
-                                                                    document.getElementById("timer2-{{$project->idProject}}").innerHTML =
-                                                                        '<div>' + h + '<span>{{__("gx.hours")}}</span></div>' +
-                                                                        '<div>' + m + '<span>{{__("gx.minutes")}}</span></div>' +
-                                                                        '<div>' + s + '<span>{{__("gx.seconds")}}</span></div>';
-                                                                } else {
-                                                                    document.getElementById("timer2-{{$project->idProject}}").innerHTML =
-                                                                        '<div>' + d + '<span>{{__("gx.days")}}</span></div>' +
-                                                                        '<div>' + h + '<span>{{__("gx.hours")}}</span></div>' +
-                                                                        '<div>' + m + '<span>{{__("gx.minutes")}}</span></div>';
+                                                                function updateTimer2{{$project->idProject}}() {
+                                                                    future = Date.parse("{{$project->dueDate}}");
+                                                                    now = new Date();
+                                                                    diff = future - now;
+                                                                    days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                                                                    hours = Math.floor(diff / (1000 * 60 * 60));
+                                                                    mins = Math.floor(diff / (1000 * 60));
+                                                                    secs = Math.floor(diff / 1000);
+                                                                    d = days;
+                                                                    h = hours - days * 24;
+                                                                    m = mins - hours * 60;
+                                                                    s = secs - mins * 60;
+                                                                    if (d<0 || (d==0 && h==0 && m==0 && s==0)) {
+                                                                        document.getElementById("timer2-{{$project->idProject}}").innerHTML = '<div class="ml-2">{{__("gx.finished")}}</div>';
+                                                                    } else if (d==0 && h==0 && m==0) {
+                                                                        document.getElementById("timer2-{{$project->idProject}}").innerHTML = '<div>' + s + '<span>{{__("gx.seconds")}}</span></div>';
+                                                                    } else if (d==0) {
+                                                                        document.getElementById("timer2-{{$project->idProject}}").innerHTML =
+                                                                            '<div>' + h + '<span>{{__("gx.hours")}}</span></div>' +
+                                                                            '<div>' + m + '<span>{{__("gx.minutes")}}</span></div>' +
+                                                                            '<div>' + s + '<span>{{__("gx.seconds")}}</span></div>';
+                                                                    } else {
+                                                                        document.getElementById("timer2-{{$project->idProject}}").innerHTML =
+                                                                            '<div>' + d + '<span>{{__("gx.days")}}</span></div>' +
+                                                                            '<div>' + h + '<span>{{__("gx.hours")}}</span></div>' +
+                                                                            '<div>' + m + '<span>{{__("gx.minutes")}}</span></div>';
+                                                                    }
                                                                 }
-                                                            }
-                                                            updateTimer1{{$project->idProject}}();
-                                                            setInterval('updateTimer1{{$project->idProject}}()', 1000);
-                                                            updateTimer2{{$project->idProject}}();
-                                                            setInterval('updateTimer2{{$project->idProject}}()', 1000);
-                                                        </script>
+                                                                updateTimer1{{$project->idProject}}();
+                                                                setInterval('updateTimer1{{$project->idProject}}()', 1000);
+                                                                updateTimer2{{$project->idProject}}();
+                                                                setInterval('updateTimer2{{$project->idProject}}()', 1000);
+                                                            </script>
+                                                        @else
+                                                            <div style="display: flex;text-align: center;align-items: center;width: 15em;"><i class='far fa-lg fa-medal float-left'></i><div><h5 class="mb-0">{{\App\Group::find($project->group)->grade}}</h5></div></div>
+                                                        @endif
                                                         @if(Auth::user()->role == 'student')
                                                             @if(isset($project->group))
                                                                 <a type="button" class="btn btn-sm btn-success" href="/student/project/{{$project->idProject}}" style="background-color: #2c3fb1; border-color: #2c3fb1;width: 10em;">{{__('gx.group')}} {{\App\Group::find($project->group)->idGroupProject}}</a>
@@ -426,7 +433,7 @@
                     {!! Form::open(['action' => 'ProfessorProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                     <div class="form-group">
                         {{Form::label('title', trans('gx.name'))}}
-                        {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => trans('gx.project name')])}}
+                        {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => trans('gx.project name'), 'maxlength' => 50])}}
                     </div>
                     <div class="form-group">
                         {{Form::label('group formation deadline', trans('gx.group formation deadline'))}}
@@ -458,12 +465,14 @@
                 <script>
                     $(function() {$( "#datetimepicker1-dp" ).datetimepicker({
                         minDate: moment().format('YYYY-MM-DD HH:mm'),
+                        maxDate: moment().month(7).day(31).hour(23).hour(59).format('YYYY-MM-DD HH:mm'),
                         date: moment().format('YYYY-MM-DD HH:mm'),
                         locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
                         icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
                     });});
                     $(function() {$( "#datetimepicker2-dp" ).datetimepicker({
                         minDate: moment().format('YYYY-MM-DD HH:mm'),
+                        maxDate: moment().month(7).day(31).hour(23).hour(59).format('YYYY-MM-DD HH:mm'),
                         date: moment().format('YYYY-MM-DD HH:mm'),
                         locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
                         icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
@@ -474,6 +483,7 @@
                     $("#datetimepicker2").on("change.datetimepicker", function (e) {
                         $('#datetimepicker1').datetimepicker('maxDate', e.date);
                     });
+                    console.log(moment().month(7).day(31).hour(23).hour(59).format('YYYY-MM-DD HH:mm'));
                 </script>
             </div>
         </div>

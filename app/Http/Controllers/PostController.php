@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Group;
 use App\Http\Controllers\Controller;
 use App\SubjectEnrollment;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        abort('404');
     }
 
     /**
@@ -44,9 +45,6 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-
-
-
         $user = Auth::user();
         $this->validate($request, [
             'title' => 'required',
@@ -55,9 +53,6 @@ class PostController extends Controller
 
         $id = $request ->input('project');
 
-
-
-
         $announcement = new Announcement();
         $announcement->idProject = $id;
         $announcement->sender = Auth::user()->id;
@@ -65,8 +60,6 @@ class PostController extends Controller
         $announcement->body = $request->input('body');
         $announcement->date = date("Y-m-d H:i:s");
         $announcement->save();
-
-
 
         $my_id = Auth::id();
 
@@ -121,6 +114,14 @@ class PostController extends Controller
      */
     public function show($id, $id2)
     {
+
+        $role = Auth::user()->role;
+        if($role == "student" and strpos(url()->current(), "professor") == true) {
+            return redirect("/student/project/".$id."/post/".$id2);
+        } elseif ($role == "professor" and strpos(url()->current(), "student") == true) {
+            return redirect("/professor/project/".$id."/post/".$id2);
+        }
+
         $announcement = Announcement::find($id2);
 
         if($announcement != "") {
@@ -137,6 +138,18 @@ class PostController extends Controller
                 foreach ($comments as $c) {
                     $user = User::find($c->sender);
                     array_push($commenters, $user);
+                }
+
+                if ($role == "student") {
+                    $idGroups = Group::all()->where('idProject', '==', $announcement->idProject)->pluck('idGroup');
+                    $studentGroups = StudentsGroup::all()->where('idStudent', '==', Auth::user()->id)->pluck('idGroup');
+                    $idGroup = 0;
+                    foreach($studentGroups as $st)
+                        foreach ($idGroups as $g)
+                            if ($g == $st)
+                                $idGroup = $g;
+
+                    return view('post')->with('announcement',$announcement)->with('project',$project)->with('subject',$subject)->with('poster',$poster)->with('comments',$comments)->with('commenters',$commenters)->with('idGroup',$idGroup);
                 }
 
                 return view('post')->with('announcement',$announcement)->with('project',$project)->with('subject',$subject)->with('poster',$poster)->with('comments',$comments)->with('commenters',$commenters);

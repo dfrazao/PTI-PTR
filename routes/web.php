@@ -21,25 +21,21 @@ Auth::routes([
     'confirm' => false
 ]);
 
-
-
-
 //locale
     Route::get('/set-language/{lang}', 'LanguagesController@set')->name('set.language');
 
-//dashboard
+//Dashboard
     Route::get('/', 'DashboardController@index', ['name' => 'Dashboard'])->name("Dashboard");
 
-//profile
-    //Route::put('/profile/{id}', 'ProfileController@updateProfilePhoto')->middleware('auth');
+Route::group(['middleware' => 'is.not.admin'], function () {
+//Profile
     Route::resource('/profile', 'ProfileController')->middleware('auth');
 
-//project
+//Project
     Route::resource('/professor/project', 'ProfessorProjectsController')->middleware('auth');
     Route::resource('/student/project', 'StudentProjectsController')->middleware('auth');
 
-
-//post
+//Post
     Route::get('/professor/project/{projectId}/post', 'PostController@show')->middleware('auth');
     Route::get('/student/project/{projectId}/post', 'PostController@show')->middleware('auth');
     Route::post('/post', 'PostController@store')->middleware('auth');
@@ -65,22 +61,20 @@ Auth::routes([
     Route::get('/search','SearchController@search');
     Route::post('/pusher/auth', 'ChatController@authorizeUser');
 
-
-// Student
+//Groups
     Route::get('student/project/{id}/groups', 'GroupController@show')->middleware('auth');
     Route::post('student/project/{id}/groups','GroupController@store')->middleware('auth');
     Route::put('student/project/{id}/update/groups','GroupController@update')->middleware('auth');
     Route::delete('student/project/{id}/destroy/groups','GroupController@destroy')->middleware('auth');
-// Professor
-
-
-// Admin
-Route::group(['middleware' => 'is.admin'], function () {
-    Route::get('/admin/', 'AdminDashboardController@index');
-    Route::get('/admin/{table}', 'AdminController@index');
-    Route::post('/admin/{table}/store', 'AdminController@store');
-    Route::get("/admin/edit-user/{id}", 'AdminController@edit');
-    Route::put("/admin/edit-update/", 'AdminController@update');
-    Route::delete('/admin/{table}/delete/', 'AdminController@destroy');
-    Route::post('/admin/{table}/import/', 'AdminController@import');
 });
+
+//Admin
+    Route::group(['middleware' => 'is.admin'], function () {
+        Route::get('/admin/', 'AdminDashboardController@index');
+        Route::get('/admin/{table}', 'AdminController@index');
+        Route::post('/admin/{table}/store', 'AdminController@store');
+        Route::get("/admin/edit-user/{id}", 'AdminController@edit');
+        Route::put("/admin/edit-update/", 'AdminController@update');
+        Route::delete('/admin/{table}/delete/', 'AdminController@destroy');
+        Route::post('/admin/{table}/import/', 'AdminController@import');
+    });

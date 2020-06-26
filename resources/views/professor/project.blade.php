@@ -894,7 +894,7 @@
                                 <tr class="forum_content">
                                     <td style="vertical-align: middle;"><a href="/professor/project/{{$project->idProject}}/post/{{$announcements[$i]->idAnnouncement}}">{{$announcements[$i]->title}}</a></td>
                                     <td style="vertical-align: middle;">
-                                        <a href="/profile/{{$userPoster[$i]->id }}"><img id="img_forum" class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$userPoster[$i]->photo)}}"><span style="vertical-align: middle;"> {{$userPoster[$i]->name}}</span></a>
+                                        <a href="/profile/{{$userPoster[$i]->id }}"><img id="img_forum" class="editable img-responsive" style="border-radius: 100%; height: 35px; width: 35px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$userPoster[$i]->photo)}}"><span style="vertical-align: middle;"> {{$userPoster[$i]->name}}</span></a>
                                     </td>
                                     <td style="vertical-align: middle;">{{$numberComments[$i]}}</td>
                                     <td style="vertical-align: middle;">{{$announcements[$i]->date}}</td>
@@ -1069,7 +1069,9 @@
         background-color: #ededed;
         border-color:#ededed;
     }
-
+    .nav-tabs .nav-link{
+        color: #2c3fb1;
+    }
     .table td, .table th{
         vertical-align: middle;
     }
@@ -1200,13 +1202,5 @@
         console.log(currentYear);
         $(".stopYear").prop('disabled', true);
     }
-
-
-
-
-
-
-
-
 </script>
 @endsection

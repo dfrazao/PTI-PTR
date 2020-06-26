@@ -1,160 +1,156 @@
+<div class="container-md" id="este" style="">
+   <div class="row" id="esteheader">
+       <div class="col p-0">
+           <div id="draggable-title" class="rounded-left">Chat</div>
+       </div>
+   </div>
 
-   <div class="container-md" id="este" style="">
-       <div id="mydivheader"></div>
+   <div class="row">
 
-       <div class="row">
+       <div id="col-md-4" class="col-md-4 nopadding">
+           <div class="user-wrapper">
 
-           <div id="col-md-4" class="col-md-4 nopadding">
-               <div class="user-wrapper">
-
-
-                   <div id="search" style="margin: 10px;">
-                       <div class="input-group input-group-sm" >
-                           <input class="form-control py-1" type="text" placeholder="Search" id="searchinput" name="searchinput">
-                           <span class="input-group-append">
-                                <button class="btn btn-outline-primary btn-sm" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                       </div>
-                       {{--<input type="text" placeholder="Search" class="form-control" id="searchinput" name="searchinput" style="font-size:12px; ">--}}
+               <div id="search" style="margin: 10px;">
+                   <div class="input-group input-group-sm" >
+                       <input class="form-control py-1" type="text" placeholder="Search" id="searchinput" name="searchinput">
+                       <span class="input-group-append">
+                            <button class="btn btn-outline-primary btn-sm" type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
                    </div>
+                   {{--<input type="text" placeholder="Search" class="form-control" id="searchinput" name="searchinput" style="font-size:12px; ">--}}
+               </div>
 
-                   <div class="    ">
-                       <!-- Nav tabs -->
-                       <ul class="nav nav-tabs nav-justified">
-                           <li class="nav-item">
-                               <a class="nav-link active" id="tabusers" data-toggle="tab" href="#users"><i class="far fa-user" ></i> </a>
-                           </li>
-                           <li class="nav-item">
-                               <a class="nav-link" id="tabgroups" data-toggle="tab" href="#groups" > <i class="far fa-users"></i></a>
-                           </li>
+               <div class="    ">
+                   <!-- Nav tabs -->
+                   <ul class="nav nav-tabs nav-justified">
+                       <li class="nav-item">
+                           <a class="nav-link active" id="tabusers" data-toggle="tab" href="#users"><i class="far fa-user" ></i> </a>
+                       </li>
+                       <li class="nav-item">
+                           <a class="nav-link" id="tabgroups" data-toggle="tab" href="#groups" > <i class="far fa-users"></i></a>
+                       </li>
+                   </ul>
 
-                       </ul>
+                   <!-- Tab panes -->
+                   <div class="tab-content">
+                       <div id="users" class=" tab-pane active"><br>
+                           <ul class="users">
+                               @if(count($isread) != 0)
+                                   @for($i = 0; $i < count($arr_users); $i++)
+                                       @foreach( $isread as $ele)
+                                           @if ($tem == 0 && $arr_users[$i]->id == $ele)
+                                               <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
+                                                   <span class='pending'></span>
+                                                   <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
+                                                   <input type='hidden' id="entity" name='entity' value='person'>
 
-                       <!-- Tab panes -->
-                       <div class="tab-content">
-                           <div id="users" class=" tab-pane active"><br>
-                               <ul class="users">
-                                   @if(count($isread) != 0)
-                                       @for($i = 0; $i < count($arr_users); $i++)
-                                           @foreach( $isread as $ele)
-                                               @if ($tem == 0 && $arr_users[$i]->id == $ele)
-                                                   <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
-                                                       <span class='pending'></span>
-                                                       <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
-                                                       <input type='hidden' id="entity" name='entity' value='person'>
-
-                                                       <div class="media">
-                                                           <div class="media-left">
-                                                               <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
-                                                           </div>
-                                                           <div class="media-body">
-                                                               <p class="name" style="font-size: 12px;">{{ $arr_users[$i]->name }}</p>
-                                                           </div>
+                                                   <div class="media">
+                                                       <div class="media-left">
+                                                           <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
                                                        </div>
-                                                   </li>
-                                               @else
-                                                   <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
-                                                       <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
-                                                       <input type='hidden' id="entity" name='entity' value='person'>
-
-                                                       <div class="media">
-                                                           <div class="media-left">
-                                                               <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
-                                                           </div>
-                                                           <div class="media-body">
-                                                               <p class="name" style="font-size: 12px;">{{ $arr_users[$i]->name }}</p>
-                                                           </div>
+                                                       <div class="media-body">
+                                                           <p class="name" style="font-size: 12px;">{{ $arr_users[$i]->name }}</p>
                                                        </div>
-                                                   </li>
-                                               @endif
-                                           @endforeach
-                                       @endfor
-                                   @else
-                                       @for($i = 0; $i < count($arr_users); $i++)
-                                           <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
-                                               <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
-                                               <input type='hidden' id="entity" name='entity' value='person'>
-
-                                               <div class="media">
-                                                   <div class="media-left">
-                                                       <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
                                                    </div>
-                                                   <div class="media-body">
-                                                       <p class="name_n" style="font-size: 12px;">{{ $arr_users[$i]->name }}</p>
+                                               </li>
+                                           @else
+                                               <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
+                                                   <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
+                                                   <input type='hidden' id="entity" name='entity' value='person'>
+
+                                                   <div class="media">
+                                                       <div class="media-left">
+                                                           <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
+                                                       </div>
+                                                       <div class="media-body">
+                                                           <p class="name" style="font-size: 12px;">{{ $arr_users[$i]->name }}</p>
+                                                       </div>
                                                    </div>
-                                               </div>
-                                           </li>
-                                       @endfor
-                                   @endif
-                               </ul>
-                           </div>
-                           <div id="groups" class="tab-pane fade"><br>
-                               <ul class="groups">
-
-                               @foreach ($collection as $col )
-
-                                       <li class='group' id='group{{ $col['idGroup'] }}' name=''>
-                                           <input type='hidden' id="namegroup{{ $col['idGroup'] }}" name='custId' value='{{ $col['idGroupProject'] }}'>
-                                           <input type='hidden' id="entity" name='entity' value='group'>
-
+                                               </li>
+                                           @endif
+                                       @endforeach
+                                   @endfor
+                               @else
+                                   @for($i = 0; $i < count($arr_users); $i++)
+                                       <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
+                                           <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
+                                           <input type='hidden' id="entity" name='entity' value='person'>
 
                                            <div class="media">
                                                <div class="media-left">
-                                                   {{--<img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">--}}
+                                                   <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
                                                </div>
-
                                                <div class="media-body">
-                                                   <p class="name_gr" style="font-size: 12px;">Group {{$col['idGroupProject']}} - {{$col['cadeira']}}</p>
-                                                   <p class="email"></p>
+                                                   <p class="name_n" style="font-size: 12px;">{{ $arr_users[$i]->name }}</p>
                                                </div>
                                            </div>
                                        </li>
+                                   @endfor
+                               @endif
+                           </ul>
+                       </div>
+                       <div id="groups" class="tab-pane fade"><br>
+                           <ul class="groups">
+                               @foreach ($collection as $col )
+                                   <li class='group' id='group{{ $col['idGroup'] }}' name=''>
+                                       <input type='hidden' id="namegroup{{ $col['idGroup'] }}" name='custId' value='{{ $col['idGroupProject'] }}'>
+                                       <input type='hidden' id="entity" name='entity' value='group'>
 
-                                       @endforeach
-                               </ul>
-                           </div>
+                                       <div class="media">
+                                           <div class="media-left">
+                                               {{--<img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">--}}
+                                           </div>
+
+                                           <div class="media-body">
+                                               <p class="name_gr" style="font-size: 12px;">Group {{$col['idGroupProject']}} - {{$col['cadeira']}}</p>
+                                               <p class="email"></p>
+                                           </div>
+                                       </div>
+                                   </li>
+                               @endforeach
+                           </ul>
                        </div>
                    </div>
-
-
                </div>
            </div>
+       </div>
 
+       <div class="col-md-8 nopadding">
 
-           <div class="col-md-8 nopadding">
-               <div id="name">
-                   <p>Chat</p>
-               </div>
-               <div id="messages">
+           <div id="name">
+               <p>Chat</p>
+           </div>
 
-               </div>
+           <div id="messages">
+           </div>
 
-           <div class="input-text" style="display: none; margin: 10px;">
-               <div class="input-group mb-3">
-                   <input type="text"  name="message" autocomplete="off"   maxlength="500" class="form-control" id="message" data-emoji-input="unicode" data-emojiable="true">
+           <div class="input-text mb-0" style="display: none; margin: 10px; text-align: start">
+               <div class="input-group">
+                   <input type="text" name="message" autocomplete="off" maxlength="500" class="form-control rounded-left" id="message" data-emoji-input="unicode" data-emojiable="true">
                    <div class="input-group-append">
                        <button class="btn btn-outline-primary send_btn"><i class="fas fa-location-arrow"></i></button>
                    </div>
                </div>
            </div>
 
-
-           </div>
        </div>
    </div>
-<script>dragElement(document.getElementById("este"));
+</div>
+<script>
+    dragElement(document.getElementById("este"));
 
     function dragElement(elmnt) {
-        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-        if (document.getElementById(elmnt.id + "header")) {
-            // if present, the header is where you move the DIV from:
-            document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+        if (sessionStorage.getItem('chat-pos') === null) {
+            elmnt.style.left = (10) + "px";
+            elmnt.style.top = (85) + "px";
         } else {
-            // otherwise, move the DIV from anywhere inside the DIV:
-            elmnt.onmousedown = dragMouseDown;
+            elmnt.style.left = (sessionStorage.getItem('chat-pos').split(';')[0]) + "px";
+            elmnt.style.top = (sessionStorage.getItem('chat-pos').split(';')[1]) + "px";
         }
+        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
 
         function dragMouseDown(e) {
             e = e || window.event;
@@ -184,469 +180,435 @@
             // stop moving when mouse button is released:
             document.onmouseup = null;
             document.onmousemove = null;
+            sessionStorage.setItem('chat-pos', $("#este").position().left+';'+$("#este").position().top)
         }
-    }</script>
-   <style>
+    }
+</script>
+<style>
 
-       #este {
-           position: fixed;
-           z-index: 9;
-           background-color: #f1f1f1;
-           border: 1px solid #d3d3d3;
-           text-align: center;
+   #este {
+       position: fixed;
+       z-index: 9;
+       background-color: #f1f1f1;
+       border: 1px solid #d3d3d3;
+       text-align: center;
+   }
+
+   #esteheader {
+       cursor: move;
+       z-index: 10;
+   }
+
+   /* width */
+   ::-webkit-scrollbar {
+       width: 10px;}
+   ::-webkit-scrollbar-track {
+       background: #f1f1f1;
+       border-radius: 5px;
+   }
+
+   /* Handle */
+   ::-webkit-scrollbar-thumb {
+       background-color: #fff;
+       border-radius: 5px;
+       border: 1px solid rgba(0, 123, 255, 0.78);
+   }
+
+   /* Handle on hover */
+   ::-webkit-scrollbar-thumb:hover {
+       background: rgba(0, 123, 255, 0.78);
+
+   }
+
+   ul {
+       margin: 0;
+       padding: 0;
+   }
+
+   li {
+       list-style: none;
+   }
+
+   .user-wrapper, .message-wrapper {
+       overflow-y: auto;
+   }
+
+   .user-wrapper {
+       height: 500px;
+       border-right: 1px solid #dddddd;
+
+   }
+
+   .user {
+       border-bottom: 1px solid #e7ebee;
+       cursor: pointer;
+       padding: 5px 0;
+       position: relative;
+       width: 100%;
+   }
+
+   .user:hover {
+       background: #eeeeee;
+   }
+
+   .user:last-child {
+       margin-bottom: 0;
+   }
+
+   .group {
+       border-bottom: 1px solid #e7ebee;
+       cursor: pointer;
+       padding: 5px 0;
+       position: relative;
+       width: 100%;
+   }
+
+   .group:hover {
+       background: #eeeeee;
+   }
+
+   .group:last-child {
+       margin-bottom: 0;
+   }
+
+   .pending {
+       position: absolute;
+       left: 10px;
+       top: 7px;
+       background: #ff505f;
+       margin: 0;
+       border-radius: 50%;
+       width: 12px;
+       height: 12px;
+       line-height: 18px;
+       padding-left: 5px;
+       color: #ffffff;
+       font-size: 12px;
+   }
+   .pending_nav {
+       position: absolute;
+       left: 20px;
+       top: 7px;
+       background: #ff505f;
+       margin: 0;
+       border-radius: 50%;
+       width: 10px;
+       height: 10px;
+       line-height: 18px;
+       padding-left: 5px;
+       color: #ffffff;
+       font-size: 12px;
+   }
+
+
+   .media-left {
+       margin: 0 10px;
+   }
+   .media-left img {
+       width:40px;
+       height:40px;
+       border-radius: 100%; object-fit: cover;
+       border:2px solid #fff ;
+
+   }
+   .media-body p {
+       margin: 6px 0;
+       font-size: 12px;
+   }
+   .message-wrapper {
+       padding: 10px;
+       height: 400px;
+       background: #ffffff;
+   }
+   .messages .message {
+       margin-bottom: 15px;
+       font-size: 14px;
+   }
+   .messages .message:last-child {
+       margin-bottom: 0;
+   }
+   .received, .sent {
+       max-width: 82.5%;
+       overflow-wrap: break-word;
+       padding: 3px 10px;
+       border-radius: 10px;
+   }
+   .received {
+       background: rgba(0, 123, 255, 0.78);
+       color: #ffffff;
+   }
+   .sent {
+       background: #eceff1;
+       float: right;
+       text-align: right;
+   }
+   .message p {
+       margin: 5px 0;
+   }
+   .sent .date {
+       color: black;
+       opacity: 0.9;
+       font-size: 10px;
+   }
+   .received .date {
+       color: white;
+       opacity: 0.9;
+       font-size: 10px;
+   }
+   .chat-active {
+       background: #3898ff26;
+   }
+   .col-sm-4 {
+       padding: 0;
+       overflow-x: hidden;
+   }
+   .col-sm-8 {
+       padding: 0;
+   }
+   .nopadding {
+       padding: 0 !important;
+       margin: 0 !important;
+   }
+   #name{
+       width: 100%;
+       padding: 10px 29px;
+       background: rgb(255,255,255);
+       background: linear-gradient(90deg, rgb(232,240,248) 0%, rgb(202, 223, 246) 66%, rgba(56,152,255,0.30015756302521013) 100%);
+   }
+   #draggable-title {
+       padding: 10px 0px;
+       background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(154,188,224,0.4542191876750701) 66%, rgba(56,152,255,0.30015756302521013) 100%);
+   }
+
+   .input_msg_write input {
+       background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+       border: medium none;
+       color: #4c4c4c;
+       font-size: 15px;
+       min-height: 48px;
+       width: 100%;
+   }
+
+   .type_msg {border-top: 1px solid #c4c4c4;position: relative;}
+   .msg_send_btn {
+       background: #05728f none repeat scroll 0 0;
+       border: medium none;
+       border-radius: 50%;
+       color: #fff;
+       cursor: pointer;
+       font-size: 17px;
+       height: 33px;
+       position: absolute;
+       right: 0;
+       top: 11px;
+       width: 33px;
+   }
+
+   #name p{
+       font-size: 15px;
+       text-align: center;
+   }
+
+   #este{
+       width: 450px;
+       position: absolute;
+       z-index: 4;
+
+       background:white;
+       border-radius: 6px;
+       border: 1px rgba(0, 123, 255, 0.78) solid;
+       display: none;
+       -webkit-box-shadow: 10px 10px 6px -2px rgba(211,216,222,1);
+       -moz-box-shadow: 10px 10px 6px -2px rgba(211,216,222,1);
+       box-shadow: 10px 10px 6px -2px rgba(211,216,222,1);
+   }
+   @media screen and (max-width: 800px) {
+       #este{
+           width: 90%;!important;
        }
 
-       #mydivheader {
-           cursor: move;
-           z-index: 10;
+       #col-md-4{
+           width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
+           overflow-x: hidden;
        }
-
-       /* width */
-       ::-webkit-scrollbar {
-           width: 10px;}
-       ::-webkit-scrollbar-track {
-           background: #f1f1f1;
-           border-radius: 5px;
-       }
-
-       /* Handle */
-       ::-webkit-scrollbar-thumb {
-           background-color: #fff;
-           border-radius: 5px;
-           border: 1px solid rgba(0, 123, 255, 0.78);
-       }
-
-       /* Handle on hover */
-       ::-webkit-scrollbar-thumb:hover {
-           background: rgba(0, 123, 255, 0.78);
-
-       }
-
-       ul {
-           margin: 0;
-           padding: 0;
-       }
-
-       li {
-           list-style: none;
-       }
-
-       .user-wrapper, .message-wrapper {
-           overflow-y: auto;
-       }
-
-       .user-wrapper {
-           height: 500px;
-           border-right: 1px solid #dddddd;
-
-       }
-
-       .user {
-           border-bottom: 1px solid #e7ebee;
-           cursor: pointer;
-           padding: 5px 0;
-           position: relative;
-           width: 100%;
-       }
-
-       .user:hover {
-           background: #eeeeee;
-       }
-
-       .user:last-child {
-           margin-bottom: 0;
-       }
-
-       .group {
-           border-bottom: 1px solid #e7ebee;
-           cursor: pointer;
-           padding: 5px 0;
-           position: relative;
-           width: 100%;
-       }
-
-       .group:hover {
-           background: #eeeeee;
-       }
-
-       .group:last-child {
-           margin-bottom: 0;
-       }
-
-       .pending {
-           position: absolute;
-           left: 10px;
-           top: 7px;
-           background: #ff505f;
-           margin: 0;
-           border-radius: 50%;
-           width: 12px;
-           height: 12px;
-           line-height: 18px;
-           padding-left: 5px;
-           color: #ffffff;
+       .message p {
+           margin: 5px 0;
            font-size: 12px;
-       }
-       .pending_nav {
-           position: absolute;
-           left: 20px;
-           top: 7px;
-           background: #ff505f;
-           margin: 0;
-           border-radius: 50%;
-           width: 10px;
-           height: 10px;
-           line-height: 18px;
-           padding-left: 5px;
-           color: #ffffff;
-           font-size: 12px;
-       }
-
-
-       .media-left {
-           margin: 0 10px;
-       }
-       .media-left img {
-           width:40px;
-           height:40px;
-           border-radius: 100%; object-fit: cover;
-           border:2px solid #fff ;
-
        }
        .media-body p {
            margin: 6px 0;
            font-size: 12px;
        }
-       .message-wrapper {
-           padding: 10px;
-           height: 400px;
-           background: #ffffff;
-       }
-       .messages .message {
-           margin-bottom: 15px;
-           font-size: 14px;
-       }
-       .messages .message:last-child {
-           margin-bottom: 0;
-       }
-       .received, .sent {
-           max-width: 82.5%;
-           overflow-wrap: break-word;
-           padding: 3px 10px;
-           border-radius: 10px;
-       }
-       .received {
-           background: rgba(0, 123, 255, 0.78);
-           color: #ffffff;
-       }
-       .sent {
-           background: #eceff1;
-           float: right;
-           text-align: right;
-       }
-       .message p {
-           margin: 5px 0;
-       }
-       .sent .date {
-           color: black;
-           opacity: 0.9;
-           font-size: 10px;
-       }
-       .received .date {
-           color: white;
-           opacity: 0.9;
-           font-size: 10px;
-       }
-       .chat-active {
-           background: #3898ff26;
-       }
        .col-sm-4 {
-           padding: 0;
-           overflow-x: hidden;
+           height: 300px;
        }
        .col-sm-8 {
-           padding: 0;
+           height: 300px;
        }
-       .nopadding {
-           padding: 0 !important;
-           margin: 0 !important;
-       }
-       #name{
-           width: 100%;
-           height: 47px;
-           padding: 15px 29px;
-           background: rgb(255,255,255);
-           background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(154,188,224,0.4542191876750701) 66%, rgba(56,152,255,0.30015756302521013) 100%);
-       }
+   }
+</style>
 
-       .input_msg_write input {
-           background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-           border: medium none;
-           color: #4c4c4c;
-           font-size: 15px;
-           min-height: 48px;
-           width: 100%;
-       }
+<script src="https://js.pusher.com/6.0/pusher.min.js"></script>
+<script type="text/javascript">
 
-       .type_msg {border-top: 1px solid #c4c4c4;position: relative;}
-       .msg_send_btn {
-           background: #05728f none repeat scroll 0 0;
-           border: medium none;
-           border-radius: 50%;
-           color: #fff;
-           cursor: pointer;
-           font-size: 17px;
-           height: 33px;
-           position: absolute;
-           right: 0;
-           top: 11px;
-           width: 33px;
-       }
+   $( ".nav-link" ).click(function() {
+       $('#name').hide();
+       $('#messages').hide();
+       $('.input-text').hide();
+       $('#searchinput').val(null);
+       {{--$.ajax({--}}
+           {{--type : 'get',--}}
+           {{--url : '{{URL::to('search')}}',--}}
+           {{--data:{'search':$value,'entity':entity},--}}
+           {{--success:function(data){--}}
+               {{--$('.groups').html(data);--}}
+           {{--}--}}
+       {{--});--}}
+   });
 
-       #name p{
-           font-size: 15px;
-           text-align: center;
-       }
+   $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
 
-       #este{
-           width: 450px;
-           position: absolute;
-           z-index: 4;
-
-           background:white;
-           border-radius: 6px;
-           border: 1px rgba(0, 123, 255, 0.78) solid;
-           display: none;
-           -webkit-box-shadow: 10px 10px 6px -2px rgba(211,216,222,1);
-           -moz-box-shadow: 10px 10px 6px -2px rgba(211,216,222,1);
-           box-shadow: 10px 10px 6px -2px rgba(211,216,222,1);
-       }
-       @media screen and (max-width: 800px) {
-           #este{
-               width: 90%;!important;
+   var receiver_id = '';
+   var entity = '';
+   var my_id = "{{ Auth::id() }}";
+   $(document).ready(function () {
+       // ajax setup form csrf token
+       $.ajaxSetup({
+           headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
            }
-
-           #col-md-4{
-               width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
-               overflow-x: hidden;
-           }
-           .message p {
-               margin: 5px 0;
-               font-size: 12px;
-           }
-           .media-body p {
-               margin: 6px 0;
-               font-size: 12px;
-           }
-           .col-sm-4 {
-               height: 300px;
-           }
-           .col-sm-8 {
-               height: 300px;
-           }
-       }
-   </style>
-
-   <script src="https://js.pusher.com/6.0/pusher.min.js"></script>
-   <script type="text/javascript">
-
-       $( ".nav-link" ).click(function() {
-           $('#name').hide();
-           $('#messages').hide();
-           $('.input-text').hide();
-           $('#searchinput').val(null);
-           {{--$.ajax({--}}
-               {{--type : 'get',--}}
-               {{--url : '{{URL::to('search')}}',--}}
-               {{--data:{'search':$value,'entity':entity},--}}
-               {{--success:function(data){--}}
-                   {{--$('.groups').html(data);--}}
-               {{--}--}}
-           {{--});--}}
        });
 
-       $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+       // Enable pusher logging - don't include this in production
+       Pusher.logToConsole = false;
 
-       var receiver_id = '';
-       var entity = '';
-       var my_id = "{{ Auth::id() }}";
-       $(document).ready(function () {
-           // ajax setup form csrf token
-           $.ajaxSetup({
+       var pusher = new Pusher('ff4af21336ebee3e83fe', {
+           cluster: 'eu',
+           authEndpoint: '/pusher/auth',
+           encrypted: true,
+           forceTLS: true,
+           auth: {
                headers: {
                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                }
-           });
+           }
 
-           // Enable pusher logging - don't include this in production
-           Pusher.logToConsole = false;
-
-           var pusher = new Pusher('ff4af21336ebee3e83fe', {
-               cluster: 'eu',
-               authEndpoint: '/pusher/auth',
-               encrypted: true,
-               forceTLS: true,
-               auth: {
-                   headers: {
-                       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                   }
-               }
-
-           });
-
-
-           var channel = pusher.subscribe('private-my-channel');
-           channel.bind('my-event', function (data) {
-               $('#searchinput').val(null);
-               $value=$('#searchinput').val();
-               $.ajax({
-                   type : 'get',
-                   url : '{{URL::to('search')}}',
-                   data:{'search':$value,'entity':entity},
-                   success:function(oi){
-
-                       if(entity == "person"){
-                           $('.users').html(oi);
-                           if (my_id == data.from) {
-                               $('#' + data.to).click();
-                           } else if (my_id == data.to) {
-                               if (receiver_id == data.from) {
-                                   // if receiver is selected, reload the selected user ...
-                                   $('#' + data.from).click();
-                               } else {
-                                   $('#chat_button').append('<span class="pending_nav"></span>');
-                               }
-                           }
-                       }else{
-                           alert(data.from);
-                           $('.groups').html(oi);
-                           if (my_id == data.from) {
-                               $('#group' + data.group_id).click();
-                           } else if (my_id == data.to) {
-                               if (receiver_id == data.from) {
-                                   // if receiver is selected, reload the selected user ...
-                                   $('#group' + data.from).click();
-                               } else {
-                                   $('#chat_button').append('<span class="pending_nav"></span>');
-                               }
-                           }
-                       }
-
-                   }
-               });
-
-
-
-
-           });
-
-
-           var mes = $("#message").emojioneArea({
-               searchPlaceholder: "",
-               pickerPosition: "bottom",
-               filtersPosition: "bottom",
-               events: {
-                   keyup: function (editor, event) {
-                       if(event.which == 13){
-                           event.preventDefault();
-                           var message = $('#message').data("emojioneArea").getText();
-
-                           if (message != '' && entity != '') {
-                               $('#message').data("emojioneArea").setText("");
-                                var datastr = "receiver_id=" + receiver_id + "&message=" + message + "&entity=" + entity ;
-
-                               $.ajax({
-                                   type: "post",
-                                   url: "message",
-                                   data: datastr,
-                                   cache: false,
-                                   success: function (data) {
-                                   },
-                                   error: function (jqXHR, status, err) {
-                                   },
-                                   complete: function () {
-                                       scrollToBottomFunc();
-                                       $('#searchinput').val(null);
-                                       $value=$('#searchinput').val();
-                                       if(entity == "person"){
-                                           $.ajax({
-                                               type : 'get',
-                                               url : '{{URL::to('search')}}',
-                                               data:{'search':$value,'entity':entity},
-                                               success:function(oi){
-                                                   $('.users').html(oi);
-                                               }
-                                           });
-                                       }else if(entity == "group"){
-                                           $.ajax({
-                                               type : 'get',
-                                               url : '{{URL::to('search')}}',
-                                               data:{'search':$value,'entity':entity},
-                                               success:function(oi){
-                                                   $('.groups').html(oi);
-                                               }
-                                           });
-                                       }
-
-                                   }
-                               })
-                           }
-                       }
-                   },
-               }
-           });
-
-
-           $("body").on( "click", '.user', function( event ){
-               $('.user').removeClass('chat-active');
-               $(this).addClass('chat-active');
-               $(this).find('.pending').remove();
-               $('#name').show();
-               $('#messages').show();
-               receiver_id = $(this).attr('id');
-               var n = receiver_id.toString();
-               receiver_name = $('#'+'name'+n).val();
-               entity = $(this).find('#entity').val();
-               $("#name").text(receiver_name);
-               $.ajax({
-                   type: "get",
-                   url: "/message/" + entity + "/" + receiver_id, // need to create this route
-                   data: "",
-                   cache: false,
-                   success: function (data) {
-                       $('#messages').html(data);
-                       scrollToBottomFunc();
-
-                       var num = sessionStorage.getItem("not");
-                       if (num > 0){
-                           var novo = num -1;
-                           sessionStorage.setItem("not", novo);
-                       }else{
-                           $('.pending_nav').remove();
-                       }
-                   }
-               });
-               $('.input-text').css("display", "block");
-               $('.input-group-append').css("display", "block");
-
-
-           });
        });
 
-       $("body").on( "click", '.group', function( event ){
-           $('.group').removeClass('chat-active');
+
+       var channel = pusher.subscribe('private-my-channel');
+       channel.bind('my-event', function (data) {
+           $('#searchinput').val(null);
+           $value=$('#searchinput').val();
+           $.ajax({
+               type : 'get',
+               url : '{{URL::to('search')}}',
+               data:{'search':$value,'entity':entity},
+               success:function(oi){
+
+                   if(entity == "person"){
+                       $('.users').html(oi);
+                       if (my_id == data.from) {
+                           $('#' + data.to).click();
+                       } else if (my_id == data.to) {
+                           if (receiver_id == data.from) {
+                               // if receiver is selected, reload the selected user ...
+                               $('#' + data.from).click();
+                           } else {
+                               $('#chat_button').append('<span class="pending_nav"></span>');
+                           }
+                       }
+                   }else{
+                       alert(data.from);
+                       $('.groups').html(oi);
+                       if (my_id == data.from) {
+                           $('#group' + data.group_id).click();
+                       } else if (my_id == data.to) {
+                           if (receiver_id == data.from) {
+                               // if receiver is selected, reload the selected user ...
+                               $('#group' + data.from).click();
+                           } else {
+                               $('#chat_button').append('<span class="pending_nav"></span>');
+                           }
+                       }
+                   }
+
+               }
+           });
+
+
+
+
+       });
+
+
+       var mes = $("#message").emojioneArea({
+           searchPlaceholder: "",
+           pickerPosition: "bottom",
+           filtersPosition: "bottom",
+           events: {
+               keyup: function (editor, event) {
+                   if(event.which == 13){
+                       event.preventDefault();
+                       var message = $('#message').data("emojioneArea").getText();
+
+                       if (message != '' && entity != '') {
+                           $('#message').data("emojioneArea").setText("");
+                            var datastr = "receiver_id=" + receiver_id + "&message=" + message + "&entity=" + entity ;
+
+                           $.ajax({
+                               type: "post",
+                               url: "message",
+                               data: datastr,
+                               cache: false,
+                               success: function (data) {
+                               },
+                               error: function (jqXHR, status, err) {
+                               },
+                               complete: function () {
+                                   scrollToBottomFunc();
+                                   $('#searchinput').val(null);
+                                   $value=$('#searchinput').val();
+                                   if(entity == "person"){
+                                       $.ajax({
+                                           type : 'get',
+                                           url : '{{URL::to('search')}}',
+                                           data:{'search':$value,'entity':entity},
+                                           success:function(oi){
+                                               $('.users').html(oi);
+                                           }
+                                       });
+                                   }else if(entity == "group"){
+                                       $.ajax({
+                                           type : 'get',
+                                           url : '{{URL::to('search')}}',
+                                           data:{'search':$value,'entity':entity},
+                                           success:function(oi){
+                                               $('.groups').html(oi);
+                                           }
+                                       });
+                                   }
+
+                               }
+                           })
+                       }
+                   }
+               },
+           }
+       });
+
+
+       $("body").on( "click", '.user', function( event ){
+           $('.user').removeClass('chat-active');
            $(this).addClass('chat-active');
            $(this).find('.pending').remove();
-           receiver_id = $(this).attr('id');
            $('#name').show();
            $('#messages').show();
+           receiver_id = $(this).attr('id');
            var n = receiver_id.toString();
-           group_name = $('#name'+n).val();
+           receiver_name = $('#'+'name'+n).val();
            entity = $(this).find('#entity').val();
-           $("#name").text("Group " + group_name);
-
-           receiver_id = receiver_id.split('group').join('');
-
+           $("#name").text(receiver_name);
            $.ajax({
                type: "get",
                url: "/message/" + entity + "/" + receiver_id, // need to create this route
@@ -655,6 +617,7 @@
                success: function (data) {
                    $('#messages').html(data);
                    scrollToBottomFunc();
+
                    var num = sessionStorage.getItem("not");
                    if (num > 0){
                        var novo = num -1;
@@ -669,128 +632,165 @@
 
 
        });
+   });
 
-       $(document).on('click', '.send_btn', function () {
-           var message = $('.input-text input').val();
-           if (message != '' && receiver_id != '') {
-               $('#message').data("emojioneArea").setText(""); // this work
-               var datastr = "receiver_id=" + receiver_id + "&message=" + message;
-               $.ajax({
-                   type: "post",
-                   url: "message", // need to create this post route
-                   data: datastr,
-                   cache: false,
-                   success: function (data) {
-                   },
-                   error: function (jqXHR, status, err) {
-                   },
-                   complete: function () {
-                       scrollToBottomFunc();
-                       $('#searchinput').val(null);
-                       $value=$('#searchinput').val();
-                       $.ajax({
-                           type : 'get',
-                           url : '{{URL::to('search')}}',
-                           data:{'search':$value},
-                           success:function(data){
-                               $('.users').html(data);
-                           }
-                       });
+   $("body").on( "click", '.group', function( event ){
+       $('.group').removeClass('chat-active');
+       $(this).addClass('chat-active');
+       $(this).find('.pending').remove();
+       receiver_id = $(this).attr('id');
+       $('#name').show();
+       $('#messages').show();
+       var n = receiver_id.toString();
+       group_name = $('#name'+n).val();
+       entity = $(this).find('#entity').val();
+       $("#name").text("Group " + group_name);
 
-                       var mes = $("#message").emojioneArea({
-                           searchPlaceholder: "",
-                           pickerPosition: "bottom",
-                           filtersPosition: "bottom",
-                           events: {
-                               keyup: function (editor, event) {
-                                   if(event.which == 13){
-                                       event.preventDefault();
-                                       var message = $('#message').data("emojioneArea").getText();
+       receiver_id = receiver_id.split('group').join('');
 
-                                       if (message != '' && entity != '') {
-                                           $('#message').data("emojioneArea").setText("");
-                                           var datastr = "receiver_id=" + receiver_id + "&message=" + message + "&entity=" + entity ;
-
-                                           $.ajax({
-                                               type: "post",
-                                               url: "message",
-                                               data: datastr,
-                                               cache: false,
-                                               success: function (data) {
-                                               },
-                                               error: function (jqXHR, status, err) {
-                                               },
-                                               complete: function () {
-                                                   scrollToBottomFunc();
-                                                   $('#searchinput').val(null);
-                                                   $value=$('#searchinput').val();
-                                                   if(entity == "person"){
-                                                       $.ajax({
-                                                           type : 'get',
-                                                           url : '{{URL::to('search')}}',
-                                                           data:{'search':$value,'entity':entity},
-                                                           success:function(oi){
-                                                               $('.users').html(oi);
-                                                           }
-                                                       });
-                                                   }else if(entity == "group"){
-                                                       $.ajax({
-                                                           type : 'get',
-                                                           url : '{{URL::to('search')}}',
-                                                           data:{'search':$value,'entity':entity},
-                                                           success:function(oi){
-                                                               $('.groups').html(oi);
-                                                           }
-                                                       });
-                                                   }
-
-                                               }
-                                           })
-                                       }
-                                   }
-                               },
-                           }
-                       });
-                   }
-               })
+       $.ajax({
+           type: "get",
+           url: "/message/" + entity + "/" + receiver_id, // need to create this route
+           data: "",
+           cache: false,
+           success: function (data) {
+               $('#messages').html(data);
+               scrollToBottomFunc();
+               var num = sessionStorage.getItem("not");
+               if (num > 0){
+                   var novo = num -1;
+                   sessionStorage.setItem("not", novo);
+               }else{
+                   $('.pending_nav').remove();
+               }
            }
        });
+       $('.input-text').css("display", "block");
+       $('.input-group-append').css("display", "block");
 
-       // make a function to scroll down auto
-       function scrollToBottomFunc() {
-           $('.message-wrapper').animate({
-               scrollTop: $('.message-wrapper').get(0).scrollHeight
-           }, 0);
+
+   });
+
+   $(document).on('click', '.send_btn', function () {
+       var message = $('.input-text input').val();
+       if (message != '' && receiver_id != '') {
+           $('#message').data("emojioneArea").setText(""); // this work
+           var datastr = "receiver_id=" + receiver_id + "&message=" + message;
+           $.ajax({
+               type: "post",
+               url: "message", // need to create this post route
+               data: datastr,
+               cache: false,
+               success: function (data) {
+               },
+               error: function (jqXHR, status, err) {
+               },
+               complete: function () {
+                   scrollToBottomFunc();
+                   $('#searchinput').val(null);
+                   $value=$('#searchinput').val();
+                   $.ajax({
+                       type : 'get',
+                       url : '{{URL::to('search')}}',
+                       data:{'search':$value},
+                       success:function(data){
+                           $('.users').html(data);
+                       }
+                   });
+
+                   var mes = $("#message").emojioneArea({
+                       searchPlaceholder: "",
+                       pickerPosition: "bottom",
+                       filtersPosition: "bottom",
+                       events: {
+                           keyup: function (editor, event) {
+                               if(event.which == 13){
+                                   event.preventDefault();
+                                   var message = $('#message').data("emojioneArea").getText();
+
+                                   if (message != '' && entity != '') {
+                                       $('#message').data("emojioneArea").setText("");
+                                       var datastr = "receiver_id=" + receiver_id + "&message=" + message + "&entity=" + entity ;
+
+                                       $.ajax({
+                                           type: "post",
+                                           url: "message",
+                                           data: datastr,
+                                           cache: false,
+                                           success: function (data) {
+                                           },
+                                           error: function (jqXHR, status, err) {
+                                           },
+                                           complete: function () {
+                                               scrollToBottomFunc();
+                                               $('#searchinput').val(null);
+                                               $value=$('#searchinput').val();
+                                               if(entity == "person"){
+                                                   $.ajax({
+                                                       type : 'get',
+                                                       url : '{{URL::to('search')}}',
+                                                       data:{'search':$value,'entity':entity},
+                                                       success:function(oi){
+                                                           $('.users').html(oi);
+                                                       }
+                                                   });
+                                               }else if(entity == "group"){
+                                                   $.ajax({
+                                                       type : 'get',
+                                                       url : '{{URL::to('search')}}',
+                                                       data:{'search':$value,'entity':entity},
+                                                       success:function(oi){
+                                                           $('.groups').html(oi);
+                                                       }
+                                                   });
+                                               }
+
+                                           }
+                                       })
+                                   }
+                               }
+                           },
+                       }
+                   });
+               }
+           })
+       }
+   });
+
+   // make a function to scroll down auto
+   function scrollToBottomFunc() {
+       $('.message-wrapper').animate({
+           scrollTop: $('.message-wrapper').get(0).scrollHeight
+       }, 0);
+   }
+
+
+
+   $('#searchinput').on('keyup',function(){
+       $value=$('#searchinput').val();
+       const tabusers = document.querySelector("#tabusers");
+       tem = tabusers.classList.contains("active");
+
+       if(tem == true){
+           $.ajax({
+               type : 'get',
+               url : '{{URL::to('search')}}',
+               data:{'search':$value,'entity':"person"},
+               success:function(data){
+                   $('.users').html(data);
+               }
+           });
+
+       }else{
+           $.ajax({
+               type : 'get',
+               url : '{{URL::to('search')}}',
+               data:{'search':$value,'entity':"group"},
+               success:function(data){
+                   $('.groups').html(data);
+               }
+           });
        }
 
-
-
-       $('#searchinput').on('keyup',function(){
-           $value=$('#searchinput').val();
-           const tabusers = document.querySelector("#tabusers");
-           tem = tabusers.classList.contains("active");
-
-           if(tem == true){
-               $.ajax({
-                   type : 'get',
-                   url : '{{URL::to('search')}}',
-                   data:{'search':$value,'entity':"person"},
-                   success:function(data){
-                       $('.users').html(data);
-                   }
-               });
-
-           }else{
-               $.ajax({
-                   type : 'get',
-                   url : '{{URL::to('search')}}',
-                   data:{'search':$value,'entity':"group"},
-                   success:function(data){
-                       $('.groups').html(data);
-                   }
-               });
-           }
-
-       })
-   </script>
-
+   })
+</script>

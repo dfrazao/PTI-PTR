@@ -31,10 +31,7 @@ class GroupController extends Controller
      */
     public function index()
     {
-
-        //return view('student/groups')->with('alunos',$alunos )->with('grupos',$grupos );
-        //->with('grupos_correntes',$grupos_correntes );
-
+        return abort(404);
     }
 
     /**

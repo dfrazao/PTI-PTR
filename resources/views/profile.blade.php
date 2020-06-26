@@ -366,11 +366,11 @@
                                         </div>
                                         <div class="form-group">
                                             {{Form::label('city', trans('gx.city'))}}
-                                            {{Form::text('city', $user->city, ['class' => 'form-control', 'placeholder' => trans('gx.city')])}}
+                                            {{Form::text('city', $user->city, ['class' => 'form-control', 'placeholder' => trans('gx.city'), 'maxlength' => 50])}}
                                         </div>
                                         <div class="form-group">
                                             {{Form::label('about', trans('gx.about'))}}
-                                            {{Form::textarea('about', $user->description, ['class' => 'form-control', 'placeholder' => trans('gx.about')])}}
+                                            {{Form::textarea('about', $user->description, ['class' => 'form-control', 'placeholder' => trans('gx.about'), 'maxlength' => 500])}}
                                         </div>
                                         {{ Form::hidden('option', "rest") }}
 

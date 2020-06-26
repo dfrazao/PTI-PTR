@@ -72,7 +72,6 @@ class ProfileController extends Controller
             if (count($subjectsEnrolled) > 0) {
                 $subjects = Subject::whereIn('idSubject', $subjectsEnrolled)->orderBy('subjectName', 'asc')->get();
                 $academicYears = AcademicYear::all()->sortKeysDesc();
-                //dd($subjects);
                 return view('profile')->with('user', $user)->with('courseName', $courseName)->with('universityName', $universityName)->with('subjects', $subjects)->with('academicYears', $academicYears);
             } else {
                 return view('profile')->with('user', $user)->with('courseName', $courseName)->with('universityName', $universityName)->with('subjects', $subjectsEnrolled);
