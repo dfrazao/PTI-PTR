@@ -76,7 +76,7 @@
     <div class="tab-content" id="myTabContent" style="min-height: 75vh; background-color: #ededed;">
         <div class="container tab-pane fade " id="characteristics" role="tabpanel" aria-labelledby="characteristics-tab">
             <div class="row  p-3">
-                <div class=" col-md-8 rounded bg-white w-100 p-3 mr-2" style="position: relative;">
+                <div class=" col-lg-8 rounded bg-white w-100 p-3 mr-2" style="position: relative;">
 
                     <button type="button" class="btn btn-success btn-sm float-right stopYear" data-toggle="modal" data-target="#modalEdit-{{$project->idProject}}">{{__('gx.edit project')}}</button>
                     <h4>{{__('gx.characteristics')}}</h4>
@@ -345,10 +345,37 @@
 
                     </table>
                 </div>
-                <div class=" col rounded bg-white w-100 p-3 " style="position: relative;">
+                <div id="row_docs_prof" class=" col rounded bg-white w-100 p-3 " style="position: relative;">
                     <h5>{{__('gx.documentation')}}</h5>
                     <button type="button" class="p-2 btn btn-primary btn-md stopYear" data-toggle="modal" data-target="#modalUploadFiles-{{$project->idProject}}" style="position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal">{{__('gx.upload files')}}</button>
-                    <div class="table-wrapper-scroll-y my-custom-scrollbar" style="display: block; position: absolute; right: 2%; left: 2%; top:10%; overflow: auto; height: 76%;">
+                    <div id="files_documentation" class="table-wrapper-scroll-y my-custom-scrollbar">
+                        <style>
+                            #files_documentation{
+                                display: block;
+                                position: absolute;
+                                right: 2%;
+                                left: 2%;
+                                top:10%;
+                                overflow: auto;
+                                height: 76%;
+                                overflow: auto;
+                            }
+                            @media screen and (max-width: 991px){
+                                #row_docs_prof {
+                                    height: 300px;
+                                    margin-top: 10px;
+                                }
+                                #files_documentation{
+                                    display: block;
+                                    position: absolute;
+                                    right: 2%;
+                                    left: 2%;
+                                    top:20%;
+                                    overflow: auto;
+                                    height: 76%;
+                                }
+                            }
+                        </style>
                         <table class="table table-sm fixed_header">
 
                             <tbody>
@@ -440,12 +467,12 @@
 
         <div class="container-fluid ml-0 mr-0 tab-pane fade" id="gr" role="tabpanel" aria-labelledby="groups-tab">
             <div id="altura_col_groups_prof" class="row rounded">
-                <div id="col_groups_prof"class="col-md-3 mt-3 mb-3 px-3 rounded center" style="position: relative; height: 94%;">
+                <div id="col_groups_prof"class="col-lg-3 mt-3 mb-3 px-3 rounded center" style="position: relative; height: 94%;">
                     <style>
                         #altura_col_groups_prof{
                             height: 75vh;
                         }
-                        @media screen and (max-width: 750px){
+                        @media screen and (max-width: 991px){
                             #col_groups_prof {
                             }
                             #altura_col_groups_prof{
@@ -465,13 +492,23 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-9 mt-3 mb-3 rounded pl-0 pr-3" style="width: 100%;">
+                <div id="container_grupos" class="col-lg-9 mt-3 mb-3 rounded pr-3" style="width: 100%;">
+                    <style>
+                        #container_grupos{
+                            padding-left: 0px;
+                        }
+                        @media screen and (max-width: 991px) {
+                            #container_grupos {
+                                padding-left: 15px;
+                            }
+                        }
+                    </style>
                     <div class="container-fluid rounded h-100 p-3" style="background-color: #c6c6c6;">
                         <div class="tab-content h-100" id="pills-tabContent">
                             @foreach($groups as $group)
                                 <div class="container-fluid tab-pane fade h-100" id="pills-{{$group->idGroupProject}}" role="tabpanel" aria-labelledby="pills-{{$group->idGroupProject}}-tab">
                                         <div class="row h-100" style="position: relative; background-color: #c6c6c6;">
-                                            <div class="col-md-6">
+                                            <div class="col-lg-6">
 
                                                 <div id="assessments_row" class="row h-100">
                                                     <div class="bg-light p-2 w-100 rounded" style="margin-right: 10px">
@@ -496,12 +533,23 @@
                                                                     #tabela_aval{
                                                                         display: inline-grid;
                                                                     }
+                                                                    #avatar2{
+                                                                        display: none;
+                                                                    }
+                                                                    #nome_aval{
+                                                                        font-size: 1.5vh;
+                                                                    }
+                                                                }
+                                                                @media screen and (max-width: 991px) {
+                                                                    #assessments_row{
+                                                                        padding-bottom: 20px;
+                                                                    }
                                                                 }
                                                             </style>
                                                             <tbody>
                                                             @foreach(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) as $sg)
                                                                 <tr>
-                                                                    <td><a href="/profile/{{$sg->idStudent}}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.\App\User::find($sg->idStudent)->photo)}}"><span style="vertical-align: middle;"> {{\App\User::find($sg->idStudent)->name}}</span></a></td>
+                                                                    <td><a href="/profile/{{$sg->idStudent}}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.\App\User::find($sg->idStudent)->photo)}}"><span id="nome_aval" style="vertical-align: middle;"> {{\App\User::find($sg->idStudent)->name}}</span></a></td>
                                                                     <td><i class="far fa-envelope"></i></td>
                                                                     <td>
                                                                         @if(is_null(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', $sg->idStudent)->where('idGroup', $group->idGroup)->value('grade')))
@@ -525,28 +573,16 @@
                                                     </div>
                                                 </div>
 
-                                                <style>
-                                                            #assessments_row{
-                                                                height: 60%;
-                                                            }
-                                                            @media screen and (max-width: 500px){
-                                                                #assessments_row {
-                                                                    margin-bottom: 50%;
-                                                                }
-                                                            }
-                                                        </style>
-
 
                                         </div>
-                                        <div  class="col-md-6 ">
+                                        <div  class="col-lg-6 ">
                                             <div id="files_row" class="row h-50">
                                                 <style>
                                                     #files_row{
-                                                        height: 40%;
                                                     }
-                                                    @media screen and (max-width: 500px){
+                                                    @media screen and (max-width: 991px){
                                                         #files_row {
-                                                            height: 70%;
+                                                            padding-bottom: 10px;
                                                         }
                                                     }
                                                 </style>
@@ -691,7 +727,12 @@
                                                     @endif
                                                     @if ($group->grade == NULL and $project->dueDate <= date("Y-m-d H:i:s"))
                                                         <p class="mb-0">{{__('gx.group not evaluated')}}</p>
-                                                        <button type="button" class="p-2 btn btn-sm btn-primary stopYear" style="position: absolute; width: 17vh; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}">{{__('gx.evaluate group')}}</button>
+                                                        <style>
+                                                            #par_eval{
+                                                                padding-bottom: 100%;!important;
+                                                            }
+                                                        </style>
+                                                        <button type="button" class="p-2 btn btn-sm btn-primary stopYear" style="padding-top: 100%;position: absolute; width: 17vh; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}">{{__('gx.evaluate group')}}</button>
 
                                                         @if($subject->academicYear == $currentYear)
                                                             <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
@@ -729,7 +770,7 @@
                                                         @if($group->gradeComment == NULL)
                                                             <p class="m-0">{{__('gx.no comments')}}</p>
                                                         @else
-                                                            <p class="mb-0 p-1 rounded" style=" overflow: auto; height: 46%; background-color: #d0e7ff; margin-top: 2%;" >{{$group->gradeComment}}</p>
+                                                            <p class="mb-0 p-1 rounded" style="overflow: auto; height: 46%; background-color: #d0e7ff; margin-top: 2%;" >{{$group->gradeComment}}</p>
                                                         @endif
                                                         <button id="changegrade" type="button" class="p-2 btn btn-primary btn-sm float-right stopYear" style="position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%; width: 16vh;" data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}" >{{__('gx.change grade')}}</button>
                                                         <style>
@@ -740,11 +781,11 @@
                                                                 margin-bottom: 2%;
                                                                 margin-right: 2%;
                                                             }
-                                                            @media screen and (max-width: 500px){
+                                                            /*@media screen and (max-width: 500px){
                                                                 #changegrade {
                                                                     bottom: -30%;
                                                                     right: 2%;
-                                                                }
+                                                                }*/
                                                             }
                                                         </style>
 
