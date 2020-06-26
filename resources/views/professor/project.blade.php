@@ -94,7 +94,7 @@
                                         {!! Form::open(['action' => ['ProfessorProjectsController@update', $project->idProject], 'method' => 'POST', 'enctype' => 'multipart/form-data', 'id' => 'formEdit']) !!}
                                         <div class="form-group">
                                             {{Form::label('title', trans('gx.name'))}}
-                                            {{Form::text('title', $project->name, ['class' => 'form-control', 'placeholder' => trans('gx.project name')])}}
+                                            {{Form::text('title', $project->name, ['class' => 'form-control', 'placeholder' => trans('gx.project name'), 'maxlength' => 50])}}
                                         </div>
                                         <div class="form-group">
                                             {{Form::label('deadline', trans('gx.group formation deadline'))}}
@@ -317,7 +317,7 @@
                             @if($count >= 1)
                                 <td class="info-td" style="width: 53%;"><button type="button" class="btn btn-outline-primary btn-sm m-0 waves-effect" data-toggle="modal" data-target="#modalGroups-{{$project->idProject}}">{{__('gx.show')}}</button></td>
                                 <div class="modal fade" id="modalGroups-{{$project->idProject}}" aria-labelledby="modalGroups-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
-                                    <div class="modal-dialog" role="document">
+                                    <div class="modal-dialog modal-sm" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h4 class="modal-title" id="staticBackdropLabel">Grupos</h4>
@@ -328,7 +328,7 @@
                                             <div class="modal-body">
                                                 @foreach($groups as $group)
                                                     @if(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup)->count() < $project->minElements)
-                                                        <p><a onclick="reloadPage('{{url('/professor/project/'.$project->idProject.'#gr.pills-'.$group->idGroupProject)}}')">Grupo {{$group->idGroupProject}}</a></p>
+                                                       <p><a href onclick="reloadPage('{{url('/professor/project/'.$project->idProject.'#gr.pills-'.$group->idGroupProject)}}')">Grupo {{$group->idGroupProject}}</a></p>
                                                     @endif
                                                 @endforeach
                                             </div>
@@ -347,17 +347,11 @@
                 </div>
                 <div id="row_docs_prof" class=" col rounded bg-white w-100 p-3 " style="position: relative;">
                     <h5>{{__('gx.documentation')}}</h5>
-                    <button type="button" class="p-2 btn btn-primary btn-md stopYear" data-toggle="modal" data-target="#modalUploadFiles-{{$project->idProject}}" style="position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal">{{__('gx.upload files')}}</button>
+                    <button type="button" class="p-2 btn btn-primary btn-sm stopYear" data-toggle="modal" data-target="#modalUploadFiles-{{$project->idProject}}" style="position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal">{{__('gx.upload files')}}</button>
                     <div id="files_documentation" class="table-wrapper-scroll-y my-custom-scrollbar">
                         <style>
                             #files_documentation{
-                                display: block;
-                                position: absolute;
-                                right: 2%;
-                                left: 2%;
-                                top:10%;
-                                overflow: auto;
-                                height: 76%;
+                                height: 65vh;
                                 overflow: auto;
                             }
                             @media screen and (max-width: 991px){
@@ -481,15 +475,19 @@
                         }
                     </style>
                     <div class="container rounded pt-3 overflow-auto mw-80 h-100" style="background-color: #c6c6c6;">
-                        <ul class="nav nav-pills mb-3 flex-column" id="pills-tab" role="tablist" aria-orientation="vertical">
-                            @foreach($groups as $group)
-                                <li class="nav-item mb-1 rounded" style="background-color: #d0e7ff;">
-                                    <a class="nav-link " style="display:flex; align-items: center;vertical-align: middle; justify-content: space-between;" id="pills-{{$group->idGroupProject}}-tab" data-toggle="pill" href="#pills-{{$group->idGroupProject}}" role="tab" aria-controls="pills-{{$group->idGroupProject}}" aria-selected="true">
-                                        <h3 class="float-left mb-0 mr-2" style="vertical-align: middle;">{{__('gx.group')}} {{$group->idGroupProject}} </h3><i class="fas fa-check-circle" id="pills-{{$group->idGroupProject}}-tab-image" style="display: none;"></i>
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
+                        @if($groups == '[]')
+                            <p>There are no groups formed yet</p>
+                        @else
+                            <ul class="nav nav-pills mb-3 flex-column" id="pills-tab" role="tablist" aria-orientation="vertical">
+                                @foreach($groups as $group)
+                                    <li class="nav-item mb-1 rounded" style="background-color: #d0e7ff;">
+                                        <a class="nav-link " style="display:flex; align-items: center;vertical-align: middle; justify-content: space-between;" id="pills-{{$group->idGroupProject}}-tab" data-toggle="pill" href="#pills-{{$group->idGroupProject}}" role="tab" aria-controls="pills-{{$group->idGroupProject}}" aria-selected="true">
+                                            <h3 class="float-left mb-0 mr-2" style="vertical-align: middle;">{{__('gx.group')}} {{$group->idGroupProject}} </h3><i class="fas fa-check-circle" id="pills-{{$group->idGroupProject}}-tab-image" style="display: none;"></i>
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
                     </div>
                 </div>
                 <div id="container_grupos" class="col-lg-9 mt-3 mb-3 rounded pr-3" style="width: 100%;">
@@ -505,73 +503,89 @@
                     </style>
                     <div class="container-fluid rounded h-100 p-3" style="background-color: #c6c6c6;">
                         <div class="tab-content h-100" id="pills-tabContent">
-                            @foreach($groups as $group)
-                                <div class="container-fluid tab-pane fade h-100" id="pills-{{$group->idGroupProject}}" role="tabpanel" aria-labelledby="pills-{{$group->idGroupProject}}-tab">
-                                        <div class="row h-100" style="position: relative; background-color: #c6c6c6;">
-                                            <div class="col-lg-6">
+                            @if($groups == '[]')
+                                <p> No information about groups available</p>
+                            @else
+                                @foreach($groups as $group)
+                                    <div class="container-fluid tab-pane fade h-100" id="pills-{{$group->idGroupProject}}" role="tabpanel" aria-labelledby="pills-{{$group->idGroupProject}}-tab">
+                                            <div class="row h-100" style="position: relative; background-color: #c6c6c6;">
+                                                <div class="col-lg-6">
 
                                                 <div id="assessments_row" class="row h-100">
                                                     <div class="bg-light p-2 w-100 rounded" style="margin-right: 10px">
-                                                        <h5 class="mb-2">Teamwork Evaluation</h5>
+                                                        <h5 class="mb-3">Teamwork Evaluation</h5>
                                                         @if(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) == '[]')
-                                                            <p>No evaluations available</p>
+                                                            <p>There are no students in this group</p>
                                                         @else
-                                                        <table id="tabela_aval"  class="table table-sm mt-4 " style="text-align: center; vertical-align: middle;">
-                                                            <thead>
-                                                            <tr id="font_tabela_aval">
-                                                                <th scope="col">Elementos</th>
-                                                                <th scope="col"></th>
-                                                                <th scope="col" >Autoavaliação</th>
-                                                                <th scope="col" >Avaliação do grupo</th>
-                                                            </tr>
-                                                            </thead>
-                                                            <style>
-                                                                @media screen and (max-width: 500px) {
-                                                                    #font_tabela_aval {
-                                                                        font-size: 1.5vh;
-                                                                    }
-                                                                    #tabela_aval{
-                                                                        display: inline-grid;
-                                                                    }
-                                                                    #avatar2{
-                                                                        display: none;
-                                                                    }
-                                                                    #nome_aval{
-                                                                        font-size: 1.5vh;
-                                                                    }
-                                                                }
-                                                                @media screen and (max-width: 991px) {
-                                                                    #assessments_row{
-                                                                        padding-bottom: 20px;
-                                                                    }
-                                                                }
-                                                            </style>
-                                                            <tbody>
-                                                            @foreach(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) as $sg)
-                                                                <tr>
-                                                                    <td><a href="/profile/{{$sg->idStudent}}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.\App\User::find($sg->idStudent)->photo)}}"><span id="nome_aval" style="vertical-align: middle;"> {{\App\User::find($sg->idStudent)->name}}</span></a></td>
-                                                                    <td><i class="far fa-envelope"></i></td>
-                                                                    <td>
-                                                                        @if(is_null(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', $sg->idStudent)->where('idGroup', $group->idGroup)->value('grade')))
-                                                                            -
-                                                                        @else
-                                                                            <img src="/images/star.png" style="width: 23px; height: 23px; margin-right: 3%; margin-bottom: 2%;">{{\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', $sg->idStudent)->where('idGroup', $group->idGroup)->value('grade')}}/5
-                                                                        @endif
-                                                                    </td>
-                                                                    <td>
-                                                                        @if(\App\Evaluation::find(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', "!=", $sg->idStudent)->where('idGroup', $group->idGroup)->pluck('idEval'))->pluck('grade')->avg() == 0)
-                                                                            -
-                                                                        @else
-                                                                            <img src="/images/star.png" style="width: 23px; height: 23px; margin-bottom: 2%; margin-right: 1%;"> {{\App\Evaluation::find(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', "!=", $sg->idStudent)->where('idGroup', $group->idGroup)->pluck('idEval'))->pluck('grade')->avg()}}/5
-                                                                        @endif
-                                                                    </td>
+                                                            <div style="overflow: auto; max-height: 59vh;">
+                                                            <table id="tabela_aval"  class="table table-sm " style="text-align: center; vertical-align: middle;">
+                                                                <thead>
+                                                                <tr id="font_tabela_aval">
+                                                                    <th scope="col">Elementos</th>
+                                                                    <th scope="col"></th>
+                                                                    <th scope="col" >Autoavaliação</th>
+                                                                    <th scope="col" >Avaliação do grupo</th>
                                                                 </tr>
-                                                            @endforeach
-                                                            </tbody>
-                                                        </table>
+                                                                </thead>
+                                                                <style>
+                                                                    @media screen and (max-width: 500px) {
+                                                                        #font_tabela_aval {
+                                                                            font-size: 1.5vh;
+                                                                        }
+                                                                        #tabela_aval{
+                                                                            display: inline-grid;
+                                                                        }
+                                                                        #avatar2{
+                                                                            display: none;
+                                                                        }
+                                                                        #nome_aval{
+                                                                            font-size: 1.5vh;
+                                                                        }
+                                                                    }
+                                                                    @media screen and (max-width: 991px) {
+                                                                        #assessments_row{
+                                                                            padding-bottom: 20px;
+                                                                        }
+                                                                    }
+                                                                </style>
+                                                                <tbody>
+                                                                @foreach(DB::table('studentGroups')->join('users', 'studentGroups.idStudent', '=', 'users.id')->select('studentGroups.*')->where('idGroup', $group->idGroup)->orderBy('users.name', 'ASC')->get() as $sg)
+                                                                    <tr>
+                                                                        <td><a href="/profile/{{$sg->idStudent}}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.\App\User::find($sg->idStudent)->photo)}}"><span id="nome_aval" style="vertical-align: middle;"> {{\App\User::find($sg->idStudent)->name}}</span></a></td>
+                                                                        <td><i class="far fa-envelope"></i></td>
+                                                                        <td>
+                                                                            @if(is_null(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', $sg->idStudent)->where('idGroup', $group->idGroup)->value('grade')))
+                                                                                –
+                                                                            @else
+                                                                                <i class="fas fa-star" style="color: #ffd63f;"></i> {{\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', $sg->idStudent)->where('idGroup', $group->idGroup)->value('grade')}}/5
+                                                                            @endif
+                                                                        </td>
+                                                                        <td>
+                                                                            @if(\App\Evaluation::find(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', "!=", $sg->idStudent)->where('idGroup', $group->idGroup)->pluck('idEval'))->pluck('grade')->avg() == 0)
+                                                                                –
+                                                                            @else
+                                                                                <i class="fas fa-star" style="color: #ffd63f;"></i> {{\App\Evaluation::find(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', "!=", $sg->idStudent)->where('idGroup', $group->idGroup)->pluck('idEval'))->pluck('grade')->avg()}}/5
+                                                                            @endif
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                         @endif
                                                     </div>
                                                 </div>
+
+                                                <style>
+                                                            #assessments_row{
+                                                                height: 60%;
+                                                            }
+                                                            @media screen and (max-width: 500px){
+                                                                #assessments_row {
+                                                                    margin-bottom: 50%;
+                                                                }
+                                                            }
+                                                        </style>
 
 
                                         </div>
@@ -586,130 +600,130 @@
                                                         }
                                                     }
                                                 </style>
-                                                <div class="bg-light p-2 w-100 rounded" >
-                                                    <h5 style="margin-top: 1%;">{{__('gx.files submited')}}</h5>
+                                                <div class="bg-light p-2 w-100 rounded h-100" >
+                                                    <h5 style="margin-bottom: 3%;">{{__('gx.files submited')}}</h5>
                                                     <script>
                                                         function bytesToHuman(bytes)
                                                         {
-                                                            units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'];
+                                                            units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
 
-                                                            for (i = 0; bytes > 1024; i++) {
-                                                                bytes /= 1024;
+                                                                for (i = 0; bytes > 1024; i++) {
+                                                                    bytes /= 1024;
+                                                                }
+
+                                                                return (Math.round((bytes + Number.EPSILON) * 100) / 100 )+ ' ' + units[i];
                                                             }
+                                                        </script>
+                                                        <div style="overflow: auto; max-height: 25vh; margin-top: 4%; ">
+                                                            <table class="table table-sm">
+                                                                <tbody>
+                                                                @if(count($rep2->whereIn('idGroup', $group->idGroup))>0)
+                                                                    <div id="box1" style="position: absolute; right: 1%; top: 1%; height: 9%; border: 1px solid darkgrey; border-radius: 15px; width: 66%;  vertical-align: middle;">
+                                                                        <img src="/images/deathlineSub.png" style="width: 30px; height: 30px; float: left; margin:1%;">
+                                                                        <div id="timer3"></div>
+                                                                    </div>
 
-                                                            return (Math.round((bytes + Number.EPSILON) * 100) / 100 )+ ' ' + units[i];
-                                                        }
-                                                    </script>
-                                                    <div>
-                                                    <table class="table table-sm fixed_header mt-4">
-                                                        <tbody>
-                                                        @if(count($rep2->whereIn('idGroup', $group->idGroup))>0)
-                                                            <div id="box1" style="position: absolute; right: 1%; top: 1%; height: 9%; border: 1px solid darkgrey; border-radius: 15px; width: 66%;  vertical-align: middle;">
-                                                                <img src="/images/deathlineSub.png" style="width: 30px; height: 30px; float: left; margin:1%;">
-                                                                <div id="timer3"></div>
-                                                            </div>
+                                                                    <style>
+                                                                        #timer3 {
+                                                                            font-size: 1.0em;
+                                                                            color: black;
+                                                                            vertical-align: middle;
+                                                                            text-align: center;
+                                                                        }
 
-                                                            <style>
-                                                                #timer3 {
-                                                                    font-size: 1.0em;
-                                                                    color: black;
-                                                                    vertical-align: middle;
-                                                                    text-align: center;
-                                                                }
+                                                                        #timer3 div {
+                                                                            display: inline-block;
+                                                                            min-width: 35px;
 
-                                                                #timer3 div {
-                                                                    display: inline-block;
-                                                                    min-width: 35px;
+                                                                        }
 
-                                                                }
+                                                                        #timer3 p {
+                                                                            margin: 2%;
+                                                                        }
 
-                                                                #timer3 p {
-                                                                    margin: 2%;
-                                                                }
+                                                                        #timer3 div span {
+                                                                            color: black;
+                                                                            display: block;
+                                                                            font-size: .60em;
+                                                                            font-weight: 400;
+                                                                        }
+                                                                    </style>
+                                                                    <script>
+                                                                        function updateTimer3() {
+                                                                            future = Date.parse("{{$project->dueDate}}");
+                                                                            now = Date.parse("{{$rep2->whereIn('idGroup', $group->idGroup)->first()->submissionTime}}");
+                                                                            diff = Math.abs(future - now);
 
-                                                                #timer3 div span {
-                                                                    color: black;
-                                                                    display: block;
-                                                                    font-size: .60em;
-                                                                    font-weight: 400;
-                                                                }
-                                                            </style>
-                                                            <script>
-                                                                function updateTimer3() {
-                                                                    future = Date.parse("{{$project->dueDate}}");
-                                                                    now = Date.parse("{{$rep2->whereIn('idGroup', $group->idGroup)->first()->submissionTime}}");
-                                                                    diff = Math.abs(future - now);
+                                                                            days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                                                                            hours = Math.floor(diff / (1000 * 60 * 60));
+                                                                            mins = Math.floor(diff / (1000 * 60));
+                                                                            secs = Math.floor(diff / 1000);
 
-                                                                    days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                                                                    hours = Math.floor(diff / (1000 * 60 * 60));
-                                                                    mins = Math.floor(diff / (1000 * 60));
-                                                                    secs = Math.floor(diff / 1000);
+                                                                            d = days;
+                                                                            h = hours - days * 24;
+                                                                            m = mins - hours * 60;
+                                                                            s = secs - mins * 60;
 
-                                                                    d = days;
-                                                                    h = hours - days * 24;
-                                                                    m = mins - hours * 60;
-                                                                    s = secs - mins * 60;
+                                                                            if (now>future){
+                                                                                $('#box1').css('border', '1.5px solid red');
+                                                                                $('#box1').css('background-color', '#ff000042');
+                                                                                $('#box1').css('width', '66%');
 
-                                                                    if (now>future){
-                                                                        $('#box1').css('border', '1.5px solid red');
-                                                                        $('#box1').css('background-color', '#ff000042');
-                                                                        $('#box1').css('width', '66%');
-
-                                                                        document.getElementById("timer3")
-                                                                            .innerHTML = '<p style="float: left;">Submetido com atraso de</p>'+
-                                                                            '<div>' + d + '<span>days</span></div>' +
-                                                                            '<div>' + h + '<span>hrs</span></div>' +
-                                                                            '<div>' + m + '<span>mins</span></div>';
+                                                                                document.getElementById("timer3")
+                                                                                    .innerHTML = '<p style="float: left;">Submetido com atraso de</p>'+
+                                                                                    '<div>' + d + '<span>days</span></div>' +
+                                                                                    '<div>' + h + '<span>hrs</span></div>' +
+                                                                                    '<div>' + m + '<span>mins</span></div>';
 
 
-                                                                    }else{
+                                                                            }else{
 
-                                                                        $('#box1').css('border', '1.5px solid #61af61');
-                                                                        $('#box1').css('background-color', '#bbf5bb');
-                                                                        $('#box1').css('width', '44%');
-                                                                        document.getElementById("timer3")
-                                                                            .innerHTML =
-                                                                            '<p>Submetido com sucesso!</p>';
+                                                                                $('#box1').css('border', '1.5px solid #61af61');
+                                                                                $('#box1').css('background-color', '#bbf5bb');
+                                                                                $('#box1').css('width', '44%');
+                                                                                document.getElementById("timer3")
+                                                                                    .innerHTML =
+                                                                                    '<p>Submetido com sucesso!</p>';
 
-                                                                    }
-                                                                }
-                                                                updateTimer3();
-                                                            </script>
-                                                            @foreach($rep2->whereIn('idGroup', $group->idGroup) as $docSub)
-                                                                <tr>
-                                                                    @if((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "txt")
-                                                                        <td style="width: 5%;"><i class="fad fa-file-alt fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
-                                                                    @elseif((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "png")
-                                                                        <td style="width: 5%;"><i class="fad fa-image-alt fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
-                                                                    @elseif((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "pdf" )
-                                                                        <td style="width: 5%;"><i class="fad fa-file-pdf fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
-                                                                    @elseif((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "docx" )
-                                                                        <td style="width: 5%;"><i class="fad fa-file-word fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
-                                                                    @elseif((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "zip" )
-                                                                        <td style="width: 5%;"><i class="fad fa-file-archive fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
-                                                                    @else
-                                                                        <td style="width: 5%;"><i class="fad fa-file-code fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
-                                                                    @endif
-                                                                    <td><a href="{{Storage::url('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}" target="_blank" class="downloadFile" download>{{$docSub->pathFile}}</a></td>
-                                                                    <td>{{$docSub->submissionTime}}</td>
-                                                                    <td id="{{$docSub->pathFile}}-size">
-                                                                    </td>
-                                                                        <script>
-                                                                            document.getElementById('{{$docSub->pathFile}}-size').innerHTML = bytesToHuman({{Storage::size('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}) ;
-                                                                        </script>
-                                                                </tr>
-                                                            @endforeach
-                                                        @else
-                                                            <p>No Files submited</p>
-                                                        @endif
-                                                        </tbody>
-                                                    </table>
+                                                                            }
+                                                                        }
+                                                                        updateTimer3();
+                                                                    </script>
+                                                                    @foreach($rep2->whereIn('idGroup', $group->idGroup) as $docSub)
+                                                                        <tr>
+                                                                            @if((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "txt")
+                                                                                <td style="width: 5%;"><i class="fad fa-file-alt fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
+                                                                            @elseif((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "png")
+                                                                                <td style="width: 5%;"><i class="fad fa-image-alt fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
+                                                                            @elseif((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "pdf" )
+                                                                                <td style="width: 5%;"><i class="fad fa-file-pdf fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
+                                                                            @elseif((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "docx" )
+                                                                                <td style="width: 5%;"><i class="fad fa-file-word fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
+                                                                            @elseif((pathinfo($docSub->pathFile, PATHINFO_EXTENSION)) == "zip" )
+                                                                                <td style="width: 5%;"><i class="fad fa-file-archive fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
+                                                                            @else
+                                                                                <td style="width: 5%;"><i class="fad fa-file-code fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
+                                                                            @endif
+                                                                            <td><a href="{{Storage::url('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}" target="_blank" class="downloadFile" download>{{$docSub->pathFile}}</a></td>
+                                                                            <td>{{$docSub->submissionTime}}</td>
+                                                                            <td id="{{$docSub->pathFile}}-size">
+                                                                            </td>
+                                                                                <script>
+                                                                                    document.getElementById('{{$docSub->pathFile}}-size').innerHTML = bytesToHuman({{Storage::size('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}) ;
+                                                                                </script>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                @else
+                                                                    <p>No Files submited</p>
+                                                                @endif
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div id="final_row" class="row pt-2 rounded h-50" >
-                                                <style>
-                                                    #final_row{
+                                                <div id="final_row" class="row pt-2 rounded h-50" >
+                                                    <style>
+                                                        #final_row{
 
                                                     }
                                                     /*@media screen and (max-width: 500px){
@@ -732,32 +746,32 @@
                                                                 padding-bottom: 100%;!important;
                                                             }
                                                         </style>
-                                                        <button type="button" class="p-2 btn btn-sm btn-primary stopYear" style="padding-top: 100%;position: absolute; width: 17vh; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}">{{__('gx.evaluate group')}}</button>
+                                                        <button type="button" class="p-2 btn btn-sm btn-primary stopYear" style="padding-top: 100%; position: absolute; width: 17vh; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}">{{__('gx.evaluate group')}}</button>
 
-                                                        @if($subject->academicYear == $currentYear)
-                                                            <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
-                                                                <div class="modal-dialog" role="document">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.evaluation')}}</h4>
-                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                <span aria-hidden="true">&times;</span>
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            {!! Form::open(['action' => 'ProfessorProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
-                                                                            <div class="form-group">
-                                                                                {{Form::label('grade', trans('gx.project grade'))}}
-                                                                                {{Form::text('grade', '', ['class' => 'form-control'])}}
+                                                            @if($subject->academicYear == $currentYear)
+                                                                <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.evaluation')}}</h4>
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
                                                                             </div>
-                                                                            <div class="form-group">
-                                                                                {{Form::label('gradeComment', trans('gx.comment(opcional)'))}}
-                                                                                {{Form::text('gradeComment', '', ['class' => 'form-control'])}}
-                                                                            </div>
-                                                                            {{Form::hidden('group', $group->idGroup)}}
-                                                                            {{Form::hidden('option', 'grade')}}
-                                                                            {{Form::hidden('project', $project->idProject)}}
-                                                                            {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
+                                                                            <div class="modal-body">
+                                                                                {!! Form::open(['action' => 'ProfessorProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+                                                                                <div class="form-group">
+                                                                                    {{Form::label('grade', trans('gx.project grade'))}}
+                                                                                    {{Form::text('grade', '', ['class' => 'form-control'])}}
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    {{Form::label('gradeComment', trans('gx.comment(opcional)'))}}
+                                                                                    {{Form::textArea('gradeComment', '', ['class' => 'form-control', 'maxlength' => 500, 'rows' =>4 ])}}
+                                                                                </div>
+                                                                                {{Form::hidden('group', $group->idGroup)}}
+                                                                                {{Form::hidden('option', 'grade')}}
+                                                                                {{Form::hidden('project', $project->idProject)}}
+                                                                                {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
 
                                                                             {!! Form::close() !!}
                                                                         </div>
@@ -770,7 +784,7 @@
                                                         @if($group->gradeComment == NULL)
                                                             <p class="m-0">{{__('gx.no comments')}}</p>
                                                         @else
-                                                            <p class="mb-0 p-1 rounded" style="overflow: auto; height: 46%; background-color: #d0e7ff; margin-top: 2%;" >{{$group->gradeComment}}</p>
+                                                            <p class="mb-0 p-1 rounded" style=" overflow: auto; height: 46%; background-color: #d0e7ff; margin-top: 2%;" >{{$group->gradeComment}}</p>
                                                         @endif
                                                         <button id="changegrade" type="button" class="p-2 btn btn-primary btn-sm float-right stopYear" style="position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%; width: 16vh;" data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}" >{{__('gx.change grade')}}</button>
                                                         <style>
@@ -781,65 +795,66 @@
                                                                 margin-bottom: 2%;
                                                                 margin-right: 2%;
                                                             }
-                                                            /*@media screen and (max-width: 500px){
+                                                            @media screen and (max-width: 500px){
                                                                 #changegrade {
                                                                     bottom: -30%;
                                                                     right: 2%;
-                                                                }*/
+                                                                }
                                                             }
                                                         </style>
 
-                                                        @if($subject->academicYear == $currentYear)
-                                                            <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
-                                                                <div class="modal-dialog" role="document">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.evaluation')}}</h4>
-                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                <span aria-hidden="true">&times;</span>
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            {!! Form::open(['action' => ['ProfessorProjectsController@update', $project->idProject], 'method' => 'PUT']) !!}
-                                                                            <div class="form-group">
-                                                                                {{Form::label('grade', trans('gx.project grade'))}}
-                                                                                {{Form::text('grade', '', ['class' => 'form-control'])}}
+                                                            @if($subject->academicYear == $currentYear)
+                                                                <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.evaluation')}}</h4>
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
                                                                             </div>
-                                                                            <div class="form-group">
-                                                                                {{Form::label('gradeComment', trans('gx.comment(opcional)'))}}
-                                                                                {{Form::text('gradeComment', '', ['class' => 'form-control'])}}
+                                                                            <div class="modal-body">
+                                                                                {!! Form::open(['action' => ['ProfessorProjectsController@update', $project->idProject], 'method' => 'PUT']) !!}
+                                                                                <div class="form-group">
+                                                                                    {{Form::label('grade', trans('gx.project grade'))}}
+                                                                                    {{Form::text('grade', $group->grade, ['class' => 'form-control'])}}
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    {{Form::label('gradeComment', trans('gx.comment(opcional)'))}}
+                                                                                    {{Form::textArea('gradeComment', $group->gradeComment , ['class' => 'form-control', 'maxlength' => 500, 'rows' =>4])}}
+                                                                                </div>
+                                                                                {{Form::hidden('group', $group->idGroup)}}
+                                                                                {{Form::hidden('_method','PUT')}}
+                                                                                {{Form::hidden('option', 'grade')}}
+                                                                                {{Form::submit( trans('gx.submit'), ['class'=>'btn btn-success'])}}
+                                                                                {!! Form::close() !!}
                                                                             </div>
-                                                                            {{Form::hidden('group', $group->idGroup)}}
-                                                                            {{Form::hidden('_method','PUT')}}
-                                                                            {{Form::hidden('option', 'grade')}}
-                                                                            {{Form::submit( trans('gx.submit'), ['class'=>'btn btn-success'])}}
-                                                                            {!! Form::close() !!}
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        @endif
+                                                            @endif
 
-                                                    @else
-                                                        <p class="mb-0">{{__('gx.group cant evaluate')}}</p>
-                                                        <button type="button" disabled class="p-2 btn btn-sm btn-primary stopYear" style="position: absolute; width: 17vh; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}">{{__('gx.evaluate group')}}</button>
-                                                    @endif
+                                                        @else
+                                                            <p class="mb-0">{{__('gx.group cant evaluate')}}</p>
+                                                            <button type="button" disabled class="p-2 btn btn-sm btn-primary stopYear" style="position: absolute; width: 17vh; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}">{{__('gx.evaluate group')}}</button>
+                                                        @endif
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <style>
-                                                @media screen and (max-width: 500px){
-                                                    #col3_groups {
+                                            <style>
+                                                    @media screen and (max-width: 500px){
+                                                        #col3_groups {
+                                                        }
+                                                        #altura_col_groups_prof{
+                                                        }
                                                     }
-                                                    #altura_col_groups_prof{
-                                                    }
-                                                }
-                                            </style>
+                                                </style>
 
-                                        </div>
+                                            </div>
 
-                                </div>
-                            @endforeach
+                                    </div>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
                 </div>

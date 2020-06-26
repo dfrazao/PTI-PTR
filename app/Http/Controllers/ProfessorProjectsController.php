@@ -76,7 +76,7 @@ class ProfessorProjectsController extends Controller
                 $doc->pathfile = $file->getClientOriginalName();
                 $file = $file;
                 $doc->save();
-                $file->storeAs('documentation/'.$project->idProject, $doc->pathfile, 'gcs');
+                $file->storeAs('documentation/' . $project->idProject, $doc->pathfile, 'gcs');
             }
 
             $my_id = Auth::id();
@@ -106,13 +106,22 @@ class ProfessorProjectsController extends Controller
             ]);
 
             $files = $request->documentation;
+            $successFile = [];
+            $errorFile = [];
+
             foreach ($files as $file) {
-                $doc = new Documentation;
-                $doc->idProject = $request->project;
-                $doc->pathfile = $file->getClientOriginalName();
-                $file = $file;
-                $doc->save();
-                $file->storeAs('documentation/'.$request->project, $doc->pathfile, 'gcs');
+                $existFile = ['idProject' =>  $request->project, 'pathFile' => $file->getClientOriginalName()];
+                if (count(Documentation::where($existFile)->get()) != 0) {
+                    array_push($errorFile, $file->getClientOriginalName());
+                } else {
+                    array_push($successFile, $file->getClientOriginalName());
+                    $doc = new Documentation;
+                    $doc->idProject = $request->project;
+                    $doc->pathfile = $file->getClientOriginalName();
+                    $file = $file;
+                    $doc->save();
+                    $file->storeAs('documentation/' . $request->project, $doc->pathfile, 'gcs');
+                }
             }
 
 
@@ -134,8 +143,13 @@ class ProfessorProjectsController extends Controller
                     }
                 }
             }
-
-            return redirect('professor/project/'. $request->project. '#characteristics')->with('success', trans('gx.fileUploaded'));
+            if (!empty($successFile) and !empty($errorFile)){
+                return redirect('professor/project/'. $request->project. '#characteristics')->with('success', trans('gx.fileUploadedM', ['file' => implode(", ",$successFile)]))->with('error', trans('gx.fileUploadedMError', ['file' => implode(", ",$errorFile)]));
+            } elseif (empty($successFile) and !empty($errorFile)){
+                return redirect('professor/project/'. $request->project. '#characteristics')->with('error', trans('gx.fileUploadedMError', ['file' => implode(", ",$errorFile)]));
+            } elseif (!empty($successFile) and empty($errorFile)){
+                return redirect('professor/project/'. $request->project. '#characteristics')->with('success', trans('gx.fileUploadedM', ['file' => implode(", ",$successFile)]));
+            }
 
         }
         else {
@@ -193,12 +207,12 @@ class ProfessorProjectsController extends Controller
                 abort('403');
             }
 
-            $rep1 = Documentation::all()->where('idProject', '==', $id);
-            $rep2 = File::all()->where('finalState', '==', 'final');
+            $rep1 = DB::table('documentations')->where('idProject', $id)->orderBy('pathFile', 'ASC')->get();
+            $rep2 = DB::table('files')->where('finalState', 'final')->orderBy('pathFile', 'ASC')->get();
 
 
             $subject = Subject::find($project->idSubject);
-            $groups = Group::all()->where('idProject', '==', $id);
+            $groups = DB::table('groups')->where('idProject', $id)->orderBy('idGroupProject', 'ASC')->get();
 
             $announcements = Announcement::orderBy('date', 'desc')->paginate(10)->fragment('forum');
             $allAnnouncements = [];

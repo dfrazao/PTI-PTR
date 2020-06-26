@@ -479,6 +479,8 @@ return [
     //projectProfessor controller
     'projectCreated' => 'Project created',
     'fileUploaded' => 'File uploaded',
+    'fileUploadedM' => ':file uploaded with success',
+    'fileUploadedMError' => ':file not uploaded, this file(s) already exist',
     'gradeGiven' => 'Grade given',
     'projectUpdated' => 'Project updated',
     'gradeUpd' => 'Grade updated',

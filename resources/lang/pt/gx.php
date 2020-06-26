@@ -385,6 +385,8 @@ return [
     //projectProfessor controller
     'projectCreated' => 'Projeto criado',
     'fileUploaded' => 'Ficheiro carregado',
+    'fileUploadedM' => ':file carregado com sucesso',
+    'fileUploadedMError' => ':file nao foi carregado, este(s) ficheiro(s) já existe(m)',
     'gradeGiven' => 'Avaliação atribuída',
     'projectUpdated' => 'Projeto atualizado',
     'gradeUpd' => 'Avaliação atualizada',
