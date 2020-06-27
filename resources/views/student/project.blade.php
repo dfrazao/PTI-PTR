@@ -475,7 +475,8 @@
                 <style>
 
                     #col_docs{
-
+                        height: 38vh;
+                        overflow: auto;
                     }
                     @media screen and (max-width: 1000px) {
                         #col_docs{
@@ -517,7 +518,7 @@
                                     <th>
                                         <div>
                                             <span class="full-text_task">{{__('gx.task')}}</span>
-                                            <span class="short-text_task">Mon</span> //????
+                                            <span class="short-text_task">Task</span>
                                         </div>
                                     </th>
                                     <th>
@@ -624,6 +625,9 @@
                                 @endif
                                 </tbody>
                                 <style>
+                                    #row2{
+                                        padding-top: 2%;
+                                    }
                                     .short-text_task { display: none; }
 
 

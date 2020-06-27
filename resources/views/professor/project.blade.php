@@ -353,7 +353,12 @@
                             #files_documentation{
                                 height: 65vh;
                                 overflow: auto;
+                                margin-bottom: 10%;
                             }
+                            @media screen and (max-width: 1185px){
+                                #row_docs_prof {
+                                    margin-top: 10px;
+                                }
                             @media screen and (max-width: 991px){
                                 #row_docs_prof {
                                     height: 300px;
@@ -361,7 +366,6 @@
                                 }
                                 #files_documentation{
                                     display: block;
-                                    position: absolute;
                                     right: 2%;
                                     left: 2%;
                                     top:20%;
@@ -532,9 +536,6 @@
                                                                         #font_tabela_aval {
                                                                             font-size: 1.5vh;
                                                                         }
-                                                                        #tabela_aval{
-                                                                            display: inline-grid;
-                                                                        }
                                                                         #avatar2{
                                                                             display: none;
                                                                         }
@@ -576,18 +577,6 @@
                                                     </div>
                                                 </div>
 
-                                                <style>
-                                                            #assessments_row{
-                                                                height: 60%;
-                                                            }
-                                                            @media screen and (max-width: 500px){
-                                                                #assessments_row {
-                                                                    margin-bottom: 50%;
-                                                                }
-                                                            }
-                                                        </style>
-
-
                                         </div>
                                         <div  class="col-lg-6 ">
                                             <div id="files_row" class="row h-50">
@@ -618,8 +607,8 @@
                                                             <table class="table table-sm">
                                                                 <tbody>
                                                                 @if(count($rep2->whereIn('idGroup', $group->idGroup))>0)
-                                                                    <div id="box1" style="position: absolute; right: 1%; top: 1%; height: 9%; border: 1px solid darkgrey; border-radius: 15px; width: 66%;  vertical-align: middle;">
-                                                                        <img src="/images/deathlineSub.png" style="width: 30px; height: 30px; float: left; margin:1%;">
+                                                                    <div id="box1" style="position: absolute; right: 1%; top: 1%; height: 7%; border: 1px solid darkgrey; border-radius: 15px; width: 66%;  vertical-align: middle;">
+                                                                        <img id="img_delay" src="/images/deathlineSub.png" style="width: 30px; height: 30px; float: left; margin:1%;">
                                                                         <div id="timer3"></div>
                                                                     </div>
 
@@ -646,6 +635,19 @@
                                                                             display: block;
                                                                             font-size: .60em;
                                                                             font-weight: 400;
+                                                                        }
+                                                                        @media screen and (max-width: 1350px) {
+                                                                            #timer3 {
+                                                                                font-size: 0.7em;
+                                                                            }
+                                                                            #img_delay{
+                                                                                display: none;
+                                                                            }
+                                                                        }
+                                                                        @media screen and (max-width: 500px) {
+                                                                            #box1{
+                                                                            display: none
+                                                                            }
                                                                         }
                                                                     </style>
                                                                     <script>
