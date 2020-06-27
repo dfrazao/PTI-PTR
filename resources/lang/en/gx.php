@@ -312,6 +312,7 @@ return [
     'maximum no. of groups' => 'Maximum No. of groups',
     'minimum no. of groups' => 'Minimum No. of groups',
     'maximum no. of elements group' => 'Maximum No. of elements per group',
+    'minimum no. of elements group' => 'Minimum No. of elements per group',
     'number of groups' => 'Number of groups',
     'groups that dont match requirements' => 'Groups that don\'t match requirements',
     'show' => 'Show',
@@ -514,6 +515,22 @@ return [
 
     //professor
     'created' => 'Created',
+    //--------------
+    'numSubmissions' => 'Number of submissions',
+    'noGroupsFormed' => 'There are no groups formed yet.',
+    'noInfoGroups' => 'No information about groups available.',
+    'tWorkEval' => 'Teamwork evaluation',
+    'noStudsInGroup' => 'There are no students in this group',
+    'elem' => 'Elements',
+    'selfEval' => 'Self evaluation',
+    'groupEval' => 'Group Evaluation',
+    'submWithDelay' => 'Submitted with delay of',
+    'submWithSucc' => 'Submitted with success!',
+    'noFilesSub' => 'No files submitted'
+
+
 
 
 ];
+
+//{{__('gx.')}}

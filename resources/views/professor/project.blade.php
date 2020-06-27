@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <head>
-    <title>Project</title>
+    <title>{{__('gx.project')}}</title>
 </head>
 <div class="container-fluid pl-4 pr-4 pb-2 mt-3">
     <?php
@@ -282,7 +282,7 @@
                                 <td class="info-td" colspan="2">{{$project->maxGroups}}</td>
                             </tr>
                             <tr>
-                                <th class="info-th" scope="row">Minimum no. of elements groups</th>
+                                <th class="info-th" scope="row">{{__('gx.minimum no. of elements group')}}</th>
                                 <td class="info-td" colspan="2">{{$project->minElements}}</td>
                             </tr>
                             <tr>
@@ -300,8 +300,8 @@
                             <td class="info-td" colspan="2" >{{count($groups)}}</td>
                         </tr>
                         <tr>
-                            <th class="info-th" scope="row">Number of Submissions</th>
-                            <td class="info-td" colspan="2" >{{count($rep2->whereIn('idGroup', $groups->pluck('idGroup'))->groupBy('idGroup'))}} of {{count($groups)}}</td>
+                            <th class="info-th" scope="row">{{__('gx.numSubmissions')}}</th>
+                            <td class="info-td" colspan="2" >{{count($rep2->whereIn('idGroup', $groups->pluck('idGroup'))->groupBy('idGroup'))}} {{__('gx.of')}} {{count($groups)}}</td>
                         </tr>
 
                         <tr>
@@ -320,7 +320,7 @@
                                     <div class="modal-dialog modal-sm" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4 class="modal-title" id="staticBackdropLabel">Grupos</h4>
+                                                <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.groups')}}</h4>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
@@ -328,7 +328,7 @@
                                             <div class="modal-body">
                                                 @foreach($groups as $group)
                                                     @if(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup)->count() < $project->minElements)
-                                                       <p><a href onclick="reloadPage('{{url('/professor/project/'.$project->idProject.'#gr.pills-'.$group->idGroupProject)}}')">Grupo {{$group->idGroupProject}}</a></p>
+                                                       <p><a href onclick="reloadPage('{{url('/professor/project/'.$project->idProject.'#gr.pills-'.$group->idGroupProject)}}')">{{__('gx.group')}} {{$group->idGroupProject}}</a></p>
                                                     @endif
                                                 @endforeach
                                             </div>
@@ -446,7 +446,7 @@
                                         <h5>{{__('gx.areyousuredeletedocument')}}</h5>
                                         {!!Form::open(['action' => ['ProfessorProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
                                         {{Form::hidden('_method', 'DELETE')}}
-                                        {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+                                        {{Form::submit(trans('gx.delete'), ['class' => 'btn btn-danger'])}}
                                         {{Form::hidden('option','doc')}}
                                         {{Form::hidden('idDoc','')}}
                                         {!!Form::close()!!}
@@ -476,7 +476,7 @@
                     </style>
                     <div class="container rounded pt-3 overflow-auto mw-80 h-100" style="background-color: #c6c6c6;">
                         @if($groups == '[]')
-                            <p>There are no groups formed yet</p>
+                            <p>{{__('gx.noGroupsFormed')}}</p>
                         @else
                             <ul class="nav nav-pills mb-3 flex-column" id="pills-tab" role="tablist" aria-orientation="vertical">
                                 @foreach($groups as $group)
@@ -504,7 +504,7 @@
                     <div class="container-fluid rounded h-100 p-3" style="background-color: #c6c6c6;">
                         <div class="tab-content h-100" id="pills-tabContent">
                             @if($groups == '[]')
-                                <p> No information about groups available</p>
+                                <p> {{__('gx.noInfoGroups')}}</p>
                             @else
                                 @foreach($groups as $group)
                                     <div class="container-fluid tab-pane fade h-100" id="pills-{{$group->idGroupProject}}" role="tabpanel" aria-labelledby="pills-{{$group->idGroupProject}}-tab">
@@ -513,18 +513,18 @@
 
                                                 <div id="assessments_row" class="row h-100">
                                                     <div class="bg-light p-2 w-100 rounded" style="margin-right: 10px">
-                                                        <h5 class="mb-3">Teamwork Evaluation</h5>
+                                                        <h5 class="mb-3">{{__('gx.tWorkEval')}}</h5>
                                                         @if(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup) == '[]')
-                                                            <p>There are no students in this group</p>
+                                                            <p>{{__('gx.noStudsInGroup')}}</p>
                                                         @else
                                                             <div style="overflow: auto; max-height: 59vh;">
                                                             <table id="tabela_aval"  class="table table-sm " style="text-align: center; vertical-align: middle;">
                                                                 <thead>
                                                                 <tr id="font_tabela_aval">
-                                                                    <th scope="col">Elementos</th>
+                                                                    <th scope="col">{{__('gx.elements')}}</th>
                                                                     <th scope="col"></th>
-                                                                    <th scope="col" >Autoavaliação</th>
-                                                                    <th scope="col" >Avaliação do grupo</th>
+                                                                    <th scope="col" >{{__('gx.selfEval')}}</th>
+                                                                    <th scope="col" >{{__('gx.groupEval')}}</th>
                                                                 </tr>
                                                                 </thead>
                                                                 <style>
@@ -670,10 +670,10 @@
                                                                                 $('#box1').css('width', '66%');
 
                                                                                 document.getElementById("timer3")
-                                                                                    .innerHTML = '<p style="float: left;">Submetido com atraso de</p>'+
-                                                                                    '<div>' + d + '<span>days</span></div>' +
-                                                                                    '<div>' + h + '<span>hrs</span></div>' +
-                                                                                    '<div>' + m + '<span>mins</span></div>';
+                                                                                    .innerHTML = '<p style="float: left;">{{__('gx.submWithDelay')}}</p>'+
+                                                                                    '<div>' + d + '<span>{{__('gx.days')}}</span></div>' +
+                                                                                    '<div>' + h + '<span>{{__('gx.hours')}}</span></div>' +
+                                                                                    '<div>' + m + '<span>{{__('gx.minutes')}}</span></div>';
 
 
                                                                             }else{
@@ -683,7 +683,7 @@
                                                                                 $('#box1').css('width', '44%');
                                                                                 document.getElementById("timer3")
                                                                                     .innerHTML =
-                                                                                    '<p>Submetido com sucesso!</p>';
+                                                                                    '<p>{{__('gx.submWithSucc')}}</p>';
 
                                                                             }
                                                                         }
@@ -714,7 +714,7 @@
                                                                         </tr>
                                                                     @endforeach
                                                                 @else
-                                                                    <p>No Files submited</p>
+                                                                    <p>{{__('gx.noFilesSub')}}</p>
                                                                 @endif
                                                                 </tbody>
                                                             </table>
@@ -909,7 +909,7 @@
                     </table>
                     @if(count($announcements) > 0)
                         <div class="d-flex justify-content-between">
-                            <span>{{__('gx.showing')}} {{$a->firstItem()}} to {{$a->lastItem()}} of {{$a->total()}} {{__('gx.posts')}}</span>
+                            <span>{{__('gx.showing')}} {{$a->firstItem()}} {{__('gx.to')}} {{$a->lastItem()}} {{__('gx.of')}} {{$a->total()}} {{__('gx.posts')}}</span>
                             {{$a->links()}}
                         </div>
                     @endif

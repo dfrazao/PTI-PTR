@@ -306,6 +306,7 @@ return [
     'maximum no. of groups' => 'Nº máximo de grupos',
     'minimum no. of groups' => 'Nº mínimo de grupos',
     'maximum no. of elements group' => 'Nº máximno de elementos por grupo',
+    'minimum no. of elements group' => 'Nº mínimo de elementos por grupo',
     'number of groups' => 'Número de grupos',
     'groups that dont match requirements' => 'Grupos que não cumprem os requisitos',
     'show' => 'Mostrar',
@@ -490,4 +491,16 @@ consegue atribuir uma nota ao grupo com a possibilidade de alterar a nota atribu
     'joinedGroupN' => 'Juntou-se ao grupo',
     'leftGroupN' => 'Saiu do grupo',
 
+
+    'numSubmissions' => 'Número de submissões',
+    'noGroupsFormed' => 'Não existem grupos formados até ao momento.',
+    'noInfoGroups' => 'Nenhuma informação relativa a grupos.',
+    'tWorkEval' => 'Avaliação de trabalho de equipa',
+    'noStudsInGroup' => 'Não há estudantes neste grupo',
+    'elem' => 'Elementos',
+    'selfEval' => 'Auto-avaliação',
+    'groupEval' => 'Avaliação do grupo',
+    'submWithDelay' => 'Submetido com atraso de',
+    'submWithSucc' => 'Submetido com sucesso!',
+    'noFilesSub' => 'Nenhum ficheiro submetido'
 ];
