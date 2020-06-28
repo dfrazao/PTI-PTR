@@ -422,7 +422,8 @@ return [
     'helpDashboardProf' => 'The subjects are displayed according to the current user and the current academic year however the user can select a different academic year in the blue drop down
                         menu with an year format. The subjects appear minimized , so the user has to expand the desired one to view data to get more info about the subject. The user is able view projects or create a new project specifying the project name ,
                         the group formation deadline, the project deadline , the minimum number of group members, the maximum number of group members ,
-                         the user can also upload the documentation of the project.',
+                         the user can also upload the documentation of the project.The green circle that appears near the subject name, means that there are active projects for that subject, when maximizing the subject , the first symbol that appears
+                         represents the group creation deadline, the second symbol represents the deadline of the project.',
 
     'helpProjectProf' => 'In this area , the user can access the project characteristics that were established before(group creation deadline, delivery time, max number of groups, minimum number of groups, maximum number of elements per group). The user has the possibility to see how many groups are created , and the groups that are created but don\'t match the requirements.
                             It\'s possibile to edit the project , and upload new documentation or delete any documentation, it\'s possible to delete the entire

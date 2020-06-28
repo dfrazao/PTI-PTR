@@ -13,7 +13,7 @@
         </nav>
 
         <br>
-        <div><div id="creation_deadline" class="countdown" style="float:left "><p class="h5"> {{__('gx.group formation deadline')}}: <div id="timer1" class="timer"> </div>   </div>
+        <div><i class="far fa-lg fa-users float-left"></i><div id="creation_deadline" class="countdown" style="float:left "><p class="h5"> {{__('gx.group formation deadline')}}: <div id="timer1" class="timer"> </div>   </div>
         <br>
         <br>
 
@@ -118,9 +118,9 @@
 
 
                                 @if(count($students_per_group[$groupN]) == $projectMaxElements)
-                                    <td><button type="button" class="btn btn-danger" disabled>{{__('gx.group full')}}</button> </td>
+                                    <td><button type="button" class="btn btn-danger" disabled><i class="fas fa-sign-in-alt"></i> {{__('gx.group full')}}</button> </td>
                                 @elseif(in_array($user,$studentsIdGroupValues))
-                                    <td><button type="button" class="btn btn-info disabled" disabled>{{__('gx.join group')}}</button> </td>
+                                    <td><button type="button" class="btn btn-info disabled" disabled> <i class="fas fa-sign-in-alt"></i> {{__('gx.join group')}}</button> </td>
                                 @else
                                     <td>
                                         @csrf
@@ -129,7 +129,8 @@
                                         {!!Form::hidden('idProject', $project->idProject)!!}
                                         {!!Form::hidden('idGroupJoin', $groupN)!!}
                                         {!!Form::hidden('_method','PUT')!!}
-                                        {{Form::Submit(trans('gx.join group'), ['class'=>'btn btn-info','id'=>'Join Group'])}}
+                                        {{Form::button('<i class="fas fa-sign-in-alt"></i> ' . trans('gx.join group'),['type' => 'submit','class'=>'btn btn-info'],['style'=>'display: block; margin: 0 auto'])}}
+
                                         {!!Form::close()!!}
                                     </td>
 

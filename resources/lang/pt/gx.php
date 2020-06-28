@@ -472,10 +472,11 @@ return [
     'helpDashboardProf' => 'As unidades curriculares são exibidas segundo o papel do utilizador e o ano académico selecionado , no entanto o utilizador tem a possibilidade de aceder a
     unidades curriculares de anos letivos anteriores clicando no dropdown azul com a indicação do ano. As unidades curriculares aparecem minimizadas , por isso o utilizador terá de as expandir para obter mais informação acerca da unidade curricular. O utilizador
     poderá observar projetos já criados , ou poderá criar um novo projeto especificando o nome do projeto , o tempo máximo de formação de grupos, o prazo limite do projeto, o número mínimo e máximo de elementos por grupo e o número máximo de grupos , bem como fazer
-    upload de documentação para o projeto.',
+    upload de documentação para o projeto.O círculo verde que aparece junto ao nome da unidade curricular minimizada significa que existem projetos ativos nessa unidade curricular, ao maximizar a unidade curricular , o primeiro símbolo que aparece é referente ao prazo
+    limite de criação de grupos para o projeto, sendo o segundo símbolo representante da data limite de entrega do projeto.',
 
 
-    'helpProjectProf' => 'Nesta área o utilizador consegue aceder às carater´sticas do projeto que foram previamente estabelecidas ( prazo máximo de criação de grupo, tempo de entrega do projeto, número máximo de grupos
+    'helpProjectProf' => 'Nesta área o utilizador consegue aceder às caraterísticas do projeto que foram previamente estabelecidas ( prazo máximo de criação de grupo, tempo de entrega do projeto, número máximo de grupos
     e o número mínimo e máximo de elementos por grupo.O utilizador também tem a possibilidade de ver quantos grupos estão criados até ao momento e os grupos que já foram criados mas que não cumprem os requisitos
     mínimos. é possível também editar o projeto, e fazer upload de uma nova documentação, é possível também eliminar o projeto ( uma confirmação será exibida).',
 
