@@ -97,8 +97,7 @@ class StudentProjectsController extends Controller
                     array_push($currentAv, $request->input('cell'));
                     $availability->periods = json_encode($currentAv);
                     $availability->save();
-                }
-                else{
+                } else{
                     $availability = Availability::find($id);
                     $currentAv = json_decode($availability->periods);
                     $key = array_search($request->cell, $currentAv);
@@ -107,8 +106,7 @@ class StudentProjectsController extends Controller
                     $availability->save();
                 }
 
-            }
-            else {
+            } else {
                 $availability = new Availability;
                 $availability -> idGroup = $group;
                 $availability -> member = $student;
@@ -121,41 +119,57 @@ class StudentProjectsController extends Controller
             $this->validate($request, [
                 'file' => 'required'
             ]);
-            $file = new File;
-            $file-> idGroup = $request ->input('group');
-            $zip = $request->file('file');
-            $file-> Pathfile = $request->file->getClientOriginalName();
-            $file->finalState = "temporary";
-            $file->uploadTime = Carbon::now();
-            $file->userUpload = User::find($user)->name;
-            $file->save();
-            $zip->storeAs('studentRepository/'.$idGroup, $file-> Pathfile, 'gcs');
 
-            $my_id = Auth::id();
+            $files = $request->file;
+            $successFile = [];
+            $errorFile = [];
 
-            $groups = DB::table('groups')->where('idProject', '=', $idProject)->value('idGroup');;
-            $stuGroups = StudentsGroup::all()->where('idGroup', '=', $groups)->pluck("idStudent");
-            $project = DB::table('projects')->where('idProject', '=', $idProject)->value('idSubject');
-            $project_name = DB::table('projects')->where('idProject', '=', $idProject)->value('name');
+            foreach ($files as $file) {
+                $existFile = ['idGroup' => $request->input('group'), 'pathFile' => $file->getClientOriginalName()];
+                if (count(File::where($existFile)->get()) != 0) {
+                    array_push($errorFile, $file->getClientOriginalName());
+                } else {
+                    array_push($successFile, $file->getClientOriginalName());
+                    $f = new File;
+                    $f->idGroup = $idGroup;
+                    $f->pathFile = $file->getClientOriginalName();
+                    $f->finalState = "temporary";
+                    $f->uploadTime = Carbon::now();
+                    $f->userUpload = Auth::user()->name;
+                    $f->save();
+                    $file->storeAs('studentRepository/' . $idGroup, $f->Pathfile, 'gcs');
 
-            $subject = DB::table('subjects')->where('idSubject', '=', $project)->value('subjectName');
-            if($stuGroups->count() > 0) {
-                foreach ($stuGroups as $stu) {
-                    $users = User::all()->where('id', '=', $stu)->where('id', '!=', $my_id);
-                    foreach ($users as $user) {
-                        $user->notify(new \App\Notifications\InvoicePaid($my_id, trans('gx.newFRepo'), $idProject,$project_name, $subject));
+                    $my_id = Auth::id();
+
+                    $groups = DB::table('groups')->where('idProject', '=', $idProject)->value('idGroup');;
+                    $stuGroups = StudentsGroup::all()->where('idGroup', '=', $groups)->pluck("idStudent");
+                    $project = DB::table('projects')->where('idProject', '=', $idProject)->value('idSubject');
+                    $project_name = DB::table('projects')->where('idProject', '=', $idProject)->value('name');
+
+                    $subject = DB::table('subjects')->where('idSubject', '=', $project)->value('subjectName');
+                    if ($stuGroups->count() > 0) {
+                        foreach ($stuGroups as $stu) {
+                            $users = User::all()->where('id', '=', $stu)->where('id', '!=', $my_id);
+                            foreach ($users as $user) {
+                                $user->notify(new \App\Notifications\InvoicePaid($my_id, trans('gx.newFRepo'), $idProject, $project_name, $subject));
+                            }
+                        }
                     }
                 }
             }
-
-            return redirect()->to("/student/project/". $idProject . '#content')->with('success', trans('gx.fileSucc'));
-
+            if (!empty($successFile) and !empty($errorFile)){
+                return redirect('student/project/'. $idProject. '#content')->with('success', trans('gx.fileUploadedM', ['file' => implode(", ",$successFile)]))->with('error', trans('gx.fileUploadedMError', ['file' => implode(", ",$errorFile)]));
+            } elseif (empty($successFile) and !empty($errorFile)){
+                return redirect('student/project/'. $idProject. '#content')->with('error', trans('gx.fileUploadedMError', ['file' => implode(", ",$errorFile)]));
+            } elseif (!empty($successFile) and empty($errorFile)){
+                return redirect('student/project/'. $idProject . '#content')->with('success', trans('gx.fileUploadedM', ['file' => implode(", ",$successFile)]));
+            }
         } elseif($submission == 'studentsEvaluation') {
 
-                /*$this->validate($request, [
-                    'grade' => 'required',
-                    'commentary' => 'required'
-                ]);*/
+                $this->validate($request, [
+                    'grade' => 'required'
+                ]);
+
                 if(!is_null(Evaluation::all()->where('idGroup',$idGroup))) {
                     $idEval = Evaluation::where("idGroup", $idGroup)->where("sender", $user)->where("receiver", $request->receiver)->pluck("idEval")->first();
                     if (!is_null(Evaluation::find($idEval))) {
@@ -190,6 +204,7 @@ class StudentProjectsController extends Controller
                 $eval->status = $request->status;
                 $eval->save();
             }
+            return redirect()->to("/student/project/". $idProject . '#submission')->with('success', 'Grade sent successfully');
 
         } else {
             $my_id = $user = Auth::id();
@@ -235,93 +250,208 @@ class StudentProjectsController extends Controller
      */
     public function show($id)
     {
-        $user = Auth::user()->id;
         $project = Project::find($id);
-        $subject = Subject::find($project->idSubject);
-        $idGroups = Group::all()->where('idProject', '==', $id)->pluck('idGroup');
-        $studentGroups = StudentsGroup::all()->where('idStudent', '==', $user)->pluck('idGroup');
-        $idGroup = 0;
-        foreach($studentGroups as $st)
-            foreach ($idGroups as $g)
-                if ($g == $st)
-                    $idGroup = $g;
+        if ($project != null) {
+            $belongsProj = ['idSubject' => $project->idSubject, 'idUser' => Auth::user()->id];
+            $user = Auth::user()->id;
+            $subject = Subject::find($project->idSubject);
+            $idGroups = Group::all()->where('idProject', '==', $id)->pluck('idGroup');
+            $studentGroups = StudentsGroup::all()->where('idStudent', '==', $user)->pluck('idGroup');
+            $idGroup = 0;
+            foreach ($studentGroups as $st)
+                foreach ($idGroups as $g)
+                    if ($g == $st)
+                        $idGroup = $g;
+            if(count(SubjectEnrollment::where($belongsProj )->get()) == 0 or Auth::user()->role == "professor" or $idGroup == 0){
+                abort("403");
+            }
 
-        // repository
-        $rep = File::all()->where('idGroup', '==', $idGroup);
+            // repository
+            $rep = File::all()->where('idGroup', '==', $idGroup);
 
-        // Tasks
-        $arr = Task::all()->where('idGroup', '==', $idGroup);
-        if(count($arr)>0){
-            foreach ($arr as $task){
-                $local = Carbon::getLocale();
-                if($local == 'pt') {
-                    Carbon::setLocale('en');
-                }
-                $task->beginning = Carbon::parse($task->beginning)->isoFormat('MMMM Do YYYY, h:mm a');
-                if(!is_null($task->end)){
-                    $task->end = Carbon::parse($task->end)->isoFormat('MMMM Do YYYY, h:mm a');
-                    if(Carbon::parse($task->beginning)->diffInDays(Carbon::parse($task->end)) == 0) {
-                        $task->duration = Carbon::parse($task->beginning)->addSeconds($task->duration)->diffForHumans(Carbon::parse($task->beginning));
-                    }else {
-                        $task->duration = Carbon::parse($task->beginning)->diffInDays(Carbon::parse($task->end)) . ' days and ' . Carbon::parse($task->beginning)->diff(Carbon::parse($task->end))->format('%H:%I');
+            // Tasks
+            $arr = Task::all()->where('idGroup', '==', $idGroup);
+            if (count($arr) > 0) {
+                foreach ($arr as $task) {
+                    $local = Carbon::getLocale();
+                    if ($local == 'pt') {
+                        Carbon::setLocale('en');
                     }
+                    $task->beginning = Carbon::parse($task->beginning)->isoFormat('MMMM Do YYYY, h:mm a');
+                    if (!is_null($task->end)) {
+                        $task->end = Carbon::parse($task->end)->isoFormat('MMMM Do YYYY, h:mm a');
+                        if (Carbon::parse($task->beginning)->diffInDays(Carbon::parse($task->end)) == 0) {
+                            $task->duration = Carbon::parse($task->beginning)->addSeconds($task->duration)->diffForHumans(Carbon::parse($task->beginning));
+                        } else {
+                            $task->duration = Carbon::parse($task->beginning)->diffInDays(Carbon::parse($task->end)) . ' days and ' . Carbon::parse($task->beginning)->diff(Carbon::parse($task->end))->format('%H:%I');
+                        }
+                    }
+                    Carbon::setLocale($local);
                 }
-                Carbon::setLocale($local);
             }
-        }
 
-        //Documentation
-        $docs = Documentation::all()->where('idProject', '==', $id);
+            //Documentation
+            $docs = Documentation::all()->where('idProject', '==', $id);
 
-        //Notes
-        $notes = Group::find($idGroup)->notes;
+            //Notes
+            $notes = Group::find($idGroup)->notes;
 
-        //Meetings
-        $meeting = Meeting::all()->where('idGroup','==', $idGroup);
-        if(count($meeting)>0){
-            foreach ($meeting as $m){
-                $m->date = Carbon::parse($m->date)->isoFormat('MMMM Do YYYY, h:mm a');
+            //Meetings
+            $meeting = Meeting::all()->where('idGroup', '==', $idGroup);
+            if (count($meeting) > 0) {
+                foreach ($meeting as $m) {
+                    $m->date = Carbon::parse($m->date)->isoFormat('MMMM Do YYYY, h:mm a');
+                }
             }
+
+            //groupUsers
+            $groupUsers = StudentsGroup::all()->where('idGroup', "==", $idGroup);
+            $Users = [];
+            foreach ($groupUsers as $gu) {
+                $stg = User::find($gu->idStudent);
+                array_push($Users, $stg);
+            }
+
+            //schedule
+            $schedule = Availability::all()->where('idGroup', '==', $idGroup);
+
+            //Professor
+            $professores = SubjectEnrollment::all()->where('idSubject', '==', $subject->idSubject);
+            $Subjectprof = [];
+            foreach ($professores as $p) {
+                $pr = User::find($p->idUser);
+                if ($pr->role == 'professor')
+                    array_push($Subjectprof, $pr);
+            }
+
+
+            //Posts
+            $announcements = Announcement::orderBy('date', 'desc')->paginate(10)->fragment('forum');
+            $allAnnouncements = [];
+            foreach ($announcements as $a) {
+                array_push($allAnnouncements, $a);
+            }
+            $userId = $announcements->pluck('sender');
+            $users = [];
+            foreach ($userId as $uId) {
+                $user = User::find($uId);
+                array_push($users, $user);
+            }
+            $idAnnouncement = $announcements->pluck('idAnnouncement');
+            $numberComments = [];
+            foreach ($idAnnouncement as $idA) {
+                $idComment = AnnouncementComment::all()->where('idAnnouncement', '==', $idA)->count();
+                array_push($numberComments, $idComment);
+            }
+
+            //Evaluation
+            $eval = Evaluation::all()->where('idGroup', '==', $idGroup);
+
+            //Submission
+            $submittedFiles = File::all()->where('idGroup', '==', $idGroup)->where('finalState', '==', 'final');
+            $user = Auth::user()->id;
+            $subject = Subject::find($project->idSubject);
+            $idGroups = Group::all()->where('idProject', '==', $id)->pluck('idGroup');
+            $studentGroups = StudentsGroup::all()->where('idStudent', '==', $user)->pluck('idGroup');
+            $idGroup = 0;
+            foreach ($studentGroups as $st)
+                foreach ($idGroups as $g)
+                    if ($g == $st)
+                        $idGroup = $g;
+
+            // repository
+            $rep = File::all()->where('idGroup', '==', $idGroup);
+
+            // Tasks
+            $arr = Task::all()->where('idGroup', '==', $idGroup);
+            if (count($arr) > 0) {
+                foreach ($arr as $task) {
+                    $local = Carbon::getLocale();
+                    if ($local == 'pt') {
+                        Carbon::setLocale('en');
+                    }
+                    $task->beginning = Carbon::parse($task->beginning)->isoFormat('MMMM Do YYYY, h:mm a');
+                    if (!is_null($task->end)) {
+                        $task->end = Carbon::parse($task->end)->isoFormat('MMMM Do YYYY, h:mm a');
+                        if (Carbon::parse($task->beginning)->diffInDays(Carbon::parse($task->end)) == 0) {
+                            $task->duration = Carbon::parse($task->beginning)->addSeconds($task->duration)->diffForHumans(Carbon::parse($task->beginning));
+                        } else {
+                            $task->duration = Carbon::parse($task->beginning)->diffInDays(Carbon::parse($task->end)) . ' days and ' . Carbon::parse($task->beginning)->diff(Carbon::parse($task->end))->format('%H:%I');
+                        }
+                    }
+                    Carbon::setLocale($local);
+                }
+            }
+
+            //Documentation
+            $docs = DB::table('documentations')->where('idProject', $id)->orderBy('pathFile', 'ASC')->get();
+
+
+            //Notes
+            $notes = Group::find($idGroup)->notes;
+
+            //Meetings
+            $meeting = Meeting::all()->where('idGroup', '==', $idGroup);
+            if (count($meeting) > 0) {
+                foreach ($meeting as $m) {
+                    $m->date = Carbon::parse($m->date)->isoFormat('MMMM Do YYYY, h:mm a');
+                }
+            }
+
+            //groupUsers
+            $groupUsers = StudentsGroup::all()->where('idGroup', "==", $idGroup);
+            $Users = [];
+            foreach ($groupUsers as $gu) {
+                $stg = User::find($gu->idStudent);
+                array_push($Users, $stg);
+            }
+            $UsersEvaluate = DB::table('users')->leftJoin('studentGroups', 'users.id', '=', 'studentGroups.idStudent')->where('studentGroups.idGroup', '=', $idGroup)->orderByRaw('CASE WHEN id = '.Auth::user()->id. ' THEN 0 ELSE 1 END, name')->get();
+            $Users = collect($Users)->sortBy('name');
+
+            //schedule
+            $schedule = Availability::all()->where('idGroup', '==', $idGroup);
+
+            //Professor
+            $professores = SubjectEnrollment::all()->where('idSubject', '==', $subject->idSubject);
+            $Subjectprof = [];
+            foreach ($professores as $p) {
+                $pr = User::find($p->idUser);
+                if ($pr->role == 'professor')
+                    array_push($Subjectprof, $pr);
+            }
+            $Subjectprof = collect($Subjectprof)->sortBy('name');
+
+
+            //Posts
+            $announcements = Announcement::orderBy('date', 'desc')->paginate(10)->fragment('forum');
+            $allAnnouncements = [];
+            foreach ($announcements as $a) {
+                array_push($allAnnouncements, $a);
+            }
+            $userId = $announcements->pluck('sender');
+            $users = [];
+            foreach ($userId as $uId) {
+                $user = User::find($uId);
+                array_push($users, $user);
+            }
+            $idAnnouncement = $announcements->pluck('idAnnouncement');
+            $numberComments = [];
+            foreach ($idAnnouncement as $idA) {
+                $idComment = AnnouncementComment::all()->where('idAnnouncement', '==', $idA)->count();
+                array_push($numberComments, $idComment);
+            }
+
+            //Evaluation
+            $eval = Evaluation::all()->where('idGroup', '==', $idGroup);
+
+            //Submission
+            $submittedFiles = File::all()->where('idGroup', '==', $idGroup)->where('finalState', '==', 'final');
+
+            return view('student.project')->with('project', $project)->with('subject', $subject)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup', $idGroup)->with('notes', $notes)->with('a', $announcements)->with('meeting', $meeting)->with('groupUsers', $Users)->with('schedule', $schedule)->with('rep', $rep)->with('submittedFiles', $submittedFiles)->with('docs', $docs)->with('eval', $eval)->with('professores', $Subjectprof)->with('studentEval', $UsersEvaluate);
+        } else{
+            abort("404");
         }
-
-        //schedule
-        $groupUsers = StudentsGroup::all()->where('idGroup', "==", $idGroup);
-        $Users = [];
-        foreach ($groupUsers as $gu){
-            $stg = User::find($gu->idStudent);
-            array_push($Users, $stg);
-        }
-        $schedule = Availability::all()->where('idGroup','==', $idGroup);
-
-        //Posts
-
-        $announcements = Announcement::orderBy('date', 'desc')->paginate(10)->fragment('forum');
-        $allAnnouncements = [];
-        foreach ($announcements as $a) {
-            array_push($allAnnouncements, $a);
-        }
-        $userId = $announcements->pluck('sender');
-        $users = [];
-        foreach ($userId as $uId) {
-            $user = User::find($uId);
-            array_push($users, $user);
-        }
-        $idAnnouncement = $announcements->pluck('idAnnouncement');
-        $numberComments = [];
-        foreach ($idAnnouncement as $idA) {
-            $idComment = AnnouncementComment::all()->where('idAnnouncement', '==', $idA)->count();
-            array_push($numberComments, $idComment);
-        }
-
-        //Evaluation
-        $eval = Evaluation::all()->where('idGroup','==', $idGroup);
-
-        //Submission
-        $submittedFiles = File::all()->where('idGroup','==', $idGroup)->where('finalState','==','final');
-
-        return view('student.project')->with('project' , $project)->with('subject', $subject)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup',$idGroup)->with('notes',$notes)->with('a',$announcements)->with('meeting',$meeting)->with('groupUsers', $Users)->with('schedule', $schedule)->with('rep',$rep)->with('submittedFiles',$submittedFiles)->with('docs', $docs)->with('eval', $eval);
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -344,6 +474,10 @@ class StudentProjectsController extends Controller
         if ($submission == 'task') {
             $idTask = $request->input('task');
             $task = Task::find($idTask);
+            $local = Carbon::getLocale();
+            if($local == 'pt') {
+                Carbon::setLocale('en');
+            }
             if (!empty($request->input('description'))) {
                 $task->description = $request->input('description');
             } else {
@@ -368,6 +502,7 @@ class StudentProjectsController extends Controller
             } else {
                 $task->end = Carbon::parse($task->value("end"));
             }
+            Carbon::setLocale($local);
 
             $task->save();
             return redirect()->to("/student/project/". $id . '#content')->with('success', trans('gx.taskSucc'));

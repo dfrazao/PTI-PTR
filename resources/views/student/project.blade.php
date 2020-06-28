@@ -110,129 +110,136 @@
 
                                 </thead>
                                 <tbody>
-                                @foreach($rep as $file)
-                                    @if((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "txt")
-                                        <tr class="file" id="{{$file->idFile}}">
-                                            <td id="filename"><i class="fad fa-file-alt pr-2" id= '{{$file->idFile}}'></i>{{$file->pathFile}}</td>
-                                            <td>{{$file->userUpload}}</td>
-                                            <td>{{$file->uploadTime}}</td>
-                                            <td>
-                                                <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
-                                                    <span class="dot" id="download" style="position:relative">
-                                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
-                                                    </span>
-                                                </a>
-                                                <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile">
-                                                    <span class="dot" id="delete" style="position:relative">
-                                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
-                                                    </span>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "png")
-                                        <tr class="file" id="{{$file->idFile}}">
-                                            <td id="filename"><i class="fas fa-image pr-2"  id= '{{$file->idFile}}'></i>{{$file->pathFile}}</td>
-                                            <td >{{$file->userUpload}}</td>
-                                            <td>{{$file->uploadTime}}</td>
-                                            <td>
-                                                <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
-                                                    <span class="dot" id="download" style="position:relative">
-                                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
-                                                    </span>
-                                                </a>
-                                                <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile ">
-                                                    <span class="dot" id="delete" style="position:relative">
-                                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
-                                                    </span>
-                                                </button>
-                                            </td>
+                                    @if(count($rep)>0)
+                                        @foreach($rep as $file)
+                                            @if((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "txt")
+                                                <tr class="file" id="{{$file->idFile}}">
+                                                    <td id="filename" style="overflow-wrap: break-word"><i class="fad fa-file-alt pr-2" id= '{{$file->idFile}}'></i>{{$file->pathFile}}</td>
+                                                    <td>{{$file->userUpload}}</td>
+                                                    <td>{{$file->uploadTime}}</td>
+                                                    <td>
+                                                        <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
+                                                            <span class="dot" id="download" style="position:relative">
+                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                                            </span>
+                                                        </a>
+                                                        <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile">
+                                                            <span class="dot" id="delete" style="position:relative">
+                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
+                                                            </span>
+                                                        </button>
+                                                    </td>
 
-                                        </tr>
-                                    @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "pdf" )
-                                        <tr class="file" id="{{$file->idFile}}">
-                                            <td id="filename"><i class="fal fa-file-pdf pr-2"  id= '{{$file->idFile}}'></i>{{$file->pathFile}}</td>
-                                            <td>{{$file->userUpload}}</td>
-                                            <td>{{$file->uploadTime}}</td>
-                                            <td>
-                                                <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
-                                                    <span class="dot" id="download" style="position:relative">
-                                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
-                                                    </span>
-                                                </a>
-                                                <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile">
-                                                    <span class="dot" id="delete" style="position:relative">
-                                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
-                                                    </span>
-                                                </button>
-                                            </td>
+                                                </tr>
+                                            @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "png")
+                                                <tr class="file" id="{{$file->idFile}}">
+                                                    <td id="filename" style="overflow-wrap: break-word"><i class="fas fa-image pr-2"  id= '{{$file->idFile}}'></i>{{$file->pathFile}}</td>
+                                                    <td >{{$file->userUpload}}</td>
+                                                    <td>{{$file->uploadTime}}</td>
+                                                    <td>
+                                                        <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
+                                                            <span class="dot" id="download" style="position:relative">
+                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                                            </span>
+                                                        </a>
+                                                        <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile ">
+                                                            <span class="dot" id="delete" style="position:relative">
+                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
+                                                            </span>
+                                                        </button>
+                                                    </td>
 
-                                        </tr>
-                                    @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "docx" )
-                                        <tr class="file" id="{{$file->idFile}}">
-                                            <td id="filename"><i class="fal fa-file-word pr-2"  id= '{{$file->idFile}}'></i>{{$file->pathFile}}</td>
-                                            <td>{{$file->userUpload}}</td>
-                                            <td>{{$file->uploadTime}}</td>
-                                            <td>
-                                                <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
-                                                    <span class="dot" id="download" style="position:relative">
-                                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
-                                                    </span>
-                                                </a>
-                                                <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile">
-                                                    <span class="dot" id="delete" style="position:relative">
-                                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
-                                                    </span>
-                                                </button>
-                                            </td>
+                                                </tr>
+                                            @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "pdf" )
+                                                <tr class="file" id="{{$file->idFile}}">
+                                                    <td id="filename" style="overflow-wrap: break-word"><i class="fal fa-file-pdf pr-2"  id= '{{$file->idFile}}'></i>{{$file->pathFile}}</td>
+                                                    <td>{{$file->userUpload}}</td>
+                                                    <td>{{$file->uploadTime}}</td>
+                                                    <td>
+                                                        <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
+                                                            <span class="dot" id="download" style="position:relative">
+                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                                            </span>
+                                                        </a>
+                                                        <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile">
+                                                            <span class="dot" id="delete" style="position:relative">
+                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
+                                                            </span>
+                                                        </button>
+                                                    </td>
 
-                                        </tr>
-                                    @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "zip" )
-                                        <tr class="file" id="{{$file->idFile}}">
-                                            <td id="filename"><i class="fal fa-file-archive pr-2" id= '{{$file->idFile}}'></i>{{$file->pathFile}}</td>
-                                            <td >{{$file->userUpload}}</td>
-                                            <td>{{$file->uploadTime}}</td>
-                                            <td>
-                                                <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
-                                                    <span class="dot" id="download" style="position:relative">
-                                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
-                                                    </span>
-                                                </a>
-                                                <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile">
-                                                    <span class="dot" id="delete" style="position:relative">
-                                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
-                                                    </span>
-                                                </button>
-                                            </td>
+                                                </tr>
+                                            @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "docx" )
+                                                <tr class="file" id="{{$file->idFile}}">
+                                                    <td id="filename" style="overflow-wrap: break-word"><i class="fal fa-file-word pr-2"  id= '{{$file->idFile}}'></i>{{$file->pathFile}}</td>
+                                                    <td>{{$file->userUpload}}</td>
+                                                    <td>{{$file->uploadTime}}</td>
+                                                    <td>
+                                                        <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
+                                                            <span class="dot" id="download" style="position:relative">
+                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                                            </span>
+                                                        </a>
+                                                        <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile">
+                                                            <span class="dot" id="delete" style="position:relative">
+                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
+                                                            </span>
+                                                        </button>
+                                                    </td>
 
-                                        </tr>
+                                                </tr>
+                                            @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "zip" )
+                                                <tr class="file" id="{{$file->idFile}}">
+                                                    <td id="filename" style="overflow-wrap: break-word"><i class="fal fa-file-archive pr-2" id= '{{$file->idFile}}'></i>{{$file->pathFile}}</td>
+                                                    <td >{{$file->userUpload}}</td>
+                                                    <td>{{$file->uploadTime}}</td>
+                                                    <td>
+                                                        <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
+                                                            <span class="dot" id="download" style="position:relative">
+                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                                            </span>
+                                                        </a>
+                                                        <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile">
+                                                            <span class="dot" id="delete" style="position:relative">
+                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
+                                                            </span>
+                                                        </button>
+                                                    </td>
+
+                                                </tr>
+                                            @else
+                                                <tr class="file" id="{{$file->idFile}}">
+                                                    <td id="filename" style="overflow-wrap: break-word"><i class="fal fa-file-code pr-2"  id= '{{$file->idFile}}'></i>{{$file->pathFile}}</td>
+                                                    <td >{{$file->userUpload}}</td>
+                                                    <td>{{$file->uploadTime}}</td>
+                                                    <td>
+                                                        <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
+                                                            <span class="dot" id="download" style="position:relative">
+                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                                            </span>
+                                                        </a>
+                                                        <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile ">
+                                                            <span class="dot" id="delete" style="position:relative">
+                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
+                                                            </span>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
                                     @else
-                                        <tr class="file" id="{{$file->idFile}}">
-                                            <td id="filename"><i class="fal fa-file-code pr-2"  id= '{{$file->idFile}}'></i>{{$file->pathFile}}</td>
-                                            <td >{{$file->userUpload}}</td>
-                                            <td>{{$file->uploadTime}}</td>
-                                            <td>
-                                                <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
-                                                    <span class="dot" id="download" style="position:relative">
-                                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
-                                                    </span>
-                                                </a>
-                                                <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile ">
-                                                    <span class="dot" id="delete" style="position:relative">
-                                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
-                                                    </span>
-                                                </button>
-                                            </td>
+                                        <tr>
+                                            <td colspan="4">No files uploaded!</td>
                                         </tr>
                                     @endif
-                                @endforeach
                                 </tbody>
                             </table>
                         </div>
-                        <div class="container text-center">
+                        {{--<div class="container text-center">
                             {!!Form::open(['action' => ['StudentProjectsController@store', $project->idProject], 'method' => 'POST', 'enctype' => 'multipart/form-data','files' => true, 'class' => "dropzone dz-clickable p-0", 'id'=>"dropzone" , 'style'=>"min-height: 0 !important; height:15vh; border: 3px dotted black;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);border-radius: 5px;opacity:0.5;"])!!}
                             @csrf
                             <div class="dz-message m-0 pt-2">
-                                <i class="fal fa-file-plus fa-3x px-2"><p style="font-size: medium"> {{__('gx.dropclickdownload')}}</p></i>
+                                <i class="fal fa-file-plus fa-3x px-2"><p style="font-size: medium;"> {{__('gx.dropclickdownload')}}</p></i>
                             </div>
                             <script type="text/javascript">
                                 Dropzone.options.dropzone = {
@@ -242,11 +249,12 @@
                                             location.reload();
 
                                         });
-                                        this.on('error', function(file, response) {
-                                            $(file.previewElement).find('.dz-error-message').text(response);
+                                        this.on("error", function(file, message, xhr) {
+                                            var header = xhr.status+": "+xhr.statusText;
+                                            $(file.previewElement).find('.dz-error-message').text(header);
                                         });
                                     },
-                                    maxFilesize: 12,
+                                    maxFilesize: 25,
                                     acceptedFiles: ".jpeg,.jpg,.png,.gif,.pdf,.zip,.docx,.txt,.py,.html,.css,.js",
                                 };
                             </script>
@@ -256,7 +264,7 @@
                             {{Form::hidden('submission','newFile')}}
 
                             {!!Form::close()!!}
-                        </div>
+                        </div>--}}
                         {{--@foreach($rep as $file)
                             <div class="file text-center" id= '{{$file->idFile}}' style="margin-right: 15px; position:relative; display: inline-block; width: 100px;">
                                 <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;" id= '{{$file->idFile}}' class="close downloadFile" download>
@@ -333,7 +341,8 @@
 
                                 {!!Form::close()!!}
                             </div>--}}
-                        <button type="submit" disabled class="btn btn-sm" id= 'submitFile' data-toggle="modal" data-target="#modalSubmitFile" style="width:20vh;background: #2c3fb1; color: white; position: absolute; bottom: 7px; right: 22px;">{{__('gx.submit')}}</button>
+                        <button type="submit" disabled class="btn btn-sm" id='submitFile' data-toggle="modal" data-target="#modalSubmitFile" style="width:20vh;background: #2c3fb1; color: white; position: absolute; bottom: 7px; right: 22px;">{{__('gx.submit')}}</button>
+                        <button type="button" class="p-2 btn btn-primary btn-sm stopYear" data-toggle="modal" data-target="#modalAddFile" style="position: absolute; bottom: 0; right: 22vh;" data-toggle="modal">{{__('gx.upload files')}}</button>
 
                         {{-- Modal Submit File --}}
                         <div class="modal fade" id="modalSubmitFile" aria-labelledby="modalSubmitFile" aria-hidden="true" tabindex="-1" role="dialog">
@@ -373,7 +382,7 @@
                                     </div>
                                     <div class="modal-body">
                                         {!! Form::open(['action' => 'StudentProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
-                                        {{Form::file('file')}}
+                                        {{Form::file('file[]', ['multiple' => 'multiple'])}}
 
 
 
@@ -394,15 +403,30 @@
                 </div>
 
                 <div id="2col"  class="col-lg-3 mt-3 rounded pl-0" >
-                    <div id="col_groups" class="container-fluid rounded text-center h-100 pt-2" style="background-color: #c6c6c6;padding-bottom: 5%;">
+                    <div id="col_groups" class="container-fluid rounded text-center h-100 pt-2" style="background-color: #c6c6c6;">
                         <h5>{{__('gx.group').' '. $idGroup}}</h5>
-                        <div>
-                            @foreach($groupUsers as $user)
-                                <div class="pb-1">
-                                    <img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}">
-                                    <a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a>
-                                </div>
-                            @endforeach
+                        <div style="overflow: auto; max-height: 40vh">
+                            <table>
+                                @foreach($groupUsers as $user)
+                                    <tr>
+                                        <td><img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}"></td>
+                                        <td><a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a></td>
+                                        <td><i class="fa fa-envelope float-right"></i></td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                        <h5>Professors</h5>
+                        <div style="overflow: auto; max-height: 30vh">
+                            <table>
+                                @foreach($professores as $prof)
+                                    <tr class="pb-1">
+                                        <td><img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}"></td>
+                                        <td><a href="/profile/{{$prof->id}}">{{$prof->name}} - {{$prof->uniNumber}}</a></td>
+                                        <td><i class="fa fa-envelope float-right"></i></td>
+                                    </tr>
+                                @endforeach
+                            </table>
                         </div>
                     </div>
                     <style>
@@ -422,9 +446,9 @@
                     <div id="col_notes" class="row rounded h-50 pr-3">
                         <div class="container-fluid rounded notes pt-2" style="background-color: #ffe680; " >
                             <h5 class="text-center">{{__('gx.notes')}}</h5>
-                            {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST', 'id'=>'myform']) !!}
+                            {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST', 'id'=>'notesForm']) !!}
                             @csrf
-                            {{Form::textarea('notes', $notes, ['class' => 'form-control', 'id'=>'textArea', 'rows'=>'5'])}}
+                            {{Form::textarea('notes', $notes, ['class' => 'form-control', 'id'=>'textarea-notes', 'rows'=>'8', 'maxlength' => 500])}}
                             {{Form::hidden('group',$idGroup)}}
                             {{Form::hidden('submission','notes')}}
                             {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary d-none', 'id'=>'notesButton'])}}
@@ -432,52 +456,43 @@
                         </div>
                     </div>
                     <div id="col_docs" class="row rounded h-50 pt-3 pr-3">
-                        <div id="col_docs" class="container-fluid rounded text-center pt-2" style="background-color: #c6c6c6; ">
+                        <div class="container-fluid rounded text-center pt-2" style="background-color: #c6c6c6; ">
                             <h5>{{__('gx.documentation')}} </h5>
-                            <div class="text-center">
-                                @foreach($docs as $d)
-                                    @if((pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "txt")
-                                        <div>
-                                            <i class="fad fa-file-alt fa-2x"></i>
-                                            <a rel="noopener noreferrer" target="_blank" href ="{{Storage::url('documentation/'.$project->idProject.'/'.$d->pathFile)}}">{{$d->pathFile}}</a>
-                                        </div>
-                                    @elseif((pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "png")
-                                        <div>
-                                            <i class="fas fa-image fa-2x"></i>
-                                            <a rel="noopener noreferrer" target="_blank" href ="{{Storage::url('documentation/'.$project->idProject.'/'.$d->pathFile)}}">{{$d->pathFile}}</a>
-                                        </div>
-                                    @elseif((pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "pdf" )
-                                        <div>
-                                            <i class="fal fa-file-pdf fa-2x"></i>
-                                            <a rel="noopener noreferrer" target="_blank" href ="{{Storage::url('documentation/'.$project->idProject.'/'.$d->pathFile)}}">{{$d->pathFile}}</a>
-                                        </div>
-                                    @elseif((pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "docx" )
-                                        <div>
-                                            <i class="fal fa-file-word fa-2x"></i>
-                                            <a rel="noopener noreferrer" target="_blank" href ="{{Storage::url('documentation/'.$project->idProject.'/'.$d->pathFile)}}">{{$d->pathFile}}</a>
-                                        </div>
-                                    @elseif((pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "zip" )
-                                        <div>
-                                            <i class="fal fa-file-archive fa-2x"></i>
-                                            <a rel="noopener noreferrer" target="_blank" href ="{{Storage::url('documentation/'.$project->idProject.'/'.$d->pathFile)}}">{{$d->pathFile}}</a>
-                                        </div>
-                                    @else
-                                        <div>
-                                            <i class="fal fa-file-code fa-2x"></i>
-                                            <a rel="noopener noreferrer" target="_blank" href ="{{Storage::url('documentation/'.$project->idProject.'/'.$d->pathFile)}}">{{$d->pathFile}}</a>
-                                        </div>
-                                    @endif
-                                @endforeach
-                            </div>
+                            @if(count($docs) == 0)
+                                <p>The professor hasn't uploaded any file</p>
+                            @else
+                                <div style="overflow:auto; max-height:30vh;">
+                                    <table>
+                                    @foreach($docs as $d)
+                                        <tr>
+                                            @if((pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "txt")
+                                                <td><i class="fad fa-file-alt fa-2x"></i></td>
+                                            @elseif((pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "png")
+                                                <td><i class="fas fa-image fa-2x"></i></td>
+                                            @elseif((pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "pdf" )
+                                                <td><i class="fal fa-file-pdf fa-2x"></i></td>
+                                            @elseif((pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "docx" )
+                                                <td><i class="fal fa-file-word fa-2x"></i></td>
+                                            @elseif((pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "zip" )
+                                                <td><i class="fal fa-file-archive fa-2x"></i></td>
+                                            @else
+                                                <td><i class="fal fa-file-code fa-2x"></i></td>
+                                            @endif
+                                            <td><a rel="noopener noreferrer" target="_blank" href ="{{Storage::url('documentation/'.$project->idProject.'/'.$d->pathFile)}}">{{$d->pathFile}}</a></td>
+                                        </tr>
+                                    @endforeach
+                                    </table>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
                 <style>
 
-                    #col_docs{
+                    /*#col_docs{
                         height: 38vh;
                         overflow: auto;
-                    }
+                    }*/
                     @media screen and (max-width: 1000px) {
                         #col_docs{
                             margin-left: 0.5%;
@@ -579,15 +594,15 @@
                                             <script>
                                                 $(function() {$( "#datetimepicker1-{{$t->idTask}}" ).datetimepicker({
                                                     minDate: moment('{{(\Carbon\Carbon::now())}}').format('YYYY-MM-DD HH:mm:ss'),
-                                                    //date: moment('{{(\Carbon\Carbon::parse($t->beginning))}}').format('YYYY-MM-DD HH:mm'),
-                                                    locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
+                                                    date: moment('{{(\Carbon\Carbon::parse($t->beginning))}}').format('YYYY-MM-DD HH:mm'),
+                                                    locale: "en",
                                                     icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"},
                                                     default: moment('{{(\Carbon\Carbon::parse($t->beginning))}}').format('YYYY-MM-DD HH:mm:ss')
                                                 });});
                                                 $(function() {$( "#datetimepicker2-{{$t->idTask}}" ).datetimepicker({
                                                     minDate: moment('{{(\Carbon\Carbon::parse($t->end))}}').format('YYYY-MM-DD HH:mm'),
                                                     date: moment('{{(\Carbon\Carbon::parse($t->end))}}').format('YYYY-MM-DD HH:mm'),
-                                                    locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
+                                                    locale: "en",
                                                     icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
                                                 });});
                                                 $("#datetimepicker1-{{$t->idTask}}").on("change.datetimepicker", function (e) {
@@ -625,9 +640,9 @@
                                 @endif
                                 </tbody>
                                 <style>
-                                    #row2{
+                                    /*#row2{
                                         padding-top: 2%;
-                                    }
+                                    }*/
                                     .short-text_task { display: none; }
 
 
@@ -716,7 +731,7 @@
                         {!! Form::open(['action' => 'StudentProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                         <div class="form-group">
                             {{Form::label('description', trans('gx.title'))}}
-                            {{Form::text(trans('gx.description'), '', ['class' => 'form-control', 'placeholder' => 'Task title'])}}
+                            {{Form::text('description', '', ['class' => 'form-control', 'placeholder' => 'Task title','maxlength' => 50])}}
                         </div>
                         <div class="form-group">
                             {{Form::label('responsible', trans('gx.responsible'))}}
@@ -727,8 +742,8 @@
                             </select>
                         </div>
                         <td class="form-group">
-                            {{Form::label('beginnig', trans('gx.beginning'))}}
-                            {{ Form::text(trans('gx.beginning'),'',['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker', 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker'])}}
+                            {{Form::label('beginning', trans('gx.beginning'))}}
+                            {{ Form::text('beginning','',['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker', 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker'])}}
                         </td>
                         {{ Form::hidden('group', $idGroup) }}
                         {{ Form::hidden('project', $project->idProject) }}
@@ -743,7 +758,7 @@
                         $(function() {$( "#datetimepicker" ).datetimepicker({
                             minDate: moment().format('YYYY-MM-DD HH:mm'),
                             date: moment().format('YYYY-MM-DD HH:mm'),
-                            locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
+                            locale: "en",
                             icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
                         });});
                     </script>
@@ -751,7 +766,7 @@
             </div>
         </div>
         <div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab" style=" position: relative">
-            <h5 id="titulo_groups" class="pt-2 text-center">{{__('gx.group elements weekly availability')}}</h5>
+            <h5 id="titulo_groups" class="pt-2 text-center"><i class="fal fa-calendar-alt pr-2"></i>{{__('gx.group elements weekly availability')}}</h5>
             {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST', 'id' => 'scheduleform']) !!}
             @csrf
             <style>
@@ -977,11 +992,11 @@
                         {!!Form::open(['action' => ['StudentProjectsController@store', $project->idProject], 'method' => 'POST', 'enctype' => 'multipart/form-data'])!!}
                         <div class="form-group">
                             {{Form::label('description', trans('gx.meeting description'))}}
-                            {{Form::text('description', '', ['class' => 'form-control'])}}
+                            {{Form::text('description', '', ['class' => 'form-control', 'maxlength' => 30])}}
                         </div>
                         <div class="form-group">
                             {{Form::label('place', trans('gx.meeting place'))}}
-                            {{Form::text('place', '', ['class' => 'form-control'])}}
+                            {{Form::text('place', '', ['class' => 'form-control','maxlength' => 30])}}
                         </div>
                         <div class="form-group">
                             {{Form::label('date', trans('gx.meeting date'))}}
@@ -1197,6 +1212,88 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="container rounded pb-3 pt-3">
+                        {{$last = null}}
+                        @if($submittedFiles->count() > 0)
+                            <div id="box1" style="position: absolute; right: 1%; top: 1%; height: 9%; border: 1px solid darkgrey; border-radius: 15px; width: 66%;  vertical-align: middle;">
+                                <img src="/images/deathlineSub.png" style="width: 30px; height: 30px; float: left; margin:1%;">
+                                <div id="timer3"></div>
+                            </div>
+
+                            <style>
+                                #timer3 {
+                                    font-size: 1.0em;
+                                    color: black;
+                                    vertical-align: middle;
+                                    text-align: center;
+                                }
+
+                                #timer3 div {
+                                    display: inline-block;
+                                    min-width: 35px;
+
+                                }
+
+                                #timer3 p {
+                                    margin: 2%;
+                                }
+
+                                #timer3 div span {
+                                    color: black;
+                                    display: block;
+                                    font-size: .60em;
+                                    font-weight: 400;
+                                }
+                            </style>
+                            <script>
+                                @foreach($submittedFiles as $file)
+                                    $last = {{$file->submissionTime}};
+                                    @if($file->submissionTime > $last)
+                                        $last = {{$file->submissionTime}};
+                                    @endif
+                                @endforeach
+
+                                function updateTimer3() {
+                                    future = Date.parse("{{$project->dueDate}}");
+                                    now = Date.parse("{{$last}}");
+                                    diff = Math.abs(future - now);
+
+                                    days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                                    hours = Math.floor(diff / (1000 * 60 * 60));
+                                    mins = Math.floor(diff / (1000 * 60));
+                                    secs = Math.floor(diff / 1000);
+
+                                    d = days;
+                                    h = hours - days * 24;
+                                    m = mins - hours * 60;
+                                    s = secs - mins * 60;
+
+                                    if (now>future){
+                                        $('#box1').css('border', '1.5px solid red');
+                                        $('#box1').css('background-color', '#ff000042');
+                                        $('#box1').css('width', '66%');
+
+                                        document.getElementById("timer3")
+                                            .innerHTML = '<p style="float: left;">Submetido com atraso de</p>'+
+                                            '<div>' + d + '<span>days</span></div>' +
+                                            '<div>' + h + '<span>hrs</span></div>' +
+                                            '<div>' + m + '<span>mins</span></div>';
+
+
+                                    }else{
+
+                                        $('#box1').css('border', '1.5px solid #61af61');
+                                        $('#box1').css('background-color', '#bbf5bb');
+                                        $('#box1').css('width', '44%');
+                                        document.getElementById("timer3")
+                                            .innerHTML =
+                                            '<p>Submetido com sucesso!</p>';
+
+                                    }
+                                }
+                                updateTimer3();
+
+                            @endif
+                        </script>
                         <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-2">
                             <i class='pl-1 far fa-lg fa-file-alt float-left'></i>
                             <div id="deadline" style="display: inline-flex" class="pl-3">{{__('gx.deadline')}}: {{$project->dueDate}}</div>
@@ -1216,11 +1313,13 @@
                         ?>
                         <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-4">
                             <i class="far fa-lg fa-clock float-left"></i>
-                            <div style="display: inline-flex" class="pl-3"> {{__('gx.submTime')}}: {{$last}}</div>
+                            <div style="display: inline-flex" class="pl-3"> {{__('gx.submTime')}}: @if($last != null){{$last}}@else trans('gx.noFilesSubm')@endif</div>
+
                         </div>
                         <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-4">
                             <i class="pl-1 far fa-lg fa-file float-left"></i>
-                            <div style="display: inline-flex" class="pl-3"> {{__('gx.filesSubm')}}:</div>
+                            <div style="display: inline-flex" class="pl-3"> {__('gx.filesSubm')}}: @if(count($submittedFiles)==0)trans('gx.noFilesSubm') @endif</div>
+
                         </div>
                         <div class="container-fluid mt-3 pr-0 ml-2" id="submittedFiles" style="background-color: white">
                             @foreach($submittedFiles as $file)
@@ -1282,67 +1381,94 @@
                                 </div>
                             @endforeach
                         </div>
+                        <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-2">
+                            <i class="far fa-lg fa-medal float-left"></i>
+                            <div style="display: inline-flex" class="pl-3"> Project grade: @if((\App\Group::find($idGroup))->grade != null) {{(\App\Group::find($idGroup))->grade}} valores @else Not graded @endif </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="container rounded pb-3 pt-3">
+                        <h3>Group elements evaluation</h3>
                         @if($eval->count() > 0 && $eval->first()->status == 'submitted')
                             <div class="alert alert-success alert-dismissible fade show">
                                 <strong>{{__('gx.success!')}}</strong> {{__('gx.evaluationSentSucc')}}
                             </div>
                         @else
                             <div class="StudentsEvaluation">
-                                @foreach($groupUsers as $user)
+                                @foreach($studentEval as $user)
                                     {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST']) !!}
-                                    <img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}">
-                                    <a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a>
-                                    <div class="rating-{{$user->id}}" style="display:inline-flex;">
-                                        <i class="fa fa-star" aria-hidden="true" id="s1"></i>
-                                        <i class="fa fa-star" aria-hidden="true" id="s2"></i>
-                                        <i class="fa fa-star" aria-hidden="true" id="s3"></i>
-                                        <i class="fa fa-star" aria-hidden="true" id="s4"></i>
-                                        <i class="fa fa-star" aria-hidden="true" id="s5"></i>
-                                    </div>
-
-
+                                    @if($user->id == Auth::user()->id)
+                                    <h5>Autoavaliação:</h5>
+                                <table>
+                                    <tr>
+                                        <td><img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}"></td>
+                                        <td><a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a></td>
+                                        <td>
+                                            <div class="rating-{{$user->id}}" style="display:inline-flex;">
+                                                <i class="fa fa-star" aria-hidden="true" id="s1"></i>
+                                                <i class="fa fa-star" aria-hidden="true" id="s2"></i>
+                                                <i class="fa fa-star" aria-hidden="true" id="s3"></i>
+                                                <i class="fa fa-star" aria-hidden="true" id="s4"></i>
+                                                <i class="fa fa-star" aria-hidden="true" id="s5"></i>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <h5>Heteroavaliação</h5>
+                                    @else
+                                <table>
+                                    <tr>
+                                        <td><img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}"></td>
+                                        <td><a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a></td>
+                                        <td>
+                                            <div class="rating-{{$user->id}}" style="display:inline-flex;">
+                                                <i class="fa fa-star" aria-hidden="true" id="s1"></i>
+                                                <i class="fa fa-star" aria-hidden="true" id="s2"></i>
+                                                <i class="fa fa-star" aria-hidden="true" id="s3"></i>
+                                                <i class="fa fa-star" aria-hidden="true" id="s4"></i>
+                                                <i class="fa fa-star" aria-hidden="true" id="s5"></i>
+                                            </div>
+                                        </td>
+                                    </tr>
                                     {{ Form::hidden('project', $project->idProject) }}
-
+                                </table>
                                     <script>
                                         @foreach($eval as $ev)
                                             @for($i=0;$i<=$ev->grade;$i++)
-                                            $('div.rating-{{$ev->receiver}} #s{{$i}}').css('color','#f1f1f1');
+                                                $('div.rating-{{$ev->receiver}} #s{{$i}}').css('color','#ffce52');
                                             @endfor
                                         @endforeach
                                         var rating=0;
                                         $('div.rating-{{$user->id}} #s1').click(function(){
                                             $('div.rating-{{$user->id}} .fa-star').css("color","black");
-                                            $('div.rating-{{$user->id}} #s1').css("color","yellow");
+                                            $('div.rating-{{$user->id}} #s1').css("color","#ffce52");
                                             rating=1;
                                         });
                                         $('div.rating-{{$user->id}} #s2').click(function(){
                                             $('div.rating-{{$user->id}} .fa-star').css("color","black");
-                                            $('div.rating-{{$user->id}} #s1, div.rating-{{$user->id}} #s2').css("color","yellow");
+                                            $('div.rating-{{$user->id}} #s1, div.rating-{{$user->id}} #s2').css("color","#ffce52");
                                             rating=2;
                                         });
                                         $('div.rating-{{$user->id}} #s3').click(function(){
                                             $('div.rating-{{$user->id}} .fa-star').css("color","black");
-                                            $('div.rating-{{$user->id}} #s1, div.rating-{{$user->id}} #s2,div.rating-{{$user->id}} #s3').css("color","yellow");
+                                            $('div.rating-{{$user->id}} #s1, div.rating-{{$user->id}} #s2,div.rating-{{$user->id}} #s3').css("color","#ffce52");
                                             rating=3;
                                         });
                                         $('div.rating-{{$user->id}} #s4').click(function(){
                                             $('div.rating-{{$user->id}} .fa-star').css("color","black");
-                                            $('div.rating-{{$user->id}} #s1,div.rating-{{$user->id}} #s2,div.rating-{{$user->id}} #s3,div.rating-{{$user->id}} #s4').css("color","yellow");
+                                            $('div.rating-{{$user->id}} #s1,div.rating-{{$user->id}} #s2,div.rating-{{$user->id}} #s3,div.rating-{{$user->id}} #s4').css("color","#ffce52");
                                             rating=4;
                                         });
                                         $('div.rating-{{$user->id}} #s5').click(function(){
                                             $('div.rating-{{$user->id}} .fa-star').css("color","black");
-                                            $('div.rating-{{$user->id}} #s1,div.rating-{{$user->id}} #s2,div.rating-{{$user->id}} #s3,div.rating-{{$user->id}} #s4, div.rating-{{$user->id}} #s5').css("color","yellow");
+                                            $('div.rating-{{$user->id}} #s1,div.rating-{{$user->id}} #s2,div.rating-{{$user->id}} #s3,div.rating-{{$user->id}} #s4, div.rating-{{$user->id}} #s5').css("color","#ffce52");
                                             rating=5;
                                         });
                                         $('div.rating-{{$user->id}} .fa-star').on('click',function() {
 
                                             $.ajax({
-                                                url: "/student/project/",
+                                                url: "/student/project/{{$project->idProject}}",
                                                 method: "POST",
                                                 data: {
                                                     'group': {{$idGroup}},
@@ -1360,7 +1486,7 @@
                                             $('#submitted').removeClass('d-none');
                                             $('#modalSubmitEvaluations').modal('hide');
                                             $.ajax({
-                                                url: "/student/project/",
+                                                url: "/student/project/{{$project->idProject}}",
                                                 method: "POST",
                                                 data: {
                                                     'group': {{$idGroup}},
@@ -1387,11 +1513,12 @@
                                                 <div class="modal-body">
                                                     <h5>{{__('gx.sureSubmitEval')}}</h5>
                                                     <p>{{__('gx.makeChangesEvals')}}</p>
-                                                    <button type="button" class="btn btn-danger" id="submitEval">{{__('gx.yes')}}</button>
+                                                    <button type="button" class="btn btn-success float-right" id="submitEval">{{__('gx.yes')}}</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    @endif
                                     {!! Form::close() !!}
                                 @endforeach
                             </div>
@@ -1430,14 +1557,14 @@
         }
     }
 
-    #textArea{
+    #textarea-notes{
         width: 100%;
         height: 100%;
         resize: none;
         background-color: #ffe680;
         border: none;
     }
-    #textArea:focus{
+    #textarea-notes:focus{
         outline: 0;
         box-shadow: none;
 
@@ -1653,8 +1780,8 @@
         $('#modalCreateTask').modal('show');
     });
 
-    $('#textArea').change( function() {
-        datastring = {'notes':$('#textArea').val(), 'group': $('input[name=group]').val(), 'submission': $('input[name=submission]').val(), '_token': $('input[name=_token]').val()}
+    $('#textarea-notes').change( function() {
+        datastring = {'notes':$('#textArea').val(), 'group': $('input[name=group]').val(), 'submission': $('#notesForm input[name=submission]').val(), '_token': $('input[name=_token]').val()}
         $.ajax({
             type: "post",
             data: datastring,
@@ -1821,6 +1948,15 @@
     }
     updateTimer2{{$project->idProject}}();
     setInterval('updateTimer2{{$project->idProject}}()', 1000);
+
+    subjectYear = '{{$subject->academicYear}}';
+    currentYear = sessionStorage.getItem("currentYear").replace("\\","");
+
+    if(subjectYear != currentYear){
+        console.log(subjectYear);
+        console.log(currentYear);
+        $(".stopYear").prop('disabled', true);
+    }
 
 
 
