@@ -93,7 +93,7 @@
                                     <div class="modal-body">
                                         {!! Form::open(['action' => ['ProfessorProjectsController@update', $project->idProject], 'method' => 'POST', 'enctype' => 'multipart/form-data', 'id' => 'formEdit']) !!}
                                         <div class="form-group">
-                                            {{Form::label('title', trans('gx.name'))}}
+                                            {{Form::label('title', trans('gx.project name'))}}
                                             {{Form::text('title', $project->name, ['class' => 'form-control', 'placeholder' => trans('gx.project name'), 'maxlength' => 50])}}
                                         </div>
                                         <div class="form-group">

@@ -57,6 +57,12 @@ class ProfessorProjectsController extends Controller
                 'documentation' => 'required',
                 'minNumber' => 'integer|lte:maxNumber',
                 'maxNumber' => 'integer'
+            ],[
+                'title.required' => trans('gx.titleReq'),
+                'deadline.required' => trans('gx.deadlineReq'),
+                'group_formation_deadline.required' => trans('gx.groupdeadlineReq'),
+                'documentation.required' => trans('gx.documentationReq'),
+                'minNumber.lte' => trans('gx.minNumberReq')
             ]);
 
             $project = new Project;
@@ -102,7 +108,9 @@ class ProfessorProjectsController extends Controller
 
         } elseif ($request->option=="projectFiles"){
             $this->validate($request, [
-                'documentation' => 'required'
+                [
+                    'documentation.required' => trans('gx.documentationReq'),
+                ]
             ]);
 
             $files = $request->documentation;
@@ -139,7 +147,7 @@ class ProfessorProjectsController extends Controller
                 foreach ($enrollm as $u){
                     $users = User::all()->where('id', '=', $u)->where('id', '!=', $my_id);
                     foreach ($users as $user){
-                        $user->notify(new \App\Notifications\InvoicePaid($my_id,"Uploaded a file to documentation", $request->project ,$project_name,$subject));
+                        $user->notify(new \App\Notifications\InvoicePaid($my_id,trans('gx.uploadedFileN'), $request->project ,$project_name,$subject));
                     }
                 }
             }
@@ -178,7 +186,7 @@ class ProfessorProjectsController extends Controller
 
                     foreach ($users as $user) {
 
-                        $user->notify(new \App\Notifications\InvoicePaid($my_id, "Grade given", $projectId ,$project_name, $subject));
+                        $user->notify(new \App\Notifications\InvoicePaid($my_id, trans('gx.gradeGiven'), $projectId ,$project_name, $subject));
 
                     }
 
@@ -265,6 +273,9 @@ class ProfessorProjectsController extends Controller
                 'title' => 'required',
                 'minNumber' => 'integer|lte:maxNumber',
                 'maxNumber' => 'integer'
+            ],[
+                'title.required' => trans('gx.titleReq'),
+                'minNumber.lte' => trans('gx.minNumberReq')
             ]);
 
             $project = Project::find($id);
@@ -291,6 +302,9 @@ class ProfessorProjectsController extends Controller
         } else {
             $this->validate($request, [
                 'grade' => 'required'
+            ],[
+                'grade.required' => trans('gx.gradeReq'),
+
             ]);
 
             $group = Group::find($request->group);

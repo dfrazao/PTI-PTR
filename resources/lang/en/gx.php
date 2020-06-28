@@ -526,7 +526,17 @@ return [
     'groupEval' => 'Group Evaluation',
     'submWithDelay' => 'Submitted with delay of',
     'submWithSucc' => 'Submitted with success!',
-    'noFilesSub' => 'No files submitted'
+    'noFilesSub' => 'No files submitted',
+
+    //---
+    'titleReq' => 'The title field is required!',
+    'deadlineReq' => 'The deadline field is required!',
+    'groupdeadlineReq'=>'The group formation deadline field is required!',
+    'documentationReq' => 'The documentation field is required!',
+    'minNumberReq' => 'The minimum  no. of members must be less than or equal than maximum no. of members!',
+    'uploadedFileN' => 'Uploaded a file to documentation.',
+    'gradeReq' => 'The grade field is required!'
+
 
 
 
