@@ -46,20 +46,19 @@ Route::group(['middleware' => 'is.not.admin'], function () {
     Route::resource('/student/project/{projectId}/post', 'PostController')->middleware('auth');
 
 //Chat
-    Route::get('/chat', 'ChatController@index')->name('chat');
-    Route::get('/message/{entity}/{id}', 'ChatController@getMessage')->name('message');
-    Route::get('profile/message/{entity}/{id}', 'ChatController@getMessage')->name('message');
-    Route::get('student/message/{entity}/{id}', 'ChatController@getMessage')->name('message');
-
-    Route::post('/message', 'ChatController@sendMessage');
-    Route::post('profile/message', 'ChatController@sendMessage');
-    Route::post('student/project/message', 'ChatController@sendMessage');
-    Route::post('student/project/{projectId}/post/message', 'ChatController@sendMessage');
-    Route::post('student/project/{projectId}/message', 'ChatController@sendMessage');
-    Route::post('professor/project/message', 'ChatController@sendMessage');
-    Route::get('/searchchat','SearchController@index', ['name' => 'searchchat'])->name("searchchat");
-    Route::get('/search','SearchController@search');
-    Route::post('/pusher/auth', 'ChatController@authorizeUser');
+    Route::get('/chat', 'ChatController@index')->name('chat')->middleware('auth');
+    Route::get('/message/{entity}/{id}', 'ChatController@getMessage')->name('message')->middleware('auth');
+    Route::get('profile/message/{entity}/{id}', 'ChatController@getMessage')->name('message')->middleware('auth');
+    Route::get('student/message/{entity}/{id}', 'ChatController@getMessage')->name('message')->middleware('auth');
+    Route::post('/message', 'ChatController@sendMessage')->middleware('auth');
+    Route::post('profile/message', 'ChatController@sendMessage')->middleware('auth');
+    Route::post('student/project/message', 'ChatController@sendMessage')->middleware('auth');
+    Route::post('student/project/{projectId}/post/message', 'ChatController@sendMessage')->middleware('auth');
+    Route::post('student/project/{projectId}/message', 'ChatController@sendMessage')->middleware('auth');
+    Route::post('professor/project/message', 'ChatController@sendMessage')->middleware('auth');
+    Route::get('/searchchat','SearchController@index', ['name' => 'searchchat'])->name("searchchat")->middleware('auth');
+    Route::get('/search','SearchController@search')->middleware('auth');
+    Route::post('/pusher/auth', 'ChatController@authorizeUser')->middleware('auth');
 
 //Groups
     Route::get('student/project/{id}/groups', 'GroupController@show')->middleware('auth');

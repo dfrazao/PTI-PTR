@@ -168,6 +168,7 @@
                                 </div>
                             </div>
                         </li>
+
                         @if ($notification_chat === 0)
                                 <li class="nav-item dropdown dropdown-notifications">
                                     <a class="nav-link" id="chat_button" onclick="chat()"><i class="fa fa-envelope"></i></a>

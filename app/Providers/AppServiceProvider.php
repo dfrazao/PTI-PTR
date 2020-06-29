@@ -93,20 +93,23 @@ class AppServiceProvider extends ServiceProvider
             }
             //...with this variable
             $collection = collect([]);
-            $query = DB::select('SELECT groups.idGroup, groups.idGroupProject, subjects.subjectName, projects.name FROM studentGroups
+            if (Auth::check() == true){
+                $query = DB::select('SELECT groups.idGroup, groups.idGroupProject, subjects.subjectName, projects.name FROM studentGroups
                     LEFT JOIN groups ON studentGroups.idGroup = groups.idGroup 
                     LEFT JOIN subjects ON groups.idProject = subjects.idSubject
                     LEFT JOIN projects ON groups.idProject = projects.idProject
                     WHERE studentGroups.idStudent = ' . $my_id);
 
-            foreach ($query as $p) {
-                $collection->push([
-                    'idGroup' => $p->idGroup,
-                    'idGroupProject' => $p->idGroupProject,
-                    'cadeira' => $p->subjectName,
-                    'projectName' => $p->name,
+                foreach ($query as $p) {
+                    $collection->push([
+                        'idGroup' => $p->idGroup,
+                        'idGroupProject' => $p->idGroupProject,
+                        'cadeira' => $p->subjectName,
+                        'projectName' => $p->name,
 
-                ]);
+                    ]);
+            }
+
             }
 
 
