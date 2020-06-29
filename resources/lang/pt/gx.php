@@ -102,7 +102,7 @@ return [
     'successfully joined group' => 'Entrou com sucesso no grupo',
     'sorted by average'       => 'Tabela ordenada por média de avaliações de trabalho de equipa',
     'search'                  => 'Pesquisar',
-    'group full'              => 'Grupo Cheio',
+    'group full'              => 'Grupo cheio',
     'no groups found'         => 'Ainda não foram criados grupos.',
     'join/create group'       => 'Juntar/Criar Grupo',
 
@@ -311,7 +311,7 @@ return [
     'groups that dont match requirements' => 'Grupos que não cumprem os requisitos',
     'show' => 'Mostrar',
     'documentation' =>'Documentação',
-    'upload files' => 'Upload de ficheiros',
+    'upload doc' => 'Upload de documentação',
     'delete file' => 'Apagar ficheiros',
     'areyousuredeletedocument' => 'Tem a certeza que deseja eliminar o documento?',
     'files' => 'Ficheiros',
@@ -447,7 +447,8 @@ return [
     'helpProf' => 'Nesta área , o utilizador consegue consultar o seu perfil , editar a password , editar o perfil e mudar a foto de perfil.',
     'helpDashStudent' => 'O calendário na zona esquerda permite ao utilizador ver qual é o presente dia, a atividade passada e a atividade futura, ao passar com o cursor num dia que esteja sinalizado , mais informação será visível.',
     'helpDashStudent2' => 'As unidades curriculares são exibidas segundo o papel do utilizador e o ano académico selecionado , no entanto o utilizador tem a possibilidade de aceder a unidades curriculares de anos letivos anteriores clicando no dropdown azul com a indicação do ano.
-                            As unidades curriculares aparecem minimizadas , por isso o utilizador deve expandir a desejada. Dentro da unidade curricular selecionada o utilizador tem a possibilidade de se juntar a um grupo ou entrar na página do projeto caso já possuo grupo. ',
+                            As unidades curriculares aparecem minimizadas , por isso o utilizador deve expandir a desejada. Dentro da unidade curricular selecionada o utilizador tem a possibilidade de se juntar a um grupo ou entrar na página do projeto caso já possuo grupo. O círculo verde que aparece junto ao nome da unidade curricular minimizada significa que existem projetos ativos nessa unidade curricular, ao maximizar a unidade curricular , o primeiro símbolo que aparece é referente ao prazo
+    limite de criação de grupos para o projeto, sendo o segundo símbolo representante da data limite de entrega do projeto.',
 
     'helpProjectStud'=> 'Nesta área o utilizador consegue fazer upload dos ficheiros no repositório , tendo a possibilidade de os submeter, para submeter os ficheiros o utilizador deverá selecionar os ficheiros a submeter. O utilizador também consegue observar quais são os membros do
                     grupo e consegue sair do grupo(uma confirmação irá aparecer) , ver a documentação do projeto e criar notas. O utilizador consegue também criar tarefas , especifando para cada uma , o título, a pessoa responsável e a data de início, posteriormente o utilizador também consegue editar a tarefa,

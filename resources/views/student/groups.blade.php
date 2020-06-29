@@ -3,24 +3,20 @@
     <head>
         <title>{{__('gx.groups')}}</title>
     </head>
-    <div class="container-fluid pl-5 pr-5 pb-2 mt-3">
+    <div class="container-fluid pl-4 pr-4 pb-2 mt-3">
         @include('layouts.messages')
         <nav id="breadcrumb" aria-label="breadcrumb" >
             <ol id="breadcrumb" class="breadcrumb pl-0 pb-0 mb-4 h3" style="background-color:white; ">
                 <li id="bc1" class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>{{__('gx.dashboard')}}</a></li>
                 <li id="bc2" class="breadcrumb-item " aria-current="page" >{{__('gx.group creation')}} - {{$subject->subjectName}} - {{$project->name}}</li>
             </ol>
+            <div style="padding-right: 5%"><div id="creation_deadline" class="countdown" style="float:right "><i class="far fa-lg fa-users float-left"></i> <div id="timer1" class="timer"> </div></div></div>
         </nav>
 
         <br>
-        <div><i class="far fa-lg fa-users float-left"></i><div id="creation_deadline" class="countdown" style="float:left "><p class="h5"> {{__('gx.group formation deadline')}}: <div id="timer1" class="timer"> </div>   </div>
-        <br>
-        <br>
 
-        </div>
-        </div>
+    </div>
         <br>
-
         <style>
             @media screen and (max-width: 750px){
                 #breadcrumb {
@@ -36,7 +32,8 @@
                 }
             }
         </style>
-        <div class="container-fluid overflow-auto">
+    <div container-xl-fluid mt-4 pl-5 pr-5 pb-2 rounded style="padding-right:5%;padding-left: 5%;padding-bottom: 1%">
+        <div class="container-xl-fluid mt-4 pl-5 pr-5 pb-2 rounded " style="background-color: #ededed;padding-left: 10%;padding-right: 10%;">
 
             <style>
                 #creation_deadline{
@@ -89,8 +86,8 @@
             </script>
 
             <br>
-            <div class="table-responsive">
-                <table class="table bg-white" style="text-align:center;">
+            <div class="table-responsive rounded" >
+                <table  class="table bg-white table-striped " style="text-align:center;">
                     <thead>
                     <tr>
                         <th>{{__('gx.group')}}</th>
@@ -99,7 +96,7 @@
                         <th></th>
                     </tr>
                     </thead>
-                    <tbody style="overflow: auto;max-height: 20%">
+                    <tbody class="t-body">
 
                     @if(count($groupNumber) > 0)
                         @foreach($groupNumber as $groupN)
@@ -118,9 +115,9 @@
 
 
                                 @if(count($students_per_group[$groupN]) == $projectMaxElements)
-                                    <td><button type="button" class="btn btn-danger" disabled><i class="fas fa-sign-in-alt"></i> {{__('gx.group full')}}</button> </td>
+                                    <td><button type="button" class="btn btn-danger" style="width: 10em" disabled><i class="fas fa-ban"></i> {{__('gx.group full')}}</button> </td>
                                 @elseif(in_array($user,$studentsIdGroupValues))
-                                    <td><button type="button" class="btn btn-info disabled" disabled> <i class="fas fa-sign-in-alt"></i> {{__('gx.join group')}}</button> </td>
+                                    <td><button type="button" class="btn btn-primary disabled" style="width: 10em" disabled> <i class="fas fa-sign-in-alt"></i> {{__('gx.join group')}}</button> </td>
                                 @else
                                     <td>
                                         @csrf
@@ -129,7 +126,7 @@
                                         {!!Form::hidden('idProject', $project->idProject)!!}
                                         {!!Form::hidden('idGroupJoin', $groupN)!!}
                                         {!!Form::hidden('_method','PUT')!!}
-                                        {{Form::button('<i class="fas fa-sign-in-alt"></i> ' . trans('gx.join group'),['type' => 'submit','class'=>'btn btn-info'],['style'=>'display: block; margin: 0 auto'])}}
+                                        {{Form::button('<i class="fas fa-sign-in-alt"></i> '.trans('gx.join group'),['type' => 'submit','class'=>'btn btn-primary'],['style'=>'width: 10em'])}}
 
                                         {!!Form::close()!!}
                                     </td>
@@ -235,6 +232,7 @@
                 </div>
             </div>
         </div>
+    </div>
         <div id="modalSugestaoGrupo" class="modal" tabindex="-1" role="dialog"  >
             <div class="modal-dialog modal-xl" >
                 <div class="modal-content" >
@@ -247,7 +245,7 @@
                     </div>
                     <div class="modal-body" style="display: inline" >
                         <h5>{{__('gx.sorted by average')}}</h5>
-                        <table id="datatable2" class="display">
+                        <table id="datatable2" class="display table-bordered rounded">
                             <thead >
                             <tr>
                                 <th>{{__('gx.name')}}</th>
@@ -277,7 +275,8 @@
                 </div>
             </div>
         </div>
-    </div>
+
+
 
 
 
@@ -348,6 +347,7 @@
         } );</script>
 
 
+
     <script>
         $('#datatable2').dataTable({
             "bPaginate": false,
@@ -389,14 +389,24 @@
             max-height: calc(100vh - 300px);
 
         }
+        table{
+
+        }
         thead, tbody tr {
             display:table;
             width:100%;
-            table-layout:fixed;/* even columns width , fix width of table too*/
+            table-layout:fixed;
+           /* even columns width , fix width of table too*/
         }
 
         .t-body{
             max-height: calc(100vh - 500px);
+            overflow-y: auto;
+            display:block;
+
+        }
+        .t-body2{
+            max-height: calc(100vh - 400px);
             overflow-y: auto;
             display:block;
 
@@ -418,6 +428,16 @@
             display: block;
             font-size: .50em;
             font-weight: 400;
+        }
+
+        .table-striped>tbody>tr:nth-child(odd)>td,
+        .table-striped>tbody>tr:nth-child(odd)>th {
+            background-color: #E2E4FF; // Choose your own color here
+        }
+
+        .table-striped>tbody>tr:nth-child(even)>td,
+        .table-striped>tbody>tr:nth-child(even)>th {
+            background-color: #f5f8ff; // Choose your own color here
         }
     </style>
 

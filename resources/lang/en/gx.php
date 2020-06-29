@@ -88,7 +88,7 @@ return [
     'elements'                => 'Elements',
     'create group'            => 'Create group',
     'student sugestions'      => 'Student Sugestions',
-    'join group'              => 'Join Group',
+    'join group'              => 'Join    Group',
     'name'                    => 'Name',
     'student number'          => 'Student number',
     'class'                   => 'Class',
@@ -317,7 +317,7 @@ return [
     'groups that dont match requirements' => 'Groups that don\'t match requirements',
     'show' => 'Show',
     'documentation' =>'Documentation',
-    'upload files' => 'Upload Files',
+    'upload doc' => 'Upload Documentation',
     'delete file' => 'Delete file',
     'areyousuredeletedocument' => 'Are you sure you want to delete this Document?',
     'files' => 'Files',
@@ -404,7 +404,8 @@ return [
     'helpDashStudent' => 'The calendar on the left side allows the user to check the current day, the past activity and future activity, when moving the cursor to an highlighted item more information about that day will be prompted.',
     'subjects' => 'Subjects',
     'helpDashStudent2' => 'The subjects are displayed according to the current user and the current academic year however the user has the possibility to check for past subjects by clicking the blue drop down button and select the intended year.
-                        The subjects appear minimized , so the user has to expand the desired one to view data. Inside the selected subject the user has the possibility to join a group or to enter the project page in case the user belongs to a group.',
+                        The subjects appear minimized , so the user has to expand the desired one to view data. Inside the selected subject the user has the possibility to join a group or to enter the project page in case the user belongs to a group.The green circle that appears near the subject name, means that there are active projects for that subject, when maximizing the subject , the first symbol that appears
+                         represents the group creation deadline, the second symbol represents the deadline of the project.',
     'helpProjectStud'=> 'In this area , the user can upload files into the repository and as the possibility to submit them for evaluation, to submit the user has to select the files that wants to be submitted.The user also can check the group members and leave the group by clicking the leave group button (a confirmation will prompt), check the project documentation and some notes.
                     The user can create tasks specifying the task title , responsible and beginning date. After creating a task , the user can edit the task , specifying the end date , and check what was the time wasted in that task.',
     'helpProjectStud2' => 'In this area , the user can mark his weekly availability by clicking in the desired schedule cells, the user can watch the other group elements weekly availability.

@@ -347,7 +347,7 @@
                 </div>
                 <div id="row_docs_prof" class=" col rounded bg-white w-100 p-3 " style="position: relative;">
                     <h5>{{__('gx.documentation')}}</h5>
-                    <button type="button" class="p-2 btn btn-primary btn-sm stopYear" data-toggle="modal" data-target="#modalUploadFiles-{{$project->idProject}}" style="position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal">{{__('gx.upload files')}}</button>
+                    <button type="button" class="p-2 btn btn-primary btn-sm stopYear" data-toggle="modal" data-target="#modalUploadFiles-{{$project->idProject}}" style="position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal">{{__('gx.upload doc')}}</button>
                     <div id="files_documentation" class="table-wrapper-scroll-y my-custom-scrollbar">
                         <style>
                             #files_documentation{
@@ -414,7 +414,7 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.upload files')}}</h4>
+                                        <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.upload doc')}}</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -422,7 +422,7 @@
                                     <div class="modal-body">
                                         {!! Form::open(['action' => ['ProfessorProjectsController@store', $project->idProject], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                                         <div class="form-group">
-                                            {{Form::label('documentation', trans('gx.documentation'))}}
+
                                             {{Form::file('documentation[]' , ['multiple' => 'multiple'] )}}
                                         </div>
                                         {{Form::hidden('option', 'projectFiles')}}
