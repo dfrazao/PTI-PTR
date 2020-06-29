@@ -607,7 +607,7 @@
                                                             <table class="table table-sm">
                                                                 <tbody>
                                                                 @if(count($rep2->whereIn('idGroup', $group->idGroup))>0)
-                                                                    <div id="box1" style="position: absolute; right: 1%; top: 1%; height: 7%; border: 1px solid darkgrey; border-radius: 15px; width: 66%;  vertical-align: middle;">
+                                                                    <div id="box1" style="position: absolute; right: 1%; top: 1%; height: 9%; border: 1px solid darkgrey; border-radius: 15px; width: 66%;  vertical-align: middle;">
                                                                         <img id="img_delay" src="/images/deathlineSub.png" style="width: 30px; height: 30px; float: left; margin:1%;">
                                                                         <div id="timer3"></div>
                                                                     </div>
