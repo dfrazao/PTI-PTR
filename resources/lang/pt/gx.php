@@ -312,6 +312,7 @@ return [
     'show' => 'Mostrar',
     'documentation' =>'Documentação',
     'upload doc' => 'Upload de documentação',
+    'upload files' => 'Upload de ficheiros',
     'delete file' => 'Apagar ficheiros',
     'areyousuredeletedocument' => 'Tem a certeza que deseja eliminar o documento?',
     'files' => 'Ficheiros',
@@ -513,5 +514,17 @@ consegue atribuir uma nota ao grupo com a possibilidade de alterar a nota atribu
     'documentationReq' => 'O campo documentação é obrigatório!',
     'minNumberReq' => 'O nº mínimo de elementos do grupo tem que ser menor ou igual ao nº máximo de elementos do grupo!',
     'uploadedFileN' => 'Carregou um ficheiro na documentação.',
-    'gradeReq' => 'O campo nota do projeto é obrigatório!'
+    'gradeReq' => 'O campo nota do projeto é obrigatório!',
+    'photoReq' => 'O campo fotografia de perfil é obrigatório!',
+    'photoReq2' => 'A fotografia de perfil deve ser uma imagem!',
+    'photoReq3' => 'A fotografia de perfil não pode ter mais de 1999 kbytes!',
+    'pswd1Req' => 'O campo password atual é obrigatório!',
+    'pswd2Req' => 'O campo password é obrigatório!',
+    'pswd3Req' => 'O campo de confirmação da nova password é obrigatório',
+    'pwd1M' => 'A confirmação da nova password e a password devem coincidir!',
+    'pwd2M' => 'A password deve ter pelo menos 8 carateres!',
+    'pwd3M' => 'A confirmação da nova password deve ter pelo menos 8 carateres!',
+    'cityReq' => 'O campo cidade é obrigatório!',
+    'country' => 'O campo país é obrigatório!',
+
 ];

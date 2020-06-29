@@ -104,6 +104,10 @@ class ProfileController extends Controller
         if ($request->option=="image") {
             $this->validate($request, [
                 'profilePhoto' => 'required|image|max:1999'
+            ],[
+                'profilePhoto.required' => trans('gx.photoReq'),
+                'profilePhoto.image' => trans('gx.photoReq2'),
+                'profilePhoto.max' => trans('gx.photoReq3'),
             ]);
             if( $request->hasFile('profilePhoto')  ) {
                 $file = $request->file('profilePhoto');
@@ -129,6 +133,16 @@ class ProfileController extends Controller
                 'current_password' => 'required',
                 'password' => 'required|same:password|min:8',
                 'password_confirmation' => 'required|same:password|min:8'
+            ],[
+                'current_password.required' => trans('gx.pswd1Req'),
+                'password.required' => trans('gx.pswd2Req'),
+                'password_confirmation.required' => trans('gx.pswd3Req'),
+                'password.same' => trans('gx.pwd1M'),
+                'password_confirmation.same' => trans('gx.pwd1M'),
+                'password.min' => trans('gx.pwd2M'),
+                'password_confirmation.min' => trans('gx.pwd3M'),
+
+
             ]);
 
             $current_password = Auth::User()->password;
@@ -147,7 +161,9 @@ class ProfileController extends Controller
             $this->validate($request, [
                 'country' => 'required',
                 'city' => 'required'
-            ]);
+            ],
+                ['country.required' => trans('gx.countryReq'),
+                'city.required' => trans('gx.cityReq')]);
 
             $user = User::find($id);
             $user->country = $request->input('country');

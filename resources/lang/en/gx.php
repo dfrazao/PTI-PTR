@@ -317,7 +317,8 @@ return [
     'groups that dont match requirements' => 'Groups that don\'t match requirements',
     'show' => 'Show',
     'documentation' =>'Documentation',
-    'upload doc' => 'Upload Documentation',
+    'upload doc' => 'Upload documentation',
+    'upload files' => 'Upload files',
     'delete file' => 'Delete file',
     'areyousuredeletedocument' => 'Are you sure you want to delete this Document?',
     'files' => 'Files',
@@ -537,8 +538,18 @@ return [
     'documentationReq' => 'The documentation field is required!',
     'minNumberReq' => 'The minimum  no. of members must be less than or equal than maximum no. of members!',
     'uploadedFileN' => 'Uploaded a file to documentation.',
-    'gradeReq' => 'The grade field is required!'
-
+    'gradeReq' => 'The grade field is required!',
+    'photReq' => 'The profile photo field is required!',
+    'photoReq2' => 'The profile photo must be an image!',
+    'photoReq3' => 'The profile photo may not be greater than 1999 kbytes!',
+    'pswd1Req' => 'The current password field is required.',
+    'pswd2Req' => 'The password field is required.',
+    'pswd3Req' => 'The password confirmation field is required.',
+    'pwd1M' => 'The password confirmation and password must match.',
+    'pwd2M' => 'The password must be at least 8 characters.',
+    'pwd2M' => 'The password confirmation must be at least 8 characters.',
+    'cityReq' => 'The city field is required!',
+    'country' => 'The country field is required!',
 
 
 
