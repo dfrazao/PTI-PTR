@@ -59,7 +59,6 @@
                                                <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
                                                    <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
                                                    <input type='hidden' id="entity" name='entity' value='person'>
-
                                                    <div class="media">
                                                        <div class="media-left">
                                                            <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
@@ -95,16 +94,13 @@
                            <ul class="groups">
                                @foreach ($collection as $col )
                                    <li class='group' id='group{{ $col['idGroup'] }}' name=''>
-                                       <input type='hidden' id="namegroup{{ $col['idGroup'] }}" name='custId' value='{{ $col['idGroupProject'] }}'>
+                                       <input type='hidden' id="namegroup{{ $col['idGroup'] }}" name='custId' value='{{ $col['projectName'] }}'>
                                        <input type='hidden' id="entity" name='entity' value='group'>
-
                                        <div class="media">
-                                           <div class="media-left">
-                                               {{--<img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">--}}
-                                           </div>
-
                                            <div class="media-body">
-                                               <p class="name_gr" style="font-size: 12px;">Group {{$col['idGroupProject']}} - {{$col['cadeira']}}</p>
+                                               <p>{{ $col['cadeira'] }} </p>
+                                               <p><i>{{ $col['projectName'] }}</i></p>
+                                               <p class="name">Group {{ $col['idGroupProject'] }}</p>
                                                <p class="email"></p>
                                            </div>
                                        </div>
@@ -134,7 +130,6 @@
                    </div>
                </div>
            </div>
-
        </div>
    </div>
 </div>
@@ -302,7 +297,7 @@
 
 
    .media-left {
-       margin: 0 10px;
+       margin-left:10px;
    }
    .media-left img {
        width:40px;
@@ -519,14 +514,12 @@
                            }
                        }
                    }else{
-                       alert(data.from);
                        $('.groups').html(oi);
                        if (my_id == data.from) {
                            $('#group' + data.group_id).click();
-                       } else if (my_id == data.to) {
-                           if (receiver_id == data.from) {
-                               // if receiver is selected, reload the selected user ...
-                               $('#group' + data.from).click();
+                       } else{
+                           if (receiver_id == data.group_id) {
+                               $('#group' + data.group_id).click();
                            } else {
                                $('#chat_button').append('<span class="pending_nav"></span>');
                            }
@@ -644,7 +637,7 @@
        var n = receiver_id.toString();
        group_name = $('#name'+n).val();
        entity = $(this).find('#entity').val();
-       $("#name").text("Group " + group_name);
+       $("#name").text(group_name);
 
        receiver_id = receiver_id.split('group').join('');
 

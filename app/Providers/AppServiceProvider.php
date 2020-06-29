@@ -40,28 +40,38 @@ class AppServiceProvider extends ServiceProvider
 //            URL::forceScheme('https');
 //        }
 
-        view()->composer('*', function ($view)
-        {
+        view()->composer('*', function ($view) {
             $my_id = Auth::id();
 
 
-            $mu = DB::table('chats')
-                ->where('sender', '=', $my_id)
-                ->orWhere('receiver', '=', $my_id)
-                ->orderBy('Date', 'desc')
-                ->pluck('sender');
+//            $mu = DB::table('chats')
+//                ->where('sender', '=', $my_id)
+//                ->orWhere('receiver', '=', $my_id)
+//                ->orderBy('Date', 'desc')
+//                ->pluck('sender');
 
-
-            $unique = [];
-            foreach ($mu as $m){
-                array_push($unique, $m);
-            }
-            $mu = array_unique($unique);
+            $mu = DB::select('select m.*
+                                from chats m
+                                where m.id in (select max(m.id) as max_id
+                                                from chats m
+                                                group by least(m.receiver, m.sender), greatest(m.receiver, m.sender))
+                                                order by m.Date DESC;');
+//            $unique = [];
+//            foreach ($mu as $m){
+//                array_push($unique, $m);
+//            }
+//            $mu = array_unique($unique);
 
             $arr_users = [];
-            foreach ($mu as $m){
-                $user_m = User::find($m);
-                array_push($arr_users, $user_m);
+            foreach ($mu as $m) {
+                if ($m->sender == $my_id) {
+                    $user_m = User::find($m->receiver);
+                    array_push($arr_users, $user_m);
+                } else {
+                    $user_m = User::find($m->sender);
+                    array_push($arr_users, $user_m);
+                }
+
             }
 
             $tem = 1;
@@ -82,66 +92,23 @@ class AppServiceProvider extends ServiceProvider
                 }
             }
             //...with this variable
-
-            $arr_groups = [];
-
             $collection = collect([]);
-            $idgroup = collect([]);
+            $query = DB::select('SELECT groups.idGroup, groups.idGroupProject, subjects.subjectName, projects.name FROM studentGroups
+                    LEFT JOIN groups ON studentGroups.idGroup = groups.idGroup 
+                    LEFT JOIN subjects ON groups.idProject = subjects.idSubject
+                    LEFT JOIN projects ON groups.idProject = projects.idProject
+                    WHERE studentGroups.idStudent = ' . $my_id);
 
-            $unique_ch = [];
-            $fin = [];
-            $cadeiras = collect([]);
-            $estaInscrito = DB::table('subjectEnrollments')->where('idUser', '=', $my_id)->pluck('idSubject');
+            foreach ($query as $p) {
+                $collection->push([
+                    'idGroup' => $p->idGroup,
+                    'idGroupProject' => $p->idGroupProject,
+                    'cadeira' => $p->subjectName,
+                    'projectName' => $p->name,
 
-            if($estaInscrito){
-                $arr_estaInscrito = [];
-                foreach ($estaInscrito as $cadeira){
-
-                    $subject = DB::table('subjects')->where('idSubject', '=', $cadeira)->pluck('subjectName');
-
-                    $projetos = DB::table('projects')->where('idSubject', '=', $cadeira)->pluck('idProject');
-
-                    foreach ($projetos as $projeto){
-
-                        $groups = DB::table('groups')->where('idProject', '=', $projeto)->pluck('idGroup');
-
-                        foreach ($groups as $group){
-                            $groupChat = DB::table('groupChats')
-                                ->where('sender', '=', $my_id)
-                                ->orderBy('Date', 'desc')
-                                ->pluck('idGroup');
-
-                            foreach ($groupChat as $m){
-                                array_push($unique_ch, $m);
-                            }
-                            $fin = array_unique($unique_ch);
-
-                            foreach ($fin as $groupCh){
-                                if ($group == $groupCh){
-                                    $idGroupProject = DB::table('groups')
-                                        ->where('idGroup', '=', $groupCh)
-                                        ->value('idGroupProject');
-                                    array_push($arr_groups, $groupCh);
-                                    $arr_groups = array_unique($arr_groups);
-
-                                    $groups_n = DB::table('groups')->where('idGroup', '=', $groupCh)->value('idProject');
-                                    $projetos_n = DB::table('projects')->where('idProject', '=', $groups_n)->value('idSubject');
-                                    $subject_n = DB::table('subjects')->where('idSubject', '=', $projetos_n)->value('subjectName');
-
-
-                                    $collection->push([
-                                            'idGroup' => $groupCh,
-                                            'idGroupProject' => $idGroupProject,
-                                            'cadeira' => $subject_n,
-                                    ]);
-                                }
-                            }
-                        }
-                    }
-                }
-
-
+                ]);
             }
+
 
 
             $notification_chat = 1;
@@ -153,7 +120,7 @@ class AppServiceProvider extends ServiceProvider
             }
 
 
-            $view->with('arr_users', $arr_users)->with('arr_groups',$arr_groups)->with('notification_chat',$notification_chat)->with('tem',$tem)->with('isread',$isread)->with('idgroup',$idgroup)->with('collection',$collection);
+            $view->with('arr_users', $arr_users)->with('notification_chat',$notification_chat)->with('tem',$tem)->with('isread',$isread)->with('collection',$collection);
         });
     }
 }
