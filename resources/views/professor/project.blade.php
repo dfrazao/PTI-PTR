@@ -579,13 +579,15 @@
 
                                         </div>
                                         <div  class="col-lg-6 ">
-                                            <div id="files_row" class="row h-50">
+                                            <div id="files_row" class="row">
                                                 <style>
                                                     #files_row{
+                                                        height: 50%;
                                                     }
                                                     @media screen and (max-width: 991px){
                                                         #files_row {
                                                             padding-bottom: 10px;
+                                                            height: unset;
                                                         }
                                                     }
                                                 </style>
@@ -644,7 +646,7 @@
                                                                                 display: none;
                                                                             }
                                                                         }
-                                                                        @media screen and (max-width: 500px) {
+                                                                        @media screen and (max-width: 748px) {
                                                                             #box1{
                                                                             display: none
                                                                             }
@@ -727,12 +729,18 @@
                                                     <style>
                                                         #final_row{
 
-                                                    }
-                                                    /*@media screen and (max-width: 500px){
-                                                        #final_row {
-                                                            height: 70%;
                                                         }
-                                                    }*/
+
+                                                    @media screen and (max-width: 991px){
+                                                        #final_row {
+                                                            padding-bottom: 5%;
+                                                        }
+                                                    }
+                                                    @media screen and (max-width: 628px){
+                                                        #final_row {
+                                                            padding-bottom: 0%;
+                                                        }
+                                                    }
                                                 </style>
                                                 <div class=" bg-light p-2 w-100 rounded " style="max-height: 100%;">
                                                     <h5>{{__('gx.final group evaluation')}}</h5>
@@ -799,7 +807,7 @@
                                                             }
                                                             @media screen and (max-width: 500px){
                                                                 #changegrade {
-                                                                    bottom: -30%;
+                                                                    margin-bottom: 15%;
                                                                     right: 2%;
                                                                 }
                                                             }

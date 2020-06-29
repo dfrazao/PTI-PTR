@@ -10,7 +10,7 @@
                 <li id="bc1" class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>{{__('gx.dashboard')}}</a></li>
                 <li id="bc2" class="breadcrumb-item " aria-current="page" >{{__('gx.group creation')}} - {{$subject->subjectName}} - {{$project->name}}</li>
             </ol>
-            <div style="padding-right: 5%"><div id="creation_deadline" class="countdown" style="float:right "><i class="far fa-lg fa-users float-left"></i> <div id="timer1" class="timer"> </div></div></div>
+            <div style="padding-right: 5%"><div id="creation_deadline" class="countdown" style="float:right "><i class="far fa-lg fa-users"></i> <div id="timer1" class="timer"> </div></div></div>
         </nav>
 
         <br>
@@ -65,7 +65,7 @@
                     s = secs - mins * 60;
 
                     if (d<0 || (d==0 && h==0 && m==0 && s==0)) {
-                        document.getElementById("timer1").innerHTML = '<div class="ml-2">{{__('gx.finished')}}</div>';
+                        document.getElementById("timer1").innerHTML = '<div id="finishes" class="ml-2">{{__('gx.finished')}}</div>';
                     }
                     else if (d==0 && h==0 && m==0) {
                         document.getElementById("timer1").innerHTML = '<div>' + s + '<span>{{__('gx.seconds')}}</span></div>';
@@ -87,15 +87,20 @@
 
             <br>
             <div class="table-responsive rounded" >
-                <table  class="table bg-white table-striped " style="text-align:center;">
+                <table  class="table bg-white table-striped">
                     <thead>
-                    <tr>
-                        <th>{{__('gx.group')}}</th>
-                        <th>{{__('gx.nº elements')}}</th>
-                        <th>{{__('gx.elements')}}</th>
-                        <th></th>
+                    <tr id="table_groups">
+                        <th class="text-center">{{__('gx.group')}}</th>
+                        <th class="text-center">{{__('gx.nº elements')}}</th>
+                        <th class="text-center">{{__('gx.elements')}}</th>
+                        <th ></th>
                     </tr>
                     </thead>
+                    <style>
+                        #table_groups{
+                            font-size: 1.3vh;
+                        }
+                    </style>
                     <tbody class="t-body">
 
                     @if(count($groupNumber) > 0)
@@ -159,12 +164,18 @@
                 </div>
             @else
                 <div style="padding-left:40%;margin-bottom: 20%">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCriarGrupo" style="width: 12em"><i class="fas fa-plus-circle"></i> {{__('gx.create group')}}</button>
+                    <button id="btn_criargrupo" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCriarGrupo" style="width: 12em"><i class="fas fa-plus-circle"></i> {{__('gx.create group')}}</button>
                     <button  type="button" class="btn btn-info" data-toggle="modal" data-target="#modalSugestaoGrupo" style="width: 12em"><i class="fas fa-user-graduate"></i> {{__('gx.student sugestions')}}</button>
                 </div>
 
             @endif
-
+            <style>
+                @media screen and (max-width: 750px){
+                    #btn_criargrupo {
+                        margin-bottom: 2%;
+                    }
+                }
+            </style>
 
             <div id="modalCriarGrupo"  class="modal" tabindex="-1" role="dialog" >
                 <div class="modal-dialog modal-xl" >
@@ -190,7 +201,7 @@
                             <!--<h6 style="padding-top: 2%">Sel</h6>-->
                             <table id="datatable" class="display">
                                 <thead>
-                                <tr>
+                                <tr style="font-size: 1.3vh">
                                     <th>{{__('gx.name')}}</th>
                                     <th>{{__('gx.student number')}}</th>
                                     <th>{{__('gx.class')}}</th>
@@ -202,7 +213,7 @@
 
                                 <tbody class="t-body">
                                 @foreach($subjectStudentsNoGroup as $studentInfo)
-                                    <tr>
+                                    <tr style="font-size: 1.3vh">
                                         <td>{!!Form::label('nameStudent', $studentInfo->name)!!}</td>
                                         <td>{!!Form::label('uniNumber', $studentInfo->uniNumber)!!}</td>
                                         <td>{!!Form::label('class', $studentInfo->class)!!}</td>
@@ -247,7 +258,7 @@
                         <h5>{{__('gx.sorted by average')}}</h5>
                         <table id="datatable2" class="display table-bordered rounded">
                             <thead >
-                            <tr>
+                            <tr style="font-size: 1.3vh">
                                 <th>{{__('gx.name')}}</th>
                                 <th>{{__('gx.student number')}}</th>
                                 <th>{{__('gx.class')}}</th>
@@ -257,7 +268,7 @@
                             </thead>
                             <tbody class="t-body">
                             @foreach($stdSugestWGrade as $studentInfo)
-                                <tr>
+                                <tr style="font-size: 1.3vh">
                                     <td>{{$studentInfo->name}}</td>
                                     <td>{{$studentInfo->uniNumber}}</td>
                                     <td>{{$studentInfo->class}}</td>
@@ -413,10 +424,11 @@
         }
 
         #timer1 {
-            font-size: 1.30em;
+            font-size: 2vh;
             font-weight: 100;
             color: navy;
         }
+
 
         #timer1 div {
             display: inline-block;

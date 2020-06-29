@@ -306,7 +306,7 @@
                                         @if(count($projects->whereIn('idSubject', $subject->idSubject)) > 0)
                                             @foreach($projects as $project)
                                                 @if($subject->idSubject == $project->idSubject)
-                                                    <div  class="p-2 projeto" id="{{$project->idProject}}" type="button" onclick="{{(Auth::user()->role == 'student' ? (isset($project->group) == True ? 'window.location.href = "/student/project/"+id;':'window.location.href = "/student/project/"+id+"/groups";'): 'window.location.href = "/professor/project/"+id;')}}">
+                                                    <div  class="p-2 projeto" id="{{$project->idProject}}" style="border-bottom: 1px solid grey" type="button" onclick="{{(Auth::user()->role == 'student' ? (isset($project->group) == True ? 'window.location.href = "/student/project/"+id;':'window.location.href = "/student/project/"+id+"/groups";'): 'window.location.href = "/professor/project/"+id;')}}">
                                                         <p class="my-1 h5" style="display:inline-block;width: 10em;">{{$project->name}}</p>
                                                         @if ($currentYear == $subject->academicYear or Auth::user()->role == 'professor')
                                                             <div style="display: flex;text-align: center;align-items: center;width: 15em;"><i class='far fa-lg fa-users float-left'></i><div id="timer1-{{$project->idProject}}" class="timer"></div></div>
@@ -499,7 +499,7 @@
     tr {
         line-height: 40px;
         min-height: 37px;
-        height: 40px;
+        height: 50px;
     }
     @media screen and (max-width: 991px) {
         tr {
