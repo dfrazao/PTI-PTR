@@ -91,7 +91,7 @@
                         }
                     </style>
                     <hr>
-                    <button type="button" class="btn" data-toggle="modal" data-target="#modalComment" style="background: #2c3fb1;color: white;">{{__('gx.reply')}}</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalComment" style="color: white;">{{__('gx.reply')}}</button>
                     <div class="modal fade" id="modalComment" tabindex="-1" role="dialog">
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
@@ -118,7 +118,7 @@
                                         </svg>
                                     </div>
 
-                                    {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success update__send'])}}
+                                    {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success float-right update__send'])}}
 
                                     {!! Form::close() !!}
                                 </div>
@@ -250,7 +250,7 @@
                                         </div>
 
                                         {{Form::hidden('_method','PUT')}}
-                                        {{Form::submit(trans('gx.submit')), ['class'=>'btn btn-success update__send']}}
+                                        {{Form::submit(trans('gx.submit')), ['class'=>'btn btn-success float-right update__send']}}
 
                                         {!! Form::close() !!}
                                     </div>

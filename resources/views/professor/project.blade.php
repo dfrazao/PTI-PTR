@@ -116,7 +116,7 @@
                                         {{Form::hidden('option', 'project')}}
 
                                         {{Form::hidden('_method','PUT')}}
-                                        {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
+                                        {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success float-right'])}}
                                         {!! Form::close() !!}
                                     </div>
                                     <script>
@@ -416,7 +416,7 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.upload doc')}}</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
@@ -429,7 +429,7 @@
                                         {{Form::hidden('option', 'projectFiles')}}
                                         {{ Form::hidden('project', $project->idProject) }}
                                         {{Form::hidden('_method','POST')}}
-                                        {{Form::submit( trans('gx.submit'), ['class'=>'btn btn-success'])}}
+                                        {{Form::submit( trans('gx.submit'), ['class'=>'btn btn-success float-right'])}}
                                         {!! Form::close() !!}
                                     </div>
                                 </div>
@@ -783,7 +783,7 @@
                                                                                 {{Form::hidden('group', $group->idGroup)}}
                                                                                 {{Form::hidden('option', 'grade')}}
                                                                                 {{Form::hidden('project', $project->idProject)}}
-                                                                                {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
+                                                                                {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success float-right'])}}
 
                                                                             {!! Form::close() !!}
                                                                         </div>
@@ -838,7 +838,7 @@
                                                                                 {{Form::hidden('group', $group->idGroup)}}
                                                                                 {{Form::hidden('_method','PUT')}}
                                                                                 {{Form::hidden('option', 'grade')}}
-                                                                                {{Form::submit( trans('gx.submit'), ['class'=>'btn btn-success'])}}
+                                                                                {{Form::submit( trans('gx.submit'), ['class'=>'btn btn-success float-right'])}}
                                                                                 {!! Form::close() !!}
                                                                             </div>
                                                                         </div>
@@ -874,7 +874,7 @@
         </div>
 
         <div class="tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
-            <button type="button" class="p-2 mt-3 mr-3 btn btn-sm btn-primary float-right stopYear" data-toggle="modal" data-target="#modalCreatePost" style="background-color: #2c3fb1; border-color: #2c3fb1;">{{__('gx.create post')}}</button>
+            <button type="button" class="p-2 mt-3 mr-3 btn btn-sm btn-primary float-right stopYear" data-toggle="modal" data-target="#modalCreatePost">{{__('gx.create post')}}</button>
 
             <div class="container rounded pb-3 pt-3">
                 <div class="table-responsive-xl pt-2">
@@ -960,7 +960,7 @@
 
                                     {{ Form::hidden('project', $project->idProject) }}
 
-                                    {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success update__send'])}}
+                                    {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success float-right update__send'])}}
 
                                     {!! Form::close() !!}
                                 </div>

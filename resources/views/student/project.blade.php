@@ -61,7 +61,7 @@
                             {!!Form::open(['action' => ['GroupController@destroy', $project -> idProject] , 'method' => 'POST']) !!}
                             {{Form::hidden('_method','DELETE')}}
                             {!!Form::hidden('idGroup', $idGroup) !!}
-                            {{Form::submit(trans('gx.leave group'),['class' => 'btn btn-info'])}}
+                            {{Form::submit(trans('gx.leave group'),['class' => 'btn btn-primary'])}}
                             {!!Form::close() !!}
                             <button type="button" class="btn btn-danger" data-dismiss="modal">{{__('gx.cancel')}}</button>
                         </div>
@@ -345,7 +345,7 @@
 
                                 {!!Form::close()!!}
                             </div>--}}
-                        <button type="submit" disabled class="btn btn-sm" id='submitFile' data-toggle="modal" data-target="#modalSubmitFile" style="width:20vh;background: #2c3fb1; color: white; position: absolute; bottom: 7px; right: 22px;">{{__('gx.submit')}}</button>
+                        <button type="submit" disabled class="btn btn-primary btn-sm" id='submitFile' data-toggle="modal" data-target="#modalSubmitFile" style="width:20vh; color: white; position: absolute; bottom: 7px; right: 22px;">{{__('gx.submit')}}</button>
                         <button type="button" class="p-2 btn btn-primary btn-sm stopYear" data-toggle="modal" data-target="#modalAddFile" style="position: absolute; bottom: 0; right: 22vh;" data-toggle="modal">{{__('gx.upload files')}}</button>
 
                         {{-- Modal Submit File --}}
@@ -367,7 +367,7 @@
                                         {{ Form::hidden('project', $project->idProject) }}
                                         {{ Form::hidden('subject', $subject->subjectName) }}
                                         {{ Form::hidden('submission','submitFile')}}
-                                        {{ Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary'])}}
+                                        {{ Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary float-right'])}}
 
                                         {!!Form::close()!!}
                                     </div>
@@ -397,7 +397,7 @@
 
                                     </div>
                                     <div class="modal-footer">
-                                        {{Form::submit(trans('gx.uploadFile'), ['class'=>'btn btn-primary'])}}
+                                        {{Form::submit(trans('gx.uploadFile'), ['class'=>'btn btn-primary float-right'])}}
                                     </div>
                                     {!! Form::close() !!}
                                 </div>
@@ -425,7 +425,7 @@
                                     <tr>
                                         <td><img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}"></td>
                                         <td><a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a></td>
-                                        <td onclick='chat({{$user->id}})'><i class="fa fa-envelope float-right"></i></td>
+                                        <td onclick='chat({{$user->id}})'><i class="far fa-envelope float-right"></i></td>
                                     </tr>
                                 @endforeach
                                 <tr><td colspan="3"><h5>Professors</h5></td></tr>
@@ -433,7 +433,7 @@
                                     <tr class="pb-1">
                                         <td><img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}"></td>
                                         <td><a href="/profile/{{$prof->id}}">{{$prof->name}} - {{$prof->uniNumber}}</a></td>
-                                        <td><i class="fa fa-envelope float-right"></i></td>
+                                        <td><i class="far fa-envelope float-right"></i></td>
                                     </tr>
                                 @endforeach
                             </table>
@@ -442,14 +442,14 @@
                 </div>
                 <div id="3col" class="col-lg-4 mt-3">
                     <div id="col_notes" class="row rounded h-50 pr-3">
-                        <div class="container-fluid rounded notes pt-2" style="background-color: #ffe680; " >
+                        <div id="col_notes_fundo" class="container-fluid rounded notes pt-2" style="background-color: #ffe680; " >
                             <h5 class="text-center">{{__('gx.notes')}}</h5>
                             {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST', 'id'=>'notesForm']) !!}
                             @csrf
-                            {{Form::textarea('notes', $notes, ['class' => 'form-control', 'id'=>'textarea-notes', 'rows'=>'8', 'maxlength' => 500])}}
+                            {{Form::textarea('notes', $notes, ['class' => 'form-control', 'id'=>'textarea-notes', 'rows'=>'15', 'maxlength' => 500])}}
                             {{Form::hidden('group',$idGroup)}}
                             {{Form::hidden('submission','notes')}}
-                            {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary d-none', 'id'=>'notesButton'])}}
+                            {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary float-right d-none', 'id'=>'notesButton'])}}
                             {!! Form::close() !!}
                         </div>
                     </div>
@@ -491,6 +491,11 @@
                         max-height:30vh;
                         padding-left: 20vh
                     }
+                    @media screen and (max-width: 1300px) {
+                        #col_notes{
+                            padding-bottom: 25%;
+                        }
+                    }
                     @media screen and (max-width: 1000px) {
                         #col_docs{
                             margin-left: 0.5%;
@@ -499,6 +504,7 @@
                         #col_notes{
                             margin-left: 0.8%;
                         }
+
                     }
                     @media screen and (max-width: 768px) {
                         #col_docs{
@@ -508,6 +514,7 @@
                         #col_notes{
                             margin-left: 0.8%;
                         }
+
                     }
                     @media screen and (max-width: 500px) {
                         #col_docs{
@@ -521,6 +528,7 @@
                             margin-left: 0.8%;
                             margin-bottom: 5%;
                         }
+
                     }
                 </style>
             </div>
@@ -590,7 +598,7 @@
                                                 {{Form::hidden('group', $t-> idGroup)}}
                                                 {{Form::hidden('_method','PUT')}}
 
-                                                <td class="form-group float-right pr-0">{{Form::Submit(trans('gx.save'), ['class'=>'btn btn-sm mr-2 btn-success', 'style'=>"width: 10vh", 'id'=>'Save'])}}<button type="button" class="btn btn-sm btn-danger editTask">{{__('gx.cancel')}}</button></td>
+                                                <td class="form-group float-right pr-0">{{Form::Submit(trans('gx.save'), ['class'=>'btn btn-sm mr-2 btn-success float-right', 'style'=>"width: 10vh", 'id'=>'Save'])}}<button type="button" class="btn btn-sm btn-danger editTask">{{__('gx.cancel')}}</button></td>
                                             {!! Form::close() !!}
                                             <script>
                                                 $(function() {$( "#datetimepicker1-{{$t->idTask}}" ).datetimepicker({
@@ -693,7 +701,7 @@
                             </table>
                         </div>
                         <div class="container-fluid pt-3 mr-2" style="position: relative">
-                            <button type="button" class="btn btn-sm open_modal" id="{{$idGroup}}" style="width:20vh;background: #2c3fb1; color: white;position: absolute; bottom: 0px; right: 0px;">{{__('gx.new task')}}</button>
+                            <button type="button" class="btn btn-primary btn-sm open_modal" id="{{$idGroup}}" style="width:20vh; color: white;position: absolute; bottom: 0px; right: 0px;">{{__('gx.new task')}}</button>
                         </div>
                     </div>
                 </div>
@@ -755,7 +763,7 @@
                         {{ Form::hidden('subject', $subject->subjectName) }}
                         {{Form::hidden('submission','task')}}
 
-                        {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary mt-2'])}}
+                        {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary mt-2 float-right'])}}
 
                         {!! Form::close() !!}
                     </div>
@@ -904,7 +912,7 @@
                     </div>
                     {{Form::hidden('group',$idGroup)}}
                     {{Form::hidden('submission','schedule')}}
-                    {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary d-none'])}}
+                    {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary float-right d-none'])}}
                     {!! Form::close() !!}
                     <style>
                         .short-text { display: none; }
@@ -963,7 +971,7 @@
                         </table>
                     </div>
                     <div id="wrapper" class="container-fluid pt-3 " style="position: relative">
-                        <button type="submit" class="btn btn-sm mr-2" id="newMeeting" data-toggle="modal" data-target="#modalCreateMeeting">{{__('gx.new meeting')}}</button>
+                        <button type="submit" class="btn btn-primary float-right btn-sm mr-2" id="newMeeting" data-toggle="modal" data-target="#modalCreateMeeting">{{__('gx.new meeting')}}</button>
                     </div>
                 </div>
             </div>
@@ -973,7 +981,6 @@
             #newMeeting{
                 position: absolute;
                 width: 20vh;
-                background: #2c3fb1;
                 color: white;
                 bottom: 0px;
                 right: 0px;
@@ -1017,7 +1024,7 @@
                         {{ Form::hidden('project', $project->idProject) }}
                         {{ Form::hidden('subject', $subject->subjectName) }}
                         {{Form::hidden('submission','meeting')}}
-                        {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary'])}}
+                        {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success float-right'])}}
 
                         {!!Form::close()!!}
                     </div>
@@ -1033,7 +1040,7 @@
             </div>
         </div>
         <div class="tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
-            <button type="button" class="p-2 mt-3 mr-3 btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#modalCreatePost" style="background-color: #2c3fb1; border-color: #2c3fb1;">{{__('gx.create post')}}</button>
+            <button type="button" class="p-2 mt-3 mr-3 btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#modalCreatePost">{{__('gx.create post')}}</button>
 
             <div class="container rounded pb-3 pt-3">
                 <div class="table-responsive-xl pt-2">
@@ -1118,7 +1125,7 @@
 
                                 {{ Form::hidden('project', $project->idProject) }}
 
-                                {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success update__send'])}}
+                                {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success float-right update__send'])}}
 
                                 {!! Form::close() !!}
                             </div>
@@ -1588,6 +1595,7 @@
     }
 
     #textarea-notes{
+        max-height: 27vh;
         width: 100%;
         height: 100%;
         resize: none;
@@ -1624,8 +1632,8 @@
         }
     }
      .nav-tabs .nav-link.active{
-         background-color: #ededed;
-         border-color:#ededed;
+         background-color: #c6c6c6;
+         border-color: #c6c6c6;
      }
     .nav-tabs .nav-link{
         color: #2c3fb1;
