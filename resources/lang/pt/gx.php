@@ -526,5 +526,15 @@ consegue atribuir uma nota ao grupo com a possibilidade de alterar a nota atribu
     'pwd3M' => 'A confirmação da nova password deve ter pelo menos 8 carateres!',
     'cityReq' => 'O campo cidade é obrigatório!',
     'country' => 'O campo país é obrigatório!',
+    'notesReq' => 'O campo notas é obrigatório!',
+    'descriptionReq' => 'O campo descrição é obrigatório!',
+    'responsibleReq' => 'O campo responsável é obrigatório!',
+    'beginningReq' => 'O campo início é obrigatório!',
+    'filePReq' => 'Nenhum ficheiro selecionado para upload',
+    'gradePReq' => 'O campo nota é obrigatório!',
+    'description2Req' => 'O campo descrição da reunião é obrigatório',
+    'placeReq' => 'O campo lugar da reunião é obrigatório!',
+    'beginning2Req' => 'O campo data da reunião é obrigatório!',
+    'submittedN' => 'Submetido!',
 
 ];

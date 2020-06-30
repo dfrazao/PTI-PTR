@@ -551,6 +551,19 @@ return [
     'cityReq' => 'The city field is required!',
     'country' => 'The country field is required!',
 
+    'notesReq' => 'The notes field is required!',
+    'descriptionReq' => 'The description field is required!',
+    'responsibleReq' => 'The responsible field is required!',
+    'beginningReq' => 'The beginning field is required!',
+    'filePReq' => 'No file selected for upload!',
+    'gradePReq' => 'The grade field is required!',
+    'description2Req' => 'The meeting description field is required!',
+    'placeReq' => 'The meeting place field is required!',
+    'beginning2Req' => 'The meeting date field is required!',
+    'submittedN' => 'Submitted!',
+
+
+
 
 
 

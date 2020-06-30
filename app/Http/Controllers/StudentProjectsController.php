@@ -66,6 +66,9 @@ class StudentProjectsController extends Controller
         if($submission == "notes") {
             $this->validate($request, [
                 'notes' => 'required'
+            ],[
+                'notes.required' => trans('gx.notesReq'),
+
             ]);
             $group = Group::find($idGroup);
             $group->notes = $request->input('notes');
@@ -76,6 +79,11 @@ class StudentProjectsController extends Controller
                 'description' => 'required',
                 'responsible' => 'required',
                 'beginning' => 'required'
+            ],[
+                'description.required' => trans('gx.descriptionReq'),
+                'responsible.required' => trans('gx.responsibleReq'),
+                'beginning.required' => trans('gx.beginningReq'),
+
             ]);
             $task = new Task;
             $task->idGroup = $request->group;
@@ -118,6 +126,8 @@ class StudentProjectsController extends Controller
         } elseif($submission == "newFile"){
             $this->validate($request, [
                 'file' => 'required'
+            ],[
+                'file.required' => trans('gx.filePReq'),
             ]);
 
             $files = $request->file;
@@ -168,6 +178,8 @@ class StudentProjectsController extends Controller
 
                 $this->validate($request, [
                     'grade' => 'required'
+                ],[
+                    'grade.required' =>  trans('gx.gradePReq'),
                 ]);
 
                 if(!is_null(Evaluation::all()->where('idGroup',$idGroup))) {
@@ -213,6 +225,11 @@ class StudentProjectsController extends Controller
                 'description' => 'required',
                 'place' => 'required',
                 'date' => 'required'
+            ],[
+                'description.required' => trans('gx.description2Req'),
+                'place.required' => trans('gx.placeReq'),
+                'beginning.required' => trans('gx.beginning2Req'),
+
             ]);
             $meeting = new Meeting;
             $meeting -> idGroup = $request->input('group');
@@ -516,7 +533,7 @@ class StudentProjectsController extends Controller
                 foreach ($stuGroups as $stu) {
                     $users = User::all()->where('id', '=', $stu)->where('id', '!=', $my_id);
                     foreach ($users as $user) {
-                        $user->notify(new \App\Notifications\InvoicePaid($my_id, "Submitted", $id ,$project_name, $subject));
+                        $user->notify(new \App\Notifications\InvoicePaid($my_id, trans('gx.submittedN'), $id ,$project_name, $subject));
                     }
                 }
             }
@@ -524,7 +541,7 @@ class StudentProjectsController extends Controller
             $profs = User::all()->where('role', '=', 'professor');
             foreach ($profs as $pr) {
                 $enroll = SubjectEnrollment::all()->where('idUser','=',$pr->id)->where('idSubject','=',$id);
-                $pr->notify(new \App\Notifications\InvoicePaid($my_id, "Submitted",$id , $project_name, $subject));
+                $pr->notify(new \App\Notifications\InvoicePaid($my_id, trans('gx.submittedN'),$id , $project_name, $subject));
             }
 
             return redirect()->to("/student/project/". $id . '#submission')->with('success', trans('gx.fileSub'));
