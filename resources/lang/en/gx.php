@@ -324,6 +324,7 @@ return [
     'groups that dont match requirements' => 'Groups that don\'t match requirements',
     'show' => 'Show',
     'documentation' =>'Documentation',
+    'noDocumentation' =>'No documentation uploaded',
     'upload doc' => 'Upload documentation',
     'upload files' => 'Upload files',
     'delete file' => 'Delete file',

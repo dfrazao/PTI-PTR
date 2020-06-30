@@ -1305,6 +1305,9 @@
                                         }
                                     }
                                 ?>
+
+                                {{--{{$rep2->whereIn('idGroup', $group->idGroup)->first()->submissionTime}}--}}
+
                                 function updateTimer3() {
                                     future = Date.parse("{{$project->dueDate}}");
                                     now = Date.parse("{{$last}}");

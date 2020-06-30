@@ -449,6 +449,8 @@ class StudentProjectsController extends Controller
             //Submission
             $submittedFiles = File::all()->where('idGroup', '==', $idGroup)->where('finalState', '==', 'final');
 
+            //$rep2 = DB::table('files')->where('finalState', 'final')->orderBy('submissionTime', 'DESC')->get();
+
             return view('student.project')->with('project', $project)->with('subject', $subject)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup', $idGroup)->with('notes', $notes)->with('a', $announcements)->with('meeting', $meeting)->with('groupUsers', $Users)->with('schedule', $schedule)->with('rep', $rep)->with('submittedFiles', $submittedFiles)->with('docs', $docs)->with('eval', $eval)->with('professores', $Subjectprof)->with('studentEval', $UsersEvaluate);
         } else{
             abort("404");
