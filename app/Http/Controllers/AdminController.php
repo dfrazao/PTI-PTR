@@ -499,18 +499,10 @@ class AdminController extends Controller
                 array_push($escapedHeader, $escapedItem);
             }
 
-
             while (($columns = fgetcsv($file, 1000, ";")) !== FALSE){
-
-                if($columns[0] == ""){
-                    continue;
-                }
-
                 $data = array_combine($escapedHeader, $columns);
-
                 $name = $data['name'];
                 $idUniv = $data['iduniversity'];
-
                 $course = new Course();
                 $course-> name = $name;
                 $course-> idUniversity = $idUniv;

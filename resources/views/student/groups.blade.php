@@ -258,7 +258,16 @@
                                         <td><p><a onclick='chat()' data-dismiss="modal"><i class="fa fa-envelope" style="font-size: 1.5em;padding-top:10%;cursor: pointer;"></i></a></p></td>
                                         <td style="cursor: pointer">{!!Form::checkbox('idStudent[]'.$studentInfo->id, $studentInfo->id,false,['onClick' => 'countCheck()'])!!}</td>
 
-
+                                        <script>
+                                            function chat() {
+                                                var x = document.getElementById("este");
+                                                if (x.style.display === "block") {
+                                                    x.style.display = "none";
+                                                } else {
+                                                    x.style.display = "block";
+                                                }
+                                            }
+                                        </script>
                                     </tr>
 
                                 @endforeach

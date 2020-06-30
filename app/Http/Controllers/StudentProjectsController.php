@@ -149,29 +149,46 @@ class StudentProjectsController extends Controller
                     $f->save();
                     $file->storeAs('studentRepository/' . $idGroup, $f->Pathfile, 'gcs');
 
-                    $my_id = Auth::id();
 
-                    $groups = DB::table('groups')->where('idProject', '=', $idProject)->value('idGroup');;
-                    $stuGroups = StudentsGroup::all()->where('idGroup', '=', $groups)->pluck("idStudent");
-                    $project = DB::table('projects')->where('idProject', '=', $idProject)->value('idSubject');
-                    $project_name = DB::table('projects')->where('idProject', '=', $idProject)->value('name');
-
-                    $subject = DB::table('subjects')->where('idSubject', '=', $project)->value('subjectName');
-                    if ($stuGroups->count() > 0) {
-                        foreach ($stuGroups as $stu) {
-                            $users = User::all()->where('id', '=', $stu)->where('id', '!=', $my_id);
-                            foreach ($users as $user) {
-                                $user->notify(new \App\Notifications\InvoicePaid($my_id, trans('gx.newFRepo'), $idProject, $project_name, $subject));
-                            }
-                        }
-                    }
                 }
             }
             if (!empty($successFile) and !empty($errorFile)){
+                $my_id = Auth::id();
+
+                $groups = DB::table('groups')->where('idProject', '=', $idProject)->value('idGroup');;
+                $stuGroups = StudentsGroup::all()->where('idGroup', '=', $groups)->pluck("idStudent");
+                $project = DB::table('projects')->where('idProject', '=', $idProject)->value('idSubject');
+                $project_name = DB::table('projects')->where('idProject', '=', $idProject)->value('name');
+
+                $subject = DB::table('subjects')->where('idSubject', '=', $project)->value('subjectName');
+                if ($stuGroups->count() > 0) {
+                    foreach ($stuGroups as $stu) {
+                        $users = User::all()->where('id', '=', $stu)->where('id', '!=', $my_id);
+                        foreach ($users as $user) {
+                            $user->notify(new \App\Notifications\InvoicePaid($my_id, trans('gx.newFRepo'), $idProject, $project_name, $subject));
+                        }
+                    }
+                }
                 return redirect('student/project/'. $idProject. '#content')->with('success', trans('gx.fileUploadedM', ['file' => implode(", ",$successFile)]))->with('error', trans('gx.fileUploadedMError', ['file' => implode(", ",$errorFile)]));
             } elseif (empty($successFile) and !empty($errorFile)){
                 return redirect('student/project/'. $idProject. '#content')->with('error', trans('gx.fileUploadedMError', ['file' => implode(", ",$errorFile)]));
             } elseif (!empty($successFile) and empty($errorFile)){
+                $my_id = Auth::id();
+
+                $groups = DB::table('groups')->where('idProject', '=', $idProject)->value('idGroup');;
+                $stuGroups = StudentsGroup::all()->where('idGroup', '=', $groups)->pluck("idStudent");
+                $project = DB::table('projects')->where('idProject', '=', $idProject)->value('idSubject');
+                $project_name = DB::table('projects')->where('idProject', '=', $idProject)->value('name');
+
+                $subject = DB::table('subjects')->where('idSubject', '=', $project)->value('subjectName');
+                if ($stuGroups->count() > 0) {
+                    foreach ($stuGroups as $stu) {
+                        $users = User::all()->where('id', '=', $stu)->where('id', '!=', $my_id);
+                        foreach ($users as $user) {
+                            $user->notify(new \App\Notifications\InvoicePaid($my_id, trans('gx.newFRepo'), $idProject, $project_name, $subject));
+                        }
+                    }
+                }
                 return redirect('student/project/'. $idProject . '#content')->with('success', trans('gx.fileUploadedM', ['file' => implode(", ",$successFile)]));
             }
         } elseif($submission == 'studentsEvaluation') {
@@ -521,6 +538,7 @@ class StudentProjectsController extends Controller
                 $file->save();
             }
 
+
             $my_id = Auth::id();
 
             $groups = DB::table('groups')->where('idProject', '=', $id)->value('idGroup');;
@@ -543,7 +561,6 @@ class StudentProjectsController extends Controller
                 $enroll = SubjectEnrollment::all()->where('idUser','=',$pr->id)->where('idSubject','=',$id);
                 $pr->notify(new \App\Notifications\InvoicePaid($my_id, trans('gx.submittedN'),$id , $project_name, $subject));
             }
-
             return redirect()->to("/student/project/". $id . '#submission')->with('success', trans('gx.fileSub'));
 
         }else{
@@ -552,6 +569,29 @@ class StudentProjectsController extends Controller
             $file = File::find($idFile);
             $file->finalState = 'temporary';
             $file->save();
+
+            $my_id = Auth::id();
+
+            $groups = DB::table('groups')->where('idProject', '=', $id)->value('idGroup');;
+            $stuGroups = StudentsGroup::all()->where('idGroup', '=', $groups)->pluck("idStudent");
+            $project = DB::table('projects')->where('idProject', '=', $id)->value('idSubject');
+            $project_name = DB::table('projects')->where('idProject', '=', $id)->value('name');
+
+            $subject = DB::table('subjects')->where('idSubject', '=', $project)->value('subjectName');
+            if($stuGroups->count() > 0) {
+                foreach ($stuGroups as $stu) {
+                    $users = User::all()->where('id', '=', $stu)->where('id', '!=', $my_id);
+                    foreach ($users as $user) {
+                        $user->notify(new \App\Notifications\InvoicePaid($my_id, "Removed submission", $id ,$project_name, $subject));
+                    }
+                }
+            }
+
+            $profs = User::all()->where('role', '=', 'professor');
+            foreach ($profs as $pr) {
+                $enroll = SubjectEnrollment::all()->where('idUser','=',$pr->id)->where('idSubject','=',$id);
+                $pr->notify(new \App\Notifications\InvoicePaid($my_id, "Removed submission",$id , $project_name, $subject));
+            }
 
             return redirect()->to("/student/project/". $id . '#submission')->with('success', trans('gx.fileRemov'));
         }
@@ -580,6 +620,23 @@ class StudentProjectsController extends Controller
             $file = File::find($idFile);
             Storage::delete('studentRepository/'.$idGroup.'/'.$file->pathFile);
             $file->delete();
+
+            $my_id = Auth::id();
+
+            $groups = DB::table('groups')->where('idProject', '=', $id)->value('idGroup');;
+            $stuGroups = StudentsGroup::all()->where('idGroup', '=', $groups)->pluck("idStudent");
+            $project = DB::table('projects')->where('idProject', '=', $id)->value('idSubject');
+            $project_name = DB::table('projects')->where('idProject', '=', $id)->value('name');
+
+            $subject = DB::table('subjects')->where('idSubject', '=', $project)->value('subjectName');
+            if($stuGroups->count() > 0) {
+                foreach ($stuGroups as $stu) {
+                    $users = User::all()->where('id', '=', $stu)->where('id', '!=', $my_id);
+                    foreach ($users as $user) {
+                        $user->notify(new \App\Notifications\InvoicePaid($my_id, "Removed file from repository", $id ,$project_name, $subject));
+                    }
+                }
+            }
 
             return redirect()->to("/student/project/". $id . '#content')->with('success', trans('gx.fileDel'));
         }

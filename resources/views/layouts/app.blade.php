@@ -183,7 +183,8 @@
                                 </li>
                         @endif
                         <script>
-                            function chat() {
+                            function chat(user_id) {
+                                $('#'+user_id).click();
                                 var x = document.getElementById("este");
                                 if (x.style.display === "block") {
                                     x.style.display = "none";

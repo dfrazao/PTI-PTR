@@ -24,12 +24,12 @@ class SearchController extends Controller
                 if($request->entity == "person") {
                     $my_id = Auth::id();
                     $mu = DB::select('select m.*
-                                from chats m
-                                where m.id in (select max(m.id) as max_id
-                                               from chats m
-                                               group by least(m.receiver, m.sender), greatest(m.receiver, m.sender)
-                                              )
-                                              order by m.Date DESC;');
+    from chats m
+    where m.id in (select max(m.id) as max_id
+                   from chats m
+                   WHERE m.sender = ' . $my_id . ' or m.receiver = ' . $my_id . '
+                   group by least(m.receiver, m.sender), greatest(m.receiver, m.sender))
+                   order by m.Date DESC');
 
                     $arr_users = [];
                     foreach ($mu as $m){
@@ -99,69 +99,58 @@ class SearchController extends Controller
 
                 }elseif ($request->entity == "group"){
 
-                    $group = $request->group;
-
                     $collection = collect([]);
-                    $query = DB::select('SELECT groups.idGroup, groups.idGroupProject, subjects.subjectName, projects.name FROM studentGroups
-                    LEFT JOIN groups ON studentGroups.idGroup = groups.idGroup 
-                    LEFT JOIN subjects ON groups.idProject = subjects.idSubject
-                    LEFT JOIN projects ON groups.idProject = projects.idProject
-                    WHERE studentGroups.idStudent = ' . $my_id);
-
+                    $query = DB::select('SELECT groupChats.idGroup, groupChats.isread, groups.idGroupProject, subjects.subjectName, projects.name from groupChats
+LEFT JOIN groups ON groupChats.idGroup = groups.idGroup 
+LEFT JOIN studentGroups ON groupChats.idGroup = studentGroups.idGroup 
+LEFT JOIN subjects ON groups.idProject = subjects.idSubject 
+LEFT JOIN projects ON groups.idProject = projects.idProject 
+WHERE groupChats.id in (SELECT max(groupChats.id) as max_id
+                           FROM groupChats
+                           GROUP BY groupChats.idGroup) AND studentGroups.idStudent = 1
+                           ORDER BY groupChats.Date DESC');
                     foreach ($query as $p) {
-                        $collection->push([
-                            'idGroup' => $p->idGroup,
-                            'idGroupProject' => $p->idGroupProject,
-                            'cadeira' => $p->subjectName,
-                            'projectName' => $p->name,
 
-                        ]);
-                    }
+                        $novo = json_decode($p->isread,true);
 
+                        foreach ($novo as $key => $one){
+                            if($key == $my_id){
+                                if($one == 0){
+                                    $output .=
+                                        "<li class='group' id='group".$p->idGroup."' name=''>".
+                                        "<span class='pending'></span>" .
+                                        "<input type='hidden' id='namegroup".$p->idGroup."' name='custId' value='".$p->name."'>".
+                                        "<input type='hidden' id='entity' name='entity' value='group'>".
+                                        "<div class='media'>".
+                                        "<div class='media-body'>".
+                                        "<p>".$p->subjectName."</p>".
+                                        "<p><i>".$p->name."</i></p>".
+                                        "<p class='name'>".$p->idGroupProject."</p>".
+                                        "</div>".
+                                        "</div>".
+                                        "</li>";
+                                }else{
+                                    $output .=
+                                        "<li class='group' id='group".$p->idGroup."' name=''>".
+                                        "<input type='hidden' id='namegroup".$p->idGroup."' name='custId' value='".$p->name."'>".
+                                        "<input type='hidden' id='entity' name='entity' value='group'>".
+                                        "<div class='media'>".
+                                        "<div class='media-body'>".
+                                        "<p>".$p->subjectName."</p>".
+                                        "<p><i>".$p->name."</i></p>".
+                                        "<p class='name'>Group ".$p->idGroupProject."</p>".
+                                        "</div>".
+                                        "</div>".
+                                        "</li>";
+                            }
 
-
-                    $uniques = groupChat::all()->where('idGroup','=',$p->idGroup);
-
-                    foreach ($uniques as $um) {
-                        if ($um->isread == 0) {
-                            $output .=
-                            "<li class='group' id='group".$p->idGroup."' name=''>".
-                            "<span class='pending'></span>" .
-                            "<input type='hidden' id='namegroup".$p->idGroup."' name='custId' value='".$p->name."'>".
-                            "<input type='hidden' id='entity' name='entity' value='group'>".
-                            "<div class='media'>".
-                            "<div class='media-body'>".
-                            "<p>".$p->subjectName."</p>".
-                            "<p><i>".$p->name."</i></p>".
-                            "<p class='name'>".$p->idGroupProject."</p>".
-                            "</div>".
-                            "</div>".
-                            "</li>";
-
-                        } elseif($um->isread == 1){
-                            $output .=
-                                "<li class='group' id='group".$p->idGroup."' name=''>".
-                                "<input type='hidden' id='namegroup".$p->idGroup."' name='custId' value='".$p->name."'>".
-                                "<input type='hidden' id='entity' name='entity' value='group'>".
-                                "<div class='media'>".
-                                "<div class='media-body'>".
-                                "<p>".$p->subjectName."</p>".
-                                "<p><i>".$p->name."</i></p>".
-                                "<p class='name'>Group ".$p->idGroupProject."</p>".
-                                "</div>".
-                                "</div>".
-                                "</li>";
                         }
-                    }
 
+                        }
+
+                    }
                 }
                 return Response($output);
-
-
-
-
-
-
 
             }else{
                 if($request->entity == "person") {

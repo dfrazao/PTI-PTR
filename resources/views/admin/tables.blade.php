@@ -737,9 +737,6 @@
                                                 {{__('gx.adminCity')}}
                                             </th>
                                             <th scope="col" >
-                                                {{__('gx.adminDescription')}}
-                                            </th>
-                                            <th scope="col" >
                                                 {{__('gx.adminTools')}}
                                             </th>
                                         </tr>
@@ -773,9 +770,6 @@
                                                 </td>
                                                 <td>
                                                     {{$user->city}}
-                                                </td>
-                                                <td>
-                                                    {{$user->description}}
                                                 </td>
                                                 <td class="text-right">
 

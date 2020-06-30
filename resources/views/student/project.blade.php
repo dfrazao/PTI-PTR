@@ -425,7 +425,7 @@
                                     <tr>
                                         <td><img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}"></td>
                                         <td><a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a></td>
-                                        <td><i class="fa fa-envelope float-right"></i></td>
+                                        <td onclick='chat({{$user->id}})'><i class="fa fa-envelope float-right"></i></td>
                                     </tr>
                                 @endforeach
                                 <tr><td colspan="3"><h5>Professors</h5></td></tr>

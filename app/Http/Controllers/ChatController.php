@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Chat;
 use App\groupChat;
+use App\StudentsGroup;
 use App\User;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
@@ -16,15 +17,8 @@ class ChatController extends Controller
 
     public function index()
     {
-        // select all users except logged in user
-        // $users = User::where('id', '!=', Auth::id())->get();
-        $my_id = Auth::id();
-        // count how many message are unread from the selected user
-        /*$users = DB::select("select users.id, users.name, users.photo, users.email
-        from users LEFT  JOIN  chats ON users.id = chats.sender and chats.receiver = " . Auth::id() . "
-        where users.id != " . $my_id . "
-        group by users.id, users.name, users.photo, users.email");*/
 
+        $my_id = Auth::id();
 
         $mu = DB::table('chats')
             ->where('sender', '=', $my_id)
@@ -53,10 +47,21 @@ class ChatController extends Controller
 
             $my_id = Auth::id();
 
-            // Make read all unread message
-            DB::table('groupChats')
-                ->where('idGroup', '=', $user_id)
-                ->update(['isread' => 1]);
+            $gg = groupChat::all()->where('idGroup','=',$user_id)->sortByDesc('Date')->last();
+            $novo = json_decode($gg->isread,true);
+
+            foreach ($novo as $key => $one){
+                if($key == $my_id) {
+                    $novo[$key] = 1;
+
+                }
+            }
+
+            $json_product =  json_encode($novo);
+            $isread_updated = groupChat::find($gg->id);
+            $isread_updated->isread = $json_product;
+            $isread_updated->update();
+
 
             // Get all message from selected user
             $messages = groupChat::all()->where('idGroup','=',$user_id);
@@ -194,13 +199,20 @@ class ChatController extends Controller
             $data = ['from' => $from, 'entity' => $entity, 'group_id' => $group_id, 'username' => $user_notification, 'message' => $message]; // sending from and to user id when pressed enter
 
             $pusher->trigger('private-my-channel', 'my-event', $data);
+            $members = StudentsGroup::all()->where('idGroup','=',$group_id)->pluck('idStudent');
 
+            foreach ($members as $one)
+            {
+                $array_product [$one]= 0;
+           }
 
+//you can encode the array to json if you want to send it to an ajax call
+            $json_product =  json_encode($array_product);
             $data = new groupChat();
             $data->sender = $from;
             $data->idGroup = $group_id;
             $data->message = $message;
-            $data->isread = 0; // message will be unread when sending message
+            $data->isread = $json_product; // message will be unread when sending message
             $data->save();
         }
 
