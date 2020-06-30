@@ -274,19 +274,15 @@ class StudentProjectsController extends Controller
             if (count($arr) > 0) {
                 foreach ($arr as $task) {
                     $local = Carbon::getLocale();
-                    if ($local == 'pt') {
-                        Carbon::setLocale('en');
-                    }
-                    $task->beginning = Carbon::parse($task->beginning)->isoFormat('MMMM Do YYYY, h:mm a');
+                    $task->beginning = Carbon::parse($task->beginning);
                     if (!is_null($task->end)) {
-                        $task->end = Carbon::parse($task->end)->isoFormat('MMMM Do YYYY, h:mm a');
+                        $task->end = Carbon::parse($task->end);
                         if (Carbon::parse($task->beginning)->diffInDays(Carbon::parse($task->end)) == 0) {
                             $task->duration = Carbon::parse($task->beginning)->addSeconds($task->duration)->diffForHumans(Carbon::parse($task->beginning));
                         } else {
                             $task->duration = Carbon::parse($task->beginning)->diffInDays(Carbon::parse($task->end)) . ' days and ' . Carbon::parse($task->beginning)->diff(Carbon::parse($task->end))->format('%H:%I');
                         }
                     }
-                    Carbon::setLocale($local);
                 }
             }
 
@@ -300,7 +296,7 @@ class StudentProjectsController extends Controller
             $meeting = Meeting::all()->where('idGroup', '==', $idGroup);
             if (count($meeting) > 0) {
                 foreach ($meeting as $m) {
-                    $m->date = Carbon::parse($m->date)->isoFormat('MMMM Do YYYY, h:mm a');
+                    $m->date = Carbon::parse($m->date);
                 }
             }
 
@@ -366,20 +362,15 @@ class StudentProjectsController extends Controller
             $arr = Task::all()->where('idGroup', '==', $idGroup);
             if (count($arr) > 0) {
                 foreach ($arr as $task) {
-                    $local = Carbon::getLocale();
-                    if ($local == 'pt') {
-                        Carbon::setLocale('en');
-                    }
-                    $task->beginning = Carbon::parse($task->beginning)->isoFormat('MMMM Do YYYY, h:mm a');
+                    $task->beginning = Carbon::parse($task->beginning);
                     if (!is_null($task->end)) {
-                        $task->end = Carbon::parse($task->end)->isoFormat('MMMM Do YYYY, h:mm a');
+                        $task->end = Carbon::parse($task->end);
                         if (Carbon::parse($task->beginning)->diffInDays(Carbon::parse($task->end)) == 0) {
                             $task->duration = Carbon::parse($task->beginning)->addSeconds($task->duration)->diffForHumans(Carbon::parse($task->beginning));
                         } else {
                             $task->duration = Carbon::parse($task->beginning)->diffInDays(Carbon::parse($task->end)) . ' days and ' . Carbon::parse($task->beginning)->diff(Carbon::parse($task->end))->format('%H:%I');
                         }
                     }
-                    Carbon::setLocale($local);
                 }
             }
 
@@ -394,7 +385,7 @@ class StudentProjectsController extends Controller
             $meeting = Meeting::all()->where('idGroup', '==', $idGroup);
             if (count($meeting) > 0) {
                 foreach ($meeting as $m) {
-                    $m->date = Carbon::parse($m->date)->isoFormat('MMMM Do YYYY, h:mm a');
+                    $m->date = Carbon::parse($m->date);
                 }
             }
 
@@ -474,10 +465,6 @@ class StudentProjectsController extends Controller
         if ($submission == 'task') {
             $idTask = $request->input('task');
             $task = Task::find($idTask);
-            $local = Carbon::getLocale();
-            if($local == 'pt') {
-                Carbon::setLocale('en');
-            }
             if (!empty($request->input('description'))) {
                 $task->description = $request->input('description');
             } else {
@@ -502,7 +489,6 @@ class StudentProjectsController extends Controller
             } else {
                 $task->end = Carbon::parse($task->value("end"));
             }
-            Carbon::setLocale($local);
 
             $task->save();
             return redirect()->to("/student/project/". $id . '#content')->with('success', trans('gx.taskSucc'));

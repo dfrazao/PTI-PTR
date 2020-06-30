@@ -71,7 +71,7 @@
         </li>
     </ul>
 
-    <div class="tab-content pb-3 ml-0 mr-0" id="myTabContent" style="min-height: 75vh; background-color: #ededed;">
+    <div class="tab-content pb-3 ml-0 mr-0" id="myTabContent" style="min-height: 75vh; background-color: #c6c6c6;">
         <div class="container-fluid fade tab-pane " id="content" role="tabpanel" aria-labelledby="content-tab">
             <div id="row1" class="row rounded">
                 <style>
@@ -96,140 +96,144 @@
 
                 </style>
                 <div id="1col" class="col-lg-5 mt-3">
-                    <div class="container-fluid rounded h-100 pt-2" style="background-color: #c6c6c6;padding-bottom: 20%;">
+                    <div class="container-fluid rounded h-100 pt-2" style="background-color: white;">
                         <h5 class="text-center">{{__('gx.repo')}}</h5>
-                        <div>
-                            <table class="table table-sm fixed_header">
+                        <div class="table-responsive" style="overflow:auto; height: 50vh;">
+                            <table class="table table-sm" style=" border-collapse: collapse;">
                                 <thead class="text-center">
                                 <tr>
-                                    <th scope="col">{{__('gx.fileName')}}</th>
-                                    <th scope="col">{{__('gx.user')}}</th>
-                                    <th scope="col">{{__('gx.date')}}</th>
-                                    <th scope="col"></th>
+                                    <th style="position: sticky; top: 0; background-color: whitesmoke; z-index: 3"></th>
+                                    <th scope="col" style="position: sticky; top: 0;  background-color: whitesmoke;  z-index: 3;">{{__('gx.fileName')}}</th>
+                                    <th scope="col" style="position: sticky; top: 0;  background-color: whitesmoke;  z-index: 3;">{{__('gx.user')}}</th>
+                                    <th scope="col" style="position: sticky; top: 0;  background-color: whitesmoke;  z-index: 3;">{{__('gx.date')}}</th>
+                                    <th scope="col" style="position: sticky; top: 0;  background-color: whitesmoke;  z-index: 3;"></th>
                                 </tr>
-
                                 </thead>
-                                <tbody>
+                                <tbody class="text-center">
                                     @if(count($rep)>0)
                                         @foreach($rep as $file)
                                             @if((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "txt")
                                                 <tr class="file" id="{{$file->idFile}}">
-                                                    <td id="filename" style="overflow-wrap: break-word"><i class="fad fa-file-alt pr-2" id= '{{$file->idFile}}'></i>{{$file->pathFile}}</td>
+                                                    <td><i class="fad fa-2x fa-file-alt " id= '{{$file->idFile}}'></i></td>
+                                                    <td id="filename">{{$file->pathFile}}</td>
                                                     <td>{{$file->userUpload}}</td>
                                                     <td>{{$file->uploadTime}}</td>
-                                                    <td>
-                                                        <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
-                                                            <span class="dot" id="download" style="position:relative">
-                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
-                                                            </span>
-                                                        </a>
+                                                    <td >
                                                         <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile">
                                                             <span class="dot" id="delete" style="position:relative">
                                                                 <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
                                                             </span>
                                                         </button>
-                                                    </td>
-
-                                                </tr>
-                                            @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "png")
-                                                <tr class="file" id="{{$file->idFile}}">
-                                                    <td id="filename" style="overflow-wrap: break-word"><i class="fas fa-image pr-2"  id= '{{$file->idFile}}'></i>{{$file->pathFile}}</td>
-                                                    <td >{{$file->userUpload}}</td>
-                                                    <td>{{$file->uploadTime}}</td>
-                                                    <td>
                                                         <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
                                                             <span class="dot" id="download" style="position:relative">
                                                                 <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
                                                             </span>
                                                         </a>
+                                                    </td>
+                                                </tr>
+                                            @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "png")
+                                                <tr class="file" id="{{$file->idFile}}">
+                                                    <td><i class="fas fa-2x fa-2x fa-image "  id= '{{$file->idFile}}'></i></td>
+                                                    <td id="filename">{{$file->pathFile}}</td>
+                                                    <td >{{$file->userUpload}}</td>
+                                                    <td>{{$file->uploadTime}}</td>
+                                                    <td>
                                                         <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile ">
                                                             <span class="dot" id="delete" style="position:relative">
                                                                 <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
                                                             </span>
                                                         </button>
+                                                        <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
+                                                            <span class="dot" id="download" style="position:relative">
+                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                                            </span>
+                                                        </a>
                                                     </td>
 
                                                 </tr>
                                             @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "pdf" )
                                                 <tr class="file" id="{{$file->idFile}}">
-                                                    <td id="filename" style="overflow-wrap: break-word"><i class="fal fa-file-pdf pr-2"  id= '{{$file->idFile}}'></i>{{$file->pathFile}}</td>
+                                                    <td><i class="fal fa-2x fa-file-pdf"  id= '{{$file->idFile}}'></i></td>
+                                                    <td id="filename">{{$file->pathFile}}</td>
                                                     <td>{{$file->userUpload}}</td>
                                                     <td>{{$file->uploadTime}}</td>
                                                     <td>
-                                                        <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
-                                                            <span class="dot" id="download" style="position:relative">
-                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
-                                                            </span>
-                                                        </a>
                                                         <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile">
                                                             <span class="dot" id="delete" style="position:relative">
                                                                 <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
                                                             </span>
                                                         </button>
+                                                        <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
+                                                            <span class="dot" id="download" style="position:relative">
+                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                                            </span>
+                                                        </a>
                                                     </td>
 
                                                 </tr>
                                             @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "docx" )
                                                 <tr class="file" id="{{$file->idFile}}">
-                                                    <td id="filename" style="overflow-wrap: break-word"><i class="fal fa-file-word pr-2"  id= '{{$file->idFile}}'></i>{{$file->pathFile}}</td>
+                                                    <td><i class="fal fa-2x fa-file-word "  id= '{{$file->idFile}}'></i></td>
+                                                    <td id="filename">{{$file->pathFile}}</td>
                                                     <td>{{$file->userUpload}}</td>
                                                     <td>{{$file->uploadTime}}</td>
                                                     <td>
-                                                        <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
-                                                            <span class="dot" id="download" style="position:relative">
-                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
-                                                            </span>
-                                                        </a>
                                                         <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile">
                                                             <span class="dot" id="delete" style="position:relative">
                                                                 <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
                                                             </span>
                                                         </button>
+                                                        <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
+                                                            <span class="dot" id="download" style="position:relative">
+                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                                            </span>
+                                                        </a>
                                                     </td>
 
                                                 </tr>
                                             @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "zip" )
                                                 <tr class="file" id="{{$file->idFile}}">
-                                                    <td id="filename" style="overflow-wrap: break-word"><i class="fal fa-file-archive pr-2" id= '{{$file->idFile}}'></i>{{$file->pathFile}}</td>
+                                                    <td><i class="fal fa-2x fa-file-archive" id= '{{$file->idFile}}'></i></td>
+                                                    <td id="filename">{{$file->pathFile}}</td>
                                                     <td >{{$file->userUpload}}</td>
                                                     <td>{{$file->uploadTime}}</td>
                                                     <td>
-                                                        <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
-                                                            <span class="dot" id="download" style="position:relative">
-                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
-                                                            </span>
-                                                        </a>
                                                         <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile">
                                                             <span class="dot" id="delete" style="position:relative">
                                                                 <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
                                                             </span>
                                                         </button>
-                                                    </td>
-
-                                                </tr>
-                                            @else
-                                                <tr class="file" id="{{$file->idFile}}">
-                                                    <td id="filename" style="overflow-wrap: break-word"><i class="fal fa-file-code pr-2"  id= '{{$file->idFile}}'></i>{{$file->pathFile}}</td>
-                                                    <td >{{$file->userUpload}}</td>
-                                                    <td>{{$file->uploadTime}}</td>
-                                                    <td>
                                                         <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
                                                             <span class="dot" id="download" style="position:relative">
                                                                 <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
                                                             </span>
                                                         </a>
+                                                    </td>
+                                                </tr>
+                                            @else
+                                                <tr class="file" id="{{$file->idFile}}">
+                                                    <td><i class="fal fa-2x fa-file-code"  id= '{{$file->idFile}}'></i></td>
+                                                    <td id="filename">{{$file->pathFile}}</td>
+                                                    <td >{{$file->userUpload}}</td>
+                                                    <td>{{$file->uploadTime}}</td>
+                                                    <td>
                                                         <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile ">
                                                             <span class="dot" id="delete" style="position:relative">
                                                                 <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
                                                             </span>
                                                         </button>
+                                                        <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="" id= '{{$file->idFile}}' class="close downloadFile" download>
+                                                            <span class="dot" id="download" style="position:relative">
+                                                                <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                                            </span>
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             @endif
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="4">No files uploaded!</td>
+                                            <td colspan="5">No files uploaded!</td>
                                         </tr>
                                     @endif
                                 </tbody>
@@ -403,9 +407,9 @@
                 </div>
 
                 <div id="2col"  class="col-lg-3 mt-3 rounded pl-0" >
-                    <div id="col_groups" class="container-fluid rounded text-center h-100 pt-2" style="background-color: #c6c6c6;">
+                    <div id="col_groups" class="container-fluid rounded text-center h-100 pt-2" style="background-color: white;">
                         <h5>{{__('gx.group').' '. $idGroup}}</h5>
-                        <div style="overflow: auto; max-height: 40vh">
+                        <div style="overflow: auto;" class="pl-5">
                             <table>
                                 @foreach($groupUsers as $user)
                                     <tr>
@@ -414,11 +418,7 @@
                                         <td><i class="fa fa-envelope float-right"></i></td>
                                     </tr>
                                 @endforeach
-                            </table>
-                        </div>
-                        <h5>Professors</h5>
-                        <div style="overflow: auto; max-height: 30vh">
-                            <table>
+                                <tr><td colspan="3"><h5>Professors</h5></td></tr>
                                 @foreach($professores as $prof)
                                     <tr class="pb-1">
                                         <td><img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}"></td>
@@ -430,9 +430,6 @@
                         </div>
                     </div>
                     <style>
-                        #2col{
-
-                        }
 
                         @media screen and (max-width: 500px) {
                             #2col{
@@ -456,12 +453,12 @@
                         </div>
                     </div>
                     <div id="col_docs" class="row rounded h-50 pt-3 pr-3">
-                        <div class="container-fluid rounded text-center pt-2" style="background-color: #c6c6c6; ">
+                        <div class="container-fluid rounded text-center pt-2" style="background-color: white; ">
                             <h5>{{__('gx.documentation')}} </h5>
                             @if(count($docs) == 0)
                                 <p>The professor hasn't uploaded any file</p>
                             @else
-                                <div style="overflow:auto; max-height:30vh;">
+                                <div style="overflow:auto; max-height:30vh; padding-left: 20vh" class="pt-2">
                                     <table>
                                     @foreach($docs as $d)
                                         <tr>
@@ -524,7 +521,7 @@
                 </style>
             </div>
             <div id="row2" class="row rounded">
-                <div id="container_row2" class="container-fluid rounded mx-3 mt-3 p-2" style=" position: relative;">
+                <div id="container_row2" class="container-fluid rounded mx-3 mt-3 p-2" style=" position: relative; background-color: white">
                     <div class="form-group mb-0">
                         <div class="table-fixed">
                             <table class="table table-hover text-center">
@@ -595,14 +592,14 @@
                                                 $(function() {$( "#datetimepicker1-{{$t->idTask}}" ).datetimepicker({
                                                     minDate: moment('{{(\Carbon\Carbon::now())}}').format('YYYY-MM-DD HH:mm:ss'),
                                                     date: moment('{{(\Carbon\Carbon::parse($t->beginning))}}').format('YYYY-MM-DD HH:mm'),
-                                                    locale: "en",
+                                                    locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
                                                     icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"},
                                                     default: moment('{{(\Carbon\Carbon::parse($t->beginning))}}').format('YYYY-MM-DD HH:mm:ss')
                                                 });});
                                                 $(function() {$( "#datetimepicker2-{{$t->idTask}}" ).datetimepicker({
                                                     minDate: moment('{{(\Carbon\Carbon::parse($t->end))}}').format('YYYY-MM-DD HH:mm'),
                                                     date: moment('{{(\Carbon\Carbon::parse($t->end))}}').format('YYYY-MM-DD HH:mm'),
-                                                    locale: "en",
+                                                    locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
                                                     icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
                                                 });});
                                                 $("#datetimepicker1-{{$t->idTask}}").on("change.datetimepicker", function (e) {
@@ -758,202 +755,208 @@
                         $(function() {$( "#datetimepicker" ).datetimepicker({
                             minDate: moment().format('YYYY-MM-DD HH:mm'),
                             date: moment().format('YYYY-MM-DD HH:mm'),
-                            locale: "en",
+                            locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
                             icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
                         });});
                     </script>
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab" style=" position: relative">
-            <h5 id="titulo_groups" class="pt-2 text-center"><i class="fal fa-calendar-alt pr-2"></i>{{__('gx.group elements weekly availability')}}</h5>
-            {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST', 'id' => 'scheduleform']) !!}
-            @csrf
-            <style>
-                @media screen and (max-width: 750px){
-                    #titulo_groups{
-                        font-size: 2vh;
-                    }
-                }
-            </style>
-            <div class="grid-container">
-                {{--<div></div>
-                <div>{{__('gx.monday+')}}</div>
-                <div>{{__('gx.tuesday+')}}</div>
-                <div>{{__('gx.wednesday+')}}</div>
-                <div>{{__('gx.thursday+')}}</div>
-                <div>{{__('gx.friday+')}}</div>
-                <div>{{__('gx.saturday+')}}</div>
-                <div>{{__('gx.sunday+')}}</div>--}}
-                <div></div>
-                <div>
-                    <span class="full-text">{{__('gx.monday+')}}</span>
-                    <span class="short-text">Mon</span>
-                </div>
-                <div>
-                    <span class="full-text">{{__('gx.tuesday+')}}</span>
-                    <span class="short-text">Tue</span>
-                </div>
-                <div>
-                    <span class="full-text">{{__('gx.wednesday+')}}</span>
-                    <span class="short-text">Wed</span>
-                </div>
-                <div>
-                    <span class="full-text">{{__('gx.thursday+')}}</span>
-                    <span class="short-text">Thu</span>
-                </div>
-                <div>
-                    <span class="full-text">{{__('gx.friday+')}}</span>
-                    <span class="short-text">Fri</span>
-                </div>
-                <div>
-                    <span class="full-text">{{__('gx.saturday+')}}</span>
-                    <span class="short-text">Sat</span>
-                </div>
-                <div>
-                    <span class="full-text">{{__('gx.sunday+')}}</span>
-                    <span class="short-text">Sun</span>
-                </div>
-                <div style="border: 1px solid black;">8:00h-9:00h</div>
-                <div class="cell" id="1x1" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="1x2" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="1x3" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="1x4" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="1x5" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="1x6" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="1x7" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">9:00h-10:00h</div>
-                <div class="cell" id="2x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="2x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="2x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="2x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="2x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="2x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="2x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">10:00h-11:00h</div>
-                <div class="cell" id="3x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="3x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="3x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="3x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="3x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="3x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="3x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">11:00h-12:00h</div>
-                <div class="cell" id="4x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="4x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="4x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="4x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="4x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="4x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="4x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">12:00h-13:00h</div>
-                <div class="cell" id="5x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="5x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="5x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="5x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="5x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="5x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="5x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">13:00h-14:00h</div>
-                <div class="cell" id="6x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="6x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="6x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="6x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="6x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="6x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="6x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">14:00h-15:00h</div>
-                <div class="cell" id="7x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="7x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="7x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="7x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="7x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="7x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="7x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">15:00h-16:00h</div>
-                <div class="cell" id="8x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="8x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="8x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="8x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="8x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="8x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="8x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">16:00h-17:00h</div>
-                <div class="cell" id="9x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="9x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="9x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="9x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="9x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="9x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="9x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">17:00h-18:00h</div>
-                <div class="cell" id="10x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="10x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="10x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="10x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="10x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="10x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-                <div class="cell" id="10x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
-            </div>
-            {{Form::hidden('group',$idGroup)}}
-            {{Form::hidden('submission','schedule')}}
-            {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary d-none'])}}
-            {!! Form::close() !!}
-            <style>
-                .short-text { display: none; }
-
-
-                @media (max-width: 800px) {
-                    .short-text { display: inline-block; }
-                    .full-text { display: none; }
-                }
-            </style>
-
-            <div class="container p-3">
-                <div class="row">
-                    @foreach($groupUsers as $user)
-                        <div class="col-xs-3 mx-auto">
-                            {{$user->name}}
-                            <div class="border Mastercolor align-middle" id="{{$user->id}}"></div>
+        <div class="container-fluid tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab">
+            <div class="row rounded">
+                <div class="container-fluid mx-3 mt-3 p-2" style="background-color: white">
+                    <h5 id="titulo_groups" class="pt-2 text-center"><i class="fal fa-calendar-alt pr-2"></i>{{__('gx.group elements weekly availability')}}</h5>
+                    {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST', 'id' => 'scheduleform']) !!}
+                    @csrf
+                    <style>
+                        @media screen and (max-width: 750px){
+                            #titulo_groups{
+                                font-size: 2vh;
+                            }
+                        }
+                    </style>
+                    <div class="grid-container">
+                        {{--<div></div>
+                        <div>{{__('gx.monday+')}}</div>
+                        <div>{{__('gx.tuesday+')}}</div>
+                        <div>{{__('gx.wednesday+')}}</div>
+                        <div>{{__('gx.thursday+')}}</div>
+                        <div>{{__('gx.friday+')}}</div>
+                        <div>{{__('gx.saturday+')}}</div>
+                        <div>{{__('gx.sunday+')}}</div>--}}
+                        <div></div>
+                        <div>
+                            <span class="full-text">{{__('gx.monday+')}}</span>
+                            <span class="short-text">Mon</span>
                         </div>
-                    @endforeach
+                        <div>
+                            <span class="full-text">{{__('gx.tuesday+')}}</span>
+                            <span class="short-text">Tue</span>
+                        </div>
+                        <div>
+                            <span class="full-text">{{__('gx.wednesday+')}}</span>
+                            <span class="short-text">Wed</span>
+                        </div>
+                        <div>
+                            <span class="full-text">{{__('gx.thursday+')}}</span>
+                            <span class="short-text">Thu</span>
+                        </div>
+                        <div>
+                            <span class="full-text">{{__('gx.friday+')}}</span>
+                            <span class="short-text">Fri</span>
+                        </div>
+                        <div>
+                            <span class="full-text">{{__('gx.saturday+')}}</span>
+                            <span class="short-text">Sat</span>
+                        </div>
+                        <div>
+                            <span class="full-text">{{__('gx.sunday+')}}</span>
+                            <span class="short-text">Sun</span>
+                        </div>
+                        <div style="border: 1px solid black;">8:00h-9:00h</div>
+                        <div class="cell" id="1x1" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="1x2" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="1x3" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="1x4" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="1x5" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="1x6" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="1x7" style="border-top: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">9:00h-10:00h</div>
+                        <div class="cell" id="2x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="2x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="2x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="2x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="2x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="2x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="2x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">10:00h-11:00h</div>
+                        <div class="cell" id="3x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="3x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="3x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="3x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="3x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="3x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="3x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">11:00h-12:00h</div>
+                        <div class="cell" id="4x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="4x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="4x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="4x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="4x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="4x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="4x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">12:00h-13:00h</div>
+                        <div class="cell" id="5x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="5x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="5x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="5x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="5x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="5x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="5x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">13:00h-14:00h</div>
+                        <div class="cell" id="6x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="6x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="6x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="6x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="6x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="6x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="6x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">14:00h-15:00h</div>
+                        <div class="cell" id="7x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="7x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="7x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="7x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="7x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="7x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="7x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">15:00h-16:00h</div>
+                        <div class="cell" id="8x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="8x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="8x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="8x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="8x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="8x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="8x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">16:00h-17:00h</div>
+                        <div class="cell" id="9x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="9x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="9x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="9x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="9x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="9x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="9x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div style="border-left: 1px solid black; border-bottom: 1px solid black; border-right: 1px solid black;">17:00h-18:00h</div>
+                        <div class="cell" id="10x1" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="10x2" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="10x3" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="10x4" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="10x5" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="10x6" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                        <div class="cell" id="10x7" style="border-bottom: 1px solid black; border-right: 1px solid black;"></div>
+                    </div>
+                    {{Form::hidden('group',$idGroup)}}
+                    {{Form::hidden('submission','schedule')}}
+                    {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary d-none'])}}
+                    {!! Form::close() !!}
+                    <style>
+                        .short-text { display: none; }
+
+
+                        @media (max-width: 800px) {
+                            .short-text { display: inline-block; }
+                            .full-text { display: none; }
+                        }
+                    </style>
+
+                    <div class="container p-3">
+                    <div class="row">
+                        @foreach($groupUsers as $user)
+                            <div class="col-xs-3 mx-auto">
+                                {{$user->name}}
+                                <div class="border Mastercolor align-middle" id="{{$user->id}}"></div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
                 </div>
             </div>
-            <div class="container-fluid rounded text-center pt-2 h-100 px-0">
-                <div style="display:inline-flex;" class="h5 pt-2">
-                    <i class="far fa-user-friends float-left"></i>
-                    <div class="pl-2">{{__('gx.meetings')}}</div>
-                </div>
-                <div class="table-fixed">
-                    <table class="table table-hover text-center">
-                        <thead>
-                        <tr>
-                            <th id="meetings_font">{{__('gx.number')}}</th>
-                            <th id="meetings_font">{{__('gx.description')}}</th>
-                            <th id="meetings_font">{{__('gx.date')}}</th>
-                            <th id="meetings_font">{{__('gx.place')}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @if(count($meeting)>0)
-                            @foreach($meeting as $m)
-                                <tr>
-                                    <td id="meeting">{{$m->idMeeting}}</td>
-                                    <td id="meeting">{{$m->description}}</td>
-                                    <td id="meeting">{{$m->date}}</td>
-                                    <td id="meeting">{{$m->place}}</td>
-                                </tr>
-                            @endforeach
-                        @else
+            <div class="row rounded">
+                <div class="container-fluid rounded text-center mx-3 mt-3 p-2 h-100" style="background-color: white;">
+                    <div style="display:inline-flex;" class="h5 pt-2">
+                        <i class="far fa-user-friends float-left"></i>
+                        <div class="pl-2">{{__('gx.meetings')}}</div>
+                    </div>
+                    <div class="table-fixed">
+                        <table class="table table-hover text-center">
+                            <thead>
                             <tr>
-                                <td colspan="4"><h5>{{__('gx.your group has no meetings.')}}</h5></td>
+                                <th id="meetings_font">{{__('gx.number')}}</th>
+                                <th id="meetings_font">{{__('gx.description')}}</th>
+                                <th id="meetings_font">{{__('gx.date')}}</th>
+                                <th id="meetings_font">{{__('gx.place')}}</th>
                             </tr>
-                        @endif
-                        </tbody>
-                    </table>
-                </div>
-                <div id="wrapper" class="container-fluid pt-3 " style="position: relative">
-                    <button type="submit" class="btn btn-sm mr-2" id="newMeeting" data-toggle="modal" data-target="#modalCreateMeeting">{{__('gx.new meeting')}}</button>
+                            </thead>
+                            <tbody>
+                            @if(count($meeting)>0)
+                                @foreach($meeting as $m)
+                                    <tr>
+                                        <td id="meeting">{{$m->idMeeting}}</td>
+                                        <td id="meeting">{{$m->description}}</td>
+                                        <td id="meeting">{{$m->date}}</td>
+                                        <td id="meeting">{{$m->place}}</td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="4"><h5>{{__('gx.your group has no meetings.')}}</h5></td>
+                                </tr>
+                            @endif
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="wrapper" class="container-fluid pt-3 " style="position: relative">
+                        <button type="submit" class="btn btn-sm mr-2" id="newMeeting" data-toggle="modal" data-target="#modalCreateMeeting">{{__('gx.new meeting')}}</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1208,13 +1211,13 @@
                 </div>
             </div>
         </div>
-        <div class="fade tab-pane  ml-0 mr-0" id="submission" role="tabpanel" aria-labelledby="submission-tab">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="container rounded pb-3 pt-3">
+        <div class="container-fluid fade tab-pane" id="submission" role="tabpanel" aria-labelledby="submission-tab">
+            <div class="row rounded">
+                <div class="col-lg-7 pr-0 pb-3">
+                    <div class="container-fluid mb-3 mt-3 h-100" style="background-color: white;">
                         {{$last = null}}
                         @if($submittedFiles->count() > 0)
-                            <div id="box1" style="position: absolute; right: 1%; top: 1%; height: 9%; border: 1px solid darkgrey; border-radius: 15px; width: 66%;  vertical-align: middle;">
+                            <div id="box1" style="position: absolute; right: 1%; top: 4%; border-radius: 15px; width: 45%; vertical-align: middle;">
                                 <img src="/images/deathlineSub.png" style="width: 30px; height: 30px; float: left; margin:1%;">
                                 <div id="timer3"></div>
                             </div>
@@ -1245,13 +1248,14 @@
                                 }
                             </style>
                             <script>
-                                @foreach($submittedFiles as $file)
-                                    $last = {{$file->submissionTime}};
-                                    @if($file->submissionTime > $last)
-                                        $last = {{$file->submissionTime}};
-                                    @endif
-                                @endforeach
+                                <?php
+                                    foreach($submittedFiles as $file){
+                                        if($file->submissionTime > $last){
+                                            $last = $file->submissionTime;
 
+                                        }
+                                    }
+                                ?>
                                 function updateTimer3() {
                                     future = Date.parse("{{$project->dueDate}}");
                                     now = Date.parse("{{$last}}");
@@ -1270,7 +1274,7 @@
                                     if (now>future){
                                         $('#box1').css('border', '1.5px solid red');
                                         $('#box1').css('background-color', '#ff000042');
-                                        $('#box1').css('width', '66%');
+
 
                                         document.getElementById("timer3")
                                             .innerHTML = '<p style="float: left;">Submetido com atraso de</p>'+
@@ -1283,7 +1287,6 @@
 
                                         $('#box1').css('border', '1.5px solid #61af61');
                                         $('#box1').css('background-color', '#bbf5bb');
-                                        $('#box1').css('width', '44%');
                                         document.getElementById("timer3")
                                             .innerHTML =
                                             '<p>Submetido com sucesso!</p>';
@@ -1298,19 +1301,6 @@
                             <i class='pl-1 far fa-lg fa-file-alt float-left'></i>
                             <div id="deadline" style="display: inline-flex" class="pl-3">{{__('gx.deadline')}}: {{$project->dueDate}}</div>
                         </div>
-                        <?php
-                            $last = \Carbon\Carbon::create(0, 0, 0, 0, 0, 0);
-                            if($submittedFiles->count() > 0){
-                                foreach($submittedFiles as $file){
-                                    if($file->submissionTime > $last){
-                                        $last = $file->submissionTime;
-
-                                    }
-                                }
-                            }else{
-                                $last = trans('gx.noFilesSubm');
-                            }
-                        ?>
                         <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-4">
                             <i class="far fa-lg fa-clock float-left"></i>
                             <div style="display: inline-flex" class="pl-3"> {{__('gx.submTime')}}: @if($last != null){{$last}}@else trans('gx.noFilesSubm')@endif</div>
@@ -1318,22 +1308,22 @@
                         </div>
                         <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-4">
                             <i class="pl-1 far fa-lg fa-file float-left"></i>
-                            <div style="display: inline-flex" class="pl-3"> {__('gx.filesSubm')}}: @if(count($submittedFiles)==0)trans('gx.noFilesSubm') @endif</div>
+                            <div style="display: inline-flex" class="pl-3"> {{__('gx.filesSubm')}}: @if(count($submittedFiles)==0) trans('gx.noFilesSubm') @endif</div>
 
                         </div>
                         <div class="container-fluid mt-3 pr-0 ml-2" id="submittedFiles" style="background-color: white">
                             @foreach($submittedFiles as $file)
                                 <div class="text-center pt-2" id= '{{$file->idFile}}' style="margin-right: 15px; position:relative; display: inline-block; width: 100px;">
-                                    <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style=" z-index:2; position:absolute; top:-1px; right:10px;" id= '{{$file->idFile}}' class="close downloadFile" download>
-                                        <span class="dot" id="download" style="position:relative; display:inline-block">
-                                            <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
-                                        </span>
-                                    </a>
-                                    <button style="position:absolute; top:-1px; right:-15px;" id= '{{$file->idFile}}' type="button" class="close removeFile">
+                                    <button style="position:absolute; top:-1px; right:10px;" id= '{{$file->idFile}}' type="button" class="close removeFile">
                                         <span class="dot" id="delete" style="position:relative; display:inline-block; ">
                                             <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
                                         </span>
                                     </button>
+                                    <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style=" z-index:2; position:absolute; top:-1px; right:-15px;" id= '{{$file->idFile}}' class="close downloadFile" download>
+                                        <span class="dot" id="download" style="position:relative; display:inline-block">
+                                            <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
+                                        </span>
+                                    </a>
                                     <figure>
                                         @if((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "txt")
                                             <i class="fad fa-file-alt fa-4x px-2" ></i>
@@ -1387,8 +1377,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="container rounded pb-3 pt-3">
+                <div class="col-lg-5 pb-3">
+                    <div class="container-fluid mr-3 mt-3 p-2 pt-2 h-100" style="background-color: white;">
                         <h3>Group elements evaluation</h3>
                         @if($eval->count() > 0 && $eval->first()->status == 'submitted')
                             <div class="alert alert-success alert-dismissible fade show">
@@ -1396,11 +1386,11 @@
                             </div>
                         @else
                             <div class="StudentsEvaluation">
+                                <table>
                                 @foreach($studentEval as $user)
                                     {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST']) !!}
                                     @if($user->id == Auth::user()->id)
-                                    <h5>Autoavaliação:</h5>
-                                <table>
+                                    <tr><td colspan="3"><h5>Autoavaliação:</h5></td></tr>
                                     <tr>
                                         <td><img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}"></td>
                                         <td><a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a></td>
@@ -1414,25 +1404,22 @@
                                             </div>
                                         </td>
                                     </tr>
-                                </table>
-                                <h5>Heteroavaliação</h5>
+                                            <tr><td colspan="3"><h5>Heteroavaliação</h5></td></tr>
                                     @else
-                                <table>
-                                    <tr>
-                                        <td><img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}"></td>
-                                        <td><a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a></td>
-                                        <td>
-                                            <div class="rating-{{$user->id}}" style="display:inline-flex;">
-                                                <i class="fa fa-star" aria-hidden="true" id="s1"></i>
-                                                <i class="fa fa-star" aria-hidden="true" id="s2"></i>
-                                                <i class="fa fa-star" aria-hidden="true" id="s3"></i>
-                                                <i class="fa fa-star" aria-hidden="true" id="s4"></i>
-                                                <i class="fa fa-star" aria-hidden="true" id="s5"></i>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    {{ Form::hidden('project', $project->idProject) }}
-                                </table>
+                                        <tr>
+                                            <td><img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}"></td>
+                                            <td><a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a></td>
+                                            <td>
+                                                <div class="rating-{{$user->id}}" style="display:inline-flex;">
+                                                    <i class="fa fa-star" aria-hidden="true" id="s1"></i>
+                                                    <i class="fa fa-star" aria-hidden="true" id="s2"></i>
+                                                    <i class="fa fa-star" aria-hidden="true" id="s3"></i>
+                                                    <i class="fa fa-star" aria-hidden="true" id="s4"></i>
+                                                    <i class="fa fa-star" aria-hidden="true" id="s5"></i>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {{ Form::hidden('project', $project->idProject) }}
                                     <script>
                                         @foreach($eval as $ev)
                                             @for($i=0;$i<=$ev->grade;$i++)
@@ -1468,7 +1455,7 @@
                                         $('div.rating-{{$user->id}} .fa-star').on('click',function() {
 
                                             $.ajax({
-                                                url: "/student/project/{{$project->idProject}}",
+                                                url: "/student/project/",
                                                 method: "POST",
                                                 data: {
                                                     'group': {{$idGroup}},
@@ -1482,11 +1469,11 @@
                                         });
                                         $('#submitEval').click(function() {
                                             $('.StudentsEvaluation').hide();
-                                            $('.submitEval').addClass('d-none');
+                                            //$('.submitEval').addClass('d-none');
                                             $('#submitted').removeClass('d-none');
                                             $('#modalSubmitEvaluations').modal('hide');
                                             $.ajax({
-                                                url: "/student/project/{{$project->idProject}}",
+                                                url: "/student/project/",
                                                 method: "POST",
                                                 data: {
                                                     'group': {{$idGroup}},
@@ -1521,6 +1508,7 @@
                                     @endif
                                     {!! Form::close() !!}
                                 @endforeach
+                                </table>
                             </div>
                             <button type="button" class="btn btn-primary submitEval float-right pt-2" data-toggle="modal" data-target="#modalSubmitEvaluations">{{__('gx.submit')}}</button>
                             <div class="alert alert-success alert-dismissible fade show d-none" id="submitted">
@@ -1604,7 +1592,9 @@
         table-layout: fixed;
         width:100%;
     }
-    .fixed_header{
+
+    /*.fixed_header{
+        width:100%;
         height: 75%;
         table-layout: fixed;
         border: none;
@@ -1612,18 +1602,19 @@
     }
 
     .fixed_header tbody{
-        display:block;
+        display: inline-block;
         width: 100%;
         overflow: auto;
         height: 40vh;
     }
 
-    .fixed_header thead tr {
-        display: block;
-    }
+    .fixed_header thead tr{
+        display: inline-block;
+        width: 100%;
+    }*/
 
 
-    .fixed_header th{
+    /*.fixed_header th{
         padding: 5px;
         text-align: center;
         width: 485px;
@@ -1632,7 +1623,7 @@
         padding: 8px;
         text-align: left;
         table-layout: fixed;
-    }
+    }*/
     .select{
         background-color: #e2e2e2;
     }
@@ -1677,6 +1668,7 @@
     }*/
     .file{
         cursor:pointer;
+        overflow-wrap: break-word;
     }
     .timer {
         font-size: 1.30em;
