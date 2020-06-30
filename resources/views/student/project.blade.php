@@ -98,7 +98,7 @@
                 <div id="1col" class="col-lg-5 mt-3">
                     <div class="container-fluid rounded h-100 pt-2" style="background-color: white;">
                         <h5 class="text-center">{{__('gx.repo')}}</h5>
-                        <div class="table-responsive" style="overflow:auto; height: 50vh;">
+                        <div class="table-responsive" style="overflow:auto; height: 50vh;margin-bottom: 20%">
                             <table class="table table-sm" style=" border-collapse: collapse;">
                                 <thead class="text-center">
                                 <tr>
@@ -406,8 +406,18 @@
                     </div>
                 </div>
 
-                <div id="2col"  class="col-lg-3 mt-3 rounded pl-0" >
-                    <div id="col_groups" class="container-fluid rounded text-center h-100 pt-2" style="background-color: white;">
+                <div id="testeeee"  class="col-lg-3 mt-3 rounded">
+                    <style>
+                        #testeeee{
+                            padding-left: 0px;
+                        }
+                        @media screen and (max-width: 991px) {
+                            #testeeee{
+                                padding-left: 15px;
+                            }
+                        }
+                    </style>
+                    <div id="col_groups" class="container-fluid rounded text-center h-100 pt-2" style="background-color: white;padding-bottom:5%;">
                         <h5>{{__('gx.group').' '. $idGroup}}</h5>
                         <div style="overflow: auto;" class="pl-5">
                             <table>
@@ -429,15 +439,6 @@
                             </table>
                         </div>
                     </div>
-                    <style>
-
-                        @media screen and (max-width: 500px) {
-                            #2col{
-                                margin-left: 15px;
-                            }
-
-                        }
-                    </style>
                 </div>
                 <div id="3col" class="col-lg-4 mt-3">
                     <div id="col_notes" class="row rounded h-50 pr-3">
@@ -458,7 +459,7 @@
                             @if(count($docs) == 0)
                                 <p>The professor hasn't uploaded any file</p>
                             @else
-                                <div style="overflow:auto; max-height:30vh; padding-left: 20vh" class="pt-2">
+                                <div id="align_docs" class="pt-2">
                                     <table>
                                     @foreach($docs as $d)
                                         <tr>
@@ -485,15 +486,15 @@
                     </div>
                 </div>
                 <style>
-
-                    /*#col_docs{
-                        height: 38vh;
-                        overflow: auto;
-                    }*/
+                    #align_docs{
+                        overflow:auto;
+                        max-height:30vh;
+                        padding-left: 20vh
+                    }
                     @media screen and (max-width: 1000px) {
                         #col_docs{
                             margin-left: 0.5%;
-                            margin-bottom: 5%;
+                            margin-bottom: 10%;
                         }
                         #col_notes{
                             margin-left: 0.8%;
@@ -502,7 +503,7 @@
                     @media screen and (max-width: 768px) {
                         #col_docs{
                             margin-left: 0.5%;
-                            margin-bottom: 8%;
+                            margin-bottom: 12%;
                         }
                         #col_notes{
                             margin-left: 0.8%;
@@ -511,7 +512,10 @@
                     @media screen and (max-width: 500px) {
                         #col_docs{
                             margin-left: 0.8%;
-                            margin-bottom: 10%;
+                            margin-bottom: 15%;
+                        }
+                        #align_docs{
+                            padding-left: 0vh;
                         }
                         #col_notes{
                             margin-left: 0.8%;
@@ -559,7 +563,7 @@
                                             <td id="task_b">{{$t->beginning}}</td>
                                             <td id="task_e">{{$t->end}}</td>
                                             <td>{{$t->duration}}</td>
-                                            <td class="float-right pr-0"><button id="edit_tasks"  type="button" class="btn btn-sm btn-success editTask mr-md-2">{{__('gx.edit')}}</button><button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalDelete-{{$t->idTask}}">{{__('gx.delete')}}</button></td>
+                                            <td class="float-right pr-0"><button id="edit_tasks"  type="button" class="btn btn-sm btn-success editTask mr-md-2">{{__('gx.edit')}}</button><button type="button" id="delete_tasks" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalDelete-{{$t->idTask}}">{{__('gx.delete')}}</button></td>
                                         </tr>
                                         <tr class="d-none" id="{{$t->idTask}}-edit">
                                             @csrf
@@ -657,6 +661,9 @@
                                         #edit_tasks{
                                             margin-bottom: 5px;
                                         }
+                                        #delete_tasks{
+                                            font-size: 1.1vh;
+                                        }
 
                                         .table{
                                             table-layout: auto;
@@ -670,7 +677,7 @@
                                             width: 5vh;
                                         }
                                         .abcd{
-                                            font-size: 1.5vh;
+                                            font-size: 1.1vh;
                                         }
                                         .tasks_letra {
                                             font-size: 1.2vh;
@@ -679,6 +686,7 @@
                                     @media screen and (max-width: 1100px) {
                                         #edit_tasks{
                                             width: 5vh;
+                                            font-size: 1.2vh;
                                         }
                                     }
                                 </style>
@@ -1213,16 +1221,28 @@
         </div>
         <div class="container-fluid fade tab-pane" id="submission" role="tabpanel" aria-labelledby="submission-tab">
             <div class="row rounded">
-                <div class="col-lg-7 pr-0 pb-3">
+                <div id="submission_row" class="col-lg-7 pb-3">
                     <div class="container-fluid mb-3 mt-3 h-100" style="background-color: white;">
                         {{$last = null}}
                         @if($submittedFiles->count() > 0)
-                            <div id="box1" style="position: absolute; right: 1%; top: 4%; border-radius: 15px; width: 45%; vertical-align: middle;">
+                            <div id="box1">
                                 <img src="/images/deathlineSub.png" style="width: 30px; height: 30px; float: left; margin:1%;">
                                 <div id="timer3"></div>
                             </div>
 
                             <style>
+                                #box1{
+                                    font-size: 1.2vh;
+                                    position: absolute;
+                                    right: 1%;
+                                    top: 4%;
+                                    border-radius: 15px;
+                                    width: 40%;
+                                    vertical-align: middle;
+                                }
+                                #submission_row{
+                                    padding-right: 0px;
+                                }
                                 #timer3 {
                                     font-size: 1.0em;
                                     color: black;
@@ -1245,6 +1265,28 @@
                                     display: block;
                                     font-size: .60em;
                                     font-weight: 400;
+                                }
+                                @media screen and (max-width: 1300px){
+                                    #box1{
+                                        right: 1%;
+                                        top: 4%;
+                                        width: 25%;
+                                    }
+                                }
+                                @media screen and (max-width: 991px){
+                                    #submission_row{
+                                        padding-right: 15px;
+                                    }
+                                    #box1{
+                                        right: 4%;
+                                        top: 6%;
+                                        width: 25%;
+                                    }
+                                }
+                                @media screen and (max-width: 660px){
+                                    #box1{
+                                        display: none;
+                                    }
                                 }
                             </style>
                             <script>
