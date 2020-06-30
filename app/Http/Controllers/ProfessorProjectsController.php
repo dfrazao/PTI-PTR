@@ -216,8 +216,7 @@ class ProfessorProjectsController extends Controller
             }
 
             $rep1 = DB::table('documentations')->where('idProject', $id)->orderBy('pathFile', 'ASC')->get();
-            $rep2 = DB::table('files')->where('finalState', 'final')->orderBy('pathFile', 'ASC')->get();
-
+            $rep2 = DB::table('files')->where('finalState', 'final')->orderBy('submissionTime', 'DESC')->get();
 
             $subject = Subject::find($project->idSubject);
             $groups = DB::table('groups')->where('idProject', $id)->orderBy('idGroupProject', 'ASC')->get();

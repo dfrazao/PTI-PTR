@@ -278,10 +278,6 @@
                             </tr>
 
                             <tr>
-                                <th class="info-th" scope="row">{{__('gx.maximum no. of groups')}}</th>
-                                <td class="info-td" colspan="2">{{$project->maxGroups}}</td>
-                            </tr>
-                            <tr>
                                 <th class="info-th" scope="row">{{__('gx.minimum no. of elements group')}}</th>
                                 <td class="info-td" colspan="2">{{$project->minElements}}</td>
                             </tr>
@@ -300,8 +296,12 @@
                             <td class="info-td" colspan="2" >{{count($groups)}}</td>
                         </tr>
                         <tr>
+                            <th class="info-th" scope="row">{{__('gx.maximum no. of groups')}}</th>
+                            <td class="info-td" colspan="2">{{$project->maxGroups}}</td>
+                        </tr>
+                        <tr>
                             <th class="info-th" scope="row">{{__('gx.numSubmissions')}}</th>
-                            <td class="info-td" colspan="2" >{{count($rep2->whereIn('idGroup', $groups->pluck('idGroup'))->groupBy('idGroup'))}} {{__('gx.of')}} {{count($groups)}}</td>
+                            <td class="info-td" colspan="2" >{{count($rep2->whereIn('idGroup', $groups->pluck('idGroup'))->groupBy('idGroup'))}}</td>
                         </tr>
 
                         <tr>
@@ -328,7 +328,8 @@
                                             <div class="modal-body">
                                                 @foreach($groups as $group)
                                                     @if(\App\StudentsGroup::all()->where('idGroup', '==', $group->idGroup)->count() < $project->minElements)
-                                                       <p><a href onclick="reloadPage('{{url('/professor/project/'.$project->idProject.'#gr.pills-'.$group->idGroupProject)}}')">{{__('gx.group')}} {{$group->idGroupProject}}</a></p>
+                                                        <p><a id="showGroups" onclick="reloadPage('{{url('/professor/project/'.$project->idProject.'#gr.pills-'.$group->idGroupProject)}}')">{{__('gx.group')}} {{$group->idGroupProject}}</a></p>
+
                                                     @endif
                                                 @endforeach
                                             </div>
@@ -552,8 +553,8 @@
                                                                 <tbody>
                                                                 @foreach(DB::table('studentGroups')->join('users', 'studentGroups.idStudent', '=', 'users.id')->select('studentGroups.*')->where('idGroup', $group->idGroup)->orderBy('users.name', 'ASC')->get() as $sg)
                                                                     <tr>
-                                                                        <td><a href="/profile/{{$sg->idStudent}}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.\App\User::find($sg->idStudent)->photo)}}"><span id="nome_aval" style="vertical-align: middle;"> {{\App\User::find($sg->idStudent)->name}}</span></a></td>
-                                                                        <td><i class="far fa-envelope"></i></td>
+                                                                        <td style="text-align: left;"><a href="/profile/{{$sg->idStudent}}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.\App\User::find($sg->idStudent)->photo)}}"><span id="nome_aval" style="vertical-align: middle;"> {{\App\User::find($sg->idStudent)->name}}</span></a></td>
+                                                                        <td style="text-align: left;"><i class="far fa-envelope"></i></td>
                                                                         <td>
                                                                             @if(is_null(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', $sg->idStudent)->where('idGroup', $group->idGroup)->value('grade')))
                                                                                 –
@@ -609,7 +610,7 @@
                                                             <table class="table table-sm">
                                                                 <tbody>
                                                                 @if(count($rep2->whereIn('idGroup', $group->idGroup))>0)
-                                                                    <div id="box1" style="position: absolute; right: 1%; top: 1%; height: 9%; border: 1px solid darkgrey; border-radius: 15px; width: 66%;  vertical-align: middle;">
+                                                                    <div id="box1" style="position: absolute; right: 1%; top: 1%; border: 1px solid darkgrey; border-radius: 15px; width: 66%;  vertical-align: middle;">
                                                                         <img id="img_delay" src="/images/deathlineSub.png" style="width: 30px; height: 30px; float: left; margin:1%;">
                                                                         <div id="timer3"></div>
                                                                     </div>
@@ -653,6 +654,7 @@
                                                                         }
                                                                     </style>
                                                                     <script>
+
                                                                         function updateTimer3() {
                                                                             future = Date.parse("{{$project->dueDate}}");
                                                                             now = Date.parse("{{$rep2->whereIn('idGroup', $group->idGroup)->first()->submissionTime}}");
@@ -1142,6 +1144,17 @@
     .demo-update__limit-exceeded .demo-update__chart__characters {
         fill: hsl( 0, 100%, 52% );
     }
+
+    #showGroups{
+        color: #007bff;
+    }
+
+    #showGroups:hover{
+        text-decoration: underline;
+        cursor: default;
+    }
+
+
 
 
 </style>
