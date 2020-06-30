@@ -8,7 +8,7 @@
     <nav id="breadcrumb" aria-label="breadcrumb" >
         <ol id="breadcrumb" class="breadcrumb pl-0 pb-0 mb-4 h3" style="background-color:white; ">
             <li id="bc1" class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>{{__('gx.dashboard')}}</a></li>
-            <li id="bc2" class="breadcrumb-item " aria-current="page" >{{$subject->subjectName}} - {{$project->name}} - Group {{$idGroup}}</li>
+            <li id="bc2" class="breadcrumb-item " aria-current="page" >{{$subject->subjectName}} - {{$project->name}} - Group {{\App\Group::find($idGroup)->idGroupProject}}</li>
             <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto">
                 <div id="timer2-{{$project->idProject}}" class="timer"></div>
                 <i class="fal fa-lg fa-flag-checkered float-left pl-2"></i>
@@ -1783,26 +1783,36 @@
 
 </style>
 <script>
+    // on load of the page: switch to the currently selected tab
+    var hash = window.location.hash;
+    if(hash === '' && sessionStorage.getItem("studentProject") === null){
+        hash = '#content';
+        sessionStorage.setItem("studentProject", '#content');
+    } else if (hash !== '' && sessionStorage.getItem("studentProject") === null){
+        sessionStorage.setItem("studentProject", hash);
+    } else if (hash === '' && sessionStorage.getItem("studentProject") !== null){
+        hash = sessionStorage.getItem("studentProject");
+    }
+
+    $('#myTab a[href="' + hash + '"]').tab('show');
+    window.location.hash = "";
+    setTimeout(function() {
+        window.scrollTo(0, 0);
+    }, 1);
+
     $('#myTab a').click(function(e) {
         e.preventDefault();
         $(this).tab('show');
     });
 
-    // on load of the page: switch to the currently selected tab
-    var hash = window.location.hash;
-    if(hash === ''){
-        hash = '#content';
-    }
-
-    $('#myTab a[href="' + hash + '"]').tab('show');
-
     // store the currently selected tab in the hash value
     $("ul.nav-tabs > li > a").on("shown.bs.tab", function(e) {
         var id = $(e.target).attr("href").substr(1);
-        window.location.hash = id;
+        sessionStorage.setItem("studentProject", "#"+id);
+        setTimeout(function() {
+            window.scrollTo(0, 0);
+        }, 1);
     });
-
-
 
     $(".editTask").click(function () {
         var id = $(this).closest("tr").attr("id").split("-");
@@ -1918,7 +1928,7 @@
         if($('.select').length == 0){
             $('#submitFile').attr('disabled','disabled');
         }
-        });
+    });
 
     /*$(".file").hover(function() {
         $(this).find('#download').css("display","inline-block");

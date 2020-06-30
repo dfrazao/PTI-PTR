@@ -1,9 +1,14 @@
 <div class="container-md" id="este" style="">
-    <div class="row" id="esteheader">
-        <div class="col p-0">
-            <div id="draggable-title" class="rounded-left">Chat</div>
-        </div>
-    </div>
+   <div class="row" id="esteheader">
+       <div class="col p-0">
+           <div id="draggable-title" class="rounded-left">
+               Chat
+               <button type="button" onclick="chat()" class="close" aria-label="Close" style="position: absolute; top: 8px; right: 10px;">
+                   <span aria-hidden="true">&times;</span>
+               </button>
+           </div>
+       </div>
+   </div>
 
     <div class="row">
 
@@ -135,6 +140,7 @@
 </div>
 <script>
     dragElement(document.getElementById("este"));
+
     function dragElement(elmnt) {
         if (sessionStorage.getItem('chat-pos') === null) {
             elmnt.style.left = (10) + "px";
@@ -145,6 +151,7 @@
         }
         var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
         document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+
         function dragMouseDown(e) {
             e = e || window.event;
             e.preventDefault();
@@ -155,6 +162,7 @@
             // call a function whenever the cursor moves:
             document.onmousemove = elementDrag;
         }
+
         function elementDrag(e) {
             e = e || window.event;
             e.preventDefault();
@@ -167,6 +175,7 @@
             elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
             elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
         }
+
         function closeDragElement() {
             // stop moving when mouse button is released:
             document.onmouseup = null;

@@ -409,15 +409,15 @@
                         </div>
                     </div>
 
-                    <div class="profile-info-row">
-                        <div class="profile-info-name"> {{__('gx.course')}} </div>
-
-                        <div class="profile-info-value">
-                            <span>{{ $courseName }}</span>
-                        </div>
-                    </div>
-
                     @if($user->role == 'student')
+                        <div class="profile-info-row">
+                            <div class="profile-info-name"> {{__('gx.course')}} </div>
+
+                            <div class="profile-info-value">
+                                <span>{{ $courseName }}</span>
+                            </div>
+                        </div>
+
                         <div class="profile-info-row">
                             <div class="profile-info-name"> {{__('gx.number')}} </div>
 

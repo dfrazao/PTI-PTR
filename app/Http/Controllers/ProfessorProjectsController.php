@@ -54,14 +54,12 @@ class ProfessorProjectsController extends Controller
                 'title' => 'required',
                 'deadline' => 'required',
                 'group_formation_deadline' => 'required',
-                'documentation' => 'required',
                 'minNumber' => 'integer|lte:maxNumber',
                 'maxNumber' => 'integer'
             ],[
                 'title.required' => trans('gx.titleReq'),
                 'deadline.required' => trans('gx.deadlineReq'),
                 'group_formation_deadline.required' => trans('gx.groupdeadlineReq'),
-                'documentation.required' => trans('gx.documentationReq'),
                 'minNumber.lte' => trans('gx.minNumberReq')
             ]);
 
@@ -76,13 +74,15 @@ class ProfessorProjectsController extends Controller
             $project->save();
 
             $files = $request->documentation;
-            foreach ($files as $file) {
-                $doc = new Documentation;
-                $doc->idProject = $project->idProject;
-                $doc->pathfile = $file->getClientOriginalName();
-                $file = $file;
-                $doc->save();
-                $file->storeAs('documentation/' . $project->idProject, $doc->pathfile, 'gcs');
+            if ($files != null) {
+                foreach ($files as $file) {
+                    $doc = new Documentation;
+                    $doc->idProject = $project->idProject;
+                    $doc->pathfile = $file->getClientOriginalName();
+                    $file = $file;
+                    $doc->save();
+                    $file->storeAs('documentation/' . $project->idProject, $doc->pathfile, 'gcs');
+                }
             }
 
             $my_id = Auth::id();

@@ -1172,31 +1172,42 @@
     // store the currently selected tab in the hash value
     var pills;
     $("ul.nav-tabs > li > a").on("shown.bs.tab", function(e) {
-
         var id = $(e.target).attr("href").substr(1);
         if(id == "gr"){
             if(pills !== undefined) {
-                window.location.hash = id + "." + pills;
+                sessionStorage.setItem("professorProject", "#"+id + "." + pills);
                 $('#pills-tab a[href="#' + pills + '"]').tab('show');
+
             }else{
-                window.location.hash = id + "." + "pills-1";
+                sessionStorage.setItem("professorProject", "#"+id + "." + "pills-1");
                 $('#pills-tab a[href="#pills-1"]').tab('show');
             }
         }else{
-            window.location.hash = id;
+            sessionStorage.setItem("professorProject", "#"+id);
         }
+        setTimeout(function() {
+            window.scrollTo(0, 0);
+        }, 1);
     });
 
     $("ul.nav-pills > li > a").on("shown.bs.tab", function(e) {
         var id = $(e.target).attr("href").substr(1);
         pills = id;
-        window.location.hash = window.location.hash.split(".")[0] + "." + id;
+        sessionStorage.setItem("professorProject", "#gr."+pills);
+        setTimeout(function() {
+            window.scrollTo(0, 0);
+        }, 1);
     });
 
     // on load of the page: switch to the currently selected tab
     var hash = window.location.hash;
-    if(hash === ''){
+    if(hash === '' && sessionStorage.getItem("professorProject") === null){
         hash = '#characteristics';
+        sessionStorage.setItem("professorProject", '#characteristics');
+    } else if (hash !== '' && sessionStorage.getItem("professorProject") === null){
+        sessionStorage.setItem("studentProject", hash);
+    } else if (hash === '' && sessionStorage.getItem("professorProject") !== null){
+        hash = sessionStorage.getItem("professorProject");
     }
 
     if(hash.split(".")[0] == '#gr'){
@@ -1205,6 +1216,10 @@
     }else{
         $('#myTab a[href="' + hash + '"]').tab('show');
     }
+    window.location.hash = "";
+    setTimeout(function() {
+        window.scrollTo(0, 0);
+    }, 1);
 
 
     $('.deleteFile').click(function(){

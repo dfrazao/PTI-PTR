@@ -354,9 +354,8 @@ class StudentProjectsController extends Controller
                     array_push($Subjectprof, $pr);
             }
 
-
             //Posts
-            $announcements = Announcement::orderBy('date', 'desc')->paginate(10)->fragment('forum');
+            $announcements = Announcement::orderByDesc('date')->where('idProject', $id)->paginate(10)->fragment('forum');
             $allAnnouncements = [];
             foreach ($announcements as $a) {
                 array_push($allAnnouncements, $a);
@@ -389,7 +388,7 @@ class StudentProjectsController extends Controller
                     if ($g == $st)
                         $idGroup = $g;
 
-            // repository
+            // Repository
             $rep = File::all()->where('idGroup', '==', $idGroup);
 
             // Tasks
@@ -433,9 +432,6 @@ class StudentProjectsController extends Controller
             $UsersEvaluate = DB::table('users')->leftJoin('studentGroups', 'users.id', '=', 'studentGroups.idStudent')->where('studentGroups.idGroup', '=', $idGroup)->orderByRaw('CASE WHEN id = '.Auth::user()->id. ' THEN 0 ELSE 1 END, name')->get();
             $Users = collect($Users)->sortBy('name');
 
-            //schedule
-            $schedule = Availability::all()->where('idGroup', '==', $idGroup);
-
             //Professor
             $professores = SubjectEnrollment::all()->where('idSubject', '==', $subject->idSubject);
             $Subjectprof = [];
@@ -446,25 +442,6 @@ class StudentProjectsController extends Controller
             }
             $Subjectprof = collect($Subjectprof)->sortBy('name');
 
-
-            //Posts
-            $announcements = Announcement::orderBy('date', 'desc')->paginate(10)->fragment('forum');
-            $allAnnouncements = [];
-            foreach ($announcements as $a) {
-                array_push($allAnnouncements, $a);
-            }
-            $userId = $announcements->pluck('sender');
-            $users = [];
-            foreach ($userId as $uId) {
-                $user = User::find($uId);
-                array_push($users, $user);
-            }
-            $idAnnouncement = $announcements->pluck('idAnnouncement');
-            $numberComments = [];
-            foreach ($idAnnouncement as $idA) {
-                $idComment = AnnouncementComment::all()->where('idAnnouncement', '==', $idA)->count();
-                array_push($numberComments, $idComment);
-            }
 
             //Evaluation
             $eval = Evaluation::all()->where('idGroup', '==', $idGroup);

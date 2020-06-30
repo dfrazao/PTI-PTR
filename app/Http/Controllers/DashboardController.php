@@ -42,14 +42,15 @@ class DashboardController extends Controller
         if (count($subjectsEnrolled) > 0) {
             $academicYears = AcademicYear::all()->sortKeysDesc();
             $subjects = DB::table('subjects')
-                        ->selectRaw('subjects.idSubject, subjects.idGeneralSubject, subjects.subjectName, subjects.academicYear, COUNT(projects.idSubject) AS projNumb')
+                        ->selectRaw('subjects.idSubject, subjects.idGeneralSubject, subjects.subjectName, subjects.academicYear, COUNT(projects.idSubject) AS projNumb, generalSubjects.name')
                         ->whereIn('subjects.idSubject', $subjectsEnrolled)
+                        ->leftJoin('generalSubjects', 'subjects.idGeneralSubject', '=', 'generalSubjects.idGeneralSubject')
                         ->leftJoin('projects', 'subjects.idSubject', '=', 'projects.idSubject')
                         ->groupBy('subjects.idSubject')
                         ->orderByRaw('CASE WHEN COUNT(projects.idSubject) > 0 THEN 1 ELSE 2 END, subjects.subjectName')
                         ->get();
             $subjectsId = Subject::whereIn('idSubject', $subjectsEnrolled)->orderBy('subjectName', 'asc')->get()->pluck('idSubject');
-            $projects = Project::all()->whereIn('idSubject', $subjectsId);
+            $projects = Project::all()->whereIn('idSubject', $subjectsId)->sortBy('dueDate');
 
             $meetings = [];
             $groups = [];

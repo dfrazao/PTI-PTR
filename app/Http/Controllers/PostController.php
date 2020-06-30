@@ -183,12 +183,12 @@ class PostController extends Controller
     {
         $this->validate($request, [
             'title' => 'required',
-            'body' => 'required'
+            'body2' => 'required'
         ]);
 
         $announcement = Announcement::find($id2);
         $announcement->title = $request ->input('title');
-        $announcement->body = $request->input('body');
+        $announcement->body = $request->input('body2');
         $announcement->date = date("Y-m-d H:i:s");
         $announcement->save();
 

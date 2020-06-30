@@ -20,6 +20,13 @@ return [
     'meeting'                   => 'Reunião',
 
     //errors
+    'unauthorized'              => 'Não Autorizado',
+    'forbidden'                 => 'Proibido',
+    'not found'                 => 'Não Encontrado',
+    'page expired'              => 'Página Expirada',
+    'too many requests'         => 'Demasiados Pedidos',
+    'server error'              => 'Erro No Servidor',
+    'service unavailable'       => 'Serviço Indisponível',
 
     //dashboard
     'january'                   => 'Janeiro',

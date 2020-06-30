@@ -272,11 +272,11 @@
                     }
                 }
             </style>
-            <div class="overflow-auto rounded pb-2">
+            <div class="overflow-auto rounded pb-2 h-100">
                 <h3 class="pt-3 pl-2 mb-0">{{__('gx.subjects')}}</h3>
                 <div class="tab-content" id="myTabContent" style="min-height: 75vh;">
                     @foreach($academicYears  as $academicYear)
-                        <div class="years overflow-auto p-0 mr-2 ml-2 d-none" id="{{$academicYear->academicYear}}" style="max-height: 83vh;">
+                        <div class="years overflow-auto p-0 mr-2 ml-2 d-none" id="{{$academicYear->academicYear}}" style="max-height: 88vh;">
                             <?php
                             $subjectYear = $subjects->whereIn('academicYear', $academicYear->academicYear);
                             $first1 = Carbon\Carbon::today()->subYears(1)->month(8)->day(1);
@@ -293,7 +293,7 @@
                                 @foreach($subjectYear as $subject)
 
                                     <div class="overflow-auto p-2 mt-2 rounded cadeira" type="button" id="{{$subject->idSubject}}" style="background-color: #c6c6c6;">
-                                        <h4 class="mt-2 pl-2 float-left">{{$subject->subjectName}}</h4>
+                                        <h4 class="mt-2 pl-2 float-left">{{$subject->name}}</h4>
                                         @if ($subject->projNumb > 0)
                                             <i class="fas fa-dot-circle" style="display: inline-block;color: #00b44e;"></i>
                                         @endif
@@ -326,13 +326,6 @@
                                                                     s = secs - mins * 60;
                                                                     if (d<0 || (d==0 && h==0 && m==0 && s==0)) {
                                                                         document.getElementById("timer1-{{$project->idProject}}").innerHTML = '<div class="ml-2">{{__("gx.finished")}}</div>';
-                                                                    } else if (d==0 && h==0 && m==0) {
-                                                                        document.getElementById("timer1-{{$project->idProject}}").innerHTML = '<div>' + s + '<span>{{__("gx.seconds")}}</span></div>';
-                                                                    } else if (d==0) {
-                                                                        document.getElementById("timer1-{{$project->idProject}}").innerHTML =
-                                                                            '<div>' + h + '<span>{{__("gx.hours")}}</span></div>' +
-                                                                            '<div>' + m + '<span>{{__("gx.minutes")}}</span></div>' +
-                                                                            '<div>' + s + '<span>{{__("gx.seconds")}}</span></div>';
                                                                     } else {
                                                                         document.getElementById("timer1-{{$project->idProject}}").innerHTML =
                                                                             '<div>' + d + '<span>{{__("gx.days")}}</span></div>' +
@@ -354,13 +347,6 @@
                                                                     s = secs - mins * 60;
                                                                     if (d<0 || (d==0 && h==0 && m==0 && s==0)) {
                                                                         document.getElementById("timer2-{{$project->idProject}}").innerHTML = '<div class="ml-2">{{__("gx.finished")}}</div>';
-                                                                    } else if (d==0 && h==0 && m==0) {
-                                                                        document.getElementById("timer2-{{$project->idProject}}").innerHTML = '<div>' + s + '<span>{{__("gx.seconds")}}</span></div>';
-                                                                    } else if (d==0) {
-                                                                        document.getElementById("timer2-{{$project->idProject}}").innerHTML =
-                                                                            '<div>' + h + '<span>{{__("gx.hours")}}</span></div>' +
-                                                                            '<div>' + m + '<span>{{__("gx.minutes")}}</span></div>' +
-                                                                            '<div>' + s + '<span>{{__("gx.seconds")}}</span></div>';
                                                                     } else {
                                                                         document.getElementById("timer2-{{$project->idProject}}").innerHTML =
                                                                             '<div>' + d + '<span>{{__("gx.days")}}</span></div>' +

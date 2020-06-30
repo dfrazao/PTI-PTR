@@ -42,7 +42,7 @@
                 <a class="nav-link" href="/professor/project/{{$project->idProject}}#characteristics">{{__('gx.characteristics')}}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/professor/project/{{$project->idProject}}#groups">{{__('gx.groups')}}</a>
+                <a class="nav-link" href="/professor/project/{{$project->idProject}}#gr">{{__('gx.groups')}}</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link active" id="forum-tab" data-toggle="tab" href="#forum" role="tab">{{__('gx.forum')}}</a>
@@ -229,42 +229,42 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <div class="modal-body modal-body-post">
+                                    <div class="modal-body modal-body-post2">
                                         {!! Form::open(['action' => ['PostController@update', $project -> idProject, $announcement->idAnnouncement], 'method' => 'PUT']) !!}
                                         <div class="form-group">
                                             {{Form::label('title', trans('gx.title'))}}
                                             {{Form::text('title', $announcement->title, ['class' => 'form-control', 'placeholder' => 'Title'])}}
                                         </div>
                                         <div class="form-group">
-                                            {{Form::label('body', trans('gx.body'))}}
-                                            {{Form::textarea('body', $announcement->body, ['class' => 'form-control', 'placeholder' => 'Body'])}}
+                                            {{Form::label('body2', trans('gx.body'))}}
+                                            {{Form::textarea('body2', $announcement->body, ['class' => 'form-control', 'placeholder' => 'Body'])}}
                                         </div>
 
-                                        <div class="demo-update__controls">
-                                            <span class="demo-update__words"></span>
-                                            <svg class="demo-update__chart" viewbox="0 0 40 40" width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+                                        <div class="demo-update__controls2">
+                                            <span class="demo-update__words2"></span>
+                                            <svg class="demo-update__chart2" viewbox="0 0 40 40" width="40" height="40" xmlns="http://www.w3.org/2000/svg">
                                                 <circle stroke="hsl(0, 0%, 93%)" stroke-width="3" fill="none" cx="20" cy="20" r="17" />
-                                                <circle class="demo-update__chart__circle" stroke="hsl(202, 92%, 59%)" stroke-width="3" stroke-dasharray="134,534" stroke-linecap="round" fill="none" cx="20" cy="20" r="17" />
-                                                <text class="demo-update__chart__characters" x="50%" y="50%" dominant-baseline="central" text-anchor="middle"></text>
+                                                <circle class="demo-update__chart2__circle2" stroke="hsl(202, 92%, 59%)" stroke-width="3" stroke-dasharray="134,534" stroke-linecap="round" fill="none" cx="20" cy="20" r="17" />
+                                                <text class="demo-update__chart2__characters2" x="50%" y="50%" dominant-baseline="central" text-anchor="middle"></text>
                                             </svg>
                                         </div>
 
                                         {{Form::hidden('_method','PUT')}}
-                                        {{Form::submit(trans('gx.submit')), ['class'=>'btn btn-success float-right update__send']}}
+                                        <button type="submit" class="btn btn-success update__send2 float-right">{{__('gx.submit')}}</button>
 
                                         {!! Form::close() !!}
                                     </div>
                                     <script>
-                                        const maxCharacters = 800;
-                                        const container = document.querySelector( '.modal-body-post' );
-                                        const progressCircle = document.querySelector( '.demo-update__chart__circle' );
-                                        const charactersBox = document.querySelector( '.demo-update__chart__characters' );
-                                        const wordsBox = document.querySelector( '.demo-update__words' );
-                                        const circleCircumference = Math.floor( 2 * Math.PI * progressCircle.getAttribute( 'r' ) );
-                                        const sendButton = document.querySelector( '.update__send' );
+                                        const maxCharacters2 = 800;
+                                        const container2 = document.querySelector( '.modal-body-post2' );
+                                        const progressCircle2 = document.querySelector( '.demo-update__chart2__circle2' );
+                                        const charactersBox2 = document.querySelector( '.demo-update__chart2__characters2' );
+                                        const wordsBox2 = document.querySelector( '.demo-update__words2' );
+                                        const circleCircumference2 = Math.floor( 2 * Math.PI * progressCircle2.getAttribute( 'r' ) );
+                                        const sendButton2 = document.querySelector( '.update__send2' );
 
                                         ClassicEditor
-                                            .create( document.querySelector( '#body' ), {
+                                            .create( document.querySelector( '#body2' ), {
                                                 toolbar: {
                                                     items: [
                                                         'heading',
@@ -297,36 +297,34 @@
                                                 language: '{{ str_replace('_', '-', app()->getLocale()) }}',
                                                 licenseKey: '',
                                                 wordCount: {
-                                                    onUpdate: stats => {
-                                                        // Prints the current content statistics.
-                                                        //console.log( `Characters: ${ stats.characters }\nWords: ${ stats.words }` );
+                                                    onUpdate: stats2 => {
 
-                                                        const charactersProgress = stats.characters / maxCharacters * circleCircumference;
-                                                        const isLimitExceeded = stats.characters > maxCharacters;
-                                                        const isCloseToLimit = !isLimitExceeded && stats.characters > maxCharacters * .8;
-                                                        const circleDashArray = Math.min( charactersProgress, circleCircumference );
+                                                        const charactersProgress2 = stats2.characters / maxCharacters2 * circleCircumference2;
+                                                        const isLimitExceeded2 = stats2.characters > maxCharacters2;
+                                                        const isCloseToLimit2 = !isLimitExceeded2 && stats2.characters > maxCharacters2 * .8;
+                                                        const circleDashArray2 = Math.min( charactersProgress2, circleCircumference2 );
 
                                                         // Set the stroke of the circle to show how many characters were typed.
-                                                        progressCircle.setAttribute( 'stroke-dasharray', `${ circleDashArray },${ circleCircumference }` );
+                                                        progressCircle2.setAttribute( 'stroke-dasharray', `${ circleDashArray2 },${ circleCircumference2 }` );
 
                                                         // Display the number of characters in the progress chart. When the limit is exceeded,
                                                         // display how many characters should be removed.
-                                                        if ( isLimitExceeded ) {
-                                                            charactersBox.textContent = `-${ stats.characters - maxCharacters }`;
+                                                        if ( isLimitExceeded2 ) {
+                                                            charactersBox2.textContent = `-${ stats2.characters - maxCharacters2 }`;
                                                         } else {
-                                                            charactersBox.textContent = stats.characters;
+                                                            charactersBox2.textContent = stats2.characters;
                                                         }
 
-                                                        wordsBox.textContent = `{{__('gx.words in the post')}}: ${ stats.words }`;
+                                                        wordsBox2.textContent = `{{__('gx.words in the post')}}: ${ stats2.words }`;
 
                                                         // If the content length is close to the character limit, add a CSS class to warn the user.
-                                                        container.classList.toggle( 'demo-update__limit-close', isCloseToLimit );
+                                                        container2.classList.toggle( 'demo-update__limit-close', isCloseToLimit2 );
 
                                                         // If the character limit is exceeded, add a CSS class that makes the content's background red.
-                                                        container.classList.toggle( 'demo-update__limit-exceeded', isLimitExceeded );
+                                                        container2.classList.toggle( 'demo-update__limit-exceeded', isLimitExceeded2 );
 
                                                         // If the character limit is exceeded, disable the send button.
-                                                        sendButton.toggleAttribute( 'disabled', isLimitExceeded );
+                                                        sendButton2.toggleAttribute( 'disabled', isLimitExceeded2 );
 
                                                     }
                                                 }
@@ -422,74 +420,52 @@
     </div>
 </div>
 <style>
-    .nav-tabs .nav-link.active{
+    .nav-tabs .nav-link.active {
         background-color: #ededed;
         border-color:#ededed;
     }
-    .nav-tabs .nav-link{
+    .nav-tabs .nav-link {
         color: #2c3fb1;
     }
 
-    /*.demo-update {
-        border: 1px solid var(--ck-color-base-border);
-        border-radius: var(--ck-border-radius);
-        box-shadow: 2px 2px 0px hsla( 0, 0%, 0%, 0.1 );
-        margin: 1.5em 0;
-        padding: 1em;
-    }
-
-    .demo-update h3 {
-        font-size: 18px;
-        font-weight: bold;
-        margin: 0 0 .5em;
-        padding: 0;
-    }
-
-    .demo-update .ck.ck-editor__editable_inline {
-        border: 1px solid hsla( 0, 0%, 0%, 0.15 );
-        transition: background .5s ease-out;
-        min-height: 6em;
-        margin-bottom: 1em;
-    }*/
-
-    .demo-update__controls {
+    .demo-update__controls, .demo-update__controls2 {
         display: flex;
         flex-direction: row;
         align-items: center;
     }
 
-    .demo-update__chart {
+    .demo-update__chart, .demo-update__chart2 {
         margin-right: 1em;
     }
 
-    .demo-update__chart__circle {
+    .demo-update__chart__circle, .demo-update__chart2__circle2 {
         transform: rotate(-90deg);
         transform-origin: center;
     }
 
-    .demo-update__chart__characters {
+    .demo-update__chart__characters, .demo-update__chart2__characters2 {
         font-size: 13px;
         font-weight: bold;
     }
 
-    .demo-update__words {
+    .demo-update__words, .demo-update__words2 {
         flex-grow: 1;
         opacity: .5;
     }
 
-    .demo-update__limit-close .demo-update__chart__circle {
+    .demo-update__limit-close .demo-update__chart__circle, .demo-update__limit-close2 .demo-update__chart2__circle2 {
         stroke: hsl( 30, 100%, 52% );
     }
 
-    .demo-update__limit-exceeded .ck.ck-editor__editable_inline {
+    .demo-update__limit-exceeded .ck.ck-editor__editable_inline, .demo-update__limit-exceeded2 .ck.ck-editor__editable_inline2 {
         background: hsl( 0, 100%, 97% );
     }
 
-    .demo-update__limit-exceeded .demo-update__chart__circle {
+    .demo-update__limit-exceeded .demo-update__chart__circle, .demo-update__limit-exceeded2 .demo-update__chart2__circle2 {
         stroke: hsl( 0, 100%, 52% );
     }
 
-    .demo-update__limit-exceeded .demo-update__chart__characters {
+    .demo-update__limit-exceeded .demo-update__chart__characters, .demo-update__limit-exceeded2 .demo-update__chart2__characters2 {
         fill: hsl( 0, 100%, 52% );
     }
 </style>
