@@ -289,6 +289,8 @@ class GroupController extends Controller
 
 
 
+
+
         return view('student/groups')->with('groupNumber',$groupNumber)->with('students_per_group',$students_per_group)->with('subjectStudentsNoGroup',$subjectStudentsNoGroup)->with('projectMaxElements',$projectMaxElements)->with('projectMinElements',$projectMinElements)->with('project',$project)
             ->with('numberGroupsInsideProject',$numberGroupsInsideProject)->with('subject',$subject)->with('user',$user)->with('projectMaxGroups',$projectMaxGroups)->with('studentsIdGroupValues',$studentsIdGroupValues)->with('stdSugestWGrade',$stdSugestWGrade);
 

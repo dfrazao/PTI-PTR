@@ -81,8 +81,35 @@
                             '<div>' + m + '<span>{{__('gx.minutes')}}</span></div>';
                     }
                 }
+
                 updateTimer1();
                 setInterval('updateTimer1()', 1000);
+            </script>
+
+            <script>
+                 function updateTimer2() {
+                    future = Date.parse("{{$project->groupCreationDueDate}}");
+                    now = new Date();
+                    diff = future - now;
+
+                    days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    hours = Math.floor(diff / (1000 * 60 * 60));
+                    mins = Math.floor(diff / (1000 * 60));
+                    secs = Math.floor(diff / 1000);
+
+                    d = days;
+                    h = hours - days * 24;
+                    m = mins - hours * 60;
+                    s = secs - mins * 60;
+
+                    if (d<0 || (d==0 && h==0 && m==0 && s==0)) {
+                        return true
+                    }
+                    else{
+                        return false
+                    }
+                }
+
             </script>
 
             <br>
@@ -131,7 +158,7 @@
                                         {!!Form::hidden('idProject', $project->idProject)!!}
                                         {!!Form::hidden('idGroupJoin', $groupN)!!}
                                         {!!Form::hidden('_method','PUT')!!}
-                                        {{Form::button('<i class="fas fa-sign-in-alt"></i> '.trans('gx.join group'),['type' => 'submit','class'=>'btn btn-primary'],['style'=>'width: 10em'])}}
+                                        {{Form::button('<i class="fas fa-sign-in-alt"></i> '.trans('gx.join group'),['type' => 'submit','class'=>'btn btn-primary btn_joinGroup'],['style'=>'width: 10em'])}}
 
                                         {!!Form::close()!!}
                                     </td>
@@ -155,20 +182,31 @@
 
             <br>
             <br>
-
-            @if(count($subjectStudentsNoGroup)==0 or $numberGroupsInsideProject == $projectMaxGroups or in_array($user,$studentsIdGroupValues))
+            @if(count($subjectStudentsNoGroup)==0 or $numberGroupsInsideProject == $projectMaxGroups or in_array($user,$studentsIdGroupValues) )
 
                 <div style="padding-left:40%;margin-bottom: 20%">
                     <button type="button" class="btn btn-primary disabled " data-toggle ="modal" style="width: 11em" ><i class="fas fa-plus-circle"></i> {{__('gx.create group')}} </button>
-                    <button  type="button" class="btn btn-info disabled" data-toggle="modal" style="width: 11em"><i class="far fa-user-graduate"></i>{{__('gx.student sugestions')}}</button>
+                    <button  type="button" id="btn2" class="btn btn-info disabled" data-toggle="modal" style="width: 11em"><i class="far fa-user-graduate"></i>{{__('gx.student sugestions')}}</button>
                 </div>
             @else
                 <div style="padding-left:40%;margin-bottom: 20%">
                     <button id="btn_criargrupo" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCriarGrupo" style="width: 12em"><i class="fas fa-plus-circle"></i> {{__('gx.create group')}}</button>
-                    <button  type="button" class="btn btn-info" data-toggle="modal" data-target="#modalSugestaoGrupo" style="width: 12em"><i class="fas fa-user-graduate"></i> {{__('gx.student sugestions')}}</button>
+                    <button id="btn_sugestoes" type="button" class="btn btn-info" data-toggle="modal" data-target="#modalSugestaoGrupo" style="width: 12em"><i class="fas fa-user-graduate"></i> {{__('gx.student sugestions')}}</button>
                 </div>
 
             @endif
+            <script>
+                if (updateTimer2()){
+                    document.getElementById("btn_criargrupo").disabled = true;
+                    document.getElementById("btn_sugestoes").disabled = true;
+                    var elems = document.getElementsByClassName("btn_joinGroup");
+                    for(var i = 0; i < elems.length; i++) {
+                        elems[i].disabled = true;
+                    }
+                }
+            </script>
+
+
             <style>
                 @media screen and (max-width: 750px){
                     #btn_criargrupo {
@@ -272,7 +310,7 @@
                                     <td>{{$studentInfo->name}}</td>
                                     <td>{{$studentInfo->uniNumber}}</td>
                                     <td>{{$studentInfo->class}}</td>
-                                    <td>{{$studentInfo->grade}}</td>
+                                    <td></td>
                                     <td><p><a onclick='chat()' data-dismiss="modal"><i class="fa fa-envelope" style="font-size: 1.5em;padding-top:10%;cursor: pointer;"></i></a></p></td>
                                 </tr>
 

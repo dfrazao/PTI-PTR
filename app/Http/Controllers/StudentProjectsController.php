@@ -216,7 +216,7 @@ class StudentProjectsController extends Controller
                 $eval->status = $request->status;
                 $eval->save();
             }
-            return redirect()->to("/student/project/". $idProject . '#submission')->with('success', 'Grade sent successfully');
+            return redirect()->to("/student/project/". $idProject . '#submission')->with('success', trans('gx.gradeSucc'));
 
         } else {
             $my_id = $user = Auth::id();
