@@ -45,7 +45,7 @@
             <a class="nav-link" id="submission-tab" data-toggle="tab" href="#submission" role="tab" aria-controls="submission" aria-selected="false">{{__('gx.submission')}}</a>
         </li>
         <li class="rightbutton ml-auto">
-            <button  type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalLeaveGroup" style="width: 11em">{{__('gx.leave group')}}</button>
+            <button  type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalLeaveGroup" style="width: 11em"><i class="far fa-sign-out mr-2"></i>{{__('gx.leave group')}}</button>
             <div id="modalLeaveGroup" class="modal" tabindex="-1" role="dialog" >
                 <div class="modal-dialog modal-lg" >
                     <div class="modal-content" >
@@ -346,7 +346,7 @@
                                 {!!Form::close()!!}
                             </div>--}}
                         <button type="submit" disabled class="btn btn-primary btn-sm" id='submitFile' data-toggle="modal" data-target="#modalSubmitFile" style="width:20vh; color: white; position: absolute; bottom: 7px; right: 22px;">{{__('gx.submit')}}</button>
-                        <button type="button" class="p-2 btn btn-primary btn-sm stopYear" data-toggle="modal" data-target="#modalAddFile" style="position: absolute; bottom: 0; right: 22vh;" data-toggle="modal">{{__('gx.upload files')}}</button>
+                        <button type="button" class="p-2 btn btn-primary btn-sm stopYear" data-toggle="modal" data-target="#modalAddFile" style="position: absolute; bottom: 0; right: 22vh;" data-toggle="modal"><i class="fas fa-upload mr-2"></i>{{__('gx.upload files')}}</button>
 
                         {{-- Modal Submit File --}}
                         <div class="modal fade" id="modalSubmitFile" aria-labelledby="modalSubmitFile" aria-hidden="true" tabindex="-1" role="dialog">
@@ -443,7 +443,10 @@
                 <div id="3col" class="col-lg-4 mt-3">
                     <div id="col_notes" class="row rounded h-50 pr-3">
                         <div id="col_notes_fundo" class="container-fluid rounded notes pt-2" style="background-color: #ffe680; " >
-                            <h5 class="text-center">{{__('gx.notes')}}</h5>
+                            <div>
+                                <h5 class="text-center"><i class="fas fa-pen mr-2"></i>{{__('gx.notes')}}</h5>
+                            </div>
+
                             {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST', 'id'=>'notesForm']) !!}
                             @csrf
                             {{Form::textarea('notes', $notes, ['class' => 'form-control', 'id'=>'textarea-notes', 'rows'=>'15', 'maxlength' => 500])}}
@@ -571,7 +574,7 @@
                                             <td id="task_b">{{$t->beginning}}</td>
                                             <td id="task_e">{{$t->end}}</td>
                                             <td>{{$t->duration}}</td>
-                                            <td class="float-right pr-0"><button id="edit_tasks"  type="button" class="btn btn-sm btn-success editTask mr-md-2">{{__('gx.edit')}}</button><button type="button" id="delete_tasks" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalDelete-{{$t->idTask}}">{{__('gx.delete')}}</button></td>
+                                            <td class="float-right pr-0"><button id="edit_tasks"  type="button" class="btn btn-sm btn-success editTask mr-md-2"><i class="fas fa-edit mr-2"></i>{{__('gx.edit')}}</button><button type="button" id="delete_tasks" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalDelete-{{$t->idTask}}"><i class="fal fa-trash mr-2"></i>{{__('gx.delete')}}</button></td>
                                         </tr>
                                         <tr class="d-none" id="{{$t->idTask}}-edit">
                                             @csrf
@@ -701,7 +704,7 @@
                             </table>
                         </div>
                         <div class="container-fluid pt-3 mr-2" style="position: relative">
-                            <button type="button" class="btn btn-primary btn-sm open_modal" id="{{$idGroup}}" style="width:20vh; color: white;position: absolute; bottom: 0px; right: 0px;">{{__('gx.new task')}}</button>
+                            <button type="button" class="btn btn-primary btn-sm open_modal" id="{{$idGroup}}" style="width:20vh; color: white;position: absolute; bottom: 0px; right: 0px;"><i class="fas fa-plus mr-2"></i>{{__('gx.new task')}}</button>
                         </div>
                     </div>
                 </div>
@@ -971,7 +974,7 @@
                         </table>
                     </div>
                     <div id="wrapper" class="container-fluid pt-3 " style="position: relative">
-                        <button type="submit" class="btn btn-primary float-right btn-sm mr-2" id="newMeeting" data-toggle="modal" data-target="#modalCreateMeeting">{{__('gx.new meeting')}}</button>
+                        <button type="submit" class="btn btn-primary float-right btn-sm mr-2" id="newMeeting" data-toggle="modal" data-target="#modalCreateMeeting"><i class="fas fa-plus mr-2"></i>{{__('gx.new meeting')}}</button>
                     </div>
                 </div>
             </div>
@@ -1040,7 +1043,7 @@
             </div>
         </div>
         <div class="tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
-            <button type="button" class="p-2 mt-3 mr-3 btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#modalCreatePost">{{__('gx.create post')}}</button>
+            <button type="button" class="p-2 mt-3 mr-3 btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#modalCreatePost"><i class="fas fa-plus mr-2"></i>{{__('gx.create post')}}</button>
 
             <div class="container rounded pb-3 pt-3">
                 <div class="table-responsive-xl pt-2">

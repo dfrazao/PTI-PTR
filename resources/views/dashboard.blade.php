@@ -295,7 +295,7 @@
                                     <div class="overflow-auto p-2 mt-2 rounded cadeira" type="button" id="{{$subject->idSubject}}" style="background-color: #c6c6c6;">
                                         <h4 class="mt-2 pl-2 float-left">{{$subject->name}}</h4>
                                         @if ($subject->projNumb > 0)
-                                            <i class="fas fa-dot-circle" style="display: inline-block;color: #00b44e;"></i>
+                                            <i class="fas fa-circle ml-2 mt-3" style="display: inline-block;color: #00ce59;"></i>
                                         @endif
                                         <button style="color:#2c3fb1" type="button" class="btn btn-default btn-lg float-right" id="button-{{$subject->idSubject}}">
                                             <span class="fas fa-plus"></span>
