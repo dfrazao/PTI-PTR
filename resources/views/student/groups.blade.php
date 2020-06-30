@@ -3,6 +3,7 @@
     <head>
         <title>{{__('gx.groups')}}</title>
     </head>
+    <body onload="sortTable()">
     <div class="container-fluid pl-4 pr-4 pb-2 mt-3">
         @include('layouts.messages')
         <nav id="breadcrumb" aria-label="breadcrumb" >
@@ -48,6 +49,45 @@
                     }
                 }
             </style>
+
+            <script>
+                function sortTable() {
+                    var table, i, x, y;
+                    table = document.getElementById("tabelagrupos");
+                    var switching = true;
+
+                    // Run loop until no switching is needed
+                    while (switching) {
+                        switching = false;
+                        var rows = table.rows;
+
+                        // Loop to go through all rows
+                        for (i = 1; i < (rows.length - 1); i++) {
+                            var Switch = false;
+
+                            // Fetch 2 elements that need to be compared
+                            x = rows[i].getElementsByTagName("TD")[0];
+                            y = rows[i + 1].getElementsByTagName("TD")[0];
+
+                            // Check if 2 rows need to be switched
+                            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase())
+                            {
+
+                                // If yes, mark Switch as needed and break loop
+                                Switch = true;
+                                break;
+                            }
+                        }
+                        if (Switch) {
+                            // Function to switch rows and mark switch as completed
+                            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                            switching = true;
+                        }
+                    }
+                }
+
+            </script>
+
             <script>
                 function updateTimer1() {
                     future = Date.parse("{{$project->groupCreationDueDate}}");
@@ -114,7 +154,7 @@
 
             <br>
             <div class="table-responsive rounded" >
-                <table  class="table bg-white table-striped">
+                <table  class="table bg-white table-striped" id="tabelagrupos">
                     <thead>
                     <tr id="table_groups">
                         <th class="text-center">{{__('gx.group')}}</th>
@@ -125,7 +165,7 @@
                     </thead>
                     <style>
                         #table_groups{
-                            font-size: 1.3vh;
+                            font-size: 1.8vh;
                         }
                     </style>
                     <tbody class="t-body" style="text-align: center">
@@ -147,9 +187,9 @@
 
 
                                 @if(count($students_per_group[$groupN]) == $projectMaxElements)
-                                    <td><button type="button" class="btn btn-danger" style="width: 10em" disabled><i class="fas fa-ban"></i> {{__('gx.group full')}}</button> </td>
+                                    <td><button type="button" class="btn btn-danger" style="width: 12em" disabled><i class="fas fa-ban"></i> {{__('gx.group full')}}</button> </td>
                                 @elseif(in_array($user,$studentsIdGroupValues))
-                                    <td><button type="button" class="btn btn-primary disabled" style="width: 10em" disabled> <i class="fas fa-sign-in-alt"></i> {{__('gx.join group')}}</button> </td>
+                                    <td><button type="button" class="btn btn-primary disabled" style="width: 12em" disabled> <i class="fas fa-sign-in-alt"></i> {{__('gx.join group')}}</button> </td>
                                 @else
                                     <td>
                                         @csrf
@@ -158,7 +198,7 @@
                                         {!!Form::hidden('idProject', $project->idProject)!!}
                                         {!!Form::hidden('idGroupJoin', $groupN)!!}
                                         {!!Form::hidden('_method','PUT')!!}
-                                        {{Form::button('<i class="fas fa-sign-in-alt"></i> '.trans('gx.join group'),['type' => 'submit','class'=>'btn btn-primary btn_joinGroup'],['style'=>'width: 10em'])}}
+                                        {{Form::button('<i class="fas fa-sign-in-alt"></i> '.trans('gx.join group'),['type' => 'submit','class'=>'btn btn-primary btn_joinGroup'],['style'=>'width: 12em'])}}
 
                                         {!!Form::close()!!}
                                     </td>
@@ -303,7 +343,7 @@
                     </div>
                     <div class="modal-body" style="display: inline" >
                         <h5>{{__('gx.sorted by average')}}</h5>
-                        <table id="datatable2" class="display table-bordered rounded">
+                        <table id="datatable2" class="display rounded">
                             <thead >
                             <tr style="font-size: 1.3vh">
                                 <th>{{__('gx.name')}}</th>
@@ -499,7 +539,6 @@
             background-color: #f5f8ff; // Choose your own color here
         }
     </style>
-
-
+    </body>
 @endsection
 

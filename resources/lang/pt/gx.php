@@ -143,7 +143,7 @@ return [
     'title'                     => 'Título',
     'beginning date'            => 'Data de Início',
     'meetings'                  => 'Reuniões',
-    'number'                    => 'Numéro',
+    'number'                    => 'Número',
     'description'               => 'Descrição',
     'create new meeting'        =>  'Criar nova reunião',
     'date'                      => 'Data',
@@ -417,6 +417,7 @@ return [
 
 
     //posts
+
     'content' => 'Conteúdo',
     'schedule' => 'Horário',
     'posted on' => 'Publicado em',
@@ -431,7 +432,7 @@ return [
     'delete comment' => 'Elimnar Comentário',
     'areyousuredeletethispost' =>'Tem a certeza que deseja elimnar esta publicação?',
     're:' => 'Re',
-    'by' => 'By',
+    'by' => 'Por',
     'delete comment' => 'Apagar Comentário',
     'areyousuredeletethiscomment' => 'Tem a certeza que deseja eliminar este comentário?',
     'words in the post' => 'Palavras na publicação',
@@ -459,7 +460,7 @@ return [
                         disponibilidade dos outros membros dos grupos. Outra funcionalidade é a criação de uma reunião com os membros do grupo, especifando a descrição o sítio e a data da mesma.',
 
     'helpProjectStud3' => 'Nesta área o utilizador consegue aceder ao fórum do projeto, ver publicações de outros estudante e professores , conseguindo criar publicações com um título e um corpo de texto.',
-    'helpProjectStud4' => 'Nesta área o utilizador consegue submeter ficheiros do grupo para avaliação, e avaliar a participação de cada membro do grupo no desenvolviemtno do projeto (escala: 1-5 estrelas).',
+    'helpProjectStud4' => 'Nesta área o utilizador consegue submeter ficheiros do grupo para avaliação, e avaliar a participação de cada membro do grupo no desenvolviemtno do projeto (escala: 1-5 estrelas) 1 estrela : nota mínima , 5 estrelas : nota máxima.',
 
     'helpGroupStud' => 'Ao clicar neste botão, um modal será exibido e o utilizador poderá criar um grupo de trabalho para o projeto , o utilizador pode adicionar
     outros estudantes que pertençam à mesma unidade curricular que ainda não tenho grupo até ao momento, ou o utilizador poderá criar um grupo apenas com um elemento(grupo apenas com o utilizador).Quando o utilizador cria o grupo , será redirecionado para a página do projeto.

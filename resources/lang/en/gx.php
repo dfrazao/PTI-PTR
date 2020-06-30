@@ -362,7 +362,7 @@ return [
     'delete post' => 'Delete Post',
     'delete comment' => 'Delete Comment',
     'areyousuredeletethispost' =>'Are you sure you want to delete this post?',
-    're:' => 'Re',
+    're' => 'Re',
     'by' => 'By',
     'delete comment' => 'Delete Comment',
     'areyousuredeletethiscomment' => 'Are you sure you want to delete this comment?',
@@ -412,7 +412,7 @@ return [
     'helpProjectStud2' => 'In this area , the user can mark his weekly availability by clicking in the desired schedule cells, the user can watch the other group elements weekly availability.
                         Another feature is that the user can create a new group meeting specifying the meeting description, place and date.',
     'helpProjectStud3' => 'In this area , the user can access the project forum, checking posts from other students and professors for the specific project , the user can create a post with a title and body.',
-    'helpProjectStud4' => 'In this area , the user can submit the group files and grade the group members participation (scale: 1-5 stars).',
+    'helpProjectStud4' => 'In this area , the user can submit the group files and grade the group members participation (scale: 1-5 stars)  1 star : minimum grade , 5 stars : maximum grade.',
 
     'helpGroupStud' => 'When clicking this button a modal will prompt and the user can create a work group for the current project , the user can add other students that belong to the same subject but don\'t have a group yet , or the user can create a group only with 1 member(himself).
                         When the user creates a group , he will be redirected to the project, if reached the maximum number of groups the user won\'t be able to create a group , instead he must join an existing one.',
