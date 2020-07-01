@@ -166,7 +166,7 @@
         </div>
     </div>
 </div>
-<script>
+{{--<script>
     dragElement(document.getElementById("este"));
 
     function dragElement(elmnt) {
@@ -211,17 +211,18 @@
             sessionStorage.setItem('chat-pos', $("#este").position().left+';'+$("#este").position().top)
         }
     }
-</script>
+</script>--}}
 <style>
     #este {
-        position: fixed;
+        position: relative;
+        right: 10%;
+        top: 7%;
         z-index: 9;
         background-color: #f1f1f1;
         border: 1px solid #d3d3d3;
         text-align: center;
     }
     #esteheader {
-        cursor: move;
         z-index: 10;
     }
     /* width */
@@ -422,9 +423,18 @@
         display: none;
         
     }
-    @media screen and (max-width: 800px) {
+    @media screen and (max-width: 500px) {
         #este{
-            width: 90%;!important;
+            position: fixed;
+            width: 90%;
+            right: 5%;
+        }
+        .user-wrapper {
+            height: 300px;
+            border-right: 1px solid #dddddd;
+        }
+        .message-wrapper{
+            height: 300px;
         }
         #col-md-4{
             width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
@@ -442,6 +452,22 @@
             height: 300px;
         }
         .col-sm-8 {
+            height: 300px;
+        }
+    }
+    @media screen and (max-width: 800px) {
+        #este {
+            position: fixed;
+            width: 70%;
+            right: 15%;
+        }
+
+        .user-wrapper {
+            height: 300px;
+            border-right: 1px solid #dddddd;
+        }
+
+        .message-wrapper {
             height: 300px;
         }
     }
