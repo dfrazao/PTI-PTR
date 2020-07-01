@@ -286,7 +286,7 @@
                             <!--<h6 style="padding-top: 2%">Sel</h6>-->
                             <table id="datatable" class="display">
                                 <thead>
-                                <tr style="font-size: 1.3vh">
+                                <tr style="font-size: 1.7vh">
                                     <th class="text-center">{{__('gx.name')}}</th>
                                     <th class="text-center">{{__('gx.student number')}}</th>
                                     <th class="text-center">{{__('gx.class')}}</th>
@@ -298,7 +298,7 @@
 
                                 <tbody class="t-body">
                                 @foreach($subjectStudentsNoGroup as $studentInfo)
-                                    <tr style="font-size: 1.3vh">
+                                    <tr style="font-size: 1.7vh">
                                         <td class="text-center">{!!Form::label('nameStudent', $studentInfo->name)!!}</td>
                                         <td class="text-center">{!!Form::label('uniNumber', $studentInfo->uniNumber)!!}</td>
                                         <td class="text-center">{!!Form::label('class', $studentInfo->class)!!}</td>
@@ -342,7 +342,7 @@
                         <h5>{{__('gx.sorted by average')}}</h5>
                         <table id="datatable2" class="display rounded">
                             <thead >
-                            <tr style="font-size: 1.3vh">
+                            <tr style="font-size: 1.7vh">
                                 <th class="text-center">{{__('gx.name')}}</th>
                                 <th class="text-center">{{__('gx.student number')}}</th>
                                 <th class="text-center">{{__('gx.class')}}</th>
@@ -352,7 +352,7 @@
                             </thead>
                             <tbody class="t-body">
                             @foreach($stdSugestWGrade as $studentInfo)
-                                <tr style="font-size: 1.3vh">
+                                <tr style="font-size: 1.7vh">
                                     <td class="text-center">{{$studentInfo->name}}</td>
                                     <td class="text-center">{{$studentInfo->uniNumber}}</td>
                                     <td class="text-center">{{$studentInfo->class}}</td>

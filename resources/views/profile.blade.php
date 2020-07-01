@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <head>
-    <title>Profile</title>
+    <title>{{__('gx.profile')}}</title>
 </head>
 <div class="container-xl-fluid mt-4 pl-5 pr-5 pb-2">
     @include('layouts.messages')

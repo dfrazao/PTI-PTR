@@ -11,9 +11,9 @@ return [
     'subjects'                  => 'Unidades curriculares',
     'submit'                    => 'Submeter',
     'delete'                    => 'Apagar',
-    'current password'          => 'Palavra-passe Atual',
-    'new password'              => 'Palavra-passe Nova',
-    're-enter password'         => 'Repita a Palavra-passe',
+    'current password'          => 'Palavra-passe atual',
+    'new password'              => 'Palavra-passe nova',
+    're-enter password'         => 'Repita a palavra-passe',
     'group'                     => 'Grupo',
     'name'                      => 'Nome',
     'documentation'             => 'Documentação',
@@ -72,9 +72,9 @@ return [
     'city'                      => 'Cidade',
     'joined'                    => 'Juntou',
     'last online'               => 'Última vez online',
-    'little about me'           => 'Um Pouco Acerca de Mim',
+    'little about me'           => 'Um pouco acerca de mim',
     'change profile photo'      => 'Mudar foto de perfil',
-    'edit profile'              => 'Editar Perfil',
+    'edit profile'              => 'Editar perfil',
     'about'                     => 'Sobre',
     'send a message'            => 'Enviar uma mensagem',
     'choose a new profile photo'=> 'Escolha uma nova foto de perfil',
@@ -83,7 +83,7 @@ return [
     'admin'                     => 'Administrator',
     'no description others'     => 'Este utilizador não tem descrição.',
     'no description yourself'   => 'Não tem descrição.',
-    'edit password'             => 'Editar Palavra-passe',
+    'edit password'             => 'Editar palavra-passe',
 
 
 
@@ -93,16 +93,16 @@ return [
     'groups'                   =>'Grupos',
     'group creation'          => 'Criação de grupo',
     'id'                      => 'ID',
-    'nº elements'             => 'Nº Elementos',
+    'nº elements'             => 'Nº elementos',
     'elements'                => 'Elementos',
-    'create group'            => 'Criar Grupo',
+    'create group'            => 'Criar grupo',
     'student sugestions'      => 'Sugestões de alunos',
     'join group'              => 'Juntar ao grupo',
     'name'                    => 'Nome',
     'student number'          => 'Número estudante',
     'class'                   => 'Turma',
-    'min elements'            => 'Min Elementos',
-    'max elements'            => 'Max Elementos',
+    'min elements'            => 'Min elementos',
+    'max elements'            => 'Max elementos',
     'cancel'                  => 'Cancelar',
     'close'                   => 'Fechar',
     'successfully left group' => 'Deixou com sucesso o grupo',
@@ -111,7 +111,7 @@ return [
     'search'                  => 'Pesquisar',
     'group full'              => 'Grupo cheio',
     'no groups found'         => 'Ainda não foram criados grupos.',
-    'join/create group'       => 'Juntar/Criar Grupo',
+    'join/create group'       => 'Juntar/Criar grupo',
 
 
     //project
@@ -266,9 +266,9 @@ return [
     'adminImportCoursesData'=>'Importar dados de curso',
     'adminIdCourses' => 'Id Curso',
     'adminIdUniversity'=>'IdUniversidade',
-    'adminUniversityName' => 'Nome Universidade',
+    'adminUniversityName' => 'Nome universidade',
     'adminImportStudentsData' => 'Importar dados de alunos',
-    'adminEditEnrollment' => 'Editar Matrículas',
+    'adminEditEnrollment' => 'Editar matrículas',
     'adminSubjectEnrollments' => 'Matrículas de unidade curricular',
     'adminIdUser'   => 'Id utilizador',
     'adminUserName' => 'Nome utilizador',
@@ -436,12 +436,12 @@ return [
     'edit post' => 'Editar publicação',
     'title' => 'Título',
     'body' => 'Corpo',
-    'delete post' => 'Apagar Publicação',
-    'delete comment' => 'Elimnar Comentário',
+    'delete post' => 'Apagar publicação',
+    'delete comment' => 'Elimnar comentário',
     'areyousuredeletethispost' =>'Tem a certeza que deseja elimnar esta publicação?',
     're:' => 'Re',
     'by' => 'Por',
-    'delete comment' => 'Apagar Comentário',
+    'delete comment' => 'Apagar comentário',
     'areyousuredeletethiscomment' => 'Tem a certeza que deseja eliminar este comentário?',
     'words in the post' => 'Palavras na publicação',
 
@@ -495,7 +495,7 @@ return [
 
 
     'helpProjectProf2' => 'Nesta área o utilizador consegue observar os ficheiros que foram submetidos pelo grupo , os elementos do grupo e a avaliação do trabalho de equipa de cada um dos elementos. O utilizador
-consegue atribuir uma nota ao grupo com a possibilidade de alterar a nota atribuída.',
+consegue atribuir uma nota ao grupo com a possibilidade de alterar a nota atribuída. O símbolo de confirmação junto à identificação do grupo significa que o grupo já foi avaliado.',
 
     'helpProjectProf3' =>'Nesta área o utilizador consegue aceder ao fórum do projeto, observar posts de alunos relacionados com o projeto em causa, conseguindo também criar um post , ou responder a
     um já existente.' ,
@@ -505,7 +505,7 @@ consegue atribuir uma nota ao grupo com a possibilidade de alterar a nota atribu
     'joinedGroupN' => 'Juntou-se ao grupo',
     'leftGroupN' => 'Saiu do grupo',
 
-
+    'profile' =>'Perfil',
     'numSubmissions' => 'Número de submissões',
     'noGroupsFormed' => 'Não existem grupos formados até ao momento.',
     'noInfoGroups' => 'Nenhuma informação relativa a grupos.',
