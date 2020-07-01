@@ -114,7 +114,7 @@ WHERE groupChats.id in (SELECT max(groupChats.id) as max_id
 
                         foreach ($novo as $key => $one){
                             if($key == $my_id){
-                                if($one == 0){
+                                if($one == 0 ){
                                     $output .=
                                         "<li class='group' id='group".$p->idGroup."' name=''>".
                                         "<span class='pending'></span>" .
