@@ -71,7 +71,7 @@
         </li>
     </ul>
 
-    <div class="tab-content pb-3 ml-0 mr-0" id="myTabContent" style="min-height: 75vh; background-color: #c6c6c6;">
+    <div class="tab-content pb-3 ml-0 mr-0" id="myTabContent" style="min-height: 75vh; background-color: #d4d4d4;">
         <div class="container-fluid fade tab-pane " id="content" role="tabpanel" aria-labelledby="content-tab">
             <div id="row1" class="row rounded">
                 <style>
@@ -432,7 +432,7 @@
                         }
                         #col_notes{
                             margin-left: 0.8%;
-                            margin-bottom: 5%;
+                            margin-bottom: 10%;
                         }
 
                     }
@@ -1137,7 +1137,7 @@
             </div>
         </div>
         <div class="container-fluid fade tab-pane" id="submission" role="tabpanel" aria-labelledby="submission-tab">
-            <div class="row rounded" style="height:75vh">
+            <div class="row rounded" {{--style="height:75vh"--}}>
                 <div id="submission_row" class="col-lg-7 pb-3">
                     <div class="container-fluid mb-3 mt-3 pt-2 h-100 rounded" style="background-color: white;">
                         <h5 class="text-center">Submission information</h5>
@@ -1538,8 +1538,8 @@
         }
     }
      .nav-tabs .nav-link.active{
-         background-color: #c6c6c6;
-         border-color: #c6c6c6;
+         background-color: #d4d4d4;
+         border-color: #d4d4d4;
      }
     .nav-tabs .nav-link{
         color: #2c3fb1;
