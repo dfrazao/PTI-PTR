@@ -104,70 +104,82 @@
 
                             <div class="dropdown-container" >
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuOffset" style="max-height: 400px; overflow-y: scroll;" >
-                                    @foreach(Auth::user()->Notifications as $notification)
-                                        @if($notification->unread())
+                                    @if(count(Auth::user()->Notifications) == 0)
+                                            <div class="media">
+                                                <div class="media-left">
 
-                                            @if(Auth::user()->role == "student")
-                                                    <a class="dropdown-item" href="/student/project/{{$notification->data['idProject']}}" style="padding: 5px; !important; background: rgba(255,80,95,0.23); ">
-                                            @elseif(Auth::user()->role == "professor")
-                                                    <a class="dropdown-item" href="/professor/project/{{$notification->data['idProject']}}" style="padding: 5px; !important; background: rgba(255,80,95,0.23); ">
-                                            @endif
-                                                <div class="media">
-                                                    <div class="media-left">
-                                                        <div class="media-object">
+                                                </div>
+                                                <div class="media-body">
+                                                    <p class="notification-desc">You have no notifications</p>
+                                                </div>
+                                            </div>
+                                    @else
 
-                                                            <script>
-                                                                $('#notifications').click(function () {
-                                                                    $('.pending_not').remove();
-                                                                    <?php
-                                                                    $usernot = \App\User::find($notification->data['user_id']);
-                                                                    $notification->markAsRead();
-                                                                    ?>
+                                        @foreach(Auth::user()->Notifications as $notification)
+                                            @if($notification->unread())
+                                                @if(Auth::user()->role == "student")
+                                                        <a class="dropdown-item" href="/student/project/{{$notification->data['idProject']}}" style="padding: 5px; !important; background: rgba(255,80,95,0.23); ">
+                                                @elseif(Auth::user()->role == "professor")
+                                                        <a class="dropdown-item" href="/professor/project/{{$notification->data['idProject']}}" style="padding: 5px; !important; background: rgba(255,80,95,0.23); ">
+                                                @endif
+                                                    <div class="media">
+                                                        <div class="media-left">
+                                                            <div class="media-object">
 
-                                                                });
-                                                            </script>
-                                                            <img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$usernot->photo)}}">
+                                                                <script>
+                                                                    $('#notifications').click(function () {
+                                                                        $('.pending_not').remove();
+                                                                        <?php
+                                                                        $usernot = \App\User::find($notification->data['user_id']);
+                                                                        $notification->markAsRead();
+                                                                        ?>
+
+                                                                    });
+                                                                </script>
+                                                                <img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$usernot->photo)}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="media-body">
+                                                            <span class="notification-title">{{$usernot->name}}</span> <small> - {{$notification->created_at->diffForHumans()}}</small>
+                                                            <p class="notification-desc">{{$notification->data['action']}} on {{$notification->data['projectName']}} - {{$notification->data['subject']}}</p>
                                                         </div>
                                                     </div>
-                                                    <div class="media-body">
-                                                        <span class="notification-title">{{$usernot->name}}</span> <small> - {{$notification->created_at->diffForHumans()}}</small>
-                                                        <p class="notification-desc">{{$notification->data['action']}} on {{$notification->data['projectName']}} - {{$notification->data['subject']}}</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        @else
-                                            @if(Auth::user()->role == "student")
-                                                <a class="dropdown-item" href="/student/project/{{$notification->data['idProject']}}" style="padding: 5px; !important; border-bottom: 1px solid #e7ebee;  ">
-                                            @elseif(Auth::user()->role == "professor")
-                                                    <a class="dropdown-item" href="/professor/project/{{$notification->data['idProject']}}" style="padding: 5px; !important;  ">
-                                            @endif
-                                                <div class="media" style="padding: 3px;">
-                                                    <div class="media-left">
-                                                        <div class="media-object">
-                                                            <?php
-                                                            $usernot = \App\User::find($notification->data['user_id']);
-                                                            $notification->markAsRead();
-                                                            ?>
-                                                            <script>
-                                                                $('#notifications').click(function () {
-                                                                    $('.pending_not').remove();
-                                                                });
-                                                            </script>
-                                                            <img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$usernot->photo)}}">
+                                                </a>
+                                            @else
+                                                @if(Auth::user()->role == "student")
+                                                    <a class="dropdown-item" href="/student/project/{{$notification->data['idProject']}}" style="padding: 5px; !important; border-bottom: 1px solid #e7ebee;  ">
+                                                @elseif(Auth::user()->role == "professor")
+                                                        <a class="dropdown-item" href="/professor/project/{{$notification->data['idProject']}}" style="padding: 5px; !important;  ">
+                                                @endif
+                                                    <div class="media" style="padding: 3px;">
+                                                        <div class="media-left">
+                                                            <div class="media-object">
+                                                                <?php
+                                                                $usernot = \App\User::find($notification->data['user_id']);
+                                                                $notification->markAsRead();
+                                                                ?>
+                                                                <script>
+                                                                    $('#notifications').click(function () {
+                                                                        $('.pending_not').remove();
+                                                                    });
+                                                                </script>
+                                                                <img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$usernot->photo)}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="media-body">
+                                                            <span class="notification-title">{{$usernot->name}}</span><small> - {{$notification->created_at->diffForHumans()}}</small>
+                                                            <p class="notification-desc">{{$notification->data['action']}} on {{$notification->data['projectName']}} - {{$notification->data['subject']}}</p>
                                                         </div>
                                                     </div>
-                                                    <div class="media-body">
-                                                        <span class="notification-title">{{$usernot->name}}</span><small> - {{$notification->created_at->diffForHumans()}}</small>
-                                                        <p class="notification-desc">{{$notification->data['action']}} on {{$notification->data['projectName']}} - {{$notification->data['subject']}}</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            @endif
+                                                </a>
+                                                @endif
 
-                                    @endforeach
+                                        @endforeach
                                 </div>
                             </div>
                         </li>
+
+                    @endif
 
                         @if ($notification_chat === 0)
                                 <li class="nav-item dropdown dropdown-notifications">

@@ -33,9 +33,15 @@
                         <li class="nav-item">
                             <a class="nav-link active" id="tabusers" data-toggle="tab" href="#users"><i class="far fa-user" ></i> </a>
                         </li>
+                        @if(Auth::check() == true)
+                        @if(Auth::user()->role != "professor")
+
                         <li class="nav-item">
                             <a class="nav-link" id="tabgroups" data-toggle="tab" href="#groups" > <i class="far fa-users"></i></a>
                         </li>
+                            @endif
+                        @endif
+
                     </ul>
 
                     <!-- Tab panes -->
@@ -95,6 +101,10 @@
                                 @endif
                             </ul>
                         </div>
+                        @if(Auth::check() == true)
+
+                        @if(Auth::user()->role != "professor")
+
                         <div id="groups" class="tab-pane fade"><br>
                             <ul class="groups">
                                 @foreach ($collection as $col )
@@ -113,6 +123,9 @@
                                 @endforeach
                             </ul>
                         </div>
+                        @endif
+                        @endif
+
                     </div>
                 </div>
             </div>

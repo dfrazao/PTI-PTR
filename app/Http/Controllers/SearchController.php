@@ -24,12 +24,12 @@ class SearchController extends Controller
                 if($request->entity == "person") {
                     $my_id = Auth::id();
                     $mu = DB::select('select m.*
-    from chats m
-    where m.id in (select max(m.id) as max_id
-                   from chats m
-                   WHERE m.sender = ' . $my_id . ' or m.receiver = ' . $my_id . '
-                   group by least(m.receiver, m.sender), greatest(m.receiver, m.sender))
-                   order by m.Date DESC');
+                                    from chats m
+                                    where m.id in (select max(m.id) as max_id
+                                                   from chats m
+                                                   WHERE m.sender = ' . $my_id . ' or m.receiver = ' . $my_id . '
+                                                   group by least(m.receiver, m.sender), greatest(m.receiver, m.sender))
+                                                   order by m.Date DESC');
 
                     $arr_users = [];
                     foreach ($mu as $m){
