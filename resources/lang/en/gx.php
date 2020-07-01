@@ -319,6 +319,7 @@ return [
     'delivery time' => 'Delivery time',
     'maximum no. of groups' => 'Maximum No. of groups',
     'minimum no. of groups' => 'Minimum No. of groups',
+    'project maxGrade' => 'Maximum grade',
     'maximum no. of elements group' => 'Maximum No. of elements per group',
     'minimum no. of elements group' => 'Minimum No. of elements per group',
     'number of groups' => 'Number of groups',

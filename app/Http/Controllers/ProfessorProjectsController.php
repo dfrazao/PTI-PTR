@@ -55,7 +55,8 @@ class ProfessorProjectsController extends Controller
                 'deadline' => 'required',
                 'group_formation_deadline' => 'required',
                 'minNumber' => 'integer|lte:maxNumber',
-                'maxNumber' => 'integer'
+                'maxNumber' => 'integer',
+                'maxGrade' => 'required'
             ],[
                 'title.required' => trans('gx.titleReq'),
                 'deadline.required' => trans('gx.deadlineReq'),
@@ -69,6 +70,7 @@ class ProfessorProjectsController extends Controller
             $project->groupCreationDueDate = Carbon::parse($request->group_formation_deadline);
             $project->minElements = $request->minNumber;
             $project->maxElements = $request->maxNumber;
+            $project->maxGrade = $request->maxGrade;
             $project->idSubject = $request->subject;
             $project->maxGroups = SubjectEnrollment::all()->where('idSubject', '==', $request->subject)->count();
             $project->save();
@@ -292,6 +294,7 @@ class ProfessorProjectsController extends Controller
             $project->minElements = $request->minNumber;
             $project->maxElements = $request->maxNumber;
             $project->idSubject = $project->idSubject;
+            $project->maxGrade = $request->maxGrade;
 
             $project->maxGroups = SubjectEnrollment::all()->where('idSubject', '==', $request->subject)->count();
             $project->save();

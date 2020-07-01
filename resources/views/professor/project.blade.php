@@ -112,6 +112,10 @@
                                             {{Form::label('maxNumber', trans('gx.maximum no. of members'))}}
                                             {{Form::selectRange('maxNumber', 1, 10, $project->maxElements)}}
                                         </div>
+                                        <div class="form-group">
+                                            {{Form::label('maxGrade', trans('gx.project maxGrade'))}}
+                                            {{Form::number('maxGrade', $project->maxGrade , ['class' => 'form-control', 'step'=>'any','min'=>0,'max'=>$project->maxGrade])}}
+                                        </div>
                                         {{ Form::hidden('subject', $subject->idSubject) }}
                                         {{Form::hidden('option', 'project')}}
 
@@ -270,6 +274,10 @@
                                 <th class="info-th" scope="row">{{__('gx.maximum no. of elements group')}}</th>
                                 <td class="info-td" colspan="2">{{$project->maxElements}}</td>
                             </tr>
+                            <tr>
+                                <th class="info-th" scope="row">{{__('gx.project maxGrade')}}</th>
+                                <td class="info-td" colspan="2">{{$project->maxGrade}}</td>
+                            </tr>
                         </table>
                     </div>
 
@@ -279,10 +287,6 @@
                         <tr>
                             <th class="info-th" scope="row">{{__('gx.number of groups')}}</th>
                             <td class="info-td" colspan="2" >{{count($groups)}}</td>
-                        </tr>
-                        <tr>
-                            <th class="info-th" scope="row">{{__('gx.maximum no. of groups')}}</th>
-                            <td class="info-td" colspan="2">{{$project->maxGroups}}</td>
                         </tr>
                         <tr>
                             <th class="info-th" scope="row">{{__('gx.numSubmissions')}}</th>
@@ -772,7 +776,7 @@
                                                                                 {!! Form::open(['action' => 'ProfessorProjectsController@store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                                                                                 <div class="form-group">
                                                                                     {{Form::label('grade', trans('gx.project grade'))}}
-                                                                                    {{Form::number('grade', '', ['class' => 'form-control', 'step'=>'any'])}}
+                                                                                    {{Form::number('grade', '', ['class' => 'form-control', 'step'=>'any', 'min'=>0,'max'=>$project->maxGrade])}}
                                                                                 </div>
                                                                                 <div class="form-group">
                                                                                     {{Form::label('gradeComment', trans('gx.comment(opcional)'))}}
@@ -790,7 +794,7 @@
                                                             </div>
                                                         @endif
                                                     @elseif($group->grade != NULL and $project->dueDate <= date("Y-m-d H:i:s"))
-                                                        <p class="mb-0">{{__('gx.grade')}}: {{$group->grade}}</p>
+                                                        <p class="mb-0">{{__('gx.grade')}}: {{$group->grade}}/{{$project->maxGrade}}</p>
                                                         @if($group->gradeComment == NULL)
                                                             <p class="m-0">{{__('gx.no comments')}}</p>
                                                         @else
@@ -827,7 +831,7 @@
                                                                                 {!! Form::open(['action' => ['ProfessorProjectsController@update', $project->idProject], 'method' => 'PUT']) !!}
                                                                                 <div class="form-group">
                                                                                     {{Form::label('grade', trans('gx.project grade'))}}
-                                                                                    {{Form::number('grade', $group->grade, ['class' => 'form-control', 'step'=>'any'])}}
+                                                                                    {{Form::number('grade', $group->grade, ['class' => 'form-control', 'step'=>'any', 'min'=>0,'max'=>$project->maxGrade])}}
                                                                                 </div>
                                                                                 <div class="form-group">
                                                                                     {{Form::label('gradeComment', trans('gx.comment(opcional)'))}}

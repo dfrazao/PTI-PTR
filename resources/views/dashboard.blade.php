@@ -438,6 +438,10 @@
                         {{Form::selectRange('maxNumber', 1, 10)}}
                     </div>
                     <div class="form-group">
+                        {{Form::label('maxGrade', trans('gx.project maxGrade'))}}
+                        {{Form::number('maxGrade', '', ['class' => 'form-control', 'step'=>'any', 'with'=>50])}}
+                    </div>
+                    <div class="form-group">
                         {{Form::label('documentation', trans('gx.documentation'))}}
                         {{Form::file('documentation[]', ['multiple' => 'multiple'])}}
                     </div>
