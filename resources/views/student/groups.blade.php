@@ -405,6 +405,7 @@
     </script>
 
 
+    <link rel="stylesheet" type="text/css" href="{{asset('DataTables/datatables.min.css')}}"/>
     <script type="text/javascript" src="{{asset('DataTables/datatables.min.js')}}"></script>
 
     <script>$(document).ready( function () {

@@ -45,7 +45,6 @@ class ChatController extends Controller
 
     public function getMessage($entity, $user_id)
     {
-        dd($entity);
         if($entity === "group"){
 
             $my_id = Auth::id();
