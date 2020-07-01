@@ -711,7 +711,7 @@
                                                                             @else
                                                                                 <td style="width: 5%;"><i class="fad fa-file-code fa-2x pr-2"  id= '{{$docSub->idFile}}'></i></td>
                                                                             @endif
-                                                                            <td><a href="{{Storage::url('studentRepository/'.$group->idGroup.'/'.$docSub->pathFile)}}" target="_blank" class="downloadFile" download>{{$docSub->pathFile}}</a></td>
+                                                                            <td><a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$docSub->pathFile)}}" target="_blank" class="downloadFile" download>{{$docSub->pathFile}}</a></td>
                                                                             <td>{{$docSub->submissionTime}}</td>
                                                                             <td id="{{$docSub->pathFile}}-size">
                                                                             </td>

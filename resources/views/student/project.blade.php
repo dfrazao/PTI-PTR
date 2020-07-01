@@ -445,7 +445,7 @@
                                             <td><div id="{{$d->pathFile}}-size"></div>
                                             </td>
                                             <script>
-                                                document.getElementById('{{$d->pathFile}}-size').innerHTML = bytesToHuman({{Storage::size('documentation/'.$group->idGroup.'/'.$d->pathFile)}}) ;
+                                                document.getElementById('{{$d->pathFile}}-size').innerHTML = bytesToHuman({{Storage::size('documentation/'.$project->idProject.'/'.$d->pathFile)}}) ;
                                             </script>
                                         </tr>
                                     @endforeach
