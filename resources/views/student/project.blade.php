@@ -45,7 +45,7 @@
             <a class="nav-link" id="submission-tab" data-toggle="tab" href="#submission" role="tab" aria-controls="submission" aria-selected="false">{{__('gx.submission')}}</a>
         </li>
         <li class="rightbutton ml-auto">
-            <button  type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalLeaveGroup" style="width: 11em"><i class="far fa-sign-out mr-2"></i>{{__('gx.leave group')}}</button>
+            <button  type="button" class="btn btn-danger btn-sm stopYear" data-toggle="modal" data-target="#modalLeaveGroup" style="width: 11em"><i class="far fa-sign-out mr-2"></i>{{__('gx.leave group')}}</button>
             <div id="modalLeaveGroup" class="modal" tabindex="-1" role="dialog" >
                 <div class="modal-dialog modal-lg" >
                     <div class="modal-content" >
@@ -115,12 +115,12 @@
                                         @foreach($rep as $file)
                                             @if((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "txt")
                                                 <tr class="file" id="{{$file->idFile}}">
-                                                    <td><input type="checkbox" class="form-check-input float-left" id="exampleCheck1"><i class="fad fa-2x fa-file-alt icon_repository" id= '{{$file->idFile}}'></i></td>
+                                                    <td><input type="checkbox" class="form-check-input float-left stopYear" id="exampleCheck1"><i class="fad fa-2x fa-file-alt icon_repository" id= '{{$file->idFile}}'></i></td>
                                                     <td id="filename">{{$file->pathFile}}</td>
                                                     <td>{{$file->userUpload}}</td>
                                                     <td>{{$file->uploadTime}}</td>
                                                     <td >
-                                                        <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile">
+                                                        <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile stopYear">
                                                             <span class="dot" id="delete" style="position:relative">
                                                                 <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
                                                             </span>
@@ -134,12 +134,12 @@
                                                 </tr>
                                             @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "png")
                                                 <tr class="file" id="{{$file->idFile}}">
-                                                    <td><input type="checkbox" class="form-check-input" id="exampleCheck1"><i class="fas fa-2x fa-2x fa-file-image icon_repository"  id= '{{$file->idFile}}'></i></td>
+                                                    <td><input type="checkbox" class="form-check-input stopYear" id="exampleCheck1"><i class="fas fa-2x fa-2x fa-file-image icon_repository"  id= '{{$file->idFile}}'></i></td>
                                                     <td id="filename">{{$file->pathFile}}</td>
                                                     <td >{{$file->userUpload}}</td>
                                                     <td>{{$file->uploadTime}}</td>
                                                     <td>
-                                                        <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile ">
+                                                        <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile stopYear">
                                                             <span class="dot" id="delete" style="position:relative">
                                                                 <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
                                                             </span>
@@ -154,12 +154,12 @@
                                                 </tr>
                                             @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "pdf" )
                                                 <tr class="file rep_font" id="{{$file->idFile}}">
-                                                    <td><div><input type="checkbox" class="form-check-input" id="exampleCheck1"><i class="fal fa-2x fa-file-pdf icon_repository"  id= '{{$file->idFile}}'></i></div></td>
+                                                    <td><div><input type="checkbox" class="form-check-input stopYear" id="exampleCheck1"><i class="fal fa-2x fa-file-pdf icon_repository"  id= '{{$file->idFile}}'></i></div></td>
                                                     <td id="filename">{{$file->pathFile}}</td>
                                                     <td>{{$file->userUpload}}</td>
                                                     <td>{{$file->uploadTime}}</td>
                                                     <td>
-                                                        <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile">
+                                                        <button style="" id= '{{$file->idFile}}' type="button" class="stopYear close deleteFile">
                                                             <span class="dot" id="delete" style="position:relative">
                                                                 <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
                                                             </span>
@@ -174,12 +174,12 @@
                                                 </tr>
                                             @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "docx" )
                                                 <tr class="file rep_font" id="{{$file->idFile}}">
-                                                    <td><div><input type="checkbox" class="form-check-input" id="exampleCheck1"><i class="fal fa-2x fa-file-word icon_repository"  id= '{{$file->idFile}}'></i></div></td>
+                                                    <td><div><input type="checkbox" class="form-check-input stopYear" id="exampleCheck1"><i class="fal fa-2x fa-file-word icon_repository"  id= '{{$file->idFile}}'></i></div></td>
                                                     <td id="filename">{{$file->pathFile}}</td>
                                                     <td>{{$file->userUpload}}</td>
                                                     <td>{{$file->uploadTime}}</td>
                                                     <td>
-                                                        <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile">
+                                                        <button style="" id= '{{$file->idFile}}' type="button" class="stopYear close deleteFile">
                                                             <span class="dot" id="delete" style="position:relative">
                                                                 <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
                                                             </span>
@@ -194,12 +194,12 @@
                                                 </tr>
                                             @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "zip" )
                                                 <tr class="file rep_font" id="{{$file->idFile}}">
-                                                    <td><input type="checkbox" class="form-check-input" id="exampleCheck1"><i class="fal fa-2x fa-file-archive icon_repository" id= '{{$file->idFile}}'></i></td>
+                                                    <td><input type="checkbox" class="stopYear form-check-input" id="exampleCheck1"><i class="fal fa-2x fa-file-archive icon_repository" id= '{{$file->idFile}}'></i></td>
                                                     <td id="filename">{{$file->pathFile}}</td>
                                                     <td >{{$file->userUpload}}</td>
                                                     <td>{{$file->uploadTime}}</td>
                                                     <td>
-                                                        <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile">
+                                                        <button style="" id= '{{$file->idFile}}' type="button" class="stopYear close deleteFile">
                                                             <span class="dot" id="delete" style="position:relative">
                                                                 <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
                                                             </span>
@@ -213,12 +213,12 @@
                                                 </tr>
                                             @else
                                                 <tr class="file rep_font" id="{{$file->idFile}}">
-                                                    <td><input type="checkbox" class="form-check-input" id="exampleCheck1"><i class="fal fa-2x fa-file-code icon_repository"  id= '{{$file->idFile}}'></i></td>
+                                                    <td><input type="checkbox" class="form-check-input stopYear" id="exampleCheck1"><i class="fal fa-2x fa-file-code icon_repository"  id= '{{$file->idFile}}'></i></td>
                                                     <td id="filename">{{$file->pathFile}}</td>
                                                     <td >{{$file->userUpload}}</td>
                                                     <td>{{$file->uploadTime}}</td>
                                                     <td>
-                                                        <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile ">
+                                                        <button style="" id= '{{$file->idFile}}' type="button" class="close deleteFile stopYear">
                                                             <span class="dot" id="delete" style="position:relative">
                                                                 <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
                                                             </span>
@@ -519,7 +519,7 @@
                                             <td id="task_b">{{$t->beginning}}</td>
                                             <td id="task_e">{{$t->end}}</td>
                                             <td>{{$t->duration}}</td>
-                                            <td class="float-right pr-0"><button id="edit_tasks"  type="button" class="btn btn-sm btn-success editTask mr-md-2"><i id="icon_tasks" class="fas fa-edit mr-2"></i>{{__('gx.edit')}}</button><button type="button" id="delete_tasks" class="btn btn-sm btn-danger mr-md-2" data-toggle="modal" data-target="#modalDelete-{{$t->idTask}}"><i id="icon_tasks" class="fal fa-trash mr-2"></i>{{__('gx.delete')}}</button></td>
+                                            <td class="float-right pr-0"><button id="edit_tasks"  type="button" class="stopYear btn btn-sm btn-success editTask mr-md-2"><i id="icon_tasks" class="fas fa-edit mr-2"></i>{{__('gx.edit')}}</button><button type="button" id="delete_tasks" class="stopYear btn btn-sm btn-danger mr-md-2" data-toggle="modal" data-target="#modalDelete-{{$t->idTask}}"><i id="icon_tasks" class="fal fa-trash mr-2"></i>{{__('gx.delete')}}</button></td>
                                         </tr>
                                         <tr class="d-none" id="{{$t->idTask}}-edit">
                                             @csrf
@@ -545,7 +545,7 @@
                                                 {{Form::hidden('task', $t->idTask) }}
                                                 {{Form::hidden('group', $t-> idGroup)}}
                                                 {{Form::hidden('_method','PUT')}}
-                                                <td class="float-right pr-0">{{Form::Submit(trans('gx.save'), ['class'=>'btn btn-sm mr-md-2 btn-success', 'id'=>'Save'])}}<button type="button" class="btn btn-sm btn-danger mr-md-2 editTask">{{__('gx.cancel')}}</button></td>
+                                                <td class="float-right pr-0">{{Form::Submit(trans('gx.save'), ['class'=>'btn btn-sm mr-md-2 stopYear btn-success', 'id'=>'Save'])}}<button type="button" class="btn btn-sm stopYear btn-danger mr-md-2 editTask">{{__('gx.cancel')}}</button></td>
                                             {!! Form::close() !!}
                                             <script>
                                                 $(function() {$( "#datetimepicker1-{{$t->idTask}}" ).datetimepicker({
@@ -620,7 +620,6 @@
                                             font-size: 1.3vh;
                                         }
                                     }
-
                                     @media screen and (max-width: 800px) {
                                         .abcd{
                                             font-size: 1.1vh;
@@ -659,7 +658,7 @@
                             </table>
                         </div>
                         <div class="container-fluid pt-3 mr-2" style="position: relative">
-                            <button type="button" class="btn btn-primary btn-sm open_modal" id="{{$idGroup}}" style="width:23vh; color: white;position: absolute; bottom: 0px; right: 0px;"><i class="fas fa-plus mr-2"></i>{{__('gx.new task')}}</button>
+                            <button type="button" class="btn btn-primary btn-sm open_modal stopYear" id="{{$idGroup}}" style="width:23vh; color: white;position: absolute; bottom: 0px; right: 0px;"><i class="fas fa-plus mr-2"></i>{{__('gx.new task')}}</button>
                         </div>
                     </div>
                 </div>
@@ -931,7 +930,7 @@
                         </table>
                     </div>
                     <div id="wrapper" class="container-fluid pt-3 " style="position: relative">
-                        <button type="submit" class="btn btn-primary float-right btn-sm mr-2" id="newMeeting" data-toggle="modal" data-target="#modalCreateMeeting"><i class="fas fa-plus mr-2"></i>{{__('gx.new meeting')}}</button>
+                        <button type="submit" class="btn btn-primary float-right btn-sm mr-2 stopYear" id="newMeeting" data-toggle="modal" data-target="#modalCreateMeeting"><i class="fas fa-plus mr-2"></i>{{__('gx.new meeting')}}</button>
                     </div>
                 </div>
             </div>
@@ -1000,7 +999,7 @@
             </div>
         </div>
         <div class="tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
-            <button type="button" class="p-2 mt-3 mr-3 btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#modalCreatePost"><i class="fas fa-plus mr-2"></i>{{__('gx.create post')}}</button>
+            <button type="button" class="p-2 mt-3 mr-3 btn btn-sm btn-primary float-right stopYear" data-toggle="modal" data-target="#modalCreatePost"><i class="fas fa-plus mr-2"></i>{{__('gx.create post')}}</button>
 
             <div class="container rounded pb-3 pt-3">
                 <div class="table-responsive-xl pt-2">
@@ -1409,7 +1408,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                            <tr><td colspan="3"><h5>{{__('gx.groupEval')}}</h5></td></tr>
+                                    <tr><td colspan="3"><h5>{{__('gx.groupEval')}}</h5></td></tr>
                                     @else
                                         <tr>
                                             <td><img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}"></td>
@@ -1432,47 +1431,50 @@
                                                 $('div.rating-{{$ev->receiver}} #s{{$i}}').css('color','#ffce52');
                                             @endfor
                                         @endforeach
-                                        var rating=0;
-                                        $('div.rating-{{$user->id}} #s1').click(function(){
-                                            $('div.rating-{{$user->id}} .fa-star').css("color","black");
-                                            $('div.rating-{{$user->id}} #s1').css("color","#ffce52");
-                                            rating=1;
-                                        });
-                                        $('div.rating-{{$user->id}} #s2').click(function(){
-                                            $('div.rating-{{$user->id}} .fa-star').css("color","black");
-                                            $('div.rating-{{$user->id}} #s1, div.rating-{{$user->id}} #s2').css("color","#ffce52");
-                                            rating=2;
-                                        });
-                                        $('div.rating-{{$user->id}} #s3').click(function(){
-                                            $('div.rating-{{$user->id}} .fa-star').css("color","black");
-                                            $('div.rating-{{$user->id}} #s1, div.rating-{{$user->id}} #s2,div.rating-{{$user->id}} #s3').css("color","#ffce52");
-                                            rating=3;
-                                        });
-                                        $('div.rating-{{$user->id}} #s4').click(function(){
-                                            $('div.rating-{{$user->id}} .fa-star').css("color","black");
-                                            $('div.rating-{{$user->id}} #s1,div.rating-{{$user->id}} #s2,div.rating-{{$user->id}} #s3,div.rating-{{$user->id}} #s4').css("color","#ffce52");
-                                            rating=4;
-                                        });
-                                        $('div.rating-{{$user->id}} #s5').click(function(){
-                                            $('div.rating-{{$user->id}} .fa-star').css("color","black");
-                                            $('div.rating-{{$user->id}} #s1,div.rating-{{$user->id}} #s2,div.rating-{{$user->id}} #s3,div.rating-{{$user->id}} #s4, div.rating-{{$user->id}} #s5').css("color","#ffce52");
-                                            rating=5;
-                                        });
-                                        $('div.rating-{{$user->id}} .fa-star').on('click',function() {
-
-                                            $.ajax({
-                                                url: "/student/project/",
-                                                method: "POST",
-                                                data: {
-                                                    'group': {{$idGroup}},
-                                                    'receiver': {{$user->id}},
-                                                    'grade': rating,
-                                                    'submission': 'studentsEvaluation',
-                                                    '_token': $('input[name=_token]').val()
-                                                },
-                                                datatype: 'JSON'
+                                        if({{((new \Carbon\Carbon($project->dueDate))->addDays(1))->isPast()}} == "0")
+                                        {
+                                            var rating = 0;
+                                            $('div.rating-{{$user->id}} #s1').click(function () {
+                                                $('div.rating-{{$user->id}} .fa-star').css("color", "black");
+                                                $('div.rating-{{$user->id}} #s1').css("color", "#ffce52");
+                                                rating = 1;
                                             });
-                                        });
+                                            $('div.rating-{{$user->id}} #s2').click(function () {
+                                                $('div.rating-{{$user->id}} .fa-star').css("color", "black");
+                                                $('div.rating-{{$user->id}} #s1, div.rating-{{$user->id}} #s2').css("color", "#ffce52");
+                                                rating = 2;
+                                            });
+                                            $('div.rating-{{$user->id}} #s3').click(function () {
+                                                $('div.rating-{{$user->id}} .fa-star').css("color", "black");
+                                                $('div.rating-{{$user->id}} #s1, div.rating-{{$user->id}} #s2,div.rating-{{$user->id}} #s3').css("color", "#ffce52");
+                                                rating = 3;
+                                            });
+                                            $('div.rating-{{$user->id}} #s4').click(function () {
+                                                $('div.rating-{{$user->id}} .fa-star').css("color", "black");
+                                                $('div.rating-{{$user->id}} #s1,div.rating-{{$user->id}} #s2,div.rating-{{$user->id}} #s3,div.rating-{{$user->id}} #s4').css("color", "#ffce52");
+                                                rating = 4;
+                                            });
+                                            $('div.rating-{{$user->id}} #s5').click(function () {
+                                                $('div.rating-{{$user->id}} .fa-star').css("color", "black");
+                                                $('div.rating-{{$user->id}} #s1,div.rating-{{$user->id}} #s2,div.rating-{{$user->id}} #s3,div.rating-{{$user->id}} #s4, div.rating-{{$user->id}} #s5').css("color", "#ffce52");
+                                                rating = 5;
+                                            });
+                                            $('div.rating-{{$user->id}} .fa-star').on('click', function () {
+
+                                                $.ajax({
+                                                    url: "/student/project/",
+                                                    method: "POST",
+                                                    data: {
+                                                        'group': {{$idGroup}},
+                                                        'receiver': {{$user->id}},
+                                                        'grade': rating,
+                                                        'submission': 'studentsEvaluation',
+                                                        '_token': $('input[name=_token]').val()
+                                                    },
+                                                    datatype: 'JSON'
+                                                });
+                                            });
+                                        }
                                         $('#submitEval').click(function() {
                                             $('.StudentsEvaluation').hide();
                                             $('.submitEval').addClass('d-none');
@@ -1515,7 +1517,7 @@
                                 @endforeach
                                 </table>
                             </div>
-                            <button type="button" class="btn btn-success submitEval float-right pt-2" data-toggle="modal" data-target="#modalSubmitEvaluations"><i class="fas fa-check"></i> {{__('gx.submit')}}</button>
+                            <button type="button" class="btn btn-success submitEval float-right pt-2 stopYear" data-toggle="modal" data-target="#modalSubmitEvaluations"><i class="fas fa-check"></i> {{__('gx.submit')}}</button>
                             <div class="alert alert-success alert-dismissible fade show d-none" id="submitted">
                                 <strong>{{__('gx.success!')}}</strong> {{__('gx.evalSentSucc')}}
                             </div>
@@ -1784,51 +1786,55 @@
     @endforeach
 
     $('.cell').on('click', function () {
-        if($(this).find('div#{{Auth::user()->id}}').length == 1) {
-            $(this).find('div#{{Auth::user()->id}}').remove();
-            datastring = {
-                'cell': this.id,
-                'group': $('input[name=group]').val(),
-                'submission': $('#scheduleform input[name=submission]').val(),
-                '_token': $('input[name=_token]').val(),
-                'idStudent': {{Auth::user()->id}},
-                'option': 'delete'
+        if({{((new \Carbon\Carbon($project->dueDate))->addDays(1))->isPast()}} == "0"){
+            if ($(this).find('div#{{Auth::user()->id}}').length == 1) {
+                $(this).find('div#{{Auth::user()->id}}').remove();
+                datastring = {
+                    'cell': this.id,
+                    'group': $('input[name=group]').val(),
+                    'submission': $('#scheduleform input[name=submission]').val(),
+                    '_token': $('input[name=_token]').val(),
+                    'idStudent': {{Auth::user()->id}},
+                    'option': 'delete'
+                }
+            } else {
+                var add = document.createElement("div");
+                add.setAttribute("class", "border align-middle usercolor");
+                add.setAttribute("id", '{{Auth::user()->id}}');
+                this.appendChild(add);
+                $('div#{{Auth::user()->id}}.usercolor').css('background-color', $('div#{{Auth::user()->id}}.Mastercolor').css('background-color'));
+                datastring = {
+                    'cell': this.id,
+                    'group': $('input[name=group]').val(),
+                    'submission': $('#scheduleform input[name=submission]').val(),
+                    '_token': $('input[name=_token]').val(),
+                    'idStudent': {{Auth::user()->id}},
+                    'option': 'add'
+                }
             }
-        }else {
-            var add = document.createElement("div");
-            add.setAttribute("class", "border align-middle usercolor");
-            add.setAttribute("id", '{{Auth::user()->id}}');
-            this.appendChild(add);
-            $('div#{{Auth::user()->id}}.usercolor').css('background-color', $('div#{{Auth::user()->id}}.Mastercolor').css('background-color'));
-            datastring = {
-                'cell': this.id,
-                'group': $('input[name=group]').val(),
-                'submission': $('#scheduleform input[name=submission]').val(),
-                '_token': $('input[name=_token]').val(),
-                'idStudent': {{Auth::user()->id}},
-                'option': 'add'
-            }
+            $.ajax({
+                type: "post",
+                data: datastring,
+                dataType: 'JSON',
+                url: "/student/project/"
+            });
         }
-        $.ajax({
-            type: "post",
-            data: datastring,
-            dataType: 'JSON',
-            url: "/student/project/"
-        });
 
     });
 
     $('.file').on('click', function () {
-        if($(this).hasClass('select')){
-            $(this).removeClass('select');
-            $(this).find('td:first-child').find('input').removeAttr('checked');
-        }else{
-            $(this).addClass('select');
-            $('#submitFile').removeAttr('disabled');
-            $(this).find('td:first-child').find('input').attr('checked','checked');
+        if({{((new \Carbon\Carbon($project->dueDate))->addDays(1))->isPast()}} == "0"){
+            if ($(this).hasClass('select')) {
+                $(this).removeClass('select');
+                $(this).find('td:first-child').find('input').removeAttr('checked');
+            } else {
+                $(this).addClass('select');
+                $('#submitFile').removeAttr('disabled');
+                $(this).find('td:first-child').find('input').attr('checked', 'checked');
             }
-        if($('.select').length == 0){
-            $('#submitFile').attr('disabled','disabled');
+            if ($('.select').length == 0) {
+                $('#submitFile').attr('disabled', 'disabled');
+            }
         }
     });
 
@@ -1898,6 +1904,9 @@
     if(subjectYear != currentYear){
         console.log(subjectYear);
         console.log(currentYear);
+        $(".stopYear").prop('disabled', true);
+    }
+    if({{((new \Carbon\Carbon($project->dueDate))->addDays(1))->isPast()}} == "1") {
         $(".stopYear").prop('disabled', true);
     }
 
