@@ -303,25 +303,6 @@ class StudentProjectsController extends Controller
             // repository
             $rep = File::all()->where('idGroup', '==', $idGroup);
 
-            // Tasks
-            $arr = Task::all()->where('idGroup', '==', $idGroup);
-            if (count($arr) > 0) {
-                foreach ($arr as $task) {
-                    $local = Carbon::getLocale();
-                    $task->beginning = Carbon::parse($task->beginning);
-                    if (!is_null($task->end)) {
-                        $task->end = Carbon::parse($task->end);
-                        if (Carbon::parse($task->beginning)->diffInDays(Carbon::parse($task->end)) == 0) {
-                            $task->duration = Carbon::parse($task->beginning)->addSeconds($task->duration)->diffForHumans(Carbon::parse($task->beginning));
-                        } else {
-                            $task->duration = Carbon::parse($task->beginning)->diffInDays(Carbon::parse($task->end)) . ' days and ' . Carbon::parse($task->beginning)->diff(Carbon::parse($task->end))->format('%H:%I');
-                        }
-                    }
-                }
-            }
-
-            //Documentation
-            $docs = Documentation::all()->where('idProject', '==', $id);
 
             //Notes
             $notes = Group::find($idGroup)->notes;
@@ -332,14 +313,6 @@ class StudentProjectsController extends Controller
                 foreach ($meeting as $m) {
                     $m->date = Carbon::parse($m->date);
                 }
-            }
-
-            //groupUsers
-            $groupUsers = StudentsGroup::all()->where('idGroup', "==", $idGroup);
-            $Users = [];
-            foreach ($groupUsers as $gu) {
-                $stg = User::find($gu->idStudent);
-                array_push($Users, $stg);
             }
 
             //schedule
@@ -411,17 +384,6 @@ class StudentProjectsController extends Controller
             $docs = DB::table('documentations')->where('idProject', $id)->orderBy('pathFile', 'ASC')->get();
 
 
-            //Notes
-            $notes = Group::find($idGroup)->notes;
-
-            //Meetings
-            $meeting = Meeting::all()->where('idGroup', '==', $idGroup);
-            if (count($meeting) > 0) {
-                foreach ($meeting as $m) {
-                    $m->date = Carbon::parse($m->date);
-                }
-            }
-
             //groupUsers
             $groupUsers = StudentsGroup::all()->where('idGroup', "==", $idGroup);
             $Users = [];
@@ -442,14 +404,6 @@ class StudentProjectsController extends Controller
             }
             $Subjectprof = collect($Subjectprof)->sortBy('name');
 
-
-            //Evaluation
-            $eval = Evaluation::all()->where('idGroup', '==', $idGroup);
-
-            //Submission
-            $submittedFiles = File::all()->where('idGroup', '==', $idGroup)->where('finalState', '==', 'final');
-
-            //$rep2 = DB::table('files')->where('finalState', 'final')->orderBy('submissionTime', 'DESC')->get();
 
             return view('student.project')->with('project', $project)->with('subject', $subject)->with('announcements', $allAnnouncements)->with('userPoster', $users)->with('numberComments', $numberComments)->with('tasks', $arr)->with('idGroup', $idGroup)->with('notes', $notes)->with('a', $announcements)->with('meeting', $meeting)->with('groupUsers', $Users)->with('schedule', $schedule)->with('rep', $rep)->with('submittedFiles', $submittedFiles)->with('docs', $docs)->with('eval', $eval)->with('professores', $Subjectprof)->with('studentEval', $UsersEvaluate);
         } else{
@@ -507,7 +461,7 @@ class StudentProjectsController extends Controller
             return redirect()->to("/student/project/". $id . '#content')->with('success', trans('gx.taskSucc'));
 
         } elseif($submission == 'submitFile') {
-
+            $allFiles = File::all()->where('finalState', '==', 'final');
             $idFiles = explode(',',$request->filesSubmit);
 
             foreach($idFiles as $idfile){
@@ -516,7 +470,10 @@ class StudentProjectsController extends Controller
                 $file->submissionTime = Carbon::now();
                 $file->save();
             }
-
+            foreach($allFiles as $allFile){
+                $allFile->submissionTime = Carbon::now();
+                $allFile->save();
+            }
 
             $my_id = Auth::id();
 
@@ -542,12 +499,18 @@ class StudentProjectsController extends Controller
             }
             return redirect()->to("/student/project/". $id . '#submission')->with('success', trans('gx.fileSub'));
 
-        }else{
+        } else{
 
             $idFile = $request->idFile;
             $file = File::find($idFile);
             $file->finalState = 'temporary';
             $file->save();
+            $allFiles = File::all()->where('finalState', '==', 'final');
+
+            foreach ($allFiles as $allFile) {
+                $allFile->submissionTime = Carbon::now();
+                $allFile->save();
+            }
 
             $my_id = Auth::id();
 

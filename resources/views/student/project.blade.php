@@ -98,8 +98,8 @@
                 <div id="1col" class="col-lg-5 mt-3">
                     <div class="container-fluid rounded h-100 pt-2" style="background-color: white;">
                         <h5 class="text-center">{{__('gx.repo')}}</h5>
-                        <div class="table-responsive" style="overflow:auto; height: 50vh;margin-bottom: 20%">
-                            <table class="table table-sm" style=" border-collapse: collapse;">
+                        <div class="table-responsive" style="overflow:auto; height: 63vh;">
+                            <table class="table table-sm repository" style=" border-collapse: collapse;">
                                 <thead class="text-center">
                                 <tr>
                                     <th style="position: sticky; top: 0; background-color: whitesmoke; z-index: 3"></th>
@@ -114,7 +114,7 @@
                                         @foreach($rep as $file)
                                             @if((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "txt")
                                                 <tr class="file" id="{{$file->idFile}}">
-                                                    <td><i class="fad fa-2x fa-file-alt " id= '{{$file->idFile}}'></i></td>
+                                                    <td><input type="checkbox" class="form-check-input float-left" id="exampleCheck1"><i class="fad fa-2x fa-file-alt " id= '{{$file->idFile}}'></i></td>
                                                     <td id="filename">{{$file->pathFile}}</td>
                                                     <td>{{$file->userUpload}}</td>
                                                     <td>{{$file->uploadTime}}</td>
@@ -133,7 +133,7 @@
                                                 </tr>
                                             @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "png")
                                                 <tr class="file" id="{{$file->idFile}}">
-                                                    <td><i class="fas fa-2x fa-2x fa-image "  id= '{{$file->idFile}}'></i></td>
+                                                    <td><input type="checkbox" class="form-check-input" id="exampleCheck1"><i class="fas fa-2x fa-2x fa-file-image "  id= '{{$file->idFile}}'></i></td>
                                                     <td id="filename">{{$file->pathFile}}</td>
                                                     <td >{{$file->userUpload}}</td>
                                                     <td>{{$file->uploadTime}}</td>
@@ -153,7 +153,7 @@
                                                 </tr>
                                             @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "pdf" )
                                                 <tr class="file" id="{{$file->idFile}}">
-                                                    <td><i class="fal fa-2x fa-file-pdf"  id= '{{$file->idFile}}'></i></td>
+                                                    <td><div><input type="checkbox" class="form-check-input" id="exampleCheck1"><i class="fal fa-2x fa-file-pdf"  id= '{{$file->idFile}}'></i></div></td>
                                                     <td id="filename">{{$file->pathFile}}</td>
                                                     <td>{{$file->userUpload}}</td>
                                                     <td>{{$file->uploadTime}}</td>
@@ -173,7 +173,7 @@
                                                 </tr>
                                             @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "docx" )
                                                 <tr class="file" id="{{$file->idFile}}">
-                                                    <td><i class="fal fa-2x fa-file-word "  id= '{{$file->idFile}}'></i></td>
+                                                    <td><div><input type="checkbox" class="form-check-input" id="exampleCheck1"><i class="fal fa-2x fa-file-word "  id= '{{$file->idFile}}'></i></div></td>
                                                     <td id="filename">{{$file->pathFile}}</td>
                                                     <td>{{$file->userUpload}}</td>
                                                     <td>{{$file->uploadTime}}</td>
@@ -193,7 +193,7 @@
                                                 </tr>
                                             @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "zip" )
                                                 <tr class="file" id="{{$file->idFile}}">
-                                                    <td><i class="fal fa-2x fa-file-archive" id= '{{$file->idFile}}'></i></td>
+                                                    <td><input type="checkbox" class="form-check-input" id="exampleCheck1"><i class="fal fa-2x fa-file-archive" id= '{{$file->idFile}}'></i></td>
                                                     <td id="filename">{{$file->pathFile}}</td>
                                                     <td >{{$file->userUpload}}</td>
                                                     <td>{{$file->uploadTime}}</td>
@@ -212,7 +212,7 @@
                                                 </tr>
                                             @else
                                                 <tr class="file" id="{{$file->idFile}}">
-                                                    <td><i class="fal fa-2x fa-file-code"  id= '{{$file->idFile}}'></i></td>
+                                                    <td><input type="checkbox" class="form-check-input" id="exampleCheck1"><i class="fal fa-2x fa-file-code"  id= '{{$file->idFile}}'></i></td>
                                                     <td id="filename">{{$file->pathFile}}</td>
                                                     <td >{{$file->userUpload}}</td>
                                                     <td>{{$file->uploadTime}}</td>
@@ -239,112 +239,16 @@
                                 </tbody>
                             </table>
                         </div>
-                        {{--<div class="container text-center">
-                            {!!Form::open(['action' => ['StudentProjectsController@store', $project->idProject], 'method' => 'POST', 'enctype' => 'multipart/form-data','files' => true, 'class' => "dropzone dz-clickable p-0", 'id'=>"dropzone" , 'style'=>"min-height: 0 !important; height:15vh; border: 3px dotted black;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);border-radius: 5px;opacity:0.5;"])!!}
-                            @csrf
-                            <div class="dz-message m-0 pt-2">
-                                <i class="fal fa-file-plus fa-3x px-2"><p style="font-size: medium;"> {{__('gx.dropclickdownload')}}</p></i>
-                            </div>
-                            <script type="text/javascript">
-                                Dropzone.options.dropzone = {
-                                    init: function () {
-                                        // Set up any event handlers
-                                        this.on('complete', function () {
-                                            location.reload();
-
-                                        });
-                                        this.on("error", function(file, message, xhr) {
-                                            var header = xhr.status+": "+xhr.statusText;
-                                            $(file.previewElement).find('.dz-error-message').text(header);
-                                        });
-                                    },
-                                    maxFilesize: 25,
-                                    acceptedFiles: ".jpeg,.jpg,.png,.gif,.pdf,.zip,.docx,.txt,.py,.html,.css,.js",
-                                };
-                            </script>
-                            {{ Form::hidden('group', $idGroup) }}
-                            {{ Form::hidden('project', $project->idProject) }}
-                            {{ Form::hidden('subject', $subject->subjectName) }}
-                            {{Form::hidden('submission','newFile')}}
-
-                            {!!Form::close()!!}
-                        </div>--}}
-                        {{--@foreach($rep as $file)
-                            <div class="file text-center" id= '{{$file->idFile}}' style="margin-right: 15px; position:relative; display: inline-block; width: 100px;">
-                                <a href="{{Storage::url('studentRepository/'.$idGroup.'/'.$file->pathFile)}}" target="_blank" style="position:absolute; top:-10px; right:17px;" id= '{{$file->idFile}}' class="close downloadFile" download>
-                                    <span class="dot" id="download" style="position:relative">
-                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-download"></i>
-                                    </span>
-                                </a>
-                                <button style="position:absolute; top:-10px; right:-10px;" id= '{{$file->idFile}}' type="button" class="close deleteFile">
-                                    <span class="dot" id="delete" style="position:relative">
-                                        <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
-                                    </span>
-                                </button>
-                                @if((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "txt")
-                                    <figure>
-                                        <i class="fad fa-file-alt fa-4x p-2" style= "border:transparent;" id= '{{$file->idFile}}'></i>
-                                        <figcaption style="overflow-wrap: break-word; ">{{$file->pathFile}}</figcaption>
-                                    </figure>
-                                @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "png")
-                                    <figure>
-                                        <i class="fas fa-image fa-4x p-2" style= "border: 1px solid transparent;" id= '{{$file->idFile}}'></i>
-                                        <figcaption style="overflow-wrap: break-word; ">{{$file->pathFile}}</figcaption>
-                                    </figure>
-                                @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "pdf" )
-                                    <figure>
-                                        <i class="fal fa-file-pdf fa-4x p-2" style= "border:transparent;" id= '{{$file->idFile}}'></i>
-                                        <figcaption style="overflow-wrap: break-word; ">{{$file->pathFile}}</figcaption>
-                                    </figure>
-                                @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "docx" )
-                                    <figure>
-                                        <i class="fal fa-file-word fa-4x p-2" style= "border:1px solid transparent;" id= '{{$file->idFile}}'></i>
-                                        <figcaption style="overflow-wrap: break-word; ">{{$file->pathFile}}</figcaption>
-                                    </figure>
-                                @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "zip" )
-                                    <figure>
-                                        <i class="fal fa-file-archive fa-4x p-2" id= '{{$file->idFile}}'></i>
-                                        <figcaption style="overflow-wrap: break-word;">{{$file->pathFile}}</figcaption>
-                                    </figure>
-                                @else
-                                    <figure>
-                                        <i class="fal fa-file-code fa-4x p-2" id= '{{$file->idFile}}'></i>
-                                        <figcaption style="overflow-wrap: break-word;">{{$file->pathFile}}</figcaption>
-                                    </figure>
-
-
-                                @endif
-
-
-                            </div>
-                        @endforeach
-                            <div id="dropzone" class="text-center" style="margin-right: 10px; position:relative; display: inline-block;">
-                                {!!Form::open(['action' => ['StudentProjectsController@store', $project->idProject], 'method' => 'POST', 'enctype' => 'multipart/form-data','files' => true, 'class' => "dropzone", 'id'=>"dropzone"])!!}
-                                @csrf
-                                <figure style="z-index: -1;">
-                                    <i class="fal fa-file-plus fa-3x px-2 dz-message" style="margin-bottom: 0px;margin-top: 0px;"></i>
-                                    <figcaption style="margin:0;">Drop or click to upload</figcaption>
-                                </figure>
-                                <script type="text/javascript">
-                                    Dropzone.options.dropzone = {
-                                        init: function () {
-                                            // Set up any event handlers
-                                            this.on('complete', function () {
-                                                location.reload();
-
-                                            });
-                                        },
-                                        maxFilesize: 12,
-                                        acceptedFiles: ".jpeg,.jpg,.png,.gif,.pdf,.zip,.docx,.txt,.py,.html,.css,.js",
-                                    };
-                                </script>
-                                {{ Form::hidden('group', $idGroup) }}
-                                {{ Form::hidden('project', $project->idProject) }}
-                                {{ Form::hidden('subject', $subject->subjectName) }}
-                                {{Form::hidden('submission','newFile')}}
-
-                                {!!Form::close()!!}
-                            </div>--}}
+                        <style>
+                            .repository td, th {
+                                vertical-align: middle;
+                            }
+                            .repository .form-check-input {
+                                position: relative;
+                                margin-left: 0px;
+                                margin-right: 2vh;
+                            }
+                        </style>
                         <div class="btn-group">
                             <button type="button" class=" btn btn-primary rounded btn-sm stopYear" data-toggle="modal" data-target="#modalAddFile" style="margin-bottom: 5px"><i class="fas fa-upload mr-2"></i>{{__('gx.upload files')}}</button>
                             <button type="submit" disabled class="btn btn-primary rounded btn-sm" id='submitFile' data-toggle="modal" data-target="#modalSubmitFile">{{__('gx.submit')}}</button>
@@ -385,7 +289,7 @@
                                         {{ Form::hidden('project', $project->idProject) }}
                                         {{ Form::hidden('subject', $subject->subjectName) }}
                                         {{ Form::hidden('submission','submitFile')}}
-                                        {{ Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary float-right'])}}
+                                        {{ Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary float-right', 'id' => 'submitButtonModal'])}}
 
                                         {!!Form::close()!!}
                                     </div>
@@ -442,7 +346,7 @@
                                 @foreach($groupUsers as $user)
                                     <tr>
                                         <td><img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}"></td>
-                                        <td><a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a></td>
+                                        <td><a href="/profile/{{$user->id}}">{{$user->name}}</a></td>
                                         <td onclick='chat({{$user->id}})'><i class="far fa-envelope float-right"></i></td>
                                     </tr>
                                 @endforeach
@@ -450,7 +354,7 @@
                                 @foreach($professores as $prof)
                                     <tr class="pb-1">
                                         <td><img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}"></td>
-                                        <td><a href="/profile/{{$prof->id}}">{{$prof->name}} - {{$prof->uniNumber}}</a></td>
+                                        <td><a href="/profile/{{$prof->id}}">{{$prof->name}}</a></td>
                                         <td><i class="far fa-envelope float-right"></i></td>
                                     </tr>
                                 @endforeach
@@ -478,7 +382,7 @@
                             @if(count($docs) == 0)
                                 <p>The professor hasn't uploaded any file</p>
                             @else
-                                <div id="align_docs" class="pt-2">
+                                <div id="align_docs" class="pt-2" style="overflow:auto; max-height:30vh;">
                                     <table align="center">
                                     @foreach($docs as $d)
                                         <tr>
@@ -970,20 +874,22 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @if(count($meeting)>0)
-                                @foreach($meeting as $m)
+                                @if(count($meeting)>0)
+                                    <?php $i = 0 ?>
+                                    @foreach($meeting as $m)
+                                        <?php $i++ ?>
+                                        <tr>
+                                            <td id="meeting">{{$i}}</td>
+                                            <td id="meeting">{{$m->description}}</td>
+                                            <td id="meeting">{{$m->date}}</td>
+                                            <td id="meeting">{{$m->place}}</td>
+                                        </tr>
+                                    @endforeach
+                                @else
                                     <tr>
-                                        <td id="meeting">{{$m->idMeeting}}</td>
-                                        <td id="meeting">{{$m->description}}</td>
-                                        <td id="meeting">{{$m->date}}</td>
-                                        <td id="meeting">{{$m->place}}</td>
+                                        <td colspan="4"><h5>{{__('gx.your group has no meetings.')}}</h5></td>
                                     </tr>
-                                @endforeach
-                            @else
-                                <tr>
-                                    <td colspan="4"><h5>{{__('gx.your group has no meetings.')}}</h5></td>
-                                </tr>
-                            @endif
+                                @endif
                             </tbody>
                         </table>
                     </div>
@@ -1247,7 +1153,6 @@
             <div class="row rounded" style="height:75vh">
                 <div id="submission_row" class="col-lg-7 pb-3">
                     <div class="container-fluid mb-3 mt-3 h-100 rounded" style="background-color: white;">
-                        {{$last = null}}
                         @if($submittedFiles->count() > 0)
                             <div id="box1">
                                 <img src="/images/deathlineSub.png" style="width: 30px; height: 30px; float: left; margin:1%;">
@@ -1256,10 +1161,10 @@
 
                             <style>
                                 #box1{
-                                    font-size: 1.2vh;
+                                    font-size: 2vh;
                                     position: absolute;
                                     right: 1%;
-                                    top: 4%;
+                                    top: 5%;
                                     border-radius: 15px;
                                     width: 40%;
                                     vertical-align: middle;
@@ -1314,20 +1219,12 @@
                                 }
                             </style>
                             <script>
-                                <?php
-                                    foreach($submittedFiles as $file){
-                                        if($file->submissionTime > $last){
-                                            $last = $file->submissionTime;
-
-                                        }
-                                    }
-                                ?>
 
                                 {{--{{$rep2->whereIn('idGroup', $group->idGroup)->first()->submissionTime}}--}}
 
                                 function updateTimer3() {
                                     future = Date.parse("{{$project->dueDate}}");
-                                    now = Date.parse("{{$last}}");
+                                    now = Date.parse("{{$submittedFiles->first()->submissionTime}}");
                                     diff = Math.abs(future - now);
 
                                     days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -1372,7 +1269,7 @@
                         </div>
                         <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-4">
                             <i class="far fa-lg fa-clock float-left"></i>
-                            <div style="display: inline-flex" class="pl-3"> {{__('gx.submTime')}}: @if($last != null){{$last}}@else trans('gx.noFilesSubm')@endif</div>
+                            <div style="display: inline-flex" class="pl-3" > {{__('gx.submTime')}}: @if($submittedFiles->first()->submissionTime == null) trans('gx.noFilesSubm')@else {{$submittedFiles->first()->submissionTime}}@endif</div>
 
                         </div>
                         <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-4">
@@ -1398,7 +1295,7 @@
                                             <i class="fad fa-file-alt fa-4x px-2" ></i>
 
                                         @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "png")
-                                            <i class="fas fa-image fa-4x px-2" ></i>
+                                            <i class="fas fa-file-image fa-4x px-2" ></i>
 
                                         @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "pdf" )
                                             <i class="fal fa-file-pdf fa-4x px-2" ></i>
@@ -1489,6 +1386,7 @@
                                             </td>
                                         </tr>
                                         {{ Form::hidden('project', $project->idProject) }}
+                                    @endif
                                     <script>
                                         @foreach($eval as $ev)
                                             @for($i=0;$i<=$ev->grade;$i++)
@@ -1574,7 +1472,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @endif
                                     {!! Form::close() !!}
                                 @endforeach
                                 </table>
@@ -1662,38 +1559,6 @@
         table-layout: fixed;
         width:100%;
     }
-
-    /*.fixed_header{
-        width:100%;
-        height: 75%;
-        table-layout: fixed;
-        border: none;
-
-    }
-
-    .fixed_header tbody{
-        display: inline-block;
-        width: 100%;
-        overflow: auto;
-        height: 40vh;
-    }
-
-    .fixed_header thead tr{
-        display: inline-block;
-        width: 100%;
-    }*/
-
-
-    /*.fixed_header th{
-        padding: 5px;
-        text-align: center;
-        width: 485px;
-    }
-    .fixed_header td {
-        padding: 8px;
-        text-align: left;
-        table-layout: fixed;
-    }*/
     .select{
         background-color: #e2e2e2;
     }
@@ -1716,26 +1581,6 @@
         display:inline-block;
         color: green;
     }
-    /*form#dropzone.dropzone.dz-clickable {
-        padding-bottom: 0px;
-        padding-left: 0px;
-        padding-top: 10px;
-        padding-right: 0px;
-        border-top-width: 0px;
-        border-left-width: 0px;
-        border-bottom-width: 0px;
-        border-right-width: 0px;
-        margin-bottom: 40px;
-        width: 100px;
-        height: 100px;
-        min-height: 120px;
-        background-color: transparent;
-        border: 3px dotted black;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        border-radius: 5px;
-        opacity:0.5;
-        z-index:2;
-    }*/
     .file{
         cursor:pointer;
         overflow-wrap: break-word;
@@ -1853,7 +1698,7 @@
     });
 
     $('#textarea-notes').change( function() {
-        datastring = {'notes':$('#textArea').val(), 'group': $('input[name=group]').val(), 'submission': $('#notesForm input[name=submission]').val(), '_token': $('input[name=_token]').val()}
+        datastring = {'notes':$('#textarea-notes').val(), 'group': $('input[name=group]').val(), 'submission': $('#notesForm input[name=submission]').val(), '_token': $('input[name=_token]').val()}
         $.ajax({
             type: "post",
             data: datastring,
@@ -1937,32 +1782,17 @@
     $('.file').on('click', function () {
         if($(this).hasClass('select')){
             $(this).removeClass('select');
-            /*$(this).find("#download").css("display","none");
-            $(this).find("#delete").css("display","none");*/
+            $(this).find('td:first-child').find('input').removeAttr('checked');
         }else{
             $(this).addClass('select');
-            /*$(this).find('#download').css("display","inline-block");
-            $(this).find('#delete').css("display","inline-block");*/
             $('#submitFile').removeAttr('disabled');
+            $(this).find('td:first-child').find('input').attr('checked','checked');
             }
         if($('.select').length == 0){
             $('#submitFile').attr('disabled','disabled');
         }
     });
 
-    /*$(".file").hover(function() {
-        $(this).find('#download').css("display","inline-block");
-        $(this).find('#delete').css("display","inline-block");
-    }, function() {
-        if($($(this).find("figure i")).hasClass('select')){
-            $(this).find('#download').css("display","inline-block");
-            $(this).find('#delete').css("display","inline-block");
-        }
-        else{
-            $(this).find("#download").css("display","none");
-            $(this).find("#delete").css("display","none");
-        }
-    });*/
 
     $('.deleteFile').click(function(){
         $('input[name="idFile"]').val($(this).attr("id"));
@@ -1986,7 +1816,9 @@
 
     $("#modalSubmitFile").on("hidden.bs.modal", function () {
         $('#modalSubmitFile .filesSelected').empty();
+
     });
+
     function updateTimer2{{$project->idProject}}() {
         future = Date.parse("{{$project->dueDate}}");
         now = new Date();
