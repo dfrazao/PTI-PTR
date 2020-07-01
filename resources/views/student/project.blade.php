@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <head>
-    <title>Project</title>
+    <title>{{__('gx.project')}}</title>
 </head>
 <div class="container-fluid pl-4 pr-4 pb-2 mt-3">
     @include('layouts.messages')
@@ -252,7 +252,7 @@
 
 
                         <button type="submit" disabled class="p-2 btn btn-primary btn-sm" id='submitFile' data-toggle="modal" data-target="#modalSubmitFile" style="font-size:2vh; color: white; bottom: 7px;position: absolute; right: 22px; width: 15vh;">{{__('gx.submit')}}</button>
-                        <button type="button" class="p-2 btn btn-primary btn-sm stopYear" data-toggle="modal" data-target="#modalAddFile" style="font-size:2vh; position: absolute; right: 20vh;bottom: 7px;width: 17vh;" data-toggle="modal"><i class="fas fa-upload mr-2"></i>{{__('gx.upload files')}}</button>
+                        <button type="button" class="p-2 btn btn-primary btn-sm stopYear" data-toggle="modal" data-target="#modalAddFile" style="font-size:2vh; position: absolute; right: 20vh;bottom: 7px;width: 25vh;" data-toggle="modal"><i class="fas fa-upload mr-2"></i>{{__('gx.upload files')}}</button>
 
 
                         {{-- Modal Submit File --}}
@@ -365,7 +365,7 @@
                         <div class="container-fluid rounded text-center pt-2" style="background-color: white; ">
                             <h5>{{__('gx.documentation')}} </h5>
                             @if(count($docs) == 0)
-                                <p>The professor hasn't uploaded any file</p>
+                                <p>{{__('gx.hasntUplFile')}}</p>
                             @else
                                 <div id="align_docs" class="pt-2" style="overflow:auto; max-height:30vh;">
                                     <table align="center">
@@ -1138,7 +1138,7 @@
             <div class="row rounded" style="height:75vh">
                 <div id="submission_row" class="col-lg-7 pb-3">
                     <div class="container-fluid mb-3 mt-3 pt-2 h-100 rounded" style="background-color: white;">
-                        <h5 class="text-center">Submission information</h5>
+                        <h5 class="text-center">{{__('gx.subInfo')}}</h5>
                         @if($submittedFiles->count() > 0)
                             <div id="box1">
                                 <img src="/images/deathlineSub.png" style="width: 30px; height: 30px; float: left; margin:1%;">
@@ -1227,10 +1227,10 @@
 
 
                                         document.getElementById("timer3")
-                                            .innerHTML = '<p style="float: left;">Submetido com atraso de</p>'+
-                                            '<div>' + d + '<span>days</span></div>' +
-                                            '<div>' + h + '<span>hrs</span></div>' +
-                                            '<div>' + m + '<span>mins</span></div>';
+                                            .innerHTML = '<p style="float: left;">{{__('gx.submWithDelay')}}</p>'+
+                                            '<div>' + d + '<span>{{__('gx.days')}}</span></div>' +
+                                            '<div>' + h + '<span>{{__('gx.hours')}}</span></div>' +
+                                            '<div>' + m + '<span>{{__('gx.minutes')}}</span></div>';
 
 
                                     }else{
@@ -1239,7 +1239,7 @@
                                         $('#box1').css('background-color', '#bbf5bb');
                                         document.getElementById("timer3")
                                             .innerHTML =
-                                            '<p>Submetido com sucesso!</p>';
+                                            '<p>{{__('gx.submWithSucc')}}</p>';
 
                                     }
                                 }
@@ -1253,12 +1253,12 @@
                         </div>
                         <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-4">
                             <i class="far fa-lg fa-clock float-left"></i>
-                            <div style="display: inline-flex" class="pl-3" > {{__('gx.submTime')}}: @if(count($submittedFiles)==0) trans('gx.noFilesSubm')@else {{$submittedFiles->first()->submissionTime}}@endif</div>
+                            <div style="display: inline-flex" class="pl-3" > {{__('gx.submTime')}}: @if(count($submittedFiles)==0) {{__('gx.noFilesSubm')}} @else {{$submittedFiles->first()->submissionTime}}@endif</div>
 
                         </div>
                         <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-4">
                             <i class="pl-1 far fa-lg fa-file float-left"></i>
-                            <div style="display: inline-flex" class="pl-3"> {{__('gx.filesSubm')}}: @if(count($submittedFiles)==0) trans('gx.noFilesSubm') @endif</div>
+                            <div style="display: inline-flex" class="pl-3"> {{__('gx.filesSubm')}}: @if(count($submittedFiles)==0) {{__('gx.noFilesSubm')}} @endif</div>
                         </div>
                         <div class="container-fluid mt-3 pr-0 ml-2" id="submittedFiles" style="background-color: white">
                             @foreach($submittedFiles as $file)
@@ -1309,7 +1309,7 @@
                                                 <h5>{{__('gx.sureRmvFile')}}</h5>
                                                 {!!Form::open(['action' => ['StudentProjectsController@update', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
                                                 {{Form::hidden('_method', 'PUT')}}
-                                                {{Form::submit(trans('gx.yes'), ['class' => 'btn btn-danger'])}}
+                                                {{Form::submit(trans('gx.remove'), ['class' => 'btn btn-danger'])}}
                                                 {{ Form::hidden('group', $idGroup) }}
                                                 {{Form::hidden('submission','removeFile')}}
                                                 {{Form::hidden('idFile','')}}
@@ -1322,17 +1322,17 @@
                         </div>
                         <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-2">
                             <i class="far fa-lg fa-medal float-left"></i>
-                            <div style="display: inline-flex" class="pl-3"> Project grade: @if((\App\Group::find($idGroup))->grade != null) {{(\App\Group::find($idGroup))->grade}} valores @else Not graded yet @endif </div>
+                            <div style="display: inline-flex" class="pl-3"> {{__('gx.project grade')}} : @if((\App\Group::find($idGroup))->grade != null) {{(\App\Group::find($idGroup))->grade}} {{__('gx.projectValues')}} @else {{__('gx.notGrdYet')}} @endif </div>
                         </div>
                         <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-4">
                             <i class="far fa-lg fa-comment-alt-lines float-left"></i>
-                            <div style="display: inline-flex" class="pl-3">Professor comment: @if((\App\Group::find($idGroup))->gradeComment != null) {{(\App\Group::find($idGroup))->gradeComment}} @else No comments about the project! @endif</div>
+                            <div style="display: inline-flex" class="pl-3">{{__('gx.professorComment')}} : @if((\App\Group::find($idGroup))->gradeComment != null) {{(\App\Group::find($idGroup))->gradeComment}} @else {{__('gx.noCommentsProject')}} @endif</div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-5 pb-3">
                     <div class="container-fluid mr-3 mt-3 p-2 pt-2 h-100 rounded" style="background-color: white;">
-                        <h5 class="text-center">Group elements evaluation</h5>
+                        <h5 class="text-center">{{__('gx.grElemEval')}}</h5>
                         @if($eval->count() > 0 && $eval->first()->status == 'submitted')
                             <div class="alert alert-success alert-dismissible fade show">
                                 <strong>{{__('gx.success!')}}</strong> {{__('gx.evaluationSentSucc')}}
@@ -1343,7 +1343,7 @@
                                 @foreach($studentEval as $user)
                                     {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST']) !!}
                                     @if($user->id == Auth::user()->id)
-                                    <tr><td colspan="3"><h5>Autoavaliação:</h5></td></tr>
+                                    <tr><td colspan="3"><h5>{{__('gx.selfEval')}}:</h5></td></tr>
                                     <tr>
                                         <td><img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}"></td>
                                         <td><a href="/profile/{{$user->id}}">{{$user->name}} - {{$user->uniNumber}}</a></td>
@@ -1357,7 +1357,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                            <tr><td colspan="3"><h5>Heteroavaliação</h5></td></tr>
+                                            <tr><td colspan="3"><h5>{{__('gx.groupEval')}}</h5></td></tr>
                                     @else
                                         <tr>
                                             <td><img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}"></td>
@@ -1454,7 +1454,7 @@
                                                 <div class="modal-body">
                                                     <h5>{{__('gx.sureSubmitEval')}}</h5>
                                                     <p>{{__('gx.makeChangesEvals')}}</p>
-                                                    <button type="button" class="btn btn-success float-right" id="submitEval">{{__('gx.yes')}}</button>
+                                                    <button type="button" class="btn btn-success float-right" id="submitEval">{{__('gx.submit')}}</button>
                                                 </div>
                                             </div>
                                         </div>

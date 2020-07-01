@@ -189,6 +189,7 @@ return [
     'project' => 'Project',
     'beg_date' => 'Begging date',
     'nostdfound' => 'No students sugestions found.',
+    'subInfo' => 'Submission information',
 
     'surelvgroup' => 'Are you sure you want to leave the group?',
     'repo' => 'Repository',
@@ -219,7 +220,7 @@ return [
     'success!' => 'Success !',
     'evaluationSentSucc' => 'Your group elements evaluation has been sent successfully.',
     'submitEvals' => 'Submit evaluations',
-    'sureSubmitEval?' => 'Are you sure you want to submit the evaluation?',
+    'sureSubmitEval' => 'Are you sure you want to submit the evaluation?',
     'makeChangesEvals' => 'If you submit the evaluations you can no longer make changes.',
     'evalSentSucc' => 'Your group elements evaluation has been sent successfully.',
     'noFilesSubm' => 'No files submitted',
@@ -351,6 +352,8 @@ return [
     'new post' => 'New post',
     'elements' =>'Elements',
     'project grade' => 'Project grade',
+    'professorComment' => 'Professor comment',
+    'projectValues' => 'values',
     'title' => 'Title',
     'body' => 'Body',
     'comment(opcional)' => 'Comment(optional)',
@@ -573,6 +576,11 @@ return [
     'beginning2Req' => 'The meeting date field is required!',
     'submittedN' => 'Submitted!',
     'youhavenonotif' => 'You have no notifications',
+    'notGrdYet' => 'Not graded yet',
+    'noCommentsProject' => 'No comments about the project!',
+    'grElemEval' => 'Group elements evaluation',
+    'hasntUplFile' => 'The professor hasn\'t uploaded any file',
+
 
 
 

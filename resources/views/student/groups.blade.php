@@ -302,7 +302,7 @@
                                         <td class="text-center">{!!Form::label('nameStudent', $studentInfo->name)!!}</td>
                                         <td class="text-center">{!!Form::label('uniNumber', $studentInfo->uniNumber)!!}</td>
                                         <td class="text-center">{!!Form::label('class', $studentInfo->class)!!}</td>
-                                        <td class="text-center"><p><a onclick='chat({{$studentInfo->id}})' data-dismiss="modal"><i class="far fa-envelope" style="font-size: 1.5em;padding-top:10%;cursor: pointer;"></i></a></p></td>
+                                        <td class="text-center"><p><i onclick='chat({{$studentInfo->id}})' class="far fa-envelope" style="font-size: 1.5em;padding-top:10%;cursor: pointer;"></i></p></td>
                                         <td style="cursor: pointer" class="text-center">{!!Form::checkbox('idStudent[]'.$studentInfo->id, $studentInfo->id,false,['onClick' => 'countCheck()'])!!}</td>
 
                                     </tr>
@@ -357,7 +357,7 @@
                                     <td class="text-center">{{$studentInfo->uniNumber}}</td>
                                     <td class="text-center">{{$studentInfo->class}}</td>
                                     <td></td>
-                                    <td class="text-center"><p><a onclick='chat({{$studentInfo->id}})' data-dismiss="modal"><i class="far fa-envelope" style="font-size: 1.5em;padding-top:10%;cursor: pointer;"></i></a></p></td>
+                                    <td class="text-center"><p><i onclick='chat({{$studentInfo->id}})' class="far fa-envelope" style="font-size: 1.5em;padding-top:10%;cursor: pointer;"></i></p></td>
                                 </tr>
 
                             @endforeach

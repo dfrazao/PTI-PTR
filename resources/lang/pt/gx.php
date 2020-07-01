@@ -215,7 +215,7 @@ return [
     'success!' => 'Sucesso !',
     'evaluationSentSucc' => 'A sua avaliação aos membros do grupo foi enviada com sucesso.',
     'submitEvals' => 'Submeter avaliações',
-    'sureSubmitEval?' => 'Tem a certeza que deseja submeter estas avaliações?',
+    'sureSubmitEval' => 'Tem a certeza que deseja submeter estas avaliações?',
     'makeChangesEvals' => 'Se submeter estas avaliações não as conseguirá modificar.',
     'evalSentSucc' => 'A sua avaliação aos membros do grupo foi enviada com sucesso.',
     'noFilesSubm' => 'Nenhum ficheiro submetido!',
@@ -512,8 +512,8 @@ consegue atribuir uma nota ao grupo com a possibilidade de alterar a nota atribu
     'tWorkEval' => 'Avaliação de trabalho de equipa',
     'noStudsInGroup' => 'Não há estudantes neste grupo',
     'elem' => 'Elementos',
-    'selfEval' => 'Auto-avaliação',
-    'groupEval' => 'Avaliação do grupo',
+    'selfEval' => 'Autoavaliação',
+    'groupEval' => 'Heteroavaliação',
     'submWithDelay' => 'Submetido com atraso de',
     'submWithSucc' => 'Submetido com sucesso!',
     'noFilesSub' => 'Nenhum ficheiro submetido',
@@ -549,5 +549,13 @@ consegue atribuir uma nota ao grupo com a possibilidade de alterar a nota atribu
     'beginning2Req' => 'O campo data da reunião é obrigatório!',
     'submittedN' => 'Submetido!',
     'youhavenonotif' => 'Não tem notificações',
+    'subInfo' => 'Informação da submissão',
+    'professorComment' => 'Comentário do professor',
+    'projectValues' => 'valores',
+    'notGrdYet' => 'Por classificar.',
+    'noCommentsProject' => 'Sem comentários sobre o projeto!',
+    'grElemEval' => 'Avaliação dos membros do grupo.',
+    'hasntUplFile' => 'O professor ainda não fez upload de nenhum ficheiro.',
+
 
 ];
