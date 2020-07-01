@@ -448,7 +448,7 @@
                     </div>
                     <div class="form-group">
                         {{Form::label('maxGrade', trans('gx.project maxGrade'))}}
-                        {{Form::number('maxGrade', '', ['class' => 'form-control', 'step'=>'any', 'with'=>50])}}
+                        {{Form::number('maxGrade', '', ['class' => 'form-control', 'step'=>'any', 'min'=>0])}}
                     </div>
                     <div class="form-group">
                         {{Form::label('documentation', trans('gx.documentation'))}}
@@ -456,8 +456,6 @@
                     </div>
                     {{Form::hidden('subject', "subject")}}
                     {{Form::hidden('option', 'project')}}
-
-                    {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
                     {{Form::button('<i class="fas fa-check mr-2"></i>'.trans('gx.submit'), ['type' => 'submit', 'class' => 'btn btn-success btn-sm float-right'])}}
 
 

@@ -114,7 +114,7 @@
                                         </div>
                                         <div class="form-group">
                                             {{Form::label('maxGrade', trans('gx.project maxGrade'))}}
-                                            {{Form::number('maxGrade', $project->maxGrade , ['class' => 'form-control', 'step'=>'any','min'=>0,'max'=>$project->maxGrade])}}
+                                            {{Form::number('maxGrade', $project->maxGrade , ['class' => 'form-control', 'step'=>'any','min'=>0])}}
                                         </div>
                                         {{ Form::hidden('subject', $subject->idSubject) }}
                                         {{Form::hidden('option', 'project')}}
