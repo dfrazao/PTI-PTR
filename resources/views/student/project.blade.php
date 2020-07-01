@@ -72,7 +72,7 @@
         </li>
     </ul>
 
-    <div class="tab-content pb-3 ml-0 mr-0" id="myTabContent" style="min-height: 75vh; background-color: #c6c6c6;">
+    <div class="tab-content pb-3 ml-0 mr-0" id="myTabContent" style="min-height: 75vh; background-color: #d4d4d4;">
         <div class="container-fluid fade tab-pane " id="content" role="tabpanel" aria-labelledby="content-tab">
             <div id="row1" class="row rounded">
                 <style>
@@ -621,9 +621,6 @@
                                         }
                                     }
 
-                                    #container_row2{
-                                        background-color: #c6c6c6;
-                                    }
                                     @media screen and (max-width: 800px) {
                                         .abcd{
                                             font-size: 1.1vh;
@@ -1591,8 +1588,8 @@
         }
     }
      .nav-tabs .nav-link.active{
-         background-color: #c6c6c6;
-         border-color: #c6c6c6;
+         background-color: #d4d4d4;
+         border-color: #d4d4d4;
      }
     .nav-tabs .nav-link{
         color: #2c3fb1;
