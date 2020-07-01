@@ -6,12 +6,17 @@
     <body onload="sortTable()">
     <div class="container-fluid pl-4 pr-4 pb-2 mt-3">
         @include('layouts.messages')
-        <nav id="breadcrumb" aria-label="breadcrumb" >
+        <nav id="breadcrumb" aria-label="breadcrumb" style="margin-right: 3%">
             <ol id="breadcrumb" class="breadcrumb pl-0 pb-0 mb-4 h3" style="background-color:white; ">
                 <li id="bc1" class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>{{__('gx.dashboard')}}</a></li>
                 <li id="bc2" class="breadcrumb-item " aria-current="page" >{{__('gx.group creation')}} - {{$subject->subjectName}} - {{$project->name}}</li>
+                <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto">
+                    <div ><div id="creation_deadline" class="countdown" ><i class="far fa-lg fa-users float-left pl-2"></i> <div id="timer1" class="timer"> </div></div></div>
+                </div>
             </ol>
-            <div style="padding-right: 5%"><div id="creation_deadline" class="countdown" style="float:right "><i class="far fa-lg fa-users"></i> <div id="timer1" class="timer"> </div></div></div>
+
+
+
         </nav>
 
         <br>
@@ -33,8 +38,8 @@
                 }
             }
         </style>
-    <div container-xl-fluid mt-4 pl-5 pr-5 pb-2 rounded style="padding-right:5%;padding-left: 5%;padding-bottom: 1%">
-        <div class="container-xl-fluid mt-4 pl-5 pr-5 pb-2 rounded " style="background-color: #ededed;padding-left: 10%;padding-right: 10%;">
+    <div container-xl-fluid mt-4 pl-5 pr-5 pb-2 rounded style="padding-right:5%;padding-left: 5%;padding-bottom: 1%;">
+        <div class="container-xl-fluid mt-4 pl-5 pr-5 pb-2 rounded " style="background-color: #ededed;padding-left: 10%;padding-right: 10%;padding-top: 2%">
 
             <style>
                 #creation_deadline{
@@ -173,12 +178,12 @@
                     @if(count($groupNumber) > 0)
                         @foreach($groupNumber as $groupN)
                             <tr>
-                                <td>
+                                <td class="text-center" style="vertical-align: middle">
                                     {{$students_per_group[$groupN][0]->idGroupProject }}
                                 </td>
-                                <td>
+                                <td  class="text-center" style="vertical-align: middle">
                                     {{count($students_per_group[$groupN])}}/{{$projectMaxElements}}</td>
-                                <td>
+                                <td  class="text-center" style="vertical-align: middle">
                                     @foreach($students_per_group[$groupN] as $studInfo)
                                         <a href="/profile/{{$studInfo->id }}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$studInfo->photo)}}"><span style="vertical-align: middle;"> {{$studInfo->name}}</span></a>
 
@@ -187,19 +192,18 @@
 
 
                                 @if(count($students_per_group[$groupN]) == $projectMaxElements)
-                                    <td><button type="button" class="btn btn-danger" style="width: 12em" disabled><i class="fas fa-ban"></i> {{__('gx.group full')}}</button> </td>
+                                    <td style="vertical-align: middle"><button type="button" class="btn btn-danger disabled" style="width: 10em" ><i class="fas fa-ban"></i> {{__('gx.group full')}}</button> </td>
                                 @elseif(in_array($user,$studentsIdGroupValues))
-                                    <td><button type="button" class="btn btn-primary disabled" style="width: 12em" disabled> <i class="fas fa-sign-in-alt"></i> {{__('gx.join group')}}</button> </td>
+                                    <td style="vertical-align: middle"><button type="button" class="btn btn-primary disabled" style="width: 10em" disabled> <i class="fas fa-sign-in-alt"></i> {{__('gx.join group')}}</button> </td>
                                 @else
-                                    <td>
+                                    <td  style="vertical-align: middle">
                                         @csrf
                                         {!!Form::open(['action' => ['GroupController@update', $project -> idProject], 'method' => 'POST'])!!}
                                         {!!Form::hidden('userJoin', $user)!!}
                                         {!!Form::hidden('idProject', $project->idProject)!!}
                                         {!!Form::hidden('idGroupJoin', $groupN)!!}
                                         {!!Form::hidden('_method','PUT')!!}
-                                        {{Form::button('<i class="fas fa-sign-in-alt"></i> '.trans('gx.join group'),['type' => 'submit','class'=>'btn btn-primary btn_joinGroup'],['style'=>'width: 12em'])}}
-
+                                        {{Form::button('<i class="fas fa-sign-in-alt"></i> '.trans('gx.join group'),['type' => 'submit','class'=>'btn btn-primary btn_joinGroup','style'=>'width: 10em'])}}
                                         {!!Form::close()!!}
                                     </td>
 
@@ -225,12 +229,12 @@
             @if(count($subjectStudentsNoGroup)==0 or $numberGroupsInsideProject == $projectMaxGroups or in_array($user,$studentsIdGroupValues) )
 
                 <div style="padding-left:40%;margin-bottom: 20%">
-                    <button type="button" class="btn btn-success disabled " data-toggle ="modal" style="width: 11em" ><i class="fas fa-plus-circle"></i> {{__('gx.create group')}} </button>
+                    <button type="button" class="btn btn-success disabled " data-toggle ="modal" style="width: 11em" ><i class="fas fa-plus"></i> {{__('gx.create group')}} </button>
                     <button  type="button" id="btn2" class="btn btn-primary disabled" data-toggle="modal" style="width: 11em"><i class="far fa-user-graduate"></i>{{__('gx.student sugestions')}}</button>
                 </div>
             @else
                 <div style="padding-left:40%;margin-bottom: 20%">
-                    <button id="btn_criargrupo" type="button" class="btn btn-success" data-toggle="modal" data-target="#modalCriarGrupo" style="width: 12em"><i class="fas fa-plus-circle"></i> {{__('gx.create group')}}</button>
+                    <button id="btn_criargrupo" type="button" class="btn btn-success" data-toggle="modal" data-target="#modalCriarGrupo" style="width: 12em"><i class="fas fa-plus"></i> {{__('gx.create group')}}</button>
                     <button id="btn_sugestoes" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalSugestaoGrupo" style="width: 12em"><i class="fas fa-user-graduate"></i> {{__('gx.student sugestions')}}</button>
                 </div>
 
@@ -280,9 +284,9 @@
                             <table id="datatable" class="display">
                                 <thead>
                                 <tr style="font-size: 1.3vh">
-                                    <th>{{__('gx.name')}}</th>
-                                    <th>{{__('gx.student number')}}</th>
-                                    <th>{{__('gx.class')}}</th>
+                                    <th class="text-center">{{__('gx.name')}}</th>
+                                    <th class="text-center">{{__('gx.student number')}}</th>
+                                    <th class="text-center">{{__('gx.class')}}</th>
                                     <th></th>
                                     <th></th>
 
@@ -292,22 +296,12 @@
                                 <tbody class="t-body">
                                 @foreach($subjectStudentsNoGroup as $studentInfo)
                                     <tr style="font-size: 1.3vh">
-                                        <td>{!!Form::label('nameStudent', $studentInfo->name)!!}</td>
-                                        <td>{!!Form::label('uniNumber', $studentInfo->uniNumber)!!}</td>
-                                        <td>{!!Form::label('class', $studentInfo->class)!!}</td>
-                                        <td><p><a onclick='chat()' data-dismiss="modal"><i class="far fa-envelope" style="font-size: 1.5em;padding-top:10%;cursor: pointer;"></i></a></p></td>
-                                        <td style="cursor: pointer">{!!Form::checkbox('idStudent[]'.$studentInfo->id, $studentInfo->id,false,['onClick' => 'countCheck()'])!!}</td>
+                                        <td class="text-center">{!!Form::label('nameStudent', $studentInfo->name)!!}</td>
+                                        <td class="text-center">{!!Form::label('uniNumber', $studentInfo->uniNumber)!!}</td>
+                                        <td class="text-center">{!!Form::label('class', $studentInfo->class)!!}</td>
+                                        <td class="text-center"><p><a onclick='chat({{$studentInfo->id}})' data-dismiss="modal"><i class="far fa-envelope" style="font-size: 1.5em;padding-top:10%;cursor: pointer;"></i></a></p></td>
+                                        <td style="cursor: pointer" class="text-center">{!!Form::checkbox('idStudent[]'.$studentInfo->id, $studentInfo->id,false,['onClick' => 'countCheck()'])!!}</td>
 
-                                        <script>
-                                            function chat() {
-                                                var x = document.getElementById("este");
-                                                if (x.style.display === "block") {
-                                                    x.style.display = "none";
-                                                } else {
-                                                    x.style.display = "block";
-                                                }
-                                            }
-                                        </script>
                                     </tr>
 
                                 @endforeach
@@ -346,21 +340,21 @@
                         <table id="datatable2" class="display rounded">
                             <thead >
                             <tr style="font-size: 1.3vh">
-                                <th>{{__('gx.name')}}</th>
-                                <th>{{__('gx.student number')}}</th>
-                                <th>{{__('gx.class')}}</th>
-                                <th></th>
+                                <th class="text-center">{{__('gx.name')}}</th>
+                                <th class="text-center">{{__('gx.student number')}}</th>
+                                <th class="text-center">{{__('gx.class')}}</th>
+                                <th class="text-center"></th>
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody class="t-body">
                             @foreach($stdSugestWGrade as $studentInfo)
                                 <tr style="font-size: 1.3vh">
-                                    <td>{{$studentInfo->name}}</td>
-                                    <td>{{$studentInfo->uniNumber}}</td>
-                                    <td>{{$studentInfo->class}}</td>
+                                    <td class="text-center">{{$studentInfo->name}}</td>
+                                    <td class="text-center">{{$studentInfo->uniNumber}}</td>
+                                    <td class="text-center">{{$studentInfo->class}}</td>
                                     <td></td>
-                                    <td><p><a onclick='chat()' data-dismiss="modal"><i class="far fa-envelope" style="font-size: 1.5em;padding-top:10%;cursor: pointer;"></i></a></p></td>
+                                    <td class="text-center"><p><a onclick='chat({{$studentInfo->id}})' data-dismiss="modal"><i class="far fa-envelope" style="font-size: 1.5em;padding-top:10%;cursor: pointer;"></i></a></p></td>
                                 </tr>
 
                             @endforeach
@@ -380,16 +374,6 @@
 
 
 
-    <script>
-        function chat() {
-            var x = document.getElementById("testee");
-            if (x.style.display === "block") {
-                x.style.display = "none";
-            } else {
-                x.style.display = "block";
-            }
-        }
-    </script>
 
     <script>
         function countCheck() {
@@ -515,6 +499,18 @@
             font-weight: 100;
             color: navy;
         }
+        td {
+            border-bottom: 2px solid #989c9c;
+            border-top: 2px solid #989c9c;
+            border-collapse: collapse;
+            background-color: #f5f8ff;
+        }
+        table tr:hover td {
+            background-color: #FEFEFE;
+        }
+        td > * {
+            vertical-align : middle;
+        }
 
 
         #timer1 div {
@@ -529,15 +525,7 @@
             font-weight: 400;
         }
 
-        .table-striped>tbody>tr:nth-child(odd)>td,
-        .table-striped>tbody>tr:nth-child(odd)>th {
-            background-color: #E2E4FF; // Choose your own color here
-        }
 
-        .table-striped>tbody>tr:nth-child(even)>td,
-        .table-striped>tbody>tr:nth-child(even)>th {
-            background-color: #f5f8ff; // Choose your own color here
-        }
     </style>
     </body>
 @endsection

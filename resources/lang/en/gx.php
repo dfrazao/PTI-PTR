@@ -427,7 +427,7 @@ return [
     'helpGroupStud2' => 'When clicking this button , the user will join the respective group and will be redirected to the project page, if the button is disabled , the group has reached the maximum capacity.',
     'helpGroupStud3' => 'When clicking this button a modal will prompt , and the student will have access to other students in the same subject that don\'t belong to a group yet and that have previous teamwork evaluation. The students list is sorted by the highest teamwork evaluation average first, the user can search
                         for a specific student,class and name and open up the chat interface with that student by clicking the message icon.',
-
+    'helpGroupStud4' => 'The icon on the top right side is the countdown of the group formation deadline.',
 
     'helpDashboardProf' => 'The subjects are displayed according to the current user and the current academic year however the user can select a different academic year in the blue drop down
                         menu with an year format. The subjects appear minimized , so the user has to expand the desired one to view data to get more info about the subject. The user is able view projects or create a new project specifying the project name ,
@@ -569,6 +569,7 @@ return [
     'placeReq' => 'The meeting place field is required!',
     'beginning2Req' => 'The meeting date field is required!',
     'submittedN' => 'Submitted!',
+    'youhavenonotif' => 'You have no notifications',
 
 
 

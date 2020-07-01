@@ -110,7 +110,7 @@
 
                                                 </div>
                                                 <div class="media-body">
-                                                    <p class="notification-desc">You have no notifications</p>
+                                                    <p class="notification-desc">{{__('gx.youhavenonotif')}}</p>
                                                 </div>
                                             </div>
                                     @else
@@ -418,6 +418,8 @@
                 </div>
                 <div class="modal-body" style="display: inline" >
                     <dl>
+                        <dt><h5 class="text-light bg-secondary rounded" style="width:fit-content;padding-right:0.5%;padding-left:0.5%">{{__('gx.groups')}}</h5></dt>
+                        <dd>{{__('gx.helpGroupStud4')}}</dd><br>
                         <dt><h5 class="text-light bg-secondary rounded" style="width:fit-content;padding-right:0.5%;padding-left:0.5%">{{__('gx.join group')}}</h5></dt>
                         <dd>{{__('gx.helpGroupStud2')}}</dd><br>
                         <dt><h5 class="text-light bg-secondary rounded" style="width:fit-content;padding-right:0.5%;padding-left:0.5%">{{__('gx.create group')}}</h5></dt>

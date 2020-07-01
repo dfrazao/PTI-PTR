@@ -479,6 +479,8 @@ return [
     'helpGroupStud3' => 'Ao clicar neste botão , irá aparecer um modal onde o aluno terá acesso a outros estudantes da mesma unidade curricular que ainda não possuem grupo e que têm avaliações relativas ao trabalho de equipa previamente feito. A lista apresentada está ordenada pela maior média de classificação de trabalho de equipa nas avaliações entre alunos. O
     utilizador pode pesquisar por um utilizador e abrir um chat com esse estudante ao clicar no icon de mensagem.',
 
+    'helpGroupStud4' => 'O símbolo que aparece no canto superior direito diz respeito ao prazo de formação dos grupos.',
+
 
     'helpDashboardProf' => 'As unidades curriculares são exibidas segundo o papel do utilizador e o ano académico selecionado , no entanto o utilizador tem a possibilidade de aceder a
     unidades curriculares de anos letivos anteriores clicando no dropdown azul com a indicação do ano. As unidades curriculares aparecem minimizadas , por isso o utilizador terá de as expandir para obter mais informação acerca da unidade curricular. O utilizador
@@ -545,5 +547,6 @@ consegue atribuir uma nota ao grupo com a possibilidade de alterar a nota atribu
     'placeReq' => 'O campo lugar da reunião é obrigatório!',
     'beginning2Req' => 'O campo data da reunião é obrigatório!',
     'submittedN' => 'Submetido!',
+    'youhavenonotif' => 'Não tem notificações',
 
 ];
