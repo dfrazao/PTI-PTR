@@ -115,7 +115,7 @@
                                         @foreach($rep as $file)
                                             @if((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "txt")
                                                 <tr class="file" id="{{$file->idFile}}">
-                                                    <td><input type="checkbox" class="form-check-input float-left" id="exampleCheck1"><i class="fad fa-2x fa-file-alt " id= '{{$file->idFile}}'></i></td>
+                                                    <td><input type="checkbox" class="form-check-input float-left" id="exampleCheck1"><i class="fad fa-2x fa-file-alt icon_repository" id= '{{$file->idFile}}'></i></td>
                                                     <td id="filename">{{$file->pathFile}}</td>
                                                     <td>{{$file->userUpload}}</td>
                                                     <td>{{$file->uploadTime}}</td>
@@ -134,7 +134,7 @@
                                                 </tr>
                                             @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "png")
                                                 <tr class="file" id="{{$file->idFile}}">
-                                                    <td><input type="checkbox" class="form-check-input" id="exampleCheck1"><i class="fas fa-2x fa-2x fa-file-image "  id= '{{$file->idFile}}'></i></td>
+                                                    <td><input type="checkbox" class="form-check-input" id="exampleCheck1"><i class="fas fa-2x fa-2x fa-file-image icon_repository"  id= '{{$file->idFile}}'></i></td>
                                                     <td id="filename">{{$file->pathFile}}</td>
                                                     <td >{{$file->userUpload}}</td>
                                                     <td>{{$file->uploadTime}}</td>
@@ -153,8 +153,8 @@
 
                                                 </tr>
                                             @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "pdf" )
-                                                <tr class="file" id="{{$file->idFile}}">
-                                                    <td><div><input type="checkbox" class="form-check-input" id="exampleCheck1"><i class="fal fa-2x fa-file-pdf"  id= '{{$file->idFile}}'></i></div></td>
+                                                <tr class="file rep_font" id="{{$file->idFile}}">
+                                                    <td><div><input type="checkbox" class="form-check-input" id="exampleCheck1"><i class="fal fa-2x fa-file-pdf icon_repository"  id= '{{$file->idFile}}'></i></div></td>
                                                     <td id="filename">{{$file->pathFile}}</td>
                                                     <td>{{$file->userUpload}}</td>
                                                     <td>{{$file->uploadTime}}</td>
@@ -173,8 +173,8 @@
 
                                                 </tr>
                                             @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "docx" )
-                                                <tr class="file" id="{{$file->idFile}}">
-                                                    <td><div><input type="checkbox" class="form-check-input" id="exampleCheck1"><i class="fal fa-2x fa-file-word "  id= '{{$file->idFile}}'></i></div></td>
+                                                <tr class="file rep_font" id="{{$file->idFile}}">
+                                                    <td><div><input type="checkbox" class="form-check-input" id="exampleCheck1"><i class="fal fa-2x fa-file-word icon_repository"  id= '{{$file->idFile}}'></i></div></td>
                                                     <td id="filename">{{$file->pathFile}}</td>
                                                     <td>{{$file->userUpload}}</td>
                                                     <td>{{$file->uploadTime}}</td>
@@ -193,8 +193,8 @@
 
                                                 </tr>
                                             @elseif((pathinfo($file->pathFile, PATHINFO_EXTENSION)) == "zip" )
-                                                <tr class="file" id="{{$file->idFile}}">
-                                                    <td><input type="checkbox" class="form-check-input" id="exampleCheck1"><i class="fal fa-2x fa-file-archive" id= '{{$file->idFile}}'></i></td>
+                                                <tr class="file rep_font" id="{{$file->idFile}}">
+                                                    <td><input type="checkbox" class="form-check-input" id="exampleCheck1"><i class="fal fa-2x fa-file-archive icon_repository" id= '{{$file->idFile}}'></i></td>
                                                     <td id="filename">{{$file->pathFile}}</td>
                                                     <td >{{$file->userUpload}}</td>
                                                     <td>{{$file->uploadTime}}</td>
@@ -212,8 +212,8 @@
                                                     </td>
                                                 </tr>
                                             @else
-                                                <tr class="file" id="{{$file->idFile}}">
-                                                    <td><input type="checkbox" class="form-check-input" id="exampleCheck1"><i class="fal fa-2x fa-file-code"  id= '{{$file->idFile}}'></i></td>
+                                                <tr class="file rep_font" id="{{$file->idFile}}">
+                                                    <td><input type="checkbox" class="form-check-input" id="exampleCheck1"><i class="fal fa-2x fa-file-code icon_repository"  id= '{{$file->idFile}}'></i></td>
                                                     <td id="filename">{{$file->pathFile}}</td>
                                                     <td >{{$file->userUpload}}</td>
                                                     <td>{{$file->uploadTime}}</td>
@@ -249,12 +249,52 @@
                                 margin-left: 0px;
                                 margin-right: 2vh;
                             }
+                            @media screen and (max-width: 500px) {
+                                .icon_repository{
+                                    display: none;
+                                }
+                                .rep_font{
+                                    font-size: 1.3vh;
+                                }
+                            }
                         </style>
 
 
-                        <button type="submit" disabled class="p-2 btn btn-success btn-sm" id='submitFile' data-toggle="modal" data-target="#modalSubmitFile" style="font-size:2vh; color: white; bottom: 7px;position: absolute; right: 22px; width: 15vh;"><i class="fas fa-check"></i> {{__('gx.submit')}}</button>
-                        <button type="button" class="p-2 btn btn-primary btn-sm stopYear" data-toggle="modal" data-target="#modalAddFile" style="font-size:2vh; position: absolute; right: 20vh;bottom: 7px;width: 25vh;" data-toggle="modal"><i class="fas fa-upload mr-2"></i>{{__('gx.upload files')}}</button>
+                        <button type="submit" disabled class="p-2 btn btn-primary btn-sm" id='submitFile' data-toggle="modal" data-target="#modalSubmitFile" >{{__('gx.submit')}}</button>
+                        <button type="button" class="p-2 btn btn-primary btn-sm stopYear" id="uploadBtn" data-toggle="modal" data-target="#modalAddFile" data-toggle="modal"><i class="fas fa-upload mr-2"></i>{{__('gx.upload files')}}</button>
 
+                        <style>
+                            #submitFile{
+                                font-size:2vh;
+                                color: white;
+                                bottom: 7px;
+                                position: absolute;
+                                right: 22px;
+                                width: 15vh;"
+                            }
+                            #uploadBtn{
+                                font-size:2vh;
+                                position: absolute;
+                                right: 20vh;
+                                bottom: 7px;
+                                width: 25vh;
+                            }
+                            @media screen and (max-width: 768px) {
+                                #submitFile{
+                                    font-size:1.5vh;
+                                    position: absolute;
+                                    right: 22px;
+                                    width: 8vh;"
+                                }
+                                #uploadBtn{
+                                    font-size:1.5vh;
+                                    position: absolute;
+                                    right: 12vh;
+                                    bottom: 7px;
+                                    width: 12vh;
+                                }
+                            }
+                        </style>
 
                         {{-- Modal Submit File --}}
                         <div class="modal fade" id="modalSubmitFile" aria-labelledby="modalSubmitFile" aria-hidden="true" tabindex="-1" role="dialog">
@@ -402,13 +442,14 @@
                         #col_notes{
                         }
                     }
-                    @media screen and (max-width: 1000px) {
+                    @media screen and (max-width: 991px) {
                         #col_docs{
                             margin-left: 0.5%;
                             margin-bottom: 10%;
                         }
                         #col_notes{
                             margin-left: 0.8%;
+                            padding-bottom: 10%;
                         }
 
                     }
@@ -419,6 +460,8 @@
                         }
                         #col_notes{
                             margin-left: 0.8%;
+                            padding-bottom: 15%;
+
                         }
 
                     }
@@ -477,7 +520,7 @@
                                             <td id="task_b">{{$t->beginning}}</td>
                                             <td id="task_e">{{$t->end}}</td>
                                             <td>{{$t->duration}}</td>
-                                            <td class="float-right pr-0"><button id="edit_tasks"  style="width:11vh" type="button" class="btn btn-sm btn-success editTask mr-md-2"><i class="fas fa-edit mr-2"></i>{{__('gx.edit')}}</button><button type="button" id="delete_tasks" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalDelete-{{$t->idTask}}"><i class="fal fa-trash mr-2"></i>{{__('gx.delete')}}</button></td>
+                                            <td class="float-right pr-0"><button type="button" id="delete_tasks" class="btn btn-sm btn-danger mr-md-2" data-toggle="modal" data-target="#modalDelete-{{$t->idTask}}"><i id="icon_tasks" class="fal fa-trash mr-2"></i>{{__('gx.delete')}}</button><button id="edit_tasks"  type="button" class="btn btn-sm btn-success editTask mr-md-2"><i id="icon_tasks" class="fas fa-edit mr-2"></i>{{__('gx.edit')}}</button></td>
                                         </tr>
                                         <tr class="d-none" id="{{$t->idTask}}-edit">
                                             @csrf
@@ -503,8 +546,7 @@
                                                 {{Form::hidden('task', $t->idTask) }}
                                                 {{Form::hidden('group', $t-> idGroup)}}
                                                 {{Form::hidden('_method','PUT')}}
-
-                                                <td class="form-group float-right pr-0">{{Form::button('<i class="fas fa-check"></i> '.trans('gx.save'), ['type' => 'submit','class'=>'btn btn-sm mr-2 btn-success float-right', 'style'=>"width: 10vh", 'id'=>'Save'])}}<button type="button" class="btn btn-sm btn-danger editTask">{{__('gx.cancel')}}</button></td>
+                                                <td class="float-right pr-0"><button type="button" class="btn btn-sm btn-danger mr-md-2 editTask">{{__('gx.cancel')}}</button>{{Form::Submit(trans('gx.save'), ['class'=>'btn btn-sm mr-md-2 btn-success', 'id'=>'Save'])}}</td>
                                             {!! Form::close() !!}
                                             <script>
                                                 $(function() {$( "#datetimepicker1-{{$t->idTask}}" ).datetimepicker({
@@ -555,21 +597,43 @@
                                 @endif
                                 </tbody>
                                 <style>
+                                    #delete_tasks,#edit_tasks{
+                                        width: 10vh;
+                                    }
                                     /*#row2{
                                         padding-top: 2%;
                                     }*/
                                     .short-text_task { display: none; }
 
+                                    @media screen and (max-width: 1300px) {
+                                        #delete_tasks{
+                                            margin-bottom: 2%;
+                                        }
+                                    }
 
                                     @media (max-width: 800px) {
                                         .short-text_task { display: inline-block; }
                                         .full-text_task { display: none; }
                                     }
-                                    #edit_tasks{
-                                        width: 10vh;
+                                    #icon_tasks{
+                                        display: none;
                                     }
                                     #container_row2{
                                         background-color: #c6c6c6;
+                                    }
+                                    @media screen and (max-width: 800px) {
+                                        .abcd{
+                                            font-size: 1.1vh;
+                                        }
+                                        .tasks_letra {
+                                            font-size: 1.2vh;
+                                        }#edit_tasks{
+                                             width: 5vh;
+                                         }
+                                        #delete_tasks{
+                                            width: 5vh;
+                                        }
+
                                     }
                                     @media screen and (max-width: 500px) {
                                         #edit_tasks{
@@ -577,6 +641,10 @@
                                         }
                                         #delete_tasks{
                                             font-size: 1.1vh;
+                                        }
+                                        #edit_tasks{
+                                            font-size: 1.1vh;
+                                            width: 5vh;!important;
                                         }
 
                                         .table{
@@ -586,23 +654,7 @@
                                             margin-top: 20px;
                                         }
                                     }
-                                    @media screen and (max-width: 800px) {
-                                        #edit_tasks{
-                                            width: 5vh;
-                                        }
-                                        .abcd{
-                                            font-size: 1.1vh;
-                                        }
-                                        .tasks_letra {
-                                            font-size: 1.2vh;
-                                        }
-                                    }
-                                    @media screen and (max-width: 1100px) {
-                                        #edit_tasks{
-                                            width: 5vh;
-                                            font-size: 1.2vh;
-                                        }
-                                    }
+
                                 </style>
                             </table>
                         </div>
