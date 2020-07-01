@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 @if(Auth::user()->id != $user->id)
-                    <a href="#" class="btn btn-sm btn-block btn-success mt-3">
+                    <a href="#" onclick="chat({{$user->id}})" class="btn btn-sm btn-block btn-success mt-3">
                         <i class="fas fa-envelope"></i>
                         <span>{{__('gx.send a message')}}</span>
                     </a>

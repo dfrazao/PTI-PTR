@@ -109,6 +109,24 @@ WHERE groupChats.id in (SELECT max(groupChats.id) as max_id
                            FROM groupChats
                            GROUP BY groupChats.idGroup) AND studentGroups.idStudent = 1
                            ORDER BY groupChats.Date DESC');
+                    if(count($query) == 0){
+                        $output .=
+                            '<li >'.
+                            '<div class="media">'.
+                            '<div class="media-body">'.
+                            '<div style="padding: 10px; text-align: center; ">'.
+                            '<p><i class="fal fa-exclamation"></i> Atenção</p>'.
+                            '<p>Sem conversas de grupo iniciadas</p>'.
+                            '<p>Pesquise os seus grupos</p>'.
+                            '<p>Ex: Por cadeira / projeto / grupo</p>'.
+                            '</div>'.
+                            '</div>'.
+                            '</div>'.
+                            '</li>';
+                    }else{
+
+
+
                     foreach ($query as $p) {
 
                         $novo = json_decode($p->isread,true);
@@ -125,7 +143,7 @@ WHERE groupChats.id in (SELECT max(groupChats.id) as max_id
                                         "<div class='media-body'>".
                                         "<p>".$p->subjectName."</p>".
                                         "<p><i>".$p->name."</i></p>".
-                                        "<p class='name'>".$p->idGroupProject."</p>".
+                                        "<p class='name'>Group ".$p->idGroupProject."</p>".
                                         "</div>".
                                         "</div>".
                                         "</li>";
@@ -150,11 +168,12 @@ WHERE groupChats.id in (SELECT max(groupChats.id) as max_id
 
                     }
                 }
+                }
                 return Response($output);
 
             }else{
                 if($request->entity == "person") {
-                    $users=DB::table('users')->where('name','LIKE','%'.$request->search."%")->get();
+                    $users=DB::table('users')->where('name','LIKE','%'.$request->search."%")->orWhere('id','=',$request->search)->get();
                     if($users)
                     {
                         foreach ($users as $key => $user) {
@@ -196,7 +215,10 @@ WHERE groupChats.id in (SELECT max(groupChats.id) as max_id
                             "<div class='media-left'>".
                             '</div>'.
                             '<div class="media-body">'.
-                            '<p class="name">'.$p->subjectName.' | '.$p->name.' | Group '.$p->idGroupProject.'</p>'.
+                            '<p>'.$p->subjectName.'</p>'.
+                            '<p><i>'.$p->name.'</i></p>'.
+                            '<p class="name">Group '.$p->idGroupProject.'</p>'.
+                            '<p class="email"></p>'.
                             '</div>'.
                             '</div>'.
                             '</li>';

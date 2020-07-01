@@ -104,7 +104,11 @@ WHERE groupChats.id in (SELECT max(groupChats.id) as max_id
                            FROM groupChats
                            GROUP BY groupChats.idGroup) AND studentGroups.idStudent = 1
                            ORDER BY groupChats.Date DESC');
-
+                if(count($query) == 0){
+                    $collection->push([
+                        'idGroup' => 'n',
+                    ]);
+                }else{
                     foreach ($query as $p) {
                         $collection->push([
                             'idGroup' => $p->idGroup,
@@ -114,6 +118,8 @@ WHERE groupChats.id in (SELECT max(groupChats.id) as max_id
 
                         ]);
                     }
+                }
+
 
                 }
 

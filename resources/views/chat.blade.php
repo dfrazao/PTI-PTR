@@ -108,6 +108,20 @@
                         <div id="groups" class="tab-pane fade"><br>
                             <ul class="groups">
                                 @foreach ($collection as $col )
+                                    @if($col['idGroup'] == 'n')
+                                        <li >
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <div style="padding: 10px; text-align: center; ">
+                                                    <p><i class="fal fa-exclamation"></i> Atenção</p>
+                                                    <p>Sem conversas de grupo iniciadas</p>
+                                                    <p>Pesquise os seus grupos</p>
+                                                    <p>Ex: Por cadeira / projeto / grupo</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    @else
                                     <li class='group' id='group{{ $col['idGroup'] }}' name=''>
                                         <input type='hidden' id="namegroup{{ $col['idGroup'] }}" name='custId' value='{{ $col['projectName'] }}'>
                                         <input type='hidden' id="entity" name='entity' value='group'>
@@ -120,6 +134,7 @@
                                             </div>
                                         </div>
                                     </li>
+                                    @endif
                                 @endforeach
                             </ul>
                         </div>
@@ -405,9 +420,7 @@
         border-radius: 6px;
         border: 1px rgba(0, 123, 255, 0.78) solid;
         display: none;
-        -webkit-box-shadow: 10px 10px 6px -2px rgba(211,216,222,1);
-        -moz-box-shadow: 10px 10px 6px -2px rgba(211,216,222,1);
-        box-shadow: 10px 10px 6px -2px rgba(211,216,222,1);
+        
     }
     @media screen and (max-width: 800px) {
         #este{
@@ -436,6 +449,9 @@
 
 <script src="https://js.pusher.com/6.0/pusher.min.js"></script>
 <script type="text/javascript">
+
+
+
     $( ".nav-link" ).click(function() {
         $('#name').hide();
         $('#messages').hide();
@@ -627,9 +643,9 @@
     });
     $(document).on('click', '.send_btn', function () {
         var message = $('.input-text input').val();
-        if (message != '' && receiver_id != '') {
-            $('#message').data("emojioneArea").setText(""); // this work
-            var datastr = "receiver_id=" + receiver_id + "&message=" + message;
+        if (message != '' && entity != '') {
+            $('#message').data("emojioneArea").setText("");
+            var datastr = "receiver_id=" + receiver_id + "&message=" + message + "&entity=" + entity ;
             $.ajax({
                 type: "post",
                 url: "message", // need to create this post route
@@ -647,8 +663,29 @@
                         type : 'get',
                         url : '{{URL::to('search')}}',
                         data:{'search':$value},
-                        success:function(data){
-                            $('.users').html(data);
+                        complete:function(data){
+                            scrollToBottomFunc();
+                            $('#searchinput').val(null);
+                            $value=$('#searchinput').val();
+                            if(entity == "person"){
+                                $.ajax({
+                                    type : 'get',
+                                    url : '{{URL::to('search')}}',
+                                    data:{'search':$value,'entity':entity},
+                                    success:function(oi){
+                                        $('.users').html(oi);
+                                    }
+                                });
+                            }else if(entity == "group"){
+                                $.ajax({
+                                    type : 'get',
+                                    url : '{{URL::to('search')}}',
+                                    data:{'search':$value,'entity':entity},
+                                    success:function(oi){
+                                        $('.groups').html(oi);
+                                    }
+                                });
+                            }
                         }
                     });
                     var mes = $("#message").emojioneArea({

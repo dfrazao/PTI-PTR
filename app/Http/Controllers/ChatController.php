@@ -5,12 +5,14 @@ use App\Chat;
 use App\groupChat;
 use App\StudentsGroup;
 use App\User;
+use Carbon\Traits\Date;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\DB;
 use Pusher\Pusher;
 use Pusher\PusherException;
+use Carbon\Carbon;
 
 class ChatController extends Controller
 {
@@ -43,6 +45,7 @@ class ChatController extends Controller
 
     public function getMessage($entity, $user_id)
     {
+        dd($entity);
         if($entity === "group"){
 
             $my_id = Auth::id();
@@ -147,6 +150,7 @@ class ChatController extends Controller
                 ->value('name');
 
             $message = $request->message;
+            $current_date_time = Carbon::now()->toDateTimeString();
 
 
             // pusher
@@ -171,7 +175,8 @@ class ChatController extends Controller
             $data->sender = $from;
             $data->receiver = $to;
             $data->message = $message;
-            $data->isread = 0; // message will be unread when sending message
+            $data->Date = $current_date_time;
+            $data->isread = 0;
             $data->save();
 
         }else{
@@ -182,6 +187,7 @@ class ChatController extends Controller
                 ->value('name');
 
             $message = $request->message;
+            $current_date_time = Carbon::now()->toDateTimeString();
 
             // pusher
             $options = array(
@@ -206,13 +212,13 @@ class ChatController extends Controller
                 $array_product [$one]= 0;
            }
 
-//you can encode the array to json if you want to send it to an ajax call
             $json_product =  json_encode($array_product);
             $data = new groupChat();
             $data->sender = $from;
             $data->idGroup = $group_id;
             $data->message = $message;
-            $data->isread = $json_product; // message will be unread when sending message
+            $data->Date = $current_date_time;
+            $data->isread = $json_product;
             $data->save();
         }
 

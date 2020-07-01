@@ -50,6 +50,10 @@ Route::group(['middleware' => 'is.not.admin'], function () {
     Route::get('/message/{entity}/{id}', 'ChatController@getMessage')->name('message')->middleware('auth');
     Route::get('profile/message/{entity}/{id}', 'ChatController@getMessage')->name('message')->middleware('auth');
     Route::get('student/message/{entity}/{id}', 'ChatController@getMessage')->name('message')->middleware('auth');
+
+    Route::get('student/project/{projectId}/groups/message/{entity}/{id}', 'ChatController@getMessage')->name('message')->middleware('auth');
+    Route::post('student/project/{projectId}/groups/message','ChatController@sendMessage')->middleware('auth');
+
     Route::post('/message', 'ChatController@sendMessage')->middleware('auth');
     Route::post('profile/message', 'ChatController@sendMessage')->middleware('auth');
 
@@ -65,10 +69,10 @@ Route::group(['middleware' => 'is.not.admin'], function () {
 
 
 //Groups
-    Route::get('student/project/{id}/groups', 'GroupController@show')->middleware('auth');
-    Route::post('student/project/{id}/groups','GroupController@store')->middleware('auth');
-    Route::put('student/project/{id}/update/groups','GroupController@update')->middleware('auth');
-    Route::delete('student/project/{id}/destroy/groups','GroupController@destroy')->middleware('auth');
+    Route::get('student/project/{projectId}/groups', 'GroupController@show')->middleware('auth');
+    Route::post('student/project/{projectId}/groups','GroupController@store')->middleware('auth');
+    Route::put('student/project/{projectId}/update/groups','GroupController@update')->middleware('auth');
+    Route::delete('student/project/{projectId}/destroy/groups','GroupController@destroy')->middleware('auth');
 });
 
 //Admin

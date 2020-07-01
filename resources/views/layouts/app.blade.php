@@ -117,7 +117,8 @@
 
                                         @foreach(Auth::user()->Notifications as $notification)
                                             @if($notification->unread())
-                                                @if(Auth::user()->role == "student")
+
+                                        @if(Auth::user()->role == "student")
                                                         <a class="dropdown-item" href="/student/project/{{$notification->data['idProject']}}" style="padding: 5px; !important; background: rgba(255,80,95,0.23); ">
                                                 @elseif(Auth::user()->role == "professor")
                                                         <a class="dropdown-item" href="/professor/project/{{$notification->data['idProject']}}" style="padding: 5px; !important; background: rgba(255,80,95,0.23); ">
@@ -146,8 +147,13 @@
                                                     </div>
                                                 </a>
                                             @else
+
                                                 @if(Auth::user()->role == "student")
-                                                    <a class="dropdown-item" href="/student/project/{{$notification->data['idProject']}}" style="padding: 5px; !important; border-bottom: 1px solid #e7ebee;  ">
+                                                    @if($notification->data['action'] == 'Grade given')
+                                                        <a class="dropdown-item" href="/student/project/{{$notification->data['idProject']}}/#submission" style="padding: 5px; !important; border-bottom: 1px solid #e7ebee;  ">
+                                                    @else
+                                                        <a class="dropdown-item" href="/student/project/{{$notification->data['idProject']}}" style="padding: 5px; !important; border-bottom: 1px solid #e7ebee;  ">
+                                                    @endif
                                                 @elseif(Auth::user()->role == "professor")
                                                         <a class="dropdown-item" href="/professor/project/{{$notification->data['idProject']}}" style="padding: 5px; !important;  ">
                                                 @endif
@@ -183,7 +189,7 @@
 
                         @if ($notification_chat === 0)
                                 <li class="nav-item dropdown dropdown-notifications">
-                                    <a class="nav-link" id="chat_button" onclick="chat()"><i class="fa fa-envelope"></i></a>
+                                    <a class="nav-link" id="chat_button" onclick="open_chat()"><i class="fa fa-envelope"></i></a>
                                 </li>
 
                         @else
@@ -191,12 +197,33 @@
                                 sessionStorage.setItem("not", {{$notification_chat}});
                             </script>
                                 <li class="nav-item dropdown dropdown-notifications">
-                                    <a class="nav-link " id="chat_button" onclick="chat()"><i class="fa fa-envelope"></i><span class='pending_nav'></span></a>
+                                    <a class="nav-link " id="chat_button" onclick="open_chat()"><i class="fa fa-envelope"></i><span class='pending_nav'></span></a>
                                 </li>
                         @endif
                         <script>
+
+                            function open_chat() {
+                                var x = document.getElementById("este");
+                                if (x.style.display === "block") {
+                                    x.style.display = "none";
+                                } else {
+                                    x.style.display = "block";
+                                }
+                            }
+
                             function chat(user_id) {
-                                $('#'+user_id).click();
+                                $.ajax({
+                                    type : 'get',
+                                    url : '{{URL::to('search')}}',
+                                    data:{'search':user_id,'entity':"person"},
+                                    success:function(data){
+                                        $('.users').html(data);
+                                        $('#'+user_id).click();
+
+                                    }
+                                });
+
+
                                 var x = document.getElementById("este");
                                 if (x.style.display === "block") {
                                     x.style.display = "none";
