@@ -482,7 +482,7 @@
                                 @foreach($groups as $group)
                                     <li class="nav-item mb-1 rounded" style="background-color: #d0e7ff;">
                                         <a class="nav-link " style="display:flex; align-items: center;vertical-align: middle; justify-content: space-between;" id="pills-{{$group->idGroupProject}}-tab" data-toggle="pill" href="#pills-{{$group->idGroupProject}}" role="tab" aria-controls="pills-{{$group->idGroupProject}}" aria-selected="true">
-                                            <h3 class="float-left mb-0 mr-2" style="vertical-align: middle;">{{__('gx.group')}} {{$group->idGroupProject}} </h3><i class="fas fa-check-circle" id="pills-{{$group->idGroupProject}}-tab-image" style="display: none;"></i>
+                                            <h3 class="float-left mb-0 mr-2" style="vertical-align: middle;">{{__('gx.group')}} {{$group->idGroupProject}} </h3><i class="fas fa-check-circle" id="pills-{{$group->idGroupProject}}-tab-image" style="display: none"></i>
                                         </a>
                                     </li>
                                 @endforeach
@@ -746,7 +746,7 @@
                                                         }
                                                     }
                                                 </style>
-                                                <div class=" bg-light p-2 w-100 rounded " style="max-height: 100%;">
+                                                <div class=" bg-light p-2 w-100 rounded " style="height: 33vh">
                                                     <h5>{{__('gx.final group evaluation')}}</h5>
                                                     @if($group->grade != null)
                                                         <script>
@@ -801,7 +801,7 @@
                                                         @else
                                                             <p class="mb-0 p-1 rounded" style=" overflow: auto; height: 43%; background-color: #d0e7ff; margin-top: 2%;" >{{$group->gradeComment}}</p>
                                                         @endif
-                                                        <button id="changegrade" type="button" class=" btn btn-primary btn-md float-right stopYear" style="position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;" data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}" ><i class="far fa-medal mr-2"></i>{{__('gx.change grade')}}</button>
+                                                        <button id="changegrade" type="button" class=" btn btn-primary btn-md float-right stopYear" data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}" ><i class="far fa-medal mr-2"></i>{{__('gx.change grade')}}</button>
                                                         <style>
                                                             #changegrade{
                                                                 position: absolute;
@@ -810,9 +810,13 @@
                                                                 margin-bottom: 2%;
                                                                 margin-right: 2%;
                                                             }
+                                                            @media screen and (max-width: 991px){
+                                                                #changegrade {
+                                                                    bottom: 7%;
+                                                                }
+                                                            }
                                                             @media screen and (max-width: 500px){
                                                                 #changegrade {
-                                                                    margin-bottom: 15%;
                                                                     right: 2%;
                                                                 }
                                                             }

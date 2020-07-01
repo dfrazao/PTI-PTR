@@ -390,7 +390,7 @@
                 <div id="3col" class="col-lg-4 mt-3">
                     <div id="col_notes" class="row rounded h-50 pr-3">
                         <div id="col_notes_fundo" class="container-fluid rounded notes pt-2" style="background-color: #ffe680; " >
-                                <h5 class="text-center"><i class="fas fa-pen mr-2"></i>{{__('gx.notes')}}</h5>
+                                <h5 class="text-center">{{__('gx.notes')}}</h5>
 
                             {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST', 'id'=>'notesForm']) !!}
                             @csrf
@@ -438,29 +438,27 @@
                         overflow:auto;
                         max-height:30vh;
                     }
-                    @media screen and (max-width: 1300px) {
-                        #col_notes{
-                        }
-                    }
                     @media screen and (max-width: 991px) {
                         #col_docs{
                             margin-left: 0.5%;
-                            margin-bottom: 10%;
+
                         }
                         #col_notes{
                             margin-left: 0.8%;
-                            padding-bottom: 10%;
+                            padding-bottom: 20%;
+
                         }
 
                     }
                     @media screen and (max-width: 768px) {
                         #col_docs{
                             margin-left: 0.5%;
-                            margin-bottom: 12%;
+
                         }
                         #col_notes{
                             margin-left: 0.8%;
-                            padding-bottom: 15%;
+                            padding-bottom: 30%;
+
 
                         }
 
@@ -468,14 +466,15 @@
                     @media screen and (max-width: 500px) {
                         #col_docs{
                             margin-left: 0.8%;
-                            margin-bottom: 15%;
+
                         }
                         #align_docs{
                             padding-left: 0vh;
                         }
                         #col_notes{
                             margin-left: 0.8%;
-                            margin-bottom: 5%;
+                            padding-bottom: 50%;
+
                         }
 
                     }
@@ -614,10 +613,14 @@
                                     @media (max-width: 800px) {
                                         .short-text_task { display: inline-block; }
                                         .full-text_task { display: none; }
+                                        #icon_tasks{
+                                            display: none;
+                                        }
+                                        #delete_tasks,#edit_tasks{
+                                            font-size: 1.3vh;
+                                        }
                                     }
-                                    #icon_tasks{
-                                        display: none;
-                                    }
+
                                     #container_row2{
                                         background-color: #c6c6c6;
                                     }

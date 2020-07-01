@@ -88,7 +88,7 @@ return [
 
 
     //groups
-
+    'avali'                   => 'Avaliado',
     'group'                   => 'Grupo',
     'groups'                   =>'Grupos',
     'group creation'          => 'Criação de grupo',

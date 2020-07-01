@@ -1,4 +1,4 @@
-<div class="container-md" id="este" style="">
+<div class="container-md" id="este" style="position: fixed">
    <div class="row" id="esteheader">
        <div class="col p-0">
            <div id="draggable-title" class="rounded-left">
@@ -208,9 +208,9 @@
 </script>--}}
 <style>
     #este {
-        position: relative;
+        position: fixed;
         right: 10%;
-        top: 7%;
+        top: 10%;
         z-index: 9;
         background-color: #f1f1f1;
         border: 1px solid #d3d3d3;
@@ -415,7 +415,7 @@
         border-radius: 6px;
         border: 1px rgba(0, 123, 255, 0.78) solid;
         display: none;
-        
+
     }
     @media screen and (max-width: 500px) {
         #este{
