@@ -46,7 +46,7 @@
 
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        <div id="users" class=" tab-pane active"><br>
+                        <div id="users" class=" tab-pane active">
                             <ul class="users">
                                 @foreach( $users as $ele)
                                     @if($ele['isread'] == 0 && $ele['sender'] !=  null)
@@ -146,7 +146,7 @@
             </div>
 
             <div class="input-text mb-0" style="display: none; margin: 10px; text-align: start">
-                <div class="input-group">
+                <div class="input-group" style="padding-bottom: 10px">
                     <input type="text" name="message" autocomplete="off" maxlength="500" class="form-control rounded-left" id="message" data-emoji-input="unicode" data-emojiable="true">
                     <div class="input-group-append">
                         <button class="btn btn-outline-primary send_btn"><i class="fas fa-location-arrow"></i></button>
@@ -414,18 +414,21 @@
 
     }
     @media screen and (max-width: 500px) {
-        #este{
+        #este {
             position: fixed;
             width: 90%;
             right: 5%;
         }
+
         .user-wrapper {
-            height: 300px;
+            height: 150px;
             border-right: 1px solid #dddddd;
         }
-        .message-wrapper{
-            height: 300px;
+
+        .message-wrapper {
+            height: 150px;
         }
+    }
         #col-md-4{
             width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
             overflow-x: hidden;

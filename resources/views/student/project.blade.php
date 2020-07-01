@@ -1608,7 +1608,7 @@
      .nav-tabs .nav-link.active{
          background-color: #d4d4d4;
          border-color: #d4d4d4;
-     }
+     }eu
     .nav-tabs .nav-link{
         color: #2c3fb1;
     }

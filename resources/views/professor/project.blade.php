@@ -760,7 +760,7 @@
                                                                 padding-bottom: 100%;!important;
                                                             }
                                                         </style>
-                                                        <button type="button" class="btn btn-md btn-primary stopYear" style=" position: absolute; bottom: 0; right: 0; margin-right: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}"><i class="far fa-medal mr-2"></i>{{__('gx.evaluate group')}}</button>
+                                                        <button type="button" class="btn btn-md btn-primary stopYear" style=" position: absolute; bottom: 0; right: 0; margin-right: 2%; margin-bottom: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}"><i class="far fa-medal mr-2"></i>{{__('gx.evaluate group')}}</button>
 
                                                             @if($subject->academicYear == $currentYear)
                                                                 <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
@@ -808,6 +808,7 @@
                                                                 bottom: 0;
                                                                 right: 0;
                                                                 margin-right: 2%;
+                                                                margin-bottom: 2%;
                                                             }
                                                             @media screen and (max-width: 991px){
                                                                 #changegrade {
@@ -855,7 +856,7 @@
 
                                                         @else
                                                             <p class="mb-0">{{__('gx.group cant evaluate')}}</p>
-                                                            <button type="button" disabled class=" btn btn-md btn-primary stopYear" style="position: absolute;  bottom: 0; right: 0;  margin-right: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}">{{__('gx.evaluate group')}}</button>
+                                                            <button type="button" disabled class=" btn btn-md btn-primary stopYear" style="position: absolute;  bottom: 0; right: 0;  margin-right: 2%; margin-bottom: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}">{{__('gx.evaluate group')}}</button>
                                                         @endif
                                                     </div>
                                                 </div>

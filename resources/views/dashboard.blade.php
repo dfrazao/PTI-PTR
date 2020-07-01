@@ -502,9 +502,30 @@
         min-height: 37px;
         height: 50px;
     }
+    @media screen and (max-width: 1600px) {
+        tr {
+            line-height: 40px;
+            min-height: 60px;
+            height: 30px;
+        }
+    }
+    @media screen and (max-width: 1440px) {
+        tr {
+            line-height: 40px;
+            min-height: 60px;
+            height: 40px;
+        }
+    }
+    @media screen and (max-width: 1250px) {
+        tr {
+            line-height: 30px;
+            min-height: 60px;
+            height: 30px;
+        }
+    }
     @media screen and (max-width: 991px) {
         tr {
-            line-height: 60px;
+            line-height: 70px;
             min-height: 60px;
             height: 60px;
         }
