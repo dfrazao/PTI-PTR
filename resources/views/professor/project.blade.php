@@ -98,7 +98,7 @@
                                         </div>
                                         <div class="form-group">
                                             {{Form::label('deadline', trans('gx.group formation deadline'))}}
-                                            {{Form::text('group formation deadline', $project->groupCreationDueDate, ['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker1-'.$project->idProject, 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker1-'.$project->idProject, (\Carbon\Carbon::now()->floatDiffInHours($project->groupCreationDueDate, false) > 0 ? :'disabled')])}}
+                                            {{Form::text('group formation deadline', $project->groupCreationDueDate, ['class' => 'form-control datetimepicker-input', 'id' => 'datetimepicker1-'.$project->idProject, 'data-toggle' => 'datetimepicker', 'data-target' => '#datetimepicker1-'.$project->idProject])}}
                                         </div>
                                         <div class="form-group">
                                             {{Form::label('deadline', trans('gx.deadline'))}}

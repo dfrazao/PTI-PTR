@@ -100,10 +100,10 @@
                     <div class="container-fluid rounded h-100 pt-2" style="background-color: white;">
                         <h5 class="text-center">{{__('gx.repo')}}</h5>
                         <div class="table-responsive" style="overflow:auto; height: 63vh;">
-                            <table class="table table-sm repository" style=" border-collapse: collapse;">
+                            <table class="table table-sm repository" style=" border-collapse: collapse;" id="fileRepository">
                                 <thead class="text-center">
                                 <tr>
-                                    <th style="position: sticky; top: 0; background-color: whitesmoke; z-index: 3"></th>
+                                    <th scope="col" style="position: sticky; top: 0; background-color: whitesmoke; z-index: 3"></th>
                                     <th scope="col" style="position: sticky; top: 0;  background-color: whitesmoke;  z-index: 3;">{{__('gx.fileName')}}</th>
                                     <th scope="col" style="position: sticky; top: 0;  background-color: whitesmoke;  z-index: 3;">{{__('gx.user')}}</th>
                                     <th scope="col" style="position: sticky; top: 0;  background-color: whitesmoke;  z-index: 3;">{{__('gx.date')}}</th>
@@ -234,7 +234,7 @@
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="5">No files uploaded!</td>
+                                            <td colspan="5">{{__('gx.no_files_up')}}</td>
                                         </tr>
                                     @endif
                                 </tbody>
@@ -260,7 +260,7 @@
                         </style>
 
 
-                        <button type="submit" disabled class="p-2 btn btn-primary btn-sm" id='submitFile' data-toggle="modal" data-target="#modalSubmitFile" >{{__('gx.submit')}}</button>
+                        <button type="submit" disabled class="p-2 btn btn-success btn-sm" id='submitFile' data-toggle="modal" data-target="#modalSubmitFile" ><i class="fas fa-check"></i> {{__('gx.submit')}}</button>
                         <button type="button" class="p-2 btn btn-primary btn-sm stopYear" id="uploadBtn" data-toggle="modal" data-target="#modalAddFile" data-toggle="modal"><i class="fas fa-upload mr-2"></i>{{__('gx.upload files')}}</button>
 
                         <style>
@@ -367,7 +367,7 @@
                     <div id="col_groups" class="container-fluid rounded text-center h-100 pt-2" style="background-color: white;padding-bottom:5%;">
                         <h5>{{__('gx.group').' '. \App\Group::find($idGroup)->idGroupProject}}</h5>
                         <div style="overflow: auto;">
-                            <table align="center">
+                            <table align="center" id="groupElements">
                                 @foreach($groupUsers as $user)
                                     <tr>
                                         <td><img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}"></td>
@@ -384,6 +384,11 @@
                                     </tr>
                                 @endforeach
                             </table>
+                            <style>
+                                #groupElements td {
+                                    padding: 1.1vh;
+                                }
+                            </style>
                         </div>
                     </div>
                 </div>
@@ -420,7 +425,7 @@
                                             return (Math.round((bytes + Number.EPSILON) * 100) / 100 )+ ' ' + units[i];
                                         }
                                     </script>
-                                    <table align="center">
+                                    <table align="center" id="documentation">
                                     @foreach($docs as $d)
                                         <tr>
                                             @if((pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "txt")
@@ -440,11 +445,16 @@
                                             <td><div id="{{$d->pathFile}}-size"></div>
                                             </td>
                                             <script>
-                                                document.getElementById('{{$d->pathFile}}-size').innerHTML = bytesToHuman({{Storage::size('documentation/'.$idGroup.'/'.$d->pathFile)}}) ;
+                                                document.getElementById('{{$d->pathFile}}-size').innerHTML = bytesToHuman({{Storage::size('documentation/'.$group->idGroup.'/'.$d->pathFile)}}) ;
                                             </script>
                                         </tr>
                                     @endforeach
                                     </table>
+                                    <style>
+                                        #documentation td {
+                                            padding: 1.1vh;
+                                        }
+                                    </style>
                                 </div>
                             @endif
                         </div>
@@ -755,7 +765,7 @@
         <div class="container-fluid tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab">
             <div class="row rounded">
                 <div class="container-fluid mx-3 mt-3 p-2 rounded" style="background-color: white">
-                    <h5 id="titulo_groups" class="pt-2 text-center"><i class="fal fa-calendar-alt pr-2"></i>{{__('gx.group elements weekly availability')}}</h5>
+                    <h5 id="titulo_groups" class="pt-2 text-center">{{__('gx.group elements weekly availability')}}</h5>
                     {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST', 'id' => 'scheduleform']) !!}
                     @csrf
                     <style>
@@ -913,7 +923,6 @@
             <div class="row rounded">
                 <div class="container-fluid rounded text-center mx-3 mt-3 p-2 h-100" style="background-color: white;">
                     <div style="display:inline-flex;" class="h5 pt-2">
-                        <i class="far fa-user-friends float-left"></i>
                         <div class="pl-2">{{__('gx.meetings')}}</div>
                     </div>
                     <div class="table-fixed">
@@ -1407,7 +1416,7 @@
                             </div>
                         @else
                             <div class="StudentsEvaluation">
-                                <table>
+                                <table id="tableEvaluations">
                                 @foreach($studentEval as $user)
                                     {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST']) !!}
                                     @if($user->id == Auth::user()->id)
@@ -1448,7 +1457,7 @@
                                                 $('div.rating-{{$ev->receiver}} #s{{$i}}').css('color','#ffce52');
                                             @endfor
                                         @endforeach
-                                        if("{{((new \Carbon\Carbon($project->dueDate))->addDays(1))->isPast()}}" == "0"){
+                                        @if(((new \Carbon\Carbon($project->dueDate))->addDays(1))->isPast() == false)
                                             var rating = 0;
                                             $('div.rating-{{$user->id}} #s1').click(function () {
                                                 $('div.rating-{{$user->id}} .fa-star').css("color", "black");
@@ -1490,7 +1499,6 @@
                                                     datatype: 'JSON'
                                                 });
                                             });
-                                        }
                                         $('#submitEval').click(function() {
                                             $('.StudentsEvaluation').hide();
                                             $('.submitEval').addClass('d-none');
@@ -1510,6 +1518,7 @@
                                                 datatype: 'JSON'
                                             });
                                         });
+                                        @endif
                                     </script>
                                     {{-- Modal Submit Evaluations --}}
                                     <div class="modal fade" id="modalSubmitEvaluations" aria-labelledby="modalSubmitEvaluations" aria-hidden="true" tabindex="-1" role="dialog">
@@ -1532,6 +1541,11 @@
                                     {!! Form::close() !!}
                                 @endforeach
                                 </table>
+                                <style>
+                                    #tableEvaluations td {
+                                        padding: 1.1vh;
+                                    }
+                                </style>
                             </div>
                             <button type="button" class="btn btn-success submitEval float-right pt-2 stopYear" data-toggle="modal" data-target="#modalSubmitEvaluations"><i class="fas fa-check"></i> {{__('gx.submit')}}</button>
                             <div class="alert alert-success alert-dismissible fade show d-none" id="submitted">
@@ -1802,7 +1816,7 @@
     @endforeach
 
     $('.cell').on('click', function () {
-        if("{{((new \Carbon\Carbon($project->dueDate))->addDays(1))->isPast()}}" == "0"){
+        @if(((new \Carbon\Carbon($project->dueDate))->addDays(1))->isPast() == false)
             if ($(this).find('div#{{Auth::user()->id}}').length == 1) {
                 $(this).find('div#{{Auth::user()->id}}').remove();
                 datastring = {
@@ -1834,12 +1848,12 @@
                 dataType: 'JSON',
                 url: "/student/project/"
             });
-        }
+        @endif
 
     });
 
     $('.file').on('click', function () {
-        if("{{((new \Carbon\Carbon($project->dueDate))->addDays(1))->isPast()}}" == "0"){
+        @if(((new \Carbon\Carbon($project->dueDate))->addDays(1))->isPast() == false)
             if ($(this).hasClass('select')) {
                 $(this).removeClass('select');
                 $(this).find('td:first-child').find('input').removeAttr('checked');
@@ -1851,7 +1865,7 @@
             if ($('.select').length == 0) {
                 $('#submitFile').attr('disabled', 'disabled');
             }
-        }
+        @endif
     });
 
 
@@ -1922,12 +1936,33 @@
         console.log(currentYear);
         $(".stopYear").prop('disabled', true);
     }
-    if("{{((new \Carbon\Carbon($project->dueDate))->addDays(1))->isPast()}}" == "1") {
+    @if(((new \Carbon\Carbon($project->dueDate))->addDays(1))->isPast() == true)
         $(".stopYear").prop('disabled', true);
-    }
+    @endif
+    $(document).ready( function () {
+        $('#fileRepository').DataTable({
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bInfo": false,
+            "bAutoWidth": false,
+            "order": [1,2,3],
+            "language": {
+                "emptyTable": "No data available in table!"
+            },
+            "columns": [
+                { "orderable": false },
+                null,
+                null,
+                null,
+                { "orderable": false }
+            ]
+        });
 
 
-
+    });
 
 </script>
+<link rel="stylesheet" type="text/css" href="{{asset('DataTables/datatables.min.css')}}"/>
+<script type="text/javascript" src="{{asset('DataTables/datatables.min.js')}}"></script>
 @endsection

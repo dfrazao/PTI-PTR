@@ -16,7 +16,7 @@
         <div class="dropdown-menu dropdown-menu-right years-drop" id="dropdown" aria-labelledby="dropdownMenu" style="z-index: 1;">
             @foreach($academicYears  as $academicYear)
                 <?php
-                $subjectYear = $subjects->whereIn('academicYear', $academicYear->academicYear);
+                    $subjectYear = $subjects->whereIn('academicYear', $academicYear->academicYear);
                 ?>
                 @if(count($subjectYear) > 0)
                     <a class="dropdown-item" id="{{$academicYear->academicYear}}-tab">{{$academicYear->academicYear}}</a>
@@ -478,12 +478,6 @@
                     $("#datetimepicker2-dp").on("change.datetimepicker", function (e) {
                         $('#datetimepicker1-dp').datetimepicker('maxDate', e.date);
                     });
-
-                    if(subjectYear != currentYear){
-                        console.log(subjectYear);
-                        console.log(currentYear);
-                        $(".stopYear").prop('disabled', true);
-                    }
 
                 </script>
             </div>
