@@ -232,8 +232,8 @@
             @if(count($subjectStudentsNoGroup)==0 or $numberGroupsInsideProject == $projectMaxGroups or in_array($user,$studentsIdGroupValues) )
 
                 <div style="padding-left:40%;">
-                    <button type="button" class="btn btn-success disabled " data-toggle ="modal" style="width: 11em" ><i class="fas fa-plus"></i> {{__('gx.create group')}} </button>
-                    <button  type="button" id="btn2" class="btn btn-primary disabled" data-toggle="modal" style="width: 11em"><i class="far fa-user-graduate"></i>{{__('gx.student sugestions')}}</button>
+                    <button type="button" id="btn_criargrupo" class="btn btn-success disabled " data-toggle ="modal" style="width: 12em" ><i class="fas fa-plus"></i> {{__('gx.create group')}} </button>
+                    <button  type="button" id="btn_sugestoes" class="btn btn-primary disabled" data-toggle="modal" style="width: 12em"><i class="far fa-user-graduate"></i>{{__('gx.student sugestions')}}</button>
                 </div>
             @else
                 <div style="padding-left:40%;">
@@ -302,7 +302,7 @@
                                         <td class="text-center">{!!Form::label('nameStudent', $studentInfo->name)!!}</td>
                                         <td class="text-center">{!!Form::label('uniNumber', $studentInfo->uniNumber)!!}</td>
                                         <td class="text-center">{!!Form::label('class', $studentInfo->class)!!}</td>
-                                        <td class="text-center"><p><i onclick='chat({{$studentInfo->id}})' class="far fa-envelope" style="font-size: 1.5em;padding-top:10%;cursor: pointer;"></i></p></td>
+                                        <td class="text-center"><p><i onclick='chat({{$studentInfo->id}})' data-dismiss="modal" class="far fa-envelope" style="font-size: 1.5em;padding-top:10%;cursor: pointer;"></i></p></td>
                                         <td style="cursor: pointer" class="text-center">{!!Form::checkbox('idStudent[]'.$studentInfo->id, $studentInfo->id,false,['onClick' => 'countCheck()'])!!}</td>
 
                                     </tr>
@@ -357,7 +357,7 @@
                                     <td class="text-center">{{$studentInfo->uniNumber}}</td>
                                     <td class="text-center">{{$studentInfo->class}}</td>
                                     <td></td>
-                                    <td class="text-center"><p><i onclick='chat({{$studentInfo->id}})' class="far fa-envelope" style="font-size: 1.5em;padding-top:10%;cursor: pointer;"></i></p></td>
+                                    <td class="text-center"><p><i onclick='chat({{$studentInfo->id}})' data-dismiss="modal" class="far fa-envelope" style="font-size: 1.5em;padding-top:10%;cursor: pointer;"></i></p></td>
                                 </tr>
 
                             @endforeach
@@ -443,7 +443,7 @@
             "bAutoWidth": false,
             "ordering": false,
             "language": {
-                "emptyTable": "No data available in table"
+                "emptyTable": "No data available in table!"
             }
         });
     </script>
@@ -475,9 +475,7 @@
             max-height: calc(100vh - 300px);
 
         }
-        table{
 
-        }
         thead, tbody tr {
             display:table;
             width:100%;
@@ -491,22 +489,12 @@
             display:block;
 
         }
-        .t-body2{
-            max-height: calc(100vh - 400px);
-            overflow-y: auto;
-            display:block;
 
-        }
         .row {
             display: flex; /* equal height of the children */
         }
 
-        .col {
-            flex: 1; /* additionally, equal width */
 
-            padding: 1em;
-            border: solid;
-        }
         #timer1 {
             font-size: 2vh;
             font-weight: 100;

@@ -557,6 +557,7 @@ consegue atribuir uma nota ao grupo com a possibilidade de alterar a nota atribu
     'noCommentsProject' => 'Sem comentários sobre o projeto!',
     'grElemEval' => 'Avaliação dos membros do grupo.',
     'hasntUplFile' => 'O professor ainda não fez upload de nenhum ficheiro.',
+    'no_files_up' => 'Não foi feito nenhum upload a ficheiros!',
 
 
 ];

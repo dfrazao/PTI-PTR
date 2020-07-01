@@ -175,6 +175,7 @@ return [
     'sub_time' => 'Submission time',
     'files_sub' => 'Files submitted',
     'no_files_sub' => 'No files submitted!',
+    'no_files_up' => 'No files uploaded!',
     'remove file' => 'Remove File',
     'rmv_file_sure' => 'Are you sure you want to remove this file?',
     'eval_sent_success' => 'Your group elements evaluation has been sent successfully.',
@@ -582,7 +583,7 @@ return [
     'grElemEval' => 'Group elements evaluation',
     'hasntUplFile' => 'The professor hasn\'t uploaded any file',
 
-
+    'fileSub ' => 'File submitted successfully',
 
 
 

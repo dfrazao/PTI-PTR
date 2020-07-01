@@ -58,12 +58,13 @@
                             <h5>{{__('gx.surelvgroup')}}</h5>
                         </div>
                         <div class="modal-footer">
+
                             {!!Form::open(['action' => ['GroupController@destroy', $project -> idProject] , 'method' => 'POST']) !!}
                             {{Form::hidden('_method','DELETE')}}
                             {!!Form::hidden('idGroup', $idGroup) !!}
-                            {{Form::submit(trans('gx.leave group'),['class' => 'btn btn-primary'])}}
+                            {{Form::button('<i class="far fa-sign-out mr-2"></i> '.trans('gx.leave group'),['type' => 'submit','class' => 'btn btn-danger'])}}
                             {!!Form::close() !!}
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">{{__('gx.cancel')}}</button>
+
                         </div>
                     </div>
                 </div>
@@ -251,7 +252,7 @@
                         </style>
 
 
-                        <button type="submit" disabled class="p-2 btn btn-primary btn-sm" id='submitFile' data-toggle="modal" data-target="#modalSubmitFile" style="font-size:2vh; color: white; bottom: 7px;position: absolute; right: 22px; width: 15vh;">{{__('gx.submit')}}</button>
+                        <button type="submit" disabled class="p-2 btn btn-success btn-sm" id='submitFile' data-toggle="modal" data-target="#modalSubmitFile" style="font-size:2vh; color: white; bottom: 7px;position: absolute; right: 22px; width: 15vh;"><i class="fas fa-check"></i> {{__('gx.submit')}}</button>
                         <button type="button" class="p-2 btn btn-primary btn-sm stopYear" data-toggle="modal" data-target="#modalAddFile" style="font-size:2vh; position: absolute; right: 20vh;bottom: 7px;width: 25vh;" data-toggle="modal"><i class="fas fa-upload mr-2"></i>{{__('gx.upload files')}}</button>
 
 
@@ -274,8 +275,7 @@
                                         {{ Form::hidden('project', $project->idProject) }}
                                         {{ Form::hidden('subject', $subject->subjectName) }}
                                         {{ Form::hidden('submission','submitFile')}}
-                                        {{ Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary float-right', 'id' => 'submitButtonModal'])}}
-
+                                        {{ Form::button('<i class="fas fa-check"></i> '.trans('gx.submit'), ['type' => 'submit','class'=>'btn btn-success float-right', 'id' => 'submitButtonModal'])}}
                                         {!!Form::close()!!}
                                     </div>
                                 </div>
@@ -335,7 +335,7 @@
                                         <td onclick='chat({{$user->id}})'><i class="far fa-envelope float-right"></i></td>
                                     </tr>
                                 @endforeach
-                                <tr><td colspan="3"><h5>Professors</h5></td></tr>
+                                <tr><td colspan="3"><h5>{{__('gx.professors')}}</h5></td></tr>
                                 @foreach($professores as $prof)
                                     <tr class="pb-1">
                                         <td><img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}"></td>
@@ -504,7 +504,7 @@
                                                 {{Form::hidden('group', $t-> idGroup)}}
                                                 {{Form::hidden('_method','PUT')}}
 
-                                                <td class="form-group float-right pr-0">{{Form::Submit(trans('gx.save'), ['class'=>'btn btn-sm mr-2 btn-success float-right', 'style'=>"width: 10vh", 'id'=>'Save'])}}<button type="button" class="btn btn-sm btn-danger editTask">{{__('gx.cancel')}}</button></td>
+                                                <td class="form-group float-right pr-0">{{Form::button('<i class="fas fa-check"></i> '.trans('gx.save'), ['type' => 'submit','class'=>'btn btn-sm mr-2 btn-success float-right', 'style'=>"width: 10vh", 'id'=>'Save'])}}<button type="button" class="btn btn-sm btn-danger editTask">{{__('gx.cancel')}}</button></td>
                                             {!! Form::close() !!}
                                             <script>
                                                 $(function() {$( "#datetimepicker1-{{$t->idTask}}" ).datetimepicker({
@@ -669,7 +669,7 @@
                         {{ Form::hidden('subject', $subject->subjectName) }}
                         {{Form::hidden('submission','task')}}
 
-                        {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success mt-2 float-right'])}}
+                        {{Form::button('<i class="fas fa-check"></i> ' .trans('gx.submit'), ['type' => 'submit', 'class'=>'btn btn-success mt-2 float-right'])}}
 
                         {!! Form::close() !!}
                     </div>
@@ -818,7 +818,7 @@
                     </div>
                     {{Form::hidden('group',$idGroup)}}
                     {{Form::hidden('submission','schedule')}}
-                    {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary float-right d-none'])}}
+                    {{Form::button('<i class="fas fa-check"></i> '.trans('gx.submit'), ['type' => 'submit','class'=>'btn btn-success float-right d-none'])}}
                     {!! Form::close() !!}
                     <style>
                         .short-text { display: none; }
@@ -932,7 +932,7 @@
                         {{ Form::hidden('project', $project->idProject) }}
                         {{ Form::hidden('subject', $subject->subjectName) }}
                         {{Form::hidden('submission','meeting')}}
-                        {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success float-right'])}}
+                        {{Form::button('<i class="fas fa-check"></i> ' .trans('gx.submit'), ['type' => 'submit','class'=>'btn btn-success float-right'])}}
 
                         {!!Form::close()!!}
                     </div>
@@ -1033,7 +1033,7 @@
 
                                 {{ Form::hidden('project', $project->idProject) }}
 
-                                {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success float-right update__send'])}}
+                                {{Form::button('<i class="fas fa-check"></i> '.trans('gx.submit'), ['type' => 'submit' ,'class'=>'btn btn-success float-right update__send'])}}
 
                                 {!! Form::close() !!}
                             </div>
@@ -1454,7 +1454,7 @@
                                                 <div class="modal-body">
                                                     <h5>{{__('gx.sureSubmitEval')}}</h5>
                                                     <p>{{__('gx.makeChangesEvals')}}</p>
-                                                    <button type="button" class="btn btn-success float-right" id="submitEval">{{__('gx.submit')}}</button>
+                                                    <button type="button" class="btn btn-success float-right" id="submitEval"><i class="fas fa-check"></i> {{__('gx.submit')}}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1463,7 +1463,7 @@
                                 @endforeach
                                 </table>
                             </div>
-                            <button type="button" class="btn btn-primary submitEval float-right pt-2" data-toggle="modal" data-target="#modalSubmitEvaluations">{{__('gx.submit')}}</button>
+                            <button type="button" class="btn btn-success submitEval float-right pt-2" data-toggle="modal" data-target="#modalSubmitEvaluations"><i class="fas fa-check"></i> {{__('gx.submit')}}</button>
                             <div class="alert alert-success alert-dismissible fade show d-none" id="submitted">
                                 <strong>{{__('gx.success!')}}</strong> {{__('gx.evalSentSucc')}}
                             </div>
