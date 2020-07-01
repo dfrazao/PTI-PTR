@@ -49,7 +49,7 @@
             <a class="nav-link" id="forum-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="false">{{__('gx.forum')}}</a>
         </li>
         <li class="rightbutton ml-auto">
-            <button type="submit" class="btn btn-sm bg-danger" data-toggle="modal" data-target="#modalDelete-{{$project->idProject}}" style="width: 21vh;color: white;"><i class="fal fa-trash mr-2"></i>{{__('gx.deleteproject')}}</button>
+            <button type="submit" class="btn btn-md bg-danger" data-toggle="modal" data-target="#modalDelete-{{$project->idProject}}" style="width:21vh; color: white;"><i class="fal fa-trash mr-2"></i>{{__('gx.deleteproject')}}</button>
         </li>
     </ul>
 
@@ -66,7 +66,7 @@
                     <h5>{{__('gx.want to delete project?')}}</h5>
                     {!!Form::open(['action' => ['ProfessorProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
                     {{Form::hidden('_method', 'DELETE')}}
-                    {{Form::submit(trans('gx.delete'), ['class' => 'btn btn-danger'])}}
+                    {{ Form::button('<i class="fas fa-trash mr-2"></i>'.trans('gx.delete'), ['type' => 'submit', 'class' => 'btn btn-danger float-right mt-2'] )  }}
                     {!!Form::close()!!}
                 </div>
             </div>
@@ -78,7 +78,7 @@
             <div class="row  p-3">
                 <div class=" col-lg-8 rounded bg-white w-100 p-3 mr-2" style="position: relative;">
 
-                    <button type="button" class="btn btn-success btn-sm float-right stopYear" data-toggle="modal" data-target="#modalEdit-{{$project->idProject}}"><i class="fas fa-edit mr-2"></i>{{__('gx.edit project')}}</button>
+                    <button type="button" class="btn btn-success btn-md float-right stopYear" data-toggle="modal" data-target="#modalEdit-{{$project->idProject}}"><i class="fas fa-edit mr-2"></i>{{__('gx.edit project')}}</button>
                     <h4>{{__('gx.characteristics')}}</h4>
                     @if($subject->idSubject == $project->idSubject or $subject->academicYear == $currentYear)
                         <div class="modal fade" id="modalEdit-{{$project->idProject}}" aria-labelledby="modalEdit-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
@@ -120,7 +120,7 @@
                                         {{Form::hidden('option', 'project')}}
 
                                         {{Form::hidden('_method','PUT')}}
-                                        {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success float-right'])}}
+                                        {{ Form::button('<i class="fas fa-check mr-2"></i>'.trans('gx.submit'), ['type' => 'submit', 'class' => 'btn btn-success float-right'] )  }}
                                         {!! Form::close() !!}
                                     </div>
                                     <script>
@@ -305,7 +305,7 @@
 
                             @if($count >= 1)
                                 <td class="info-td" style="width: 53%;">
-                                    <button type="button" class="btn btn-outline-primary btn-sm m-0 waves-effect" data-toggle="modal" data-target="#modalGroups-{{$project->idProject}}"><i class="fas fa-eye mr-2"></i>{{__('gx.show')}}</button>
+                                    <button type="button" class="btn btn-outline-primary btn-md m-0 waves-effect" data-toggle="modal" data-target="#modalGroups-{{$project->idProject}}"><i class="fas fa-eye mr-2"></i>{{__('gx.show')}}</button>
                                 </td>
                                 <div class="modal fade" id="modalGroups-{{$project->idProject}}" aria-labelledby="modalGroups-{{$project->idProject}}" aria-hidden="true" tabindex="-1" role="dialog">
                                     <div class="modal-dialog modal-sm" role="document">
@@ -342,7 +342,7 @@
                     @if($rep1 == '[]')
                         {{__('gx.noDocumentation')}}
                     @endif
-                    <button type="button" class="p-2 btn btn-primary btn-sm stopYear" data-toggle="modal" data-target="#modalUploadFiles-{{$project->idProject}}" style="position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal"><i class="fas fa-upload mr-2"></i>{{__('gx.upload doc')}}</button>
+                    <button type="button" class=" btn btn-primary btn-md stopYear" data-toggle="modal" data-target="#modalUploadFiles-{{$project->idProject}}" style="position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal"><i class="fas fa-upload mr-2"></i>{{__('gx.upload doc')}}</button>
                     <div id="files_documentation" class="table-wrapper-scroll-y my-custom-scrollbar">
                         <style>
                             #files_documentation{
@@ -424,7 +424,7 @@
                                         {{Form::hidden('option', 'projectFiles')}}
                                         {{ Form::hidden('project', $project->idProject) }}
                                         {{Form::hidden('_method','POST')}}
-                                        {{Form::submit( trans('gx.submit'), ['class'=>'btn btn-success float-right'])}}
+                                        {{ Form::button('<i class="fas fa-check mr-2"></i>'.trans('gx.submit'), ['type' => 'submit', 'class' => 'btn btn-success btn-sm float-right'] )  }}
                                         {!! Form::close() !!}
                                     </div>
                                 </div>
@@ -446,7 +446,7 @@
                                         <h5>{{__('gx.areyousuredeletedocument')}}</h5>
                                         {!!Form::open(['action' => ['ProfessorProjectsController@destroy', $project->idProject], 'method' => 'POST', 'class' => 'pull-right'])!!}
                                         {{Form::hidden('_method', 'DELETE')}}
-                                        {{Form::submit(trans('gx.delete'), ['class' => 'btn btn-danger'])}}
+                                        {{Form::button('<i class="fas fa-trash mr-2"></i>'.trans('gx.delete'), ['type' => 'submit', 'class' => 'btn btn-danger btn-sm float-right mt-2'])}}
                                         {{Form::hidden('option','doc')}}
                                         {{Form::hidden('idDoc','')}}
                                         {!!Form::close()!!}
@@ -760,7 +760,7 @@
                                                                 padding-bottom: 100%;!important;
                                                             }
                                                         </style>
-                                                        <button type="button" class="p-2 btn btn-sm btn-primary stopYear" style="padding-top: 100%; position: absolute; width: 21vh; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}"><i class="far fa-medal mr-2"></i>{{__('gx.evaluate group')}}</button>
+                                                        <button type="button" class="btn btn-md btn-primary stopYear" style=" position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}"><i class="far fa-medal mr-2"></i>{{__('gx.evaluate group')}}</button>
 
                                                             @if($subject->academicYear == $currentYear)
                                                                 <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
@@ -785,9 +785,10 @@
                                                                                 {{Form::hidden('group', $group->idGroup)}}
                                                                                 {{Form::hidden('option', 'grade')}}
                                                                                 {{Form::hidden('project', $project->idProject)}}
-                                                                                {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success float-right'])}}
+                                                                                {{Form::button('<i class="fas fa-check mr-2"></i>'.trans('gx.submit'), ['type' => 'submit', 'class' => 'btn btn-success btn-sm float-right'])}}
 
-                                                                            {!! Form::close() !!}
+
+                                                                                {!! Form::close() !!}
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -800,7 +801,7 @@
                                                         @else
                                                             <p class="mb-0 p-1 rounded" style=" overflow: auto; height: 43%; background-color: #d0e7ff; margin-top: 2%;" >{{$group->gradeComment}}</p>
                                                         @endif
-                                                        <button id="changegrade" type="button" class="p-2 btn btn-primary btn-sm float-right stopYear" style="position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%; width: 21vh;" data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}" ><i class="far fa-medal mr-2"></i>{{__('gx.change grade')}}</button>
+                                                        <button id="changegrade" type="button" class=" btn btn-primary btn-md float-right stopYear" style="position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;" data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}" ><i class="far fa-medal mr-2"></i>{{__('gx.change grade')}}</button>
                                                         <style>
                                                             #changegrade{
                                                                 position: absolute;
@@ -840,7 +841,8 @@
                                                                                 {{Form::hidden('group', $group->idGroup)}}
                                                                                 {{Form::hidden('_method','PUT')}}
                                                                                 {{Form::hidden('option', 'grade')}}
-                                                                                {{Form::submit( trans('gx.submit'), ['class'=>'btn btn-success float-right'])}}
+                                                                                {{Form::button('<i class="fas fa-check mr-2"></i>'.trans('gx.submit'), ['type' => 'submit', 'class' => 'btn btn-success btn-sm float-right'])}}
+
                                                                                 {!! Form::close() !!}
                                                                             </div>
                                                                         </div>
@@ -850,7 +852,7 @@
 
                                                         @else
                                                             <p class="mb-0">{{__('gx.group cant evaluate')}}</p>
-                                                            <button type="button" disabled class="p-2 btn btn-sm btn-primary stopYear" style="position: absolute; width: 21vh; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}">{{__('gx.evaluate group')}}</button>
+                                                            <button type="button" disabled class=" btn btn-md btn-primary stopYear" style="position: absolute;  bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}">{{__('gx.evaluate group')}}</button>
                                                         @endif
                                                     </div>
                                                 </div>
@@ -876,7 +878,7 @@
         </div>
 
         <div class="tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
-            <button type="button" class="p-2 mt-3 mr-3 btn btn-sm btn-primary float-right stopYear" data-toggle="modal" data-target="#modalCreatePost"><i class="fas fa-plus mr-2"></i>{{__('gx.create post')}}</button>
+            <button type="button" class=" mt-3 mr-3 btn btn-md btn-primary float-right stopYear" data-toggle="modal" data-target="#modalCreatePost"><i class="fas fa-plus mr-2"></i>{{__('gx.create post')}}</button>
 
             <div class="container rounded pb-3 pt-3">
                 <div class="table-responsive-xl pt-2">
@@ -959,11 +961,8 @@
                                             <text class="demo-update__chart__characters" x="50%" y="50%" dominant-baseline="central" text-anchor="middle"></text>
                                         </svg>
                                     </div>
-
                                     {{ Form::hidden('project', $project->idProject) }}
-
-                                    {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success float-right update__send'])}}
-
+                                    {{Form::button('<i class="fas fa-check mr-2"></i>'.trans('gx.submit'), ['type' => 'submit', 'class' => 'btn btn-success btn-sm mt-2 float-right update__send'])}}
                                     {!! Form::close() !!}
                                 </div>
                                 <script>

@@ -449,6 +449,8 @@
                     {{Form::hidden('option', 'project')}}
 
                     {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success'])}}
+                    {{Form::button('<i class="fas fa-check mr-2"></i>'.trans('gx.submit'), ['type' => 'submit', 'class' => 'btn btn-success btn-sm float-right'])}}
+
 
                     {!! Form::close() !!}
                 </div>

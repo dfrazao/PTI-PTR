@@ -363,7 +363,8 @@
                                         {!!Form::open(['action' => ['PostController@destroy', $project->idProject, $announcement->idAnnouncement], 'method' => 'POST'])!!}
                                         {{Form::hidden('option', 'post')}}
                                         {{Form::hidden('_method', 'DELETE')}}
-                                        {{Form::submit(trans('gx.delete'), ['class' => 'btn btn-danger'])}}
+                                        {{Form::button('<i class="fas fa-trash mr-2"></i>'.trans('gx.delete'), ['type' => 'submit', 'class' => 'btn btn-danger btn-sm float-right mt-2'])}}
+
                                         {!!Form::close()!!}
                                     </div>
                                 </div>
@@ -405,7 +406,8 @@
                                                 {{Form::hidden('option', 'comment')}}
                                                 {{Form::hidden('comment', $comments[$i]->idAnnouncementComment)}}
                                                 {{Form::hidden('_method', 'DELETE')}}
-                                                {{Form::submit(trans('gx.delete'), ['class' => 'btn btn-danger'])}}
+                                                {{Form::button('<i class="fas fa-trash mr-2"></i>'.trans('gx.delete'), ['type' => 'submit', 'class' => 'btn btn-danger btn-sm float-right mt-2'])}}
+
                                                 {!!Form::close()!!}
                                             </div>
                                         </div>
