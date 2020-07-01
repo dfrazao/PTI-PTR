@@ -33,10 +33,13 @@ class SearchController extends Controller
 
                     foreach ($mu as $m) {
 
-                        $user_m = User::find($m->receiver);
+                        if($m->sender != $my_id){
+                            $user_m = User::find($m->sender);
+                        }else{
+                            $user_m = User::find($m->receiver);
+                        }
 
-
-                        if ($m->isread == 0 && $m->sender != $my_id) {
+                        if ($m->isread == 0 && $m->sender!= $my_id) {
                                 $source = Storage::url('profilePhotos/' . $user_m->photo);
                                 $output .=
                                     "<li class='user' id='" . $user_m->id . "' name=''>" .

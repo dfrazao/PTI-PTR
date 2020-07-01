@@ -85,12 +85,16 @@ class ChatController extends Controller
             $my_id = Auth::id();
 
             // Make read all unread message
-            DB::table('chats')
-                ->where('sender', '=', $user_id)
-                ->where('receiver', '=', $my_id)
-                ->update(['isread' => 1]);
+            $este = Chat::all()->where('receiver','=',$my_id)->where('sender','=',$user_id)->where('isread','=',0)->pluck('id');
+            foreach ($este as $item){
 
-            // Get all message from selected user
+                $isread_updated = Chat::find($item);
+                $isread_updated->isread = 1;
+                $isread_updated->update();
+
+            }
+
+
             $messages = Chat::where(function ($query) use ($user_id, $my_id) {
                 $query->where('sender', $user_id)->where('receiver', $my_id);
             })->oRwhere(function ($query) use ($user_id, $my_id) {

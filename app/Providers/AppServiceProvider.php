@@ -62,48 +62,45 @@ class AppServiceProvider extends ServiceProvider
                                                    order by m.Date DESC');
             }
 
+            $users = collect([]);
 
-                $arr_users = [];
-                foreach ($mu as $m) {
-                    if ($m->sender == $my_id) {
-                        $user_m = User::find($m->receiver);
-                        array_push($arr_users, $user_m);
-                    } else {
-                        $user_m = User::find($m->sender);
-                        array_push($arr_users, $user_m);
-                    }
+            foreach ($mu as $m) {
 
+                if($m->sender != $my_id){
+                    $user_m = User::find($m->sender);
+                    $users->push([
+                        'sender' => $user_m->id,
+                        'receiver' => null,
+                        'name' => $user_m->name,
+                        'photo' => $user_m->photo,
+                        'isread' => $m->isread
+                    ]);
+                }else{
+                    $user_m = User::find($m->receiver);
+                    $users->push([
+                        'sender' => null,
+                        'receiver' => $user_m->id,
+                        'name' => $user_m->name,
+                        'photo' => $user_m->photo,
+                        'isread' => $m->isread
+                    ]);
                 }
-                $tem = 1;
-
-                foreach ($arr_users as $user) {
-                    $user_id = User::all()->pluck('id');
-                    $isread = Chat::all()->where('receiver', '=', $my_id)->where('sender', '=', $user->id)->where('sender', '!=', $my_id);
-                    $uniques = array();
-                    foreach ($isread as $c) {
-                        $uniques[$c->code] = $c;
-
-                    }
 
 
-                    foreach ($uniques as $um) {
-                        if ($um->isread == 0) {
-                            $tem = 0;
-                        }
-                    }
-                }
+            }
 
                 $collection = collect([]);
+
                 if (Auth::check() == true) {
                     $query = DB::select('SELECT groupChats.idGroup, groupChats.isread, groups.idGroupProject, subjects.subjectName, projects.name from groupChats
-LEFT JOIN groups ON groupChats.idGroup = groups.idGroup 
-LEFT JOIN studentGroups ON groupChats.idGroup = studentGroups.idGroup 
-LEFT JOIN subjects ON groups.idProject = subjects.idSubject 
-LEFT JOIN projects ON groups.idProject = projects.idProject 
-WHERE groupChats.id in (SELECT max(groupChats.id) as max_id
-                           FROM groupChats
-                           GROUP BY groupChats.idGroup) AND studentGroups.idStudent = 1
-                           ORDER BY groupChats.Date DESC');
+                    LEFT JOIN groups ON groupChats.idGroup = groups.idGroup 
+                    LEFT JOIN studentGroups ON groupChats.idGroup = studentGroups.idGroup 
+                    LEFT JOIN subjects ON groups.idProject = subjects.idSubject 
+                    LEFT JOIN projects ON groups.idProject = projects.idProject 
+                    WHERE groupChats.id in (SELECT max(groupChats.id) as max_id
+                                               FROM groupChats
+                                               GROUP BY groupChats.idGroup) AND studentGroups.idStudent = 1
+                                               ORDER BY groupChats.Date DESC');
                 if(count($query) == 0){
                     $collection->push([
                         'idGroup' => 'n',
@@ -133,7 +130,7 @@ WHERE groupChats.id in (SELECT max(groupChats.id) as max_id
                 }
 
 
-                $view->with('arr_users', $arr_users)->with('notification_chat', $notification_chat)->with('tem', $tem)->with('isread', $isread)->with('collection', $collection);
+                $view->with('users', $users)->with('notification_chat', $notification_chat)->with('isread', $isread)->with('collection', $collection);
              });
     }
 }

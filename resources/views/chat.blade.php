@@ -48,57 +48,53 @@
                     <div class="tab-content">
                         <div id="users" class=" tab-pane active"><br>
                             <ul class="users">
-                                @if(count($isread) != 0)
-                                    @for($i = 0; $i < count($arr_users); $i++)
-                                        @foreach( $isread as $ele)
-                                            @if ($tem == 0 && $arr_users[$i]->id == $ele)
-                                                <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
-                                                    <span class='pending'></span>
-                                                    <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
-                                                    <input type='hidden' id="entity" name='entity' value='person'>
-
-                                                    <div class="media">
-                                                        <div class="media-left">
-                                                            <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <p class="name" style="font-size: 12px;">{{ $arr_users[$i]->name }}</p>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            @else
-                                                <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
-                                                    <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
-                                                    <input type='hidden' id="entity" name='entity' value='person'>
-                                                    <div class="media">
-                                                        <div class="media-left">
-                                                            <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <p class="name" style="font-size: 12px;">{{ $arr_users[$i]->name }}</p>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            @endif
-                                        @endforeach
-                                    @endfor
-                                @else
-                                    @for($i = 0; $i < count($arr_users); $i++)
-                                        <li class='user' id='{{ $arr_users[$i]->id }}' name=''>
-                                            <input type='hidden' id="name{{ $arr_users[$i]->id }}" name='custId' value='{{ $arr_users[$i]->name }}'>
+                                @foreach( $users as $ele)
+                                    @if($ele['isread'] == 0 && $ele['sender'] !=  null)
+                                        <li class='user' id='{{ $ele['sender'] }}' name=''>
+                                            <span class='pending'></span>
+                                            <input type='hidden' id="name{{ $ele['sender'] }}" name='custId' value='{{ $ele['name'] }}'>
                                             <input type='hidden' id="entity" name='entity' value='person'>
 
                                             <div class="media">
                                                 <div class="media-left">
-                                                    <img src="{{Storage::url('profilePhotos/'.$arr_users[$i]->photo)}}" alt="" class="media-object">
+                                                    <img src="{{Storage::url('profilePhotos/'.$ele['photo'])}}" alt="" class="media-object">
                                                 </div>
                                                 <div class="media-body">
-                                                    <p class="name_n" style="font-size: 12px;">{{ $arr_users[$i]->name }}</p>
+                                                    <p class="name" style="font-size: 12px;">{{ $ele['name'] }}</p>
                                                 </div>
                                             </div>
                                         </li>
-                                    @endfor
-                                @endif
+                                    @elseif($ele['isread'] == 0 && $ele['receiver'] !=  null)
+                                        <li class='user' id='{{ $ele['receiver'] }}' name=''>
+                                            <span class='pending'></span>
+
+                                            <input type='hidden' id="name{{ $ele['receiver'] }}" name='custId' value='{{ $ele['name'] }}'>
+                                            <input type='hidden' id="entity" name='entity' value='person'>
+                                            <div class="media">
+                                                <div class="media-left">
+                                                    <img src="{{Storage::url('profilePhotos/'.$ele['photo'])}}" alt="" class="media-object">
+                                                </div>
+                                                <div class="media-body">
+                                                    <p class="name" style="font-size: 12px;">{{ $ele['name'] }}</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        @elseif($ele['isread'] == 1 )
+                                        <li class='user' id='{{ $ele['sender'] }}' name=''>
+
+                                            <input type='hidden' id="name{{ $ele['sender'] }}" name='custId' value='{{ $ele['name'] }}'>
+                                            <input type='hidden' id="entity" name='entity' value='person'>
+                                            <div class="media">
+                                                <div class="media-left">
+                                                    <img src="{{Storage::url('profilePhotos/'.$ele['photo'])}}" alt="" class="media-object">
+                                                </div>
+                                                <div class="media-body">
+                                                    <p class="name" style="font-size: 12px;">{{ $ele['name'] }}</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    @endif
+                                @endforeach
                             </ul>
                         </div>
 
