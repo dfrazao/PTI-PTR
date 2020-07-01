@@ -219,7 +219,37 @@
                                     success:function(data){
                                         $('.users').html(data);
                                         $('#'+user_id).click();
-
+                                        $("body").on( "click", '.user', function( event ){
+                                            $('.user').removeClass('chat-active');
+                                            $(this).addClass('chat-active');
+                                            $(this).find('.pending').remove();
+                                            $('#name').show();
+                                            $('#messages').show();
+                                            receiver_id = $(this).attr('id');
+                                            var n = receiver_id.toString();
+                                            receiver_name = $('#'+'name'+n).val();
+                                            entity = $(this).find('#entity').val();
+                                            $("#name").text(receiver_name);
+                                            $.ajax({
+                                                type: "get",
+                                                url: "/message/" + entity + "/" + receiver_id, // need to create this route
+                                                data: "",
+                                                cache: false,
+                                                success: function (data) {
+                                                    $('#messages').html(data);
+                                                    scrollToBottomFunc();
+                                                    var num = sessionStorage.getItem("not");
+                                                    if (num > 0){
+                                                        var novo = num -1;
+                                                        sessionStorage.setItem("not", novo);
+                                                    }else{
+                                                        $('.pending_nav').remove();
+                                                    }
+                                                }
+                                            });
+                                            $('.input-text').css("display", "block");
+                                            $('.input-group-append').css("display", "block");
+                                        });
 
                                     }
                                 });
