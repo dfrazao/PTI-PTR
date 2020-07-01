@@ -249,27 +249,12 @@
                                 margin-right: 2vh;
                             }
                         </style>
-                        <div class="btn-group">
-                            <button type="button" class=" btn btn-primary rounded btn-sm stopYear" data-toggle="modal" data-target="#modalAddFile" style="margin-bottom: 5px"><i class="fas fa-upload mr-2"></i>{{__('gx.upload files')}}</button>
-                            <button type="submit" disabled class="btn btn-primary rounded btn-sm" id='submitFile' data-toggle="modal" data-target="#modalSubmitFile">{{__('gx.submit')}}</button>
-                        </div>
-                        <style>
-                            .btn-group button {
-                                color: white; /* White text */
-                                padding: 8px; /* Some padding */
-                                width: 30%; /* Set a width if needed */
-                                display: block; /* Make the buttons appear below each other */
-                            }
 
-                            .btn-group button:not(:last-child) {
-                                border-bottom: none; /* Prevent double borders */
-                            }
 
-                            /* Add a background color on hover */
-                            .btn-group {
-                                display: block;
-                            }
-                        </style>
+                        <button type="submit" disabled class="p-2 btn btn-primary btn-sm" id='submitFile' data-toggle="modal" data-target="#modalSubmitFile" style="color: white; bottom: 7px;position: absolute; right: 22px; width: 15vh;">{{__('gx.submit')}}</button>
+                        <button type="button" class="p-2 btn btn-primary btn-sm stopYear" data-toggle="modal" data-target="#modalAddFile" style="position: absolute; right: 18vh;bottom: 7px;width: 15vh;" data-toggle="modal"><i class="fas fa-upload mr-2"></i>{{__('gx.upload files')}}</button>
+
+
                         {{-- Modal Submit File --}}
                         <div class="modal fade" id="modalSubmitFile" aria-labelledby="modalSubmitFile" aria-hidden="true" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">

@@ -557,7 +557,7 @@ return [
     'pwd2M' => 'The password must be at least 8 characters.',
     'pwd2M' => 'The password confirmation must be at least 8 characters.',
     'cityReq' => 'The city field is required!',
-    'country' => 'The country field is required!',
+    'country' => 'The country field is required',
 
     'notesReq' => 'The notes field is required!',
     'descriptionReq' => 'The description field is required!',
