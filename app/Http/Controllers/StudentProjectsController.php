@@ -502,7 +502,8 @@ class StudentProjectsController extends Controller
                 $enroll = SubjectEnrollment::all()->where('idUser','=',$pr->id)->where('idSubject','=',$id);
                 $pr->notify(new \App\Notifications\InvoicePaid($my_id, trans('gx.submittedN'),$id , $project_name, $subject));
             }
-            return redirect()->to("/student/project/". $id . '#submission')->with('success', trans('gx.fileSub'));
+            return redirect()->to("/student/project/". $id . '#submission')->with('success', 'File submitted successfully!');
+            //trans('gx.fileSubb')
 
         } else{
 
@@ -529,7 +530,7 @@ class StudentProjectsController extends Controller
                 foreach ($stuGroups as $stu) {
                     $users = User::all()->where('id', '=', $stu)->where('id', '!=', $my_id);
                     foreach ($users as $user) {
-                        $user->notify(new \App\Notifications\InvoicePaid($my_id, "Removed submission", $id ,$project_name, $subject));
+                        $user->notify(new \App\Notifications\InvoicePaid($my_id, trans('gx.rmvSub'), $id ,$project_name, $subject));
                     }
                 }
             }
@@ -537,7 +538,7 @@ class StudentProjectsController extends Controller
             $profs = User::all()->where('role', '=', 'professor');
             foreach ($profs as $pr) {
                 $enroll = SubjectEnrollment::all()->where('idUser','=',$pr->id)->where('idSubject','=',$id);
-                $pr->notify(new \App\Notifications\InvoicePaid($my_id, "Removed submission",$id , $project_name, $subject));
+                $pr->notify(new \App\Notifications\InvoicePaid($my_id, trans('gx.rmvSub'),$id , $project_name, $subject));
             }
 
             return redirect()->to("/student/project/". $id . '#submission')->with('success', trans('gx.fileRemov'));
@@ -580,7 +581,7 @@ class StudentProjectsController extends Controller
                 foreach ($stuGroups as $stu) {
                     $users = User::all()->where('id', '=', $stu)->where('id', '!=', $my_id);
                     foreach ($users as $user) {
-                        $user->notify(new \App\Notifications\InvoicePaid($my_id, "Removed file from repository", $id ,$project_name, $subject));
+                        $user->notify(new \App\Notifications\InvoicePaid($my_id, trans('gx.rmvFileFromRepo'), $id ,$project_name, $subject));
                     }
                 }
             }

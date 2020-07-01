@@ -582,8 +582,9 @@ return [
     'noCommentsProject' => 'No comments about the project!',
     'grElemEval' => 'Group elements evaluation',
     'hasntUplFile' => 'The professor hasn\'t uploaded any file',
-
-    'fileSub ' => 'File submitted successfully',
+    'rmvSub' =>'Removed submission',
+    'fileSubb ' => 'File submitted successfully',
+    'rmvFileFromRepo' => 'Removed file from repository',
 
 
 
@@ -591,4 +592,3 @@ return [
 
 ];
 
-//{{__('gx.')}}

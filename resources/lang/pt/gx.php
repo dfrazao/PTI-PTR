@@ -418,11 +418,13 @@ return [
     'gradeSucc' => 'Avaliação enviada com sucesso',
     'meetingSucc' =>'Reunião criada com sucesso',
     'taskSucc' => 'Tarefa atualizada com sucesso',
-    'fileSub ' => 'Ficheiro submetido com sucesso',
+    'fileSubb ' => 'Ficheiro submetido com sucesso',
     'fileRemov' => 'Ficheiro removido com sucesso',
     'taskDel' => 'Tarefa eliminada com sucesso',
     'fileDel' => 'Ficheiro eliminado com sucesso',
     'meetingSche' => 'Marcou uma reunião',
+    'rmvSub' =>'Removed submission',
+    'rmvFileFromRepo' => 'Removeu o ficheiro do repositório',
 
 
     //posts
