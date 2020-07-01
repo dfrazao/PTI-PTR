@@ -38,8 +38,8 @@
                 }
             }
         </style>
-    <div container-xl-fluid mt-4 pl-5 pr-5 pb-2 rounded style="padding-right:5%;padding-left: 5%;padding-bottom: 1%;">
-        <div class="container-xl-fluid mt-4 pl-5 pr-5 pb-2 rounded " style="background-color: #ededed;padding-left: 10%;padding-right: 10%;padding-top: 2%">
+    <div class="container-xl-fluid mt-4 pl-5 pr-5 pb-2 rounded" style="padding-right:5%;padding-left: 5%;padding-bottom: 1%;margin-top: -3%">
+        <div class="container-fluid mt-4 pl-5 pr-5 pb-2 rounded" style="background-color: #ededed;padding-left: 10%;padding-right: 10%;padding-top: 2%;height: 75vh">
 
             <style>
                 #creation_deadline{
@@ -184,11 +184,14 @@
                                 <td  class="text-center" style="vertical-align: middle">
                                     {{count($students_per_group[$groupN])}}/{{$projectMaxElements}}</td>
                                 <td  class="text-center" style="vertical-align: middle">
+                                    <div class="row">
                                     @foreach($students_per_group[$groupN] as $studInfo)
-                                        <a href="/profile/{{$studInfo->id }}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$studInfo->photo)}}"><span style="vertical-align: middle;"> {{$studInfo->name}}</span></a>
+                                        <a style="padding-top: 0.5em" href="/profile/{{$studInfo->id }}"> <img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px;object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$studInfo->photo)}}"><span style="vertical-align: middle;"> {{$studInfo->name}}</span></a>
+                                            &nbsp;
 
 
                                 @endforeach
+                                    </div>
 
 
                                 @if(count($students_per_group[$groupN]) == $projectMaxElements)
@@ -228,12 +231,12 @@
             <br>
             @if(count($subjectStudentsNoGroup)==0 or $numberGroupsInsideProject == $projectMaxGroups or in_array($user,$studentsIdGroupValues) )
 
-                <div style="padding-left:40%;margin-bottom: 20%">
+                <div style="padding-left:40%;">
                     <button type="button" class="btn btn-success disabled " data-toggle ="modal" style="width: 11em" ><i class="fas fa-plus"></i> {{__('gx.create group')}} </button>
                     <button  type="button" id="btn2" class="btn btn-primary disabled" data-toggle="modal" style="width: 11em"><i class="far fa-user-graduate"></i>{{__('gx.student sugestions')}}</button>
                 </div>
             @else
-                <div style="padding-left:40%;margin-bottom: 20%">
+                <div style="padding-left:40%;">
                     <button id="btn_criargrupo" type="button" class="btn btn-success" data-toggle="modal" data-target="#modalCriarGrupo" style="width: 12em"><i class="fas fa-plus"></i> {{__('gx.create group')}}</button>
                     <button id="btn_sugestoes" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalSugestaoGrupo" style="width: 12em"><i class="fas fa-user-graduate"></i> {{__('gx.student sugestions')}}</button>
                 </div>
@@ -493,7 +496,16 @@
             display:block;
 
         }
+        .row {
+            display: flex; /* equal height of the children */
+        }
 
+        .col {
+            flex: 1; /* additionally, equal width */
+
+            padding: 1em;
+            border: solid;
+        }
         #timer1 {
             font-size: 2vh;
             font-weight: 100;
@@ -503,10 +515,10 @@
             border-bottom: 2px solid #989c9c;
             border-top: 2px solid #989c9c;
             border-collapse: collapse;
-            background-color: #f5f8ff;
+            background-color: #FEFEFE;
         }
         table tr:hover td {
-            background-color: #FEFEFE;
+            background-color: #f5f8ff;
         }
         td > * {
             vertical-align : middle;
