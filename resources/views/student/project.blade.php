@@ -340,7 +340,7 @@
                                     <tr class="pb-1">
                                         <td><img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}"></td>
                                         <td><a href="/profile/{{$prof->id}}">{{$prof->name}}</a></td>
-                                        <td onclick='chat({{$user->id}})'><i class="far fa-envelope float-right"></i></td>
+                                        <td onclick='chat({{$prof->id}})'><i class="far fa-envelope float-right"></i></td>
                                     </tr>
                                 @endforeach
                             </table>

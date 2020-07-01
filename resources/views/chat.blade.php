@@ -662,7 +662,7 @@
                     $.ajax({
                         type : 'get',
                         url : '{{URL::to('search')}}',
-                        data:{'search':$value},
+                        data:{'search':$value,'entity':entity},
                         complete:function(data){
                             scrollToBottomFunc();
                             $('#searchinput').val(null);
