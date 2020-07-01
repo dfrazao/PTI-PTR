@@ -110,9 +110,7 @@ class SearchController extends Controller
 
                     foreach ($query as $p) {
                         $novo = json_decode($p->isread,true);
-                        foreach ($novo as $key => $one){
-                            if($key == $my_id){
-                                if($one == 0 && $p->sender!=$my_id){
+                                if($novo[$my_id] == 0 && $p->sender!=$my_id){
 
                                     $output .=
                                         "<li class='group' id='group".$p->idGroup."' name=''>".
@@ -127,7 +125,7 @@ class SearchController extends Controller
                                         "</div>".
                                         "</div>".
                                         "</li>";
-                                }elseif($one == 1){
+                                }elseif($novo[$my_id] == 1){
                                     $output .=
                                         "<li class='group' id='group".$p->idGroup."' name=''>".
                                         "<input type='hidden' id='namegroup".$p->idGroup."' name='custId' value='".$p->name."'>".
@@ -140,23 +138,9 @@ class SearchController extends Controller
                                         "</div>".
                                         "</div>".
                                         "</li>";
-                            }elseif($one == 0 && $p->sender==$my_id){
+                            }elseif($novo[$my_id] == 0 && $p->sender==$my_id){
                                     $output .=
                                         "<li class='group' id='group".$p->idGroup."' name=''>".
-                                        "<input type='hidden' id='namegroup".$p->idGroup."' name='custId' value='".$p->name."'>".
-                                        "<input type='hidden' id='entity' name='entity' value='group'>".
-                                        "<div class='media'>".
-                                        "<div class='media-body'>".
-                                        "<p>".$p->subjectName."</p>".
-                                        "<p><i>".$p->name."</i></p>".
-                                        "<p class='name'>Group ".$p->idGroupProject."</p>".
-                                        "</div>".
-                                        "</div>".
-                                        "</li>";
-                                }else{
-                                    $output .=
-                                        "<li class='group' id='group".$p->idGroup."' name=''>".
-                                        "<span class='pending'></span>" .
                                         "<input type='hidden' id='namegroup".$p->idGroup."' name='custId' value='".$p->name."'>".
                                         "<input type='hidden' id='entity' name='entity' value='group'>".
                                         "<div class='media'>".
@@ -169,9 +153,6 @@ class SearchController extends Controller
                                         "</li>";
                                 }
 
-                        }
-
-                        }
 
                     }
                 }

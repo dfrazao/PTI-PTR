@@ -494,7 +494,7 @@
             }
         });
         // Enable pusher logging - don't include this in production
-        Pusher.logToConsole = true;
+        Pusher.logToConsole = false;
         var pusher = new Pusher('ff4af21336ebee3e83fe', {
             cluster: 'eu',
             authEndpoint: '/pusher/auth',
