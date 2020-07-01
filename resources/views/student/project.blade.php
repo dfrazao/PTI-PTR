@@ -408,6 +408,18 @@
                                 <p>{{__('gx.hasntUplFile')}}</p>
                             @else
                                 <div id="align_docs" class="pt-2" style="overflow:auto; max-height:30vh;">
+                                    <script>
+                                        function bytesToHuman(bytes)
+                                        {
+                                            units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+
+                                            for (i = 0; bytes > 1024; i++) {
+                                                bytes /= 1024;
+                                            }
+
+                                            return (Math.round((bytes + Number.EPSILON) * 100) / 100 )+ ' ' + units[i];
+                                        }
+                                    </script>
                                     <table align="center">
                                     @foreach($docs as $d)
                                         <tr>
@@ -425,6 +437,11 @@
                                                 <td style="padding-bottom: 5%"><i class="fal fa-file-code fa-2x"></i></td>
                                             @endif
                                             <td><a rel="noopener noreferrer" target="_blank" href ="{{Storage::url('documentation/'.$project->idProject.'/'.$d->pathFile)}}">{{$d->pathFile}}</a></td>
+                                            <td><div id="{{$d->pathFile}}-size"></div>
+                                            </td>
+                                            <script>
+                                                document.getElementById('{{$d->pathFile}}-size').innerHTML = bytesToHuman({{Storage::size('documentation/'.$idGroup.'/'.$d->pathFile)}}) ;
+                                            </script>
                                         </tr>
                                     @endforeach
                                     </table>
@@ -1431,8 +1448,7 @@
                                                 $('div.rating-{{$ev->receiver}} #s{{$i}}').css('color','#ffce52');
                                             @endfor
                                         @endforeach
-                                        if({{((new \Carbon\Carbon($project->dueDate))->addDays(1))->isPast()}} == "0")
-                                        {
+                                        if("{{((new \Carbon\Carbon($project->dueDate))->addDays(1))->isPast()}}" == "0"){
                                             var rating = 0;
                                             $('div.rating-{{$user->id}} #s1').click(function () {
                                                 $('div.rating-{{$user->id}} .fa-star').css("color", "black");
@@ -1786,7 +1802,7 @@
     @endforeach
 
     $('.cell').on('click', function () {
-        if({{((new \Carbon\Carbon($project->dueDate))->addDays(1))->isPast()}} == "0"){
+        if("{{((new \Carbon\Carbon($project->dueDate))->addDays(1))->isPast()}}" == "0"){
             if ($(this).find('div#{{Auth::user()->id}}').length == 1) {
                 $(this).find('div#{{Auth::user()->id}}').remove();
                 datastring = {
@@ -1823,7 +1839,7 @@
     });
 
     $('.file').on('click', function () {
-        if({{((new \Carbon\Carbon($project->dueDate))->addDays(1))->isPast()}} == "0"){
+        if("{{((new \Carbon\Carbon($project->dueDate))->addDays(1))->isPast()}}" == "0"){
             if ($(this).hasClass('select')) {
                 $(this).removeClass('select');
                 $(this).find('td:first-child').find('input').removeAttr('checked');
@@ -1906,7 +1922,7 @@
         console.log(currentYear);
         $(".stopYear").prop('disabled', true);
     }
-    if({{((new \Carbon\Carbon($project->dueDate))->addDays(1))->isPast()}} == "1") {
+    if("{{((new \Carbon\Carbon($project->dueDate))->addDays(1))->isPast()}}" == "1") {
         $(".stopYear").prop('disabled', true);
     }
 
