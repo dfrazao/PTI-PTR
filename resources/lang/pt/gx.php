@@ -319,7 +319,7 @@ return [
     'show' => 'Mostrar',
     'documentation' =>'Documentação',
     'noDocumentation' =>'Sem documentação',
-    'upload doc' => 'Upload documentação',
+    'upload doc' => 'Upload',
     'upload files' => 'Upload de ficheiros',
     'delete file' => 'Apagar ficheiros',
     'areyousuredeletedocument' => 'Tem a certeza que deseja eliminar o documento?',

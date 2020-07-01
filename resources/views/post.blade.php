@@ -91,7 +91,7 @@
                         }
                     </style>
                     <hr>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalComment" style="color: white;">{{__('gx.reply')}}</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalComment" style="color: white;"><i class="fas fa-reply mr-2"></i>{{__('gx.reply')}}</button>
                     <div class="modal fade" id="modalComment" tabindex="-1" role="dialog">
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
@@ -218,7 +218,7 @@
                         </div>
                     </div>
                     @if(Auth::user()->id == $poster->id and count($comments) == 0)
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalEdit">{{__('gx.edit')}}</button>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalEdit"><i class="fas fa-edit mr-2"></i>{{__('gx.edit')}}</button>
                         {{--Modal Edit--}}
                         <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog">
                             <div class="modal-dialog modal-lg" role="document">
@@ -250,7 +250,7 @@
                                         </div>
 
                                         {{Form::hidden('_method','PUT')}}
-                                        <button type="submit" class="btn btn-success update__send2 float-right">{{__('gx.submit')}}</button>
+                                        <button type="submit" class="btn btn-success update__send2 float-right"><i class="fas fa-check mr-2"></i>{{__('gx.submit')}}</button>
 
                                         {!! Form::close() !!}
                                     </div>
@@ -348,7 +348,7 @@
                             </div>
                         </div>
 
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDelete">{{__('gx.delete')}}</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDelete"><i class="fal fa-trash mr-2"></i>{{__('gx.delete')}}</button>
                         <div class="modal fade" id="modalDelete" aria-labelledby="modalDelete" aria-hidden="true" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -389,7 +389,7 @@
                             </div>
                             @if(Auth::user()->id == $commenters[$i]->id)
                                 <hr>
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDeleteComment-{{$comments[$i]->idAnnouncementComment }}">{{__('gx.delete')}}</button>
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDeleteComment-{{$comments[$i]->idAnnouncementComment }}"><i class="fal fa-trash mr-2"></i>{{__('gx.delete')}}</button>
                                 <div class="modal fade" id="modalDeleteComment-{{$comments[$i]->idAnnouncementComment }}" aria-labelledby="modalDeleteComment-{{$comments[$i]->idAnnouncementComment }}" aria-hidden="true" tabindex="-1" role="dialog">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">

@@ -325,7 +325,7 @@ return [
     'show' => 'Show',
     'documentation' =>'Documentation',
     'noDocumentation' =>'No documentation uploaded',
-    'upload doc' => 'Upload documentation',
+    'upload doc' => 'Upload',
     'upload files' => 'Upload files',
     'delete file' => 'Delete file',
     'areyousuredeletedocument' => 'Are you sure you want to delete this Document?',

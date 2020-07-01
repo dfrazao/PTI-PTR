@@ -187,23 +187,10 @@
                                             m = mins - hours * 60;
                                             s = secs - mins * 60;
 
-                                            if (d<0){
+                                            if (d<0 || (d==0 && h==0 && m==0 && s==0)){
                                                 document.getElementById("timer2")
                                                     .innerHTML = '<p>{{__('gx.finished')}}<p>';
-                                            }else if (d==0 && h==0 && m==0){
-                                                document.getElementById("timer2")
-                                                    .innerHTML = '<div>' + s + '<span>{{__('gx.seconds')}}</span></div>';
-                                            } else if (d==0 && h==0 && m==0 && s==0){
-                                                document.getElementById("timer2")
-                                                    .innerHTML = '<p>{{__('gx.finished')}}<p>';
-                                            }else if (d==0){
-                                                document.getElementById("timer2")
-                                                    .innerHTML =
-                                                    '<div>' + h + '<span>{{__('gx.hours')}}</span></div>' +
-                                                    '<div>' + m + '<span>{{__('gx.minutes')}}</span></div>' +
-                                                    '<div>' + s + '<span>{{__('gx.seconds')}}</span></div>';
-                                            }
-                                            else{
+                                            }else{
                                                 document.getElementById("timer2")
                                                     .innerHTML =
                                                     '<div>' + d + '<span>{{__('gx.days')}}</span></div>' +
@@ -261,15 +248,6 @@
                                             if (d<0 || (d==0 && h==0 && m==0 && s==0)){
                                                 document.getElementById("timer")
                                                     .innerHTML = '<p>{{__('gx.finished')}}<p>';
-                                            }else if (d==0 && h==0 && m==0){
-                                                document.getElementById("timer")
-                                                    .innerHTML = '<div>' + s + '<span>{{__('gx.seconds')}}</span></div>';
-                                            }else if (d==0){
-                                                document.getElementById("timer")
-                                                    .innerHTML =
-                                                    '<div>' + h + '<span>{{__('gx.hours')}}</span></div>' +
-                                                    '<div>' + m + '<span>{{__('gx.minutes')}}</span></div>' +
-                                                    '<div>' + s + '<span>{{__('gx.seconds')}}</span></div>';
                                             }else{
                                                 document.getElementById("timer")
                                                     .innerHTML =
@@ -567,7 +545,7 @@
                                                                 @foreach(DB::table('studentGroups')->join('users', 'studentGroups.idStudent', '=', 'users.id')->select('studentGroups.*')->where('idGroup', $group->idGroup)->orderBy('users.name', 'ASC')->get() as $sg)
                                                                     <tr>
                                                                         <td style="text-align: left;"><a href="/profile/{{$sg->idStudent}}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.\App\User::find($sg->idStudent)->photo)}}"><span id="nome_aval" style="vertical-align: middle;"> {{\App\User::find($sg->idStudent)->name}}</span></a></td>
-                                                                        <td style="text-align: left;"><i onclick='chat(1)' class="far fa-envelope"></i></td>
+                                                                        <td style="text-align: left;"><i onclick='chat({{$sg->idStudent}})' class="far fa-envelope"></i></td>
                                                                         <td>
                                                                             @if(is_null(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', $sg->idStudent)->where('idGroup', $group->idGroup)->value('grade')))
                                                                                 –
@@ -1008,7 +986,7 @@
                                                     'italic',
                                                     'underline',
                                                     'strikethrough',
-                                                    'link',,
+                                                    'link',
                                                     '|',
                                                     'undo',
                                                     'redo',
