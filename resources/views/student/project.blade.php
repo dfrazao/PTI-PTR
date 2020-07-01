@@ -71,7 +71,7 @@
         </li>
     </ul>
 
-    <div class="tab-content pb-3 ml-0 mr-0" id="myTabContent" style="min-height: 75vh; background-color: #d4d4d4;">
+    <div class="tab-content pb-3 ml-0 mr-0" id="myTabContent" style="min-height: 75vh; background-color: #c6c6c6;">
         <div class="container-fluid fade tab-pane " id="content" role="tabpanel" aria-labelledby="content-tab">
             <div id="row1" class="row rounded">
                 <style>
@@ -251,8 +251,8 @@
                         </style>
 
 
-                        <button type="submit" disabled class="p-2 btn btn-primary btn-sm" id='submitFile' data-toggle="modal" data-target="#modalSubmitFile" style="color: white; bottom: 7px;position: absolute; right: 22px; width: 15vh;">{{__('gx.submit')}}</button>
-                        <button type="button" class="p-2 btn btn-primary btn-sm stopYear" data-toggle="modal" data-target="#modalAddFile" style="position: absolute; right: 18vh;bottom: 7px;width: 15vh;" data-toggle="modal"><i class="fas fa-upload mr-2"></i>{{__('gx.upload files')}}</button>
+                        <button type="submit" disabled class="p-2 btn btn-primary btn-sm" id='submitFile' data-toggle="modal" data-target="#modalSubmitFile" style="font-size:2vh; color: white; bottom: 7px;position: absolute; right: 22px; width: 15vh;">{{__('gx.submit')}}</button>
+                        <button type="button" class="p-2 btn btn-primary btn-sm stopYear" data-toggle="modal" data-target="#modalAddFile" style="font-size:2vh; position: absolute; right: 20vh;bottom: 7px;width: 17vh;" data-toggle="modal"><i class="fas fa-upload mr-2"></i>{{__('gx.upload files')}}</button>
 
 
                         {{-- Modal Submit File --}}
@@ -325,7 +325,7 @@
                         }
                     </style>
                     <div id="col_groups" class="container-fluid rounded text-center h-100 pt-2" style="background-color: white;padding-bottom:5%;">
-                        <h5>{{__('gx.group').' '. $idGroup}}</h5>
+                        <h5>{{__('gx.group').' '. \App\Group::find($idGroup)->idGroupProject}}</h5>
                         <div style="overflow: auto;">
                             <table align="center">
                                 @foreach($groupUsers as $user)
@@ -432,7 +432,7 @@
                         }
                         #col_notes{
                             margin-left: 0.8%;
-                            margin-bottom: 10%;
+                            margin-bottom: 5%;
                         }
 
                     }
@@ -477,7 +477,7 @@
                                             <td id="task_b">{{$t->beginning}}</td>
                                             <td id="task_e">{{$t->end}}</td>
                                             <td>{{$t->duration}}</td>
-                                            <td class="float-right pr-0"><button id="edit_tasks"  type="button" class="btn btn-sm btn-success editTask mr-md-2"><i class="fas fa-edit mr-2"></i>{{__('gx.edit')}}</button><button type="button" id="delete_tasks" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalDelete-{{$t->idTask}}"><i class="fal fa-trash mr-2"></i>{{__('gx.delete')}}</button></td>
+                                            <td class="float-right pr-0"><button id="edit_tasks"  style="width:11vh" type="button" class="btn btn-sm btn-success editTask mr-md-2"><i class="fas fa-edit mr-2"></i>{{__('gx.edit')}}</button><button type="button" id="delete_tasks" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalDelete-{{$t->idTask}}"><i class="fal fa-trash mr-2"></i>{{__('gx.delete')}}</button></td>
                                         </tr>
                                         <tr class="d-none" id="{{$t->idTask}}-edit">
                                             @csrf
@@ -508,22 +508,20 @@
                                             {!! Form::close() !!}
                                             <script>
                                                 $(function() {$( "#datetimepicker1-{{$t->idTask}}" ).datetimepicker({
-                                                    minDate: moment('{{$t->beginning}}').format('YYYY-MM-DD HH:mm'),
-                                                    date: moment('{{$t->beginning}}').format('YYYY-MM-DD HH:mm'),
-                                                    locale: "en",
-                                                    icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
+                                                    minDate: moment('{{(\Carbon\Carbon::now())}}').format('YYYY-MM-DD HH:mm:ss'),
+                                                    date: moment('{{(\Carbon\Carbon::parse($t->beginning))}}').format('YYYY-MM-DD HH:mm'),
+                                                    locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
+                                                    icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"},
+                                                    default: moment('{{(\Carbon\Carbon::parse($t->beginning))}}').format('YYYY-MM-DD HH:mm:ss')
                                                 });});
                                                 $(function() {$( "#datetimepicker2-{{$t->idTask}}" ).datetimepicker({
-                                                    minDate: moment('{{$t->end}}').format('YYYY-MM-DD HH:mm'),
-                                                    date: moment('{{$t->end}}').format('YYYY-MM-DD HH:mm'),
-                                                    locale: "en",
+                                                    minDate: moment('{{(\Carbon\Carbon::parse($t->end))}}').format('YYYY-MM-DD HH:mm'),
+                                                    date: moment('{{(\Carbon\Carbon::parse($t->end))}}').format('YYYY-MM-DD HH:mm'),
+                                                    locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
                                                     icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
                                                 });});
                                                 $("#datetimepicker1-{{$t->idTask}}").on("change.datetimepicker", function (e) {
                                                     $('#datetimepicker2-{{$t->idTask}}').datetimepicker('minDate', e.date);
-                                                });
-                                                $("#datetimepicker2-{{$t->idTask}}").on("change.datetimepicker", function (e) {
-                                                    $('#datetimepicker1-{{$t->idTask}}').datetimepicker('maxDate', e.date);
                                                 });
                                             </script>
                                         </tr>
@@ -609,7 +607,7 @@
                             </table>
                         </div>
                         <div class="container-fluid pt-3 mr-2" style="position: relative">
-                            <button type="button" class="btn btn-primary btn-sm open_modal" id="{{$idGroup}}" style="width:20vh; color: white;position: absolute; bottom: 0px; right: 0px;"><i class="fas fa-plus mr-2"></i>{{__('gx.new task')}}</button>
+                            <button type="button" class="btn btn-primary btn-sm open_modal" id="{{$idGroup}}" style="width:23vh; color: white;position: absolute; bottom: 0px; right: 0px;"><i class="fas fa-plus mr-2"></i>{{__('gx.new task')}}</button>
                         </div>
                     </div>
                 </div>
@@ -679,7 +677,7 @@
                         $(function() {$( "#datetimepicker" ).datetimepicker({
                             minDate: moment().format('YYYY-MM-DD HH:mm'),
                             date: moment().format('YYYY-MM-DD HH:mm'),
-                            locale: "en",
+                            locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
                             icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
                         });});
                     </script>
@@ -1137,7 +1135,7 @@
             </div>
         </div>
         <div class="container-fluid fade tab-pane" id="submission" role="tabpanel" aria-labelledby="submission-tab">
-            <div class="row rounded" {{--style="height:75vh"--}}>
+            <div class="row rounded" style="height:75vh">
                 <div id="submission_row" class="col-lg-7 pb-3">
                     <div class="container-fluid mb-3 mt-3 pt-2 h-100 rounded" style="background-color: white;">
                         <h5 class="text-center">Submission information</h5>
@@ -1538,8 +1536,8 @@
         }
     }
      .nav-tabs .nav-link.active{
-         background-color: #d4d4d4;
-         border-color: #d4d4d4;
+         background-color: #c6c6c6;
+         border-color: #c6c6c6;
      }
     .nav-tabs .nav-link{
         color: #2c3fb1;
