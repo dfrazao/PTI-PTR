@@ -519,7 +519,7 @@
                                             <td id="task_b">{{$t->beginning}}</td>
                                             <td id="task_e">{{$t->end}}</td>
                                             <td>{{$t->duration}}</td>
-                                            <td class="float-right pr-0"><button type="button" id="delete_tasks" class="btn btn-sm btn-danger mr-md-2" data-toggle="modal" data-target="#modalDelete-{{$t->idTask}}"><i id="icon_tasks" class="fal fa-trash mr-2"></i>{{__('gx.delete')}}</button><button id="edit_tasks"  type="button" class="btn btn-sm btn-success editTask mr-md-2"><i id="icon_tasks" class="fas fa-edit mr-2"></i>{{__('gx.edit')}}</button></td>
+                                            <td class="float-right pr-0"><button id="edit_tasks"  type="button" class="btn btn-sm btn-success editTask mr-md-2"><i id="icon_tasks" class="fas fa-edit mr-2"></i>{{__('gx.edit')}}</button><button type="button" id="delete_tasks" class="btn btn-sm btn-danger mr-md-2" data-toggle="modal" data-target="#modalDelete-{{$t->idTask}}"><i id="icon_tasks" class="fal fa-trash mr-2"></i>{{__('gx.delete')}}</button></td>
                                         </tr>
                                         <tr class="d-none" id="{{$t->idTask}}-edit">
                                             @csrf
@@ -545,7 +545,7 @@
                                                 {{Form::hidden('task', $t->idTask) }}
                                                 {{Form::hidden('group', $t-> idGroup)}}
                                                 {{Form::hidden('_method','PUT')}}
-                                                <td class="float-right pr-0"><button type="button" class="btn btn-sm btn-danger mr-md-2 editTask">{{__('gx.cancel')}}</button>{{Form::Submit(trans('gx.save'), ['class'=>'btn btn-sm mr-md-2 btn-success', 'id'=>'Save'])}}</td>
+                                                <td class="float-right pr-0">{{Form::Submit(trans('gx.save'), ['class'=>'btn btn-sm mr-md-2 btn-success', 'id'=>'Save'])}}<button type="button" class="btn btn-sm btn-danger mr-md-2 editTask">{{__('gx.cancel')}}</button></td>
                                             {!! Form::close() !!}
                                             <script>
                                                 $(function() {$( "#datetimepicker1-{{$t->idTask}}" ).datetimepicker({
