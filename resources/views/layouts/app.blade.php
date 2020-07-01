@@ -220,9 +220,9 @@
                                         $('.users').html(data);
                                         $('#'+user_id).click();
 
+
                                     }
                                 });
-
 
                                 var x = document.getElementById("este");
                                 if (x.style.display === "block") {

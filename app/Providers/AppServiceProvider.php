@@ -74,7 +74,6 @@ class AppServiceProvider extends ServiceProvider
                     }
 
                 }
-
                 $tem = 1;
 
                 foreach ($arr_users as $user) {
@@ -82,7 +81,8 @@ class AppServiceProvider extends ServiceProvider
                     $isread = Chat::all()->where('receiver', '=', $my_id)->where('sender', '=', $user->id)->where('sender', '!=', $my_id);
                     $uniques = array();
                     foreach ($isread as $c) {
-                        $uniques[$c->code] = $c; // Get unique country by code.
+                        $uniques[$c->code] = $c;
+
                     }
 
 
@@ -125,7 +125,7 @@ WHERE groupChats.id in (SELECT max(groupChats.id) as max_id
 
 
                 $notification_chat = 1;
-                $isread = Chat::all()->where('receiver', '=', $my_id)->where('isread', '=', 0)->pluck('sender');
+                $isread = Chat::all()->where('receiver', '=', $my_id)->where('isread', '=', 0)->pluck('sender')->unique();
                 if (count($isread) > 0) {
                     $notification_chat = count($isread);
                 } else {

@@ -31,67 +31,45 @@ class SearchController extends Controller
                                                    group by least(m.receiver, m.sender), greatest(m.receiver, m.sender))
                                                    order by m.Date DESC');
 
-                    $arr_users = [];
-                    foreach ($mu as $m){
-                        if($m->sender == $my_id){
-                            $user_m = User::find($m->receiver);
-                            array_push($arr_users, $user_m);
-                        }else{
-                            $user_m = User::find($m->sender);
-                            array_push($arr_users, $user_m);
-                        }
+                    foreach ($mu as $m) {
 
-                    }
+                        $user_m = User::find($m->receiver);
 
 
-                    foreach ($arr_users as $user) {
-                        $user_id = User::all()->pluck('id');
-                        $isread = Chat::all()->where('receiver', '=', $my_id)->where('sender', '=', $user->id);
-                        $uniques = array();
-                        foreach ($isread as $c) {
-                            $uniques[$c->code] = $c; // Get unique country by code.
-                        }
-
-
-                        foreach ($uniques as $um) {
-                            if ($um->isread == 0) {
-                                $source = Storage::url('profilePhotos/' . $user->photo);
-
-
-
-
+                        if ($m->isread == 0 && $m->sender != $my_id) {
+                                $source = Storage::url('profilePhotos/' . $user_m->photo);
                                 $output .=
-                                    "<li class='user' id='" . $user->id . "' name=''>" .
+                                    "<li class='user' id='" . $user_m->id . "' name=''>" .
                                     "<span class='pending'></span>" .
-                                    "<input type='hidden' id='name".$user->id."' name='custId' value='" . $user->name . "'>" .
+                                    "<input type='hidden' id='name".$user_m->id."' name='custId' value='" . $user_m->name . "'>" .
                                     "<input type='hidden' id='entity' name='entity' value='person'>" .
                                     "<div class='media'>" .
                                     "<div class='media-left'>" .
                                     "<img src='" . $source . "' alt='' class='media-object'>" .
                                     '</div>' .
                                     '<div class="media-body">' .
-                                    '<p class="name">' . $user->name . '</p>' .
+                                    '<p class="name">' . $user_m->name . '</p>' .
                                     '</div>' .
                                     '</div>' .
                                     '</li>';
                             } else {
-                                $source = Storage::url('profilePhotos/' . $user->photo);
+                                $source = Storage::url('profilePhotos/' . $user_m->photo);
 
                                 $output .=
-                                    "<li class='user' id='" . $user->id . "' name=''>" .
-                                    "<input type='hidden' id='name".$user->id."' name='custId' value='" . $user->name . "'>" .
+                                    "<li class='user' id='" . $user_m->id . "' name=''>" .
+                                    "<input type='hidden' id='name".$user_m->id."' name='custId' value='" . $user_m->name . "'>" .
                                     "<input type='hidden' id='entity' name='entity' value='person'>" .
                                     "<div class='media'>" .
                                     "<div class='media-left'>" .
                                     "<img src='" . $source . "' alt='' class='media-object'>" .
                                     '</div>' .
                                     '<div class="media-body">' .
-                                    '<p class="name">' . $user->name . '</p>' .
+                                    '<p class="name">' . $user_m->name . '</p>' .
                                     '</div>' .
                                     '</div>' .
                                     '</li>';
                             }
-                        }
+
 
                     }
                     return Response($output);
@@ -179,21 +157,18 @@ WHERE groupChats.id in (SELECT max(groupChats.id) as max_id
                         foreach ($users as $key => $user) {
 
                             $source = Storage::url('profilePhotos/'.$user->photo);
-                            $output.=
-                                "<li class='user' id=".$user->id." name=".$user->name.">".
-
-                                " <input type='hidden' id='name".$user->id."'  value='".$user->name."'>".
+                            $output .=
+                                "<li class='user' id='" . $user->id . "' name=''>" .
+                                "<input type='hidden' id='name".$user->id."' name='custId' value='" . $user->name . "'>" .
                                 "<input type='hidden' id='entity' name='entity' value='person'>" .
-
-                                "<div class='media'>".
-                                "<div class='media-left'>".
-                                "<img src='".$source."' alt='' class='media-object'>".
-                                '</div>'.
-
-                                '<div class="media-body">'.
-                                '<p class="name">'.$user->name.'</p>'.
-                                '</div>'.
-                                '</div>'.
+                                "<div class='media'>" .
+                                "<div class='media-left'>" .
+                                "<img src='" . $source . "' alt='' class='media-object'>" .
+                                '</div>' .
+                                '<div class="media-body">' .
+                                '<p class="name">' . $user->name . '</p>' .
+                                '</div>' .
+                                '</div>' .
                                 '</li>';
                         }
                         return Response($output);

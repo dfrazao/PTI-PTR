@@ -101,9 +101,6 @@
                                 @endif
                             </ul>
                         </div>
-                        @if(Auth::check() == true)
-
-                        @if(Auth::user()->role != "professor")
 
                         <div id="groups" class="tab-pane fade"><br>
                             <ul class="groups">
@@ -138,9 +135,6 @@
                                 @endforeach
                             </ul>
                         </div>
-                        @endif
-                        @endif
-
                     </div>
                 </div>
             </div>
@@ -786,6 +780,7 @@
                 data:{'search':$value,'entity':"person"},
                 success:function(data){
                     $('.users').html(data);
+
                 }
             });
         }else{
