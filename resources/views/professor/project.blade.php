@@ -49,7 +49,7 @@
             <a class="nav-link" id="forum-tab" data-toggle="tab" href="#forum" role="tab" aria-controls="forum" aria-selected="false">{{__('gx.forum')}}</a>
         </li>
         <li class="rightbutton ml-auto">
-            <button type="submit" class="btn btn-md bg-danger" data-toggle="modal" data-target="#modalDelete-{{$project->idProject}}" style="width:21vh; color: white;"><i class="fal fa-trash mr-2"></i>{{__('gx.deleteproject')}}</button>
+            <button type="submit" class="btn btn-md bg-danger" data-toggle="modal" data-target="#modalDelete-{{$project->idProject}}" style="width:22vh; color: white;"><i class="fal fa-trash mr-2"></i>{{__('gx.deleteproject')}}</button>
         </li>
     </ul>
 
@@ -760,7 +760,7 @@
                                                                 padding-bottom: 100%;!important;
                                                             }
                                                         </style>
-                                                        <button type="button" class="btn btn-md btn-primary stopYear" style=" position: absolute; bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}"><i class="far fa-medal mr-2"></i>{{__('gx.evaluate group')}}</button>
+                                                        <button type="button" class="btn btn-md btn-primary stopYear" style=" position: absolute; bottom: 0; right: 0; margin-right: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}"><i class="far fa-medal mr-2"></i>{{__('gx.evaluate group')}}</button>
 
                                                             @if($subject->academicYear == $currentYear)
                                                                 <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
@@ -807,7 +807,6 @@
                                                                 position: absolute;
                                                                 bottom: 0;
                                                                 right: 0;
-                                                                margin-bottom: 2%;
                                                                 margin-right: 2%;
                                                             }
                                                             @media screen and (max-width: 991px){
@@ -856,7 +855,7 @@
 
                                                         @else
                                                             <p class="mb-0">{{__('gx.group cant evaluate')}}</p>
-                                                            <button type="button" disabled class=" btn btn-md btn-primary stopYear" style="position: absolute;  bottom: 0; right: 0; margin-bottom: 2%; margin-right: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}">{{__('gx.evaluate group')}}</button>
+                                                            <button type="button" disabled class=" btn btn-md btn-primary stopYear" style="position: absolute;  bottom: 0; right: 0;  margin-right: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}">{{__('gx.evaluate group')}}</button>
                                                         @endif
                                                     </div>
                                                 </div>
