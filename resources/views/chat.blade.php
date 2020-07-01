@@ -494,7 +494,7 @@
             }
         });
         // Enable pusher logging - don't include this in production
-        Pusher.logToConsole = false;
+        Pusher.logToConsole = true;
         var pusher = new Pusher('ff4af21336ebee3e83fe', {
             cluster: 'eu',
             authEndpoint: '/pusher/auth',
@@ -513,7 +513,8 @@
             $.ajax({
                 type : 'get',
                 url : '{{URL::to('search')}}',
-                data:{'search':$value,'entity':entity},
+                data:{'search':$value,'entity':data.entity},
+
                 success:function(oi){
                     if(entity == "person"){
                         $('.users').html(oi);

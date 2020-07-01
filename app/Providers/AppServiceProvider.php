@@ -92,14 +92,14 @@ class AppServiceProvider extends ServiceProvider
                 $collection = collect([]);
 
                 if (Auth::check() == true) {
-                    $query = DB::select('SELECT groupChats.idGroup, groupChats.isread, groups.idGroupProject, subjects.subjectName, projects.name from groupChats
+                    $query = DB::select('SELECT groupChats.idGroup, groupChats.sender ,groupChats.isread, groups.idGroupProject, subjects.subjectName, projects.name from groupChats
                     LEFT JOIN groups ON groupChats.idGroup = groups.idGroup 
                     LEFT JOIN studentGroups ON groupChats.idGroup = studentGroups.idGroup 
                     LEFT JOIN subjects ON groups.idProject = subjects.idSubject 
                     LEFT JOIN projects ON groups.idProject = projects.idProject 
                     WHERE groupChats.id in (SELECT max(groupChats.id) as max_id
                                                FROM groupChats
-                                               GROUP BY groupChats.idGroup) AND studentGroups.idStudent = 1
+                                               GROUP BY groupChats.idGroup) AND studentGroups.idStudent = '.$my_id.'
                                                ORDER BY groupChats.Date DESC');
                 if(count($query) == 0){
                     $collection->push([

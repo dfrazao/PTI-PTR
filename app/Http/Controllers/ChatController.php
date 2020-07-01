@@ -50,19 +50,22 @@ class ChatController extends Controller
             $my_id = Auth::id();
 
             $gg = groupChat::all()->where('idGroup','=',$user_id)->sortByDesc('Date')->last();
-            $novo = json_decode($gg->isread,true);
+            if($gg){
+                $novo = json_decode($gg->isread,true);
 
-            foreach ($novo as $key => $one){
-                if($key == $my_id) {
-                    $novo[$key] = 1;
+                foreach ($novo as $key => $one){
+                    if($key == $my_id) {
+                        $novo[$key] = 1;
 
+                    }
                 }
-            }
 
-            $json_product =  json_encode($novo);
-            $isread_updated = groupChat::find($gg->id);
-            $isread_updated->isread = $json_product;
-            $isread_updated->update();
+                $json_product =  json_encode($novo);
+                $isread_updated = groupChat::find($gg->id);
+                $isread_updated->isread = $json_product;
+                $isread_updated->update();
+
+            }
 
 
             // Get all message from selected user

@@ -81,15 +81,15 @@ class SearchController extends Controller
                 }elseif ($request->entity == "group"){
 
                     $collection = collect([]);
-                    $query = DB::select('SELECT groupChats.idGroup, groupChats.isread, groups.idGroupProject, subjects.subjectName, projects.name from groupChats
-LEFT JOIN groups ON groupChats.idGroup = groups.idGroup 
-LEFT JOIN studentGroups ON groupChats.idGroup = studentGroups.idGroup 
-LEFT JOIN subjects ON groups.idProject = subjects.idSubject 
-LEFT JOIN projects ON groups.idProject = projects.idProject 
-WHERE groupChats.id in (SELECT max(groupChats.id) as max_id
-                           FROM groupChats
-                           GROUP BY groupChats.idGroup) AND studentGroups.idStudent = 1
-                           ORDER BY groupChats.Date DESC');
+                    $query = DB::select('SELECT groupChats.idGroup, groupChats.sender ,groupChats.isread, groups.idGroupProject, subjects.subjectName, projects.name from groupChats
+                    LEFT JOIN groups ON groupChats.idGroup = groups.idGroup 
+                    LEFT JOIN studentGroups ON groupChats.idGroup = studentGroups.idGroup 
+                    LEFT JOIN subjects ON groups.idProject = subjects.idSubject 
+                    LEFT JOIN projects ON groups.idProject = projects.idProject 
+                    WHERE groupChats.id in (SELECT max(groupChats.id) as max_id
+                                               FROM groupChats
+                                               GROUP BY groupChats.idGroup) AND studentGroups.idStudent = '.$my_id.'
+                                               ORDER BY groupChats.Date DESC');
                     if(count($query) == 0){
                         $output .=
                             '<li >'.
@@ -109,12 +109,11 @@ WHERE groupChats.id in (SELECT max(groupChats.id) as max_id
 
 
                     foreach ($query as $p) {
-
                         $novo = json_decode($p->isread,true);
-
                         foreach ($novo as $key => $one){
                             if($key == $my_id){
-                                if($one == 0 ){
+                                if($one == 0 && $p->sender!=$my_id){
+
                                     $output .=
                                         "<li class='group' id='group".$p->idGroup."' name=''>".
                                         "<span class='pending'></span>" .
@@ -128,7 +127,7 @@ WHERE groupChats.id in (SELECT max(groupChats.id) as max_id
                                         "</div>".
                                         "</div>".
                                         "</li>";
-                                }else{
+                                }elseif($one == 1){
                                     $output .=
                                         "<li class='group' id='group".$p->idGroup."' name=''>".
                                         "<input type='hidden' id='namegroup".$p->idGroup."' name='custId' value='".$p->name."'>".
@@ -141,7 +140,34 @@ WHERE groupChats.id in (SELECT max(groupChats.id) as max_id
                                         "</div>".
                                         "</div>".
                                         "</li>";
-                            }
+                            }elseif($one == 0 && $p->sender==$my_id){
+                                    $output .=
+                                        "<li class='group' id='group".$p->idGroup."' name=''>".
+                                        "<input type='hidden' id='namegroup".$p->idGroup."' name='custId' value='".$p->name."'>".
+                                        "<input type='hidden' id='entity' name='entity' value='group'>".
+                                        "<div class='media'>".
+                                        "<div class='media-body'>".
+                                        "<p>".$p->subjectName."</p>".
+                                        "<p><i>".$p->name."</i></p>".
+                                        "<p class='name'>Group ".$p->idGroupProject."</p>".
+                                        "</div>".
+                                        "</div>".
+                                        "</li>";
+                                }else{
+                                    $output .=
+                                        "<li class='group' id='group".$p->idGroup."' name=''>".
+                                        "<span class='pending'></span>" .
+                                        "<input type='hidden' id='namegroup".$p->idGroup."' name='custId' value='".$p->name."'>".
+                                        "<input type='hidden' id='entity' name='entity' value='group'>".
+                                        "<div class='media'>".
+                                        "<div class='media-body'>".
+                                        "<p>".$p->subjectName."</p>".
+                                        "<p><i>".$p->name."</i></p>".
+                                        "<p class='name'>Group ".$p->idGroupProject."</p>".
+                                        "</div>".
+                                        "</div>".
+                                        "</li>";
+                                }
 
                         }
 
