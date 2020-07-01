@@ -1212,8 +1212,8 @@
             </div>
         </div>
         <div class="container-fluid fade tab-pane" id="submission" role="tabpanel" aria-labelledby="submission-tab">
-            <div class="row rounded" style="height:75vh">
-                <div id="submission_row" class="col-lg-7 pb-3">
+            <div class="row rounded">
+                <div id="submission_row" class="col-lg-7 pb-3" style="height:70vh">
                     <div class="container-fluid mb-3 mt-3 pt-2 h-100 rounded" style="background-color: white;">
                         <h5 class="text-center">{{__('gx.subInfo')}}</h5>
                         @if($submittedFiles->count() > 0)
@@ -1407,7 +1407,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-5 pb-3">
+                <div class="col-lg-5 pb-3" style="height:70vh">
                     <div class="container-fluid mr-3 mt-3 p-2 pt-2 h-100 rounded" style="background-color: white;">
                         <h5 class="text-center">{{__('gx.grElemEval')}}</h5>
                         @if($eval->count() > 0 && $eval->first()->status == 'submitted')
