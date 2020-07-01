@@ -345,9 +345,27 @@
 
                                 {!!Form::close()!!}
                             </div>--}}
-                        <button type="submit" disabled class="btn btn-primary btn-sm" id='submitFile' data-toggle="modal" data-target="#modalSubmitFile" style="width:20vh; color: white; position: absolute; bottom: 7px; right: 22px;">{{__('gx.submit')}}</button>
-                        <button type="button" class="p-2 btn btn-primary btn-sm stopYear" data-toggle="modal" data-target="#modalAddFile" style="position: absolute; bottom: 0; right: 22vh;" data-toggle="modal"><i class="fas fa-upload mr-2"></i>{{__('gx.upload files')}}</button>
+                        <div class="btn-group">
+                            <button type="button" class=" btn btn-primary rounded btn-sm stopYear" data-toggle="modal" data-target="#modalAddFile" style="margin-bottom: 5px"><i class="fas fa-upload mr-2"></i>{{__('gx.upload files')}}</button>
+                            <button type="submit" disabled class="btn btn-primary rounded btn-sm" id='submitFile' data-toggle="modal" data-target="#modalSubmitFile">{{__('gx.submit')}}</button>
+                        </div>
+                        <style>
+                            .btn-group button {
+                                color: white; /* White text */
+                                padding: 8px; /* Some padding */
+                                width: 30%; /* Set a width if needed */
+                                display: block; /* Make the buttons appear below each other */
+                            }
 
+                            .btn-group button:not(:last-child) {
+                                border-bottom: none; /* Prevent double borders */
+                            }
+
+                            /* Add a background color on hover */
+                            .btn-group {
+                                display: block;
+                            }
+                        </style>
                         {{-- Modal Submit File --}}
                         <div class="modal fade" id="modalSubmitFile" aria-labelledby="modalSubmitFile" aria-hidden="true" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">
@@ -419,8 +437,8 @@
                     </style>
                     <div id="col_groups" class="container-fluid rounded text-center h-100 pt-2" style="background-color: white;padding-bottom:5%;">
                         <h5>{{__('gx.group').' '. $idGroup}}</h5>
-                        <div style="overflow: auto;" class="pl-5">
-                            <table>
+                        <div style="overflow: auto;">
+                            <table align="center">
                                 @foreach($groupUsers as $user)
                                     <tr>
                                         <td><img class="profilePhoto" style="border-radius: 100%; width: 50px; height: 50px; object-fit: cover;" alt=" Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.$user->photo)}}"></td>
@@ -443,9 +461,7 @@
                 <div id="3col" class="col-lg-4 mt-3">
                     <div id="col_notes" class="row rounded h-50 pr-3">
                         <div id="col_notes_fundo" class="container-fluid rounded notes pt-2" style="background-color: #ffe680; " >
-                            <div>
                                 <h5 class="text-center"><i class="fas fa-pen mr-2"></i>{{__('gx.notes')}}</h5>
-                            </div>
 
                             {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST', 'id'=>'notesForm']) !!}
                             @csrf
@@ -463,21 +479,21 @@
                                 <p>The professor hasn't uploaded any file</p>
                             @else
                                 <div id="align_docs" class="pt-2">
-                                    <table>
+                                    <table align="center">
                                     @foreach($docs as $d)
                                         <tr>
                                             @if((pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "txt")
-                                                <td><i class="fad fa-file-alt fa-2x"></i></td>
+                                                <td style="padding-bottom: 5%"><i class="fad fa-file-alt fa-2x"></i></td>
                                             @elseif((pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "jpg" or (pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "jpeg" or (pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "png")
-                                                <td><i class="fas fa-image fa-2x"></i></td>
+                                                <td style="padding-bottom: 5%"><i class="fas fa-image fa-2x"></i></td>
                                             @elseif((pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "pdf" )
-                                                <td><i class="fal fa-file-pdf fa-2x"></i></td>
+                                                <td style="padding-bottom: 5%"><i class="fal fa-file-pdf fa-2x"></i></td>
                                             @elseif((pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "docx" )
-                                                <td><i class="fal fa-file-word fa-2x"></i></td>
+                                                <td style="padding-bottom: 5%"><i class="fal fa-file-word fa-2x"></i></td>
                                             @elseif((pathinfo($d->pathFile, PATHINFO_EXTENSION)) == "zip" )
-                                                <td><i class="fal fa-file-archive fa-2x"></i></td>
+                                                <td style="padding-bottom: 5%"><i class="fal fa-file-archive fa-2x"></i></td>
                                             @else
-                                                <td><i class="fal fa-file-code fa-2x"></i></td>
+                                                <td style="padding-bottom: 5%"><i class="fal fa-file-code fa-2x"></i></td>
                                             @endif
                                             <td><a rel="noopener noreferrer" target="_blank" href ="{{Storage::url('documentation/'.$project->idProject.'/'.$d->pathFile)}}">{{$d->pathFile}}</a></td>
                                         </tr>
@@ -492,11 +508,9 @@
                     #align_docs{
                         overflow:auto;
                         max-height:30vh;
-                        padding-left: 20vh
                     }
                     @media screen and (max-width: 1300px) {
                         #col_notes{
-                            padding-bottom: 25%;
                         }
                     }
                     @media screen and (max-width: 1000px) {
@@ -766,7 +780,7 @@
                         {{ Form::hidden('subject', $subject->subjectName) }}
                         {{Form::hidden('submission','task')}}
 
-                        {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-primary mt-2 float-right'])}}
+                        {{Form::submit(trans('gx.submit'), ['class'=>'btn btn-success mt-2 float-right'])}}
 
                         {!! Form::close() !!}
                     </div>
@@ -783,7 +797,7 @@
         </div>
         <div class="container-fluid tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab">
             <div class="row rounded">
-                <div class="container-fluid mx-3 mt-3 p-2" style="background-color: white">
+                <div class="container-fluid mx-3 mt-3 p-2 rounded" style="background-color: white">
                     <h5 id="titulo_groups" class="pt-2 text-center"><i class="fal fa-calendar-alt pr-2"></i>{{__('gx.group elements weekly availability')}}</h5>
                     {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST', 'id' => 'scheduleform']) !!}
                     @csrf
@@ -1230,9 +1244,9 @@
             </div>
         </div>
         <div class="container-fluid fade tab-pane" id="submission" role="tabpanel" aria-labelledby="submission-tab">
-            <div class="row rounded">
+            <div class="row rounded" style="height:75vh">
                 <div id="submission_row" class="col-lg-7 pb-3">
-                    <div class="container-fluid mb-3 mt-3 h-100" style="background-color: white;">
+                    <div class="container-fluid mb-3 mt-3 h-100 rounded" style="background-color: white;">
                         {{$last = null}}
                         @if($submittedFiles->count() > 0)
                             <div id="box1">
@@ -1433,7 +1447,7 @@
                     </div>
                 </div>
                 <div class="col-lg-5 pb-3">
-                    <div class="container-fluid mr-3 mt-3 p-2 pt-2 h-100" style="background-color: white;">
+                    <div class="container-fluid mr-3 mt-3 p-2 pt-2 h-100 rounded" style="background-color: white;">
                         <h3>Group elements evaluation</h3>
                         @if($eval->count() > 0 && $eval->first()->status == 'submitted')
                             <div class="alert alert-success alert-dismissible fade show">
