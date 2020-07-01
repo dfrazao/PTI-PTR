@@ -1137,7 +1137,8 @@
         <div class="container-fluid fade tab-pane" id="submission" role="tabpanel" aria-labelledby="submission-tab">
             <div class="row rounded" style="height:75vh">
                 <div id="submission_row" class="col-lg-7 pb-3">
-                    <div class="container-fluid mb-3 mt-3 h-100 rounded" style="background-color: white;">
+                    <div class="container-fluid mb-3 mt-3 pt-2 h-100 rounded" style="background-color: white;">
+                        <h5 class="text-center">Submission information</h5>
                         @if($submittedFiles->count() > 0)
                             <div id="box1">
                                 <img src="/images/deathlineSub.png" style="width: 30px; height: 30px; float: left; margin:1%;">
@@ -1149,7 +1150,7 @@
                                     font-size: 2vh;
                                     position: absolute;
                                     right: 1%;
-                                    top: 5%;
+                                    top: 12%;
                                     border-radius: 15px;
                                     width: 40%;
                                     vertical-align: middle;
@@ -1205,8 +1206,6 @@
                             </style>
                             <script>
 
-                                {{--{{$rep2->whereIn('idGroup', $group->idGroup)->first()->submissionTime}}--}}
-
                                 function updateTimer3() {
                                     future = Date.parse("{{$project->dueDate}}");
                                     now = Date.parse("{{$submittedFiles->first()->submissionTime}}");
@@ -1254,13 +1253,12 @@
                         </div>
                         <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-4">
                             <i class="far fa-lg fa-clock float-left"></i>
-                            <div style="display: inline-flex" class="pl-3" > {{__('gx.submTime')}}: @if($submittedFiles->first()->submissionTime == null) trans('gx.noFilesSubm')@else {{$submittedFiles->first()->submissionTime}}@endif</div>
+                            <div style="display: inline-flex" class="pl-3" > {{__('gx.submTime')}}: @if(count($submittedFiles)==0) trans('gx.noFilesSubm')@else {{$submittedFiles->first()->submissionTime}}@endif</div>
 
                         </div>
                         <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-4">
                             <i class="pl-1 far fa-lg fa-file float-left"></i>
                             <div style="display: inline-flex" class="pl-3"> {{__('gx.filesSubm')}}: @if(count($submittedFiles)==0) trans('gx.noFilesSubm') @endif</div>
-
                         </div>
                         <div class="container-fluid mt-3 pr-0 ml-2" id="submittedFiles" style="background-color: white">
                             @foreach($submittedFiles as $file)
@@ -1324,13 +1322,17 @@
                         </div>
                         <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-2">
                             <i class="far fa-lg fa-medal float-left"></i>
-                            <div style="display: inline-flex" class="pl-3"> Project grade: @if((\App\Group::find($idGroup))->grade != null) {{(\App\Group::find($idGroup))->grade}} valores @else Not graded @endif </div>
+                            <div style="display: inline-flex" class="pl-3"> Project grade: @if((\App\Group::find($idGroup))->grade != null) {{(\App\Group::find($idGroup))->grade}} valores @else Not graded yet @endif </div>
+                        </div>
+                        <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-4">
+                            <i class="far fa-lg fa-comment-alt-lines float-left"></i>
+                            <div style="display: inline-flex" class="pl-3">Professor comment: @if((\App\Group::find($idGroup))->gradeComment != null) {{(\App\Group::find($idGroup))->gradeComment}} @else No comments about the project! @endif</div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-5 pb-3">
                     <div class="container-fluid mr-3 mt-3 p-2 pt-2 h-100 rounded" style="background-color: white;">
-                        <h3>Group elements evaluation</h3>
+                        <h5 class="text-center">Group elements evaluation</h5>
                         @if($eval->count() > 0 && $eval->first()->status == 'submitted')
                             <div class="alert alert-success alert-dismissible fade show">
                                 <strong>{{__('gx.success!')}}</strong> {{__('gx.evaluationSentSucc')}}
@@ -1421,7 +1423,7 @@
                                         });
                                         $('#submitEval').click(function() {
                                             $('.StudentsEvaluation').hide();
-                                            //$('.submitEval').addClass('d-none');
+                                            $('.submitEval').addClass('d-none');
                                             $('#submitted').removeClass('d-none');
                                             $('#modalSubmitEvaluations').modal('hide');
                                             $.ajax({
