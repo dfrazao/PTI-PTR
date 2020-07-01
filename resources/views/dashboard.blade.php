@@ -354,19 +354,28 @@
                                                                             '<div>' + m + '<span>{{__("gx.minutes")}}</span></div>';
                                                                     }
                                                                 }
+
+
                                                                 updateTimer1{{$project->idProject}}();
                                                                 setInterval('updateTimer1{{$project->idProject}}()', 1000);
                                                                 updateTimer2{{$project->idProject}}();
                                                                 setInterval('updateTimer2{{$project->idProject}}()', 1000);
+
                                                             </script>
                                                         @else
                                                             <div style="display: flex;text-align: center;align-items: center;width: 15em;"><i class='far fa-lg fa-medal float-left'></i><div><h5 class="mb-0">{{\App\Group::find($project->group)->grade}}</h5></div></div>
                                                         @endif
                                                         @if(Auth::user()->role == 'student')
+
                                                             @if(isset($project->group))
+
                                                                 <a type="button" class="btn btn-sm btn-success" href="/student/project/{{$project->idProject}}" style="background-color: #2c3fb1; border-color: #2c3fb1;width: 10em;">{{__('gx.group')}} {{\App\Group::find($project->group)->idGroupProject}}</a>
                                                             @else
-                                                                <a type="button" class="btn btn-sm btn-success" href="/student/project/{{$project->idProject}}/groups" style="width: 10em;">{{__('gx.join/create group')}}</a>
+                                                                @if( (new \Carbon\Carbon($project->groupCreationDueDate))->isPast() == "0")
+                                                                    <a type="button" class="btn btn-sm btn-success" href="/student/project/{{$project->idProject}}/groups" style="width: 10em;">{{__('gx.join/create group')}}</a>
+                                                                @else
+                                                                    <a type="button" class="btn btn-sm btn-success disabled"   href="/student/project/{{$project->idProject}}/groups" style="width: 10em;" >{{__('gx.join/create group')}}</a>
+                                                                    @endif
                                                             @endif
                                                         @else
                                                             <a type="button" class="btn btn-sm" style="background-color: transparent; width: 10em;"></a>
@@ -471,6 +480,13 @@
                     $("#datetimepicker2-dp").on("change.datetimepicker", function (e) {
                         $('#datetimepicker1-dp').datetimepicker('maxDate', e.date);
                     });
+
+                    if(subjectYear != currentYear){
+                        console.log(subjectYear);
+                        console.log(currentYear);
+                        $(".stopYear").prop('disabled', true);
+                    }
+
                 </script>
             </div>
         </div>
