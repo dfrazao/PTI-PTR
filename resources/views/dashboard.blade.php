@@ -450,26 +450,21 @@
                 </div>
                 <script>
                     $(function() {$( "#datetimepicker1-dp" ).datetimepicker({
-                        minDate: moment().format('YYYY-MM-DD HH:mm'),
-                        maxDate: moment().month(7).day(31).hour(23).hour(59).format('YYYY-MM-DD HH:mm'),
-                        date: moment().format('YYYY-MM-DD HH:mm'),
-                        locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
+                        minDate: moment().add(1, 'days').format('YYYY-MM-DD HH:mm'),
+                        locale: "en",
                         icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
                     });});
                     $(function() {$( "#datetimepicker2-dp" ).datetimepicker({
-                        minDate: moment().format('YYYY-MM-DD HH:mm'),
-                        maxDate: moment().month(7).day(31).hour(23).hour(59).format('YYYY-MM-DD HH:mm'),
-                        date: moment().format('YYYY-MM-DD HH:mm'),
-                        locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
+                        minDate: moment().add(1, 'days').format('YYYY-MM-DD HH:mm'),
+                        locale: "en",
                         icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
                     });});
-                    $("#datetimepicker1").on("change.datetimepicker", function (e) {
-                        $('#datetimepicker2').datetimepicker('minDate', e.date);
+                    $("#datetimepicker1-dp").on("change.datetimepicker", function (e) {
+                        $('#datetimepicker2-dp').datetimepicker('minDate', e.date);
                     });
-                    $("#datetimepicker2").on("change.datetimepicker", function (e) {
-                        $('#datetimepicker1').datetimepicker('maxDate', e.date);
+                    $("#datetimepicker2-dp").on("change.datetimepicker", function (e) {
+                        $('#datetimepicker1-dp').datetimepicker('maxDate', e.date);
                     });
-                    console.log(moment().month(7).day(31).hour(23).hour(59).format('YYYY-MM-DD HH:mm'));
                 </script>
             </div>
         </div>
@@ -634,6 +629,32 @@
         $(".open_modal").click(function(){
             $('input[name="subject"]').val($(this).attr("id"));
             $('#modalCreate').modal('show');
+        });
+
+        $("#minNumber").change(function () {
+            var minNumber = parseInt(this.value);
+            var maxSelected = parseInt($('#maxNumber').val());
+            var options='';
+            for(i = minNumber; i <= 10; i++){
+                options+='<option value="'+i+'">'+i+'</option>';
+            }
+            $("#maxNumber").empty().append(options);
+            if (minNumber <= maxSelected) {
+                $("#maxNumber").val(maxSelected);
+            }
+        });
+
+        $("#maxNumber").change(function () {
+            var maxNumber = parseInt(this.value);
+            var minSelected = parseInt($('#minNumber').val());
+            var options='';
+            for(i = 1; i <= maxNumber; i++){
+                options+='<option value="'+i+'">'+i+'</option>';
+            }
+            $("#minNumber").empty().append(options);
+            if (minSelected <= maxNumber) {
+                $("#minNumber").val(minSelected);
+            }
         });
 
     });

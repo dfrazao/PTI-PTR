@@ -508,20 +508,22 @@
                                             {!! Form::close() !!}
                                             <script>
                                                 $(function() {$( "#datetimepicker1-{{$t->idTask}}" ).datetimepicker({
-                                                    minDate: moment('{{(\Carbon\Carbon::now())}}').format('YYYY-MM-DD HH:mm:ss'),
-                                                    date: moment('{{(\Carbon\Carbon::parse($t->beginning))}}').format('YYYY-MM-DD HH:mm'),
-                                                    locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
-                                                    icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"},
-                                                    default: moment('{{(\Carbon\Carbon::parse($t->beginning))}}').format('YYYY-MM-DD HH:mm:ss')
+                                                    minDate: moment('{{$t->beginning}}').format('YYYY-MM-DD HH:mm'),
+                                                    date: moment('{{$t->beginning}}').format('YYYY-MM-DD HH:mm'),
+                                                    locale: "en",
+                                                    icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
                                                 });});
                                                 $(function() {$( "#datetimepicker2-{{$t->idTask}}" ).datetimepicker({
-                                                    minDate: moment('{{(\Carbon\Carbon::parse($t->end))}}').format('YYYY-MM-DD HH:mm'),
-                                                    date: moment('{{(\Carbon\Carbon::parse($t->end))}}').format('YYYY-MM-DD HH:mm'),
-                                                    locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
+                                                    minDate: moment('{{$t->end}}').format('YYYY-MM-DD HH:mm'),
+                                                    date: moment('{{$t->end}}').format('YYYY-MM-DD HH:mm'),
+                                                    locale: "en",
                                                     icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
                                                 });});
                                                 $("#datetimepicker1-{{$t->idTask}}").on("change.datetimepicker", function (e) {
                                                     $('#datetimepicker2-{{$t->idTask}}').datetimepicker('minDate', e.date);
+                                                });
+                                                $("#datetimepicker2-{{$t->idTask}}").on("change.datetimepicker", function (e) {
+                                                    $('#datetimepicker1-{{$t->idTask}}').datetimepicker('maxDate', e.date);
                                                 });
                                             </script>
                                         </tr>
@@ -677,7 +679,7 @@
                         $(function() {$( "#datetimepicker" ).datetimepicker({
                             minDate: moment().format('YYYY-MM-DD HH:mm'),
                             date: moment().format('YYYY-MM-DD HH:mm'),
-                            locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
+                            locale: "en",
                             icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
                         });});
                     </script>

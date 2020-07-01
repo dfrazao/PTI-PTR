@@ -123,15 +123,21 @@
                                         $(function() {$( "#datetimepicker1-{{$project->idProject}}" ).datetimepicker({
                                             minDate: moment().format('YYYY-MM-DD HH:mm'),
                                             date: moment('{{$project->groupCreationDueDate}}').format('YYYY-MM-DD HH:mm'),
-                                            locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
+                                            locale: "en",
                                             icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
                                         });});
                                         $(function() {$( "#datetimepicker2-{{$project->idProject}}" ).datetimepicker({
                                             minDate: moment().format('YYYY-MM-DD HH:mm'),
                                             date: moment('{{$project->dueDate}}').format('YYYY-MM-DD HH:mm'),
-                                            locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
+                                            locale: "en",
                                             icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
                                         });});
+                                        $("#datetimepicker1-{{$project->idProject}}").on("change.datetimepicker", function (e) {
+                                            $('#datetimepicker2-{{$project->idProject}}').datetimepicker('minDate', e.date);
+                                        });
+                                        $("#datetimepicker2-{{$project->idProject}}").on("change.datetimepicker", function (e) {
+                                            $('#datetimepicker1-{{$project->idProject}}').datetimepicker('maxDate', e.date);
+                                        });
                                     </script>
                                 </div>
                             </div>
@@ -1172,10 +1178,6 @@
         text-decoration: underline;
         cursor: default;
     }
-
-
-
-
 </style>
 <script>
     $('#myTab a').click(function(e) {
@@ -1259,5 +1261,31 @@
         console.log(currentYear);
         $(".stopYear").prop('disabled', true);
     }
+
+    $("#minNumber").change(function () {
+        var minNumber = parseInt(this.value);
+        var maxSelected = parseInt($('#maxNumber').val());
+        var options='';
+        for(i = minNumber; i <= 10; i++){
+            options+='<option value="'+i+'">'+i+'</option>';
+        }
+        $("#maxNumber").empty().append(options);
+        if (minNumber <= maxSelected) {
+            $("#maxNumber").val(maxSelected);
+        }
+    });
+
+    $("#maxNumber").change(function () {
+        var maxNumber = parseInt(this.value);
+        var minSelected = parseInt($('#minNumber').val());
+        var options='';
+        for(i = 1; i <= maxNumber; i++){
+            options+='<option value="'+i+'">'+i+'</option>';
+        }
+        $("#minNumber").empty().append(options);
+        if (minSelected <= maxNumber) {
+            $("#minNumber").val(minSelected);
+        }
+    });
 </script>
 @endsection

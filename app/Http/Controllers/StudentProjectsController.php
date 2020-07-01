@@ -430,29 +430,34 @@ class StudentProjectsController extends Controller
     public function update(Request $request, $id) {
         $submission = $request->input('submission');
         if ($submission == 'task') {
-            $idTask = $request->input('task');
-            $task = Task::find($idTask);
-            if (!empty($request->input('description'))) {
-                $task->description = $request->input('description');
+
+            $task = Task::find($request->input('task'));
+
+            //dd($request->input('End'));
+
+            if (!empty($request->input('Description'))) {
+                $task->description = $request->input('Description');
             } else {
                 $task->description = $task->value('description');
             }
+
             if (!empty($request->input('responsible'))) {
                 $task->responsible = $request->input('responsible');
             } else {
                 $task->responsible = $task->value('responsible');
             }
-            if (!empty(Carbon::parse($request->input('beginning')))) {
-                $task->beginning = Carbon::parse($request->input('beginning'));
+
+            if (!empty(Carbon::parse($request->input('Beginning')))) {
+                $task->beginning = Carbon::parse($request->input('Beginning'));
             } else {
                 $task->beginning = Carbon::parse($task->value('beginning'));
             }
-            if (!empty(Carbon::parse($request->input('end')))) {
-                $task->end = Carbon::parse($request->input('end'));
-                $start = Carbon::parse($task->beginning);
-                $end = Carbon::parse($request->input('end'));
-                $task->duration = $start->diffInSeconds($end);
 
+            if (!empty(Carbon::parse($request->input('End')))) {
+                $task->end = Carbon::parse($request->input('End'));
+                $start = Carbon::parse($task->beginning);
+                $end = Carbon::parse($request->input('End'));
+                $task->duration = $start->diffInSeconds($end);
             } else {
                 $task->end = Carbon::parse($task->value("end"));
             }
