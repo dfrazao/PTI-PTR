@@ -9,13 +9,20 @@
         <ol id="breadcrumb" class="breadcrumb pl-0 pb-0 mb-4 h3" style="background-color:white; ">
             <li id="bc1" class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>{{__('gx.dashboard')}}</a></li>
             <li id="bc2" class="breadcrumb-item " aria-current="page" >{{$subject->subjectName}} - {{$project->name}} - Group {{\App\Group::find($idGroup)->idGroupProject}}</li>
-            <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto">
+            <div class="h5 ml-auto" id="timerFinish">
                 <div id="timer2-{{$project->idProject}}" class="timer"></div>
                 <i class="fal fa-lg fa-flag-checkered float-left pl-2"></i>
             </div>
         </ol>
     </nav>
     <style>
+        #timerFinish {
+            display: flex;
+            text-align: center;
+            align-items: center;
+            margin-bottom: 0;
+            right: 0;
+        }
         @media screen and (max-width: 750px){
             #breadcrumb {
                 font-size: 3vh;
@@ -27,6 +34,11 @@
             }
             #bc2 {
                 margin-left: 10%; !important;
+            }
+        }
+        @media screen and (max-width: 500px) {
+            #timerFinish {
+                display: none;
             }
         }
     </style>
@@ -44,33 +56,39 @@
         <li class="nav-item">
             <a class="nav-link" id="submission-tab" data-toggle="tab" href="#submission" role="tab" aria-controls="submission" aria-selected="false">{{__('gx.submission')}}</a>
         </li>
-        <li class="rightbutton ml-auto">
-            <button  type="button" class="btn btn-danger btn-md stopYear" data-toggle="modal" data-target="#modalLeaveGroup" style="width: 11em"><i class="far fa-sign-out mr-2"></i>{{__('gx.leave group')}}</button>
-            <div id="modalLeaveGroup" class="modal" tabindex="-1" role="dialog" >
-                <div class="modal-dialog modal-lg" >
-                    <div class="modal-content" >
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body" style="display: inline" >
-                            <h5>{{__('gx.surelvgroup')}}</h5>
-                        </div>
-                        <div class="modal-footer">
+    </ul>
+    <button  type="button" id="leaveGroup" class="btn btn-danger btn-md stopYear" data-toggle="modal" data-target="#modalLeaveGroup" style="width: 11em; position:absolute;right:3vh; top:21vh"><i class="far fa-sign-out mr-2"></i>{{__('gx.leave group')}}</button>
+    <div id="modalLeaveGroup" class="modal" tabindex="-1" role="dialog" >
+        <div class="modal-dialog modal-lg" >
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="display: inline" >
+                    <h5>{{__('gx.surelvgroup')}}</h5>
+                </div>
+                <div class="modal-footer">
 
-                            {!!Form::open(['action' => ['GroupController@destroy', $project -> idProject] , 'method' => 'POST']) !!}
-                            {{Form::hidden('_method','DELETE')}}
-                            {!!Form::hidden('idGroup', $idGroup) !!}
-                            {{Form::button('<i class="far fa-sign-out mr-2"></i> '.trans('gx.leave group'),['type' => 'submit','class' => 'btn btn-danger'])}}
-                            {!!Form::close() !!}
+                    {!!Form::open(['action' => ['GroupController@destroy', $project -> idProject] , 'method' => 'POST']) !!}
+                    {{Form::hidden('_method','DELETE')}}
+                    {!!Form::hidden('idGroup', $idGroup) !!}
+                    {{Form::button('<i class="far fa-sign-out mr-2"></i> '.trans('gx.leave group'),['type' => 'submit','class' => 'btn btn-danger'])}}
+                    {!!Form::close() !!}
 
-                        </div>
-                    </div>
                 </div>
             </div>
-        </li>
-    </ul>
+        </div>
+    </div>
+    <style>
+        @media screen and (max-width: 500px) {
+            #leaveGroup {
+                top: 21vh;
+                right:3vh;
+            }
+        }
+    </style>
 
     <div class="tab-content pb-3 ml-0 mr-0" id="myTabContent" style="min-height: 75vh; background-color: #d4d4d4;">
         <div class="container-fluid fade tab-pane " id="content" role="tabpanel" aria-labelledby="content-tab">
@@ -1378,7 +1396,7 @@
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.removeFile')}}</h4>
+                                                <h4 class="modal-title" id="staticBackdropLabel">{{__('gx.remove file')}}</h4>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
