@@ -9,20 +9,13 @@
         <ol id="breadcrumb" class="breadcrumb pl-0 pb-0 mb-4 h3" style="background-color:white; ">
             <li id="bc1" class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>{{__('gx.dashboard')}}</a></li>
             <li id="bc2" class="breadcrumb-item " aria-current="page" >{{$subject->subjectName}} - {{$project->name}} - Group {{\App\Group::find($idGroup)->idGroupProject}}</li>
-            <div class="h5 ml-auto" id="timerFinish">
-                <div id="timer2-{{$project->idProject}}" class="timer"></div>
+            <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto">
+                <div id="timer2-{{$project->idProject}}" id="timefinish" class="timer"></div>
                 <i class="fal fa-lg fa-flag-checkered float-left pl-2"></i>
             </div>
         </ol>
     </nav>
     <style>
-        #timerFinish {
-            display: flex;
-            text-align: center;
-            align-items: center;
-            margin-bottom: 0;
-            right: 0;
-        }
         @media screen and (max-width: 750px){
             #breadcrumb {
                 font-size: 3vh;
@@ -56,31 +49,33 @@
         <li class="nav-item">
             <a class="nav-link" id="submission-tab" data-toggle="tab" href="#submission" role="tab" aria-controls="submission" aria-selected="false">{{__('gx.submission')}}</a>
         </li>
-    </ul>
-    <button  type="button" id="leaveGroup" class="btn btn-danger btn-md stopYear" data-toggle="modal" data-target="#modalLeaveGroup" style="width: 11em; position:absolute;right:3vh; top:21vh"><i class="far fa-sign-out mr-2"></i>{{__('gx.leave group')}}</button>
-    <div id="modalLeaveGroup" class="modal" tabindex="-1" role="dialog" >
-        <div class="modal-dialog modal-lg" >
-            <div class="modal-content" >
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" style="display: inline" >
-                    <h5>{{__('gx.surelvgroup')}}</h5>
-                </div>
-                <div class="modal-footer">
+        <li class="rightbutton ml-auto">
+            <button  type="button" class="btn btn-danger btn-md stopYear" data-toggle="modal" data-target="#modalLeaveGroup" style="width: 11em"><i class="far fa-sign-out mr-2"></i>{{__('gx.leave group')}}</button>
+            <div id="modalLeaveGroup" class="modal" tabindex="-1" role="dialog" >
+                <div class="modal-dialog modal-lg" >
+                    <div class="modal-content" >
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="display: inline" >
+                            <h5>{{__('gx.surelvgroup')}}</h5>
+                        </div>
+                        <div class="modal-footer">
 
-                    {!!Form::open(['action' => ['GroupController@destroy', $project -> idProject] , 'method' => 'POST']) !!}
-                    {{Form::hidden('_method','DELETE')}}
-                    {!!Form::hidden('idGroup', $idGroup) !!}
-                    {{Form::button('<i class="far fa-sign-out mr-2"></i> '.trans('gx.leave group'),['type' => 'submit','class' => 'btn btn-danger'])}}
-                    {!!Form::close() !!}
+                            {!!Form::open(['action' => ['GroupController@destroy', $project -> idProject] , 'method' => 'POST']) !!}
+                            {{Form::hidden('_method','DELETE')}}
+                            {!!Form::hidden('idGroup', $idGroup) !!}
+                            {{Form::button('<i class="far fa-sign-out mr-2"></i> '.trans('gx.leave group'),['type' => 'submit','class' => 'btn btn-danger'])}}
+                            {!!Form::close() !!}
 
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </li>
+    </ul>
     <style>
         @media screen and (max-width: 500px) {
             #leaveGroup {
@@ -1038,7 +1033,7 @@
                         $(function() {$( "#datetimepickerMeeting" ).datetimepicker({
                             minDate: moment().format('YYYY-MM-DD HH:mm'),
                             date: moment().format('YYYY-MM-DD HH:mm'),
-                            locale: "{{ str_replace('_', '-', app()->getLocale()) }}",
+                            locale: "en",
                             icons: {time: "fa fa-clock", date: "fa fa-calendar", up: "fa fa-arrow-up", down: "fa fa-arrow-down"}
                         });});
                     </script>
@@ -1343,10 +1338,9 @@
                                         }
                                     }
                                     updateTimer3();
-
-                                @endif
+                                </script>
+                            @endif
                         </div>
-                        </script>
                         <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-2">
                             <i class='pl-1 far fa-lg fa-file-alt float-left'></i>
                             <div id="deadline" style="display: inline-flex" class="pl-3">{{__('gx.deadline')}}: {{$project->dueDate}}</div>
@@ -1522,25 +1516,25 @@
                                                     datatype: 'JSON'
                                                 });
                                             });
-                                        $('#submitEval').click(function() {
-                                            $('.StudentsEvaluation').hide();
-                                            $('.submitEval').addClass('d-none');
-                                            $('#submitted').removeClass('d-none');
-                                            $('#modalSubmitEvaluations').modal('hide');
-                                            $.ajax({
-                                                url: "/student/project/",
-                                                method: "POST",
-                                                data: {
-                                                    'group': {{$idGroup}},
-                                                    'receiver': {{$user->id}},
-                                                    'grade': rating,
-                                                    'status': 'submitted',
-                                                    'submission': 'studentsEvaluationSubmission',
-                                                    '_token': $('input[name=_token]').val()
-                                                },
-                                                datatype: 'JSON'
+                                            $('#submitEval').click(function() {
+                                                $('.StudentsEvaluation').hide();
+                                                $('.submitEval').addClass('d-none');
+                                                $('#submitted').removeClass('d-none');
+                                                $('#modalSubmitEvaluations').modal('hide');
+                                                $.ajax({
+                                                    url: "/student/project/",
+                                                    method: "POST",
+                                                    data: {
+                                                        'group': {{$idGroup}},
+                                                        'receiver': {{$user->id}},
+                                                        'grade': rating,
+                                                        'status': 'submitted',
+                                                        'submission': 'studentsEvaluationSubmission',
+                                                        '_token': $('input[name=_token]').val()
+                                                    },
+                                                    datatype: 'JSON'
+                                                });
                                             });
-                                        });
                                         @endif
                                     </script>
                                     {{-- Modal Submit Evaluations --}}
@@ -1934,17 +1928,17 @@
         if (d<0 || (d==0 && h==0 && m==0 && s==0)) {
             document.getElementById("timer2-{{$project->idProject}}").innerHTML = '<div class="ml-2">{{__("gx.finished")}}</div>';
         } else if (d==0 && h==0 && m==0) {
-            document.getElementById("timer2-{{$project->idProject}}").innerHTML = '<div>' + s + '<span>{{__("gx.seconds")}}</span></div>';
+            document.getElementById("timer2-{{$project->idProject}}").innerHTML = '<div>' + s + '<span style="font-size: 0.55em">{{__("gx.seconds")}}</span></div>';
         } else if (d==0) {
             document.getElementById("timer2-{{$project->idProject}}").innerHTML =
-                '<div>' + h + '<span>{{__("gx.hours")}}</span></div>' +
-                '<div>' + m + '<span>{{__("gx.minutes")}}</span></div>' +
-                '<div>' + s + '<span>{{__("gx.seconds")}}</span></div>';
+                '<div>' + h + '<span style="font-size: 0.55em">{{__("gx.hours")}}</span></div>' +
+                '<div>' + m + '<span style="font-size: 0.55em">{{__("gx.minutes")}}</span></div>' +
+                '<div>' + s + '<span style="font-size: 0.55em">{{__("gx.seconds")}}</span></div>';
         } else {
             document.getElementById("timer2-{{$project->idProject}}").innerHTML =
-                '<div>' + d + '<span>{{__("gx.days")}}</span></div>' +
-                '<div>' + h + '<span>{{__("gx.hours")}}</span></div>' +
-                '<div>' + m + '<span>{{__("gx.minutes")}}</span></div>';
+                '<div>' + d + '<span style="font-size: 0.55em">{{__("gx.days")}}</span></div>' +
+                '<div>' + h + '<span style="font-size: 0.55em">{{__("gx.hours")}}</span></div>' +
+                '<div>' + m + '<span style="font-size: 0.55em">{{__("gx.minutes")}}</span></div>';
         }
     }
     updateTimer2{{$project->idProject}}();
