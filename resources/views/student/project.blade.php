@@ -572,7 +572,7 @@
                                                 {{Form::hidden('task', $t->idTask) }}
                                                 {{Form::hidden('group', $t-> idGroup)}}
                                                 {{Form::hidden('_method','PUT')}}
-                                                <td class="float-right pr-0">{{Form::Submit(trans('gx.save'), ['class'=>'btn btn-md mr-md-2 stopYear btn-success', 'id'=>'Save'])}}<button type="button" class="btn btn-md stopYear btn-danger mr-md-2 editTask">{{__('gx.cancel')}}</button></td>
+                                                <td class="float-right pr-0">{{Form::Submit(trans('gx.save'), ['class'=>'btn btn-md mr-md-2 stopYear btn-success', 'id'=>'Save'])}}<button type="button" id="edittask_cancel" class="btn btn-md stopYear btn-danger mr-md-2 editTask">{{__('gx.cancel')}}</button></td>
                                             {!! Form::close() !!}
                                             <script>
                                                 $(function() {$( "#datetimepicker1-{{$t->idTask}}" ).datetimepicker({
@@ -623,6 +623,9 @@
                                 @endif
                                 </tbody>
                                 <style>
+                                    edittask_cancel{
+                                        font-size: 1vh;
+                                    }
                                     #delete_tasks,#edit_tasks{
                                         width: 10vh;
                                     }
@@ -672,6 +675,7 @@
                                             font-size: 1.1vh;
                                             width: 5vh;!important;
                                         }
+
 
                                         .table{
                                             table-layout: auto;
@@ -1415,7 +1419,7 @@
                                 <strong>{{__('gx.success!')}}</strong> {{__('gx.evaluationSentSucc')}}
                             </div>
                         @else
-                            <div class="StudentsEvaluation">
+                            <div class="StudentsEvaluation" style="max-height: 55vh;overflow: auto;">
                                 <table id="tableEvaluations">
                                 @foreach($studentEval as $user)
                                     {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST']) !!}
