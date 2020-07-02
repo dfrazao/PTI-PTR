@@ -92,6 +92,22 @@ class StudentProjectsController extends Controller
             $task->beginning = Carbon::parse($request->input('beginning'));
             $task->save();
 
+            $my_id = Auth::id();
+
+            $groups = DB::table('groups')->where('idProject', '=', $idProject)->value('idGroup');;
+            $stuGroups = StudentsGroup::all()->where('idGroup', '=', $groups)->pluck("idStudent");
+            $project = DB::table('projects')->where('idProject', '=', $idProject)->value('idSubject');
+            $project_name = DB::table('projects')->where('idProject', '=', $idProject)->value('name');
+
+            $subject = DB::table('subjects')->where('idSubject', '=', $project)->value('subjectName');
+            if ($stuGroups->count() > 0) {
+                foreach ($stuGroups as $stu) {
+                    $users = User::all()->where('id', '=', $stu)->where('id', '!=', $request->input('responsible'));
+                    foreach ($users as $user) {
+                        $user->notify(new \App\Notifications\InvoicePaid($my_id, "Scheduled a task", $idProject, $project_name, $subject));
+                    }
+                }
+            }
             return redirect()->to("/student/project/". $idProject . '#content')->with('success', trans('gx.taskSucc'));
 
         } elseif($submission == "schedule"){
