@@ -34,11 +34,11 @@
                             <a class="nav-link active" id="tabusers" data-toggle="tab" href="#users"><i class="far fa-user" ></i> </a>
                         </li>
                         @if(Auth::check() == true)
-                        @if(Auth::user()->role != "professor")
+                            @if(Auth::user()->role != "professor")
 
-                        <li class="nav-item">
-                            <a class="nav-link" id="tabgroups" data-toggle="tab" href="#groups" > <i class="far fa-users"></i></a>
-                        </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="tabgroups" data-toggle="tab" href="#groups" > <i class="far fa-users"></i></a>
+                                </li>
                             @endif
                         @endif
 
@@ -49,48 +49,50 @@
                         <div id="users" class=" tab-pane active">
                             <ul class="users">
                                 @foreach( $users as $ele)
-                                    @if($ele['isread'] == 0 && $ele['sender'] !=  Auth::user()->id)
-                                        <li class='user' id='{{ $ele['sender'] }}' name=''>
-                                            <span class='pending'></span>
-                                            <input type='hidden' id="name{{ $ele['sender'] }}" name='custId' value='{{ $ele['name'] }}'>
-                                            <input type='hidden' id="entity" name='entity' value='person'>
+                                    @if(Auth::check() == true)
+                                        @if($ele['isread'] == 0 && $ele['sender'] !=  Auth::user()->id)
+                                            <li class='user' id='{{ $ele['sender'] }}' name=''>
+                                                <span class='pending'></span>
+                                                <input type='hidden' id="name{{ $ele['sender'] }}" name='custId' value='{{ $ele['name'] }}'>
+                                                <input type='hidden' id="entity" name='entity' value='person'>
 
-                                            <div class="media">
-                                                <div class="media-left">
-                                                    <img src="{{Storage::url('profilePhotos/'.$ele['photo'])}}" alt="" class="media-object">
+                                                <div class="media">
+                                                    <div class="media-left">
+                                                        <img src="{{Storage::url('profilePhotos/'.$ele['photo'])}}" alt="" class="media-object">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <p class="name" style="font-size: 12px;">{{ $ele['name'] }}</p>
+                                                    </div>
                                                 </div>
-                                                <div class="media-body">
-                                                    <p class="name" style="font-size: 12px;">{{ $ele['name'] }}</p>
+                                            </li>
+                                        @elseif($ele['isread'] == 0 && $ele['sender'] ==  Auth::user()->role)
+                                            <li class='user' id='{{ $ele['sender'] }}' name=''>
+                                                <input type='hidden' id="name{{ $ele['sender'] }}" name='custId' value='{{ $ele['name'] }}'>
+                                                <input type='hidden' id="entity" name='entity' value='person'>
+                                                <div class="media">
+                                                    <div class="media-left">
+                                                        <img src="{{Storage::url('profilePhotos/'.$ele['photo'])}}" alt="" class="media-object">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <p class="name" style="font-size: 12px;">{{ $ele['name'] }}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </li>
-                                    @elseif($ele['isread'] == 0 && $ele['sender'] ==  Auth::user()->role)
-                                        <li class='user' id='{{ $ele['sender'] }}' name=''>
-                                            <input type='hidden' id="name{{ $ele['sender'] }}" name='custId' value='{{ $ele['name'] }}'>
-                                            <input type='hidden' id="entity" name='entity' value='person'>
-                                            <div class="media">
-                                                <div class="media-left">
-                                                    <img src="{{Storage::url('profilePhotos/'.$ele['photo'])}}" alt="" class="media-object">
-                                                </div>
-                                                <div class="media-body">
-                                                    <p class="name" style="font-size: 12px;">{{ $ele['name'] }}</p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        @elseif($ele['isread'] == 1 )
-                                        <li class='user' id='{{ $ele['sender'] }}' name=''>
+                                            </li>
+                                            @elseif($ele['isread'] == 1 )
+                                            <li class='user' id='{{ $ele['sender'] }}' name=''>
 
-                                            <input type='hidden' id="name{{ $ele['sender'] }}" name='custId' value='{{ $ele['name'] }}'>
-                                            <input type='hidden' id="entity" name='entity' value='person'>
-                                            <div class="media">
-                                                <div class="media-left">
-                                                    <img src="{{Storage::url('profilePhotos/'.$ele['photo'])}}" alt="" class="media-object">
+                                                <input type='hidden' id="name{{ $ele['sender'] }}" name='custId' value='{{ $ele['name'] }}'>
+                                                <input type='hidden' id="entity" name='entity' value='person'>
+                                                <div class="media">
+                                                    <div class="media-left">
+                                                        <img src="{{Storage::url('profilePhotos/'.$ele['photo'])}}" alt="" class="media-object">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <p class="name" style="font-size: 12px;">{{ $ele['name'] }}</p>
+                                                    </div>
                                                 </div>
-                                                <div class="media-body">
-                                                    <p class="name" style="font-size: 12px;">{{ $ele['name'] }}</p>
-                                                </div>
-                                            </div>
-                                        </li>
+                                            </li>
+                                        @endif
                                     @endif
                                 @endforeach
                             </ul>
