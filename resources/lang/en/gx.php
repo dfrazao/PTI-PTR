@@ -586,6 +586,7 @@ return [
     'rmvSub' =>'Removed submission',
     'fileSubb ' => 'File submitted successfully',
     'rmvFileFromRepo' => 'Removed file from repository',
+    'schTask' =>'Scheduled a task',
 
 
 

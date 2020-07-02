@@ -104,7 +104,7 @@ class StudentProjectsController extends Controller
                 foreach ($stuGroups as $stu) {
                     $users = User::all()->where('id', '=', $stu)->where('id', '!=', $request->input('responsible'));
                     foreach ($users as $user) {
-                        $user->notify(new \App\Notifications\InvoicePaid($my_id, "Scheduled a task", $idProject, $project_name, $subject));
+                        $user->notify(new \App\Notifications\InvoicePaid($my_id, trans('gx.schTask'), $idProject, $project_name, $subject));
                     }
                 }
             }

@@ -560,6 +560,7 @@ consegue atribuir uma nota ao grupo com a possibilidade de alterar a nota atribu
     'grElemEval' => 'Avaliação dos membros do grupo.',
     'hasntUplFile' => 'O professor ainda não fez upload de nenhum ficheiro.',
     'no_files_up' => 'Não foi feito nenhum upload de ficheiros!',
+    'schTask' =>'Agendou uma tarefa',
 
 
 ];
