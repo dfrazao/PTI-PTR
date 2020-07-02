@@ -1235,113 +1235,115 @@
                 <div id="submission_row" class="col-lg-7 pb-3" style="height:70vh">
                     <div class="container-fluid mb-3 mt-3 pt-2 h-100 rounded" style="background-color: white;">
                         <h5 class="text-center">{{__('gx.subInfo')}}</h5>
-                        @if($submittedFiles->count() > 0)
-                            <div id="box1">
-                                <img src="/images/deathlineSub.png" style="width: 30px; height: 30px; float: left; margin:1%;">
-                                <div id="timer3"></div>
-                            </div>
+                        <div style="overflow: auto; max-height: 70vh">
+                            @if($submittedFiles->count() > 0)
+                                <div id="box1">
+                                    <img src="/images/deathlineSub.png" style="width: 30px; height: 30px; float: left; margin:1%;">
+                                    <div id="timer3"></div>
+                                </div>
 
-                            <style>
-                                #box1{
-                                    font-size: 2vh;
-                                    position: absolute;
-                                    right: 1%;
-                                    top: 12%;
-                                    border-radius: 15px;
-                                    width: 40%;
-                                    vertical-align: middle;
-                                }
-                                #submission_row{
-                                    padding-right: 0px;
-                                }
-                                #timer3 {
-                                    font-size: 1.0em;
-                                    color: black;
-                                    vertical-align: middle;
-                                    text-align: center;
-                                }
-
-                                #timer3 div {
-                                    display: inline-block;
-                                    min-width: 35px;
-
-                                }
-
-                                #timer3 p {
-                                    margin: 2%;
-                                }
-
-                                #timer3 div span {
-                                    color: black;
-                                    display: block;
-                                    font-size: .60em;
-                                    font-weight: 400;
-                                }
-                                @media screen and (max-width: 1300px){
+                                <style>
                                     #box1{
+                                        font-size: 2vh;
+                                        position: absolute;
                                         right: 1%;
-                                        top: 4%;
-                                        width: 25%;
+                                        top: 12%;
+                                        border-radius: 15px;
+                                        width: 40%;
+                                        vertical-align: middle;
                                     }
-                                }
-                                @media screen and (max-width: 991px){
                                     #submission_row{
-                                        padding-right: 15px;
+                                        padding-right: 0px;
                                     }
-                                    #box1{
-                                        right: 4%;
-                                        top: 6%;
-                                        width: 25%;
+                                    #timer3 {
+                                        font-size: 1.0em;
+                                        color: black;
+                                        vertical-align: middle;
+                                        text-align: center;
                                     }
-                                }
-                                @media screen and (max-width: 660px){
-                                    #box1{
-                                        display: none;
-                                    }
-                                }
-                            </style>
-                            <script>
 
-                                function updateTimer3() {
-                                    future = Date.parse("{{$project->dueDate}}");
-                                    now = Date.parse("{{$submittedFiles->first()->submissionTime}}");
-                                    diff = Math.abs(future - now);
-
-                                    days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                                    hours = Math.floor(diff / (1000 * 60 * 60));
-                                    mins = Math.floor(diff / (1000 * 60));
-                                    secs = Math.floor(diff / 1000);
-
-                                    d = days;
-                                    h = hours - days * 24;
-                                    m = mins - hours * 60;
-                                    s = secs - mins * 60;
-
-                                    if (now>future){
-                                        $('#box1').css('border', '1.5px solid red');
-                                        $('#box1').css('background-color', '#ff000042');
-
-
-                                        document.getElementById("timer3")
-                                            .innerHTML = '<p style="float: left;">{{__('gx.submWithDelay')}}</p>'+
-                                            '<div>' + d + '<span>{{__('gx.days')}}</span></div>' +
-                                            '<div>' + h + '<span>{{__('gx.hours')}}</span></div>' +
-                                            '<div>' + m + '<span>{{__('gx.minutes')}}</span></div>';
-
-
-                                    }else{
-
-                                        $('#box1').css('border', '1.5px solid #61af61');
-                                        $('#box1').css('background-color', '#bbf5bb');
-                                        document.getElementById("timer3")
-                                            .innerHTML =
-                                            '<p>{{__('gx.submWithSucc')}}</p>';
+                                    #timer3 div {
+                                        display: inline-block;
+                                        min-width: 35px;
 
                                     }
-                                }
-                                updateTimer3();
 
-                            @endif
+                                    #timer3 p {
+                                        margin: 2%;
+                                    }
+
+                                    #timer3 div span {
+                                        color: black;
+                                        display: block;
+                                        font-size: .60em;
+                                        font-weight: 400;
+                                    }
+                                    @media screen and (max-width: 1300px){
+                                        #box1{
+                                            right: 1%;
+                                            top: 4%;
+                                            width: 25%;
+                                        }
+                                    }
+                                    @media screen and (max-width: 991px){
+                                        #submission_row{
+                                            padding-right: 15px;
+                                        }
+                                        #box1{
+                                            right: 4%;
+                                            top: 6%;
+                                            width: 25%;
+                                        }
+                                    }
+                                    @media screen and (max-width: 660px){
+                                        #box1{
+                                            display: none;
+                                        }
+                                    }
+                                </style>
+                                <script>
+
+                                    function updateTimer3() {
+                                        future = Date.parse("{{$project->dueDate}}");
+                                        now = Date.parse("{{$submittedFiles->first()->submissionTime}}");
+                                        diff = Math.abs(future - now);
+
+                                        days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                                        hours = Math.floor(diff / (1000 * 60 * 60));
+                                        mins = Math.floor(diff / (1000 * 60));
+                                        secs = Math.floor(diff / 1000);
+
+                                        d = days;
+                                        h = hours - days * 24;
+                                        m = mins - hours * 60;
+                                        s = secs - mins * 60;
+
+                                        if (now>future){
+                                            $('#box1').css('border', '1.5px solid red');
+                                            $('#box1').css('background-color', '#ff000042');
+
+
+                                            document.getElementById("timer3")
+                                                .innerHTML = '<p style="float: left;">{{__('gx.submWithDelay')}}</p>'+
+                                                '<div>' + d + '<span>{{__('gx.days')}}</span></div>' +
+                                                '<div>' + h + '<span>{{__('gx.hours')}}</span></div>' +
+                                                '<div>' + m + '<span>{{__('gx.minutes')}}</span></div>';
+
+
+                                        }else{
+
+                                            $('#box1').css('border', '1.5px solid #61af61');
+                                            $('#box1').css('background-color', '#bbf5bb');
+                                            document.getElementById("timer3")
+                                                .innerHTML =
+                                                '<p>{{__('gx.submWithSucc')}}</p>';
+
+                                        }
+                                    }
+                                    updateTimer3();
+
+                                @endif
+                        </div>
                         </script>
                         <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto pt-2">
                             <i class='pl-1 far fa-lg fa-file-alt float-left'></i>
