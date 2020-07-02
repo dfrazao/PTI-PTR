@@ -330,6 +330,7 @@
         border-radius: 10px;
     }
     .received {
+        float: left;
         background: rgba(0, 123, 255, 0.78);
         color: #ffffff;
     }
