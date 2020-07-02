@@ -37,7 +37,7 @@ class SearchController extends Controller
                             $user_m = User::find($m->sender);
                         }else{
                             $user_m = User::find($m->receiver);
-                        }
+                                }
 
                         if ($m->isread == 0 && $m->sender!= $my_id) {
                                 $source = Storage::url('profilePhotos/' . $user_m->photo);
@@ -82,10 +82,10 @@ class SearchController extends Controller
 
                     $collection = collect([]);
                     $query = DB::select('SELECT groupChats.idGroup, groupChats.sender ,groupChats.isread, groups.idGroupProject, subjects.subjectName, projects.name from groupChats
-                    LEFT JOIN groups ON groupChats.idGroup = groups.idGroup 
-                    LEFT JOIN studentGroups ON groupChats.idGroup = studentGroups.idGroup 
-                    LEFT JOIN subjects ON groups.idProject = subjects.idSubject 
-                    LEFT JOIN projects ON groups.idProject = projects.idProject 
+                    LEFT JOIN groups ON groupChats.idGroup = groups.idGroup
+                    LEFT JOIN studentGroups ON groupChats.idGroup = studentGroups.idGroup
+                    LEFT JOIN subjects ON groups.idProject = subjects.idSubject
+                    LEFT JOIN projects ON groups.idProject = projects.idProject
                     WHERE groupChats.id in (SELECT max(groupChats.id) as max_id
                                                FROM groupChats
                                                GROUP BY groupChats.idGroup) AND studentGroups.idStudent = '.$my_id.'
@@ -154,8 +154,8 @@ class SearchController extends Controller
                                 }
 
 
+                        }
                     }
-                }
                 }
                 return Response($output);
 
@@ -187,7 +187,7 @@ class SearchController extends Controller
                 }elseif($request->entity == "group"){
 
                     $query = DB::select('SELECT groups.idGroup, groups.idGroupProject, subjects.subjectName, projects.name FROM studentGroups
-                    LEFT JOIN groups ON studentGroups.idGroup = groups.idGroup 
+                    LEFT JOIN groups ON studentGroups.idGroup = groups.idGroup
                     LEFT JOIN subjects ON groups.idProject = subjects.idSubject
                     LEFT JOIN projects ON groups.idProject = projects.idProject
                     WHERE studentGroups.idStudent = '.$my_id.' AND (subjects.subjectName LIKE "%'.$request->search.'%" OR projects.name LIKE "%'.$request->search.'%" OR groups.idGroupProject LIKE "%'.$request->search.'%")');

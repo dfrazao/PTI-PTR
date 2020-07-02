@@ -551,14 +551,14 @@
                                                                         <td style="text-align: left;"><a href="/profile/{{$sg->idStudent}}"><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;vertical-align: middle;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.\App\User::find($sg->idStudent)->photo)}}"><span id="nome_aval" style="vertical-align: middle;"> {{\App\User::find($sg->idStudent)->name}}</span></a></td>
                                                                         <td style="text-align: left;"><i onclick='chat({{$sg->idStudent}})' class="far fa-envelope"></i></td>
                                                                         <td>
-                                                                            @if(is_null(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', $sg->idStudent)->where('idGroup', $group->idGroup)->value('grade')))
+                                                                            @if(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', $sg->idStudent)->where('idGroup', $group->idGroup)->value('status') == null)
                                                                                 –
                                                                             @else
                                                                                 <i class="fas fa-star" style="color: #ffd63f;"></i> {{\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', $sg->idStudent)->where('idGroup', $group->idGroup)->value('grade')}}/5
                                                                             @endif
                                                                         </td>
                                                                         <td>
-                                                                            @if(\App\Evaluation::find(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', "!=", $sg->idStudent)->where('idGroup', $group->idGroup)->pluck('idEval'))->pluck('grade')->avg() == 0)
+                                                                            @if(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', "!=", $sg->idStudent)->where('idGroup', $group->idGroup)->value('status') == null)
                                                                                 –
                                                                             @else
                                                                                 <i class="fas fa-star" style="color: #ffd63f;"></i> {{round(\App\Evaluation::find(\App\Evaluation::where('receiver', $sg->idStudent)->where('sender', "!=", $sg->idStudent)->where('idGroup', $group->idGroup)->pluck('idEval'))->pluck('grade')->avg() , 2)}}/5

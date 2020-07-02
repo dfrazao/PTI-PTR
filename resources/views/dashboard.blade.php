@@ -313,7 +313,7 @@
                                                             <div style="display: flex;text-align: center;align-items: center;width: 15em;"><i class='far fa-lg fa-file-alt float-left'></i><div id="timer2-{{$project->idProject}}" class="timer"></div></div>
                                                             <script>
                                                                 function updateTimer1{{$project->idProject}}() {
-                                                                    future = Date.parse("{{$project->groupCreationDueDate}}");
+                                                                    future = Date.parse("{{new \Carbon\Carbon($project->groupCreationDueDate)}}");
                                                                     now = new Date();
                                                                     diff = future - now;
                                                                     days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -334,7 +334,7 @@
                                                                     }
                                                                 }
                                                                 function updateTimer2{{$project->idProject}}() {
-                                                                    future = Date.parse("{{$project->dueDate}}");
+                                                                    future = Date.parse("{{new \Carbon\Carbon($project->dueDate)}}");
                                                                     now = new Date();
                                                                     diff = future - now;
                                                                     days = Math.floor(diff / (1000 * 60 * 60 * 24));
