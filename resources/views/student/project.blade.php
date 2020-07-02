@@ -45,7 +45,7 @@
             <a class="nav-link" id="submission-tab" data-toggle="tab" href="#submission" role="tab" aria-controls="submission" aria-selected="false">{{__('gx.submission')}}</a>
         </li>
         <li class="rightbutton ml-auto">
-            <button  type="button" class="btn btn-danger btn-sm stopYear" data-toggle="modal" data-target="#modalLeaveGroup" style="width: 11em"><i class="far fa-sign-out mr-2"></i>{{__('gx.leave group')}}</button>
+            <button  type="button" class="btn btn-danger btn-md stopYear" data-toggle="modal" data-target="#modalLeaveGroup" style="width: 11em"><i class="far fa-sign-out mr-2"></i>{{__('gx.leave group')}}</button>
             <div id="modalLeaveGroup" class="modal" tabindex="-1" role="dialog" >
                 <div class="modal-dialog modal-lg" >
                     <div class="modal-content" >
@@ -260,8 +260,8 @@
                         </style>
 
 
-                        <button type="submit" disabled class="p-2 btn btn-success btn-sm" id='submitFile' data-toggle="modal" data-target="#modalSubmitFile" ><i class="fas fa-check"></i> {{__('gx.submit')}}</button>
-                        <button type="button" class="p-2 btn btn-primary btn-sm stopYear" id="uploadBtn" data-toggle="modal" data-target="#modalAddFile" data-toggle="modal"><i class="fas fa-upload mr-2"></i>{{__('gx.upload files')}}</button>
+                        <button type="submit" disabled class=" btn btn-success btn-md" id='submitFile' data-toggle="modal" data-target="#modalSubmitFile" ><i class="fas fa-check"></i> {{__('gx.submit')}}</button>
+                        <button type="button" class=" btn btn-primary btn-md stopYear" id="uploadBtn" data-toggle="modal" data-target="#modalAddFile" data-toggle="modal"><i class="fas fa-upload mr-2"></i>{{__('gx.upload files')}}</button>
 
                         <style>
                             #submitFile{
@@ -572,7 +572,7 @@
                                                 {{Form::hidden('task', $t->idTask) }}
                                                 {{Form::hidden('group', $t-> idGroup)}}
                                                 {{Form::hidden('_method','PUT')}}
-                                                <td class="float-right pr-0">{{Form::Submit(trans('gx.save'), ['class'=>'btn btn-sm mr-md-2 stopYear btn-success', 'id'=>'Save'])}}<button type="button" class="btn btn-sm stopYear btn-danger mr-md-2 editTask">{{__('gx.cancel')}}</button></td>
+                                                <td class="float-right pr-0">{{Form::Submit(trans('gx.save'), ['class'=>'btn btn-md mr-md-2 stopYear btn-success', 'id'=>'Save'])}}<button type="button" class="btn btn-md stopYear btn-danger mr-md-2 editTask">{{__('gx.cancel')}}</button></td>
                                             {!! Form::close() !!}
                                             <script>
                                                 $(function() {$( "#datetimepicker1-{{$t->idTask}}" ).datetimepicker({
@@ -685,7 +685,7 @@
                             </table>
                         </div>
                         <div class="container-fluid pt-3 mr-2" style="position: relative">
-                            <button type="button" class="btn btn-primary btn-sm open_modal stopYear" id="{{$idGroup}}" style="width:23vh; color: white;position: absolute; bottom: 0px; right: 0px;"><i class="fas fa-plus mr-2"></i>{{__('gx.new task')}}</button>
+                            <button type="button" class="btn btn-primary btn-md open_modal stopYear" id="{{$idGroup}}" style="width:23vh; color: white;position: absolute; bottom: 0px; right: 0px;"><i class="fas fa-plus mr-2"></i>{{__('gx.new task')}}</button>
                         </div>
                     </div>
                 </div>
@@ -956,7 +956,7 @@
                         </table>
                     </div>
                     <div id="wrapper" class="container-fluid pt-3 " style="position: relative">
-                        <button type="submit" class="btn btn-primary float-right btn-sm mr-2 stopYear" id="newMeeting" data-toggle="modal" data-target="#modalCreateMeeting"><i class="fas fa-plus mr-2"></i>{{__('gx.new meeting')}}</button>
+                        <button type="submit" class="btn btn-primary float-right btn-md mr-2 stopYear" id="newMeeting" data-toggle="modal" data-target="#modalCreateMeeting"><i class="fas fa-plus mr-2"></i>{{__('gx.new meeting')}}</button>
                     </div>
                 </div>
             </div>
@@ -1025,7 +1025,7 @@
             </div>
         </div>
         <div class="tab-pane fade" id="forum" role="tabpanel" aria-labelledby="forum-tab">
-            <button type="button" class="p-2 mt-3 mr-3 btn btn-sm btn-primary float-right stopYear" data-toggle="modal" data-target="#modalCreatePost"><i class="fas fa-plus mr-2"></i>{{__('gx.create post')}}</button>
+            <button type="button" class=" mt-3 mr-3 btn btn-md btn-primary float-right stopYear" data-toggle="modal" data-target="#modalCreatePost"><i class="fas fa-plus mr-2"></i>{{__('gx.create post')}}</button>
 
             <div class="container rounded pb-3 pt-3">
                 <div class="table-responsive-xl pt-2">

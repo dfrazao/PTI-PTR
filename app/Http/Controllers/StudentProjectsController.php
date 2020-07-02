@@ -141,13 +141,13 @@ class StudentProjectsController extends Controller
                 } else {
                     array_push($successFile, $file->getClientOriginalName());
                     $f = new File;
-                    $f->idGroup = $idGroup;
+                    $f->idGroup = $request->group;
                     $f->pathFile = $file->getClientOriginalName();
                     $f->finalState = "temporary";
                     $f->uploadTime = Carbon::now();
                     $f->userUpload = Auth::user()->name;
                     $f->save();
-                    $file->storeAs('studentRepository/' . $idGroup, $f->Pathfile, 'gcs');
+                    $file->storeAs('studentRepository/' . $idGroup, $f->pathFile, 'gcs');
 
 
                 }
