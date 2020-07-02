@@ -70,7 +70,6 @@ class AppServiceProvider extends ServiceProvider
                     $user_m = User::find($m->sender);
                     $users->push([
                         'sender' => $user_m->id,
-                        'receiver' => null,
                         'name' => $user_m->name,
                         'photo' => $user_m->photo,
                         'isread' => $m->isread
@@ -78,8 +77,7 @@ class AppServiceProvider extends ServiceProvider
                 }else{
                     $user_m = User::find($m->receiver);
                     $users->push([
-                        'sender' => null,
-                        'receiver' => $user_m->id,
+                        'sender' => $user_m->id,
                         'name' => $user_m->name,
                         'photo' => $user_m->photo,
                         'isread' => $m->isread

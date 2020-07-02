@@ -49,7 +49,7 @@
                         <div id="users" class=" tab-pane active">
                             <ul class="users">
                                 @foreach( $users as $ele)
-                                    @if($ele['isread'] == 0 && $ele['sender'] !=  null)
+                                    @if($ele['isread'] == 0 && $ele['sender'] !=  Auth::user()->id)
                                         <li class='user' id='{{ $ele['sender'] }}' name=''>
                                             <span class='pending'></span>
                                             <input type='hidden' id="name{{ $ele['sender'] }}" name='custId' value='{{ $ele['name'] }}'>
@@ -64,11 +64,9 @@
                                                 </div>
                                             </div>
                                         </li>
-                                    @elseif($ele['isread'] == 0 && $ele['receiver'] !=  null)
-                                        <li class='user' id='{{ $ele['receiver'] }}' name=''>
-                                            <span class='pending'></span>
-
-                                            <input type='hidden' id="name{{ $ele['receiver'] }}" name='custId' value='{{ $ele['name'] }}'>
+                                    @elseif($ele['isread'] == 0 && $ele['sender'] ==  Auth::user()->role)
+                                        <li class='user' id='{{ $ele['sender'] }}' name=''>
+                                            <input type='hidden' id="name{{ $ele['sender'] }}" name='custId' value='{{ $ele['name'] }}'>
                                             <input type='hidden' id="entity" name='entity' value='person'>
                                             <div class="media">
                                                 <div class="media-left">
@@ -548,8 +546,6 @@
         });
         var mes = $("#message").emojioneArea({
             searchPlaceholder: "",
-            pickerPosition: "bottom",
-            filtersPosition: "bottom",
             events: {
                 keyup: function (editor, event) {
                     if(event.which == 13){

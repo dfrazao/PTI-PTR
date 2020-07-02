@@ -102,7 +102,7 @@ class StudentProjectsController extends Controller
             $subject = DB::table('subjects')->where('idSubject', '=', $project)->value('subjectName');
             if ($stuGroups->count() > 0) {
                 foreach ($stuGroups as $stu) {
-                    $users = User::all()->where('id', '=', $stu)->where('id', '!=', $request->input('responsible'));
+                    $users = User::all()->where('id', '=', $stu);
                     foreach ($users as $user) {
                         $user->notify(new \App\Notifications\InvoicePaid($my_id, trans('gx.schTask'), $idProject, $project_name, $subject));
                     }
