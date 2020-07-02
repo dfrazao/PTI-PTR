@@ -663,13 +663,15 @@
 
                                     }
                                     @media screen and (max-width: 500px) {
+                                        #edit_tasks{
+                                            margin-bottom: 5px;
+                                        }
                                         #delete_tasks{
                                             font-size: 1.1vh;
                                         }
-                                        #edit_tasks, #save{
+                                        #edit_tasks{
                                             font-size: 1.1vh;
                                             width: 5vh;!important;
-                                            margin-bottom: 5px;
                                         }
 
                                         .table{
