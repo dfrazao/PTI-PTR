@@ -133,6 +133,7 @@ return [
     //'deadline'                  =>'Prazo de Entrega',
     'submit'                    =>'Submeter',
     'task'                      => 'Tarefa',
+    'tasks'                     => 'Tarefas',
     'responsible'               => 'Responsável',
     'beginning'                 => 'Início',
     'end'                       => 'Fim',

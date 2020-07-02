@@ -275,7 +275,7 @@
                             #uploadBtn{
                                 font-size:2vh;
                                 position: absolute;
-                                right: 20vh;
+                                right: 19vh;
                                 bottom: 7px;
                                 width: 25vh;
                             }
@@ -366,7 +366,7 @@
                     </style>
                     <div id="col_groups" class="container-fluid rounded text-center h-100 pt-2" style="background-color: white;padding-bottom:5%;">
                         <h5>{{__('gx.group').' '. \App\Group::find($idGroup)->idGroupProject}}</h5>
-                        <div style="overflow: auto;">
+                        <div style="overflow: auto; max-height: 70vh">
                             <table align="center" id="groupElements">
                                 @foreach($groupUsers as $user)
                                     <tr>
@@ -511,6 +511,7 @@
                 <div id="container_row2" class="container-fluid rounded mx-3 mt-3 p-2" style=" position: relative; background-color: white">
                     <div class="form-group mb-0">
                         <div class="table-fixed">
+                            <h5 class="text-center">{{__('gx.tasks')}}</h5>
                             <table class="table table-hover text-center">
                                 <thead>
                                 <tr class="tasks_letra">
@@ -546,7 +547,7 @@
                                             <td id="task_b">{{$t->beginning}}</td>
                                             <td id="task_e">{{$t->end}}</td>
                                             <td>{{$t->duration}}</td>
-                                            <td class="float-right pr-0"><button id="edit_tasks"  type="button" class="stopYear btn btn-sm btn-success editTask mr-md-2"><i id="icon_tasks" class="fas fa-edit mr-2"></i>{{__('gx.edit')}}</button><button type="button" id="delete_tasks" class="stopYear btn btn-sm btn-danger mr-md-2" data-toggle="modal" data-target="#modalDelete-{{$t->idTask}}"><i id="icon_tasks" class="fal fa-trash mr-2"></i>{{__('gx.delete')}}</button></td>
+                                            <td class="float-right pr-0"><button id="edit_tasks"  type="button" class=" p-2 stopYear btn btn-sm btn-success editTask mr-md-2"><i id="icon_tasks" class="fas fa-edit mr-2"></i>{{__('gx.edit')}}</button><button type="button" id="delete_tasks" class="stopYear  p-2 btn btn-sm btn-danger mr-md-2" data-toggle="modal" data-target="#modalDelete-{{$t->idTask}}"><i id="icon_tasks" class="fal fa-trash mr-2"></i>{{__('gx.delete')}}</button></td>
                                         </tr>
                                         <tr class="d-none" id="{{$t->idTask}}-edit">
                                             @csrf
@@ -572,7 +573,7 @@
                                                 {{Form::hidden('task', $t->idTask) }}
                                                 {{Form::hidden('group', $t-> idGroup)}}
                                                 {{Form::hidden('_method','PUT')}}
-                                                <td class="float-right pr-0">{{Form::Submit(trans('gx.save'), ['class'=>'btn btn-md mr-md-2 stopYear btn-success', 'id'=>'Save'])}}<button type="button" class="btn btn-md stopYear btn-danger mr-md-2 editTask">{{__('gx.cancel')}}</button></td>
+                                                <td class="float-right pr-0">{{Form::Submit(trans('gx.save'), ['class'=>' p-2 btn btn-sm mr-md-2 stopYear btn-success', 'style' => 'width: 10vh', 'id'=>'Save'])}}<button type="button" style="width:10vh" class=" p-2 btn btn-sm stopYear btn-danger mr-md-2 editTask">{{__('gx.cancel')}}</button></td>
                                             {!! Form::close() !!}
                                             <script>
                                                 $(function() {$( "#datetimepicker1-{{$t->idTask}}" ).datetimepicker({
@@ -685,7 +686,7 @@
                             </table>
                         </div>
                         <div class="container-fluid pt-3 mr-2" style="position: relative">
-                            <button type="button" class="btn btn-primary btn-md open_modal stopYear" id="{{$idGroup}}" style="width:23vh; color: white;position: absolute; bottom: 0px; right: 0px;"><i class="fas fa-plus mr-2"></i>{{__('gx.new task')}}</button>
+                            <button type="button" class="btn btn-primary btn-md open_modal stopYear" id="{{$idGroup}}" style="width:21vh; color: white;position: absolute; bottom: 0px; right: 7px;"><i class="fas fa-plus mr-2"></i>{{__('gx.new task')}}</button>
                         </div>
                     </div>
                 </div>
@@ -1340,7 +1341,7 @@
                         <div class="container-fluid mt-3 pr-0 ml-2" id="submittedFiles" style="background-color: white">
                             @foreach($submittedFiles as $file)
                                 <div class="text-center pt-2" id= '{{$file->idFile}}' style="margin-right: 15px; position:relative; display: inline-block; width: 100px;">
-                                    <button style="position:absolute; top:-1px; right:10px;" id= '{{$file->idFile}}' type="button" class="close removeFile">
+                                    <button style="position:absolute; top:-1px; right:10px;" id= '{{$file->idFile}}' type="button" class="close stopYear removeFile">
                                         <span class="dot" id="delete" style="position:relative; display:inline-block; ">
                                             <i style="font-size: 15px; position:absolute; transform: translate(-50%, -50%); top:45%; left:50%; display:block;" class="fal fa-trash"></i>
                                         </span>
@@ -1415,7 +1416,7 @@
                                 <strong>{{__('gx.success!')}}</strong> {{__('gx.evaluationSentSucc')}}
                             </div>
                         @else
-                            <div class="StudentsEvaluation">
+                            <div class="StudentsEvaluation" style="overflow: auto; max-height: 55vh">
                                 <table id="tableEvaluations">
                                 @foreach($studentEval as $user)
                                     {!! Form::open(['action' => ['StudentProjectsController@store', $project -> idProject], 'method' => 'POST']) !!}

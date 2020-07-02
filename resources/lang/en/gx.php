@@ -136,6 +136,7 @@ return [
     'deadline'                  =>'Deadline',
     'submit'                    =>'Submit',
     'task'                      => 'Task',
+    'tasks'                     => 'Tasks',
     'responsible'               => 'Responsible',
     'beginning'                 => 'Beginning',
     'end'                       => 'End',
