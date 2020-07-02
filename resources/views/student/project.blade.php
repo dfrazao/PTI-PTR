@@ -1910,7 +1910,6 @@
 
     $("#modalSubmitFile").on("hidden.bs.modal", function () {
         $('#modalSubmitFile .filesSelected').empty();
-
     });
 
     function updateTimer2{{$project->idProject}}() {
