@@ -102,7 +102,7 @@
                             @endif
 
                             <div class="dropdown-container" >
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuOffset" style="max-height: 400px; overflow-y: scroll;" >
+                                <div class="dropdown-menu dropdown-menu-right" id="dropdown-not" aria-labelledby="dropdownMenuOffset" style="max-height: 400px; overflow-y: scroll;" >
                                     @if(count(Auth::user()->Notifications) == 0)
                                             <div class="media">
                                                 <div class="media-left">
@@ -201,14 +201,41 @@
                         @endif
                         <script>
 
+                            $("#notifications").on("click", function() {
+                                $("#dropdown-not").toggle();
+                                var x = document.getElementById("este");
+                                x.style.display = "none";
+                            });
+
+                            function sairdrop(){
+                                $("#navbarDropdown").toggle();
+
+                                var x = document.getElementById("este");
+                                if (x.style.display === "block") {
+                                    x.style.display = "none";
+                                }
+
+                                if($("#dropdown-not").hasClass("show")){
+                                    $("#dropdown-not").toggle();
+                                }
+                            }
+
                             function open_chat() {
                                 var x = document.getElementById("este");
                                 if (x.style.display === "block") {
                                     x.style.display = "none";
                                 } else {
-                                    x.style.display = "block";
+
+                                    if($("#dropdown-not").hasClass("show")){
+                                        x.style.display = "block";
+                                        $("#dropdown-not").toggle();
+                                    }else{
+                                        x.style.display = "block";
+                                    }
+
                                 }
                             }
+
 
                             function chat(user_id) {
                                 $.ajax({
@@ -252,6 +279,8 @@
 
                                     }
                                 });
+
+
 
                                 var x = document.getElementById("este");
                                 if (x.style.display === "block") {
@@ -332,7 +361,7 @@
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
-                                             document.getElementById('logout-form').submit();">
+                                             document.getElementById('logout-form').submit();" >
                                     {{ __('Logout') }}
                                 </a>
 
@@ -361,7 +390,7 @@
                         @endif
                     @elseif (Auth::user()->role == "admin")
                         <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.Auth::user()->photo)}}"> <span style="vertical-align: middle;">{{ Auth::user()->name }}</span></a>
+                            <a id="navbarDropdown" onclick="sairdrop();" class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre><img class="editable img-responsive" style="border-radius: 100%; height: 30px; width: 30px; object-fit: cover;" alt="Avatar" id="avatar2" src="{{Storage::url('profilePhotos/'.Auth::user()->photo)}}"> <span style="vertical-align: middle;">{{ Auth::user()->name }}</span></a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('logout') }}"
