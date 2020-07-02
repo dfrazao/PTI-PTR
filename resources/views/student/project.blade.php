@@ -573,7 +573,7 @@
                                                 {{Form::hidden('task', $t->idTask) }}
                                                 {{Form::hidden('group', $t-> idGroup)}}
                                                 {{Form::hidden('_method','PUT')}}
-                                                <td class="float-right pr-0">{{Form::Submit(trans('gx.save'), ['class'=>' p-2 btn btn-sm mr-md-2 stopYear btn-success', 'style' => 'width: 10vh', 'id'=>'Save'])}}<button type="button" style="width:10vh" class=" p-2 btn btn-sm stopYear btn-danger mr-md-2 editTask">{{__('gx.cancel')}}</button></td>
+                                                <td class="float-right pr-0">{{Form::Submit(trans('gx.save'), ['class'=>' p-2 btn btn-sm mr-md-2 stopYear btn-success', 'style' => 'width: 10vh', 'id'=>'Save'])}}<button type="button" style="width:10vh" id="cancelEdit" class=" p-2 btn btn-sm stopYear btn-danger mr-md-2 editTask">{{__('gx.cancel')}}</button></td>
                                             {!! Form::close() !!}
                                             <script>
                                                 $(function() {$( "#datetimepicker1-{{$t->idTask}}" ).datetimepicker({
@@ -663,15 +663,13 @@
 
                                     }
                                     @media screen and (max-width: 500px) {
-                                        #edit_tasks{
-                                            margin-bottom: 5px;
-                                        }
                                         #delete_tasks{
                                             font-size: 1.1vh;
                                         }
-                                        #edit_tasks{
+                                        #edit_tasks, #save{
                                             font-size: 1.1vh;
                                             width: 5vh;!important;
+                                            margin-bottom: 5px;
                                         }
 
                                         .table{
