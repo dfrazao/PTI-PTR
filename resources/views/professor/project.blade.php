@@ -746,21 +746,21 @@
                                                         }
                                                     }
                                                 </style>
-                                                <div class=" bg-light p-2 w-100 rounded " style="height: 33vh">
+                                                <div class=" bg-light p-2 w-100 rounded " style="height: 32vh">
                                                     <h5>{{__('gx.final group evaluation')}}</h5>
                                                     @if($group->grade != null)
                                                         <script>
                                                             $('#pills-{{$group->idGroupProject}}-tab-image').css('display','block');
                                                         </script>
                                                     @endif
-                                                    @if ($group->grade == NULL and $project->dueDate <= date("Y-m-d H:i:s"))
+                                                    @if ($group->grade == NULL)
                                                         <p class="mb-0">{{__('gx.group not evaluated')}}</p>
                                                         <style>
                                                             #par_eval{
                                                                 padding-bottom: 100%;!important;
                                                             }
                                                         </style>
-                                                        <button type="button" class="btn btn-md btn-primary stopYear" style=" position: absolute; bottom: 0; right: 0; margin-right: 2%; margin-bottom: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}"><i class="far fa-medal mr-2"></i>{{__('gx.evaluate group')}}</button>
+                                                        <button type="button" class="btn btn-md btn-primary stopYear" style=" position: absolute; bottom: 0; right: 0; margin-right: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}"><i class="far fa-medal mr-2"></i>{{__('gx.evaluate group')}}</button>
 
                                                             @if($subject->academicYear == $currentYear)
                                                                 <div class="modal fade" id="modalAvaliate-{{$group->idGroup}}" tabindex="-1" role="dialog">
@@ -794,7 +794,7 @@
                                                                 </div>
                                                             </div>
                                                         @endif
-                                                    @elseif($group->grade != NULL and $project->dueDate <= date("Y-m-d H:i:s"))
+                                                    @else($group->grade != NULL)
                                                         <p class="mb-0">{{__('gx.grade')}}: {{$group->grade}}/{{$project->maxGrade}}</p>
                                                         @if($group->gradeComment == NULL)
                                                             <p class="m-0">{{__('gx.no comments')}}</p>
@@ -808,7 +808,6 @@
                                                                 bottom: 0;
                                                                 right: 0;
                                                                 margin-right: 2%;
-                                                                margin-bottom: 2%;
                                                             }
                                                             @media screen and (max-width: 991px){
                                                                 #changegrade {
@@ -853,10 +852,6 @@
                                                                     </div>
                                                                 </div>
                                                             @endif
-
-                                                        @else
-                                                            <p class="mb-0">{{__('gx.group cant evaluate')}}</p>
-                                                            <button type="button" disabled class=" btn btn-md btn-primary stopYear" style="position: absolute;  bottom: 0; right: 0;  margin-right: 2%; margin-bottom: 2%;"  data-toggle="modal" data-target="#modalAvaliate-{{$group->idGroup}}">{{__('gx.evaluate group')}}</button>
                                                         @endif
                                                     </div>
                                                 </div>
