@@ -10,7 +10,7 @@
             <ol id="breadcrumb" class="breadcrumb pl-0 pb-0 mb-4 h3" style="background-color:white; ">
                 <li id="bc1" class="breadcrumb-item " aria-current="page"><a style="color:#2c3fb1;" href={{route('Dashboard')}}>{{__('gx.dashboard')}}</a></li>
                 <li id="bc2" class="breadcrumb-item " aria-current="page" >{{__('gx.group creation')}} - {{$subject->subjectName}} - {{$project->name}}</li>
-                <div style="display:flex;text-align: center;align-items: center;margin-bottom:0; right:0;" class="h5 ml-auto">
+                <div id="div_cd" class="h5 ml-auto">
                     <div ><div id="creation_deadline" class="countdown" ><i class="far fa-lg fa-users float-left pl-2"></i> <div id="timer1" class="timer"> </div></div></div>
                 </div>
             </ol>
@@ -24,6 +24,13 @@
     </div>
         <br>
         <style>
+            #div_cd{
+                display:flex;
+                text-align: center;
+                align-items: center;
+                margin-bottom:0;
+                right:0;
+            }
             @media screen and (max-width: 750px){
                 #breadcrumb {
                     font-size: 3vh;
@@ -38,19 +45,21 @@
                 }
             }
         </style>
-    <div class="container-xl-fluid mt-4 pl-5 pr-5 pb-2 rounded" style="padding-right:5%;padding-left: 5%;padding-bottom: 1%;margin-top: -3%">
-        <div class="container-fluid mt-4 pl-5 pr-5 pb-2 rounded" style="background-color: #ededed;padding-left: 10%;padding-right: 10%;padding-top: 2%;height: 75vh">
+    <div class="container-xl-fluid mt-4 pl-4 pr-4 pb-2 rounded" style="padding-right:5%;padding-left: 5%;padding-bottom: 1%;margin-top: -3%">
+        <div class="container-fluid mt-4 pl-4 pr-4 pb-2 rounded" style="background-color: #ededed;padding-left: 10%;padding-right: 10%;padding-top: 2%;height: 75vh">
 
             <style>
                 #creation_deadline{
                     display: flex;
                     text-align: center;
                     align-items: center;
-                    justify-content: center;"
+                    justify-content: center;
+                    margin-right: 50px;
+                    margin-top: 30px;
                 }
                 @media screen and (max-width: 750px) {
                     #creation_deadline {
-                        display: block;
+                        display: flex;
                     }
                 }
             </style>
@@ -170,10 +179,10 @@
                     </thead>
                     <style>
                         #table_groups{
-                            font-size: 1.8vh;
+                            font-size: 1.3vh;
                         }
                     </style>
-                    <tbody class="t-body" style="text-align: center">
+                    <tbody class="t-body" style="text-align: center; font-size: 1.4vh;">
 
                     @if(count($groupNumber) > 0)
                         @foreach($groupNumber as $groupN)
@@ -231,12 +240,12 @@
             <br>
             @if(count($subjectStudentsNoGroup)==0 or $numberGroupsInsideProject == $projectMaxGroups or in_array($user,$studentsIdGroupValues) )
 
-                <div style="padding-left:40%;">
+                <div id="div_butoes">
                     <button type="button" id="btn_criargrupo" class="btn btn-success disabled " data-toggle ="modal" style="width: 12em" ><i class="fas fa-plus"></i> {{__('gx.create group')}} </button>
                     <button  type="button" id="btn_sugestoes" class="btn btn-primary disabled" data-toggle="modal" style="width: 12em"><i class="far fa-user-graduate"></i>{{__('gx.student sugestions')}}</button>
                 </div>
             @else
-                <div style="padding-left:40%;">
+                <div id="div_butoes">
                     <button id="btn_criargrupo" type="button" class="btn btn-success" data-toggle="modal" data-target="#modalCriarGrupo" style="width: 12em"><i class="fas fa-plus"></i> {{__('gx.create group')}}</button>
                     <button id="btn_sugestoes" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalSugestaoGrupo" style="width: 12em"><i class="fas fa-user-graduate"></i> {{__('gx.student sugestions')}}</button>
                 </div>
@@ -255,9 +264,13 @@
 
 
             <style>
+                #div_butoes{
+                    padding-left:40%;
+                }
                 @media screen and (max-width: 750px){
                     #btn_criargrupo {
                         margin-bottom: 2%;
+                        margin-right: 12%;
                     }
                 }
             </style>
